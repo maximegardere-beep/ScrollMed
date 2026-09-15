@@ -1,0 +1,129 @@
+[
+  {
+    "module": "Voies aériennes",
+    "hook": "Limiter les tentatives d'intubation",
+    "body": "Ne pas dépasser 3 tentatives d'intubation trachéale au total, ou 2 tentatives en cas d'induction en séquence rapide. Envisager sans délai la pose d'un dispositif supraglottique en cas d'échec.",
+    "detail": "Une tentative supplémentaire peut être réalisée par un opérateur plus expérimenté si l'oxygénation est maintenue.",
+    "source": "SFAR 2017",
+    "grade": "Grade 1+",
+    "tags": [
+      "Iot",
+      "VAD",
+      "Algorithme"
+    ]
+  },
+  {
+    "module": "Choc septique",
+    "hook": "Antibiothérapie dans l'heure en cas de choc",
+    "body": "Administrer des antibiotiques intraveineux à large spectre dans l'heure suivant la reconnaissance du choc septique. Réaliser des hémocultures avant l'administration uniquement si cela ne retarde pas le traitement.",
+    "detail": "Pour un sepsis sans choc, si le diagnostic est incertain, une évaluation rapide est de mise avec un délai toléré de 3 heures.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Forte recommandation",
+    "tags": [
+      "Sepsis",
+      "Antibiothérapie",
+      "Urgence vital"
+    ]
+  },
+  {
+    "module": "Anesthésie locorégionale",
+    "hook": "Retrait du cathéter péridural et HBPM",
+    "body": "Respecter un délai minimum de 12 heures après l'administration de la dernière dose prophylactique d'HBPM avant de retirer un cathéter péridural. Attendre ensuite 4 heures avant la dose suivante.",
+    "detail": "Ce respect strict des délais vise à minimiser le risque d'hématome périmédullaire compressif.",
+    "source": "SFAR 2020",
+    "grade": "Accord d'experts",
+    "tags": [
+      "ALR",
+      "Péridurale",
+      "Hémostase"
+    ]
+  },
+  {
+    "module": "Douleur post-opératoire",
+    "hook": "Épargne morphinique par analgésie multimodale",
+    "body": "Prescrire systématiquement de façon préventive l'association de paracétamol et d'un AINS (en l'absence de contre-indication) pour les chirurgies pourvoyeuses de douleurs modérées à intenses.",
+    "source": "SFAR 2019",
+    "grade": "Grade 1+",
+    "tags": [
+      "Analgésie",
+      "AINS",
+      "SSPI"
+    ]
+  },
+  {
+    "module": "Transfusion",
+    "hook": "Seuil transfusionnel restrictif en réanimation",
+    "body": "Appliquer un seuil transfusionnel restrictif (transfusion si Hémoglobine < 7 g/dL) pour la majorité des patients de réanimation hémodynamiquement stables.",
+    "detail": "Des exceptions justifient un seuil plus élevé (généralement 8 ou 9 g/dL) en cas d'ischémie myocardique aiguë ou d'hémorragie active non contrôlée.",
+    "source": "SFAR 2022",
+    "grade": "Grade 1+",
+    "tags": [
+      "Transfusion",
+      "Anémie",
+      "CGR"
+    ]
+  },
+  {
+    "module": "Ventilation mécanique",
+    "hook": "Volume courant protecteur dans le SDRA",
+    "body": "Régler le volume courant à 6 mL/kg de poids corporel idéal théorique pour limiter le volotraumatisme chez les patients atteints de syndrome de détresse respiratoire aiguë.",
+    "detail": "S'assurer par des mesures régulières que la pression de plateau reste strictement inférieure à 30 cmH2O.",
+    "source": "SRLF/SFAR 2019",
+    "grade": "Grade 1+",
+    "tags": [
+      "SDRA",
+      "Ventilation",
+      "Poumon protecteur"
+    ]
+  },
+  {
+    "module": "Antibioprophylaxie",
+    "hook": "Réinjection peropératoire systématique",
+    "body": "Réinjecter une dose d'antibiotique en peropératoire si la durée de l'intervention (depuis l'incision) dépasse deux fois la demi-vie de la molécule initialement utilisée.",
+    "source": "SFAR 2018",
+    "grade": "Grade 1+",
+    "tags": [
+      "Antibioprophylaxie",
+      "Bloc opératoire",
+      "Infection"
+    ]
+  },
+  {
+    "module": "Arrêt cardiaque",
+    "hook": "Choc précoce pour les rythmes choquables",
+    "body": "Délivrer le premier choc électrique externe le plus précocement possible en cas de fibrillation ventriculaire ou tachycardie ventriculaire sans pouls. Reprendre immédiatement les compressions thoraciques sans vérifier le rythme.",
+    "source": "ERC 2021",
+    "grade": "Forte recommandation",
+    "tags": [
+      "RCP",
+      "Défibrillation",
+      "ACR"
+    ]
+  },
+  {
+    "module": "Obstétrique",
+    "hook": "Acide tranexamique dans l'hémorragie du post-partum",
+    "body": "Administrer 1 gramme d'acide tranexamique par voie intraveineuse lente dès qu'une hémorragie du post-partum nécessite une prise en charge médicale au-delà de la première intention.",
+    "detail": "Son efficacité sur la survie diminue avec le temps ; il doit être administré dans les 3 heures maximum suivant l'accouchement.",
+    "source": "SFAR 2022",
+    "grade": "Grade 1+",
+    "tags": [
+      "HPP",
+      "Maternité",
+      "Exacyl"
+    ]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "Cibler la Pression de Perfusion Cérébrale",
+    "body": "Maintenir une Pression de Perfusion Cérébrale (PPC) comprise entre 60 et 70 mmHg à la phase aiguë chez les patients souffrant d'un traumatisme crânien grave.",
+    "detail": "Il est déconseillé de viser des PPC supérieures à 70 mmHg avec des vasopresseurs en raison du risque accru de complications respiratoires (SDRA).",
+    "source": "SFAR 2016",
+    "grade": "Grade 2+",
+    "tags": [
+      "Traumatisme crânien",
+      "PPC",
+      "Neurologie"
+    ]
+  }
+]
