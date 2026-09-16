@@ -1,0 +1,83 @@
+[
+  {
+    "module": "Voies aériennes",
+    "hook": "Préoxygénation optimale avant toute induction",
+    "body": "Une préoxygénation efficace avant l'induction anesthésique ou une intubation en urgence repose sur une étanchéité correcte du masque, une position demi-assise ou proclive lorsque cela est possible, et le maintien d'une oxygénation apnéique pendant la laryngoscopie.",
+    "detail": "Cette étape conditionne directement le délai de désaturation disponible avant et pendant la tentative d'intubation, en particulier chez le patient obèse, la femme enceinte ou l'insuffisant respiratoire.",
+    "source": "SFAR 2017 (RFE Intubation difficile)",
+    "tags": ["voies aériennes", "préoxygénation", "intubation"]
+  },
+  {
+    "module": "Choc septique",
+    "hook": "Contrôler la source infectieuse dès que possible",
+    "body": "Au-delà de l'antibiothérapie et du remplissage vasculaire, l'identification et le contrôle de la source infectieuse (drainage d'abcès, geste chirurgical, ablation d'un dispositif) doivent être réalisés le plus tôt possible dans la prise en charge du choc septique.",
+    "detail": "Un retard dans le contrôle de la source est associé à une surmortalité, indépendamment de la qualité de l'antibiothérapie administrée.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "tags": ["choc septique", "contrôle de la source", "sepsis"]
+  },
+  {
+    "module": "Traumatologie",
+    "hook": "Acide tranexamique précoce dans le trauma grave",
+    "body": "Chez le patient traumatisé présentant ou à risque d'hémorragie significative, l'acide tranexamique doit être administré le plus tôt possible après le traumatisme, son bénéfice diminuant nettement au-delà d'un délai de quelques heures.",
+    "detail": "Ce message, distinct de son usage en obstétrique, provient des essais CRASH-2/CRASH-3 et a été repris dans les recommandations européennes sur l'hémorragie post-traumatique.",
+    "source": "CRASH-2/CRASH-3 ; European Trauma Guideline 2019",
+    "grade": "Grade 1A",
+    "tags": ["traumatologie", "acide tranexamique", "hémorragie"]
+  },
+  {
+    "module": "ALR",
+    "hook": "Échoguidage recommandé pour les blocs périphériques",
+    "body": "L'échoguidage est recommandé en première intention pour la réalisation des blocs nerveux périphériques, en complément ou en remplacement de la neurostimulation, afin d'améliorer la visualisation de l'aiguille, du nerf et de la diffusion de l'anesthésique local.",
+    "detail": "Cet apport en sécurité ne dispense pas d'une surveillance clinique attentive des signes de toxicité systémique des anesthésiques locaux.",
+    "source": "SFAR (RFE Anesthésie locorégionale échoguidée)",
+    "tags": ["ALR", "échoguidage", "bloc périphérique"]
+  },
+  {
+    "module": "Sevrage ventilatoire",
+    "hook": "Une épreuve de ventilation spontanée chaque jour",
+    "body": "Chez tout patient ventilé mécaniquement dont la cause initiale de mise sous ventilation s'améliore, une épreuve quotidienne de ventilation spontanée doit être envisagée pour évaluer l'aptitude à l'extubation, plutôt qu'une simple réduction progressive du support ventilatoire.",
+    "detail": "Cette évaluation quotidienne raccourcit la durée de ventilation mécanique, en particulier lorsqu'elle est couplée à un arrêt quotidien de la sédation.",
+    "source": "SRLF-SFAR 2023 (Sevrage de la ventilation mécanique)",
+    "tags": ["ventilation mécanique", "sevrage", "extubation"]
+  },
+  {
+    "module": "Delirium en réanimation",
+    "hook": "Dépister le delirium tous les jours, systématiquement",
+    "body": "Un dépistage quotidien et systématique du delirium, à l'aide d'un outil validé tel que la CAM-ICU, est recommandé chez tout patient de réanimation, y compris sous sédation légère, car le delirium reste largement sous-diagnostiqué sans évaluation formalisée.",
+    "detail": "Le delirium en réanimation est associé à une durée de séjour prolongée et à un risque accru de déclin cognitif à distance de l'hospitalisation.",
+    "source": "SCCM PADIS 2018",
+    "tags": ["delirium", "réanimation", "CAM-ICU"]
+  },
+  {
+    "module": "Hypothermie périopératoire",
+    "hook": "Réchauffer activement plutôt que surveiller seulement",
+    "body": "La prévention de l'hypothermie périopératoire repose sur un réchauffement actif (couverture chauffante, réchauffement des solutés) débuté avant l'induction et poursuivi pendant toute la durée de l'intervention, plutôt que sur une simple surveillance de la température corporelle.",
+    "detail": "L'hypothermie périopératoire est associée à davantage de saignement, d'infections du site opératoire et d'inconfort au réveil.",
+    "source": "SFAR 2017 (RFE Hypothermie périopératoire)",
+    "tags": ["hypothermie", "périopératoire", "réchauffement"]
+  },
+  {
+    "module": "Antibiothérapie en réanimation",
+    "hook": "Désescalader dès que la documentation le permet",
+    "body": "Une fois les résultats microbiologiques disponibles, l'antibiothérapie probabiliste initiale doit être réévaluée et désescaladée vers un spectre plus étroit, plutôt que poursuivie systématiquement à large spectre jusqu'à la fin du traitement.",
+    "detail": "Cette démarche vise à limiter la pression de sélection et l'émergence de résistances bactériennes, sans compromettre l'efficacité du traitement en cours.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "tags": ["antibiothérapie", "désescalade", "résistance bactérienne"]
+  },
+  {
+    "module": "Monitorage hémodynamique",
+    "hook": "L'échographie au lit, réflexe de première intention",
+    "body": "L'échographie cardiaque et pulmonaire réalisée au lit du patient est recommandée comme outil de première intention pour orienter le diagnostic étiologique et la prise en charge initiale d'un état de choc, avant ou en complément d'un monitorage hémodynamique invasif.",
+    "detail": "Elle permet une évaluation répétée et non invasive de la fonction cardiaque et de la volémie, à la différence de paramètres statiques comme la pression veineuse centrale.",
+    "source": "ESICM, consensus international 2012 (POCUS)",
+    "tags": ["monitorage hémodynamique", "échographie", "choc"]
+  },
+  {
+    "module": "Anesthésie obstétricale",
+    "hook": "Anticiper des voies aériennes difficiles chez la parturiente",
+    "body": "Chez la femme enceinte, les modifications anatomiques et physiologiques justifient une anticipation systématique du risque de voies aériennes difficiles et une préparation du matériel d'intubation difficile avant toute anesthésie générale, y compris en contexte d'urgence obstétricale.",
+    "detail": "La grossesse est associée à une désaturation plus rapide et à un risque accru d'échec d'intubation par rapport à la population générale.",
+    "source": "DAS/OAA 2015 (Obstetric airway guideline)",
+    "tags": ["obstétrique", "voies aériennes", "intubation difficile"]
+  }
+]
