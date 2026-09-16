@@ -1,0 +1,141 @@
+[
+  {
+    "module": "Hémorragie du post-partum",
+    "hook": "Fibrinogène précoce si saignement non contrôlé",
+    "body": "Maintenir une concentration de fibrinogène > 2 g/L lors d'une hémorragie du post-partum. Une supplémentation précoce par concentré de fibrinogène est recommandée si ce seuil n'est pas atteint.",
+    "detail": "Le taux de fibrinogène est un marqueur prédictif majeur de la gravité de l'hémorragie.",
+    "source": "CNGOF/SFAR 2014",
+    "grade": "Grade C",
+    "tags": [
+      "HPP",
+      "Fibrinogène",
+      "Transfusion",
+      "Obstétrique"
+    ]
+  },
+  {
+    "module": "Arrêt cardiaque",
+    "hook": "Déplacement utérin gauche lors du massage",
+    "body": "Lors de la RCP d'une femme enceinte (> 20 SA), réaliser un déplacement manuel continu de l'utérus vers la gauche pour lever la compression aorto-cave et améliorer le retour veineux.",
+    "detail": "L'inclinaison de la table à 15-30° est une alternative si le déplacement manuel est impossible, mais elle complique le massage.",
+    "source": "ERC 2021",
+    "grade": "Recommandation forte",
+    "tags": [
+      "ACR",
+      "Obstétrique",
+      "RCP",
+      "Aortocave"
+    ]
+  },
+  {
+    "module": "Douleur post-opératoire",
+    "hook": "Pas de gabapentinoïdes en systématique",
+    "body": "Ne pas administrer systématiquement de prégabaline ou de gabapentine pour prévenir la douleur aiguë post-opératoire ou sa chronicisation.",
+    "detail": "Leur usage expose à des effets indésirables (notamment sédation) sans bénéfice prouvé en routine hors douleur neuropathique préexistante.",
+    "source": "SFAR 2024",
+    "grade": "Grade 1-",
+    "tags": [
+      "Douleur",
+      "Prégabaline",
+      "Épargne morphinique",
+      "ALR"
+    ]
+  },
+  {
+    "module": "SDRA",
+    "hook": "Curares précoces < 48h si SDRA sévère",
+    "body": "Envisager une curarisation continue précoce et brève (< 48h) dans le SDRA sévère (PaO2/FiO2 < 150) avec asynchronies majeures malgré une sédation profonde.",
+    "detail": "La curarisation facilite la mise en œuvre de la ventilation protectrice et le positionnement en décubitus ventral.",
+    "source": "SRLF/SFAR 2019",
+    "grade": "Grade 2+",
+    "tags": [
+      "SDRA",
+      "Ventilation",
+      "Curares",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Jeûne préopératoire",
+    "hook": "Chewing-gum autorisé jusqu'à l'induction",
+    "body": "La consommation de chewing-gum ou le fait de sucer un bonbon ne nécessite pas de reporter l'intervention chirurgicale ou de prolonger le jeûne.",
+    "detail": "Cela ne modifie pas significativement le volume ni le pH du liquide gastrique.",
+    "source": "SFAR 2017",
+    "grade": "Grade 1+",
+    "tags": [
+      "Jeûne",
+      "Pré-opératoire",
+      "Estomac plein"
+    ]
+  },
+  {
+    "module": "Choc septique",
+    "hook": "Corticoïdes si noradrénaline ≥ 0,25 µg/kg/min",
+    "body": "Introduire l'hydrocortisone (200 mg/j en IV continu ou fractionné) chez les patients en choc septique nécessitant un recours continu aux vasopresseurs (≥ 0,25 µg/kg/min de noradrénaline).",
+    "detail": "Cette thérapie accélère le sevrage des catécholamines bien qu'elle n'ait pas d'impact direct prouvé sur la survie globale à long terme.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation faible",
+    "tags": [
+      "Sepsis",
+      "Hydrocortisone",
+      "Vasopresseurs",
+      "Hémodynamique"
+    ]
+  },
+  {
+    "module": "Anesthésie locorégionale",
+    "hook": "Injection fractionnée et aspiration répétée",
+    "body": "Pour prévenir l'intoxication systémique aux anesthésiques locaux (ISAL), injecter de façon fractionnée (3 à 5 ml maximum) en procédant à des aspirations préalables répétées.",
+    "detail": "Même sous contrôle échographique rigoureux, le risque d'injection intravasculaire par inadvertance n'est pas nul.",
+    "source": "ASRA 2018",
+    "grade": "Recommandation forte",
+    "tags": [
+      "ALR",
+      "ISAL",
+      "Sécurité",
+      "Toxicité"
+    ]
+  },
+  {
+    "module": "Monitorage hémodynamique",
+    "hook": "Lever de jambes passif pour la précharge",
+    "body": "Utiliser le lever de jambes passif (LJP) associé à une mesure continue du débit cardiaque pour prédire la réponse au remplissage vasculaire.",
+    "detail": "Il s'agit d'un test de remplissage réversible (environ 300 ml d'auto-transfusion) qui s'affranchit des limites de la VPP en ventilation spontanée ou en arythmie.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Remplissage",
+      "Débit cardiaque",
+      "LJP",
+      "Hémodynamique"
+    ]
+  },
+  {
+    "module": "Dispositifs intracardiaques",
+    "hook": "Mode asynchrone si bistouri au-dessus de l'ombilic",
+    "body": "Reprogrammer le stimulateur cardiaque en mode asynchrone (DOO/VOO) ou placer un aimant si l'utilisation du bistouri électrique (particulièrement monopolaire) est prévue au-dessus de l'ombilic.",
+    "detail": "Cette action prévient l'inhibition inappropriée de la stimulation liée à la détection d'interférences électromagnétiques peropératoires.",
+    "source": "SFAR 2021",
+    "grade": "Grade 1+",
+    "tags": [
+      "Pacemaker",
+      "Cardiologie",
+      "Pré-opératoire",
+      "Interférences"
+    ]
+  },
+  {
+    "module": "Traumatisme crânien",
+    "hook": "Éviter l'hyperventilation prophylactique",
+    "body": "Ne pas utiliser l'hyperventilation profonde prophylactique (PaCO2 < 25 mmHg) à la phase initiale du traumatisme crânien grave. Viser une normocapnie stricte (35-40 mmHg).",
+    "detail": "L'hyperventilation réduit la pression intracrânienne mais expose à un risque majeur d'ischémie cérébrale par vasoconstriction.",
+    "source": "Brain Trauma Foundation 2016",
+    "grade": "Niveau II B",
+    "tags": [
+      "Neuro-réanimation",
+      "TC grave",
+      "PIC",
+      "Capnie"
+    ]
+  }
+]
