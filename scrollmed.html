@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ScrollMed</title>
+
+<!-- PWA : installation sur l'ecran d'accueil -->
+<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlNjcm9sbE1lZCIsCiAgInNob3J0X25hbWUiOiAiU2Nyb2xsTWVkIiwKICAiZGVzY3JpcHRpb24iOiAiRmVlZCBkZSBtaWNyby1yZWNvbW1hbmRhdGlvbnMgbWVkaWNhbGVzIiwKICAic3RhcnRfdXJsIjogIi4vc2Nyb2xsbWVkLmh0bWwiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwNzBiMTAiLAogICJ0aGVtZV9jb2xvciI6ICIjMDcwYjEwIiwKICAiaWNvbnMiOiBbCiAgICB7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQU1BQUFBREFDQVlBQUFCUzNHd0hBQUFFdlVsRVFWUjRuTzNkUFZKYlNSaUcwUlkxVlE2Y2VDVUViSTQxc0RrQ1ZrSkNRT1FKWm5BSmpLVDcxN2Y3OW50TzdCTFg5dmYwajVEeHFYVG14ODlmdjFzL0EvVzh2NzJlV2ovRHVhWVBZOWdwcFcwVXUzOWhRODgxZThldzJ4Y3orTXl4VndqVnY0akJaNDNhSVZSN2NZUFBsbXFGc1BtTEdueHEyanFFdXkxZnpQQlQyOVl6dGtsTkJwOFd0dGdOVnU4QWhwOVd0cGk5VlFFWWZscGJPNE9MQXpEODlHTE5MQzRLd1BEVG02VXpPVHNBdzArdmxzem1yQUFNUDcyYk82T1RBekQ4SE1XY1daMFVnT0huYUtiTzdNMEFERDlITldWMk4vMG9CQnpOMVFDcy9oemRyUm0rR0lEaFp4VFhadGtSaUdqZkJtRDFaelNYWnRvT1FMUy9BckQ2TTZydlp0c09RTFJQQVZqOUdkM1hHYmNERU8xUEFGWi9VcHpQdWgyQWFBSWcybDBwamovaytaaDVPd0RSQkVBMEFSQk5BRVE3dVFDVHpBNUFOQUVRVFFCRUV3RFJCRUEwQVJCTkFFUVRBTkVFUURRQkVFMEFSQk1BMFFSQU5BRVFUUUJFRXdEUkJFQTBBUkJOQUVRVEFORUVRRFFCRUUwQVJCTUEwUVJBTkFFUVRRQkVFd0RSQkVBMEFSQk5BQmZjUHorVisrZW4xbzlCWlFMNHh2bmdpMkJzQXBoQUJPTVN3QmVHUFlzQWlDYUFNOWRXZnp2RG1BUkFOQUg4endxZlNRQkVFMEN4K2ljVEFOSGlBN2kwK3I4OFBFNyt0UnhYZkFCa2l3NWd6dXJQbUtJRGdOZ0FyUDZVRWh3QWxDS0FUNzZ1L3Q0SkdsOWtBSWFZRDVFQndJZTRBRngrT2ZkUDZ3ZElkaDZqQU51STJnR1dyUDYxTHNKZlg4TzlwSTJvQUhvbmd2M0ZCSENVczcrZlI3U3ZtQUNPUmdUN0dQb1NmR3VJV3EzK1U0Zjcvdm1wdXgxcU5FUHVBQ01kSTBiNWZmUnF1QUJxRE13ZUg0bTR0dEtQRkhSdmhncGc3cEQwTmxTM2pqdTlQZThJVnQwQi9JWE05OTJmMmZuZ3Z6dzgrZ0ZkTTYyNUp3MjFBeXpSNDBDNStPNG5Qb0JldlR3OENtRUhBcGlvMWI4TkVFRmRBdGpScmZQL0pTS29aOVVsdUxlL21DVXJjbSsvaDB1TzhweEhZd2NnMmxBQnpGMGxyYW9NRlVBcDA0ZmE4Rk5LS2FjZlAzLzlidjBRdFN5OWROWjR6UnJQd25wRGZ4clVnSEhMY0VjZ21FTUFSQlBBRHB6Lyt5VUFvZ2xnSmo4dmRDd0NJSm9BS25QKzc1c0FpQ1lBb2dsZ0FSZmhjUWlBYUFLb3lBVzRmd0lnbWdDSUpnQ2lDV0NoVys4RU9mOGZnd0NJSmdDaUNZQm9BcWpBK2Y4NEJMQ0NqMFFjbndDSUpnQ2lDWUJvQXRpQkMzQy9CRUEwQWF4a2RUODJBUkJOQUpYWklmb21BS0lKZ0dnQ0lKb0FObkRwbk8vODN6OEJFRTBBUkJ2NlA4bmIyOGRIb1IxOWprTUFSSE1FSXBvQWlDWUFvZ21BYUFJZ21nQ0lKZ0NpQ1lCb0FpQ2FBSWdtQUtMZHZiKzlubG8vQkxUdy92WjZzZ01RVFFCRUV3RFJCRUMwdTFMK3V3eTBmaERZMDhmTTJ3R0lKZ0NpL1FuQU1ZZ1U1N051QnlEYXB3RHNBb3p1NjR6YkFZajJWd0IyQVViMTNXemJBWWoyYlFCMkFVWnphYWJ0QUVTN0dJQmRnRkZjbStXck80QUlPTHBiTSt3SVJMU2JBZGdGT0tvcHN6dHBCeEFCUnpOMVppY2ZnVVRBVWN5WjFWbDNBQkhRdTdrek92c1NMQUo2dFdRMkY3MExKQUo2czNRbUY3OE5LZ0o2c1dZV1YzMGZRQVMwdG5ZR1YzOGpUQVMwc3NYc2JUcTgvczloOXJEbG9ydnBSeUhzQnRTMjlZeFZHMWk3QVZ1cXRiaFdYN0dGd0JxMVR4VzdIVm1Fd0J4N0hhZDNQN01MZ1d2MnZrYzJ2YlNLZ1ZMYXZublMzYnMyb2hoYmIrOFUvZ3U0SFhmN2YxLzdad0FBQUFCSlJVNUVya0pnZ2c9PSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn0sCiAgICB7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQWdBQUFBSUFDQVlBQUFEMGVOVDZBQUFQdlVsRVFWUjRuTzNkTzVJVVJ4U0cwUjVDRVJnNHJBU0R6YkVHTm9mQlN1VElrSVVNTkZJenpLTWVtWlUzOHovSGs0SVExZG1pNzVkWk5jM0RqWkxlZi9qNFkvUTFBTFR3OTE5L1BveStCbjduVFJuRWdBZjRTU0NNWWRFdllOZ0Q3Q01LK3JQQUhSajRBRzBKZ3ZZc2FBTUdQc0MxQk1GNUZ2QWdReCtnQmpGd2pFWGJ3ZEFIcUUwTWJHZWgzbURvQTh4SkRMek80cnpBNEFkWWd4QjRua1c1WStnRHJFME0vTTlDM0F4K2dEUkNJRHdBREg2QWJNa2hFUG5DRFg0QTdpV0dRTlFMTnZnQmVFMVNDRVM4VUlNZmdEMFNRdURkNkF2b3pmQUhZSytFMmJGczRTUzhlUUQwdCtwcHdISXZ5dUFIb0lmVlFtQ3BXd0NHUHdDOXJEWmpscWlaMWQ0VUFHcGI0VFJnK2hNQXd4K0FxNjB3ZTZZT2dCWGVBQURtTlBzTW12SUlZL1pGQjJBdE05NFNtTzRFd1BBSG9Kb1paOU5VQVREakFnT1FZYllaTmNXUnhXeUxDa0MyR1c0SmxEOEJNUHdCbU0wTXM2dDBBTXl3Z0FEd25Pb3pyR3dBVkY4NEFIaEw1VmxXTWdBcUx4Z0E3RkYxcHBVTGdLb0xCUUJIVlp4dHBRS2c0Z0lCUUF2VlpseVpBS2kyTUFEUVdxVlpWeUlBS2kwSUFQUlVaZVlORDRBcUN3RUFWNmt3KzRZR1FJVUZBSUFSUnMvQVlRRXcrb1VEd0dnalorR1FBREQ4QWVDblVUUHg4Z0F3L0FIZ1Z5Tm00NlVCWVBnRHdQT3VucEdYQllEaER3Q3Z1M0pXWGhJQWhqOEFiSFBWekJ6K1BRQUF3UFc2QjREZFB3RHNjOFhzN0JvQWhqOEFITk43aG5ZTEFNTWZBTTdwT1VzOUF3QUFnYm9FZ04wL0FMVFJhNlkyRHdEREh3RGE2akZibXdhQTRROEFmYlNlc1o0QkFJQkF6UUxBN2g4QSttbzVhNXNFZ09FUEFOZG9OWFBkQWdDQVFLY0R3TzRmQUs3Vll2WTZBUUNBUUtjQ3dPNGZBTVk0TzRNUEI0RGhEd0JqblpuRmJnRUFRS0JEQVdEM0R3QTFISjNKVGdBQUlORHVBTEQ3QjRCYWpzeG1Kd0FBRUdoWEFOajlBMEJOZTJlMEV3QUFDTFE1QU96K0FhQzJQYlBhQ1FBQUJOb1VBSGIvQURDSHJUUGJDUUFBQkJJQUFCRG96UUJ3L0E4QWM5a3l1NTBBQUVDZ1Z3UEE3aDhBNXZUV0RIY0NBQUNCQkFBQUJIb3hBQnovQThEY1hwdmxUZ0FBSUpBQUFJQkF6d2FBNDM4QVdNTkxNOTBKQUFBRUVnQUFFT2kzQUhEOER3QnJlVzYyT3dFQWdFQUNBQUFDQ1FBQUNQUkxBTGovRHdCcmVqcmpuUUFBUUNBQkFBQ0JCQUFBQlBvdkFOei9CNEMxM2M5Nkp3QUFFRWdBQUVBZ0FRQUFnUVFBQUFSNmQ3dDVBQkFBVWp6T2ZDY0FBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUjU4QndBQTVIRUNBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJQcGo5QVhBVlQ1OSsvckxQMy8vL0dYUWxRQ005L0QrdzhjZm95OENlbm82K0o4U0FrQWl0d0JZMmx2RGYrdXZBVmlOQUdCWmV3YTdDQURTQ0FBQUNDUUE0RjlPQVlBa0FvQWxIUjNtSWdCSUlRQUFJSkFBWURsMjhRQnZFd0R3aElBQUVnZ0FsbUo0QTJ3akFBQWdrQUJnR1hiL0FOc0pBQUFJSkFBQUlKQUFZQW10ai8vZFRnQldKd0FBSUpBQVlIcDI2d0Q3Q1FBQUNDUUFtSnJkUDhBeEFnQmVJQzZBbFFrQUFBZ2tBSmlXSFRyQWNRSUFBQUlKQUtaazl3OXdqZ0NBVndnTllGVUNnT2tZeWdEbkNRQUFDQ1FBbUlyZFAwQWJBZ0FBQWdrQUFBZ2tBSmpHcU9OL3R4MkFGUWtBQUFna0FKakMyVjM0OTg5ZkdsMEp3Qm9FQU1zei9BRitKd0FvenoxNGdQWUVBR3dnUW9EVkNBQ1c1dmdmNEhrQ2dOSmE3cnpGQU1EL0JBRExNdkFCWGlZQUtNdDlkNEIrQkFCTHN2c0hlSjBBb0tTS3UvK0sxd1J3bEFBQWdFQUNnSEo2ZnUydld3TUFQd2tBQUFna0FGaUtIVDdBTmdLQVVxby9hRmY5K2dDMkVnQXN3KzRmWURzQlFCbFg3YTZGQW9BQVlCR0dPc0ErQW9BUzNGc0h1SllBZ0ozRUNyQUNBY0J3UGIvNEI0RG5DUUFpaVFZZ25RQmdhZ1k1d0RFQ2dLSGNUd2NZNDQvUkZ3QkgyZjBmOXpTOHJDWGtjUUxBTURQdi9tZTk5ay9mdmo1NzdmZi9mdGJYQnV3akFKaVNIZXQrV3dhN0NJQWNBb0FoS2d5WXBJZzRzdDRWM2lPZ0h3RUFpenN6eUVVQXJFc0FNSjJrblhzRkx6MDNBTXhOQUhDNVZZYkpLcTlqcTdUWEM2c1RBRXpGN24rZjFrTmJCTUE2QkFDWHFqWkFCTVYrMWQ1RDRCZ0J3RFFNNnpwRUFNeFBBSEFaUTJNdDNrK1ltd0NBRXlvUHdTdXV6VThJd0x3RUFKYzRPeVFjLzljbUFtQStBb0I0NHFJTkVRQno4YmNCMGx6clFXQkF6K1BUdDYvZUw1aUVBS0FKdXo4ZWlRQ1lnMXNBbk5MN0lUQ0Q1SmpSUVRiNjl3ZmVKZ0E0eklmOFQ5YmhlZFlGYWhNQUhITEZoN3ZkLy96OG1DRFVKUURZYmNVUGRMSFIxNHIvejhEc0JBQzcrQ0N2citwN1ZQVzZJSlVBWUxPclA4QU5qREcrZi83UzdVVEVld3AxQ0FBMkdmWEJQY3ZBbU9VNjl4QUJzRFlCd0p0R2YyQ1AvdjJUaVFCWWx3Q0FmM2tROFBrMTZCa0JRZ0RHS2Y5TmdENGd1TjE4dTl4V3ZmNjhmUC84cGR0LzI1OXhWbFg5TThzSkFMQko5UTh6WUI4QkFHd21BbUFkQW9CcFZEOHFybjU5cmZUOE1VSGdPZ0lBRm5FMlFQWU9kUkVBY3hNQWNNZFEyOGQ2d2J3RUFIQ0tDSUE1Q1FEZ05CRUE4eEVBME5Dc1g1bmNZb0NMQUppTEFBQ2E4Uk1DTUE4QkFFOFlZT2RaUTZoUEFBQmRpQUNvVFFBd0RRT2xqNTdyK3ZqZjl0NUJQUUlBR3J2NlFjRHEzMEI0SHdGQ0FPb1FBTUNsUkFEVVVQNnZBL1poTVY2RkhlYlYveC8wL090djhlY2FLbkFDQUFDQkJBQnZHcjFiRy8zN1YxYmhDNENBT1FrQU5oazFLQXdvZ0Q0RUFKdU51QTgvSzg4UEFOVUpBSGE1YWlqUFBQd0JaaUFBMkszM2NLNHkvS3RjUnkrcnZ6N2dkUUtBUTNvTkQwTnBPN2NaZ0RNRUFJZTFIdGFHUDhCMUJBQ250UGg2MTFXL0l0WU9IYWlzL0RjQk1vZjdBYjVsOEswNDhBRm04dkQrdzhjZm95OENLanV6ays4Vk9yNEFDRGpMTFFBQUNDUUFBQ0NRQUFDQVFBSUFPcXI0a3dEdS93TzNtd0NBNlZTTUNtQStBZ0RlWU1jTXJFZ0FBRUFnQVFBQWdRUUFkTmJ5bnIwdkFBSmFFUUFBRUVnQXdBWjJ6c0JxQkFBQUJCSUFFTUlwQm5CUEFNQUZXandJNkF1QWdKWUVBQUFFRWdDd2tTTjBZQ1VDQUFBQ0NRQ1lnQzhBQWxvVEFBQVFTQURBUlR6RkQxUWlBQUFna0FDQUhXYThsejdqTlFQOUNRQW96cTBEb0FjQkFBQ0JCQUJjeUc0ZXFFSUF3TUxjL3dkZUlnQmdweXVIcWhNRG9CY0JBQUNCQkFBQUJCSUFBQkJJQU1ERnR0N1g5eGNBQVQwSkFBQUlKQURnQUx0cllIWUNBQUFDQ1FCWWtCTUs0QzBDQUFaNDZ3RS9Yd0FFOUNZQUFDQ1FBSUNESExNRE14TUFBQkJJQUVBeHZnQUl1SUlBZ0VFODZBZU1KQUFBSUpBQWdCTWN0d096RWdDd0VFRUNiQ1VBb0JEUEJRQlhFUUFBRUVnQXdFQjIvTUFvQWdBQUFna0FPS25WZzNlK0FBaTRrZ0FBZ0VBQ0FBQUNDUUFZeklPQXdBZ0NBQmJnL2ord2x3Q0FCczRPWUtjQXdOVUVBQUFFRWdBQUVFZ0FBRUFnQVFDVDh3QWdjSVFBZ0VZTVltQW1BZ0FBQWdrQUFBZ2tBR0JpYmpzQVJ3a0FBQWdrQUFBZ2tBQ0FoaHpKQTdNUUFBQVFTQURBcEp3MkFHY0lBQUFJSkFBQUlKQUFnTVljelFNekVBQXdJWkVCbkNVQUFDQ1FBQUNBUUFJQUFBSUpBSmlNKy85QUN3SUFPakNrZ2VvRUFBQUVFZ0FBRUVnQUFFQWdBUUFUOFd3QjBJb0FnRTRNYTZBeUFRQUFnUVFBQUFRU0FEQUp0eFNBbGdRQUFBUVNBTkNSWFR0UWxRQUFnRUFDQUFBQ0NRQ1lnRnNKUUdzQ0FBQUNDUUFBQ0NRQW9EUEg5MEJGQWdDS0V4QkFEd0lBQUFJSkFBQUk5UEQrdzhjZm95OENFbno2OW5YWHIzZjBEL1RrQkFBQUFna0F1TWllSGIzZFA5Q2JBSUFMYlJuc2hqOXdCYzhBd0NCUG53a3crSUVyQ1FBQUNPUVdBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQW9IZC8vL1hudytpTEFBQ3U4L2RmZno0NEFRQ0FRQUlBQUFJSkFBQUlKQUFBSUpBQUFJQkFBZ0FBQWdrQUFBajA3bmI3K2ZPQW95OEVBT2p2Y2VZN0FRQ0FRQUlBQUFJSkFBQUlKQUFBSU5CL0FlQkJRQUJZMi8yc2R3SUFBSUVFQUFBRUVnQUFFT2lYQVBBY0FBQ3M2ZW1NZHdJQUFJRUVBQUFFRWdBQUVPaTNBUEFjQUFDczViblo3Z1FBQUFJSkFBQUk5R3dBdUEwQUFHdDRhYVk3QVFDQVFBSUFBQUs5R0FCdUF3REEzRjZiNVU0QUFDQ1FBQUNBUUs4R2dOc0FBRENudDJhNEV3QUFDUFJtQURnRkFJQzViSm5kVGdBQUlKQUFBSUJBbXdMQWJRQUFtTVBXbWUwRUFBQUNiUTRBcHdBQVVOdWVXZTBFQUFBQzdRb0Fwd0FBVU5QZUdlMEVBQUFDN1E0QXB3QUFVTXVSMmV3RUFBQUNIUW9BcHdBQVVNUFJtZXdFQUFBQ0hRNEFwd0FBTU5hWldYenFCRUFFQU1BWVoyZXdXd0FBRU9oMEFEZ0ZBSUJydFppOVRnQUFJRkNUQUhBS0FBRFhhRFZ6bTUwQWlBQUE2S3ZsckhVTEFBQUNOUTBBcHdBQTBFZnJHZHY4QkVBRUFFQmJQV1pybDFzQUlnQUEydWcxVXowREFBQ0J1Z1dBVXdBQU9LZm5MTzE2QWlBQ0FPQ1kzak8wK3kwQUVRQUErMXd4T3owREFBQ0JMZ2tBcHdBQXNNMVZNL095RXdBUkFBQ3Z1M0pXWG5vTFFBUUF3UE91bnBHWFB3TWdBZ0RnVnlObTQ1Q0hBRVVBQVB3MGFpWU8reWtBRVFCQXVwR3pjT2lQQVlvQUFGS05ub0hEdndkZzlBSUF3TlVxekw3aEFYQzcxVmdJQUxoQ2xabFhJZ0J1dHpvTEFnQzlWSnAxWlFMZ2RxdTFNQURRVXJVWlZ5b0FicmQ2Q3dRQVoxV2NiZVVDNEhhcnVWQUFjRVRWbVZZeUFHNjN1Z3NHQUZ0Vm5tVmxBK0IycTcxd0FQQ2E2ak9zZEFEY2J2VVhFQUNlbW1GMmxiL0FlKzgvZlB3eCtob0E0Q1V6RFA1SDVVOEE3czIwc0FCa21XMUdUUlVBdDl0OEN3ekErbWFjVGROZDhEMjNCQUFZYWNiQi8yaTZFNEI3TXk4OEFIT2JmUVpOSFFDMzIveHZBQUR6V1dIMlRQOEM3cmtsQUVCUEt3eitSOU9mQU54YjZZMEJvSmJWWnN4U0wrYWUwd0FBV2xodDhEOWE4a1hkRXdJQUhMSHE0SCswMUMyQTU2eitCZ0xRWHNMc1dQNEYzbk1hQU1CckVnYi9vNWdYZWs4SUFIQXZhZkEvaW52Qjk0UUFRTGJFd2Y4bzlvWGZFd0lBV1pJSC82UDRCYmduQkFEV1p2RC96MEs4UUF3QXJNSFFmNTVGZVlNUUFKaVR3Zjg2aTdPREdBQ296ZERmemtJZEpBWUFhakQwajdGb0RZZ0JnR3NaK3VkWndBNEVBVUJiQm41N0Z2UUNnZ0JnSHdPL1B3czhpQ2dBK01td0g4T2lGeVVRZ0ZVWThEWDlBeWhIMHNYQ3p4Wm9BQUFBQUVsRlRrU3VRbUNDIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmcifQogIF0KfQ==">
+<meta name="theme-color" content="#070b10">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- iOS : mode plein ecran sans barre Safari -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ScrollMed">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAEYElEQVR4nO3dPXITSxiG0ZHrVhGQsBICNsca2BwBK3HiwBEEt+TCZiTNT/dM99vnJJAgj1WPPr7WyOXL1IBPn7/8Pvsa2O/15fly9jWccgECHsMZgR/2BUU8tqPirvpFRMycmnFXeWAhs0SNsJ9KP6CYWapGK8VeIUJmj1LTusiEFjN7lWpo16tCyNSwZ1pvntBippY9bW0KWszUtrWx1UGLmaNsaW1V0GLmaGubWxy0mDnLmvYWBS1mzra0wYdBi5lWLGmx+K1vONPdoE1nWvOoyZtBi5lW3WvTykGU2aBNZ1p3q9F/ghYzvZhr1cpBlHdBm8705mOzJjRRBE2Ut6CtG/Tq73ZNaKIImihP02TdoH/Xhk1oogiaKIImysX+TBITmiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKMMH/fXnj7c/r3+nX8MHPU3Tu5BF3behgxZvnqGDJs+wQd+bziZ3v4YNmkyCJsqQQVspcg0ZNLmGC3rpdDbF+zRc0GQbKuhbU/fXt+8HXwm1DBU0+YYP2nTOMkzQDnljGCboR+YmtRdBf4YI2mFwHEMEzTiGDdp0zhQftD14LPFBr1HrYHj9eUUvrvqig27hMPjxGkRdV3TQrRJ1PbFBtzCd7xF1Hf+dfQEltRbJo+v5+vNHMy+wFDETeknMS+I5+o6hw2JZEUH3FMStF1VP30PLug96TQitRPPr23efHank8unzl99b/mHPT/6j1WPue1u76y59jJ6fx5q2ni26n9C9cygsS9ANEHU5gp5xxmog6jIE3RBR77f5xkorT/7ayXnEde85VLbyvPaq+wm9JgCx5Os+6GnafgeQPBFBT9P9YLfE7D3jPkV9OKmFKVzipgzbxUxomCZBE0bQRBH0HQ6G/RF0QQ6E5xM0UQRNFEETRdCF2J/bIOgHvNPRF0ETRdBEEXQB9ud2CJoogl7AwbAfgiaKoIki6J0cCNsiaKIIeiEHwz4ImiiCLsz+fC5BE0XQRBE0UQS9gv24fYIuSPDnEzRRBE0UQRNF0Cvd2pPtz20QNFEETZTNvxp5dNdP2lk12iJoolg5iCJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImihPry/Pl7MvAkp4fXm+mNBEETRRBE2Up2n6f/c4+0Jgj2vDJjRRBE2Ut6CtHfTq73ZNaKIImijvgrZ20JuPzZrQRPknaFOaXsy1OjuhRU3rbjVq5SDKzaBNaVp1r827E1rUtOZRk1YOojwM2pSmFUtaXDShRc3Zlja4eOUQNWdZ096qHVrUHG1tc6sPhaLmKFta2/Quh6ipbWtjm9+2EzW17GmrSJR+8RAllBiSRW6smNbsVaqh4iGa1qxRehgWv/VtWrNUjVaqxmdaM6fm0Dtsmop7bEf9z33KeiDuMZyxfjax7wo8Qwvnpz9Xt17N6nfUQAAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAEvUlEQVR4nO3dPVJbSRiG0RY1VQ6ceCUEbI41sDkCVkJCQOQJZnAJjKT717f79ntO7BLX9vf0j5DxqXTmx89fv1s/A/W8v72eWj/DuaYPY9gppW0Uu39hQ881e8ew2xcz+MyxVwjVv4jBZ43aIVR7cYPPlmqFsPmLGnxq2jqEuy1fzPBT29YztklNBp8WttgNVu8Ahp9Wtpi9VQEYflpbO4OLAzD89GLNLC4KwPDTm6UzOTsAw0+vlszmrAAMP72bO6OTAzD8HMWcWZ0UgOHnaKbO7M0ADD9HNWV2N/0oBBzN1QCs/hzdrRm+GIDhZxTXZtkRiGjfBmD1ZzSXZtoOQLS/ArD6M6rvZtsOQLRPAVj9Gd3XGbcDEO1PAFZ/UpzPuh2AaAIg2l0pjj/k+Zh5OwDRBEA0ARBNAEQ7uQCTzA5ANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNABfcPz+V++en1o9BZQL4xvngi2BsAphABOMSwBeGPYsAiCaAM9dWfzvDmARANAH8zwqfSQBEE0Cx+icTANHiA7i0+r88PE7+tRxXfABkiw5gzurPmKIDgNgArP6UEhwAlCKAT76u/t4JGl9kAIaYD5EBwIe4AFx+OfdP6wdIdh6jANuI2gGWrP61LsJfX8O9pI2oAHongv3FBHCUs7+fR7SvmACORgT7GPoSfGuIWq3+U4f7/vmpux1qNEPuACMdI0b5ffRquABqDMweH4m4ttKPFHRvhgpg7pD0NlS3jju9Pe8IVt0B/IXM992f2fngvzw8+gFdM625Jw21AyzR40C5+O4nPoBevTw8CmEHApio1b8NEEFdAtjRrfP/JSKoZ9UluLe/mCUrcm+/h0uO8pxHYwcg2lABzF0lraoMFUAp04fa8FNKKacfP3/9bv0QtSy9dNZ4zRrPwnpDfxrUgHHLcEcgmEMARBPADpz/+yUAoglgJj8vdCwCIJoAKnP+75sAiCYAoglgARfhcQiAaAKoyAW4fwIgmgCIJgCiCWChW+8EOf8fgwCIJgCiCYBoAqjA+f84BLCCj0QcnwCIJgCiCYBoAtiBC3C/BEA0AaxkdT82ARBNAJXZIfomAKIJgGgCIJoANnDpnO/83z8BEE0ARBv6P8nb28dHoR19jkMARHMEIpoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKLdvb+9nlo/BLTw/vZ6sgMQTQBEEwDRBEC0u1L+uwy0fhDY08fM2wGIJgCi/QnAMYgU57NuByDapwDsAozu64zbAYj2VwB2AUb13WzbAYj2bQB2AUZzaabtAES7GIBdgFFcm+WrO4AIOLpbM+wIRLSbAdgFOKopsztpBxABRzN1ZicfgUTAUcyZ1Vl3ABHQu7kzOvsSLAJ6tWQ2F70LJAJ6s3QmF78NKgJ6sWYWV30fQAS0tnYGV38jTAS0ssXsbTq8/s9h9rDlorvpRyHsBtS29YxVG1i7AVuqtbhWX7GFwBq1TxW7HVmEwBx7Had3P7MLgWv2vkc2vbSKgVLavnnS3bs2ohhbb+8U/gu4HXf7f1/7ZwAAAABJRU5ErkJggg==">
+<style>
+  :root{
+    --bg: #070b10;
+    --surface: #10161d;
+    --surface-2: #161e27;
+    --line: #223040;
+    --text: #eaf1f6;
+    --muted: #7c8fa0;
+    --trace: #35d999;
+    --trace-dim: #1d5c47;
+    --alert: #f2a83e;
+    --danger: #e2575a;
+    --radius: 18px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overscroll-behavior-y: none;
+  }
+
+  /* ---------- app shell ---------- */
+  #app{
+    max-width: 480px;
+    margin: 0 auto;
+    height: 100dvh;
+    position: relative;
+    display:flex;
+    flex-direction:column;
+    background: var(--bg);
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+
+  /* ---------- top bar ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: calc(env(safe-area-inset-top) + 14px) 18px 10px;
+    flex-shrink:0;
+    z-index: 5;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .brand .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--trace);
+    box-shadow: 0 0 8px var(--trace);
+  }
+  .brand h1{
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    margin:0;
+    font-weight: 700;
+  }
+  .brand span{
+    color:var(--muted);
+    font-size: 12px;
+    font-weight:500;
+  }
+  .iconbtn{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--text);
+    width: 36px; height:36px;
+    border-radius: 11px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font-size: 16px;
+  }
+  .iconbtn:active{ transform: scale(0.94); }
+  .topbtns{ display:flex; gap:8px; }
+
+  /* ---------- ecg progress line ---------- */
+  .ecg-rule{
+    height: 18px;
+    width:100%;
+    flex-shrink:0;
+    opacity:0.9;
+  }
+
+  /* ---------- feed ---------- */
+  #feed{
+    flex:1;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scrollbar-width:none;
+  }
+  #feed::-webkit-scrollbar{ display:none; }
+
+  .card{
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    height: 100%;
+    min-height: 100%;
+    padding: 0;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-end;
+    position:relative;
+    overflow:hidden;
+    background: #000;
+  }
+
+  /* fond "média" dégradé propre à chaque module, pour simuler la zone vidéo d'un reel */
+  .card-media{
+    position:absolute;
+    inset:0;
+    z-index:0;
+  }
+  .card-media::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.55) 68%, rgba(0,0,0,0.92) 100%);
+  }
+
+  .card .tagrow{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom: 10px;
+    flex-wrap:wrap;
+    position:relative; z-index:2;
+  }
+  .pill{
+    font-size: 11.5px;
+    padding: 5px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(6px);
+    font-weight:600;
+  }
+  .pill.grade{
+    color: #06110c;
+    border-color: transparent;
+    background: var(--alert);
+    font-weight:700;
+  }
+
+  /* ---------- en-tête façon compte Instagram ---------- */
+  .ig-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    position:relative; z-index:2;
+    padding: 0 16px;
+    margin-bottom: 12px;
+  }
+  .avatar{
+    width:38px; height:38px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800;
+    font-size:13px;
+    color:#fff;
+    box-shadow: 0 0 0 2px #000, 0 0 0 4px rgba(255,255,255,0.9);
+  }
+  .ig-meta{ min-width:0; }
+  .ig-name{
+    font-size:13.5px;
+    font-weight:700;
+    color:#fff;
+    display:flex; align-items:center; gap:5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .ig-name .badge{
+    width:14px;height:14px;
+    border-radius:50%;
+    background: var(--trace);
+    color:#06110c;
+    font-size:9px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .ig-sub{
+    font-size:11.5px;
+    color: rgba(255,255,255,0.65);
+    margin-top:1px;
+  }
+
+  .caption-wrap{
+    position:relative; z-index:2;
+    padding: 0 84px 22px 16px;
+  }
+
+  .hook{
+    font-size: 21px;
+    line-height: 1.28;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    color:#fff;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.35);
+  }
+
+  .body-txt{
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.92);
+    margin: 0 0 6px;
+    font-weight: 400;
+  }
+
+  .detail{
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.08);
+    border-left: 2px solid var(--trace);
+    padding: 11px 13px;
+    border-radius: 0 10px 10px 0;
+    margin: 6px 0 10px;
+    display:none;
+    backdrop-filter: blur(6px);
+  }
+  .detail.open{ display:block; }
+
+  .more-toggle{
+    background:none; border:none; color: rgba(255,255,255,0.65);
+    font-size: 13.5px; font-weight:700; padding:0; margin-bottom:8px;
+    cursor:pointer; text-align:left; width:fit-content;
+  }
+
+  .source{
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- barre d'actions verticale (comme Reels) ---------- */
+  .card-footer{
+    position:absolute;
+    right: 10px;
+    bottom: 26px;
+    display:flex;
+    flex-direction:column;
+    gap: 20px;
+    align-items:center;
+    z-index:2;
+  }
+  .actbtn{
+    background:none;
+    border:none;
+    color: #fff;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    font-size: 10.5px;
+    font-weight:600;
+    cursor:pointer;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  }
+  .actbtn .ic{
+    width:30px;height:30px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 26px;
+    line-height:1;
+    transition: transform .15s ease;
+  }
+  .actbtn:active .ic{ transform: scale(1.2); }
+  .actbtn.bookmark.active .ic{ color: #ff4d67; }
+  .actbtn.mastered.active .ic{ color: var(--trace); }
+  .actbtn.review.active .ic{ color: var(--alert); }
+
+  /* ---------- barre de progression façon stories ---------- */
+  .progress-strip{
+    position:absolute;
+    left:0; right:0; top:0;
+    height:14px;
+    display:flex;
+    align-items:center;
+    gap:3px;
+    padding: 0 10px;
+    z-index:3;
+  }
+  .progress-strip i{
+    flex:1;
+    height:2.5px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 2px;
+  }
+  .progress-strip i.done{ background: #fff; }
+
+  /* ---------- coeur qui apparaît au double-tap ---------- */
+  .heart-burst{
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%,-50%) scale(0.4);
+    font-size: 92px;
+    color:#fff;
+    opacity:0;
+    pointer-events:none;
+    z-index:5;
+    filter: drop-shadow(0 4px 18px rgba(0,0,0,0.45));
+  }
+  .heart-burst.play{
+    animation: heartpop .75s ease;
+  }
+  @keyframes heartpop{
+    0%{ opacity:0; transform: translate(-50%,-50%) scale(0.3); }
+    22%{ opacity:1; transform: translate(-50%,-50%) scale(1.05); }
+    35%{ transform: translate(-50%,-50%) scale(0.95); }
+    75%{ opacity:1; transform: translate(-50%,-50%) scale(1); }
+    100%{ opacity:0; transform: translate(-50%,-50%) scale(1); }
+  }
+
+  /* ---------- empty / end card ---------- */
+  .end-card{
+    text-align:center;
+  }
+  .end-card .big{ font-size:44px; margin-bottom:10px; }
+
+  /* ---------- bottom nav ---------- */
+  nav{
+    flex-shrink:0;
+    display:flex;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+  nav button{
+    flex:1;
+    background:none;
+    border:none;
+    color:var(--muted);
+    padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    font-size: 10.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  nav button.active{ color: var(--trace); }
+  nav .navic{ font-size:19px; }
+
+  /* ---------- panels (library / import) ---------- */
+  .panel{
+    position:absolute;
+    inset:0;
+    background: var(--bg);
+    z-index: 20;
+    display:none;
+    flex-direction:column;
+  }
+  .panel.open{ display:flex; }
+  .panel-head{
+    display:flex; align-items:center; gap:12px;
+    padding: calc(env(safe-area-inset-top) + 16px) 18px 12px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink:0;
+  }
+  .panel-head h2{ font-size:17px; margin:0; font-weight:700; flex:1; }
+  .panel-body{ flex:1; overflow-y:auto; padding: 16px 18px 40px; }
+
+  .modrow{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 13px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
+  .modrow .mname{ font-weight:700; font-size:14.5px; }
+  .modrow .mcount{ color:var(--muted); font-size:12.5px; margin-top:2px; }
+  .switch{
+    width:42px; height:24px; border-radius:20px;
+    background: var(--line);
+    position:relative; cursor:pointer; flex-shrink:0;
+    border:none;
+  }
+  .switch.on{ background: var(--trace-dim); }
+  .switch .knob{
+    width:18px; height:18px; border-radius:50%;
+    background:#fff; position:absolute; top:3px; left:3px;
+    transition: left .15s ease;
+  }
+  .switch.on .knob{ left:21px; background:var(--trace); }
+
+  .savedcard{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .savedcard .hk{ font-weight:700; font-size:15px; margin-bottom:6px; }
+  .savedcard .bd{ font-size:13.5px; color:#c2ced8; line-height:1.5; }
+  .savedcard .src{ margin-top:8px; }
+
+  textarea#jsonInput{
+    width:100%;
+    min-height: 160px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 12px;
+    font-family: "SF Mono", monospace;
+    font-size: 12.5px;
+    resize: vertical;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    background: var(--trace);
+    color: #06110c;
+    border:none;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-weight: 700;
+    font-size: 14.5px;
+    cursor:pointer;
+    width:100%;
+    margin-top: 10px;
+  }
+  .btn.secondary{
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--line);
+  }
+  .hint{ color:var(--muted); font-size:13px; line-height:1.55; margin: 4px 0 14px; }
+  .promptbox{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 12px;
+    font-family: "SF Mono", monospace;
+    color: #b7c4cf;
+    white-space: pre-wrap;
+    max-height: 220px;
+    overflow-y:auto;
+    margin-bottom: 10px;
+  }
+  .toast{
+    position:absolute;
+    bottom: 90px;
+    left:50%;
+    transform: translateX(-50%);
+    background: var(--surface-2);
+    border:1px solid var(--line);
+    padding: 10px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    z-index: 40;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .2s ease;
+  }
+  .toast.show{ opacity:1; }
+
+  .statgrid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .statbox{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .statbox .num{ font-size: 24px; font-weight:800; color: var(--trace); }
+  .statbox .lbl{ font-size: 12px; color: var(--muted); margin-top:2px; }
+
+  .sectiontitle{
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight:700;
+    margin: 20px 0 10px;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>ScrollMed</h1>
+      <span id="headerSub">— anesth-réa</span>
+    </div>
+    <div class="topbtns">
+      <button class="iconbtn" id="btnLibrary" title="Modules">☰</button>
+    </div>
+  </header>
+
+  <div id="feed"></div>
+
+  <nav>
+    <button class="active" data-tab="feed"><span class="navic">◎</span>Feed</button>
+    <button data-tab="saved"><span class="navic">✦</span>Favoris</button>
+    <button data-tab="stats"><span class="navic">▤</span>Progrès</button>
+    <button data-tab="import"><span class="navic">＋</span>Importer</button>
+  </nav>
+
+  <!-- LIBRARY / MODULES PANEL -->
+  <div class="panel" id="panelLibrary">
+    <div class="panel-head">
+      <button class="iconbtn" onclick="closePanel('panelLibrary')">←</button>
+      <h2>Modules actifs</h2>
+    </div>
+    <div class="panel-body" id="moduleList"></div>
+  </div>
+
+  <!-- SAVED PANEL -->
+  <div class="panel" id="panelSaved">
+    <div class="panel-head">
+      <button class="iconbtn" onclick="closePanel('panelSaved')">←</button>
+      <h2>Favoris</h2>
+    </div>
+    <div class="panel-body" id="savedList"></div>
+  </div>
+
+  <!-- STATS PANEL -->
+  <div class="panel" id="panelStats">
+    <div class="panel-head">
+      <button class="iconbtn" onclick="closePanel('panelStats')">←</button>
+      <h2>Progrès</h2>
+    </div>
+    <div class="panel-body" id="statsBody"></div>
+  </div>
+
+  <!-- IMPORT PANEL -->
+  <div class="panel" id="panelImport">
+    <div class="panel-head">
+      <button class="iconbtn" onclick="closePanel('panelImport')">←</button>
+      <h2>Importer un module</h2>
+    </div>
+    <div class="panel-body">
+      <div class="sectiontitle">Synchronisation GitHub</div>
+      <div class="hint">L'app va lire le dossier <b>Recos</b> de ton dépôt GitHub à chaque lancement. Chaque fichier <code>nom.json</code> devient automatiquement un module appelé "nom" dans le feed.</div>
+      <input type="text" id="ghOwner" placeholder="Utilisateur GitHub (ex: jdupont)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+      <input type="text" id="ghRepo" placeholder="Nom du dépôt (ex: scrollmed)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+      <input type="text" id="ghBranch" placeholder="Branche (défaut: main)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;">
+      <button class="btn" id="btnSyncGithub">🔄 Enregistrer et synchroniser</button>
+      <div class="hint" id="syncMsg" style="word-break:break-all"></div>
+
+      <div class="sectiontitle">Sauvegarde locale</div>
+      <div class="hint">Tes données (posts importés, favoris, progression) vivent uniquement dans ce navigateur. Exporte régulièrement une sauvegarde pour ne rien perdre, ou pour la transférer sur un autre appareil.</div>
+      <button class="btn secondary" id="btnExportBackup">💾 Exporter une sauvegarde</button>
+      <input type="file" id="restoreFileInput" accept="application/json" style="display:none">
+      <button class="btn secondary" id="btnRestoreBackup">📥 Restaurer une sauvegarde</button>
+      <div class="hint" id="backupMsg"></div>
+
+      <div class="sectiontitle">Générer un lot de fiches (aléatoire)</div>
+      <div class="hint">Copie ce prompt dans Claude (ou une autre IA) : elle choisit elle-même des recommandations variées, génère 25 fiches classées par thème, et te fournit un fichier <code>lot.json</code> — renomme-le toi-même en <code>lotX.json</code> (X = numéro suivant) avant de l'uploader dans le dossier <b>Recos</b> sur GitHub.</div>
+      <div class="promptbox" id="promptText"></div>
+      <button class="btn secondary" id="btnCopyPrompt">Copier le prompt</button>
+
+      <div class="sectiontitle">Import manuel (dépannage)</div>
+      <div class="hint">Tu peux aussi coller un JSON directement ici plutôt que de passer par GitHub.</div>
+      <textarea id="jsonInput" placeholder='[{"module":"Choc septique","hook":"...","body":"...","detail":"...","source":"SFAR 2023","grade":"Grade 1+", "tags":["choc","sepsis"]}, ...]'></textarea>
+      <button class="btn" id="btnImport">Importer dans le feed</button>
+      <div class="hint" id="importMsg"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* =========================================================
+   ScrollMed — feed de micro-recommandations médicales
+   Tout est stocké en local (localStorage), aucune donnée
+   ne quitte l'appareil.
+   ========================================================= */
+
+const STORAGE_KEY = "scrollmed_posts_v1";
+const STATE_KEY   = "scrollmed_state_v1"; // bookmarks / mastered / review / moduleToggles
+
+// ---------- contenu de départ (module de base) ----------
+const SEED_POSTS = [
+{module:"Voies aériennes difficiles", hook:"Toujours un plan B avant l'induction", body:"Devant une VAD prévue, préparer explicitement une stratégie en 3 plans (intubation, oxygénation, abord trachéal) avant d'induire. Le plan doit être verbalisé à toute l'équipe.", detail:"La check-list VAD SFAR insiste sur l'anticipation orale du plan de secours : qui fait quoi si l'intubation échoue, où est le kit de cricothyroïdotomie, qui appelle à l'aide.", source:"SFAR — Intubation difficile 2017", grade:"Grade 1+", tags:["airway","VAD"]},
+{module:"Voies aériennes difficiles", hook:"2 tentatives, puis on change de technique", body:"Après 2 échecs de laryngoscopie par le même opérateur avec la même technique, il faut changer d'opérateur ou de technique, pas insister.", detail:"L'acharnement sur la même approche augmente le risque de traumatisme et d'hypoxémie sans améliorer les chances de succès.", source:"DAS Guidelines 2015", grade:"Grade 1+", tags:["airway"]},
+{module:"Choc septique", hook:"1h pour l'antibiothérapie, pas plus", body:"En cas de choc septique, l'antibiothérapie probabiliste doit être administrée dans l'heure suivant la reconnaissance, après hémocultures si cela ne retarde pas le traitement.", detail:"Chaque heure de retard augmente la mortalité de façon mesurable. Ne pas attendre les résultats bactériologiques pour débuter.", source:"Surviving Sepsis Campaign 2021", grade:"Strong / Moderate", tags:["sepsis","choc"]},
+{module:"Choc septique", hook:"30 mL/kg de cristalloïdes en 1ère intention", body:"Le remplissage initial du choc septique repose sur des cristalloïdes balancés, 30 mL/kg dans les 3 premières heures, avec réévaluation dynamique ensuite.", detail:"Au-delà de ce bolus initial, guider le remplissage par des paramètres dynamiques (variation de pression pulsée, lever de jambes passif) plutôt que par la PVC seule.", source:"Surviving Sepsis Campaign 2021", grade:"Strong", tags:["sepsis","remplissage"]},
+{module:"Choc septique", hook:"Noradrénaline en 1ère ligne, pas la dopamine", body:"La noradrénaline est le vasopresseur de première intention dans le choc septique pour une PAM cible ≥ 65 mmHg.", detail:"La dopamine est associée à plus d'arythmies et n'est plus recommandée en 1ère ligne.", source:"SSC 2021 / SFAR", grade:"Strong", tags:["sepsis","vasopresseurs"]},
+{module:"Arrêt cardiaque", hook:"Compressions : 100 à 120/min, 5 à 6 cm", body:"La qualité des compressions thoraciques prime sur tout le reste : fréquence 100-120/min, profondeur 5-6 cm, relâchement complet, interruptions minimisées.", detail:"Chaque interruption des compressions au-delà de 10 secondes diminue la perfusion coronaire déjà difficile à restaurer.", source:"ERC Guidelines 2021", grade:"Class 1", tags:["ACR","RCP"]},
+{module:"Arrêt cardiaque", hook:"Adrénaline 1 mg toutes les 3 à 5 min", body:"En rythme non choquable, administrer l'adrénaline 1 mg IV dès que possible. En rythme choquable, après le 3e choc.", detail:"L'objectif est de restaurer une pression de perfusion coronaire suffisante ; l'administration précoce en rythme non choquable améliore le pronostic neurologique.", source:"ERC Guidelines 2021", grade:"Class 1", tags:["ACR"]},
+{module:"Sédation-analgésie", hook:"Objectif RASS, pas la dose", body:"La sédation en réanimation doit être titrée sur un objectif de score RASS défini quotidiennement, pas sur une dose fixe d'hypnotique.", detail:"Une sédation légère (RASS -1 à 0) réduit la durée de ventilation mécanique et de séjour comparée à une sédation profonde systématique.", source:"PADIS Guidelines 2018", grade:"Strong", tags:["sédation","réa"]},
+{module:"Sédation-analgésie", hook:"Analgésie avant sédation", body:"L'approche 'analgesia-first' consiste à traiter la douleur avant d'ajouter un sédatif, ce qui réduit souvent les besoins en hypnotiques.", detail:"Une douleur non traitée est une cause fréquente d'agitation faussement attribuée à un manque de sédation.", source:"PADIS Guidelines 2018", grade:"Conditional", tags:["sédation","douleur"]},
+{module:"Anesthésie loco-régionale", hook:"Échoguidage systématique pour les blocs périphériques", body:"L'échoguidage réduit le délai d'installation, le volume d'anesthésique local nécessaire et le risque de ponction vasculaire par rapport à la neurostimulation seule.", detail:"La visualisation directe de l'aiguille et de la diffusion péri-nerveuse reste le meilleur moyen de limiter les injections intraneurales.", source:"SFAR — ALR échoguidée", grade:"Grade 1+", tags:["ALR"]},
+{module:"Anesthésie loco-régionale", hook:"Test d'aspiration avant chaque réinjection", body:"Avant toute injection ou réinjection d'anesthésique local, aspirer systématiquement pour dépister un passage intravasculaire.", detail:"L'injection intravasculaire d'AL est la première cause de toxicité systémique aiguë ; le kit de Lipidrescue doit être immédiatement disponible.", source:"ASRA Guidelines", grade:"Grade 1", tags:["ALR","toxicité"]},
+{module:"Antibioprophylaxie chirurgicale", hook:"Injection dans les 60 min avant incision", body:"L'antibioprophylaxie doit être administrée dans l'heure précédant l'incision cutanée (2h pour la vancomycine et les fluoroquinolones).", detail:"Une administration trop précoce ou trop tardive diminue l'efficacité tissulaire au moment le plus à risque de contamination.", source:"SFAR — Antibioprophylaxie 2018", grade:"Grade 1+", tags:["antibioprophylaxie"]},
+{module:"Antibioprophylaxie chirurgicale", hook:"Réinjection si chirurgie longue", body:"Réinjecter l'antibiotique si la durée opératoire dépasse 2 demi-vies du produit ou en cas d'hémorragie massive peropératoire.", detail:"Le seuil habituel pour la céfazoline est une réinjection toutes les 2 à 4h selon la fonction rénale du patient.", source:"SFAR — Antibioprophylaxie 2018", grade:"Grade 1", tags:["antibioprophylaxie"]},
+{module:"Hémorragie du post-partum", hook:"Sulprostone si l'ocytocine échoue à 15-30 min", body:"Devant une HPP résistante à l'ocytocine, passer au sulprostone sans délai, dans les 15 à 30 minutes suivant le diagnostic.", detail:"Chaque minute perdue entre les paliers thérapeutiques (ocytociques, geste chirurgical) aggrave le pronostic hémorragique.", source:"CNGOF-SFAR HPP 2014", grade:"Grade 1", tags:["HPP","obstétrique"]},
+{module:"Hémorragie du post-partum", hook:"Acide tranexamique précoce, dans les 3h", body:"L'administration d'acide tranexamique (1g IV) doit être précoce, idéalement dans les 3 premières heures suivant le début de l'hémorragie.", detail:"Au-delà de 3h, le bénéfice sur la mortalité hémorragique n'est plus démontré, d'où l'importance de ne pas attendre les autres mesures.", source:"Étude WOMAN / CNGOF", grade:"Strong", tags:["HPP","hémostase"]},
+{module:"Ventilation mécanique", hook:"Volume courant 6 mL/kg de poids idéal", body:"En ventilation protectrice, régler le volume courant à 6 mL/kg de poids théorique (et non réel), avec une pression de plateau < 30 cmH2O.", detail:"Le poids idéal se calcule sur la taille, pas sur le poids mesuré, ce qui évite un volotraumatisme chez les patients en surpoids.", source:"ARDSNet / SFAR-SRLF", grade:"Strong", tags:["ventilation","SDRA"]},
+{module:"Ventilation mécanique", hook:"Décubitus ventral si SDRA sévère précoce", body:"Chez le patient en SDRA avec PaO2/FiO2 < 150, le décubitus ventral précoce (≥16h/jour) réduit la mortalité.", detail:"L'effet est d'autant plus marqué que la mise en décubitus ventral est précoce dans l'évolution du SDRA.", source:"Étude PROSEVA / SRLF", grade:"Strong", tags:["ventilation","SDRA"]},
+{module:"Monitorage peropératoire", hook:"BIS utile si TIVA + curarisation", body:"Le monitorage de la profondeur d'anesthésie (BIS ou équivalent) est recommandé en cas d'anesthésie intraveineuse associée à une curarisation, où les signes cliniques de réveil sont masqués.", detail:"Cela réduit le risque de mémorisation peropératoire, en particulier chez les patients à haut risque (cardiochirurgie, curarisation profonde).", source:"SFAR — Monitorage anesthésie", grade:"Grade 2+", tags:["monitorage"]},
+{module:"Monitorage peropératoire", hook:"Curarisation résiduelle : viser un TOF ≥ 0,9", body:"Avant l'extubation, s'assurer d'un rapport TOF ≥ 0,9 au monitorage de la curarisation pour éviter une curarisation résiduelle post-opératoire.", detail:"La curarisation résiduelle est associée à un risque accru de complications respiratoires post-extubation, y compris chez des patients cliniquement 'réveillés'.", source:"SFAR — Curarisation 2018", grade:"Grade 1+", tags:["monitorage","curares"]},
+{module:"Transfusion", hook:"Seuil restrictif : 7 g/dL chez le patient stable", body:"Chez un patient de réanimation hémodynamiquement stable sans cardiopathie ischémique active, un seuil transfusionnel de 7 g/dL est aussi sûr qu'un seuil libéral.", detail:"Un seuil plus élevé (8-9 g/dL) reste discuté chez le coronarien ou en contexte hémorragique actif.", source:"TRICC / SRLF", grade:"Strong", tags:["transfusion"]},
+{module:"Transfusion", hook:"Ratio CGR:PFC:plaquettes proche de 1:1:1 en hémorragie massive", body:"En transfusion massive, un ratio proche de 1:1:1 entre concentrés érythrocytaires, plasma frais congelé et plaquettes améliore l'hémostase précoce.", detail:"Ce ratio vise à reconstituer un 'sang total reconstitué' plutôt que de corriger séquentiellement chaque déficit après coup.", source:"PROPPR Trial", grade:"Moderate", tags:["transfusion","hémorragie"]},
+{module:"Douleur post-opératoire", hook:"Analgésie multimodale d'emblée", body:"Associer systématiquement paracétamol, AINS si non contre-indiqués, et épargne morphinique plutôt que de titrer la morphine seule.", detail:"L'approche multimodale réduit la consommation de morphiniques et leurs effets secondaires (nausées, iléus, dépression respiratoire).", source:"SFAR — Douleur post-opératoire", grade:"Grade 1+", tags:["douleur","postop"]},
+{module:"Jeûne préopératoire", hook:"Liquides clairs autorisés jusqu'à 2h avant", body:"Le jeûne préopératoire moderne autorise les liquides clairs jusqu'à 2h avant l'induction et un repas léger jusqu'à 6h avant, sans excès de jeûne prolongé.", detail:"Un jeûne trop long n'apporte pas de bénéfice sur le risque d'inhalation et péjore le confort et l'équilibre métabolique du patient.", source:"ESAIC — Jeûne préopératoire", grade:"Grade 1+", tags:["préopératoire"]},
+{module:"Nausées-vomissements post-opératoires", hook:"Stratifier le risque avec le score d'Apfel", body:"Le score d'Apfel (sexe féminin, non-fumeur, antécédent de NVPO/mal des transports, morphiniques post-op) guide le nombre d'agents antiémétiques à associer en prophylaxie.", detail:"Plus le score est élevé, plus l'association d'antiémétiques d'action différente (dexaméthasone, sétron, dropéridol) est justifiée.", source:"SFAR — NVPO", grade:"Grade 1+", tags:["NVPO"]}
+];
+
+// ---------- state helpers ----------
+function loadPosts(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){
+    try{ return JSON.parse(raw); } catch(e){ /* fallthrough */ }
+  }
+  savePosts(SEED_POSTS.map(withId));
+  return loadPosts();
+}
+function withId(p){
+  if(p.id) return p;
+  return Object.assign({id: cryptoId()}, p);
+}
+function cryptoId(){
+  return 'p_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4);
+}
+function savePosts(posts){ localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
+
+function loadState(){
+  const raw = localStorage.getItem(STATE_KEY);
+  if(raw){ try{ return JSON.parse(raw); } catch(e){} }
+  const s = { bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, seenOrder:[] };
+  saveState(s);
+  return s;
+}
+function saveState(s){ localStorage.setItem(STATE_KEY, JSON.stringify(s)); }
+
+let POSTS = loadPosts();
+let STATE = loadState();
+
+// ---------- synchronisation GitHub (dossier /Recos) ----------
+const GH_CONFIG_KEY = "scrollmed_gh_config_v1";
+function loadGhConfig(){
+  const raw = localStorage.getItem(GH_CONFIG_KEY);
+  if(raw){ try{ return JSON.parse(raw); } catch(e){} }
+  return null;
+}
+function saveGhConfig(cfg){ localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(cfg)); }
+
+function deriveModuleName(filename){
+  let base = filename.replace(/\.json$/i, '');
+  base = base.replace(/[-_]+/g, ' ').trim();
+  return base.replace(/\p{L}+/gu, w => w.charAt(0).toUpperCase() + w.slice(1));
+}
+function dedupeKey(module, hook){
+  return (module + '::' + hook).toLowerCase().trim().replace(/\s+/g,' ');
+}
+
+async function syncFromGithub(silent){
+  const cfg = loadGhConfig();
+  const msgEl = document.getElementById('syncMsg');
+  if(!cfg || !cfg.owner || !cfg.repo){
+    if(!silent && msgEl) msgEl.textContent = "Renseigne d'abord ton utilisateur et ton dépôt GitHub.";
+    return;
+  }
+  const branch = cfg.branch || 'main';
+  const listUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Recos?ref=${encodeURIComponent(branch)}`;
+  if(msgEl) msgEl.textContent = 'Synchronisation en cours...';
+  try{
+    const listResp = await fetch(listUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
+    if(!listResp.ok){
+      throw new Error(listResp.status === 404
+        ? `Dossier 'Recos' introuvable à cette adresse : ${listUrl} — vérifie la casse du nom de dossier, le nom de la branche (main vs master), et que le dépôt est public.`
+        : `Erreur GitHub (${listResp.status}) sur ${listUrl}`);
+    }
+    const entries = await listResp.json();
+    const files = entries.filter(e => e.type === 'file' && /\.json$/i.test(e.name));
+    if(files.length === 0){
+      if(msgEl) msgEl.textContent = "Aucun fichier .json trouvé dans le dossier Recos.";
+      return;
+    }
+
+    // on garde tel quel tout ce qui n'a pas été importé via GitHub (seed de départ, imports manuels)
+    const keptPosts = POSTS.filter(p => !p.remote);
+    // on indexe les anciens posts distants pour conserver les favoris/progrès si le contenu est inchangé
+    const oldRemoteIndex = {};
+    POSTS.filter(p => p.remote).forEach(p => { oldRemoteIndex[dedupeKey(p.module, p.hook)] = p.id; });
+
+    const newRemotePosts = [];
+    let fileErrors = [];
+    for(const file of files){
+      try{
+        const fileResp = await fetch(file.download_url);
+        if(!fileResp.ok) throw new Error(`HTTP ${fileResp.status}`);
+        const items = await fileResp.json();
+        if(!Array.isArray(items)) throw new Error("le fichier ne contient pas un tableau JSON");
+        const fallbackModuleName = deriveModuleName(file.name);
+        items.forEach(item=>{
+          if(!item.hook || !item.body) return;
+          const moduleName = (item.module && item.module.trim()) || fallbackModuleName;
+          const key = dedupeKey(moduleName, item.hook);
+          const id = oldRemoteIndex[key] || cryptoId();
+          newRemotePosts.push(Object.assign({}, item, { module: moduleName, id, remote: true }));
+        });
+      }catch(err){
+        fileErrors.push(`${file.name} (${err.message})`);
+      }
+    }
+
+    POSTS = keptPosts.concat(newRemotePosts);
+    savePosts(POSTS);
+    FEED_ORDER = buildFeedOrder();
+    renderFeed();
+
+    let summary = `${newRemotePosts.length} fiche(s) synchronisée(s) depuis ${files.length} fichier(s).`;
+    if(fileErrors.length) summary += ` Problème sur : ${fileErrors.join(', ')}.`;
+    if(msgEl) msgEl.textContent = summary;
+    showToast('Synchronisation GitHub terminée');
+  }catch(err){
+    if(msgEl) msgEl.textContent = `Échec de la synchronisation : ${err.message}`;
+    if(!silent) showToast('Échec de la synchronisation');
+  }
+}
+
+// ---------- build working feed order ----------
+function activeModules(){
+  const mods = [...new Set(POSTS.map(p=>p.module))];
+  return mods;
+}
+function isModuleOn(m){ return !STATE.moduleOff[m]; }
+
+function buildFeedOrder(){
+  // weighted shuffle: mastered items appear less often, review items more often
+  let pool = POSTS.filter(p => isModuleOn(p.module));
+  let weighted = [];
+  pool.forEach(p=>{
+    let weight = 3;
+    if(STATE.mastered[p.id]) weight = 1;
+    if(STATE.review[p.id]) weight = 5;
+    for(let i=0;i<weight;i++) weighted.push(p);
+  });
+  // shuffle
+  for(let i=weighted.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [weighted[i],weighted[j]]=[weighted[j],weighted[i]];
+  }
+  // dedupe consecutive same-id to avoid immediate repeats, keep first occurrence order otherwise
+  const seen = new Set();
+  const finalOrder = [];
+  weighted.forEach(p=>{
+    if(!seen.has(p.id)){ finalOrder.push(p); seen.add(p.id); }
+  });
+  // append remaining duplicates at the end for longer sessions
+  weighted.forEach(p=>{ if(seen.has(p.id)){ finalOrder.push(p); } });
+  return finalOrder;
+}
+
+let FEED_ORDER = buildFeedOrder();
+
+// ---------- rendering ----------
+const feedEl = document.getElementById('feed');
+const toastEl = document.getElementById('toast');
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> toastEl.classList.remove('show'), 1600);
+}
+
+// palette de dégradés façon "story" Instagram, assignée de façon stable par module
+const GRADIENTS = [
+  ['#f5576c', '#5b2a86', '#1a1440'],
+  ['#f7971e', '#c2185b', '#2c0735'],
+  ['#00c9a7', '#0075ff', '#1a0f5c'],
+  ['#ff7eb3', '#7b2ff7', '#150a3d'],
+  ['#ffb347', '#ff5f6d', '#2a0a2e'],
+  ['#38ef7d', '#116d6e', '#0c1f2e'],
+  ['#4facfe', '#7b2ff7', '#180a3a'],
+  ['#f9d423', '#e94057', '#3a0d3e']
+];
+function hashStr(s){
+  let h = 0;
+  for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; }
+  return h;
+}
+function paletteForModule(m){
+  return GRADIENTS[hashStr(m) % GRADIENTS.length];
+}
+function initialsForModule(m){
+  const words = m.replace(/[^\p{L}\s-]/gu,'').split(/[\s-]+/).filter(Boolean);
+  if(words.length === 0) return 'MD';
+  if(words.length === 1) return words[0].slice(0,2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
+function renderFeed(){
+  feedEl.innerHTML = '';
+  if(FEED_ORDER.length === 0){
+    const div = document.createElement('div');
+    div.className = 'card end-card';
+    div.style.justifyContent = 'center';
+    div.style.background = 'var(--bg)';
+    div.innerHTML = `<div class="big" style="text-align:center">🩺</div><div class="hook" style="text-align:center;color:var(--text);text-shadow:none">Aucun module actif</div><p class="body-txt" style="text-align:center;color:var(--muted)">Active un module dans le menu, ou importe une nouvelle recommandation.</p>`;
+    feedEl.appendChild(div);
+    return;
+  }
+  FEED_ORDER.forEach((p, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = p.id;
+
+    const isBookmarked = !!STATE.bookmarks[p.id];
+    const isMastered = !!STATE.mastered[p.id];
+    const isReview = !!STATE.review[p.id];
+    const [c1,c2,c3] = paletteForModule(p.module);
+    const angle = hashStr(p.module) % 360;
+    const initials = initialsForModule(p.module);
+    const hashtags = (p.tags || []).map(t => `#${t.replace(/\s+/g,'')}`).join(' ');
+
+    card.innerHTML = `
+      <div class="card-media" style="background: radial-gradient(circle at 30% 20%, ${c1}55, transparent 55%), radial-gradient(circle at 80% 75%, ${c2}55, transparent 60%), linear-gradient(${angle}deg, ${c3}, #05060a 75%);"></div>
+      <div class="heart-burst">♥</div>
+
+      <div class="progress-strip">${FEED_ORDER.slice(Math.max(0,idx-4), idx+5).map((_,i)=>`<i class="${i<=Math.min(4,idx)?'done':''}"></i>`).join('')}</div>
+
+      <div class="ig-header" style="margin-top:22px">
+        <div class="avatar" style="background: linear-gradient(135deg, ${c1}, ${c2});">${initials}</div>
+        <div class="ig-meta">
+          <div class="ig-name">${escapeHtml(p.module)} <span class="badge">✓</span></div>
+          <div class="ig-sub">${escapeHtml(p.source || 'reco.')}${p.grade ? ' · ' + escapeHtml(p.grade) : ''}</div>
+        </div>
+      </div>
+
+      <div style="flex:1"></div>
+
+      <div class="caption-wrap">
+        <h2 class="hook">${escapeHtml(p.hook)}</h2>
+        <p class="body-txt">${escapeHtml(p.body)}</p>
+        ${p.detail ? `<button class="more-toggle" data-action="toggle-detail">... plus</button>
+        <div class="detail">${escapeHtml(p.detail)}</div>` : ''}
+        ${hashtags ? `<div class="source" style="color:#7fc8ff;margin-bottom:4px">${escapeHtml(hashtags)}</div>` : ''}
+        <div class="source">${escapeHtml(p.source || '')}</div>
+      </div>
+
+      <div class="card-footer">
+        <button class="actbtn bookmark ${isBookmarked?'active':''}" data-action="bookmark" title="Retenir">
+          <span class="ic">${isBookmarked ? '♥' : '♡'}</span>
+          Retenir
+        </button>
+        <button class="actbtn mastered ${isMastered?'active':''}" data-action="mastered" title="Compris">
+          <span class="ic">✓</span>
+          Compris
+        </button>
+        <button class="actbtn review ${isReview?'active':''}" data-action="review" title="À revoir">
+          <span class="ic">↻</span>
+          À revoir
+        </button>
+      </div>
+    `;
+    feedEl.appendChild(card);
+  });
+}
+
+function escapeHtml(str){
+  if(!str) return '';
+  return str.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+feedEl.addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-action]');
+  if(!btn) return;
+  const card = btn.closest('.card');
+  const id = card.dataset.id;
+  const action = btn.dataset.action;
+
+  if(action === 'toggle-detail'){
+    const detail = card.querySelector('.detail');
+    const open = detail.classList.toggle('open');
+    btn.textContent = open ? 'replier ▲' : '... plus';
+    return;
+  }
+  if(action === 'bookmark'){
+    STATE.bookmarks[id] = !STATE.bookmarks[id];
+    saveState(STATE);
+    btn.classList.toggle('active', STATE.bookmarks[id]);
+    btn.querySelector('.ic').textContent = STATE.bookmarks[id] ? '♥' : '♡';
+    showToast(STATE.bookmarks[id] ? 'Ajouté aux favoris' : 'Retiré des favoris');
+    return;
+  }
+  if(action === 'mastered'){
+    STATE.mastered[id] = !STATE.mastered[id];
+    if(STATE.mastered[id]) STATE.review[id] = false;
+    saveState(STATE);
+    btn.classList.toggle('active', STATE.mastered[id]);
+    const reviewBtn = card.querySelector('[data-action="review"]');
+    reviewBtn.classList.remove('active');
+    showToast(STATE.mastered[id] ? 'Marqué comme compris' : 'Retiré des acquis');
+    return;
+  }
+  if(action === 'review'){
+    STATE.review[id] = !STATE.review[id];
+    if(STATE.review[id]) STATE.mastered[id] = false;
+    saveState(STATE);
+    btn.classList.toggle('active', STATE.review[id]);
+    const masteredBtn = card.querySelector('[data-action="mastered"]');
+    masteredBtn.classList.remove('active');
+    showToast(STATE.review[id] ? 'Ajouté à réviser' : 'Retiré de la révision');
+    return;
+  }
+});
+
+// double-tap façon Instagram : anime le cœur et enregistre le post
+let lastTap = 0;
+feedEl.addEventListener('click', (e)=>{
+  if(e.target.closest('[data-action]')) return; // géré plus haut
+  const card = e.target.closest('.card');
+  if(!card || !card.dataset.id) return;
+  const now = Date.now();
+  if(now - lastTap < 320){
+    const id = card.dataset.id;
+    STATE.bookmarks[id] = true;
+    saveState(STATE);
+    const bookmarkBtn = card.querySelector('[data-action="bookmark"]');
+    if(bookmarkBtn){
+      bookmarkBtn.classList.add('active');
+      bookmarkBtn.querySelector('.ic').textContent = '♥';
+    }
+    const burst = card.querySelector('.heart-burst');
+    burst.classList.remove('play');
+    void burst.offsetWidth; // relance l'animation
+    burst.classList.add('play');
+    lastTap = 0;
+  } else {
+    lastTap = now;
+  }
+});
+
+// ---------- library panel ----------
+function renderLibrary(){
+  const list = document.getElementById('moduleList');
+  const mods = activeModules();
+  list.innerHTML = mods.map(m=>{
+    const count = POSTS.filter(p=>p.module===m).length;
+    const on = isModuleOn(m);
+    return `<div class="modrow">
+      <div>
+        <div class="mname">${escapeHtml(m)}</div>
+        <div class="mcount">${count} post${count>1?'s':''}</div>
+      </div>
+      <button class="switch ${on?'on':''}" data-module="${escapeHtml(m)}"><span class="knob"></span></button>
+    </div>`;
+  }).join('');
+}
+document.getElementById('moduleList').addEventListener('click', (e)=>{
+  const sw = e.target.closest('.switch');
+  if(!sw) return;
+  const m = sw.dataset.module;
+  STATE.moduleOff[m] = !STATE.moduleOff[m];
+  saveState(STATE);
+  sw.classList.toggle('on', !STATE.moduleOff[m]);
+  FEED_ORDER = buildFeedOrder();
+  renderFeed();
+});
+
+// ---------- saved panel ----------
+function renderSaved(){
+  const list = document.getElementById('savedList');
+  const saved = POSTS.filter(p=>STATE.bookmarks[p.id]);
+  if(saved.length===0){
+    list.innerHTML = `<div class="hint">Aucun favori pour l'instant. Touche l'étoile sur une carte du feed pour la garder ici.</div>`;
+    return;
+  }
+  list.innerHTML = saved.map(p=>`
+    <div class="savedcard">
+      <div class="hk">${escapeHtml(p.hook)}</div>
+      <div class="bd">${escapeHtml(p.body)}</div>
+      <div class="source src">${escapeHtml(p.module)} · ${escapeHtml(p.source||'')}</div>
+    </div>
+  `).join('');
+}
+
+// ---------- stats panel ----------
+function renderStats(){
+  const body = document.getElementById('statsBody');
+  const total = POSTS.length;
+  const masteredCount = Object.values(STATE.mastered).filter(Boolean).length;
+  const reviewCount = Object.values(STATE.review).filter(Boolean).length;
+  const bookmarkCount = Object.values(STATE.bookmarks).filter(Boolean).length;
+  const mods = activeModules();
+
+  body.innerHTML = `
+    <div class="statgrid">
+      <div class="statbox"><div class="num">${total}</div><div class="lbl">recommandations au total</div></div>
+      <div class="statbox"><div class="num">${masteredCount}</div><div class="lbl">marquées comprises</div></div>
+      <div class="statbox"><div class="num">${reviewCount}</div><div class="lbl">à revoir</div></div>
+      <div class="statbox"><div class="num">${bookmarkCount}</div><div class="lbl">en favoris</div></div>
+    </div>
+    <div class="sectiontitle">Répartition par module</div>
+    ${mods.map(m=>{
+      const modPosts = POSTS.filter(p=>p.module===m);
+      const modMastered = modPosts.filter(p=>STATE.mastered[p.id]).length;
+      return `<div class="modrow"><div>
+        <div class="mname">${escapeHtml(m)}</div>
+        <div class="mcount">${modMastered}/${modPosts.length} comprises</div>
+      </div></div>`;
+    }).join('')}
+  `;
+}
+
+// ---------- tabs / panels ----------
+const tabs = document.querySelectorAll('nav button');
+tabs.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const tab = btn.dataset.tab;
+    tabs.forEach(b=>b.classList.toggle('active', b===btn));
+    if(tab === 'feed'){ closeAllPanels(); }
+    if(tab === 'saved'){ renderSaved(); openPanel('panelSaved'); }
+    if(tab === 'stats'){ renderStats(); openPanel('panelStats'); }
+    if(tab === 'import'){ openPanel('panelImport'); }
+  });
+});
+document.getElementById('btnLibrary').addEventListener('click', ()=>{
+  renderLibrary(); openPanel('panelLibrary');
+});
+function openPanel(id){
+  closeAllPanels();
+  document.getElementById(id).classList.add('open');
+}
+function closePanel(id){
+  document.getElementById(id).classList.remove('open');
+  tabs.forEach(b=>b.classList.toggle('active', b.dataset.tab==='feed'));
+}
+function closeAllPanels(){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));
+}
+window.closePanel = closePanel;
+
+// ---------- import ----------
+const PROMPT_TEMPLATE = `Tu es un assistant qui crée des micro-fiches de révision pour un interne d'anesthésie-réanimation, à partir de recommandations officielles que tu choisis toi-même.
+
+Choisis librement et au hasard plusieurs recommandations reconnues et vérifiables (SFAR, HAS, SRLF, ESAIC, ESC, ERC, ASRA, Surviving Sepsis Campaign, etc.), en variant les thèmes : ne te limite pas à un seul sujet. Exemples de thèmes possibles : voies aériennes, choc, sédation-analgésie, ALR, ventilation mécanique, transfusion, douleur post-opératoire, antibioprophylaxie, anesthésie pédiatrique, obstétrique, transplantation, monitorage, réanimation neurologique, nutrition en réa, etc.
+
+Génère exactement 25 fiches, chacune correspondant à UN SEUL message clé actionnable, issu d'une vraie recommandation. N'invente aucune donnée chiffrée : si tu n'es pas certain d'un seuil ou d'une posologie exacte, formule la fiche de façon qualitative plutôt que d'inventer un chiffre.
+
+Pour chaque fiche, détermine toi-même le thème/module auquel elle appartient (ex: "Choc septique", "Voies aériennes difficiles").
+
+Le résultat doit être un tableau JSON valide, sans texte autour ni markdown, au format :
+
+[
+  {
+    "module": "Nom du thème que tu as choisi",
+    "hook": "Accroche courte et percutante (max 8 mots)",
+    "body": "1 à 3 phrases claires et actionnables",
+    "detail": "Contexte ou nuance complémentaire (optionnel)",
+    "source": "Organisme + année (ex: SFAR 2023)",
+    "grade": "Grade/force de preuve si connu (sinon omettre le champ)",
+    "tags": ["mot-clé1", "mot-clé2"]
+  }
+]
+
+Génère directement ce contenu sous forme de fichier téléchargeable nommé lot.json (je le renommerai moi-même ensuite avec le bon numéro de lot). Si tu ne peux pas produire de fichier téléchargeable, donne simplement le JSON brut en réponse.
+
+Contraintes :
+- Diversité obligatoire sur 25 fiches : vise au moins 10 à 12 thèmes différents, pas plus de 2 à 3 fiches par thème.
+- Langage clinique sobre et précis.
+- Aucune fiche ne doit mélanger deux recommandations différentes.`;
+
+document.getElementById('promptText').textContent = PROMPT_TEMPLATE;
+document.getElementById('btnCopyPrompt').addEventListener('click', ()=>{
+  navigator.clipboard.writeText(PROMPT_TEMPLATE).then(()=>{
+    showToast('Prompt copié');
+  }).catch(()=>{
+    showToast('Copie impossible, sélectionne le texte manuellement');
+  });
+});
+
+document.getElementById('btnImport').addEventListener('click', ()=>{
+  const raw = document.getElementById('jsonInput').value.trim();
+  const msg = document.getElementById('importMsg');
+  if(!raw){ msg.textContent = "Colle d'abord le JSON généré par l'IA."; return; }
+  let parsed;
+  try{
+    parsed = JSON.parse(raw);
+  }catch(e){
+    msg.textContent = "JSON invalide : vérifie qu'il n'y a pas de texte autour du tableau (juste les crochets [ ... ]).";
+    return;
+  }
+  if(!Array.isArray(parsed)){
+    msg.textContent = "Le JSON doit être un tableau de fiches [ {...}, {...} ].";
+    return;
+  }
+  let added = 0;
+  parsed.forEach(item=>{
+    if(!item.hook || !item.body || !item.module) return;
+    POSTS.push(withId(item));
+    added++;
+  });
+  if(added === 0){
+    msg.textContent = "Aucune fiche valide trouvée (il faut au minimum module, hook et body).";
+    return;
+  }
+  savePosts(POSTS);
+  FEED_ORDER = buildFeedOrder();
+  renderFeed();
+  document.getElementById('jsonInput').value = '';
+  msg.textContent = `${added} fiche(s) importée(s) avec succès.`;
+  showToast(`${added} nouvelle(s) fiche(s) ajoutée(s)`);
+});
+
+// ---------- sauvegarde / restauration ----------
+document.getElementById('btnExportBackup').addEventListener('click', ()=>{
+  const backup = {
+    type: 'scrollmed-backup',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    posts: POSTS,
+    state: STATE
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `scrollmed-sauvegarde-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Sauvegarde téléchargée');
+});
+
+document.getElementById('btnRestoreBackup').addEventListener('click', ()=>{
+  document.getElementById('restoreFileInput').click();
+});
+document.getElementById('restoreFileInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  const backupMsg = document.getElementById('backupMsg');
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let data;
+    try{ data = JSON.parse(reader.result); }
+    catch(err){ backupMsg.textContent = "Fichier illisible : ce n'est pas un JSON valide."; return; }
+    if(!data || !Array.isArray(data.posts) || typeof data.state !== 'object'){
+      backupMsg.textContent = "Ce fichier ne ressemble pas à une sauvegarde ScrollMed.";
+      return;
+    }
+    const ok = confirm(`Restaurer cette sauvegarde va remplacer tes données actuelles (${POSTS.length} posts) par celles du fichier (${data.posts.length} posts). Continuer ?`);
+    if(!ok) return;
+    POSTS = data.posts.map(withId);
+    STATE = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, seenOrder:[] }, data.state);
+    savePosts(POSTS);
+    saveState(STATE);
+    FEED_ORDER = buildFeedOrder();
+    renderFeed();
+    backupMsg.textContent = `Sauvegarde restaurée : ${POSTS.length} posts.`;
+    showToast('Sauvegarde restaurée');
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// ---------- formulaire de config GitHub ----------
+(function initGhForm(){
+  const cfg = loadGhConfig();
+  if(cfg){
+    document.getElementById('ghOwner').value = cfg.owner || '';
+    document.getElementById('ghRepo').value = cfg.repo || '';
+    document.getElementById('ghBranch').value = cfg.branch || '';
+  }
+})();
+document.getElementById('btnSyncGithub').addEventListener('click', ()=>{
+  const owner = document.getElementById('ghOwner').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const branch = document.getElementById('ghBranch').value.trim();
+  if(!owner || !repo){
+    document.getElementById('syncMsg').textContent = "Renseigne au minimum l'utilisateur et le dépôt.";
+    return;
+  }
+  saveGhConfig({ owner, repo, branch });
+  syncFromGithub(false);
+});
+
+// ---------- init ----------
+renderFeed();
+// tentative de synchronisation silencieuse si une config GitHub existe déjà
+if(loadGhConfig()){ syncFromGithub(true); }
+</script>
+</body>
+</html>
