@@ -1,0 +1,341 @@
+[
+  {
+    "module": "Hémostase péri-opératoire",
+    "hook": "Transfusion de plaquettes si < 50 G/L",
+    "body": "Pour une chirurgie ou un geste invasif à risque hémorragique modéré ou standard, le seuil transfusionnel recommandé est de 50 G/L de plaquettes.",
+    "detail": "Des seuils plus élevés (50 à 100 G/L) sont réservés aux chirurgies à très haut risque hémorragique, comme la neurochirurgie ou l'ophtalmologie postérieure.",
+    "source": "SFAR 2020",
+    "grade": "Grade 2+",
+    "tags": [
+      "Transfusion",
+      "Plaquettes",
+      "Hémostase",
+      "Pré-opératoire"
+    ]
+  },
+  {
+    "module": "Risque cardiovasculaire",
+    "hook": "Ne pas introduire de bêtabloquants le jour J",
+    "body": "L'initiation de bêtabloquants en préopératoire immédiat (le jour de la chirurgie) est formellement déconseillée chez un patient non traité préalablement.",
+    "detail": "Cette pratique augmente significativement le risque d'hypotension sévère, de bradycardie et d'accident vasculaire cérébral péri-opératoire.",
+    "source": "ESC 2022",
+    "grade": "Classe III",
+    "tags": [
+      "Cardiologie",
+      "Bêtabloquants",
+      "Évaluation pré-opératoire"
+    ]
+  },
+  {
+    "module": "Voies aériennes difficiles",
+    "hook": "Sugammadex en sauvetage si intubation impossible",
+    "body": "En situation de \"ne peut intuber, ne peut ventiler\" (CICO) après une induction comportant du rocuronium, administrer d'emblée du sugammadex à très forte dose (16 mg/kg).",
+    "detail": "Cette dose permet une réversion immédiate et profonde du bloc neuromusculaire, facilitant le retour éventuel en ventilation spontanée.",
+    "source": "SFAR 2017",
+    "grade": "Grade 1+",
+    "tags": [
+      "VAD",
+      "Curares",
+      "Sauvetage",
+      "Rocuronium"
+    ]
+  },
+  {
+    "module": "Choc septique",
+    "hook": "Doser le lactate et cibler sa clairance",
+    "body": "Mesurer le taux de lactate sanguin initial dès la suspicion de sepsis, puis surveiller sa décroissance pour guider la réanimation hémodynamique.",
+    "detail": "L'hyperlactatémie est un marqueur d'hypoperfusion tissulaire ; la baisse du lactate reflète l'efficacité des thérapeutiques engagées.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Sepsis",
+      "Lactate",
+      "Hémodynamique",
+      "Monitorage"
+    ]
+  },
+  {
+    "module": "Anesthésie et Obésité",
+    "hook": "CPAP ou VNI post-opératoire prophylactique",
+    "body": "Chez le patient obèse sévère ou porteur d'un SAOS, utiliser la CPAP ou la VNI dès l'extubation en salle de réveil pour prévenir les complications respiratoires.",
+    "detail": "La pression positive prévient le collapsus des voies aériennes supérieures et la formation d'atélectasies très fréquentes dans cette population.",
+    "source": "SFAR 2019",
+    "grade": "Grade 1+",
+    "tags": [
+      "Obésité",
+      "VNI",
+      "SAOS",
+      "SSPI"
+    ]
+  },
+  {
+    "module": "Anesthésie pédiatrique",
+    "hook": "Privilégier les sondes à ballonnet",
+    "body": "En anesthésie pédiatrique, utiliser préférentiellement une sonde d'intubation avec ballonnet, y compris chez le petit enfant et le nourrisson.",
+    "detail": "Le contrôle strict de la pression du ballonnet (< 20 cmH2O) est indispensable pour éviter les lésions de la muqueuse trachéale.",
+    "source": "ESAIC / SFAR",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Pédiatrie",
+      "Intubation",
+      "Matériel"
+    ]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "Nimodipine précoce dans l'hémorragie méningée",
+    "body": "Débuter la nimodipine per os (ou par sonde nasogastrique) le plus tôt possible après une hémorragie sous-arachnoïdienne anévrismale.",
+    "detail": "Ce traitement n'inverse pas le vasospasme angiographique mais prévient efficacement l'ischémie cérébrale retardée et améliore le pronostic neurologique.",
+    "source": "AHA / SFAR",
+    "grade": "Recommandation forte",
+    "tags": [
+      "HSA",
+      "Vasospasme",
+      "Neurologie"
+    ]
+  },
+  {
+    "module": "Ventilation mécanique",
+    "hook": "Pression motrice (Driving Pressure) < 15 cmH2O",
+    "body": "Dans le SDRA, régler le ventilateur pour limiter la pression motrice (Pression de plateau - PEP totale) strictement en dessous de 15 cmH2O.",
+    "detail": "La pression motrice est la variable ventilatoire la plus fortement associée à la mortalité dans le SDRA, car elle reflète le strain pulmonaire dynamique.",
+    "source": "SRLF 2019",
+    "grade": "Grade 1+",
+    "tags": [
+      "SDRA",
+      "Ventilation protectrice",
+      "Monitorage"
+    ]
+  },
+  {
+    "module": "Douleur post-opératoire",
+    "hook": "Infiltration systématique des cicatrices",
+    "body": "En l'absence de bloc nerveux périphérique ou d'anesthésie périmédullaire, réaliser une infiltration systématique des berges chirurgicales par des anesthésiques locaux.",
+    "detail": "Il s'agit du premier échelon de l'analgésie locorégionale, particulièrement utile en épargne morphinique.",
+    "source": "SFAR 2024",
+    "grade": "Grade 1+",
+    "tags": [
+      "Analgésie multimodale",
+      "ALR",
+      "Chirurgie"
+    ]
+  },
+  {
+    "module": "Hémodynamique",
+    "hook": "Cibler une PAM initiale de 65 mmHg",
+    "body": "Lors de la phase initiale de réanimation du choc septique, l'objectif de pression artérielle moyenne (PAM) recommandé est de 65 mmHg.",
+    "detail": "Une cible plus élevée (75-85 mmHg) peut être envisagée chez les patients avec des antécédents d'hypertension artérielle chronique mal contrôlée.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Sepsis",
+      "PAM",
+      "Vasopresseurs"
+    ]
+  },
+  {
+    "module": "Infectiologie",
+    "hook": "Bithérapie d'emblée pour la pneumonie grave",
+    "body": "Pour les pneumonies aiguës communautaires (PAC) graves en réanimation, initier une bithérapie associant une bêta-lactamine et un macrolide (ou une fluoroquinolone).",
+    "detail": "Cette couverture large, notamment contre les germes intracellulaires, diminue la mortalité de manière démontrée.",
+    "source": "SRLF / SPILF 2019",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Pneumonie",
+      "Antibiotiques",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Insuffisance rénale aiguë",
+    "hook": "Différer l'épuration extrarénale sans urgence",
+    "body": "En cas d'IRA sévère sans complication vitale immédiate, adopter une stratégie d'attente vigilante (delayed) avant de démarrer l'épuration extrarénale.",
+    "detail": "Les urgences absolues restent : hyperkaliémie > 6 mmol/L, acidose sévère (pH < 7.15) ou OAP réfractaire aux diurétiques.",
+    "source": "SRLF 2018",
+    "grade": "Grade 1-",
+    "tags": [
+      "IRA",
+      "Dialyse",
+      "Néphrologie"
+    ]
+  },
+  {
+    "module": "Anesthésie obstétricale",
+    "hook": "Antibioprophylaxie avant l'incision (césarienne)",
+    "body": "Lors d'une césarienne, administrer l'antibioprophylaxie intraveineuse avant l'incision cutanée, et non après le clampage du cordon ombilical.",
+    "detail": "Cette pratique réduit significativement le taux d'endométrites maternelles sans effet indésirable documenté pour le nouveau-né.",
+    "source": "SFAR 2019",
+    "grade": "Grade 1+",
+    "tags": [
+      "Césarienne",
+      "Antibioprophylaxie",
+      "Obstétrique"
+    ]
+  },
+  {
+    "module": "Anesthésie du sujet âgé",
+    "hook": "Monitorer la profondeur d'anesthésie (BIS)",
+    "body": "Chez les patients âgés ou à risque, utiliser un moniteur de profondeur d'anesthésie (comme le BIS ou l'entropie) pour titrer les hypnotiques.",
+    "detail": "L'évitement de l'anesthésie trop profonde (et des phases de suppression EEG) réduit l'incidence des troubles cognitifs post-opératoires.",
+    "source": "ESAIC 2017",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Gériatrie",
+      "BIS",
+      "Delirium",
+      "AAG"
+    ]
+  },
+  {
+    "module": "Hépatologie en réanimation",
+    "hook": "Albumine et terlipressine dans le syndrome hépato-rénal",
+    "body": "Traiter le syndrome hépato-rénal (SHR-AKI) par une expansion volumique à l'albumine associée à un vasoconstricteur splanchnique (terlipressine).",
+    "detail": "La noradrénaline est une alternative acceptable à la terlipressine si cette dernière n'est pas disponible ou contre-indiquée.",
+    "source": "EASL 2018",
+    "grade": "Grade 1",
+    "tags": [
+      "Cirrhose",
+      "SHR",
+      "Albumine",
+      "Terlipressine"
+    ]
+  },
+  {
+    "module": "Gestes invasifs",
+    "hook": "Pose de VVC possible si plaquettes > 20 G/L",
+    "body": "Il n'est pas recommandé de transfuser des plaquettes en prophylaxie pour la pose d'un cathéter veineux central (jugulaire ou fémoral) si la numération est supérieure à 20 G/L.",
+    "detail": "L'utilisation de l'échoguidage systématique a grandement sécurisé la procédure et justifié l'abaissement de ce seuil.",
+    "source": "SFAR 2020",
+    "grade": "Grade 2+",
+    "tags": [
+      "VVC",
+      "Thrombopénie",
+      "Transfusion",
+      "Échographie"
+    ]
+  },
+  {
+    "module": "Troubles du rythme",
+    "hook": "Choc électrique synchrone si FA instable",
+    "body": "Réaliser une cardioversion électrique d'urgence en cas de fibrillation atriale compliquée d'instabilité hémodynamique, d'ischémie myocardique ou d'OAP sévère.",
+    "detail": "Le contrôle de la fréquence par anti-arythmiques est réservé aux patients stables.",
+    "source": "ESC 2020",
+    "grade": "Classe I",
+    "tags": [
+      "FA",
+      "Cardioversion",
+      "Cardiologie",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Hygiène et ALR",
+    "hook": "Antisepsie à la chlorhexidine alcoolique > 0,5%",
+    "body": "Pour l'antisepsie cutanée avant une anesthésie périmédullaire ou un bloc nerveux périphérique, utiliser de la chlorhexidine alcoolique.",
+    "detail": "Il est impératif d'attendre le séchage complet de l'antiseptique (risque d'arachnoïdite chimique en cas d'introduction intrathécale).",
+    "source": "SFAR",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Hygiène",
+      "Asepsie",
+      "ALR",
+      "Rachianesthésie"
+    ]
+  },
+  {
+    "module": "Voies aériennes",
+    "hook": "Position proclive pour la préoxygénation",
+    "body": "Préoxygéner les patients obèses ou à risque de désaturation rapide en position proclive (tête et buste surélevés de 25 à 30 degrés).",
+    "detail": "Cette inclinaison majore la capacité résiduelle fonctionnelle (CRF) et allonge significativement le délai avant désaturation lors de l'apnée.",
+    "source": "SFAR 2017",
+    "grade": "Grade 1+",
+    "tags": [
+      "Pré-oxygénation",
+      "Obésité",
+      "VAD"
+    ]
+  },
+  {
+    "module": "Toxicologie",
+    "hook": "Nomogramme et NAC pour l'intoxication au paracétamol",
+    "body": "Débuter l'antidote N-acétylcystéine (NAC) en fonction de la concentration plasmatique de paracétamol reportée sur le nomogramme de Rumack-Matthew.",
+    "detail": "La NAC doit idéalement être administrée dans les 8 heures post-ingestion pour une efficacité hépatoprotectrice maximale.",
+    "source": "HAS / SFMU",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Intoxication",
+      "Paracétamol",
+      "Antidote",
+      "Foie"
+    ]
+  },
+  {
+    "module": "Insuffisance respiratoire",
+    "hook": "Optiflow en première intention dans l'hypoxémie",
+    "body": "Utiliser l'oxygénothérapie à haut débit (OHD) nasal préférentiellement à la VNI ou l'O2 standard chez les patients en détresse respiratoire aiguë hypoxémique de novo.",
+    "detail": "L'OHD génère une faible PEP, humidifie les voies aériennes et diminue le travail respiratoire sans l'inconfort d'un masque de VNI.",
+    "source": "SRLF 2021",
+    "grade": "Grade 1+",
+    "tags": [
+      "OHD",
+      "Hypoxémie",
+      "Optiflow",
+      "Respiratoire"
+    ]
+  },
+  {
+    "module": "Hémorragie digestive",
+    "hook": "Érythromycine IV avant endoscopie haute",
+    "body": "Administrer une perfusion d'érythromycine (250 mg IV) 30 à 120 minutes avant l'endoscopie pour une hémorragie digestive haute grave.",
+    "detail": "Son effet prokinétique puissant vidange le contenu gastrique (caillots et sang), améliorant la visualisation et le succès du geste endoscopique.",
+    "source": "SFED / SRLF",
+    "grade": "Recommandation forte",
+    "tags": [
+      "HDH",
+      "Endoscopie",
+      "Érythromycine"
+    ]
+  },
+  {
+    "module": "Douleur pédiatrique",
+    "hook": "Proscription de la codéine et du tramadol < 12 ans",
+    "body": "Ne jamais prescrire de codéine ni de tramadol chez les enfants de moins de 12 ans.",
+    "detail": "Il existe un risque mortel de dépression respiratoire grave lié à un métabolisme ultra-rapide par le cytochrome P450 chez certains phénotypes génétiques.",
+    "source": "ANSM / HAS",
+    "grade": "Contre-indication",
+    "tags": [
+      "Pédiatrie",
+      "Opioïdes faibles",
+      "Douleur",
+      "Sécurité"
+    ]
+  },
+  {
+    "module": "Syndrome coronarien aigu",
+    "hook": "Oxygène uniquement si SpO2 < 90%",
+    "body": "Ne pas administrer d'oxygénothérapie de routine aux patients présentant un syndrome coronarien aigu si leur saturation (SpO2) est ≥ 90%.",
+    "detail": "L'hyperoxie induit une vasoconstriction coronaire et peut aggraver l'ischémie myocardique.",
+    "source": "ESC 2020",
+    "grade": "Classe III",
+    "tags": [
+      "SCA",
+      "Oxygénothérapie",
+      "Ischémie",
+      "Cardiologie"
+    ]
+  },
+  {
+    "module": "Embolie pulmonaire",
+    "hook": "Thrombolyse réservée aux formes à haut risque",
+    "body": "Réserver la thrombolyse systémique (altéplase, ténectéplase) aux embolies pulmonaires aiguës à haut risque, définies par un choc ou une hypotension persistante.",
+    "detail": "Pour les EP à risque intermédiaire, le traitement repose sur l'anticoagulation curative stricte, la thrombolyse exposant à un risque hémorragique intracrânien disproportionné.",
+    "source": "ESC 2019",
+    "grade": "Classe I",
+    "tags": [
+      "Embolie pulmonaire",
+      "Thrombolyse",
+      "Choc",
+      "Urgence"
+    ]
+  }
+]
