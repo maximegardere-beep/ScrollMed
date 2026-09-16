@@ -571,9 +571,15 @@
       <div class="hint">L'app va lire le dossier <b>Recos</b> de ton dépôt GitHub à chaque lancement. Chaque fichier <code>nom.json</code> devient automatiquement un module appelé "nom" dans le feed.</div>
       <input type="text" id="ghOwner" placeholder="Utilisateur GitHub (ex: jdupont)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
       <input type="text" id="ghRepo" placeholder="Nom du dépôt (ex: scrollmed)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
-      <input type="text" id="ghBranch" placeholder="Branche (défaut: main)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;">
+      <input type="text" id="ghBranch" placeholder="Branche (défaut: main)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+      <input type="password" id="ghToken" placeholder="Token GitHub (optionnel — pour publier directement)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;">
       <button class="btn" id="btnSyncGithub">🔄 Enregistrer et synchroniser</button>
       <div class="hint" id="syncMsg" style="word-break:break-all"></div>
+
+      <div class="sectiontitle">Publier vers GitHub</div>
+      <div class="hint">Envoie directement les fiches générées par l'IA ou importées manuellement (pas encore publiées) dans un nouveau fichier <code>lotN.json</code> du dossier Recos. Nécessite le token ci-dessus avec la permission <b>Contents: Read and write</b>.</div>
+      <button class="btn" id="btnPublishGithub">☁️ Publier sur GitHub (0 en attente)</button>
+      <div class="hint" id="publishMsg" style="word-break:break-all"></div>
 
       <div class="sectiontitle">Sauvegarde locale</div>
       <div class="hint">Tes données (posts importés, favoris, progression) vivent uniquement dans ce navigateur. Exporte régulièrement une sauvegarde pour ne rien perdre, ou pour la transférer sur un autre appareil.</div>
@@ -1123,7 +1129,7 @@ document.getElementById('btnImport').addEventListener('click', ()=>{
   let added = 0;
   parsed.forEach(item=>{
     if(!item.hook || !item.body || !item.module) return;
-    POSTS.push(withId(item));
+    POSTS.push(withId(Object.assign({}, item, { pendingPublish: true })));
     added++;
   });
   if(added === 0){
@@ -1136,6 +1142,7 @@ document.getElementById('btnImport').addEventListener('click', ()=>{
   document.getElementById('jsonInput').value = '';
   msg.textContent = `${added} fiche(s) importée(s) avec succès.`;
   showToast(`${added} nouvelle(s) fiche(s) ajoutée(s)`);
+  updatePendingCount();
 });
 
 // ---------- sauvegarde / restauration ----------
@@ -1198,18 +1205,107 @@ document.getElementById('restoreFileInput').addEventListener('change', (e)=>{
     document.getElementById('ghOwner').value = cfg.owner || '';
     document.getElementById('ghRepo').value = cfg.repo || '';
     document.getElementById('ghBranch').value = cfg.branch || '';
+    document.getElementById('ghToken').value = cfg.token || '';
   }
 })();
 document.getElementById('btnSyncGithub').addEventListener('click', ()=>{
   const owner = document.getElementById('ghOwner').value.trim();
   const repo = document.getElementById('ghRepo').value.trim();
   const branch = document.getElementById('ghBranch').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
   if(!owner || !repo){
     document.getElementById('syncMsg').textContent = "Renseigne au minimum l'utilisateur et le dépôt.";
     return;
   }
-  saveGhConfig({ owner, repo, branch });
+  saveGhConfig({ owner, repo, branch, token });
   syncFromGithub(false);
+});
+
+// ---------- publication directe vers GitHub ----------
+function updatePendingCount(){
+  const n = POSTS.filter(p => p.pendingPublish && !p.remote).length;
+  const btn = document.getElementById('btnPublishGithub');
+  if(btn) btn.textContent = `☁️ Publier sur GitHub (${n} en attente)`;
+}
+
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function nextLotNumber(cfg, branch){
+  const listUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Recos?ref=${encodeURIComponent(branch)}`;
+  const headers = { 'Accept': 'application/vnd.github.v3+json' };
+  if(cfg.token) headers['Authorization'] = `token ${cfg.token}`;
+  const resp = await fetch(listUrl, { headers });
+  if(!resp.ok){
+    if(resp.status === 404) return 1; // le dossier n'existe pas encore, ce sera le premier lot
+    throw new Error(`Impossible de lister /Recos (HTTP ${resp.status})`);
+  }
+  const entries = await resp.json();
+  let max = 0;
+  entries.forEach(e=>{
+    const m = /^lot(\d+)\.json$/i.exec(e.name);
+    if(m) max = Math.max(max, parseInt(m[1], 10));
+  });
+  return max + 1;
+}
+
+document.getElementById('btnPublishGithub').addEventListener('click', async ()=>{
+  const cfg = loadGhConfig();
+  const publishMsg = document.getElementById('publishMsg');
+  if(!cfg || !cfg.owner || !cfg.repo){
+    publishMsg.textContent = "Renseigne d'abord ton utilisateur et ton dépôt GitHub ci-dessus.";
+    return;
+  }
+  if(!cfg.token){
+    publishMsg.textContent = "Il faut un token GitHub (Contents: Read and write) pour publier directement.";
+    return;
+  }
+  const pending = POSTS.filter(p => p.pendingPublish && !p.remote);
+  if(pending.length === 0){
+    publishMsg.textContent = "Rien à publier pour l'instant.";
+    return;
+  }
+
+  publishMsg.textContent = 'Publication en cours...';
+  showToast('Publication en cours...');
+  try{
+    const branch = cfg.branch || 'main';
+    const n = await nextLotNumber(cfg, branch);
+    const filename = `lot${n}.json`;
+    const payloadItems = pending.map(p=>{
+      const clean = Object.assign({}, p);
+      delete clean.id; delete clean.remote; delete clean.pendingPublish;
+      return clean;
+    });
+    const content = utf8ToBase64(JSON.stringify(payloadItems, null, 2));
+    const putUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Recos/${filename}`;
+    const resp = await fetch(putUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${cfg.token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `ScrollMed : ajout de ${filename} (${payloadItems.length} fiches)`,
+        content: content,
+        branch: branch
+      })
+    });
+    const data = await resp.json();
+    if(!resp.ok){
+      throw new Error(data && data.message ? data.message : `HTTP ${resp.status}`);
+    }
+    pending.forEach(p => { p.remote = true; p.pendingPublish = false; });
+    savePosts(POSTS);
+    updatePendingCount();
+    publishMsg.textContent = `${filename} publié avec succès (${payloadItems.length} fiches).`;
+    showToast(`${filename} publié sur GitHub`);
+  }catch(err){
+    publishMsg.textContent = `Échec de la publication : ${err.message}`;
+    showToast('Échec de la publication');
+  }
 });
 
 // ---------- génération par IA (Gemini) ----------
@@ -1260,7 +1356,7 @@ document.getElementById('btnAutoGenerate').addEventListener('click', async () =>
     let added = 0;
     newItems.forEach(item=>{
       if(!item.hook || !item.body || !item.module) return;
-      POSTS.push(withId(item));
+      POSTS.push(withId(Object.assign({}, item, { pendingPublish: true })));
       added++;
     });
 
@@ -1275,6 +1371,7 @@ document.getElementById('btnAutoGenerate').addEventListener('click', async () =>
     renderFeed();
     genMsg.textContent = `${added} fiche(s) générée(s) et ajoutée(s) au feed.`;
     showToast(`${added} fiches générées et ajoutées !`);
+    updatePendingCount();
   }catch(error){
     genMsg.textContent = `Erreur : ${error.message}`;
     showToast("Erreur lors de la génération. Vérifie ta clé.");
@@ -1283,6 +1380,7 @@ document.getElementById('btnAutoGenerate').addEventListener('click', async () =>
 
 // ---------- init ----------
 renderFeed();
+updatePendingCount();
 // tentative de synchronisation silencieuse si une config GitHub existe déjà
 if(loadGhConfig()){ syncFromGithub(true); }
 </script>
