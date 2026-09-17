@@ -502,6 +502,43 @@
     font-weight:700;
     margin: 20px 0 10px;
   }
+
+  /* ---------- accordéons de l'écran Importer ---------- */
+  details.acc{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  details.acc summary{
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-tap-highlight-color: transparent;
+  }
+  details.acc summary::-webkit-details-marker{ display:none; }
+  details.acc summary::after{
+    content: "›";
+    font-size: 20px;
+    color: var(--muted);
+    transform: rotate(90deg);
+    transition: transform .15s ease;
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+  details.acc[open] summary::after{ transform: rotate(-90deg); }
+  details.acc .acc-content{
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+  }
 </style>
 </head>
 <body>
@@ -561,43 +598,67 @@
       <h2>Importer un module</h2>
     </div>
     <div class="panel-body">
-      <div class="sectiontitle">Génération par IA (Gemini)</div>
-      <div class="hint">Génère 5 fiches instantanément via l'API gratuite Gemini, directement ajoutées au feed. Ta clé reste stockée uniquement sur cet appareil.</div>
-      <input type="password" id="apiKeyInput" placeholder="Clé API Gemini" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
-      <button class="btn" id="btnAutoGenerate">✨ Générer 5 fiches</button>
-      <div class="hint" id="generateMsg"></div>
+      <details class="acc" open>
+        <summary>✨ Génération par IA (Gemini)</summary>
+        <div class="acc-content">
+          <div class="hint">Génère 1 fiche instantanément via l'API gratuite Gemini, pour tester rapidement. Ta clé reste stockée uniquement sur cet appareil.</div>
+          <input type="password" id="apiKeyInput" placeholder="Clé API Gemini" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+          <button class="btn" id="btnAutoGenerate">✨ Générer 1 fiche</button>
+          <div class="hint" id="generateMsg"></div>
+        </div>
+      </details>
 
-      <div class="sectiontitle">Synchronisation GitHub</div>
-      <div class="hint">L'app va lire le dossier <b>Recos</b> de ton dépôt GitHub à chaque lancement. Chaque fichier <code>nom.json</code> devient automatiquement un module appelé "nom" dans le feed.</div>
-      <input type="text" id="ghOwner" placeholder="Utilisateur GitHub (ex: jdupont)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
-      <input type="text" id="ghRepo" placeholder="Nom du dépôt (ex: scrollmed)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
-      <input type="text" id="ghBranch" placeholder="Branche (défaut: main)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
-      <input type="password" id="ghToken" placeholder="Token GitHub (optionnel — pour publier directement)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;">
-      <button class="btn" id="btnSyncGithub">🔄 Enregistrer et synchroniser</button>
-      <div class="hint" id="syncMsg" style="word-break:break-all"></div>
+      <details class="acc">
+        <summary>🔄 Synchronisation GitHub</summary>
+        <div class="acc-content">
+          <div class="hint">L'app va lire le dossier <b>Recos</b> de ton dépôt GitHub à chaque lancement. Chaque fichier <code>nom.json</code> devient automatiquement un module appelé "nom" dans le feed.</div>
+          <input type="text" id="ghOwner" placeholder="Utilisateur GitHub (ex: jdupont)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+          <input type="text" id="ghRepo" placeholder="Nom du dépôt (ex: scrollmed)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+          <input type="text" id="ghBranch" placeholder="Branche (défaut: main)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;margin-bottom:8px;">
+          <input type="password" id="ghToken" placeholder="Token GitHub (optionnel — pour publier directement)" style="width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:14px;">
+          <button class="btn" id="btnSyncGithub">🔄 Enregistrer et synchroniser</button>
+          <div class="hint" id="syncMsg" style="word-break:break-all"></div>
+        </div>
+      </details>
 
-      <div class="sectiontitle">Publier vers GitHub</div>
-      <div class="hint">Envoie directement les fiches générées par l'IA ou importées manuellement (pas encore publiées) dans un nouveau fichier <code>lotN.json</code> du dossier Recos. Nécessite le token ci-dessus avec la permission <b>Contents: Read and write</b>.</div>
-      <button class="btn" id="btnPublishGithub">☁️ Publier sur GitHub (0 en attente)</button>
-      <div class="hint" id="publishMsg" style="word-break:break-all"></div>
+      <details class="acc">
+        <summary>☁️ Publier vers GitHub</summary>
+        <div class="acc-content">
+          <div class="hint">Envoie directement les fiches générées par l'IA ou importées manuellement (pas encore publiées) dans un nouveau fichier <code>lotN.json</code> du dossier Recos. Nécessite le token ci-dessus avec la permission <b>Contents: Read and write</b>.</div>
+          <button class="btn" id="btnPublishGithub">☁️ Publier sur GitHub (0 en attente)</button>
+          <div class="hint" id="publishMsg" style="word-break:break-all"></div>
+        </div>
+      </details>
 
-      <div class="sectiontitle">Sauvegarde locale</div>
-      <div class="hint">Tes données (posts importés, favoris, progression) vivent uniquement dans ce navigateur. Exporte régulièrement une sauvegarde pour ne rien perdre, ou pour la transférer sur un autre appareil.</div>
-      <button class="btn secondary" id="btnExportBackup">💾 Exporter une sauvegarde</button>
-      <input type="file" id="restoreFileInput" accept="application/json" style="display:none">
-      <button class="btn secondary" id="btnRestoreBackup">📥 Restaurer une sauvegarde</button>
-      <div class="hint" id="backupMsg"></div>
+      <details class="acc">
+        <summary>💾 Sauvegarde locale</summary>
+        <div class="acc-content">
+          <div class="hint">Tes données (posts importés, favoris, progression) vivent uniquement dans ce navigateur. Exporte régulièrement une sauvegarde pour ne rien perdre, ou pour la transférer sur un autre appareil.</div>
+          <button class="btn secondary" id="btnExportBackup">💾 Exporter une sauvegarde</button>
+          <input type="file" id="restoreFileInput" accept="application/json" style="display:none">
+          <button class="btn secondary" id="btnRestoreBackup">📥 Restaurer une sauvegarde</button>
+          <div class="hint" id="backupMsg"></div>
+        </div>
+      </details>
 
-      <div class="sectiontitle">Générer un lot de fiches (aléatoire)</div>
-      <div class="hint">Copie ce prompt dans Claude (ou une autre IA) : elle choisit elle-même des recommandations variées, génère 25 fiches classées par thème, et te fournit un fichier <code>lot.json</code> — renomme-le toi-même en <code>lotX.json</code> (X = numéro suivant) avant de l'uploader dans le dossier <b>Recos</b> sur GitHub.</div>
-      <div class="promptbox" id="promptText"></div>
-      <button class="btn secondary" id="btnCopyPrompt">Copier le prompt</button>
+      <details class="acc">
+        <summary>📋 Générer un lot de fiches (25, via Claude/IA externe)</summary>
+        <div class="acc-content">
+          <div class="hint">Copie ce prompt dans Claude (ou une autre IA) : elle choisit elle-même des recommandations variées, génère 25 fiches classées par thème, et te fournit un fichier <code>lot.json</code> — renomme-le toi-même en <code>lotX.json</code> (X = numéro suivant) avant de l'uploader dans le dossier <b>Recos</b> sur GitHub.</div>
+          <div class="promptbox" id="promptText"></div>
+          <button class="btn secondary" id="btnCopyPrompt">Copier le prompt</button>
+        </div>
+      </details>
 
-      <div class="sectiontitle">Import manuel (dépannage)</div>
-      <div class="hint">Tu peux aussi coller un JSON directement ici plutôt que de passer par GitHub.</div>
-      <textarea id="jsonInput" placeholder='[{"module":"Choc septique","hook":"...","body":"...","detail":"...","source":"SFAR 2023","grade":"Grade 1+", "tags":["choc","sepsis"]}, ...]'></textarea>
-      <button class="btn" id="btnImport">Importer dans le feed</button>
-      <div class="hint" id="importMsg"></div>
+      <details class="acc">
+        <summary>🛠️ Import manuel (dépannage)</summary>
+        <div class="acc-content">
+          <div class="hint">Tu peux aussi coller un JSON directement ici plutôt que de passer par GitHub.</div>
+          <textarea id="jsonInput" placeholder='[{"module":"Choc septique","hook":"...","body":"...","detail":"...","source":"SFAR 2023","grade":"Grade 1+", "tags":["choc","sepsis"]}, ...]'></textarea>
+          <button class="btn" id="btnImport">Importer dans le feed</button>
+          <div class="hint" id="importMsg"></div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -1102,6 +1163,26 @@ Contraintes :
 - Langage clinique sobre et précis.
 - Aucune fiche ne doit mélanger deux recommandations différentes.`;
 
+// prompt dédié à la génération rapide via l'API (indépendant du prompt à 25 fiches
+// ci-dessus, pour ne pas dépendre d'un .replace() fragile sur son texte)
+const QUICK_PROMPT_TEMPLATE = `Tu es un assistant qui crée une micro-fiche de révision pour un interne d'anesthésie-réanimation, à partir d'une recommandation officielle réelle et vérifiable (SFAR, HAS, SRLF, ESAIC, ESC, ERC, ASRA, Surviving Sepsis Campaign, etc.), sur un thème choisi au hasard.
+
+Génère exactement 1 fiche, correspondant à UN SEUL message clé actionnable. N'invente aucune donnée chiffrée : si tu n'es pas certain d'un seuil ou d'une posologie exacte, formule la fiche de façon qualitative.
+
+Réponds uniquement avec un tableau JSON contenant cet unique objet, sans texte autour ni markdown :
+
+[
+  {
+    "module": "Nom du thème choisi",
+    "hook": "Accroche courte et percutante (max 8 mots)",
+    "body": "1 à 3 phrases claires et actionnables",
+    "detail": "Contexte ou nuance complémentaire (optionnel)",
+    "source": "Organisme + année (ex: SFAR 2023)",
+    "grade": "Grade/force de preuve si connu (sinon omettre le champ)",
+    "tags": ["mot-clé1", "mot-clé2"]
+  }
+]`;
+
 document.getElementById('promptText').textContent = PROMPT_TEMPLATE;
 document.getElementById('btnCopyPrompt').addEventListener('click', ()=>{
   navigator.clipboard.writeText(PROMPT_TEMPLATE).then(()=>{
@@ -1323,7 +1404,6 @@ document.getElementById('btnAutoGenerate').addEventListener('click', async () =>
 
   genMsg.textContent = 'Génération en cours...';
   showToast('Génération en cours...');
-  const prompt = PROMPT_TEMPLATE.replace('exactement 25 fiches', 'exactement 5 fiches');
 
   try{
     // gemini-flash-latest pointe automatiquement vers le modèle flash courant
@@ -1331,7 +1411,16 @@ document.getElementById('btnAutoGenerate').addEventListener('click', async () =>
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${encodeURIComponent(apiKey)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: QUICK_PROMPT_TEMPLATE }] }],
+        generationConfig: {
+          // force une réponse JSON pure (évite les blocs ```json et le texte parasite)
+          responseMimeType: 'application/json',
+          // une seule fiche tient largement dans cette marge ; évite les
+          // troncatures qui cassaient le JSON avec un lot plus grand
+          maxOutputTokens: 1024
+        }
+      })
     });
 
     const data = await response.json();
@@ -1343,6 +1432,10 @@ document.getElementById('btnAutoGenerate').addEventListener('click', async () =>
     if(!data.candidates || !data.candidates[0] || !data.candidates[0].content){
       const blockReason = data.promptFeedback && data.promptFeedback.blockReason;
       throw new Error(blockReason ? `Réponse bloquée (${blockReason})` : "Réponse vide ou inattendue de l'API.");
+    }
+    const finishReason = data.candidates[0].finishReason;
+    if(finishReason === 'MAX_TOKENS'){
+      throw new Error("Réponse tronquée par l'API (limite de tokens). Réessaie.");
     }
 
     let rawText = data.candidates[0].content.parts.map(p => p.text || '').join('');
