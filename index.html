@@ -258,6 +258,60 @@
     cursor:pointer; text-align:left; width:fit-content;
   }
 
+  /* ---------- mode quiz posologie (façon Anki) ---------- */
+  .quiz-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size: 11.5px; font-weight:700;
+    color: var(--alert);
+    background: rgba(242,168,62,0.12);
+    border: 1px solid rgba(242,168,62,0.35);
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
+  .quiz-hook{
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 800;
+    color:#fff;
+    text-shadow: 0 1px 14px rgba(0,0,0,0.4);
+    margin: 4px 0 6px;
+  }
+  .quiz-prompt{
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 16px;
+    font-style: italic;
+  }
+  .btn-reveal{
+    display:inline-flex; align-items:center; gap:8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color:#fff;
+    font-size: 14.5px;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    margin-bottom: 8px;
+  }
+  .btn-reveal:active{ transform: scale(0.97); }
+  .quiz-answer{
+    display:none;
+    animation: quizFadeIn .25s ease;
+  }
+  .quiz-answer.revealed{ display:block; }
+  @keyframes quizFadeIn{
+    from{ opacity:0; transform: translateY(6px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  .quiz-answer .body-txt{
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--trace);
+  }
+
   .source{
     font-size: 12px;
     color: rgba(255,255,255,0.55);
@@ -651,6 +705,15 @@
       </details>
 
       <details class="acc">
+        <summary>💊 Générer un lot de quiz posologie (20, via Claude/IA externe)</summary>
+        <div class="acc-content">
+          <div class="hint">Même principe, mais façon Anki : la carte n'affiche que le nom du médicament, tu dois te rappeler la dose avant de révéler la réponse. Copie ce prompt, récupère le fichier, renomme-le <code>lotX.json</code> et uploade-le dans <b>Recos</b> comme les autres.</div>
+          <div class="promptbox" id="promptTextDosage"></div>
+          <button class="btn secondary" id="btnCopyPromptDosage">Copier le prompt</button>
+        </div>
+      </details>
+
+      <details class="acc">
         <summary>🛠️ Import manuel (dépannage)</summary>
         <div class="acc-content">
           <div class="hint">Tu peux aussi coller un JSON directement ici plutôt que de passer par GitHub.</div>
@@ -913,6 +976,24 @@ function renderFeed(){
     const initials = initialsForModule(p.module);
     const hashtags = (p.tags || []).map(t => `#${t.replace(/\s+/g,'')}`).join(' ');
 
+    const captionHtml = p.quiz
+      ? `<div class="quiz-badge">💊 Quiz posologie</div>
+         <h2 class="quiz-hook">${escapeHtml(p.hook)}</h2>
+         <p class="quiz-prompt">Rappelle-toi la posologie avant de révéler la réponse.</p>
+         <button class="btn-reveal" data-action="reveal-answer">👁 Voir la réponse</button>
+         <div class="quiz-answer">
+           <p class="body-txt">${escapeHtml(p.body)}</p>
+           ${p.detail ? `<div class="detail open">${escapeHtml(p.detail)}</div>` : ''}
+           ${hashtags ? `<div class="source" style="color:#7fc8ff;margin-bottom:4px">${escapeHtml(hashtags)}</div>` : ''}
+           <div class="source">${escapeHtml(p.source || '')}</div>
+         </div>`
+      : `<h2 class="hook">${escapeHtml(p.hook)}</h2>
+         <p class="body-txt">${escapeHtml(p.body)}</p>
+         ${p.detail ? `<button class="more-toggle" data-action="toggle-detail">... plus</button>
+         <div class="detail">${escapeHtml(p.detail)}</div>` : ''}
+         ${hashtags ? `<div class="source" style="color:#7fc8ff;margin-bottom:4px">${escapeHtml(hashtags)}</div>` : ''}
+         <div class="source">${escapeHtml(p.source || '')}</div>`;
+
     card.innerHTML = `
       <div class="card-media" style="background: radial-gradient(circle at 30% 20%, ${c1}55, transparent 55%), radial-gradient(circle at 80% 75%, ${c2}55, transparent 60%), linear-gradient(${angle}deg, ${c3}, #05060a 75%);"></div>
       <div class="heart-burst">♥</div>
@@ -930,12 +1011,7 @@ function renderFeed(){
       <div style="flex:1"></div>
 
       <div class="caption-wrap">
-        <h2 class="hook">${escapeHtml(p.hook)}</h2>
-        <p class="body-txt">${escapeHtml(p.body)}</p>
-        ${p.detail ? `<button class="more-toggle" data-action="toggle-detail">... plus</button>
-        <div class="detail">${escapeHtml(p.detail)}</div>` : ''}
-        ${hashtags ? `<div class="source" style="color:#7fc8ff;margin-bottom:4px">${escapeHtml(hashtags)}</div>` : ''}
-        <div class="source">${escapeHtml(p.source || '')}</div>
+        ${captionHtml}
       </div>
 
       <div class="card-footer">
@@ -974,6 +1050,13 @@ feedEl.addEventListener('click', (e)=>{
     const detail = card.querySelector('.detail');
     const open = detail.classList.toggle('open');
     btn.textContent = open ? 'replier ▲' : '... plus';
+    return;
+  }
+  if(action === 'reveal-answer'){
+    if (navigator.vibrate) navigator.vibrate([10, 40, 20]);
+    const answer = card.querySelector('.quiz-answer');
+    answer.classList.add('revealed');
+    btn.style.display = 'none';
     return;
   }
   if(action === 'bookmark'){
@@ -1186,6 +1269,44 @@ Réponds uniquement avec un tableau JSON contenant cet unique objet, sans texte 
 document.getElementById('promptText').textContent = PROMPT_TEMPLATE;
 document.getElementById('btnCopyPrompt').addEventListener('click', ()=>{
   navigator.clipboard.writeText(PROMPT_TEMPLATE).then(()=>{
+    showToast('Prompt copié');
+  }).catch(()=>{
+    showToast('Copie impossible, sélectionne le texte manuellement');
+  });
+});
+
+// ---------- prompt : quiz posologie (façon Anki) ----------
+const PROMPT_DOSAGE_TEMPLATE = `Tu es un assistant qui crée des fiches de révision façon "flashcard" (recto/verso, comme Anki) pour un interne d'anesthésie-réanimation, sur les posologies des médicaments les plus fréquemment utilisés en réanimation et en anesthésie.
+
+Choisis 20 médicaments très fréquemment utilisés dans ces spécialités (vasopresseurs, sédatifs, curares, antalgiques, antibiotiques courants, anticoagulants, antiarythmiques, solutés, antiémétiques, etc.), en variant les classes.
+
+Pour chaque médicament, le "recto" (hook) est uniquement le nom du médicament (éventuellement avec le contexte clinique en 2-3 mots si nécessaire pour lever une ambiguïté, ex: "Noradrénaline (choc septique)"), et le "verso" (body) est sa posologie usuelle exacte, avec l'unité et la voie d'administration. N'invente aucun chiffre : si tu n'es pas certain d'une dose exacte, utilise une fourchette usuelle largement admise plutôt qu'un chiffre inventé.
+
+Réponds UNIQUEMENT avec un tableau JSON valide, sans texte autour ni markdown, au format :
+
+[
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Nom du médicament (+ contexte si besoin)",
+    "body": "Posologie usuelle précise, avec unité et voie d'administration",
+    "detail": "Nuance utile (ajustement rénal/hépatique, dose de charge vs entretien, contre-indication majeure...) — optionnel",
+    "source": "Référence si pertinente (RCP, SFAR, protocole de service...) — optionnel",
+    "tags": ["classe thérapeutique", "contexte clinique"]
+  }
+]
+
+Génère directement ce contenu sous forme de fichier téléchargeable nommé lot.json (je le renommerai moi-même ensuite avec le bon numéro de lot). Si tu ne peux pas produire de fichier téléchargeable, donne le JSON brut en réponse.
+
+Contraintes :
+- Le champ "module" doit rester "Posologies" pour toutes les fiches de ce lot.
+- Le champ "quiz" doit valoir true pour toutes les fiches.
+- Une seule posologie par fiche, jamais deux médicaments mélangés.
+- Vérifie mentalement chaque chiffre avant de répondre : en cas de doute, formule une fourchette plutôt qu'un chiffre unique inventé.`;
+
+document.getElementById('promptTextDosage').textContent = PROMPT_DOSAGE_TEMPLATE;
+document.getElementById('btnCopyPromptDosage').addEventListener('click', ()=>{
+  navigator.clipboard.writeText(PROMPT_DOSAGE_TEMPLATE).then(()=>{
     showToast('Prompt copié');
   }).catch(()=>{
     showToast('Copie impossible, sélectionne le texte manuellement');
