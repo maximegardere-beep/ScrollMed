@@ -1,0 +1,252 @@
+[
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Propofol (Induction anesthésique)",
+    "body": "2 à 3 mg/kg en bolus IV.",
+    "detail": "Diminuer la dose chez le sujet âgé, hypovolémique ou fragile (ex: 1 à 1.5 mg/kg). Risque d'hypotension artérielle.",
+    "source": "SFAR",
+    "tags": [
+      "Hypnotique",
+      "Induction"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Propofol (Sédation en réanimation)",
+    "body": "1 à 4 mg/kg/h IVSE.",
+    "detail": "Surveillance des triglycérides si administration prolongée (> 48h) pour prévenir le syndrome de perfusion au propofol (PRIS).",
+    "source": "SRLF",
+    "tags": [
+      "Hypnotique",
+      "Sédation",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Sufentanil (Induction anesthésique)",
+    "body": "0.1 à 0.5 µg/kg IV.",
+    "detail": "Délai d'action d'environ 3 à 5 minutes. Attention à la rigidité thoracique en cas d'injection trop rapide.",
+    "source": "SFAR",
+    "tags": [
+      "Opioïde",
+      "Analgésie",
+      "Induction"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Kétamine (Induction anesthésique choc/instabilité)",
+    "body": "1 à 3 mg/kg IV.",
+    "detail": "Maintien de la pression artérielle (sympathomimétique). Effet bronchodilatateur. Effets psychodysleptiques au réveil (à prévenir par une benzodiazépine ou du propofol).",
+    "source": "SFAR",
+    "tags": [
+      "Hypnotique",
+      "Induction",
+      "Choc"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Rocuronium (Intubation séquence rapide - ISR)",
+    "body": "0.9 à 1.2 mg/kg IV.",
+    "detail": "Délai d'action très rapide (60 secondes) à cette dose. Antagonisable par le Sugammadex (16 mg/kg pour réversion immédiate).",
+    "source": "SFAR",
+    "tags": [
+      "Curare",
+      "Myorelaxant",
+      "ISR"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Cisatracurium (Sédation et SDRA en réanimation)",
+    "body": "Bolus de 0.15 mg/kg puis entretien de 1 à 3 µg/kg/min IVSE (ou 0.06 à 0.18 mg/kg/h).",
+    "detail": "Métabolisme par voie de Hofmann (indépendant de la fonction rénale et hépatique).",
+    "source": "SRLF",
+    "tags": [
+      "Curare",
+      "SDRA",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Noradrénaline (Choc vasoplégique / septique)",
+    "body": "0.1 à 1 µg/kg/min (parfois plus) IVSE.",
+    "detail": "Commencer bas (0.1-0.2) et titrer pour un objectif de PAM > 65 mmHg. Administration sur voie veineuse centrale (VVC) recommandée.",
+    "source": "Surviving Sepsis Campaign",
+    "tags": [
+      "Vasopresseur",
+      "Catécholamine",
+      "Choc"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Adrénaline (Arrêt cardiorespiratoire)",
+    "body": "1 mg IV (ou IO) toutes les 3 à 5 minutes.",
+    "detail": "Dès que possible pour les rythmes non choquables ; après le 3ème choc pour les rythmes choquables.",
+    "source": "ERC",
+    "tags": [
+      "Catécholamine",
+      "ACR"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Dobutamine (Choc cardiogénique)",
+    "body": "5 à 15 µg/kg/min IVSE.",
+    "detail": "Inotrope positif. Effet vasodilatateur et tachycardisant (surveillance de la tolérance rythmique).",
+    "source": "ESC",
+    "tags": [
+      "Inotrope",
+      "Catécholamine",
+      "Cardiologie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Éphédrine (Hypotension au bloc opératoire)",
+    "body": "Bolus titrés de 3 à 9 mg IV.",
+    "detail": "Action mixte (alpha et bêta). Tachycardisant, donc à privilégier si hypotension avec bradycardie relative.",
+    "source": "SFAR",
+    "tags": [
+      "Vasopresseur",
+      "Bloc opératoire"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Phényléphrine (Hypotension au bloc opératoire)",
+    "body": "Bolus titrés de 50 à 100 µg IV.",
+    "detail": "Agoniste alpha-1 pur. Entraîne une bradycardie réflexe, à privilégier si hypotension avec tachycardie.",
+    "source": "SFAR",
+    "tags": [
+      "Vasopresseur",
+      "Bloc opératoire"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Atropine (Bradycardie symptomatique)",
+    "body": "0.5 mg IV, répétable toutes les 3 à 5 min (max total 3 mg).",
+    "detail": "Parasympatholytique. Ne pas utiliser à moins de 0.5 mg chez l'adulte (risque de bradycardie paradoxale).",
+    "source": "ERC",
+    "tags": [
+      "Anticholinergique",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Amiodarone (ACR avec FV/TV sans pouls)",
+    "body": "300 mg IV direct (après le 3ème choc), puis 150 mg si besoin (après le 5ème choc).",
+    "detail": "Pour le maintien d'une tachycardie stable : perfusion sur VVC à cause du risque de phlébite (ex: 900 mg / 24h).",
+    "source": "ERC",
+    "tags": [
+      "Antiarythmique",
+      "ACR"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Ondansétron (Prophylaxie des NVPO)",
+    "body": "4 mg IV en fin d'intervention.",
+    "detail": "Antagoniste 5-HT3. Attention au risque d'allongement du QT.",
+    "source": "SFAR",
+    "tags": [
+      "Antiémétique",
+      "NVPO"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Dexaméthasone (Prophylaxie des NVPO)",
+    "body": "4 à 8 mg IV à l'induction anesthésique.",
+    "detail": "Corticoïde. Efficacité optimale si administré au début de la chirurgie.",
+    "source": "SFAR",
+    "tags": [
+      "Antiémétique",
+      "Corticoïde",
+      "NVPO"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Céfazoline (Antibioprophylaxie chirurgie propre)",
+    "body": "2 g IV en 15-30 min (3 g si IMC > 35 ou poids > 80 kg).",
+    "detail": "À administrer dans les 60 minutes précédant l'incision. Réinjection si chirurgie longue (> 4h ou > 2 demi-vies).",
+    "source": "SFAR",
+    "tags": [
+      "Antibiotique",
+      "Prophylaxie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Paracétamol (Analgésie palier 1)",
+    "body": "1 g IV en 15 min, toutes les 6h (max 4 g/24h).",
+    "detail": "Dose max abaissée à 3 g/j (voire moins) en cas de poids < 50 kg, dénutrition ou insuffisance hépatocellulaire sévère.",
+    "source": "RCP",
+    "tags": [
+      "Antalgique",
+      "Anesthésie",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Néfopam (Acupan - Analgésie palier 1-2)",
+    "body": "20 mg IV en perfusion lente (30 min), toutes les 4 à 6h (max 120 mg/24h).",
+    "detail": "Contre-indiqué si glaucome par fermeture de l'angle ou risque de rétention urinaire (effet anticholinergique). Risque de tachycardie et sueurs.",
+    "source": "RCP",
+    "tags": [
+      "Antalgique",
+      "Non-opioïde"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Héparine non fractionnée - HNF (Anticoagulation curative)",
+    "body": "Bolus 50 à 70 UI/kg IV direct, puis 15 à 25 UI/kg/h IVSE.",
+    "detail": "Objectif selon indications : TCA 1.5 - 2.5 x témoin ou activité anti-Xa 0.3 - 0.7 UI/mL. Surveillance des plaquettes (TIH).",
+    "source": "RCP",
+    "tags": [
+      "Anticoagulant",
+      "Héparine"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Acide tranexamique (Exacyl - Hémorragie / Traumatisme)",
+    "body": "1 g IV en 10 min, suivi de 1 g IV en perfusion sur 8h.",
+    "detail": "Antifibrinolytique. À administrer idéalement dans les 3 heures suivant le traumatisme ou le début du saignement.",
+    "source": "Étude CRASH-2 / CRASH-3",
+    "tags": [
+      "Hémostatique",
+      "Antifibrinolytique",
+      "Trauma"
+    ]
+  }
+]
