@@ -132,13 +132,6 @@
     position:absolute;
     inset:0;
     z-index:0;
-    background-size: 200% 200% !important;
-    animation: gradientMove 8s ease infinite;
-  }
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
   }
   .card-media::after{
     content:"";
@@ -888,29 +881,20 @@ function activeModules(){
 function isModuleOn(m){ return !STATE.moduleOff[m]; }
 
 function buildFeedOrder(){
-  // weighted shuffle: mastered items appear less often, review items more often
+  // tri pondéré à passage unique : les fiches "à revoir" ont plus de chances
+  // d'apparaître tôt, les "comprises" plus tard — mais chaque fiche ne génère
+  // qu'UNE seule carte (l'ancienne version dupliquait chaque fiche 3 à 5 fois
+  // en cartes DOM séparées, ce qui ralentissait fortement l'app à mesure que
+  // la bibliothèque grossissait).
   let pool = POSTS.filter(p => isModuleOn(p.module));
-  let weighted = [];
-  pool.forEach(p=>{
+  const scored = pool.map(p=>{
     let weight = 3;
     if(STATE.mastered[p.id]) weight = 1;
     if(STATE.review[p.id]) weight = 5;
-    for(let i=0;i<weight;i++) weighted.push(p);
+    return { p, score: Math.random() / weight };
   });
-  // shuffle
-  for(let i=weighted.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [weighted[i],weighted[j]]=[weighted[j],weighted[i]];
-  }
-  // dedupe consecutive same-id to avoid immediate repeats, keep first occurrence order otherwise
-  const seen = new Set();
-  const finalOrder = [];
-  weighted.forEach(p=>{
-    if(!seen.has(p.id)){ finalOrder.push(p); seen.add(p.id); }
-  });
-  // append remaining duplicates at the end for longer sessions
-  weighted.forEach(p=>{ if(seen.has(p.id)){ finalOrder.push(p); } });
-  return finalOrder;
+  scored.sort((a,b) => a.score - b.score);
+  return scored.map(s => s.p);
 }
 
 let FEED_ORDER = buildFeedOrder();
