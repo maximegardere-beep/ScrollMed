@@ -1,0 +1,326 @@
+[
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Étomidate (Induction anesthésique)",
+    "body": "0,3 mg/kg en bolus IV.",
+    "detail": "Excellente stabilité hémodynamique. Inhibe transitoirement la synthèse du cortisol (11β-hydroxylase) ; myoclonies et douleur à l'injection fréquentes.",
+    "source": "SFAR",
+    "tags": [
+      "Hypnotique",
+      "Induction"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Succinylcholine (Intubation séquence rapide - ISR)",
+    "body": "1 mg/kg IV (poids réel).",
+    "detail": "Délai d'action < 60 s, durée 5 à 10 min. Contre-indications : hyperkaliémie, antécédent d'hyperthermie maligne, myopathies, brûlés ou blessés médullaires après 48 h, déficit en pseudocholinestérases.",
+    "source": "SFAR",
+    "tags": [
+      "Curare",
+      "ISR",
+      "Intubation"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Sugammadex (Décurarisation du rocuronium)",
+    "body": "2 mg/kg si ≥ 2 réponses au TOF ; 4 mg/kg si bloc profond (PTC 1-2) ; 16 mg/kg en antagonisation immédiate après 1,2 mg/kg de rocuronium.",
+    "detail": "Dose calculée sur le poids réel. Inefficace sur les benzylisoquinolines (cisatracurium, atracurium). Risque rare d'anaphylaxie et de bradycardie.",
+    "source": "SFAR 2018 (RFE Curarisation)",
+    "tags": [
+      "Curare",
+      "Décurarisation",
+      "Sugammadex"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Néostigmine (Décurarisation)",
+    "body": "40 µg/kg IV (max 5 mg), associée à l'atropine 15 à 20 µg/kg.",
+    "detail": "À n'administrer qu'en présence d'au moins 4 réponses au TOF. L'atropine prévient la bradycardie muscarinique. Contrôler un rapport T4/T1 ≥ 0,9 avant extubation.",
+    "source": "SFAR 2018 (RFE Curarisation)",
+    "tags": [
+      "Curare",
+      "Décurarisation",
+      "Anticholinestérasique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Rémifentanil (Entretien anesthésique)",
+    "body": "0,1 à 0,5 µg/kg/min IVSE (ou AIVOC, concentration cible 2 à 8 ng/mL).",
+    "detail": "Demi-vie contextuelle très courte (3 à 5 min) indépendante de la durée de perfusion : anticiper l'analgésie postopératoire avant l'arrêt. Risque d'hyperalgésie à fortes doses.",
+    "source": "SFAR",
+    "tags": [
+      "Opioïde",
+      "Entretien",
+      "AIVOC"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Morphine (Titration en SSPI)",
+    "body": "Bolus IV de 2 mg (< 60 kg) ou 3 mg (≥ 60 kg) toutes les 5 minutes, jusqu'à EVA ≤ 3.",
+    "detail": "Arrêter la titration en cas de sédation (score ≥ 2), de fréquence respiratoire < 10/min ou de SpO2 basse. Relais par PCA ou voie orale.",
+    "source": "SFAR 2008 (RFE Douleur postopératoire)",
+    "tags": [
+      "Opioïde",
+      "Analgésie",
+      "SSPI"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Naloxone (Dépression respiratoire aux opioïdes)",
+    "body": "Bolus titrés de 0,04 mg IV (1 ampoule de 0,4 mg diluée dans 10 mL) toutes les 2 à 3 min jusqu'à FR > 10/min.",
+    "detail": "Demi-vie plus courte que la plupart des morphiniques : risque de re-sédation, prévoir une surveillance prolongée ou un relais IVSE. Une réversion brutale provoque douleur, HTA et agitation.",
+    "source": "SFAR",
+    "tags": [
+      "Antidote",
+      "Opioïde",
+      "Dépression respiratoire"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Dexmédétomidine (Sédation en réanimation)",
+    "body": "0,2 à 1,4 µg/kg/h IVSE, sans dose de charge.",
+    "detail": "Agoniste α2 permettant une sédation légère « coopérative » sans dépression respiratoire. Effets indésirables : bradycardie et hypotension, majorées par un bolus.",
+    "source": "RCP Dexdor",
+    "tags": [
+      "Sédation",
+      "Alpha-2 agoniste",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Kétamine (Antihyperalgésie peropératoire)",
+    "body": "Bolus de 0,15 à 0,5 mg/kg à l'induction, puis ≤ 0,25 mg/kg/h (ou réinjections) en peropératoire.",
+    "detail": "Arrêter la perfusion 30 min avant la fin de l'intervention pour limiter les effets psychodysleptiques. Intérêt surtout en chirurgie douloureuse et chez le patient consommateur d'opioïdes.",
+    "source": "SFAR 2016 (RFE Kétamine)",
+    "tags": [
+      "Kétamine",
+      "Analgésie",
+      "Épargne morphinique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Lidocaïne IV (Analgésie peropératoire)",
+    "body": "1,5 mg/kg IV (poids idéal) en bolus, puis 1,5 à 2 mg/kg/h IVSE.",
+    "detail": "Intérêt en chirurgie abdominale (reprise du transit, épargne morphinique). Ne pas associer à un bloc ou une infiltration d'anesthésique local (risque de toxicité cumulée).",
+    "source": "SFAR / PROSPECT",
+    "tags": [
+      "Lidocaïne",
+      "Analgésie",
+      "Épargne morphinique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Émulsion lipidique 20 % (Intoxication aux anesthésiques locaux)",
+    "body": "Bolus de 1,5 mL/kg en 1 min, puis perfusion de 15 mL/kg/h.",
+    "detail": "Bolus renouvelable 2 fois à 5 min d'intervalle et débit doublé (30 mL/kg/h) si instabilité persistante. Dose cumulée maximale d'environ 12 mL/kg.",
+    "source": "ASRA 2020 / SFAR",
+    "tags": [
+      "Intralipide",
+      "Toxicité AL",
+      "ALR"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Bupivacaïne hyperbare (Rachianesthésie pour césarienne)",
+    "body": "8 à 12 mg en intrathécal, associée au sufentanil 2,5 à 5 µg et à la morphine 100 µg.",
+    "detail": "La morphine intrathécale assure environ 24 h d'analgésie mais impose une surveillance respiratoire postopératoire. Prévenir l'hypotension par vasopresseur prophylactique.",
+    "source": "SFAR",
+    "tags": [
+      "Rachianesthésie",
+      "Césarienne",
+      "Obstétrique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Ocytocine (Délivrance / HPP)",
+    "body": "5 à 10 UI en IV lente (ou IM) après la naissance, puis 5 à 10 UI/h en perfusion si hémorragie.",
+    "detail": "Injection IV lente pour limiter hypotension et tachycardie, surtout sous anesthésie. Ne pas dépasser 40 UI cumulées. Passer au sulprostone si inefficace à 15-30 min.",
+    "source": "CNGOF/SFAR 2014",
+    "tags": [
+      "Ocytocine",
+      "HPP",
+      "Obstétrique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Sulprostone (Hémorragie du post-partum)",
+    "body": "100 à 500 µg/h IVSE, sans dépasser 1500 µg/24 h.",
+    "detail": "Utilisé en 2e ligne après échec de l'ocytocine. Contre-indiqué en cas d'antécédents cardiovasculaires ou d'asthme sévère. Voie IM et intramyométriale proscrites.",
+    "source": "CNGOF/SFAR 2014",
+    "tags": [
+      "Prostaglandine",
+      "HPP",
+      "Obstétrique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Adrénaline (Anaphylaxie, voie IM hors bloc)",
+    "body": "0,01 mg/kg IM (max 0,5 mg chez l'adulte), dans la face antérolatérale de la cuisse, à répéter après 5 min si besoin.",
+    "detail": "La voie IM est privilégiée en l'absence de voie veineuse et de monitorage. Au bloc opératoire, préférer la titration IV par petits bolus.",
+    "source": "ERC 2021 / EAACI",
+    "tags": [
+      "Anaphylaxie",
+      "Adrénaline",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Hydroxocobalamine (Intoxication aux cyanures / fumées d'incendie)",
+    "body": "5 g IV en 15 min (70 mg/kg chez l'enfant), renouvelable une fois.",
+    "detail": "À administrer sans attendre la confirmation chez une victime d'incendie en coma, choc ou avec lactatémie élevée. Colore la peau et les urines en rouge et perturbe certains dosages colorimétriques.",
+    "source": "SFMU / ERC 2021",
+    "tags": [
+      "Antidote",
+      "Cyanure",
+      "Toxicologie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "N-acétylcystéine (Intoxication au paracétamol)",
+    "body": "150 mg/kg IV en 1 h, puis 50 mg/kg sur 4 h, puis 100 mg/kg sur 16 h (soit 300 mg/kg sur 21 h).",
+    "detail": "Indication guidée par le nomogramme de Rumack-Matthew. Des schémas simplifiés en 2 paliers (SNAP) réduisent les réactions anaphylactoïdes.",
+    "source": "HAS / SFMU",
+    "tags": [
+      "Antidote",
+      "Paracétamol",
+      "Toxicologie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Gluconate de calcium 10 % (Hyperkaliémie menaçante)",
+    "body": "10 à 30 mL IV en 5 à 10 min (ou 10 mL de chlorure de calcium 10 %), renouvelable selon l'ECG.",
+    "detail": "Action immédiate mais transitoire (30 à 60 min) : stabilise la membrane myocardique sans abaisser la kaliémie. Prudence chez le patient sous digitaliques.",
+    "source": "ERC 2021",
+    "tags": [
+      "Calcium",
+      "Hyperkaliémie",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Hydrocortisone (Insuffisance surrénale aiguë)",
+    "body": "100 mg IV en bolus, puis 200 mg/24 h en IVSE ou en 4 injections.",
+    "detail": "Associer une réhydratation par NaCl 0,9 % et un apport glucosé. Chez le patient sous corticothérapie au long cours, prévoir une supplémentation péri-opératoire.",
+    "source": "SFE / Endocrine Society",
+    "tags": [
+      "Corticoïdes",
+      "Insuffisance surrénale",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Protamine (Antagonisation de l'héparine non fractionnée)",
+    "body": "1 mg (100 UI) pour 100 UI d'HNF reçue, en IV lente sur 10 min.",
+    "detail": "Calculer sur l'héparine administrée dans les 2 à 3 dernières heures. Risques : hypotension, anaphylaxie, hypertension artérielle pulmonaire. Neutralisation seulement partielle des HBPM.",
+    "source": "SFAR / RCP",
+    "tags": [
+      "Antidote",
+      "Héparine",
+      "Hémostase"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "CCP + vitamine K (Hémorragie grave sous AVK)",
+    "body": "Concentré de complexe prothrombinique 25 UI/kg IV, associé à la vitamine K 10 mg IV.",
+    "detail": "Objectif INR < 1,5 ; contrôle de l'INR 30 min après le CCP. La vitamine K prévient le rebond une fois l'effet du CCP épuisé (6 à 8 h).",
+    "source": "HAS 2008 / GIHP",
+    "tags": [
+      "Antidote",
+      "AVK",
+      "Hémorragie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Idarucizumab (Réversion du dabigatran)",
+    "body": "5 g IV (2 flacons de 2,5 g) en bolus ou en 2 perfusions rapprochées.",
+    "detail": "Indiqué en cas d'hémorragie grave ou de chirurgie urgente sous dabigatran. Sans effet sur les anti-Xa (apixaban, rivaroxaban, édoxaban).",
+    "source": "GIHP / RCP Praxbind",
+    "tags": [
+      "Antidote",
+      "AOD",
+      "Dabigatran"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Esmolol (Contrôle de la fréquence cardiaque)",
+    "body": "Bolus de 0,5 mg/kg IV en 1 min, puis 50 à 300 µg/kg/min IVSE.",
+    "detail": "Bêtabloquant β1 sélectif de demi-vie ultra-courte (9 min), utile pour contrôler une tachycardie peropératoire. Risque d'hypotension et de bradycardie.",
+    "source": "ESC / RCP",
+    "tags": [
+      "Bêtabloquant",
+      "Tachycardie",
+      "Hémodynamique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Adénosine (Tachycardie jonctionnelle)",
+    "body": "6 mg IV en flash suivi d'un rinçage rapide, puis 12 mg si inefficace (une seconde dose de 12 mg possible).",
+    "detail": "Injection sur une veine proche du cœur sous monitorage ECG. Asystolie transitoire attendue ; contre-indiquée dans l'asthme sévère et les pré-excitations avec FA.",
+    "source": "ERC 2021",
+    "tags": [
+      "Antiarythmique",
+      "Tachycardie",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Lévétiracétam (État de mal épileptique, 2e ligne)",
+    "body": "60 mg/kg IV (max 4500 mg) en 10 min.",
+    "detail": "Alternative de 2e ligne à la fosphénytoïne et au valproate, d'efficacité comparable (essai ESETT) et bien tolérée sur le plan hémodynamique. Adapter l'entretien à la fonction rénale.",
+    "source": "SRLF/SFMU 2018 ; ESETT, NEJM 2019",
+    "tags": [
+      "Antiépileptique",
+      "État de mal",
+      "Neurologie"
+    ]
+  }
+]
