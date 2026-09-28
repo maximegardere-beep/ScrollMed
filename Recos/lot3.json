@@ -121,19 +121,6 @@
     ]
   },
   {
-    "module": "Hémodynamique",
-    "hook": "Cibler une PAM initiale de 65 mmHg",
-    "body": "Lors de la phase initiale de réanimation du choc septique, l'objectif de pression artérielle moyenne (PAM) recommandé est de 65 mmHg.",
-    "detail": "Une cible plus élevée (75-85 mmHg) peut être envisagée chez les patients avec des antécédents d'hypertension artérielle chronique mal contrôlée.",
-    "source": "Surviving Sepsis Campaign 2021",
-    "grade": "Recommandation forte",
-    "tags": [
-      "Sepsis",
-      "PAM",
-      "Vasopresseurs"
-    ]
-  },
-  {
     "module": "Infectiologie",
     "hook": "Bithérapie d'emblée pour la pneumonie grave",
     "body": "Pour les pneumonies aiguës communautaires (PAC) graves en réanimation, initier une bithérapie associant une bêta-lactamine et un macrolide (ou une fluoroquinolone).",
@@ -240,19 +227,6 @@
       "Asepsie",
       "ALR",
       "Rachianesthésie"
-    ]
-  },
-  {
-    "module": "Voies aériennes",
-    "hook": "Position proclive pour la préoxygénation",
-    "body": "Préoxygéner les patients obèses ou à risque de désaturation rapide en position proclive (tête et buste surélevés de 25 à 30 degrés).",
-    "detail": "Cette inclinaison majore la capacité résiduelle fonctionnelle (CRF) et allonge significativement le délai avant désaturation lors de l'apnée.",
-    "source": "SFAR 2017",
-    "grade": "Grade 1+",
-    "tags": [
-      "Pré-oxygénation",
-      "Obésité",
-      "VAD"
     ]
   },
   {

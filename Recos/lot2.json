@@ -97,20 +97,6 @@
     ]
   },
   {
-    "module": "Monitorage hémodynamique",
-    "hook": "Lever de jambes passif pour la précharge",
-    "body": "Utiliser le lever de jambes passif (LJP) associé à une mesure continue du débit cardiaque pour prédire la réponse au remplissage vasculaire.",
-    "detail": "Il s'agit d'un test de remplissage réversible (environ 300 ml d'auto-transfusion) qui s'affranchit des limites de la VPP en ventilation spontanée ou en arythmie.",
-    "source": "Surviving Sepsis Campaign 2021",
-    "grade": "Recommandation forte",
-    "tags": [
-      "Remplissage",
-      "Débit cardiaque",
-      "LJP",
-      "Hémodynamique"
-    ]
-  },
-  {
     "module": "Dispositifs intracardiaques",
     "hook": "Mode asynchrone si bistouri au-dessus de l'ombilic",
     "body": "Reprogrammer le stimulateur cardiaque en mode asynchrone (DOO/VOO) ou placer un aimant si l'utilisation du bistouri électrique (particulièrement monopolaire) est prévue au-dessus de l'ombilic.",
