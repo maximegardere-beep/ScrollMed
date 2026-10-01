@@ -1,0 +1,307 @@
+[
+  {
+    "module": "Anaphylaxie périopératoire",
+    "hook": "Adrénaline titrée selon le grade de gravité",
+    "body": "Devant une réaction anaphylactique peranesthésique, l'adrénaline IV est le traitement de référence, titrée selon la gravité : bolus de 10 à 20 µg en grade II, 100 à 200 µg en grade III, répétés toutes les 1 à 2 minutes si besoin. En grade IV (arrêt cardiaque), appliquer l'algorithme de RCP.",
+    "detail": "Associer l'arrêt des produits suspects, l'oxygène pur et un remplissage vasculaire par cristalloïdes. Antihistaminiques et corticoïdes ne sont que des traitements de second plan.",
+    "source": "SFAR/SFA 2011 (RFE Risque allergique en anesthésie)",
+    "tags": [
+      "Anaphylaxie",
+      "Adrénaline",
+      "Allergie"
+    ]
+  },
+  {
+    "module": "Anaphylaxie périopératoire",
+    "hook": "Doser la tryptase dès la réaction",
+    "body": "Après une suspicion d'anaphylaxie peranesthésique, prélever la tryptase sérique le plus tôt possible (idéalement entre 30 minutes et 2 heures après le début des signes), puis un dosage de base à distance (au moins 24 heures après).",
+    "detail": "Le patient doit ensuite être adressé en consultation d'allergo-anesthésie, 4 à 6 semaines après l'épisode, pour identifier l'agent responsable par tests cutanés.",
+    "source": "SFAR/SFA 2011 (RFE Risque allergique en anesthésie)",
+    "tags": [
+      "Anaphylaxie",
+      "Tryptase",
+      "Bilan allergologique"
+    ]
+  },
+  {
+    "module": "Hyperthermie maligne",
+    "hook": "Une EtCO2 qui grimpe sans explication",
+    "body": "Une élévation inexpliquée et progressive de l'EtCO2 malgré l'augmentation de la ventilation minute, associée à une tachycardie, est souvent le premier signe d'une crise d'hyperthermie maligne, avant l'hyperthermie elle-même.",
+    "detail": "Les autres signes (rigidité musculaire, trismus après succinylcholine, hyperkaliémie, rhabdomyolyse, hyperthermie) peuvent apparaître plus tardivement : ne pas attendre la fièvre pour évoquer le diagnostic.",
+    "source": "EMHG 2020 (European Malignant Hyperthermia Group)",
+    "tags": [
+      "Hyperthermie maligne",
+      "Halogénés",
+      "Capnographie"
+    ]
+  },
+  {
+    "module": "Hyperthermie maligne",
+    "hook": "Dantrolène 2,5 mg/kg sans attendre",
+    "body": "Devant une crise d'hyperthermie maligne, arrêter immédiatement les halogénés, hyperventiler en oxygène pur à haut débit et administrer le dantrolène 2,5 mg/kg IV, à répéter jusqu'au contrôle des signes (cumul pouvant atteindre 10 mg/kg, voire plus).",
+    "detail": "Appeler à l'aide dès le diagnostic : la reconstitution du dantrolène est chronophage et mobilise plusieurs personnes. Refroidissement actif et correction de l'hyperkaliémie sont associés.",
+    "source": "EMHG 2020 (European Malignant Hyperthermia Group)",
+    "tags": [
+      "Hyperthermie maligne",
+      "Dantrolène",
+      "Urgence"
+    ]
+  },
+  {
+    "module": "Intubation en réanimation",
+    "hook": "VNI pour préoxygéner le patient hypoxémique",
+    "body": "Chez le patient de réanimation hypoxémique, préoxygéner par ventilation non invasive plutôt que par simple masque facial, afin de limiter la désaturation pendant l'intubation.",
+    "detail": "L'oxygénothérapie nasale à haut débit peut être associée ou poursuivie pendant la laryngoscopie pour assurer une oxygénation apnéique.",
+    "source": "SFAR/SRLF 2019 (RFE Intubation en réanimation)",
+    "tags": [
+      "Intubation",
+      "VNI",
+      "Hypoxémie",
+      "Réanimation"
+    ]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "État de mal : benzodiazépine dès 5 minutes",
+    "body": "Devant une crise tonico-clonique généralisée persistant au-delà de 5 minutes, administrer une benzodiazépine (clonazépam IV, ou midazolam IM/intrabuccal en l'absence d'abord veineux). Si la crise persiste 5 minutes après une seconde dose, débuter un antiépileptique de deuxième ligne.",
+    "detail": "Les molécules de deuxième ligne sont la fosphénytoïne, le phénobarbital, le valproate ou le lévétiracétam. Un état de mal réfractaire justifie une anesthésie générale en réanimation.",
+    "source": "SRLF/SFMU 2018 (RFE État de mal épileptique)",
+    "tags": [
+      "État de mal épileptique",
+      "Benzodiazépines",
+      "Neurologie"
+    ]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "AVC ischémique : le temps, c'est du cerveau",
+    "body": "La thrombolyse IV est indiquée dans les 4h30 suivant le début des symptômes d'un AVC ischémique. En cas d'occlusion d'une artère proximale, la thrombectomie mécanique est indiquée jusqu'à 6 heures, voire 24 heures après sélection par imagerie.",
+    "detail": "Les deux traitements peuvent être associés : la thrombolyse ne doit pas retarder le transfert vers un centre de thrombectomie.",
+    "source": "ESO 2021 / AHA-ASA 2019",
+    "tags": [
+      "AVC",
+      "Thrombolyse",
+      "Thrombectomie"
+    ]
+  },
+  {
+    "module": "Urgences métaboliques",
+    "hook": "Acidocétose : vérifier la kaliémie avant l'insuline",
+    "body": "Dans l'acidocétose diabétique, après un remplissage initial par cristalloïdes, débuter l'insuline IV continue à 0,1 UI/kg/h sans bolus. Si la kaliémie est inférieure à 3,3 mmol/L, corriger d'abord le potassium avant toute insuline.",
+    "detail": "Ajouter un soluté glucosé lorsque la glycémie baisse (vers 2 à 2,5 g/L selon les protocoles) afin de poursuivre l'insuline jusqu'à la disparition de la cétose, et non jusqu'à la seule normalisation glycémique.",
+    "source": "ADA 2009 (Hyperglycemic crises in adult patients with diabetes)",
+    "tags": [
+      "Acidocétose",
+      "Insuline",
+      "Potassium"
+    ]
+  },
+  {
+    "module": "Urgences métaboliques",
+    "hook": "Hyperkaliémie : calcium d'abord, insuline ensuite",
+    "body": "Devant une hyperkaliémie avec anomalies ECG, administrer d'emblée des sels de calcium IV pour stabiliser la membrane myocardique, puis 10 UI d'insuline rapide associées à 25 g de glucose IV pour transférer le potassium vers le secteur intracellulaire.",
+    "detail": "Le calcium n'abaisse pas la kaliémie : il protège le cœur pendant quelques dizaines de minutes. Surveiller la glycémie (risque d'hypoglycémie) et discuter l'épuration extrarénale si l'hyperkaliémie est réfractaire.",
+    "source": "ERC 2021 (Circonstances particulières)",
+    "tags": [
+      "Hyperkaliémie",
+      "Calcium",
+      "Insuline",
+      "ECG"
+    ]
+  },
+  {
+    "module": "Urgences métaboliques",
+    "hook": "Hyponatrémie sévère : NaCl 3 % en bolus",
+    "body": "Devant une hyponatrémie avec symptômes sévères (convulsions, coma, vomissements), administrer 150 mL de NaCl hypertonique à 3 % en 20 minutes, à répéter (2 à 3 fois) jusqu'à une augmentation de la natrémie de 5 mmol/L.",
+    "detail": "Ne pas dépasser une correction de 10 mmol/L sur les premières 24 heures (puis 8 mmol/L par 24 heures) pour prévenir le syndrome de démyélinisation osmotique.",
+    "source": "ESE/ESICM/ERA-EDTA 2014 (Hyponatrémie)",
+    "tags": [
+      "Hyponatrémie",
+      "Sérum salé hypertonique",
+      "Natrémie"
+    ]
+  },
+  {
+    "module": "Infectiologie",
+    "hook": "PAVM : 7 jours d'antibiotiques suffisent",
+    "body": "Pour la plupart des pneumonies acquises sous ventilation mécanique, une durée d'antibiothérapie de 7 jours est recommandée, plutôt qu'une durée prolongée.",
+    "detail": "Allonger le traitement ne réduit pas le risque de récidive et favorise l'émergence de bactéries multirésistantes ; une durée plus longue se discute au cas par cas (immunodépression, abcès, empyème).",
+    "source": "ATS/IDSA 2016 ; ERS/ESICM/ESCMID/ALAT 2017",
+    "tags": [
+      "PAVM",
+      "Antibiothérapie",
+      "Durée de traitement"
+    ]
+  },
+  {
+    "module": "Choc septique",
+    "hook": "Ne pas dépister le sepsis avec le seul qSOFA",
+    "body": "Ne pas utiliser le qSOFA comme unique outil de dépistage du sepsis ou du choc septique, comparé aux scores SIRS, NEWS ou MEWS.",
+    "detail": "Le qSOFA est spécifique mais peu sensible : un score négatif ne permet pas d'écarter un sepsis. Il reste un indicateur de gravité, pas un outil de dépistage.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation forte",
+    "tags": [
+      "Sepsis",
+      "qSOFA",
+      "Dépistage"
+    ]
+  },
+  {
+    "module": "Pancréatite aiguë",
+    "hook": "Pas d'antibioprophylaxie, même si nécrosante",
+    "body": "Ne pas administrer d'antibioprophylaxie dans la pancréatite aiguë grave, y compris dans les formes nécrosantes, en l'absence d'infection documentée ou fortement suspectée.",
+    "detail": "L'antibiothérapie n'est indiquée qu'en cas de suspicion d'infection de nécrose ou d'infection extrapancréatique (angiocholite, pneumonie, bactériémie).",
+    "source": "IAP/APA 2013 ; SFAR/SNFGE/SRLF 2021",
+    "tags": [
+      "Pancréatite",
+      "Antibiothérapie",
+      "Nécrose"
+    ]
+  },
+  {
+    "module": "Anesthésie pédiatrique",
+    "hook": "Perfuser l'enfant avec un soluté isotonique glucosé",
+    "body": "En peropératoire chez l'enfant, utiliser un soluté cristalloïde isotonique balancé contenant 1 à 2,5 % de glucose, plutôt qu'un soluté hypotonique.",
+    "detail": "Les solutés hypotoniques exposent au risque d'hyponatrémie iatrogène avec encéphalopathie, tandis que l'apport modéré de glucose prévient l'hypoglycémie et la lipolyse.",
+    "source": "Consensus européen APA/ESPA 2011",
+    "tags": [
+      "Pédiatrie",
+      "Remplissage",
+      "Hyponatrémie"
+    ]
+  },
+  {
+    "module": "Arrêt cardiaque pédiatrique",
+    "hook": "Enfant en ACR : 5 insufflations, puis 15:2",
+    "body": "Chez l'enfant en arrêt cardiaque, débuter par 5 insufflations initiales, puis alterner 15 compressions thoraciques et 2 insufflations (pour les professionnels de santé).",
+    "detail": "La cause de l'arrêt cardiaque pédiatrique est le plus souvent hypoxique, d'où l'importance donnée à l'oxygénation dès le début de la réanimation.",
+    "source": "ERC 2021 (Paediatric Life Support)",
+    "tags": [
+      "ACR",
+      "Pédiatrie",
+      "RCP"
+    ]
+  },
+  {
+    "module": "Prééclampsie",
+    "hook": "Sulfate de magnésium contre l'éclampsie",
+    "body": "Administrer du sulfate de magnésium en cas de crise d'éclampsie et en prévention chez la patiente prééclamptique sévère présentant des signes neurologiques, avec une dose de charge de 4 g IV suivie d'une perfusion de 1 g/h.",
+    "detail": "Surveiller les réflexes ostéotendineux, la fréquence respiratoire et la diurèse pour dépister un surdosage ; l'antidote est le gluconate de calcium.",
+    "source": "SFAR/CNGOF/SFMP/SFNN 2009 (RFE Prééclampsie)",
+    "tags": [
+      "Prééclampsie",
+      "Éclampsie",
+      "Magnésium",
+      "Obstétrique"
+    ]
+  },
+  {
+    "module": "Toxicologie",
+    "hook": "Monoxyde de carbone : O2 à 100 % sans attendre",
+    "body": "Devant une suspicion d'intoxication au monoxyde de carbone, administrer immédiatement de l'oxygène normobare à 100 % au masque à haute concentration, sans attendre la confirmation par le dosage de la carboxyhémoglobine.",
+    "detail": "L'oxygénothérapie hyperbare se discute en cas de perte de connaissance, de signes neurologiques ou cardiaques, et chez la femme enceinte.",
+    "source": "ECHM 2016 (Conférence européenne de médecine hyperbare)",
+    "tags": [
+      "Monoxyde de carbone",
+      "Oxygénothérapie",
+      "Caisson hyperbare"
+    ]
+  },
+  {
+    "module": "Brûlé grave",
+    "hook": "Remplissage du brûlé : une formule, puis la diurèse",
+    "body": "Chez le brûlé grave, estimer les besoins initiaux en cristalloïdes à l'aide d'une formule (ex : Parkland, 4 mL/kg/% de surface brûlée sur 24 h, dont la moitié les 8 premières heures), puis ajuster le débit sur une diurèse cible de 0,5 à 1 mL/kg/h.",
+    "detail": "Le remplissage excessif (« fluid creep ») expose aux œdèmes et au syndrome du compartiment abdominal : la formule n'est qu'un point de départ.",
+    "source": "SFAR/SFETB 2019 (RFE Brûlé grave)",
+    "tags": [
+      "Brûlés",
+      "Remplissage",
+      "Diurèse"
+    ]
+  },
+  {
+    "module": "Évaluation préopératoire",
+    "hook": "Arrêter le tabac, idéalement 6 à 8 semaines avant",
+    "body": "Proposer systématiquement un sevrage tabagique complet avant une chirurgie programmée, idéalement au moins 6 à 8 semaines avant l'intervention, pour réduire les complications respiratoires, infectieuses et de cicatrisation.",
+    "detail": "Un arrêt plus tardif reste bénéfique et n'augmente pas le risque de complications : il n'y a pas de « trop tard » pour arrêter.",
+    "source": "SFAR 2005 (Conférence d'experts Tabagisme périopératoire)",
+    "tags": [
+      "Tabac",
+      "Préopératoire",
+      "Cicatrisation"
+    ]
+  },
+  {
+    "module": "Évaluation préopératoire",
+    "hook": "Dépister et corriger l'anémie avant chirurgie",
+    "body": "Avant une chirurgie à risque hémorragique, dépister l'anémie suffisamment tôt et corriger une carence martiale, préférentiellement par fer IV lorsque le délai avant l'intervention est court.",
+    "detail": "Cette démarche de Patient Blood Management réduit le recours à la transfusion et les complications associées à l'anémie préopératoire.",
+    "source": "HAS 2022 (Patient Blood Management) ; NATA 2017",
+    "tags": [
+      "Anémie",
+      "Fer IV",
+      "Patient Blood Management"
+    ]
+  },
+  {
+    "module": "Réhabilitation améliorée",
+    "hook": "RAAC : manger et se lever dès J0",
+    "body": "Dans un programme de réhabilitation améliorée après chirurgie, favoriser la réalimentation orale et la mobilisation précoces dès les premières heures postopératoires, plutôt qu'un jeûne et un alitement prolongés.",
+    "detail": "Ces mesures, intégrées à un parcours multimodal, réduisent la durée de séjour sans augmenter les complications.",
+    "source": "HAS 2016 ; ERAS Society",
+    "tags": [
+      "RAAC",
+      "Postopératoire",
+      "Mobilisation"
+    ]
+  },
+  {
+    "module": "Diabète périopératoire",
+    "hook": "Glycémie périopératoire < 1,8 g/L, sans excès de zèle",
+    "body": "En période périopératoire, viser une glycémie inférieure à 1,8 g/L (10 mmol/L) en évitant les hypoglycémies, plutôt qu'un contrôle glycémique strict.",
+    "detail": "Un contrôle intensif (type NICE-SUGAR) augmente le risque d'hypoglycémie sévère sans bénéfice sur la mortalité.",
+    "source": "SFAR/SFD 2017",
+    "tags": [
+      "Diabète",
+      "Glycémie",
+      "Insuline"
+    ]
+  },
+  {
+    "module": "Hémostase péri-opératoire",
+    "hook": "Guider l'hémostase par tests viscoélastiques",
+    "body": "En cas d'hémorragie périopératoire sévère, utiliser des tests viscoélastiques au lit (ROTEM, TEG) lorsqu'ils sont disponibles pour guider une stratégie hémostatique ciblée, plutôt que les seuls tests de coagulation standards.",
+    "detail": "Leur rapidité permet d'individualiser l'apport en fibrinogène, plasma ou plaquettes et de limiter les transfusions inutiles.",
+    "source": "ESAIC 2023 (Management of severe perioperative bleeding)",
+    "tags": [
+      "Hémorragie",
+      "ROTEM",
+      "Coagulation"
+    ]
+  },
+  {
+    "module": "SDRA",
+    "hook": "ECMO veino-veineuse si SDRA réfractaire",
+    "body": "Dans le SDRA sévère réfractaire malgré une ventilation protectrice optimisée, une curarisation et le décubitus ventral, discuter précocement une ECMO veino-veineuse avec un centre expert.",
+    "detail": "L'indication repose sur une hypoxémie ou une acidose hypercapnique persistantes ; l'essai EOLIA a guidé ces critères.",
+    "source": "SRLF/SFAR 2019 (RFE SDRA)",
+    "tags": [
+      "SDRA",
+      "ECMO",
+      "Ventilation"
+    ]
+  },
+  {
+    "module": "Insuffisance respiratoire",
+    "hook": "VNI en 1re intention dans la BPCO décompensée",
+    "body": "Utiliser la ventilation non invasive en première intention lors d'une exacerbation de BPCO avec acidose respiratoire (pH ≤ 7,35 et PaCO2 > 45 mmHg).",
+    "detail": "La VNI réduit le recours à l'intubation et la mortalité dans cette indication ; un échec doit être reconnu rapidement pour ne pas retarder l'intubation.",
+    "source": "ERS/ATS 2017 (VNI dans l'insuffisance respiratoire aiguë)",
+    "grade": "Recommandation forte",
+    "tags": [
+      "BPCO",
+      "VNI",
+      "Hypercapnie"
+    ]
+  }
+]

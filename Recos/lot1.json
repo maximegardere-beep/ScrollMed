@@ -3,7 +3,7 @@
     "module": "Voies aériennes",
     "hook": "Préoxygénation optimale avant toute induction",
     "body": "Une préoxygénation efficace avant l'induction anesthésique ou une intubation en urgence repose sur une étanchéité correcte du masque, une position demi-assise ou proclive lorsque cela est possible, et le maintien d'une oxygénation apnéique pendant la laryngoscopie.",
-    "detail": "Cette étape conditionne directement le délai de désaturation disponible avant et pendant la tentative d'intubation, en particulier chez le patient obèse, la femme enceinte ou l'insuffisant respiratoire.",
+    "detail": "Cette étape conditionne directement le délai de désaturation disponible avant et pendant la tentative d'intubation, en particulier chez le patient obèse, la femme enceinte ou l'insuffisant respiratoire. Une inclinaison proclive de 25 à 30° augmente la capacité résiduelle fonctionnelle et allonge le délai avant désaturation.",
     "source": "SFAR 2017 (RFE Intubation difficile)",
     "tags": ["voies aériennes", "préoxygénation", "intubation"]
   },

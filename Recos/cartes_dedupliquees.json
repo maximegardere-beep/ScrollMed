@@ -211,15 +211,6 @@
     "tags": ["Sepsis", "Antibiothérapie", "Urgence vital"]
   },
   {
-    "module": "Anesthésie locorégionale",
-    "hook": "Retrait du cathéter péridural et HBPM",
-    "body": "Respecter un délai minimum de 12 heures après l'administration de la dernière dose prophylactique d'HBPM avant de retirer un cathéter péridural. Attendre ensuite 4 heures avant la dose suivante.",
-    "detail": "Ce respect strict des délais vise à minimiser le risque d'hématome périmédullaire compressif.",
-    "source": "SFAR 2020",
-    "grade": "Accord d'experts",
-    "tags": ["ALR", "Péridurale", "Hémostase"]
-  },
-  {
     "module": "Douleur post-opératoire",
     "hook": "Épargne morphinique par analgésie multimodale",
     "body": "Prescrire systématiquement de façon préventive l'association de paracétamol et d'un AINS (en l'absence de contre-indication) pour les chirurgies pourvoyeuses de douleurs modérées à intenses. Cette approche épargne de façon significative la consommation de morphiniques.",
@@ -271,15 +262,6 @@
     "tags": ["Traumatisme crânien", "PPC", "Neurologie"]
   },
   {
-    "module": "Voies aériennes",
-    "hook": "Anticiper l'intubation difficile",
-    "body": "Maintenir l'oxygénation apnéique (ex: Optiflow ou lunettes nasales) pendant les tentatives d'intubation pour prolonger le temps sans désaturation. Il est recommandé de limiter à 2 le nombre de tentatives de laryngoscopie directe.",
-    "detail": "Une 3e tentative n'est acceptable que par un opérateur plus expérimenté avec modification de la technique.",
-    "source": "SFAR 2017",
-    "grade": "Grade 1+",
-    "tags": ["Intubation", "Oxygénation", "Apnée"]
-  },
-  {
     "module": "Choc septique",
     "hook": "Remplissage initial précoce et quantifié",
     "body": "Administrer rapidement au moins 30 mL/kg de cristalloïdes IV dans les 3 premières heures de réanimation d'un sepsis induisant une hypoperfusion. L'utilisation du dosage du lactate aide à guider cette réanimation.",
@@ -306,7 +288,7 @@
   {
     "module": "Antibioprophylaxie",
     "hook": "Délai d'administration crucial",
-    "body": "Administrer l'antibioprophylaxie chirurgicale dans les 60 minutes précédant l'incision (120 min pour vancomycine ou fluoroquinolones). Une réinjection peropératoire s'impose si l'intervention dépasse deux demi-vies de la molécule.",
+    "body": "Administrer l'antibioprophylaxie chirurgicale dans les 60 minutes précédant l'incision (120 min pour vancomycine ou fluoroquinolones).",
     "source": "SFAR 2018",
     "grade": "Grade 1+",
     "tags": ["Infection", "Antibiotiques", "Bloc opératoire"]
@@ -346,8 +328,9 @@
   },
   {
     "module": "ALR",
-    "hook": "Délais stricts entre héparines et ponction",
-    "body": "Respecter un délai d'au moins 12 heures entre la dernière dose préventive d'HBPM et la réalisation d'une ponction neuraxiale. Ce délai doit être étendu à 24 heures pour des posologies curatives.",
+    "hook": "Délais stricts entre HBPM et geste neuraxial",
+    "body": "Respecter un délai d'au moins 12 heures entre la dernière dose préventive d'HBPM et une ponction neuraxiale ou le retrait d'un cathéter péridural (24 heures pour des posologies curatives). Après le retrait, attendre 4 heures avant la dose suivante.",
+    "detail": "Ce respect strict des délais vise à minimiser le risque d'hématome périmédullaire compressif.",
     "source": "ASRA 2018 / SFAR",
     "grade": "Grade 1C",
     "tags": ["Rachianesthésie", "Péridurale", "Anticoagulants"]
@@ -371,6 +354,7 @@
     "module": "Choc septique",
     "hook": "Noradrénaline en première intention",
     "body": "Utiliser la noradrénaline comme vasopresseur de première intention pour cibler une pression artérielle moyenne (PAM) d'au moins 65 mmHg. Introduire la vasopressine ou l'adrénaline en deuxième ligne.",
+    "detail": "Une cible plus élevée (75-85 mmHg) peut être envisagée chez les patients avec des antécédents d'hypertension artérielle chronique mal contrôlée.",
     "source": "Surviving Sepsis Campaign 2021",
     "grade": "Recommandation forte",
     "tags": ["Noradrénaline", "Vasopresseur", "PAM"]
@@ -379,6 +363,7 @@
     "module": "Monitorage hémodynamique",
     "hook": "Bannir la PVC pour prédire la réponse",
     "body": "Ne pas se fier aux pressions statiques comme la PVC pour prédire la réponse au remplissage. Préférer les tests dynamiques comme le lever de jambes passif ou la variation de la pression pulsée (VPP).",
+    "detail": "Le lever de jambes passif, couplé à une mesure continue du débit cardiaque, est un test réversible (environ 300 mL d'auto-transfusion) qui reste valable en ventilation spontanée ou en arythmie, là où la VPP n'est plus interprétable.",
     "source": "ESICM 2014",
     "grade": "Grade 1B",
     "tags": ["Remplissage", "Monitorage", "VPP"]
