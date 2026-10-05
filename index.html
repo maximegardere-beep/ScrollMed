@@ -1114,7 +1114,7 @@ function renderCard(p, idx){
       <div class="avatar" style="background: linear-gradient(135deg, ${c1}, ${c2});">${initials}</div>
       <div class="ig-meta">
         <div class="ig-name">${escapeHtml(p.module)} <span class="badge">✓</span></div>
-        <div class="ig-sub">${escapeHtml(p.source || 'reco.')}${p.grade ? ' · ' + escapeHtml(p.grade) : ''}${isOutdated(p) ? ` <span class="age-flag" title="Source de plus de ${AGE_LIMIT_YEARS} ans : vérifier s'il existe une mise à jour">⏳ +${AGE_LIMIT_YEARS} ans</span>` : ''}</div>
+        <div class="ig-sub">${[p.source, p.grade].filter(Boolean).map(escapeHtml).join(' · ')}${isOutdated(p) ? ` <span class="age-flag" title="Source de plus de ${AGE_LIMIT_YEARS} ans : vérifier s'il existe une mise à jour">⏳ +${AGE_LIMIT_YEARS} ans</span>` : ''}</div>
       </div>
     </div>
 
