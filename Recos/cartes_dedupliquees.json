@@ -1,6 +1,6 @@
 [
   {
-    "module": "Histoire de l'anesthésie",
+    "module": "Culture & histoire",
     "hook": "Le jour où la douleur chirurgicale a reculé",
     "body": "Le 16 octobre 1846, au Massachusetts General Hospital, le dentiste William T.G. Morton fait inhaler de l'éther à un patient avant l'ablation d'une tumeur du cou par le chirurgien John Collins Warren. C'est la première démonstration publique et réussie d'une anesthésie générale.",
     "detail": "La salle où s'est déroulée cette opération est encore surnommée aujourd'hui l'« Ether Dome ». Cette date est traditionnellement retenue comme naissance de l'anesthésie moderne.",
@@ -8,7 +8,7 @@
     "tags": ["histoire", "éther", "Morton"]
   },
   {
-    "module": "Histoire de l'anesthésie",
+    "module": "Culture & histoire",
     "hook": "Une reine, un chloroforme, une controverse",
     "body": "En 1853, le médecin John Snow administre du chloroform à la reine Victoria pour la naissance du prince Léopold, une pratique alors critiquée par une partie du clergé et du corps médical qui jugeait l'anesthésie obstétricale contraire à la nature ou à la morale.",
     "detail": "John Snow, également connu pour son travail pionnier en épidémiologie (l'épidémie de choléra de Broad Street), est considéré comme l'un des premiers anesthésistes spécialisés.",
@@ -16,7 +16,7 @@
     "tags": ["histoire", "chloroforme", "obstétrique"]
   },
   {
-    "module": "Histoire de l'anesthésie",
+    "module": "Culture & histoire",
     "hook": "Un poison de flèches devenu outil de bloc opératoire",
     "body": "Le curare, utilisé depuis des siècles par des peuples d'Amazonie pour empoisonner leurs flèches de chasse, est introduit en anesthésie clinique en 1942 par Harold Griffith et Enid Johnson à Montréal, ouvrant l'ère de la curarisation peropératoire.",
     "detail": "Avant cela, le relâchement musculaire chirurgical reposait uniquement sur la profondeur de l'anesthésie générale, avec les risques que cela comportait.",
@@ -24,7 +24,7 @@
     "tags": ["histoire", "curare", "curarisation"]
   },
   {
-    "module": "Histoire de la réanimation",
+    "module": "Culture & histoire",
     "hook": "Des étudiants en médecine ont ventilé une ville à la main",
     "body": "Lors de l'épidémie de poliomyélite de Copenhague en 1952, l'anesthésiste Bjørn Ibsen propose de ventiler manuellement les patients paralysés via une trachéotomie, à l'aide de ballons insufflés par des centaines d'étudiants en médecine se relayant jour et nuit.",
     "detail": "Cet épisode est considéré comme l'acte fondateur du concept de réanimation moderne et a précédé le développement des premiers ventilateurs mécaniques automatisés.",
@@ -32,7 +32,7 @@
     "tags": ["histoire", "réanimation", "Ibsen", "poliomyélite"]
   },
   {
-    "module": "Histoire de l'anesthésie",
+    "module": "Culture & histoire",
     "hook": "Un dispositif né d'une frustration avec le masque facial",
     "body": "Le masque laryngé est inventé par l'anesthésiste britannique Archie Brain au début des années 1980, avec une commercialisation à partir de 1988, comme alternative moins invasive entre le masque facial et l'intubation trachéale.",
     "detail": "Il visait à offrir une voie aérienne fiable sans les contraintes du masque facial ni les risques et le matériel nécessaires à une intubation systématique.",
@@ -40,7 +40,7 @@
     "tags": ["histoire", "voies aériennes", "masque laryngé"]
   },
   {
-    "module": "Éthique et fin de vie",
+    "module": "Éthique & droit",
     "hook": "Définir la mort par le cerveau plutôt que par le cœur",
     "body": "Avant les critères de mort encéphalique établis à Harvard en 1968, les neurologues français Pierre Mollaret et Maurice Goulon avaient décrit dès 1959 un état de « coma dépassé », correspondant à une perte irréversible de toutes les fonctions cérébrales chez des patients maintenus en ventilation.",
     "detail": "Cette évolution conceptuelle, rendue nécessaire par les progrès de la réanimation, a profondément transformé la définition médicale et légale de la mort, autrefois fondée sur l'arrêt cardio-respiratoire.",
@@ -48,35 +48,35 @@
     "tags": ["éthique", "mort encéphalique", "réanimation"]
   },
   {
-    "module": "Éthique et fin de vie",
+    "module": "Éthique & droit",
     "hook": "Prolonger la vie ou prolonger la mort ?",
     "body": "L'obstination déraisonnable désigne la poursuite de traitements disproportionnés par rapport à l'état du patient et à son bénéfice attendu, sans viser un autre but que le maintien artificiel de la vie. Elle se distingue juridiquement et éthiquement de l'euthanasie, qui suppose un acte visant délibérément à provoquer la mort.",
     "detail": "La frontière entre limitation de traitement légitime et abandon de soins reste un exercice de jugement clinique et collégial, sans définition purement quantitative.",
     "tags": ["éthique", "obstination déraisonnable", "LATA"]
   },
   {
-    "module": "Éthique et fin de vie",
+    "module": "Éthique & droit",
     "hook": "Soulager peut-il, indirectement, abréger ?",
     "body": "Le principe du double effet, d'origine philosophique ancienne, distingue un effet recherché (soulager une souffrance réfractaire) d'un effet secondaire non désiré mais prévisible (un possible raccourcissement de la vie). Il est souvent mobilisé pour penser la légitimité éthique de la sédation en fin de vie.",
     "detail": "Ce principe ne dispense pas d'une réflexion au cas par cas : il précise l'intention du soignant sans trancher à lui seul la question de la proportionnalité des moyens employés.",
     "tags": ["éthique", "sédation", "double effet"]
   },
   {
-    "module": "Éthique et fin de vie",
+    "module": "Éthique & droit",
     "hook": "Décider sans certitude, un exercice quotidien en réanimation",
     "body": "La réanimation confronte en permanence à des décisions prises dans l'incertitude pronostique, qu'il s'agisse d'engager, de poursuivre ou de limiter un traitement. Cette incertitude structurelle interroge la manière dont la médecine fonde ses choix : preuves statistiques de population appliquées à un individu singulier.",
     "detail": "Cette tension entre données probabilistes et décision individuelle est une des raisons pour lesquelles les décisions de fin de vie sont collégiales plutôt qu'unilatérales.",
     "tags": ["éthique", "incertitude", "décision médicale"]
   },
   {
-    "module": "Éthique et fin de vie",
+    "module": "Éthique & droit",
     "hook": "Du paternalisme médical à la voix du patient",
     "body": "Longtemps, la décision médicale reposait sur le principe de bienfaisance jugé par le seul médecin. La reconnaissance progressive de l'autonomie du patient a déplacé une partie de cette décision vers la personne soignée elle-même, y compris lorsqu'elle n'est plus en état de s'exprimer directement.",
     "detail": "Ce basculement n'efface pas la tension entre respect de la volonté exprimée et évaluation médicale du bénéfice, en particulier dans des situations d'urgence ou d'incapacité du patient.",
     "tags": ["éthique", "autonomie", "consentement"]
   },
   {
-    "module": "Droit médical",
+    "module": "Éthique & droit",
     "hook": "La loi qui a inscrit le refus d'obstination dans le Code de la santé publique",
     "body": "La loi du 22 avril 2005, dite loi Leonetti, relative aux droits des malades et à la fin de vie, interdit l'obstination déraisonnable et autorise la limitation ou l'arrêt de traitements jugés disproportionnés, sous couvert d'une procédure collégiale.",
     "detail": "Elle a constitué la première grande loi française spécifiquement dédiée à la fin de vie, avant d'être complétée en 2016.",
@@ -84,7 +84,7 @@
     "tags": ["droit", "fin de vie", "loi Leonetti"]
   },
   {
-    "module": "Droit médical",
+    "module": "Éthique & droit",
     "hook": "Quand les directives anticipées deviennent contraignantes",
     "body": "La loi du 2 février 2016, dite loi Claeys-Leonetti, crée un droit à la sédation profonde et continue maintenue jusqu'au décès pour certains patients en fin de vie, et rend les directives anticipées désormais contraignantes pour le médecin, sauf urgence vitale ou caractère manifestement inapproprié.",
     "detail": "Cette loi renforce également le rôle de la personne de confiance dans le recueil de la volonté du patient hors d'état de s'exprimer.",
@@ -92,7 +92,7 @@
     "tags": ["droit", "fin de vie", "sédation", "directives anticipées"]
   },
   {
-    "module": "Droit médical",
+    "module": "Éthique & droit",
     "hook": "1936 : le jour où le contrat médical est né",
     "body": "L'arrêt Mercier de la Cour de cassation, en 1936, consacre la nature contractuelle de la relation entre médecin et patient, avec une obligation de moyens et non de résultat : le médecin s'engage à donner des soins consciencieux et conformes aux données de la science, non à garantir la guérison.",
     "detail": "Ce cadre a longtemps structuré la responsabilité médicale française, avant d'être en partie refondu par la loi du 4 mars 2002.",
@@ -100,7 +100,7 @@
     "tags": ["droit", "responsabilité médicale", "jurisprudence"]
   },
   {
-    "module": "Droit médical",
+    "module": "Éthique & droit",
     "hook": "La loi qui a inventé la personne de confiance",
     "body": "La loi du 4 mars 2002, dite loi Kouchner, relative aux droits des malades, consacre le droit à l'information et au consentement éclairé du patient, l'accès direct au dossier médical, et crée le statut de personne de confiance pouvant être consultée si le patient ne peut exprimer sa volonté.",
     "detail": "Elle marque un tournant vers une conception plus contractuelle et participative de la relation de soin en France.",
@@ -108,7 +108,7 @@
     "tags": ["droit", "consentement", "personne de confiance"]
   },
   {
-    "module": "Droit médical",
+    "module": "Éthique & droit",
     "hook": "Le corps parle pour lui-même, sauf refus exprimé",
     "body": "Le droit français du don d'organes repose sur le principe du consentement présumé, introduit par la loi Caillavet de 1976 : toute personne est présumée consentante au prélèvement post-mortem, sauf inscription de son vivant sur le Registre national des refus ou opposition connue de ses proches.",
     "detail": "Ce principe a été réaffirmé et précisé par les lois de bioéthique successives, tout en maintenant en pratique un rôle important accordé au témoignage des proches.",
@@ -116,7 +116,7 @@
     "tags": ["droit", "don d'organes", "consentement présumé"]
   },
   {
-    "module": "Anecdotes et figures historiques",
+    "module": "Culture & histoire",
     "hook": "Un pionnier tombé dans l'oubli et la tragédie",
     "body": "En 1844, le dentiste Horace Wells s'administre lui-même du protoxyde d'azote pour une extraction dentaire sans douleur. Sa démonstration publique en 1845 au Massachusetts General Hospital échoue lorsque le patient crie de douleur, et Wells sombre ensuite dans l'addiction au chloroforme avant de mourir par suicide en 1848.",
     "detail": "Cet échec public a longtemps éclipsé sa contribution réelle à l'histoire de l'anesthésie, reconnue plus tardivement.",
@@ -124,7 +124,7 @@
     "tags": ["anecdote", "histoire", "protoxyde d'azote"]
   },
   {
-    "module": "Anecdotes et figures historiques",
+    "module": "Culture & histoire",
     "hook": "Le médecin qui avait raison trop tôt",
     "body": "En 1847 à Vienne, Ignace Semmelweis démontre que le lavage des mains au chlorure de chaux réduit drastiquement la mortalité par fièvre puerpérale, mais ses idées sont rejetées par ses pairs. Il meurt en 1865 dans un asile, des suites d'une infection, sans avoir vu sa théorie reconnue de son vivant.",
     "detail": "Son histoire est souvent citée comme exemple emblématique de la résistance du monde médical à un changement de pratique pourtant fondé.",
@@ -132,7 +132,7 @@
     "tags": ["anecdote", "histoire", "hygiène"]
   },
   {
-    "module": "Anecdotes et figures historiques",
+    "module": "Culture & histoire",
     "hook": "Un score inventé par une anesthésiste, en une minute",
     "body": "En 1952, l'anesthésiste américaine Virginia Apgar met au point un score d'évaluation rapide du nouveau-né à la naissance, aujourd'hui universellement connu sous son nom. Elle fut également la première femme titularisée professeure à la faculté de médecine de Columbia.",
     "detail": "Son score reposait sur une intuition simple : formaliser en quelques critères observables ce que les sages-femmes évaluaient déjà intuitivement.",
@@ -140,7 +140,7 @@
     "tags": ["anecdote", "Apgar", "néonatologie"]
   },
   {
-    "module": "Anecdotes et figures historiques",
+    "module": "Culture & histoire",
     "hook": "Une anesthésie découverte autour d'un dîner",
     "body": "En 1847 à Édimbourg, James Young Simpson et ses collègues testent sur eux-mêmes différents composés chimiques lors de soirées improvisées, jusqu'à découvrir les propriétés anesthésiques du chloroforme après s'être effondrés inconscients à table.",
     "detail": "Cette découverte empirique, presque accidentelle, a rapidement supplanté l'éther dans plusieurs pays européens avant que ses risques cardiaques ne soient mieux compris.",
@@ -148,7 +148,7 @@
     "tags": ["anecdote", "chloroforme", "découverte"]
   },
   {
-    "module": "Anecdotes et figures historiques",
+    "module": "Culture & histoire",
     "hook": "Paralysé mais parfaitement conscient : une découverte troublante",
     "body": "Le physiologiste Claude Bernard, en étudiant expérimentalement le curare au XIXe siècle, met en évidence qu'il abolit la motricité sans altérer la conscience ni la perception de la douleur, une distinction fondamentale qui préfigure les enjeux modernes du réveil peropératoire sous curarisation.",
     "detail": "Cette observation rappelle pourquoi la curarisation ne dispense jamais d'une anesthésie ou d'une sédation adéquate.",
@@ -156,7 +156,7 @@
     "tags": ["anecdote", "curare", "conscience"]
   },
   {
-    "module": "Culture générale connexe",
+    "module": "Culture & histoire",
     "hook": "Un mot forgé par lettre, en 1846",
     "body": "Le terme « anesthésie » vient du grec ancien « an- » (privatif) et « aisthesis » (sensation). Il est proposé par le médecin et écrivain Oliver Wendell Holmes dans une lettre adressée à William Morton peu après la démonstration de l'éther en 1846.",
     "detail": "Holmes suggérait alors ce néologisme pour désigner cet état nouveau d'insensibilité provoquée, plutôt qu'un simple sommeil.",
@@ -164,21 +164,21 @@
     "tags": ["étymologie", "anesthésie"]
   },
   {
-    "module": "Culture générale connexe",
+    "module": "Culture & histoire",
     "hook": "Réanimer, littéralement : redonner un souffle",
     "body": "Le mot « réanimation » provient du latin « re- » (à nouveau) et « anima » (souffle, âme, principe vital). Son usage médical moderne, désignant une discipline organisée autour du maintien des fonctions vitales, s'est diffusé en français au cours du XXe siècle.",
     "detail": "Cette racine rappelle que la discipline s'est historiquement construite autour de la restauration de la respiration, avant de couvrir l'ensemble des défaillances d'organes.",
     "tags": ["étymologie", "réanimation"]
   },
   {
-    "module": "Culture générale connexe",
+    "module": "Culture & histoire",
     "hook": "Un mot venu d'Amazonie pour désigner un poison",
     "body": "Le terme « curare » dérive de mots d'origine amérindienne d'Amérique du Sud (proches de « ourari » ou « wurali ») désignant des poisons de flèches à base d'extraits végétaux, utilisés traditionnellement pour la chasse bien avant leur usage médical.",
     "detail": "Plusieurs préparations traditionnelles distinctes étaient regroupées sous ce terme par les explorateurs et naturalistes européens du XIXe siècle.",
     "tags": ["étymologie", "curare"]
   },
   {
-    "module": "Culture générale connexe",
+    "module": "Culture & histoire",
     "hook": "Survivre à une température corporelle de 13,7°C",
     "body": "En 1999, la skieuse norvégienne Anna Bågenholm reste piégée sous la glace d'un torrent gelé pendant environ 80 minutes. Sa température corporelle mesurée à l'arrivée à l'hôpital est de 13,7°C, l'un des cas les mieux documentés de survie après une hypothermie aussi profonde.",
     "detail": "Ce cas est souvent cité pour illustrer le principe selon lequel l'hypothermie profonde peut avoir un effet protecteur cérébral en réduisant la demande métabolique, sans pour autant constituer une garantie de survie.",
@@ -186,7 +186,7 @@
     "tags": ["curiosité", "hypothermie", "record"]
   },
   {
-    "module": "Culture générale connexe",
+    "module": "Culture & histoire",
     "hook": "Le même mot pour l'engourdissement et pour une fleur",
     "body": "Le terme « narcose » vient du grec « narkē », signifiant torpeur ou engourdissement. Cette même racine se retrouve dans « narcotique » et, de façon plus inattendue, dans le nom de la fleur « narcisse », dont certaines espèces contiennent des alcaloïdes aux effets stupéfiants connus depuis l'Antiquité.",
     "detail": "Le lien étymologique entre « narkē » et le mythe de Narcisse reste débattu chez les linguistes, certains y voyant plutôt une coïncidence de sonorité.",
@@ -202,7 +202,7 @@
     "tags": ["Iot", "VAD", "Algorithme"]
   },
   {
-    "module": "Choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "Antibiothérapie dans l'heure en cas de choc",
     "body": "Administrer des antibiotiques intraveineux à large spectre dans l'heure suivant la reconnaissance du choc septique. Réaliser des hémocultures avant l'administration uniquement si cela ne retarde pas le traitement.",
     "detail": "Pour un sepsis sans choc, si le diagnostic est incertain, une évaluation rapide est de mise avec un délai toléré de 3 heures.",
@@ -211,7 +211,7 @@
     "tags": ["Sepsis", "Antibiothérapie", "Urgence vital"]
   },
   {
-    "module": "Douleur post-opératoire",
+    "module": "ALR & douleur",
     "hook": "Épargne morphinique par analgésie multimodale",
     "body": "Prescrire systématiquement de façon préventive l'association de paracétamol et d'un AINS (en l'absence de contre-indication) pour les chirurgies pourvoyeuses de douleurs modérées à intenses. Cette approche épargne de façon significative la consommation de morphiniques.",
     "source": "SFAR 2019 (confirmé par PROSPECT/SFAR 2024)",
@@ -219,7 +219,7 @@
     "tags": ["Analgésie", "AINS", "SSPI", "Épargne morphinique"]
   },
   {
-    "module": "Transfusion",
+    "module": "Hémostase & transfusion",
     "hook": "Seuil transfusionnel restrictif en réanimation",
     "body": "Appliquer un seuil transfusionnel restrictif (transfusion si Hémoglobine < 7 g/dL) pour la majorité des patients de réanimation hémodynamiquement stables, y compris en péri-opératoire.",
     "detail": "Des exceptions justifient un seuil plus élevé (généralement 8 ou 9 g/dL) en cas d'ischémie myocardique aiguë ou d'hémorragie active non contrôlée.",
@@ -228,7 +228,7 @@
     "tags": ["Transfusion", "Anémie", "CGR"]
   },
   {
-    "module": "Ventilation mécanique",
+    "module": "Ventilation & oxygénation",
     "hook": "Volume courant protecteur dans le SDRA",
     "body": "Régler le volume courant à 6 mL/kg de poids corporel idéal théorique pour limiter le volotraumatisme chez les patients atteints de syndrome de détresse respiratoire aiguë.",
     "detail": "S'assurer par des mesures régulières que la pression de plateau reste strictement inférieure à 30 cmH2O. Ajuster la fréquence respiratoire pour maintenir un pH acceptable sans dépasser les pressions limites.",
@@ -237,7 +237,7 @@
     "tags": ["SDRA", "Ventilation", "Poumon protecteur"]
   },
   {
-    "module": "Antibioprophylaxie",
+    "module": "Sepsis & infectiologie",
     "hook": "Réinjection peropératoire systématique",
     "body": "Réinjecter une dose d'antibiotique en peropératoire si la durée de l'intervention (depuis l'incision) dépasse deux fois la demi-vie de la molécule initialement utilisée.",
     "source": "SFAR 2018",
@@ -262,7 +262,7 @@
     "tags": ["Traumatisme crânien", "PPC", "Neurologie"]
   },
   {
-    "module": "Choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "Remplissage initial précoce et quantifié",
     "body": "Administrer rapidement au moins 30 mL/kg de cristalloïdes IV dans les 3 premières heures de réanimation d'un sepsis induisant une hypoperfusion. L'utilisation du dosage du lactate aide à guider cette réanimation.",
     "source": "Surviving Sepsis Campaign 2021",
@@ -270,7 +270,7 @@
     "tags": ["Sepsis", "Remplissage", "Cristalloïdes"]
   },
   {
-    "module": "Choc hémorragique",
+    "module": "Hémostase & transfusion",
     "hook": "Ratio transfusionnel équilibré",
     "body": "Lors d'une transfusion massive pour choc hémorragique, utiliser un ratio empirique de CGR et de PFC compris entre 1:1 et 2:1, jusqu'à disponibilité d'un guidage par biologie standard ou viscoélastique.",
     "source": "ESAIC 2023",
@@ -278,7 +278,7 @@
     "tags": ["Hémorragie", "Transfusion", "Ratio CGR/PFC"]
   },
   {
-    "module": "Sédation-analgésie en réanimation",
+    "module": "Réanimation médicale",
     "hook": "Privilégier les sédations légères",
     "body": "Cibler une sédation légère (score RASS entre -2 et 0) dès que possible pour réduire la durée de ventilation mécanique. Réaliser des arrêts quotidiens ou des baisses systématiques des sédatifs.",
     "source": "SRLF/SFAR 2021",
@@ -286,7 +286,7 @@
     "tags": ["Sédation", "RASS", "Sevrage"]
   },
   {
-    "module": "Antibioprophylaxie",
+    "module": "Sepsis & infectiologie",
     "hook": "Délai d'administration crucial",
     "body": "Administrer l'antibioprophylaxie chirurgicale dans les 60 minutes précédant l'incision (120 min pour vancomycine ou fluoroquinolones).",
     "source": "SFAR 2018",
@@ -327,7 +327,7 @@
     "tags": ["Post-ACR", "Température", "Neuroprotection"]
   },
   {
-    "module": "ALR",
+    "module": "ALR & douleur",
     "hook": "Délais stricts entre HBPM et geste neuraxial",
     "body": "Respecter un délai d'au moins 12 heures entre la dernière dose préventive d'HBPM et une ponction neuraxiale ou le retrait d'un cathéter péridural (24 heures pour des posologies curatives). Après le retrait, attendre 4 heures avant la dose suivante.",
     "detail": "Ce respect strict des délais vise à minimiser le risque d'hématome périmédullaire compressif.",
@@ -336,14 +336,14 @@
     "tags": ["Rachianesthésie", "Péridurale", "Anticoagulants"]
   },
   {
-    "module": "ALR",
+    "module": "ALR & douleur",
     "hook": "Émulsion lipidique pour l'intoxication aux AL",
     "body": "Face à des signes graves d'intoxication systémique aux anesthésiques locaux (convulsions, arrêt cardiaque), administrer immédiatement une émulsion lipidique à 20 % (bolus suivi d'une perfusion) et sécuriser les voies aériennes.",
     "source": "SFAR 2022",
     "tags": ["Toxicité", "ISAL", "Intralipide"]
   },
   {
-    "module": "Nutrition en réanimation",
+    "module": "Réanimation médicale",
     "hook": "Instauration précoce de la nutrition entérale",
     "body": "Débuter la nutrition entérale dans les 48 premières heures de l'admission en réanimation si le tube digestif est fonctionnel. Préférer systématiquement cette voie à la nutrition parentérale exclusive.",
     "source": "ESPEN 2023",
@@ -351,7 +351,7 @@
     "tags": ["Nutrition", "Entérale", "Métabolisme"]
   },
   {
-    "module": "Choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "Noradrénaline en première intention",
     "body": "Utiliser la noradrénaline comme vasopresseur de première intention pour cibler une pression artérielle moyenne (PAM) d'au moins 65 mmHg. Introduire la vasopressine ou l'adrénaline en deuxième ligne.",
     "detail": "Une cible plus élevée (75-85 mmHg) peut être envisagée chez les patients avec des antécédents d'hypertension artérielle chronique mal contrôlée.",
@@ -360,7 +360,7 @@
     "tags": ["Noradrénaline", "Vasopresseur", "PAM"]
   },
   {
-    "module": "Monitorage hémodynamique",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Bannir la PVC pour prédire la réponse",
     "body": "Ne pas se fier aux pressions statiques comme la PVC pour prédire la réponse au remplissage. Préférer les tests dynamiques comme le lever de jambes passif ou la variation de la pression pulsée (VPP).",
     "detail": "Le lever de jambes passif, couplé à une mesure continue du débit cardiaque, est un test réversible (environ 300 mL d'auto-transfusion) qui reste valable en ventilation spontanée ou en arythmie, là où la VPP n'est plus interprétable.",
@@ -369,7 +369,7 @@
     "tags": ["Remplissage", "Monitorage", "VPP"]
   },
   {
-    "module": "Anesthésie pédiatrique",
+    "module": "Pédiatrie",
     "hook": "Autoriser les liquides clairs jusqu'à H-1",
     "body": "Chez l'enfant, autoriser et même encourager l'ingestion de liquides clairs (eau, jus sans pulpe) jusqu'à 1 heure avant l'induction anesthésique pour améliorer le confort et limiter le jeûne prolongé.",
     "source": "ESAIC 2022",
@@ -377,14 +377,14 @@
     "tags": ["Jeûne", "Pédiatrie", "Liquides clairs"]
   },
   {
-    "module": "Prévention des NVPO",
+    "module": "Anesthésie peropératoire",
     "hook": "Prophylaxie selon le score d'Apfel",
     "body": "Évaluer systématiquement le risque de nausées et vomissements postopératoires. Administrer une prophylaxie associant 2 antiémétiques (ex: dexaméthasone et dropéridol) dès la présence de 2 facteurs de risque.",
     "source": "SFAR 2022",
     "tags": ["NVPO", "Apfel", "Dexaméthasone"]
   },
   {
-    "module": "Curares",
+    "module": "Anesthésie peropératoire",
     "hook": "Monitorage quantitatif systématique",
     "body": "Le monitorage instrumental quantitatif est obligatoire à l'utilisation de curares. Ne pas extuber avant d'avoir documenté un ratio TOF (Train-Of-Four) supérieur ou égal à 90 % à l'adducteur du pouce.",
     "source": "ESAIC 2023",
@@ -392,14 +392,14 @@
     "tags": ["Curares", "TOF", "Décurarisation"]
   },
   {
-    "module": "Insuffisance rénale",
+    "module": "Réanimation médicale",
     "hook": "Proscrire les amidons (HEA) en réanimation",
     "body": "Les solutés macromoléculaires de type hydroxyéthylamidon (HEA) sont formellement contre-indiqués chez les patients critiques, septiques ou brûlés, à cause d'une augmentation avérée de la mortalité et du recours à l'épuration extra-rénale.",
     "source": "PRAC 2018 / SRLF",
     "tags": ["Remplissage", "IRA", "HEA"]
   },
   {
-    "module": "Ventilation mécanique",
+    "module": "Ventilation & oxygénation",
     "hook": "Décubitus ventral prolongé dans le SDRA",
     "body": "En cas de SDRA modéré à sévère (rapport PaO2/FiO2 inférieur à 150), instaurer des séances de décubitus ventral d'au moins 16 heures consécutives pour améliorer l'hématose et la survie.",
     "source": "PROSEVA / SRLF 2019",
@@ -407,7 +407,7 @@
     "tags": ["SDRA", "Décubitus ventral", "Hypoxémie"]
   },
   {
-    "module": "Transplantation",
+    "module": "Anesthésie peropératoire",
     "hook": "Objectifs hémodynamiques du donneur d'organes",
     "body": "Chez le donneur en état de mort encéphalique, l'objectif est le maintien d'une PAM > 65 mmHg avec remplissage et noradrénaline. Ne pas hésiter à évaluer la fonction cardiaque par échographie.",
     "source": "SFAR 2018",
@@ -423,7 +423,7 @@
     "tags": ["Extubation", "Œdème laryngé", "Test de fuite"]
   },
   {
-    "module": "Évaluation du risque",
+    "module": "Hémostase & transfusion",
     "hook": "Balance bénéfice-risque avant procédure invasive",
     "body": "La gestion des anticoagulants repose sur l'évaluation du risque hémorragique de l'acte et du risque thromboembolique du patient.",
     "detail": "Si les deux risques sont simultanément élevés, comme en cas d'embolie pulmonaire récente, il faut envisager le report de la procédure si possible.",
@@ -432,7 +432,7 @@
     "tags": ["Risque", "Évaluation", "Stratégie"]
   },
   {
-    "module": "AVK & Risque faible",
+    "module": "Hémostase & transfusion",
     "hook": "Poursuite des AVK pour les actes à faible risque",
     "body": "Pour une procédure à faible risque hémorragique, il est proposé de poursuivre les AVK sans interruption.",
     "detail": "Il est cependant indispensable de contrôler l'INR dans la semaine précédant le geste pour s'assurer de l'absence de surdosage.",
@@ -441,7 +441,7 @@
     "tags": ["AVK", "Risque faible", "INR"]
   },
   {
-    "module": "AOD & Risque faible",
+    "module": "Hémostase & transfusion",
     "hook": "Saut de prises pour les AOD à risque faible",
     "body": "Sautez la prise d'AOD de la veille au soir et celle du matin de l'intervention, quel que soit votre schéma thérapeutique habituel.",
     "detail": "La reprise s'effectue aux doses habituelles, au moins 6 heures après la fin du geste invasif pour éviter le pic plasmatique.",
@@ -450,7 +450,7 @@
     "tags": ["AOD", "Risque faible", "Reprise"]
   },
   {
-    "module": "AVK & Risque élevé",
+    "module": "Hémostase & transfusion",
     "hook": "Délais d'arrêt des AVK avant procédure à risque",
     "body": "Arrêtez la warfarine à J-6, la fluindione à J-5 et l'acénocoumarol à J-4 avant l'intervention (J0 étant le jour de l'acte).",
     "detail": "Un contrôle de l'INR est requis la veille de la procédure pour confirmer qu'il est repassé sous le seuil de sécurité hémostatique.",
@@ -459,7 +459,7 @@
     "tags": ["AVK", "Risque élevé", "Arrêt"]
   },
   {
-    "module": "AVK & Correction INR",
+    "module": "Hémostase & transfusion",
     "hook": "Que faire si l'INR est trop élevé à J-1 ?",
     "body": "Si l'INR est supérieur à 1,5 la veille de l'intervention, administrez 2 à 5 mg de vitamine K par voie orale.",
     "detail": "Le seuil de sécurité est abaissé à 1,2 pour la neurochirurgie intracrânienne et les actes neuraxiaux, un nouveau contrôle est requis le lendemain.",
@@ -468,7 +468,7 @@
     "tags": ["AVK", "Vitamine K", "INR", "Hémostase"]
   },
   {
-    "module": "AOD & Risque élevé",
+    "module": "Hémostase & transfusion",
     "hook": "Arrêt des AOD à J-3 sans insuffisance rénale",
     "body": "Pour un acte à risque hémorragique élevé, la dernière prise d'AOD (apixaban, edoxaban, rivaroxaban, dabigatran) doit se faire à J-3.",
     "detail": "Cette règle s'applique aux patients ayant une fonction rénale normale (DFG supérieur à 50 ml/min), sans aucun relais héparinique pré-procédural.",
@@ -477,7 +477,7 @@
     "tags": ["AOD", "Risque élevé", "Arrêt"]
   },
   {
-    "module": "AOD & Risque très élevé",
+    "module": "Hémostase & transfusion",
     "hook": "Arrêt anticipé à J-5 pour les actes critiques",
     "body": "Stoppez les AOD avec une dernière prise à J-5 pour la neurochirurgie intracrânienne ou les procédures neuraxiales (péridurale, rachianesthésie).",
     "detail": "Ces procédures requièrent une anticoagulation résiduelle nulle, justifiant ces deux jours d'arrêt supplémentaires.",
@@ -486,7 +486,7 @@
     "tags": ["AOD", "Neurochirurgie", "ALR", "Risque très élevé"]
   },
   {
-    "module": "AVK & FA",
+    "module": "Hémostase & transfusion",
     "hook": "Pas de relais AVK systématique dans la FA",
     "body": "Ne réalisez pas de relais héparinique pré-procédural à l'arrêt des AVK chez un patient en fibrillation atriale sans antécédent ischémique.",
     "detail": "Le relais par HBPM à dose curative est uniquement proposé pour les patients ayant un antécédent d'AVC, d'AIT ou d'embolie systémique.",
@@ -495,7 +495,7 @@
     "tags": ["AVK", "Fibrillation atriale", "Relais", "AVC"]
   },
   {
-    "module": "AVK & Valves mécaniques",
+    "module": "Hémostase & transfusion",
     "hook": "Relais pré-procédural requis pour les valves mécaniques",
     "body": "Un relais des AVK par HBPM curative en deux injections par jour est indiqué avant une procédure à risque hémorragique élevé.",
     "detail": "La première injection d'HBPM a lieu le soir de J-3 et la dernière le matin de J-1, sans contrôle anti-Xa systématique avant l'intervention.",
@@ -504,7 +504,7 @@
     "tags": ["AVK", "Valve mécanique", "Relais", "HBPM"]
   },
   {
-    "module": "AOD & Relais",
+    "module": "Hémostase & transfusion",
     "hook": "Les AOD ne se relaient pas en pré-procédural",
     "body": "Il est proposé de ne jamais réaliser de relais héparinique pré-procédural lors de l'arrêt des AOD, même pour les procédures à haut risque.",
     "detail": "Le délai d'action court des AOD permet des interruptions brèves, rendant le relais inutile sur le plan thrombotique et délétère sur le risque hémorragique.",
@@ -513,7 +513,7 @@
     "tags": ["AOD", "Relais", "Contre-indication"]
   },
   {
-    "module": "Reprise AVK post-op",
+    "module": "Hémostase & transfusion",
     "hook": "Reprise des AVK dans les 24h après procédure",
     "body": "Reprenez les AVK à la posologie habituelle dans les 24 premières heures suivant l'intervention, sans dose de charge.",
     "detail": "Si la reprise entérale est impossible, il faudra initier des héparines à dose curative, idéalement entre 48h et 72h post-procédure.",
@@ -522,7 +522,7 @@
     "tags": ["AVK", "Reprise", "Post-opératoire"]
   },
   {
-    "module": "Reprise AOD post-op",
+    "module": "Hémostase & transfusion",
     "hook": "Délai de reprise des AOD : 48h à 72h",
     "body": "Après un acte à risque hémorragique élevé, reprenez le traitement curatif par AOD idéalement entre 48h et 72h après la procédure.",
     "detail": "L'action rapide des AOD impose de s'assurer d'une hémostase chirurgicale parfaite avant la réintroduction pour éviter les saignements secondaires.",
@@ -531,7 +531,7 @@
     "tags": ["AOD", "Reprise", "Post-opératoire"]
   },
   {
-    "module": "AOD & Insuffisance rénale",
+    "module": "Hémostase & transfusion",
     "hook": "Allongement de l'arrêt des AOD en cas d'IRC",
     "body": "Si le DFG est entre 30 et 49 ml/min, arrêtez le dabigatran à J-5, mais maintenez l'arrêt à J-3 pour les autres AOD.",
     "detail": "En cas d'insuffisance rénale sévère (DFG inférieur à 30 ml/min), l'arrêt de tous les AOD anti-Xa doit se faire avec une dernière prise à J-5.",
@@ -540,7 +540,7 @@
     "tags": ["AOD", "Insuffisance rénale", "DFG", "Arrêt"]
   },
   {
-    "module": "Obésité & HBPM",
+    "module": "Hémostase & transfusion",
     "hook": "Ne pas surdoser les HBPM au-delà de 100 kg",
     "body": "Lors d'un relais par HBPM curative chez un patient pesant 100 kg ou plus, n'augmentez pas les doses au-delà de celles recommandées pour 100 kg.",
     "detail": "Ce plafonnement (par exemple 10 000 UI x 2/jour pour l'énoxaparine) permet de réduire le risque de sur-exposition hémorragique.",
@@ -549,7 +549,7 @@
     "tags": ["Obésité", "Poids", "HBPM", "Relais"]
   },
   {
-    "module": "AVC péri-procédural",
+    "module": "Hémostase & transfusion",
     "hook": "Attitude face à une suspicion d'AVC post-op",
     "body": "Réalisez une imagerie cérébrale en urgence et laissez le patient en décubitus dorsal sans introduire de traitement antithrombotique.",
     "detail": "Contactez immédiatement une équipe neurovasculaire pour évaluer l'éligibilité à une stratégie de reperfusion dans les 24 heures.",

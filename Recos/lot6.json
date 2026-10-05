@@ -1,6 +1,6 @@
 [
   {
-    "module": "Choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "Remplissage restrictif : ni mieux ni pire",
     "body": "Dans l'hypotension induite par le sepsis, une stratégie restrictive (vasopresseurs précoces, remplissage limité) ne modifie pas la mortalité par rapport à une stratégie libérale : 14,0 % vs 14,9 % de décès avant J90 dans CLOVERS (n=1563).",
     "detail": "CLASSIC (n=1554, choc septique en réanimation) retrouve le même résultat : 42,3 % vs 42,1 % de mortalité à J90. Le volume de remplissage au-delà du bolus initial peut donc être individualisé sans crainte d'un impact sur la survie.",
@@ -14,7 +14,7 @@
     ]
   },
   {
-    "module": "Choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "Vitamine C IV : délétère dans le sepsis",
     "body": "Chez les patients septiques sous vasopresseurs, la vitamine C IV à forte dose (50 mg/kg toutes les 6 h pendant 4 jours) augmente le critère décès ou dysfonction d'organe persistante à J28 : 44,5 % vs 38,5 % (RR 1,21) dans LOVIT (n=872).",
     "detail": "Cet essai a mis fin à l'engouement pour le « cocktail » vitamine C-hydrocortisone-thiamine, déjà non concluant dans VITAMINS et VICTAS.",
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "module": "Antibiothérapie en réanimation",
+    "module": "Sepsis & infectiologie",
     "hook": "Bêtalactamines en perfusion continue",
     "body": "Dans BLING III (n=7031, sepsis en réanimation), la perfusion continue de bêtalactamines ne réduit pas significativement la mortalité à J90 par rapport à l'administration intermittente (24,9 % vs 26,8 %, p=0,08).",
     "detail": "La méta-analyse associée (Abdul-Aziz, JAMA 2024), incluant BLING III, retrouve en revanche une réduction de la mortalité (RR ≈ 0,86) avec la perfusion prolongée ou continue.",
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "module": "Antibiothérapie en réanimation",
+    "module": "Sepsis & infectiologie",
     "hook": "Bactériémie : 7 jours valent 14 jours",
     "body": "Chez les patients hospitalisés avec bactériémie (hors S. aureus et infections nécessitant un traitement prolongé), 7 jours d'antibiothérapie sont non inférieurs à 14 jours : mortalité à J90 de 14,5 % vs 16,1 % dans BALANCE (n=3608).",
     "detail": "Environ la moitié des patients étaient en réanimation au moment de l'inclusion ; le résultat est cohérent dans ce sous-groupe.",
@@ -53,7 +53,7 @@
     ]
   },
   {
-    "module": "Pneumonie grave",
+    "module": "Sepsis & infectiologie",
     "hook": "Hydrocortisone dans la pneumonie communautaire grave",
     "body": "Dans la pneumonie communautaire grave admise en réanimation, l'hydrocortisone (200 mg/j pendant 4 à 8 jours puis décroissance) réduit la mortalité à J28 : 6,2 % vs 11,9 % dans CAPE COD (n=795).",
     "detail": "Les patients en choc septique et ceux atteints de grippe étaient exclus : le résultat ne s'applique pas à ces populations. L'hydrocortisone réduisait aussi le recours à l'intubation et aux vasopresseurs.",
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "module": "Intubation en réanimation",
+    "module": "Voies aériennes",
     "hook": "Vidéolaryngoscope en première intention",
     "body": "Chez l'adulte intubé en urgence ou en réanimation, le vidéolaryngoscope augmente le succès à la première tentative par rapport à la laryngoscopie directe : 85,1 % vs 70,8 % dans DEVICE (n=1417).",
     "detail": "Aucune différence n'a été retrouvée sur les complications graves (hypoxémie, collapsus), mais l'essai a été arrêté précocement pour efficacité.",
@@ -79,7 +79,7 @@
     ]
   },
   {
-    "module": "Intubation en réanimation",
+    "module": "Voies aériennes",
     "hook": "Bougie systématique : pas de gain",
     "body": "L'utilisation systématique d'un long mandrin béquillé (bougie) dès la première tentative n'améliore pas le succès d'intubation par rapport au stylet : 80,4 % vs 83,0 % dans BOUGIE (n=1106).",
     "detail": "La bougie reste un outil de recours précieux devant une difficulté, mais son usage d'emblée chez tous les patients n'est pas justifié.",
@@ -92,7 +92,7 @@
     ]
   },
   {
-    "module": "Intubation en réanimation",
+    "module": "Voies aériennes",
     "hook": "Bolus de remplissage avant intubation : inutile",
     "body": "Un bolus systématique de 500 mL de cristalloïdes au moment de l'intubation ne prévient pas le collapsus cardiovasculaire chez le patient de réanimation : 21,0 % vs 18,2 % dans PREPARE II (n=1065).",
     "detail": "La prévention du collapsus repose plutôt sur l'anticipation (vasopresseur prêt, choix et dose des hypnotiques) que sur un remplissage systématique.",
@@ -106,7 +106,7 @@
     ]
   },
   {
-    "module": "Post-arrêt cardiaque",
+    "module": "Arrêt cardiaque",
     "hook": "Hypothermie à 33 °C : pas mieux que la normothermie",
     "body": "Après un arrêt cardiaque extrahospitalier, l'hypothermie à 33 °C ne réduit pas la mortalité à 6 mois par rapport à une normothermie avec prévention active de la fièvre (≤ 37,5 °C) : 50 % vs 48 % dans TTM2 (n=1900).",
     "detail": "Ces résultats ont conduit l'ERC-ESICM 2022 à recommander avant tout la prévention de la fièvre (≤ 37,7 °C) pendant au moins 72 h plutôt qu'une hypothermie systématique.",
@@ -119,7 +119,7 @@
     ]
   },
   {
-    "module": "Post-arrêt cardiaque",
+    "module": "Arrêt cardiaque",
     "hook": "PAM 63 ou 77 mmHg après ACR : équivalent",
     "body": "Chez le patient comateux après arrêt cardiaque extrahospitalier, cibler une PAM de 77 mmHg plutôt que 63 mmHg ne modifie pas le critère décès ou séquelles neurologiques graves dans BOX (n=789).",
     "detail": "Le même essai ne retrouve pas non plus de différence entre une cible d'oxygénation restrictive (PaO2 9-10 kPa) et libérale (13-14 kPa).",
@@ -132,7 +132,7 @@
     ]
   },
   {
-    "module": "Choc cardiogénique",
+    "module": "Hémodynamique & cardiologie",
     "hook": "ECMO VA systématique dans le choc de l'IDM : non",
     "body": "Dans le choc cardiogénique compliquant un infarctus revascularisé, l'ECMO veino-artérielle précoce systématique ne réduit pas la mortalité à J30 (47,8 % vs 49,0 %) et augmente les saignements et complications vasculaires dans ECLS-SHOCK (n=420).",
     "detail": "L'ECMO VA reste une option de sauvetage au cas par cas, mais son implantation systématique n'est pas justifiée.",
@@ -145,7 +145,7 @@
     ]
   },
   {
-    "module": "Choc cardiogénique",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Impella CP dans le choc du STEMI",
     "body": "Dans le choc cardiogénique compliquant un infarctus avec sus-décalage du ST, la pompe microaxiale Impella CP réduit la mortalité à 6 mois : 45,8 % vs 58,5 % (HR 0,74) dans DanGer Shock (n=360).",
     "detail": "Ce bénéfice se paie d'un excès de complications : saignements majeurs, ischémie de membre et recours à l'épuration extrarénale. Les patients comateux après ACR étaient exclus.",
@@ -158,7 +158,7 @@
     ]
   },
   {
-    "module": "Transfusion",
+    "module": "Hémostase & transfusion",
     "hook": "Infarctus et anémie : prudence avec le seuil de 7",
     "body": "Chez le patient avec infarctus du myocarde et anémie, une stratégie restrictive (seuil 7-8 g/dL) ne fait pas significativement mieux que libérale (seuil 10 g/dL) : décès ou récidive d'infarctus à J30 de 16,9 % vs 14,5 % (RR 1,15 ; p=0,07) dans MINT (n=3504).",
     "detail": "La tendance défavorable à la stratégie restrictive incite à ne pas appliquer le seuil de 7 g/dL au coronarien en phase aiguë.",
@@ -171,7 +171,7 @@
     ]
   },
   {
-    "module": "Transfusion",
+    "module": "Hémostase & transfusion",
     "hook": "Cerveau lésé : un seuil transfusionnel plus haut ?",
     "body": "Chez le patient cérébrolésé aigu (traumatisme, HSA, hémorragie intracérébrale), un seuil transfusionnel libéral de 9 g/dL réduit le devenir neurologique défavorable à 6 mois par rapport à 7 g/dL : 62,6 % vs 72,6 % dans TRAIN (n=820).",
     "detail": "Dans le traumatisme crânien grave, HEMOTION (NEJM 2024, n=742, seuil 10 vs 7 g/dL) retrouve une tendance similaire mais non significative (68,4 % vs 73,5 %).",
@@ -185,7 +185,7 @@
     ]
   },
   {
-    "module": "Prophylaxie en réanimation",
+    "module": "Réanimation médicale",
     "hook": "IPP chez le ventilé : moins de saignements",
     "body": "Chez le patient sous ventilation mécanique invasive, le pantoprazole 40 mg/j réduit les hémorragies digestives hautes cliniquement significatives (1,0 % vs 3,5 %) sans modifier la mortalité à J90 (29,1 % vs 30,9 %) dans REVISE (n=4821).",
     "detail": "Aucune augmentation des pneumonies acquises sous ventilation ni des infections à Clostridioides difficile n'a été observée.",
@@ -198,7 +198,7 @@
     ]
   },
   {
-    "module": "Oxygénothérapie en réanimation",
+    "module": "Ventilation & oxygénation",
     "hook": "PaO2 cible 60 ou 90 mmHg : même survie",
     "body": "Chez le patient de réanimation en insuffisance respiratoire aiguë hypoxémique, cibler une PaO2 de 60 mmHg plutôt que 90 mmHg ne modifie pas la mortalité à J90 : 42,9 % vs 42,4 % dans HOT-ICU (n=2928).",
     "detail": "Une cible basse permet d'épargner l'oxygène sans perte de chance, mais n'apporte pas non plus de bénéfice démontré.",
@@ -211,7 +211,7 @@
     ]
   },
   {
-    "module": "Rééducation en réanimation",
+    "module": "Réanimation médicale",
     "hook": "Mobilisation précoce intensive : pas de bénéfice",
     "body": "Une mobilisation active précoce et intensive des patients ventilés n'augmente pas le nombre de jours vivant hors de l'hôpital à J180 par rapport aux soins habituels (143 vs 145 jours) dans TEAM (n=750).",
     "detail": "Les effets indésirables (désaturation, instabilité hémodynamique) étaient plus fréquents dans le groupe intensif : 9,3 % vs 3,7 %.",
@@ -224,7 +224,7 @@
     ]
   },
   {
-    "module": "Nutrition en réanimation",
+    "module": "Réanimation médicale",
     "hook": "Choc : nourrir peu la première semaine",
     "body": "Chez le patient ventilé en état de choc, une nutrition hypocalorique et hypoprotéique la première semaine (6 kcal/kg/j, 0,2-0,4 g/kg/j de protéines) ne modifie pas la mortalité à J90 par rapport à des apports standards (41,3 % vs 41,9 %) dans NUTRIREA-3 (n=3044).",
     "detail": "La restriction était associée à une sortie de réanimation plus précoce et à moins de complications digestives.",
@@ -237,7 +237,7 @@
     ]
   },
   {
-    "module": "Nutrition en réanimation",
+    "module": "Réanimation médicale",
     "hook": "Hyperprotéiné : pas de gain, voire délétère",
     "body": "Un apport protéique élevé (≥ 2,2 g/kg/j) chez le patient ventilé n'accélère pas la sortie vivant de l'hôpital par rapport à un apport usuel (≤ 1,2 g/kg/j) dans EFFORT Protein (n=1329).",
     "detail": "Un signal de moins bon pronostic était observé chez les patients en insuffisance rénale aiguë ou avec un score SOFA élevé à l'admission.",
@@ -250,7 +250,7 @@
     ]
   },
   {
-    "module": "Delirium en réanimation",
+    "module": "Réanimation médicale",
     "hook": "Halopéridol pour le delirium : pas d'effet net",
     "body": "Chez le patient de réanimation présentant un delirium, l'halopéridol n'augmente pas significativement le nombre de jours vivant hors de l'hôpital à J90 par rapport au placebo dans AID-ICU (n=1000).",
     "detail": "Une mortalité plus faible dans le groupe halopéridol a été observée en analyse secondaire ajustée : un signal à confirmer, pas une indication systématique.",
@@ -263,7 +263,7 @@
     ]
   },
   {
-    "module": "Remplissage vasculaire",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Balancé ou sérum salé : même mortalité",
     "body": "En réanimation, les cristalloïdes balancés ne réduisent pas la mortalité à J90 par rapport au NaCl 0,9 % : 26,4 % vs 27,2 % dans BaSICS (n=11 052) et 21,8 % vs 22,0 % dans PLUS (n=5037).",
     "detail": "Les méta-analyses suggèrent un possible bénéfice modeste des solutés balancés, mais le NaCl 0,9 % reste préférable en cas de traumatisme crânien.",
@@ -277,7 +277,7 @@
     ]
   },
   {
-    "module": "Hémostase péri-opératoire",
+    "module": "Hémostase & transfusion",
     "hook": "Acide tranexamique en chirurgie non cardiaque",
     "body": "En chirurgie non cardiaque à risque hémorragique, l'acide tranexamique (1 g IV au début et à la fin de l'intervention) réduit les saignements graves : 9,1 % vs 11,7 % dans POISE-3 (n=9535).",
     "detail": "La non-infériorité sur les complications cardiovasculaires (14,2 % vs 13,9 %) n'a pas été formellement démontrée, même si aucun excès net n'est apparu.",
@@ -290,7 +290,7 @@
     ]
   },
   {
-    "module": "Médecine périopératoire",
+    "module": "Anesthésie peropératoire",
     "hook": "Dexaméthasone 8 mg : pas plus d'infections",
     "body": "Une dose unique de 8 mg de dexaméthasone à l'induction n'augmente pas le risque d'infection du site opératoire à J30 (8,1 % vs 9,1 %, non-infériorité démontrée) dans PADDI (n=8880), y compris chez le diabétique.",
     "detail": "Elle réduisait par ailleurs les nausées-vomissements postopératoires à J1.",
@@ -303,7 +303,7 @@
     ]
   },
   {
-    "module": "Médecine périopératoire",
+    "module": "Anesthésie peropératoire",
     "hook": "Réchauffer à 37 °C n'épargne pas le cœur",
     "body": "Maintenir une normothermie stricte à 37 °C plutôt qu'à 35,5 °C pendant une chirurgie non cardiaque ne réduit pas les complications cardiovasculaires majeures à J30 : 9,9 % dans les deux groupes dans PROTECT (n=5056).",
     "detail": "Une hypothermie modérée de courte durée semble donc sans impact cardiovasculaire ; la prévention de l'hypothermie reste justifiée pour d'autres raisons (saignement, confort, infection).",
@@ -316,7 +316,7 @@
     ]
   },
   {
-    "module": "Anesthésie orthopédique",
+    "module": "Anesthésie peropératoire",
     "hook": "Fracture de hanche : rachianesthésie = AG",
     "body": "Chez le sujet âgé opéré d'une fracture de hanche, la rachianesthésie ne réduit ni le critère décès ou incapacité à marcher à J60 (18,5 % vs 18,0 %) ni le delirium postopératoire (20,5 % vs 19,7 %) par rapport à l'anesthésie générale dans REGAIN (n=1600).",
     "detail": "Le choix de la technique peut donc reposer sur les préférences du patient et le contexte, sans supériorité démontrée de l'une ou l'autre.",
