@@ -166,7 +166,7 @@
     "hook": "Bilan entrées-sorties : surveillance stricte",
     "body": "Surveiller strictement le bilan entrées-sorties (BES) chez les patients de réanimation pour adapter la volémie et éviter la surcharge.",
     "detail": "Un BES positif persistant est associé à une augmentation de la durée de ventilation et de la mortalité. L'objectif est un BES équilibré ou légèrement négatif.",
-    "source": "WAKE-UP, NEJM 2018",
+    "source": "SOAP, Crit Care Med 2006 ; Malbrain et al., Ann Intensive Care 2014",
     "grade": "Grade 2+",
     "tags": ["bilan", "volémie", "surcharge", "réanimation"]
   },
