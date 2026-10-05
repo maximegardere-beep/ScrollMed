@@ -1,0 +1,221 @@
+[
+  {
+    "module": "Sepsis & infectiologie",
+    "hook": "Noradrénaline qui grimpe : ajouter la vasopressine",
+    "body": "Si la PAM reste insuffisante sous noradrénaline, ajouter de la vasopressine plutôt qu'augmenter encore la noradrénaline. En pratique, on l'introduit vers 0,25 à 0,5 µg/kg/min de noradrénaline.",
+    "detail": "Dose fixe de 0,03 UI/min, sans titration. L'objectif est l'épargne en catécholamines : VASST n'a pas montré de baisse globale de la mortalité. En cas de dysfonction cardiaque avec hypoperfusion persistante, ajouter de la dobutamine ou passer à l'adrénaline.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation faible",
+    "tags": ["Sepsis", "Vasopresseurs", "Vasopressine", "Choc septique"]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "hook": "Procalcitonine : pour arrêter les antibiotiques, pas pour les débuter",
+    "body": "Associée à l'évaluation clinique, la cinétique de la PCT aide à raccourcir l'antibiothérapie une fois la source contrôlée. Elle ne doit pas servir à décider de débuter un antibiotique.",
+    "detail": "Arrêt envisageable si PCT < 0,5 ng/mL ou baisse ≥ 80 % du pic. Faux positifs fréquents : chirurgie lourde, polytraumatisme, brûlures, choc cardiogénique, arrêt cardiaque. Une PCT basse n'exclut pas une infection localisée ou fongique.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "grade": "Recommandation faible",
+    "tags": ["Procalcitonine", "Antibiothérapie", "Biomarqueurs", "Désescalade"]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "hook": "BLSE et infection grave : un carbapénème, pas la pipéracilline-tazobactam",
+    "body": "Pour une bactériémie ou une infection grave à entérobactérie résistante aux C3G, le traitement documenté recommandé est un carbapénème (méropénème ou imipénème).",
+    "detail": "Dans MERINO (bactériémies à E. coli ou Klebsiella résistants à la ceftriaxone), la pipéracilline-tazobactam faisait plus de morts à J30 que le méropénème (12,3 % vs 3,7 %). Pour une infection non grave ou d'origine urinaire, une alternative épargnant les carbapénèmes reste envisageable.",
+    "source": "ESCMID 2022 (BGN multirésistants) ; MERINO, JAMA 2018",
+    "grade": "Recommandation forte",
+    "tags": ["BLSE", "Carbapénèmes", "BMR", "Bactériémie"]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "hook": "Entérobactérie résistante aux carbapénèmes : les nouvelles bêtalactamines d'abord",
+    "body": "Pour une infection grave à entérobactérie résistante aux carbapénèmes, privilégier ceftazidime-avibactam ou méropénème-vaborbactam s'ils sont actifs in vitro, plutôt que la colistine.",
+    "detail": "Le mécanisme de résistance guide le choix : OXA-48 et KPC → ceftazidime-avibactam ; métallo-bêtalactamase (NDM, VIM) → ceftazidime-avibactam + aztréonam, ou céfidérocol. Les polymyxines sont plus néphrotoxiques et moins efficaces. Avis infectiologique systématique.",
+    "source": "ESCMID 2022 (BGN multirésistants)",
+    "grade": "Recommandation conditionnelle",
+    "tags": ["EPC", "Carbapénémases", "BMR", "Ceftazidime-avibactam"]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "hook": "PAVM : l'aspiration trachéale suffit au diagnostic",
+    "body": "Pour documenter une PAVM, une aspiration endotrachéale avec culture semi-quantitative est suggérée plutôt qu'un LBA quantitatif systématique.",
+    "detail": "Les prélèvements invasifs n'améliorent ni la mortalité ni la durée de ventilation. L'aspiration trachéale est plus sensible mais moins spécifique : une culture positive sans tableau clinique évocateur ne doit pas déclencher d'antibiotique. Les recommandations européennes ERS/ESICM 2017 préfèrent, elles, un prélèvement distal quantitatif.",
+    "source": "IDSA/ATS 2016 (pneumonies nosocomiales)",
+    "grade": "Recommandation faible",
+    "tags": ["PAVM", "Microbiologie", "LBA", "Pneumonie nosocomiale"]
+  },
+  {
+    "module": "Ventilation & oxygénation",
+    "hook": "SDRA : pas de manœuvre de recrutement prolongée à haute pression",
+    "body": "Les manœuvres de recrutement prolongées à haute pression (paliers de PEP croissants) ne sont pas recommandées dans le SDRA : elles augmentent la mortalité.",
+    "detail": "Dans ART (n=1010), recrutement + titration de PEP : mortalité à J28 de 55,3 % vs 49,3 %, avec plus de barotraumatismes et d'hypotensions. Aucune recommandation ferme pour ou contre les recrutements brefs (insufflation soutenue courte).",
+    "source": "ESICM 2023 (SDRA) ; ART, JAMA 2017",
+    "grade": "Recommandation forte",
+    "tags": ["SDRA", "Recrutement alvéolaire", "PEP", "Ventilation"]
+  },
+  {
+    "module": "Ventilation & oxygénation",
+    "hook": "SDRA modéré à sévère : une PEP élevée",
+    "body": "Dans le SDRA modéré à sévère (PaO2/FiO2 ≤ 200), il faut probablement utiliser une PEP élevée, en surveillant la tolérance hémodynamique et la pression de plateau.",
+    "detail": "Aucune méthode de réglage (table PEP/FiO2, compliance, pression œsophagienne) n'a prouvé sa supériorité. Une PEP qui fait chuter la compliance ou la PA traduit une surdistension : revenir en arrière. Les recommandations ESICM 2023 ne tranchent pas entre PEP haute et basse.",
+    "source": "RFE SFAR-SRLF 2019 (SDRA)",
+    "grade": "Grade 2+",
+    "tags": ["SDRA", "PEP", "Ventilation protectrice"]
+  },
+  {
+    "module": "Ventilation & oxygénation",
+    "hook": "Extubation à risque : VNI préventive immédiate",
+    "body": "Chez le patient à haut risque d'échec d'extubation (hypercapnique, cardiaque, > 65 ans), la VNI débutée dès l'extubation réduit la réintubation.",
+    "detail": "À distinguer de la VNI de « rattrapage » : quand la détresse post-extubation est installée, la VNI n'est pas suggérée car elle retarde la réintubation (mortalité plus élevée dans l'essai d'Esteban, 2004).",
+    "source": "ERS/ATS 2017 (VNI dans l'insuffisance respiratoire aiguë)",
+    "grade": "Recommandation conditionnelle",
+    "tags": ["VNI", "Extubation", "Sevrage ventilatoire", "BPCO"]
+  },
+  {
+    "module": "Ventilation & oxygénation",
+    "hook": "Extubation à faible risque : OHD plutôt qu'oxygène standard",
+    "body": "Après extubation d'un patient médical à faible risque d'échec, l'oxygénothérapie à haut débit est suggérée plutôt que l'oxygène conventionnel.",
+    "detail": "Chez le patient à haut risque, la VNI reste suggérée en première intention, l'OHD étant une alternative en cas d'intolérance. Les essais de Hernández (JAMA 2016) ont nourri ces deux recommandations.",
+    "source": "ERS 2022 (oxygénothérapie à haut débit)",
+    "grade": "Recommandation conditionnelle",
+    "tags": ["OHD", "Optiflow", "Extubation", "Oxygénothérapie"]
+  },
+  {
+    "module": "Ventilation & oxygénation",
+    "hook": "Asthme aigu grave : corticoïdes systémiques dans l'heure",
+    "body": "Toute exacerbation sévère d'asthme reçoit des corticoïdes systémiques dans la première heure. La voie orale est aussi efficace que l'IV si le patient peut avaler.",
+    "detail": "Prednisolone 1 mg/kg (max 50 mg/j) pendant 5 à 7 jours chez l'adulte. Voie IV (méthylprednisolone, hydrocortisone) si vomissements, troubles de conscience ou détresse empêchant la prise orale. L'effet n'apparaît qu'après 4 à 6 h : ne pas retarder les bronchodilatateurs.",
+    "source": "GINA 2024",
+    "tags": ["Asthme", "Corticoïdes", "Bronchospasme"]
+  },
+  {
+    "module": "Hémostase & transfusion",
+    "hook": "Trauma qui saigne : fibrinogène si < 1,5 g/L",
+    "body": "En hémorragie traumatique majeure, apporter du fibrinogène (concentré ou cryoprécipité) si le fibrinogène Clauss est ≤ 1,5 g/L ou si les tests viscoélastiques montrent un déficit fonctionnel.",
+    "detail": "Dose initiale suggérée : 3 à 4 g chez l'adulte. Le fibrinogène est le premier facteur à s'effondrer dans le choc hémorragique (dilution, consommation, hypothermie, acidose). Les PFC seuls ne suffisent pas à le corriger.",
+    "source": "European guideline on management of major bleeding after trauma, 6e éd., 2023",
+    "grade": "Grade 1C",
+    "tags": ["Traumatisme", "Fibrinogène", "Coagulopathie", "Transfusion massive"]
+  },
+  {
+    "module": "Hémostase & transfusion",
+    "hook": "Transfusion massive : surveiller et corriger le calcium ionisé",
+    "body": "Pendant une transfusion massive, doser régulièrement le calcium ionisé et le maintenir dans la normale (≥ 1,1 mmol/L).",
+    "detail": "Le citrate des produits sanguins chélate le calcium. L'hypocalcémie aggrave la coagulopathie et la défaillance cardiovasculaire ; un calcium ionisé < 0,9 mmol/L à l'admission est associé à une surmortalité. Correction par chlorure ou gluconate de calcium IV.",
+    "source": "European guideline on management of major bleeding after trauma, 6e éd., 2023",
+    "grade": "Grade 1C",
+    "tags": ["Transfusion massive", "Calcium", "Citrate", "Coagulopathie"]
+  },
+  {
+    "module": "Hémostase & transfusion",
+    "hook": "INR trop haut sans saignement : vitamine K orale, pas de CCP",
+    "body": "Surdosage en AVK asymptomatique (INR cible 2-3) : INR 4-6 → sauter une prise ; INR 6-10 → arrêt + 1 à 2 mg de vitamine K per os ; INR ≥ 10 → arrêt + 5 mg per os.",
+    "detail": "Contrôle de l'INR le lendemain, reprise de l'AVK à dose réduite une fois l'INR revenu dans la cible. Les CCP et la vitamine K IV sont réservés aux hémorragies graves ou aux gestes urgents. Rechercher la cause : interaction, dénutrition, erreur de prise.",
+    "source": "HAS 2008 (surdosage en AVK)",
+    "tags": ["AVK", "INR", "Vitamine K", "Anticoagulants"]
+  },
+  {
+    "module": "Hémodynamique & cardiologie",
+    "hook": "Choc cardiogénique de l'IDM : pas de ballon de contre-pulsion en routine",
+    "body": "Le ballon de contre-pulsion intra-aortique n'est pas recommandé en routine dans le choc cardiogénique du SCA sans complication mécanique.",
+    "detail": "IABP-SHOCK II (n=600) : aucune différence de mortalité à J30 (39,7 % vs 41,3 %) ni à long terme. Il garde une place en cas de complication mécanique (insuffisance mitrale aiguë, rupture septale) en attente de chirurgie.",
+    "source": "ESC 2023 (syndromes coronariens aigus) ; IABP-SHOCK II, NEJM 2012",
+    "grade": "Classe III",
+    "tags": ["Choc cardiogénique", "Contre-pulsion", "SCA", "Assistance circulatoire"]
+  },
+  {
+    "module": "Hémodynamique & cardiologie",
+    "hook": "Douleur thoracique : troponine hypersensible à H0 et H1",
+    "body": "Pour éliminer ou confirmer un NSTEMI, utiliser l'algorithme ESC 0h/1h (ou 0h/2h) de troponine hypersensible, avec les seuils propres à chaque dosage.",
+    "detail": "Une troponine très basse à H0 permet d'éliminer l'infarctus si la douleur date de plus de 3 h. Une élévation isolée n'est pas un SCA : sepsis, embolie pulmonaire, insuffisance rénale ou myocardite l'élèvent aussi. L'ECG reste à faire dans les 10 minutes.",
+    "source": "ESC 2023 (syndromes coronariens aigus)",
+    "grade": "Classe I",
+    "tags": ["SCA", "Troponine", "NSTEMI", "Douleur thoracique"]
+  },
+  {
+    "module": "Hémodynamique & cardiologie",
+    "hook": "Embolie pulmonaire : un AOD plutôt qu'un AVK",
+    "body": "Pour le relais oral d'une embolie pulmonaire, un anticoagulant oral direct est recommandé de préférence à un AVK, pour au moins 3 mois.",
+    "detail": "Les AOD ne sont pas recommandés en cas d'insuffisance rénale sévère, de grossesse ou d'allaitement, ni de syndrome des antiphospholipides : l'AVK (ou l'HBPM) reste alors la règle. Apixaban et rivaroxaban se débutent sans héparine préalable, à dose de charge.",
+    "source": "ESC 2019 (embolie pulmonaire)",
+    "grade": "Classe I",
+    "tags": ["Embolie pulmonaire", "AOD", "AVK", "Anticoagulants"]
+  },
+  {
+    "module": "Hémodynamique & cardiologie",
+    "hook": "Embolie pulmonaire grave : HNF sans attendre, HBPM pour les autres",
+    "body": "En embolie pulmonaire à haut risque (choc), débuter sans délai une HNF avec bolus adapté au poids. Pour les risques faible et intermédiaire, préférer HBPM ou fondaparinux.",
+    "detail": "L'HNF se justifie dans le haut risque par sa demi-vie courte et sa réversibilité, compatibles avec une thrombolyse, une embolectomie ou une ECMO. Elle est aussi préférée en cas d'insuffisance rénale sévère ou d'obésité morbide.",
+    "source": "ESC 2019 (embolie pulmonaire)",
+    "grade": "Classe I",
+    "tags": ["Embolie pulmonaire", "HNF", "HBPM", "Choc"]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "EER continue : 20 à 25 mL/kg/h d'effluent",
+    "body": "En épuration extrarénale continue pour IRA, la dose recommandée est de 20 à 25 mL/kg/h d'effluent réellement délivrés. Plus n'apporte rien.",
+    "detail": "RENAL et ATN : aucune baisse de mortalité avec les doses élevées (40 mL/kg/h). Prescrire un peu plus (25-30 mL/kg/h) pour compenser les arrêts de circuit (bilans, changements de filtre, transport).",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 1A",
+    "tags": ["EER", "Dialyse", "Insuffisance rénale aiguë", "HDFVVC"]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "EER continue : anticoaguler au citrate plutôt qu'à l'héparine",
+    "body": "Sans contre-indication, l'anticoagulation régionale au citrate est préférée à l'héparine pour l'EER continue : filtres plus durables, moins de saignements.",
+    "detail": "Surveiller le calcium ionisé post-filtre et systémique. Un rapport calcium total / calcium ionisé > 2,5 signe une accumulation de citrate. Prudence en insuffisance hépatocellulaire sévère et en hyperlactatémie importante (métabolisme du citrate altéré).",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë) ; RICH, JAMA 2020",
+    "grade": "Grade 2B",
+    "tags": ["EER", "Citrate", "Anticoagulation", "Dialyse"]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Pancréatite grave : nourrir par l'intestin, par une simple sonde gastrique",
+    "body": "Dans la pancréatite aiguë grave, la nutrition entérale précoce est préférée à la parentérale. La sonde nasogastrique suffit dans la plupart des cas.",
+    "detail": "La voie entérale entretient la barrière intestinale et réduit les infections de nécrose. La sonde nasojéjunale n'est utile qu'en cas d'intolérance gastrique (vomissements, compression duodénale). La parentérale est réservée à l'échec ou à l'impossibilité de la voie entérale.",
+    "source": "RFE SFAR-SRLF 2021 (pancréatite aiguë grave)",
+    "tags": ["Pancréatite", "Nutrition entérale", "Nutrition"]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Nécrose pancréatique infectée : drainer d'abord, opérer tard",
+    "body": "Une nécrose infectée se traite par antibiotiques puis approche « step-up » : drainage percutané ou endoscopique en premier, nécrosectomie seulement si échec. Différer le geste idéalement à 4 semaines.",
+    "detail": "Ce délai laisse la nécrose s'encapsuler (walled-off necrosis), ce qui rend le drainage plus sûr. PANTER : moins de complications majeures qu'avec la nécrosectomie ouverte d'emblée. POINTER : le drainage immédiat n'apporte rien par rapport au drainage différé.",
+    "source": "RFE SFAR-SRLF 2021 (pancréatite aiguë grave) ; PANTER, NEJM 2010 ; POINTER, NEJM 2021",
+    "tags": ["Pancréatite", "Nécrose infectée", "Step-up", "Drainage"]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Alcoolique ou dénutri : la thiamine avant le glucose",
+    "body": "Chez tout patient à risque (alcool, dénutrition, vomissements prolongés, chirurgie bariatrique), administrer la thiamine IV avant tout apport glucosé.",
+    "detail": "Le glucose consomme la thiamine restante et peut précipiter une encéphalopathie de Gayet-Wernicke. La triade (confusion, ataxie, ophtalmoplégie) est complète chez une minorité de patients : traiter sur le terrain. Dose curative : 200 mg × 3/j IV.",
+    "source": "EFNS 2010 (encéphalopathie de Wernicke)",
+    "tags": ["Thiamine", "Gayet-Wernicke", "Sevrage alcoolique", "Vitamine B1"]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "Hémorragie méningée : l'euvolémie, plus de « triple H »",
+    "body": "Après une hémorragie méningée anévrismale, viser l'euvolémie. L'hypervolémie prophylactique (« triple H ») est délétère et n'est plus recommandée.",
+    "detail": "Elle n'empêche pas l'ischémie cérébrale retardée et expose à l'œdème pulmonaire et aux troubles électrolytiques. La nimodipine orale reste le seul traitement préventif validé. Surveiller la natrémie : le syndrome de perte de sel est fréquent.",
+    "source": "AHA/ASA 2023 (hémorragie méningée anévrismale)",
+    "grade": "Classe III",
+    "tags": ["Hémorragie méningée", "Vasospasme", "Euvolémie", "Ischémie retardée"]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "AVC : thrombectomie possible jusqu'à 24 h sur l'imagerie",
+    "body": "Entre 6 et 24 h après le début des symptômes (ou d'un AVC du réveil), une thrombectomie reste indiquée pour une occlusion proximale si l'imagerie de perfusion ou l'IRM montre un tissu encore récupérable.",
+    "detail": "Les essais DAWN et DEFUSE 3 ont sélectionné les patients sur un « mismatch » entre un petit cœur d'infarctus et un large territoire hypoperfusé ou un déficit sévère. Le transfert vers un centre de thrombectomie ne doit pas être retardé par une thrombolyse en cours.",
+    "source": "AHA/ASA 2019 (AVC ischémique) ; DAWN et DEFUSE 3, NEJM 2018",
+    "grade": "Classe I",
+    "tags": ["AVC", "Thrombectomie", "Imagerie de perfusion"]
+  },
+  {
+    "module": "Pédiatrie",
+    "hook": "Acidocétose de l'enfant : pas de bolus d'insuline",
+    "body": "Chez l'enfant en acidocétose, l'insuline IV continue (0,05 à 0,1 UI/kg/h) démarre au moins 1 h après le début de la réhydratation, sans bolus.",
+    "detail": "Le bolus majore la chute de l'osmolalité et pourrait favoriser l'œdème cérébral. Signes d'alerte : céphalées, bradycardie, HTA, troubles de conscience. Traitement immédiat : mannitol 0,5 à 1 g/kg ou NaCl 3 % 2,5 à 5 mL/kg en 10-15 min.",
+    "source": "ISPAD 2022 (acidocétose diabétique)",
+    "tags": ["Acidocétose", "Insuline", "Œdème cérébral", "Diabète"]
+  }
+]

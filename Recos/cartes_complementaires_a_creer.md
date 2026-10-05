@@ -5,11 +5,11 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
 ## Pathologies et prises en charge
 
 ### Sepsis et choc septique
-- [ ] **Procalcitonine (PCT) : interprétation et limites**
+- [x] **Procalcitonine (PCT) : interprétation et limites**
   - Seuils, cinétique, pièges (faux positifs : traumatisme, chirurgie, brûlures)
 - [ ] **Antibiothérapie probabiliste en réanimation : choix par situation**
   - Méningite, pneumonie nosocomiale, péritonite, choc septique à BGN
-- [ ] **Vasopresseurs : quand et comment les associer**
+- [x] **Vasopresseurs : quand et comment les associer**
   - Noradrénaline + vasopressine, adrénaline en 2ème intention, phényléphrine
 - [ ] **Corticoïdes dans le choc septique : indications précises**
   - Hydrocortisone 200 mg/j : quand commencer, quand arrêter ?
@@ -17,7 +17,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
 ### SDRA
 - [ ] **Décubitus ventral : modalités pratiques**
   - Durée, contre-indications, surveillance, complications
-- [ ] **Stratégie de PEEP dans le SDRA : tables et titration**
+- [x] **Stratégie de PEEP dans le SDRA : tables et titration**
   - Méthode de la "PEEP la plus basse" vs tables ARDS Network
 - [ ] **Curares en SDRA : posologie et monitoring**
   - Cisatracurium : dose, durée, surveillance de la force musculaire
@@ -37,7 +37,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Ratio 1:1:1, fibrinogène, calcium, température
 - [ ] **Acide tranexamique : posologie et timing**
   - 1g IV en 10 min puis 1g en 8h : preuves et limites
-- [ ] **Coagulopathie du traumatisme : physiopathologie et traitement**
+- [x] **Coagulopathie du traumatisme : physiopathologie et traitement**
   - Rôle du fibrinogène, complexes prothrombiniques
 
 ### Choc cardiogénique
@@ -61,12 +61,12 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - HDFV vs HD : avantages, inconvénients, réglages
 - [ ] **Indications urgentes de dialyse**
   - Hyperkaliémie, acidose, urémie, surcharge
-- [ ] **Dose de dialyse en réanimation**
+- [x] **Dose de dialyse en réanimation**
   - KV, durée, fréquence : comment adapter ?
 
 ### Pancréatite aiguë sévère
 - [ ] **Score de Ranson et Balthazar : calcul et interprétation**
-- [ ] **Nutrition entérale précoce dans la pancréatite**
+- [x] **Nutrition entérale précoce dans la pancréatite**
   - Quand commencer, quelle voie (nasogastrique vs nasojéjunale) ?
 - [ ] **Antibiothérapie dans la pancréatite nécrosante**
   - Quand la démarrer, quels antibiotiques ?
@@ -74,7 +74,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
 ### Intoxications
 - [ ] **Paracétamol : nomogramme de Rumack-Matthew et NAC**
   - Dose, durée, voie d'administration
-- [ ] **Intoxication aux AVK : gestion du surdosage**
+- [x] **Intoxication aux AVK : gestion du surdosage**
   - Vitamine K, PCC, plasma frais congelé
 - [ ] **Intoxication aux bêta-bloquants : traitement spécifique**
   - Glucagon, isoprénaline, assistance circulatoire
@@ -82,7 +82,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
 ### Embolie pulmonaire
 - [ ] **Score de gravité (PESI, sPESI) : calcul et utilisation**
 - [ ] **Thrombectomie chirurgicale ou percutanée : indications**
-- [ ] **Traitement anticoagulant : choix et relais**
+- [x] **Traitement anticoagulant : choix et relais**
   - HBPM vs HNF, durée, relais par AVK ou AOD
 
 ### BPCO décompensée
@@ -90,13 +90,13 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - 2 g IV en 20 min : efficacité, risques
 - [ ] **Ventilation invasive dans la BPCO : réglages spécifiques**
   - VT, fréquence, PEEP, temps inspiratoire
-- [ ] **Sevrage ventilatoire chez le BPCO : stratégies**
+- [x] **Sevrage ventilatoire chez le BPCO : stratégies**
   - Épreuves de ventilation spontanée, VNI comme aide au sevrage
 
 ### Asthme aigu grave
 - [ ] **Nébulisations continues : protocole**
   - Bêta2-mimétiques (salbutamol), anticholinergiques (bromure d'ipratropium)
-- [ ] **Corticoïdes IV : posologie et durée**
+- [x] **Corticoïdes IV : posologie et durée**
   - Hydrocortisone vs méthylprednisolone
 - [ ] **Kétamine dans l'asthme sévère : indications**
   - Dose, mécanisme d'action, effets secondaires
@@ -106,7 +106,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Bolus initial, perfusion continue, adaptation
 - [ ] **Correction du potassium : stratégie**
   - Quand supplémenter, quand arrêter ?
-- [ ] ] **Complications du traitement : œdème cérébral**
+- [x] **Complications du traitement : œdème cérébral**
   - Signes avant-coureurs, prévention, traitement
 
 ### AVC ischémique
@@ -114,7 +114,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - TDM sans injection, TDM perfusion, IRM
 - [ ] **Thrombolyse IV : protocole complet**
   - Dose, contre-indications, surveillance
-- [ ] **Thrombectomie mécanique : sélection des patients**
+- [x] **Thrombectomie mécanique : sélection des patients**
   - Critères d'imagerie, délais, centres experts
 
 ### Traumatisme crânien grave
@@ -138,7 +138,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Items, cotation, interprétation
 - [ ] **Benzodiazépines : titration et sevrage**
   - Diazépam vs oxazépam, protocole de sevrage
-- [ ] **Complications du sevrage : DT, encéphalopathie de Gayet-Wernicke**
+- [x] **Complications du sevrage : DT, encéphalopathie de Gayet-Wernicke**
   - Prévention (vitamine B1), traitement
 
 ### Arrêt cardiaque
@@ -150,9 +150,9 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Indications, température cible, durée
 
 ### Infections nosocomiales
-- [ ] **Pneumonie sous VM : diagnostic microbiologique**
+- [x] **Pneumonie sous VM : diagnostic microbiologique**
   - Aspiration trachéale, lavage broncho-alvéolaire
-- [ ] **Antibiothérapie des infections à BGN multirésistants**
+- [x] **Antibiothérapie des infections à BGN multirésistants**
   - Carbapénèmes, colistine, fosfomycine
 - [ ] **Prévention des infections nosocomiales**
   - Hygiène des mains, précautions standard/contact
@@ -167,7 +167,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Calcium, insulin-glucose, résines, dialyse
 
 ### Syndrome coronarien aigu
-- [ ] **Évaluation initiale du SCA : ECG, troponine, score GRACE**
+- [x] **Évaluation initiale du SCA : ECG, troponine, score GRACE**
 - [ ] **Antiagrégants plaquettaires : choix selon le contexte**
   - STEMI vs NSTEMI, allergie à l'aspirine
 - [ ] **Anticoagulation en SCA : HBPM vs HNF vs bivalirudine**
@@ -189,7 +189,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
 
 ### Hémorragie méningée
 - [ ] **Imagerie de l'HSA : TDM vs IRM vs angiographie**
-- [ ] **Vasospasme cérébral : prévention et traitement**
+- [x] **Vasospasme cérébral : prévention et traitement**
   - Nimodipine, triple H thérapie, angioplastie
 - [ ] **Complications de l'HSA : hydrocéphalie, resaignement**
   - Dérivation ventriculaire externe, re-saignement
