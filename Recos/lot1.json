@@ -41,7 +41,7 @@
     "tags": ["ventilation mécanique", "sevrage", "extubation"]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Dépister le delirium tous les jours, systématiquement",
     "body": "Un dépistage quotidien et systématique du delirium, à l'aide d'un outil validé tel que la CAM-ICU, est recommandé chez tout patient de réanimation, y compris sous sédation légère, car le delirium reste largement sous-diagnostiqué sans évaluation formalisée.",
     "detail": "Le delirium en réanimation est associé à une durée de séjour prolongée et à un risque accru de déclin cognitif à distance de l'hospitalisation.",

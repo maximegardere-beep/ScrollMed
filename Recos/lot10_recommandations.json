@@ -1,6 +1,6 @@
 [
   {
-    "module": "Réanimation cardiaque",
+    "module": "Hémodynamique & cardiologie",
     "hook": "PAM > 65 mmHg : objectif minimal en choc",
     "body": "Maintenir une pression artérielle moyenne (PAM) ≥ 65 mmHg chez les patients en choc (septique, cardiogénique, hémorragique) pour assurer une perfusion tissulaire adéquate.",
     "detail": "Cet objectif est validé par les recommandations Surviving Sepsis Campaign et ESC. Une PAM < 65 mmHg est associée à une augmentation de la mortalité et des dysfonctions d'organe.",
@@ -9,7 +9,7 @@
     "tags": ["choc", "PAM", "hémodynamique", "perfusion"]
   },
   {
-    "module": "Ventilation mécanique",
+    "module": "Ventilation & oxygénation",
     "hook": "FiO2 la plus basse possible pour SpO2 94-98%",
     "body": "Titrer la FiO2 pour maintenir une SpO2 entre 94% et 98% chez les patients sous ventilation mécanique, afin de limiter la toxicité pulmonaire liée à l'hyperoxie.",
     "detail": "L'hyperoxie (PaO2 > 100 mmHg) est associée à une augmentation du stress oxydatif et de la mortalité. Les cibles peuvent être adaptées en cas d'ischémie myocardique ou cérébrale.",
@@ -18,7 +18,7 @@
     "tags": ["ventilation", "FiO2", "hyperoxie", "toxicité"]
   },
   {
-    "module": "Sédation en réanimation",
+    "module": "Soins quotidiens en réa",
     "hook": "Protocole de sédation : évaluation quotidienne",
     "body": "Évaluer quotidiennement la profondeur de la sédation (RASS ou SAS) et adapter les posologies pour éviter une sédation excessive ou insuffisante.",
     "detail": "Une sédation trop profonde prolonge la durée de ventilation mécanique et augmente le risque de delirium. Le protocole ABCDEF est recommandé pour une approche structurée.",
@@ -27,7 +27,7 @@
     "tags": ["sédation", "RASS", "ABCDEF", "réanimation"]
   },
   {
-    "module": "Analgésie en réanimation",
+    "module": "Soins quotidiens en réa",
     "hook": "Échelle BPS ou CPOT pour évaluer la douleur",
     "body": "Utiliser l'échelle Behavioral Pain Scale (BPS) ou Critical-Care Pain Observation Tool (CPOT) pour évaluer la douleur chez les patients incapables de s'exprimer.",
     "detail": "Ces échelles sont validées en réanimation et permettent une évaluation objective de la douleur, même sous sédation ou ventilation mécanique.",
@@ -36,7 +36,7 @@
     "tags": ["analgésie", "douleur", "BPS", "CPOT"]
   },
   {
-    "module": "Nutrition en réanimation",
+    "module": "Soins quotidiens en réa",
     "hook": "Démarrer la nutrition entérale dans les 24-48h",
     "body": "Initiier une nutrition entérale précoce (20-25 kcal/kg/j) chez les patients de réanimation dès que l'état hémodynamique est stabilisé.",
     "detail": "La nutrition précoce réduit la morbi-mortalité, mais doit être adaptée en cas de choc non contrôlé ou d'ischémie mésentérique.",
@@ -45,7 +45,7 @@
     "tags": ["nutrition", "entérale", "réanimation", "métabolisme"]
   },
   {
-    "module": "Prévention des escarres",
+    "module": "Soins quotidiens en réa",
     "hook": "Changement de position toutes les 2-3h",
     "body": "Mobiliser et changer de position les patients alités toutes les 2-3 heures pour prévenir les escarres de décubitus.",
     "detail": "Les zones à risque (sacrum, talons, trochanters) doivent faire l'objet d'une attention particulière. Les matelas à pression alternée sont recommandés chez les patients à haut risque.",
@@ -54,7 +54,7 @@
     "tags": ["escarres", "prévention", "mobilisation", "soins infirmiers"]
   },
   {
-    "module": "Prévention des infections",
+    "module": "Sepsis & infectiologie",
     "hook": "Hygiène des mains : avant et après chaque soin",
     "body": "Réaliser une friction hydro-alcoolique ou un lavage de mains avant et après chaque contact avec un patient ou son environnement.",
     "detail": "L'hygiène des mains est la mesure la plus efficace pour prévenir les infections nosocomiales. Le respect des précautions standard est obligatoire.",
@@ -63,7 +63,7 @@
     "tags": ["hygiène", "infections nosocomiales", "prévention"]
   },
   {
-    "module": "Gestion des cathéters",
+    "module": "Sepsis & infectiologie",
     "hook": "Retirer les cathéters dès qu'inutiles",
     "body": "Retirer systématiquement les cathéters veineux centraux et urinaires dès qu'ils ne sont plus nécessaires, pour réduire le risque d'infection.",
     "detail": "Chaque jour de cathéter supplémentaire augmente le risque d'infection. La pose doit être réévaluée quotidiennement.",
@@ -72,7 +72,7 @@
     "tags": ["cathéters", "infections", "prévention", "réanimation"]
   },
   {
-    "module": "Surveillance hémodynamique",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Monitorage invasif si choc persistant",
     "body": "Envisager un monitorage hémodynamique invasif (cathéter artériel, Swan-Ganz) en cas de choc persistant malgré le traitement initial.",
     "detail": "Le cathéter artériel permet une mesure continue de la pression artérielle et des prélèvements sanguins. Le cathéter de Swan-Ganz est utile pour évaluer la pression artérielle pulmonaire et le débit cardiaque.",
@@ -81,7 +81,7 @@
     "tags": ["monitorage", "hémodynamique", "choc", "cathéter"]
   },
   {
-    "module": "Transfusion sanguine",
+    "module": "Hémostase & transfusion",
     "hook": "Seuil transfusionnel : Hb 7 g/dL en réanimation",
     "body": "Transfuser les patients de réanimation si l'hémoglobine (Hb) est < 7 g/dL, avec un seuil plus élevé (8-10 g/dL) en cas de maladie cardiovasculaire.",
     "detail": "Une stratégie restrictive (Hb 7 g/dL) est non inférieure à une stratégie libérale (Hb 9 g/dL) en termes de mortalité, sauf chez les patients avec antécédents cardiovasculaires.",
@@ -90,7 +90,7 @@
     "tags": ["transfusion", "hémoglobine", "seuil", "réanimation"]
   },
   {
-    "module": "Anticoagulation en réanimation",
+    "module": "Hémostase & transfusion",
     "hook": "HBPM en prévention de la MTEV chez le patient alité",
     "body": "Administrer une héparine de bas poids moléculaire (HBPM) en prévention de la maladie thromboembolique veineuse (MTEV) chez tout patient de réanimation alité.",
     "detail": "La dose dépend du poids et du risque hémorragique. Les contre-indications incluent les saignements actifs et les troubles sévères de la coagulation.",
@@ -99,7 +99,7 @@
     "tags": ["anticoagulation", "MTEV", "HBPM", "prévention"]
   },
   {
-    "module": "Gestion des déchets",
+    "module": "Soins quotidiens en réa",
     "hook": "Élimination des DASRI : respect des procédures",
     "body": "Éliminer les Déchets d'Activités de Soins à Risques Infectieux (DASRI) dans des conteneurs spécifiques et conformes à la réglementation.",
     "detail": "Les DASRI doivent être triés à la source, emballés dans des conteneurs étanches et résistants à la perforation, puis éliminés par filière agréée.",
@@ -108,7 +108,7 @@
     "tags": ["DASRI", "déchets", "sécurité", "réanimation"]
   },
   {
-    "module": "Prévention du delirium",
+    "module": "Soins quotidiens en réa",
     "hook": "Mobilisation précoce et réorientation",
     "body": "Mobiliser précocement les patients et les réorienter régulièrement (jour/nuit, environnement) pour prévenir le delirium en réanimation.",
     "detail": "Le protocole ABCDEF (Assess, Prevent, Manage pain, Both spontaneous awakening and breathing trials, Choice of sedation, Delirium monitoring, Early mobility) est recommandé.",
@@ -117,7 +117,7 @@
     "tags": ["delirium", "mobilisation", "prévention", "ABCDEF"]
   },
   {
-    "module": "Gestion de la glycémie",
+    "module": "Réanimation médicale",
     "hook": "Cible glycémique : 140-180 mg/dL en réanimation",
     "body": "Maintenir une glycémie entre 140 et 180 mg/dL chez les patients de réanimation, avec des contrôles réguliers.",
     "detail": "Un contrôle glycémique strict (80-110 mg/dL) augmente le risque d'hypoglycémie sévère sans bénéfice prouvé sur la mortalité. Les patients diabétiques peuvent tolérer des cibles plus élevées.",
@@ -126,7 +126,7 @@
     "tags": ["glycémie", "diabète", "contrôle", "réanimation"]
   },
   {
-    "module": "Prévention des pneumonies sous VM",
+    "module": "Sepsis & infectiologie",
     "hook": "Position semi-assise à 30-45°",
     "body": "Maintenir les patients sous ventilation mécanique en position semi-assise (30-45°) pour réduire le risque de pneumonie nosocomiale.",
     "detail": "Cette mesure simple réduit significativement l'incidence des pneumonies associées à la ventilation mécanique (PAVM).",
@@ -135,7 +135,7 @@
     "tags": ["pneumonie", "ventilation mécanique", "prévention", "position"]
   },
   {
-    "module": "Gestion des voies aériennes",
+    "module": "Voies aériennes",
     "hook": "Aspiration trachéale : stérile et non traumatisante",
     "body": "Réaliser les aspirations trachéales avec un matériel stérile et en limitant la durée (< 15 secondes) pour éviter les traumatismes et les infections.",
     "detail": "L'aspiration doit être effectuée uniquement en cas de besoin (sécrétions visibles, désaturation, augmentation des pressions). Utiliser un cathéter d'aspiration adapté au diamètre de la sonde.",
@@ -144,7 +144,7 @@
     "tags": ["voies aériennes", "aspiration", "trachéale", "prévention"]
   },
   {
-    "module": "Surveillance neurologique",
+    "module": "Neuro-réanimation",
     "hook": "Évaluation quotidienne du Glasgow",
     "body": "Évaluer quotidiennement le score de Glasgow chez les patients de réanimation pour détecter précocement toute altération de conscience.",
     "detail": "Le score de Glasgow permet de suivre l'évolution neurologique et d'identifier rapidement une dégradation. Une baisse ≥ 2 points doit alerter.",
@@ -153,7 +153,7 @@
     "tags": ["neurologique", "Glasgow", "surveillance", "réanimation"]
   },
   {
-    "module": "Prévention des thromboses",
+    "module": "Hémostase & transfusion",
     "hook": "Bas de contention si contre-indication aux HBPM",
     "body": "Utiliser des bas de contention ou une compression pneumatique intermittente si les HBPM sont contre-indiquées pour la prévention de la MTEV.",
     "detail": "Les bas de contention doivent être adaptés à la taille du patient et retirés quotidiennement pour inspecter la peau. La compression pneumatique est une alternative efficace.",
@@ -162,7 +162,7 @@
     "tags": ["thrombose", "prévention", "MTEV", "bas de contention"]
   },
   {
-    "module": "Gestion des fluides",
+    "module": "Réanimation médicale",
     "hook": "Bilan entrées-sorties : surveillance stricte",
     "body": "Surveiller strictement le bilan entrées-sorties (BES) chez les patients de réanimation pour adapter la volémie et éviter la surcharge.",
     "detail": "Un BES positif persistant est associé à une augmentation de la durée de ventilation et de la mortalité. L'objectif est un BES équilibré ou légèrement négatif.",
@@ -171,7 +171,7 @@
     "tags": ["bilan", "volémie", "surcharge", "réanimation"]
   },
   {
-    "module": "Prévention des infections urinaires",
+    "module": "Sepsis & infectiologie",
     "hook": "Sonde urinaire : pose uniquement si nécessaire",
     "body": "Limiter la pose de sondes urinaires aux indications strictes (rétention urinaire, surveillance horaire de la diurèse) pour réduire le risque d'infection.",
     "detail": "Chaque jour de sonde supplémentaire augmente le risque d'infection urinaire nosocomiale. La pose doit être réévaluée quotidiennement.",
@@ -180,7 +180,7 @@
     "tags": ["infection urinaire", "sonde", "prévention", "réanimation"]
   },
   {
-    "module": "Gestion de la température",
+    "module": "Soins quotidiens en réa",
     "hook": "Normothermie : objectif en réanimation",
     "body": "Maintenir une température corporelle entre 36.5°C et 37.5°C chez les patients de réanimation, sauf indication spécifique (ex : hypothermie thérapeutique).",
     "detail": "L'hypothermie et l'hyperthermie aggravent le pronostic. La fièvre doit être contrôlée, surtout en cas de lésion cérébrale ou de sepsis.",
@@ -189,7 +189,7 @@
     "tags": ["température", "normothermie", "fièvre", "réanimation"]
   },
   {
-    "module": "Surveillance biologique",
+    "module": "Soins quotidiens en réa",
     "hook": "Bilan sanguin quotidien : adapté au patient",
     "body": "Adapter la fréquence des bilans sanguins (NFS, ionogramme, créatinine, etc.) en fonction de l'état clinique et des traitements en cours.",
     "detail": "Les bilans inutiles augmentent les coûts et l'anémie iatrogène. Une évaluation quotidienne permet d'optimiser les prélèvements.",
@@ -198,7 +198,7 @@
     "tags": ["bilan", "sanguin", "surveillance", "réanimation"]
   },
   {
-    "module": "Communication en réanimation",
+    "module": "Éthique & droit",
     "hook": "Information quotidienne des familles",
     "body": "Informer quotidiennement les familles des patients de réanimation sur l'évolution clinique, les traitements et le pronostic.",
     "detail": "Une communication claire et régulière réduit l'anxiété des familles et améliore leur satisfaction. Les entretiens doivent être documentés dans le dossier.",
@@ -207,7 +207,7 @@
     "tags": ["communication", "famille", "réanimation", "éthique"]
   },
   {
-    "module": "Gestion des alarmes",
+    "module": "Soins quotidiens en réa",
     "hook": "Personnalisation des alarmes pour éviter la fatigue",
     "body": "Personnaliser les seuils des alarmes des moniteurs en fonction de l'état clinique du patient pour éviter les fausses alertes et la fatigue des soignants.",
     "detail": "Les alarmes doivent être pertinentes et actionnables. Une désensibilisation aux alarmes augmente le risque de non-détection d'événements critiques.",
