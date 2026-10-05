@@ -33,6 +33,7 @@ Chaque fichier `Recos/lotN.json` est un **tableau JSON** de cartes :
 ```
 
 - Obligatoires : `module`, `hook`, `body`, `source`, `tags`. Fortement recommandé : `detail`. Optionnel : `grade` (uniquement s'il est réel), `quiz`.
+- Exception, cartes de culture générale (`Culture & histoire`, `Éthique & droit`) : `source` peut être omise quand la carte relève de la culture générale (étymologie, anecdote, réflexion éthique) et qu'aucune référence précise n'existe. Ne jamais inventer une source pour combler le champ ; si une référence réelle existe (loi, article, date historique), la mettre.
 - `"quiz": true` : le `hook` sert de question et `body` / `detail` sont cachés jusqu'au clic (utilisé pour `Posologies` et `Idées reçues`).
 - `Urgences & déchocage` : `body` en 2 à 5 gestes numérotés `①`, `②`… séparés par `\n`.
 - `Idées reçues` : `hook` = l'idée reçue entre « », `body` commence par « Vrai : » ou « Faux : ».
@@ -59,12 +60,13 @@ Le nom du module doit être recopié **à l'identique** (accents, `&`) : c'est l
 python3 - <<'EOF'
 import json, glob, collections
 REQ = {"module", "hook", "body", "source", "tags"}
+SANS_SOURCE_OK = {"Culture & histoire", "Éthique & droit"}   # culture générale
 keys = collections.Counter()
 for f in sorted(glob.glob("Recos/*.json")):
     cards = json.load(open(f, encoding="utf-8"))   # plante si le JSON est invalide
     assert isinstance(cards, list), f"{f} : doit être un tableau"
     for i, c in enumerate(cards):
-        miss = REQ - c.keys()
+        miss = REQ - c.keys() - ({"source"} if c.get("module") in SANS_SOURCE_OK else set())
         assert not miss, f"{f}[{i}] : champs manquants {miss}"
         assert isinstance(c["tags"], list), f"{f}[{i}] : tags doit être une liste"
         keys[(c["module"] + "::" + c["hook"]).lower().strip()] += 1
