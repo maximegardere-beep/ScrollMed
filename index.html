@@ -234,6 +234,7 @@
     color: rgba(255,255,255,0.92);
     margin: 0 0 6px;
     font-weight: 400;
+    white-space: pre-line; /* une ligne par geste dans les cartes Urgences */
   }
 
   .detail{
@@ -275,6 +276,7 @@
     text-shadow: 0 1px 14px rgba(0,0,0,0.4);
     margin: 4px 0 6px;
   }
+  .quiz-hook.long{ font-size: 22px; line-height: 1.28; }
   .quiz-prompt{
     font-size: 13.5px;
     color: rgba(255,255,255,0.55);
@@ -920,7 +922,7 @@ function levelDots(id){
 
 // âge de la source : signale les recos de plus de 5 ans (sauf contenus intemporels)
 const AGE_LIMIT_YEARS = 5;
-const TIMELESS_MODULES = ['Culture & histoire', 'Éthique & droit'];
+const TIMELESS_MODULES = ['Culture & histoire', 'Éthique & droit', 'Grandes études', 'Physiologie', 'Idées reçues'];
 function sourceYear(p){
   const years = String(p.source || '').match(/\b(?:19|20)\d{2}\b/g);
   return years ? Math.max(...years.map(Number)) : null;
@@ -1009,6 +1011,12 @@ function renderNextBatch(){
   }
 }
 
+// libellés des cartes recto/verso : posologie par défaut, variantes par thème
+const QUIZ_DEFAULT = { badge: '💊 Quiz posologie', prompt: 'Rappelle-toi la posologie avant de révéler la réponse.' };
+const QUIZ_STYLES = {
+  'Idées reçues': { badge: '🤔 Vrai ou faux ?', prompt: 'Tranche avant de révéler la réponse.', long: true }
+};
+
 function renderCard(p, idx){
   const card = document.createElement('div');
   card.className = 'card';
@@ -1022,10 +1030,11 @@ function renderCard(p, idx){
   const initials = initialsForModule(p.module);
   const hashtags = (Array.isArray(p.tags) ? p.tags : []).map(t => `#${String(t).replace(/\s+/g,'')}`).join(' ');
 
+  const quiz = QUIZ_STYLES[p.module] || QUIZ_DEFAULT;
   const captionHtml = p.quiz
-    ? `<div class="quiz-badge">💊 Quiz posologie</div>
-       <h2 class="quiz-hook">${escapeHtml(p.hook)}</h2>
-       <p class="quiz-prompt">Rappelle-toi la posologie avant de révéler la réponse.</p>
+    ? `<div class="quiz-badge">${quiz.badge}</div>
+       <h2 class="quiz-hook${quiz.long ? ' long' : ''}">${escapeHtml(p.hook)}</h2>
+       <p class="quiz-prompt">${quiz.prompt}</p>
        <button class="btn-reveal" data-action="reveal-answer">👁 Voir la réponse</button>
        <div class="quiz-answer">
          <p class="body-txt">${escapeHtml(p.body)}</p>

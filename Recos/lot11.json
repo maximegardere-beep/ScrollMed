@@ -1,0 +1,146 @@
+[
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi la PEP oxygène mais fait chuter la PA",
+    "body": "La PEP recrute des alvéoles fermées et réduit le shunt : la PaO2 monte. Mais elle augmente la pression intrathoracique, ce qui freine le retour veineux et augmente la postcharge du VD : le débit cardiaque peut baisser.",
+    "detail": "L'effet hémodynamique est maximal chez l'hypovolémique et en cas de dysfonction du VD. Un bon réglage de PEP se juge sur le transport en O2, pas sur la seule PaO2.",
+    "source": "Physiologie respiratoire et cardiovasculaire",
+    "tags": [
+      "ventilation",
+      "PEP",
+      "hémodynamique"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi l'oxygène ne corrige pas un shunt",
+    "body": "Le sang qui traverse un territoire shunté ne rencontre aucune alvéole ventilée : enrichir le gaz inspiré ne le change pas. Au-delà d'environ 30 % de shunt, augmenter la FiO2 n'élève presque plus la PaO2.",
+    "detail": "À l'inverse, l'hypoxémie par hypoventilation ou par troubles du rapport ventilation/perfusion se corrige bien sous O2. Une hypoxémie réfractaire à FiO2 élevée oriente donc vers un shunt (SDRA, atélectasie, shunt intracardiaque).",
+    "source": "West, Respiratory Physiology",
+    "tags": [
+      "oxygénation",
+      "shunt",
+      "hypoxémie"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi SpO2 90 % est un seuil d'alerte",
+    "body": "La courbe de dissociation de l'hémoglobine est sigmoïde : SpO2 90 % correspond à une PaO2 d'environ 60 mmHg, juste au bord de la pente. En dessous, une petite baisse de PaO2 fait chuter brutalement la saturation.",
+    "detail": "Acidose, hypercapnie, fièvre et hausse du 2,3-DPG déplacent la courbe vers la droite (effet Bohr) : l'O2 est mieux libéré aux tissus, mais moins bien capté au poumon.",
+    "source": "Physiologie respiratoire",
+    "tags": [
+      "oxygénation",
+      "hémoglobine",
+      "SpO2"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi la préoxygénation donne du temps",
+    "body": "Respirer de l'O2 pur remplace l'azote de la capacité résiduelle fonctionnelle (CRF) par de l'oxygène : la CRF devient une réserve d'O2 qui alimente l'organisme pendant l'apnée. L'objectif est une FeO2 ≥ 90 %.",
+    "detail": "Chez l'obèse, la femme enceinte ou le patient en détresse, la CRF est réduite et la consommation d'O2 augmentée : la désaturation survient bien plus vite.",
+    "source": "Physiologie respiratoire / SFAR 2017",
+    "tags": [
+      "préoxygénation",
+      "CRF",
+      "intubation"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi l'O2 peut faire monter la PaCO2 chez le BPCO",
+    "body": "Chez certains BPCO, un excès d'O2 lève la vasoconstriction pulmonaire hypoxique (aggravant les troubles ventilation/perfusion) et diminue la fixation du CO2 sur l'hémoglobine (effet Haldane). La PaCO2 monte, plus que par la perte de la commande hypoxique.",
+    "detail": "D'où une oxygénothérapie titrée sur une SpO2 cible de 88 à 92 % chez le patient à risque d'hypercapnie, sans jamais le priver d'oxygène.",
+    "source": "BTS 2017 (Oxygénothérapie en urgence)",
+    "tags": [
+      "BPCO",
+      "hypercapnie",
+      "oxygène"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi certains patients ne répondent pas au remplissage",
+    "body": "Selon la loi de Frank-Starling, le volume d'éjection augmente avec la précharge seulement sur la partie ascendante de la courbe. Sur le plateau, remplir n'augmente plus le débit : cela ne fait qu'élever les pressions et créer des œdèmes.",
+    "detail": "La position sur la courbe ne se devine pas avec une pression statique : d'où les tests dynamiques (lever de jambes passif, variation de la pression pulsée, mini-remplissage).",
+    "source": "Physiologie cardiovasculaire",
+    "tags": [
+      "remplissage",
+      "précharge",
+      "Frank-Starling"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi PPC = PAM − PIC",
+    "body": "Le cerveau est perfusé par la différence entre la pression artérielle moyenne et la pression intracrânienne. Normalement, l'autorégulation maintient le débit sanguin cérébral constant sur une large plage de PAM.",
+    "detail": "Dans le cerveau lésé, l'autorégulation est souvent altérée : le débit devient dépendant de la pression. Le CO2 reste un puissant vasodilatateur cérébral : le débit varie d'environ 3 % par mmHg de PaCO2.",
+    "source": "Physiologie cérébrale / Brain Trauma Foundation",
+    "tags": [
+      "neuro",
+      "PPC",
+      "autorégulation"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi la succinylcholine peut faire flamber la kaliémie",
+    "body": "La succinylcholine dépolarise la membrane musculaire : la kaliémie monte normalement d'environ 0,5 mmol/L. Après une brûlure, une dénervation, une immobilisation prolongée ou dans certaines myopathies, des récepteurs extrajonctionnels prolifèrent et la libération de potassium devient massive.",
+    "detail": "Ce risque apparaît 24 à 72 h après l'agression et peut persister des mois : c'est une contre-indication classique de la succinylcholine.",
+    "source": "Pharmacologie des curares",
+    "tags": [
+      "succinylcholine",
+      "hyperkaliémie",
+      "curares"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi le décubitus ventral améliore l'oxygénation",
+    "body": "Sur le dos, le poids du cœur, de l'abdomen et du poumon lui-même écrase les zones dorsales. Sur le ventre, la ventilation devient plus homogène, alors que la perfusion reste surtout dorsale : le rapport ventilation/perfusion s'améliore.",
+    "detail": "Le bénéfice sur la survie tient surtout à une ventilation moins agressive (moins de surdistension et de lésions induites), pas seulement au gain de PaO2.",
+    "source": "Gattinoni, physiologie du décubitus ventral",
+    "tags": [
+      "SDRA",
+      "décubitus ventral",
+      "ventilation"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi le VD tolère mal une hausse de postcharge",
+    "body": "Le VD est une pompe à paroi fine, conçue pour un circuit à basse pression. Face à une postcharge brutale (EP, SDRA, hypercapnie), il se dilate, pousse le septum vers la gauche et gêne le remplissage du VG.",
+    "detail": "Cercle vicieux : baisse du débit, hypotension, ischémie du VD. D'où le maintien de la PAM (noradrénaline), un remplissage prudent et la correction de l'hypoxie et de l'hypercapnie.",
+    "source": "Physiologie cardiovasculaire",
+    "tags": [
+      "ventricule droit",
+      "EP",
+      "hémodynamique"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi le sérum salé acidifie",
+    "body": "Le NaCl 0,9 % contient 154 mmol/L de sodium ET de chlore, contre environ 100 mmol/L de chlore dans le plasma. Les grands volumes réduisent la différence des ions forts (Na + K − Cl) : selon Stewart, le pH baisse.",
+    "detail": "Cette acidose hyperchlorémique explique la préférence pour des cristalloïdes balancés (Ringer lactate, Plasma-Lyte) lors des remplissages importants.",
+    "source": "Approche de Stewart",
+    "tags": [
+      "acide-base",
+      "remplissage",
+      "chlore"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Pourquoi un lactate élevé n'est pas toujours une hypoxie",
+    "body": "Le lactate monte en cas d'anaérobiose, mais aussi par stimulation β2-adrénergique (adrénaline, sepsis), qui accélère la glycolyse en aérobie. Une baisse de la clairance hépatique, la metformine ou une crise convulsive l'augmentent aussi.",
+    "detail": "Il reste un excellent marqueur de gravité et de réponse au traitement, mais ne signe pas à lui seul une hypoperfusion tissulaire.",
+    "source": "Physiologie métabolique",
+    "tags": [
+      "lactate",
+      "sepsis",
+      "métabolisme"
+    ]
+  }
+]
