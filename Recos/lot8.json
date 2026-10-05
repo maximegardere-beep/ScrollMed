@@ -1,6 +1,6 @@
 [
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "FEVG : les seuils de normalité",
     "body": "La FEVG mesurée par la méthode de Simpson biplan est normale si ≥ 52 % chez l'homme et ≥ 54 % chez la femme. En pratique, une FEVG < 40 % définit une dysfonction systolique franche.",
     "detail": "En réanimation, l'estimation visuelle par un opérateur entraîné est acceptable pour classer la fonction (normale, modérément ou sévèrement altérée). Interpréter la FEVG en fonction de la post-charge : un patient vasoplégique sous noradrénaline peut masquer une dysfonction.",
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "TAPSE < 17 mm : le VD souffre",
     "body": "En mode TM sur la coupe apicale 4 cavités, une excursion systolique de l'anneau tricuspide (TAPSE) < 17 mm témoigne d'une dysfonction systolique du VD. Une onde S' tricuspide < 9,5 cm/s en Doppler tissulaire a la même valeur.",
     "detail": "Le TAPSE est angle-dépendant et reflète surtout la fonction longitudinale : il peut être faussement rassurant ou péjoratif en cas de mauvais alignement ou après chirurgie cardiaque.",
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "Rapport VD/VG : dilatation au-delà de 0,6",
     "body": "En coupe apicale 4 cavités, en télédiastole, un rapport des surfaces (ou diamètres) VD/VG > 0,6 signe une dilatation du VD, et > 1 une dilatation sévère.",
     "detail": "Dans l'embolie pulmonaire, un rapport VD/VG ≥ 1 est un critère de dysfonction VD qui entre dans la stratification du risque. En SDRA, l'association dilatation VD + septum paradoxal définit le cœur pulmonaire aigu.",
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "Septum en D : pression ou volume ?",
     "body": "Un aplatissement du septum interventriculaire en coupe parasternale petit axe (VG « en D ») maximal en télésystole évoque une surcharge de pression du VD ; maximal en télédiastole, il évoque une surcharge de volume.",
     "detail": "La dyskinésie septale télésystolique est le signe le plus spécifique du cœur pulmonaire aigu, à rechercher systématiquement chez le patient ventilé pour SDRA.",
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "ITV sous-aortique : le débit cardiaque au lit",
     "body": "Le débit cardiaque se calcule par : ITV sous-aortique × surface de la chambre de chasse du VG (π × D²/4) × FC. Une ITV normale se situe autour de 18 à 22 cm ; une ITV < 10 cm traduit un bas débit sévère.",
     "detail": "Le diamètre de la chambre de chasse étant élevé au carré, toute erreur de mesure est majorée : pour un suivi, comparer directement les ITV successives sans recalculer le débit.",
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "Lever de jambes passif et ITV",
     "body": "Une augmentation de l'ITV sous-aortique (ou du débit cardiaque) d'au moins 10 % lors d'un lever de jambes passif prédit une réponse au remplissage vasculaire.",
     "detail": "Le test se fait en partant de la position demi-assise, avec une mesure dans la minute qui suit la bascule. Il reste valable en ventilation spontanée et en arythmie, mais une douleur ou une toux peuvent le fausser.",
@@ -72,7 +72,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "VCI en ventilation spontanée : estimer la POD",
     "body": "En ventilation spontanée, une veine cave inférieure ≤ 21 mm se collabant de plus de 50 % au reniflement correspond à une POD normale (≈ 3 mmHg) ; une VCI > 21 mm se collabant de moins de 50 % suggère une POD élevée (≈ 15 mmHg).",
     "detail": "Mesurer à 1 à 2 cm de l'abouchement de l'oreillette droite, en coupe sous-costale. La VCI estime la POD mais prédit mal la réponse au remplissage chez le patient en ventilation spontanée.",
@@ -84,7 +84,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "VCI sous ventilation : l'index de distensibilité",
     "body": "Chez le patient intubé, sédaté et ventilé en volume contrôlé (Vt ≥ 8 mL/kg, rythme sinusal), un index de distensibilité de la VCI > 18 % (ou une variation > 12 % selon la formule utilisée) prédit la réponse au remplissage.",
     "detail": "Ces seuils ne sont pas valides en ventilation spontanée, sous faible volume courant, en cas d'hyperpression abdominale ou de cœur pulmonaire aigu.",
@@ -96,7 +96,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "E/e' > 14 : pressions de remplissage élevées",
     "body": "Un rapport E/e' moyen (onde E mitrale / moyenne des ondes e' septale et latérale) > 14 suggère des pressions de remplissage du VG élevées.",
     "detail": "Il s'interprète avec les autres critères de l'algorithme (e' basse, volume de l'OG > 34 mL/m², vitesse d'IT > 2,8 m/s) et perd sa valeur en cas de valvulopathie mitrale, de FA ou de calcifications de l'anneau.",
@@ -108,7 +108,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "PAPs = 4 × Vmax IT² + POD",
     "body": "La pression artérielle pulmonaire systolique s'estime par l'équation de Bernoulli simplifiée appliquée à l'insuffisance tricuspide : 4 × (Vmax IT)² + POD. Une Vmax IT > 2,8 m/s fait suspecter une hypertension pulmonaire.",
     "detail": "Un flux d'IT mal aligné ou incomplet sous-estime la pression. En cas d'IT massive, l'égalisation des pressions OD-VD rend la formule inutilisable.",
@@ -120,7 +120,7 @@
     ]
   },
   {
-    "module": "Échographie cardiaque (ETT)",
+    "module": "Échographie",
     "hook": "Tamponnade : des signes avant le choc",
     "body": "Devant un épanchement péricardique, rechercher un collapsus diastolique de l'oreillette puis du ventricule droit, une VCI dilatée non compliante et une variation respiratoire du flux mitral > 25 % (ou tricuspide > 40 %).",
     "detail": "La tamponnade reste un diagnostic clinico-échographique : l'abondance de l'épanchement compte moins que sa vitesse de constitution. Un épanchement localisé (post-chirurgie cardiaque) peut comprimer une seule cavité.",
@@ -132,7 +132,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Pneumothorax : le point poumon signe le diagnostic",
     "body": "L'absence de glissement pleural associée à une absence de lignes B évoque un pneumothorax ; la visualisation d'un point poumon (alternance glissement/absence de glissement) le confirme avec une spécificité proche de 100 %.",
     "detail": "En mode TM, le glissement donne un aspect « bord de mer » et son absence un aspect « code-barres ». Un pouls pulmonaire ou une seule ligne B présente suffit à éliminer un pneumothorax à cet endroit.",
@@ -144,7 +144,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Lignes B : 3 par espace = syndrome interstitiel",
     "body": "La présence d'au moins 3 lignes B dans un espace intercostal définit un syndrome interstitiel échographique dans cette zone. Bilatéral et diffus, il évoque un œdème pulmonaire cardiogénique, un SDRA ou une pneumopathie interstitielle.",
     "detail": "Les lignes B partent de la ligne pleurale, sont verticales, effacent les lignes A et bougent avec le glissement. Une plèvre fine et régulière oriente vers l'œdème cardiogénique, une plèvre irrégulière avec zones épargnées vers le SDRA.",
@@ -156,7 +156,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Volume d'épanchement : la formule de Balik",
     "body": "Chez le patient en décubitus dorsal, le volume d'un épanchement pleural s'estime par : V (mL) = 20 × distance interpleurale maximale (mm), mesurée en fin d'expiration à la base pulmonaire.",
     "detail": "Une distance > 45 à 50 mm correspond à un épanchement d'environ 1 L. Avant ponction, repérer le point le plus déclive, la profondeur du liquide et la position du diaphragme sur plusieurs cycles respiratoires.",
@@ -168,7 +168,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Score LUS : quantifier l'aération",
     "body": "Le score d'échographie pulmonaire (LUS) évalue 12 zones (6 par hémithorax), chacune cotée de 0 à 3 (0 : lignes A ; 1 : lignes B espacées ; 2 : lignes B coalescentes ; 3 : consolidation), soit un total de 0 à 36.",
     "detail": "Un score LUS élevé avant l'épreuve de ventilation spontanée (> 17 dans l'étude de Soummer) est associé à un échec de sevrage. Le score permet aussi de suivre la réaération sous PEP ou décubitus ventral.",
@@ -180,7 +180,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Protocole BLUE : orienter une détresse respiratoire",
     "body": "Le protocole BLUE oriente le diagnostic d'une détresse respiratoire aiguë : profil B bilatéral avec glissement = œdème pulmonaire ; profil A + thrombose veineuse profonde = embolie pulmonaire ; absence de glissement + point poumon = pneumothorax ; consolidation ou profil asymétrique = pneumonie.",
     "detail": "Le profil A sans TVP oriente vers une exacerbation de BPCO ou d'asthme. L'étude princeps retrouvait un diagnostic correct dans environ 90 % des cas.",
@@ -192,7 +192,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Bronchogramme dynamique : pneumonie plutôt qu'atélectasie",
     "body": "Au sein d'une consolidation, un bronchogramme aérique dynamique (points hyperéchogènes bougeant avec la respiration) oriente vers une pneumonie, alors qu'un bronchogramme statique évoque une atélectasie par obstruction.",
     "detail": "La consolidation a un aspect « tissulaire » proche du foie (hépatisation). Un bord profond irrégulier (shred sign) traduit une consolidation non lobaire.",
@@ -204,7 +204,7 @@
     ]
   },
   {
-    "module": "Échographie pleuro-pulmonaire",
+    "module": "Échographie",
     "hook": "Diaphragme : excursion et épaississement",
     "body": "En ventilation spontanée, une excursion diaphragmatique < 10 mm (mode TM, voie sous-costale) ou une fraction d'épaississement < 20 % (zone d'apposition) évoque une dysfonction diaphragmatique.",
     "detail": "Une fraction d'épaississement basse lors de l'épreuve de ventilation spontanée est associée à un risque accru d'échec d'extubation. Les mesures ne sont pas interprétables en ventilation contrôlée.",
@@ -216,7 +216,7 @@
     ]
   },
   {
-    "module": "Échoguidage des abords vasculaires",
+    "module": "Échographie",
     "hook": "VVC : voir le guide dans la veine avant de dilater",
     "body": "Lors de la pose échoguidée d'un cathéter veineux central, visualiser le guide en coupe longitudinale dans la lumière veineuse avant toute dilatation, pour éliminer une position intra-artérielle.",
     "detail": "L'échoguidage est recommandé pour l'abord jugulaire interne et le plus souvent pour l'abord fémoral ; il réduit les échecs, les ponctions artérielles et les pneumothorax.",
@@ -228,7 +228,7 @@
     ]
   },
   {
-    "module": "Échoguidage des abords vasculaires",
+    "module": "Échographie",
     "hook": "Test aux microbulles : où est la VVC ?",
     "body": "Après pose d'une voie veineuse centrale cave supérieure, l'injection de 10 mL de sérum salé agité doit faire apparaître les microbulles dans l'oreillette droite en moins de 2 secondes (coupe sous-costale), ce qui confirme une position intrathoracique correcte.",
     "detail": "Un délai > 2 s ou des bulles à contre-courant évoquent une malposition. Associée à l'élimination d'un pneumothorax échographique, cette vérification peut remplacer la radiographie de thorax.",
@@ -240,7 +240,7 @@
     ]
   },
   {
-    "module": "Échoguidage des abords vasculaires",
+    "module": "Échographie",
     "hook": "Ponction artérielle radiale : l'écho dès la 1re tentative",
     "body": "L'échoguidage de la ponction de l'artère radiale augmente le taux de succès à la première tentative et réduit le nombre de ponctions et les hématomes, par rapport à la technique palpatoire.",
     "detail": "L'approche hors du plan associée à la technique de « marche de l'aiguille » (dynamic needle tip positioning) améliore encore le succès chez les patients en choc.",
@@ -252,7 +252,7 @@
     ]
   },
   {
-    "module": "Échoguidage des abords vasculaires",
+    "module": "Échographie",
     "hook": "Voie périphérique échoguidée : la règle des 2/3",
     "body": "Pour une voie veineuse périphérique échoguidée, choisir un cathéter assez long pour qu'au moins les deux tiers de sa longueur soient dans la veine, et préférer une veine de moins de 1,5 cm de profondeur.",
     "detail": "Une veine trop profonde avec un cathéter trop court expose à une extravasation rapide. Vérifier la compressibilité pour éliminer une thrombose avant de ponctionner.",
@@ -264,7 +264,7 @@
     ]
   },
   {
-    "module": "Échographie en réanimation",
+    "module": "Échographie",
     "hook": "Échographie gastrique : estomac plein ou vide ?",
     "body": "En décubitus latéral droit, l'antre gastrique est mesuré en coupe sagittale. Un volume calculé > 1,5 mL/kg, ou du contenu solide, définit un estomac à risque d'inhalation (grade 2 de Perlas).",
     "detail": "Volume (mL) = 27 + 14,6 × surface antrale (cm²) − 1,28 × âge. Le grade 0 (antre vide dans les deux positions) et le grade 1 (liquide visible seulement en décubitus latéral droit) correspondent à un estomac à faible risque.",
@@ -276,7 +276,7 @@
     ]
   },
   {
-    "module": "Échographie en réanimation",
+    "module": "Échographie",
     "hook": "Gaine du nerf optique : un signe d'HTIC",
     "body": "Un diamètre de la gaine du nerf optique supérieur à environ 5,8 à 6 mm, mesuré 3 mm en arrière du globe oculaire, est évocateur d'une hypertension intracrânienne.",
     "detail": "Faire au moins deux mesures par œil dans deux plans, avec une puissance acoustique réduite. Cela aide au triage mais ne remplace pas la mesure invasive de la PIC.",
@@ -288,7 +288,7 @@
     ]
   },
   {
-    "module": "Échographie en réanimation",
+    "module": "Échographie",
     "hook": "Doppler transcrânien : l'index de pulsatilité",
     "body": "Au Doppler transcrânien de l'artère cérébrale moyenne, une vitesse diastolique < 20 cm/s et/ou un index de pulsatilité > 1,4 évoquent une hypoperfusion cérébrale, notamment par hypertension intracrânienne.",
     "detail": "Chez le traumatisé crânien grave, ces anomalies à la phase précoce justifient une optimisation immédiate de la pression de perfusion cérébrale, avant même la pose d'un capteur de PIC.",

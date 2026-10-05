@@ -1,0 +1,56 @@
+[
+  {
+    "module": "Voies aériennes",
+    "hook": "Toujours un plan B avant l'induction",
+    "body": "Devant une VAD prévue, préparer explicitement une stratégie en 3 plans (intubation, oxygénation, abord trachéal) avant d'induire. Le plan doit être verbalisé à toute l'équipe.",
+    "detail": "La check-list VAD SFAR insiste sur l'anticipation orale du plan de secours : qui fait quoi si l'intubation échoue, où est le kit de cricothyroïdotomie, qui appelle à l'aide.",
+    "source": "SFAR 2017 (RFE Intubation difficile)",
+    "grade": "Grade 1+",
+    "tags": ["voies aériennes", "VAD"]
+  },
+  {
+    "module": "Arrêt cardiaque",
+    "hook": "Compressions : 100 à 120/min, 5 à 6 cm",
+    "body": "La qualité des compressions thoraciques prime sur tout le reste : fréquence 100-120/min, profondeur 5-6 cm, relâchement complet, interruptions minimisées.",
+    "detail": "Chaque interruption des compressions au-delà de 10 secondes diminue la perfusion coronaire déjà difficile à restaurer.",
+    "source": "ERC 2021",
+    "grade": "Class 1",
+    "tags": ["ACR", "RCP"]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Analgésie avant sédation",
+    "body": "L'approche 'analgesia-first' consiste à traiter la douleur avant d'ajouter un sédatif, ce qui réduit souvent les besoins en hypnotiques.",
+    "detail": "Une douleur non traitée est une cause fréquente d'agitation faussement attribuée à un manque de sédation.",
+    "source": "SCCM PADIS 2018",
+    "grade": "Conditional",
+    "tags": ["sédation", "douleur"]
+  },
+  {
+    "module": "Obstétrique",
+    "hook": "Sulprostone si l'ocytocine échoue à 15-30 min",
+    "body": "Devant une HPP résistante à l'ocytocine, passer au sulprostone sans délai, dans les 15 à 30 minutes suivant le diagnostic.",
+    "detail": "Chaque minute perdue entre les paliers thérapeutiques (ocytociques, geste chirurgical) aggrave le pronostic hémorragique.",
+    "source": "CNGOF/SFAR 2014 (RPC Hémorragie du post-partum)",
+    "grade": "Grade 1",
+    "tags": ["HPP", "obstétrique"]
+  },
+  {
+    "module": "Anesthésie peropératoire",
+    "hook": "BIS utile si TIVA + curarisation",
+    "body": "Le monitorage de la profondeur d'anesthésie (BIS ou équivalent) est recommandé en cas d'anesthésie intraveineuse associée à une curarisation, où les signes cliniques de réveil sont masqués.",
+    "detail": "Cela réduit le risque de mémorisation peropératoire, en particulier chez les patients à haut risque (cardiochirurgie, curarisation profonde).",
+    "source": "SFAR (Monitorage de la profondeur d'anesthésie)",
+    "grade": "Grade 2+",
+    "tags": ["monitorage", "BIS"]
+  },
+  {
+    "module": "Évaluation préopératoire",
+    "hook": "Liquides clairs autorisés jusqu'à 2h avant",
+    "body": "Le jeûne préopératoire moderne autorise les liquides clairs jusqu'à 2h avant l'induction et un repas léger jusqu'à 6h avant, sans excès de jeûne prolongé.",
+    "detail": "Un jeûne trop long n'apporte pas de bénéfice sur le risque d'inhalation et péjore le confort et l'équilibre métabolique du patient.",
+    "source": "ESA 2011 (Jeûne préopératoire de l'adulte et de l'enfant)",
+    "grade": "Grade 1+",
+    "tags": ["préopératoire", "jeûne"]
+  }
+]

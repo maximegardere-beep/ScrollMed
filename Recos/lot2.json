@@ -1,6 +1,6 @@
 [
   {
-    "module": "Hémorragie du post-partum",
+    "module": "Obstétrique",
     "hook": "Fibrinogène précoce si saignement non contrôlé",
     "body": "Maintenir une concentration de fibrinogène > 2 g/L lors d'une hémorragie du post-partum. Une supplémentation précoce par concentré de fibrinogène est recommandée si ce seuil n'est pas atteint.",
     "detail": "Le taux de fibrinogène est un marqueur prédictif majeur de la gravité de l'hémorragie.",
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "module": "Douleur post-opératoire",
+    "module": "ALR & douleur",
     "hook": "Pas de gabapentinoïdes en systématique",
     "body": "Ne pas administrer systématiquement de prégabaline ou de gabapentine pour prévenir la douleur aiguë post-opératoire ou sa chronicisation.",
     "detail": "Leur usage expose à des effets indésirables (notamment sédation) sans bénéfice prouvé en routine hors douleur neuropathique préexistante.",
@@ -42,7 +42,7 @@
     ]
   },
   {
-    "module": "SDRA",
+    "module": "Ventilation & oxygénation",
     "hook": "Curares précoces < 48h si SDRA sévère",
     "body": "Envisager une curarisation continue précoce et brève (< 48h) dans le SDRA sévère (PaO2/FiO2 < 150) avec asynchronies majeures malgré une sédation profonde.",
     "detail": "La curarisation facilite la mise en œuvre de la ventilation protectrice et le positionnement en décubitus ventral.",
@@ -56,7 +56,7 @@
     ]
   },
   {
-    "module": "Jeûne préopératoire",
+    "module": "Évaluation préopératoire",
     "hook": "Chewing-gum autorisé jusqu'à l'induction",
     "body": "La consommation de chewing-gum ou le fait de sucer un bonbon ne nécessite pas de reporter l'intervention chirurgicale ou de prolonger le jeûne.",
     "detail": "Cela ne modifie pas significativement le volume ni le pH du liquide gastrique.",
@@ -69,7 +69,7 @@
     ]
   },
   {
-    "module": "Choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "Corticoïdes si noradrénaline ≥ 0,25 µg/kg/min",
     "body": "Introduire l'hydrocortisone (200 mg/j en IV continu ou fractionné) chez les patients en choc septique nécessitant un recours continu aux vasopresseurs (≥ 0,25 µg/kg/min de noradrénaline).",
     "detail": "Cette thérapie accélère le sevrage des catécholamines bien qu'elle n'ait pas d'impact direct prouvé sur la survie globale à long terme.",
@@ -83,7 +83,7 @@
     ]
   },
   {
-    "module": "Anesthésie locorégionale",
+    "module": "ALR & douleur",
     "hook": "Injection fractionnée et aspiration répétée",
     "body": "Pour prévenir l'intoxication systémique aux anesthésiques locaux (ISAL), injecter de façon fractionnée (3 à 5 ml maximum) en procédant à des aspirations préalables répétées.",
     "detail": "Même sous contrôle échographique rigoureux, le risque d'injection intravasculaire par inadvertance n'est pas nul.",
@@ -97,7 +97,7 @@
     ]
   },
   {
-    "module": "Dispositifs intracardiaques",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Mode asynchrone si bistouri au-dessus de l'ombilic",
     "body": "Reprogrammer le stimulateur cardiaque en mode asynchrone (DOO/VOO) ou placer un aimant si l'utilisation du bistouri électrique (particulièrement monopolaire) est prévue au-dessus de l'ombilic.",
     "detail": "Cette action prévient l'inhibition inappropriée de la stimulation liée à la détection d'interférences électromagnétiques peropératoires.",
@@ -111,7 +111,7 @@
     ]
   },
   {
-    "module": "Traumatisme crânien",
+    "module": "Neuro-réanimation",
     "hook": "Éviter l'hyperventilation prophylactique",
     "body": "Ne pas utiliser l'hyperventilation profonde prophylactique (PaCO2 < 25 mmHg) à la phase initiale du traumatisme crânien grave. Viser une normocapnie stricte (35-40 mmHg).",
     "detail": "L'hyperventilation réduit la pression intracrânienne mais expose à un risque majeur d'ischémie cérébrale par vasoconstriction.",

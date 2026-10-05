@@ -1,0 +1,156 @@
+[
+  {
+    "module": "Échographie",
+    "hook": "Glissement pleural présent : pas de pneumothorax ici",
+    "body": "La présence du glissement pleural (ou d'un pouls pulmonaire) élimine un pneumothorax à l'endroit examiné. Son absence, en revanche, n'est pas spécifique.",
+    "detail": "Absence de glissement sans pneumothorax : intubation sélective, apnée, adhérences pleurales, emphysème bulleux, SDRA sévère. Explorer les zones antérieures non déclives chez le patient couché.",
+    "source": "Volpicelli et al. 2012 (Recommandations internationales d'échographie pulmonaire)",
+    "tags": [
+      "POCUS",
+      "poumon",
+      "pneumothorax"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "eFAST : chercher le sang en 5 fenêtres",
+    "body": "Explorer l'espace hépato-rénal (Morison), l'espace spléno-rénal, le pelvis, le péricarde (sous-xiphoïde) et les plèvres. Un épanchement chez un traumatisé instable impose un geste d'hémostase sans délai.",
+    "detail": "Une eFAST négative n'élimine pas une lésion : faible volume, lésion rétropéritonéale ou d'organe plein. La répéter si l'état clinique change.",
+    "source": "ATLS 10e édition (2018)",
+    "tags": [
+      "POCUS",
+      "trauma",
+      "FAST",
+      "hémopéritoine"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "TVP : la compression en 2 points",
+    "body": "Comprimer la veine avec la sonde au niveau fémoral commun puis poplité. Une veine qui ne s'écrase pas complètement sous une pression modérée signe une thrombose.",
+    "detail": "Méthode rapide et reproductible après une courte formation. Elle ne voit pas les thromboses distales (surales) ni iliaques ; la répéter à une semaine si le doute persiste.",
+    "source": "ESC 2019 (Embolie pulmonaire)",
+    "tags": [
+      "POCUS",
+      "TVP",
+      "veines",
+      "EP"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "VExUS : mesurer la congestion veineuse",
+    "body": "Si la VCI dépasse 2 cm, analyser en Doppler les veines sus-hépatiques, la veine porte et les veines intrarénales. Grade 3 : au moins deux flux sévèrement anormaux, ce qui signe une congestion marquée.",
+    "detail": "Flux sévères : inversion de l'onde S sus-hépatique, pulsatilité portale ≥ 50 %, flux intrarénal monophasique discontinu. Le grade 3 est associé à l'IRA après chirurgie cardiaque et invite à décongestionner plutôt qu'à remplir.",
+    "source": "Beaubien-Souligny et al., Ultrasound J 2020",
+    "tags": [
+      "POCUS",
+      "congestion",
+      "VExUS",
+      "rein"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "Sonde dans l'œsophage ? L'écho le voit en direct",
+    "body": "Sonde linéaire transversale au-dessus du manubrium pendant l'intubation : une seconde interface aérique apparaissant à côté de la trachée (« double trachée ») signe une intubation œsophagienne.",
+    "detail": "Méthode rapide, utilisable même en arrêt cardiaque quand la capnographie est peu fiable. Dans les méta-analyses, sensibilité et spécificité dépassent 95 %. Elle complète la capnographie sans la remplacer.",
+    "source": "Das et al., CJEM 2015 (méta-analyse)",
+    "tags": [
+      "POCUS",
+      "intubation",
+      "voies aériennes"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "Repérer la membrane cricothyroïdienne avant d'endormir",
+    "body": "En cas de voie aérienne difficile prévue, repérer et marquer la membrane cricothyroïdienne à l'échographie avant l'induction. La palpation seule est souvent erronée, surtout chez l'obèse et la femme.",
+    "detail": "Repère échographique : sonde longitudinale sur la ligne médiane, la membrane est entre le cartilage thyroïde et l'anneau cricoïde (le « collier de perles » trachéal commence sous le cricoïde).",
+    "source": "DAS 2015 ; Kristensen et al., BJA 2016",
+    "tags": [
+      "POCUS",
+      "voies aériennes",
+      "CICO",
+      "VAD"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "Globe vésical : mesurer avant de sonder",
+    "body": "Volume vésical (mL) ≈ hauteur × largeur × profondeur (cm) × 0,52. En SSPI, un volume supérieur à environ 600 mL définit la rétention urinaire postopératoire et justifie un sondage évacuateur.",
+    "detail": "La palpation sous-estime ou surestime souvent le volume. La mesure évite des sondages inutiles (risque infectieux) et des rétentions méconnues (risque de distension vésicale).",
+    "source": "Baldini et al., Anesthesiology 2009",
+    "tags": [
+      "POCUS",
+      "vessie",
+      "SSPI",
+      "rétention"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "IRA : éliminer un obstacle à l'écho",
+    "body": "Devant une insuffisance rénale aiguë, l'échographie rénale recherche une dilatation des cavités pyélocalicielles, qui signe un obstacle à lever en urgence.",
+    "detail": "Penser au globe vésical (sonde bouchée ?) avant d'évoquer une obstruction haute. Une dilatation peut manquer dans les premières heures ou en cas de déshydratation sévère.",
+    "source": "KDIGO 2012 (Insuffisance rénale aiguë)",
+    "tags": [
+      "POCUS",
+      "rein",
+      "IRA",
+      "obstacle"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "Choc indifférencié : pompe, réservoir, tuyaux",
+    "body": "Le protocole RUSH explore trois niveaux : la pompe (cœur : contractilité, tamponnade, VD dilaté), le réservoir (VCI, épanchements, poumon) et les tuyaux (aorte, TVP).",
+    "detail": "En quelques minutes, il oriente vers un choc cardiogénique, hypovolémique, obstructif ou distributif, avant même les résultats biologiques.",
+    "source": "Perera et al., Emerg Med Clin North Am 2010 (RUSH)",
+    "tags": [
+      "POCUS",
+      "choc",
+      "RUSH",
+      "déchocage"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "ALR dans le plan : ne jamais perdre la pointe",
+    "body": "En approche dans le plan, l'aiguille est visible sur toute sa longueur. On ne progresse que lorsque la pointe est identifiée ; si on la perd, on s'arrête et on réaligne la sonde, pas l'aiguille.",
+    "detail": "L'approche hors plan ne montre qu'un point brillant, qui peut être le corps de l'aiguille et non la pointe. L'hydrodissection (petits volumes de sérum) aide à localiser la pointe.",
+    "source": "ASRA/ESRA, recommandations de formation à l'ALR échoguidée (2010)",
+    "tags": [
+      "POCUS",
+      "ALR",
+      "aiguille",
+      "bloc"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "Ponction pleurale : toujours sous écho",
+    "body": "Le repérage échographique, juste avant ou pendant le geste, réduit les ponctions blanches, les pneumothorax iatrogènes et les ponctions d'organes (foie, rate).",
+    "detail": "Repérer la zone de plus grande épaisseur liquidienne, le diaphragme à toutes les phases respiratoires et, si possible, les vaisseaux intercostaux en Doppler.",
+    "source": "BTS 2023 (Pathologie pleurale)",
+    "tags": [
+      "POCUS",
+      "plèvre",
+      "geste",
+      "sécurité"
+    ]
+  },
+  {
+    "module": "Échographie",
+    "hook": "Paracentèse : l'écho réduit les saignements",
+    "body": "Guider la paracentèse par échographie permet de choisir une poche d'ascite profonde, à distance des anses et des vaisseaux de la paroi.",
+    "detail": "Dans une large étude de cohorte, le guidage échographique était associé à environ 2/3 d'hémorragies en moins. Repérer les vaisseaux épigastriques en Doppler en cas d'abord latéral bas.",
+    "source": "Mercaldi & Lanes, Chest 2013",
+    "tags": [
+      "POCUS",
+      "ascite",
+      "geste",
+      "sécurité"
+    ]
+  }
+]

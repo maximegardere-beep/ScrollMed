@@ -1,0 +1,147 @@
+[
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Anaphylaxie peropératoire grave",
+    "body": "① Arrêter l'agent suspect (curare, antibiotique, latex…) et appeler à l'aide\n② Adrénaline IV titrée : 100 à 200 µg toutes les 1 à 2 min (grade III)\n③ Remplissage rapide par cristalloïdes, FiO2 100 %\n④ Doser la tryptase dès que possible, puis 1 à 2 h après",
+    "detail": "Au grade II, les bolus sont plus faibles (10 à 20 µg). Si l'adrénaline est inefficace après plusieurs bolus, passer en perfusion continue. Bilan allergologique à distance (4 à 6 semaines).",
+    "source": "SFAR/SFA 2011 (RFE Réactions d'hypersensibilité peranesthésiques)",
+    "tags": [
+      "anaphylaxie",
+      "adrénaline",
+      "bloc"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Hyperthermie maligne : chaque minute compte",
+    "body": "① Arrêter halogénés et succinylcholine, appeler à l'aide\n② Hyperventiler en O2 pur, débit de gaz frais ≥ 10 L/min\n③ Dantrolène 2,5 mg/kg IV, à répéter jusqu'au contrôle des signes\n④ Refroidir et traiter hyperkaliémie et acidose",
+    "detail": "Signes évocateurs : hausse inexpliquée de l'EtCO2, tachycardie, rigidité, puis hyperthermie (souvent tardive). Le dantrolène doit être disponible au bloc en quantité suffisante.",
+    "source": "EMHG 2021 (Hopkins et al., BJA)",
+    "tags": [
+      "hyperthermie maligne",
+      "dantrolène",
+      "bloc"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Toxicité systémique des anesthésiques locaux",
+    "body": "① Arrêter l'injection, appeler à l'aide, O2 100 % et contrôle des voies aériennes\n② Benzodiazépine si convulsions\n③ Émulsion lipidique 20 % : 1,5 mL/kg en 2-3 min, puis 0,25 mL/kg/min\n④ Si arrêt cardiaque : RCP prolongée, adrénaline à petites doses (≤ 1 µg/kg)",
+    "detail": "Les signes neurologiques (goût métallique, acouphènes, agitation) précèdent souvent la toxicité cardiaque. La réanimation peut devoir durer plus d'une heure.",
+    "source": "ASRA 2020 (Checklist LAST)",
+    "tags": [
+      "ALR",
+      "intralipide",
+      "toxicité"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Choc hémorragique traumatique",
+    "body": "① Contrôler le saignement : garrot, packing, chirurgie ou embolisation\n② Acide tranexamique 1 g IV en 10 min dans les 3 h, puis 1 g sur 8 h\n③ Transfuser tôt (plasma:CGR ≥ 1:2) et apporter du fibrinogène si < 1,5 g/L\n④ PAS cible 80-90 mmHg sans traumatisme crânien, noradrénaline si besoin\n⑤ Lutter contre hypothermie, acidose et hypocalcémie",
+    "detail": "En cas de traumatisme crânien grave associé, viser une PAM ≥ 80 mmHg plutôt que l'hypotension permissive.",
+    "source": "European guideline on major bleeding after trauma 2023",
+    "tags": [
+      "trauma",
+      "transfusion",
+      "déchocage"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Laryngospasme : ne pas attendre la bradycardie",
+    "body": "① Arrêter toute stimulation, FiO2 100 %\n② Subluxation mandibulaire et pression au point de Larson\n③ CPAP au masque\n④ Approfondir l'anesthésie : propofol 0,5 à 1 mg/kg\n⑤ Si échec avec désaturation : succinylcholine 0,5 à 1 mg/kg IV",
+    "detail": "Chez l'enfant sans voie veineuse : succinylcholine 4 mg/kg en IM. Associer l'atropine si bradycardie.",
+    "source": "Gavel & Walker, BJA Education 2014",
+    "tags": [
+      "voies aériennes",
+      "pédiatrie",
+      "laryngospasme"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Embolie pulmonaire avec choc",
+    "body": "① Héparine non fractionnée : bolus de 80 UI/kg\n② Thrombolyse systémique (altéplase 100 mg sur 2 h)\n③ Soutenir le VD : noradrénaline, remplissage prudent, intubation à haut risque\n④ Si contre-indication ou échec : embolectomie chirurgicale, traitement percutané ou ECMO",
+    "detail": "Un remplissage excessif dilate le VD et aggrave la défaillance. L'échographie au lit (VD dilaté, septum paradoxal) oriente le diagnostic quand le scanner est impossible.",
+    "source": "ESC 2019 (Embolie pulmonaire aiguë)",
+    "grade": "Class I",
+    "tags": [
+      "EP",
+      "thrombolyse",
+      "choc"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Pneumothorax suffocant",
+    "body": "① Ne pas attendre la radio : le diagnostic est clinique\n② Exsufflation à l'aiguille au 4e-5e EIC, ligne axillaire moyenne (ou 2e EIC médioclaviculaire)\n③ Thoracostomie au doigt chez le patient ventilé\n④ Drain thoracique ensuite",
+    "detail": "Signes : détresse, hypotension, abolition du murmure vésiculaire, hausse des pressions chez le patient ventilé. L'aiguille est souvent trop courte chez l'adulte en 2e EIC.",
+    "source": "ATLS 10e édition (2018)",
+    "tags": [
+      "pneumothorax",
+      "trauma",
+      "déchocage"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Hyperkaliémie menaçante",
+    "body": "① Signes ECG : gluconate de calcium 10 % 10 mL IV, à répéter si besoin\n② Insuline rapide 10 UI IV + 25 g de glucose\n③ Salbutamol nébulisé 10 à 20 mg\n④ Éliminer le potassium : arrêt des apports, diurétique ou épuration extrarénale",
+    "detail": "Le calcium stabilise la membrane mais ne baisse pas la kaliémie (effet en quelques minutes, pendant 30 à 60 min). Surveiller la glycémie après l'insuline.",
+    "source": "UK Kidney Association 2020 / ERC 2021",
+    "tags": [
+      "hyperkaliémie",
+      "ionogramme",
+      "urgence"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Ni intubation ni oxygénation : CICO",
+    "body": "① Annoncer « situation CICO » à voix haute\n② Curarisation complète si ce n'est pas déjà fait\n③ Cricothyroïdotomie : scalpel, bougie, sonde à ballonnet de 6 mm\n④ Oxygéner, puis confirmer par capnographie",
+    "detail": "On y arrive après échec de l'intubation, du dispositif supraglottique et de la ventilation au masque. L'hésitation est le principal facteur de mortalité.",
+    "source": "DAS 2015 / SFAR 2017",
+    "tags": [
+      "voies aériennes",
+      "CICO",
+      "cricothyroïdotomie"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Hypertension intracrânienne : gagner du temps",
+    "body": "① Tête surélevée à 30°, cou dans l'axe, normocapnie\n② Osmothérapie : mannitol 20 % 0,25 à 1 g/kg ou sérum salé hypertonique\n③ Maintenir la PPC entre 60 et 70 mmHg\n④ Imagerie et avis neurochirurgical en urgence",
+    "detail": "L'hyperventilation (PaCO2 30-35 mmHg) n'est qu'un geste de sauvetage transitoire devant un engagement : elle réduit aussi le débit sanguin cérébral.",
+    "source": "Brain Trauma Foundation 2016",
+    "tags": [
+      "neuro",
+      "HTIC",
+      "osmothérapie"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "État de mal épileptique",
+    "body": "① Benzodiazépine : clonazépam 1 mg IV (ou midazolam 10 mg IM sans voie veineuse)\n② Répéter une fois à 5 min si la crise persiste\n③ 2e ligne : lévétiracétam, valproate, fosphénytoïne ou phénobarbital\n④ Réfractaire à 30 min : anesthésie générale et intubation",
+    "detail": "Doses de 2e ligne : lévétiracétam 60 mg/kg, valproate 40 mg/kg, fosphénytoïne 20 mg EP/kg ou phénobarbital 15 mg/kg. Rechercher et traiter la cause (hypoglycémie, sevrage, toxique, infection).",
+    "source": "SRLF/SFMU 2018",
+    "tags": [
+      "neuro",
+      "épilepsie",
+      "benzodiazépines"
+    ]
+  },
+  {
+    "module": "Urgences & déchocage",
+    "hook": "Désaturation brutale du patient intubé : DOPE",
+    "body": "① Débrancher et ventiler au ballon en O2 pur\n② D : déplacement de sonde (capnographie, auscultation)\n③ O : obstruction (aspiration, sonde coudée ou mordue)\n④ P : pneumothorax (échographie pleurale)\n⑤ E : équipement (circuit, respirateur, source d'O2)",
+    "detail": "Si la ventilation au ballon corrige le problème, la cause est le plus souvent le respirateur ou le circuit.",
+    "source": "Moyen mnémotechnique DOPE (AHA)",
+    "tags": [
+      "ventilation",
+      "intubation",
+      "réanimation"
+    ]
+  }
+]

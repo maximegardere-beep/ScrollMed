@@ -1,0 +1,158 @@
+[
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Une hypotension brève à l'induction est sans conséquence »",
+    "body": "Faux : même quelques minutes d'hypotension sont associées à des lésions d'organe.",
+    "detail": "Dans la cohorte de Walsh (2013, plus de 33 000 patients), une PAM < 55 mmHg pendant seulement 1 à 5 minutes était associée à plus d'insuffisance rénale aiguë et de lésions myocardiques. Anticiper : titrer l'induction, vasopresseur prêt.",
+    "source": "Walsh et al., Anesthesiology 2013",
+    "tags": [
+      "hypotension",
+      "induction",
+      "rein"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Le bicarbonate améliore le pronostic de l'acidose métabolique sévère »",
+    "body": "Faux en général, vrai dans un sous-groupe : en cas d'insuffisance rénale aiguë.",
+    "detail": "Dans BICAR-ICU (2018, pH ≤ 7,20), le bicarbonate n'améliore pas la survie globale. Il réduit la mortalité et le recours à l'épuration extrarénale chez les patients avec IRA modérée à sévère (AKIN 2-3).",
+    "source": "BICAR-ICU, Lancet 2018",
+    "tags": [
+      "acide-base",
+      "bicarbonate",
+      "IRA"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Un BPCO ne doit pas recevoir d'oxygène »",
+    "body": "Faux : il faut titrer l'oxygène, avec une SpO2 cible de 88 à 92 %.",
+    "detail": "L'hypoxémie tue plus vite que l'hypercapnie. Le risque vient de l'excès d'oxygène, pas de l'oxygène lui-même : on titre et on contrôle les gaz du sang.",
+    "source": "BTS 2017",
+    "tags": [
+      "BPCO",
+      "oxygène",
+      "hypercapnie"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« La manœuvre de Sellick protège de l'inhalation »",
+    "body": "Non démontré : l'inhalation est aussi rare avec ou sans Sellick.",
+    "detail": "Dans IRIS (2019, 3 472 patients), l'inhalation survient chez 0,6 % des patients avec Sellick contre 0,5 % sans. La pression cricoïde allonge l'intubation et dégrade plus souvent la vision laryngée. Elle reste optionnelle et doit être relâchée en cas de difficulté.",
+    "source": "IRIS, JAMA Surg 2019",
+    "tags": [
+      "ISR",
+      "Sellick",
+      "intubation"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Une SpO2 normale exclut une hypoventilation »",
+    "body": "Faux : sous oxygène, la SpO2 reste normale alors que la PaCO2 monte.",
+    "detail": "En SSPI ou sous morphiniques, l'oxygène masque l'hypoventilation. Surveiller la fréquence respiratoire, la vigilance et, si possible, la capnographie.",
+    "source": "Physiologie respiratoire",
+    "tags": [
+      "SSPI",
+      "capnographie",
+      "morphiniques"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Glasgow ≤ 8 : intubation obligatoire »",
+    "body": "Faux dans les intoxications : surveiller sans intuber peut être plus sûr.",
+    "detail": "Dans NICO (2023), chez des patients intoxiqués avec un Glasgow < 9, s'abstenir d'intuber sous surveillance rapprochée réduit un critère composite (décès, durée de séjour en réanimation et à l'hôpital). La règle reste valable dans le traumatisme crânien grave.",
+    "source": "NICO, JAMA 2023",
+    "tags": [
+      "intoxication",
+      "intubation",
+      "neuro"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Le paracétamol IV est plus efficace que per os »",
+    "body": "Faux : à dose égale, l'efficacité est comparable si le tube digestif fonctionne.",
+    "detail": "La biodisponibilité orale est élevée (environ 60 à 90 %). La voie IV se justifie quand la voie orale est impossible. Elle coûte beaucoup plus cher.",
+    "source": "Revue systématique, Jibril et al. 2015",
+    "tags": [
+      "paracétamol",
+      "antalgiques",
+      "voie orale"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Le furosémide prévient ou traite l'insuffisance rénale aiguë »",
+    "body": "Faux : il ne prévient ni ne traite l'IRA.",
+    "detail": "Les diurétiques ne sont indiqués qu'en cas de surcharge hydrosodée. Augmenter la diurèse ne protège pas le rein et peut retarder l'épuration extrarénale.",
+    "source": "KDIGO 2012 (Insuffisance rénale aiguë)",
+    "tags": [
+      "IRA",
+      "diurétiques",
+      "rein"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« La dopamine à faible dose protège le rein »",
+    "body": "Faux : la dopamine « rénale » n'apporte aucune protection.",
+    "detail": "Dans l'essai ANZICS (2000, 328 patients), la dopamine à 2 µg/kg/min ne modifie ni la créatinine, ni le recours à l'épuration extrarénale, ni la mortalité. Elle expose en revanche aux arythmies.",
+    "source": "ANZICS, Lancet 2000",
+    "tags": [
+      "dopamine",
+      "IRA",
+      "vasopresseurs"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Le masque à haute concentration délivre 100 % d'O2 »",
+    "body": "Faux : la FiO2 réelle est d'environ 60 à 80 %.",
+    "detail": "Quand le débit inspiratoire du patient dépasse le débit d'O2, de l'air ambiant est aspiré et dilue l'oxygène, surtout en détresse respiratoire. Pour une FiO2 proche de 100 % : ballon avec valve, oxygénothérapie à haut débit ou ventilation.",
+    "source": "Physiologie respiratoire",
+    "tags": [
+      "oxygène",
+      "FiO2",
+      "détresse respiratoire"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« La kétamine est à éviter dans le traumatisme crânien »",
+    "body": "Faux : elle n'augmente pas la PIC chez le patient ventilé et préserve la PA.",
+    "detail": "Cette crainte vient d'études anciennes chez des patients en ventilation spontanée. Chez le patient ventilé, les revues récentes ne trouvent pas de hausse de PIC ; le maintien de la PAM protège la PPC.",
+    "source": "Cohen et al., Ann Emerg Med 2015",
+    "tags": [
+      "kétamine",
+      "neuro",
+      "induction"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Auscultation symétrique = sonde bien placée »",
+    "body": "Faux : seule la capnographie confirme la position trachéale.",
+    "detail": "L'auscultation peut tromper (bruits transmis, intubation œsophagienne). La référence est une courbe de capnographie persistante sur plusieurs cycles. Pas de courbe = sonde dans l'œsophage jusqu'à preuve du contraire.",
+    "source": "SFAR 2017 / DAS 2015",
+    "tags": [
+      "intubation",
+      "capnographie",
+      "voies aériennes"
+    ]
+  }
+]

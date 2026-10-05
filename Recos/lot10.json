@@ -1,0 +1,139 @@
+[
+  {
+    "module": "Grandes études",
+    "hook": "6 mL/kg : l'étude qui a changé le respirateur",
+    "body": "En 2000, l'ARDS Network compare chez 861 patients en SDRA un volume courant de 6 mL/kg de poids idéal à 12 mL/kg. La mortalité chute de 39,8 % à 31,0 %, et l'essai est arrêté précocement.",
+    "detail": "Avant ARDSNet, on ventilait avec de grands volumes pour normaliser les gaz du sang. L'étude a imposé l'idée de lésions induites par la ventilation et l'acceptation d'une hypercapnie permissive.",
+    "source": "ARDSNet, NEJM 2000",
+    "tags": [
+      "SDRA",
+      "ventilation protectrice"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Le protocole star du sepsis, détrôné 13 ans plus tard",
+    "body": "En 2001, Rivers montre qu'une réanimation protocolisée en 6 h (PVC, PAM, SvcO2) réduit la mortalité hospitalière du choc septique de 46,5 % à 30,5 %. L'EGDT devient la norme mondiale.",
+    "detail": "Entre 2014 et 2015, ProCESS, ARISE et ProMISe, menés sur plus de 4 000 patients, ne retrouvent aucun bénéfice à l'EGDT face à des soins usuels devenus meilleurs. Le message durable reste la précocité de la prise en charge.",
+    "source": "Rivers, NEJM 2001 ; ProCESS/ARISE/ProMISe 2014-2015",
+    "tags": [
+      "sepsis",
+      "EGDT",
+      "remplissage"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Contrôle glycémique strict : plus de morts",
+    "body": "NICE-SUGAR (2009, 6 104 patients) compare une cible glycémique de 0,81 à 1,08 g/L à une cible ≤ 1,80 g/L. La mortalité à 90 jours est plus élevée dans le bras strict (27,5 % contre 24,9 %), avec beaucoup plus d'hypoglycémies sévères.",
+    "detail": "L'étude contredit l'essai monocentrique de Van den Berghe (2001) en chirurgie cardiaque, qui avait lancé l'insulinothérapie intensive. Leçon : se méfier d'un résultat monocentrique spectaculaire.",
+    "source": "NICE-SUGAR, NEJM 2009",
+    "tags": [
+      "glycémie",
+      "insuline",
+      "réanimation"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Retourner les patients a divisé la mortalité par deux",
+    "body": "PROSEVA (2013, 466 patients) teste le décubitus ventral précoce, au moins 16 h par jour, dans le SDRA sévère (PaO2/FiO2 < 150). Mortalité à 28 jours : 16,0 % contre 32,8 %.",
+    "detail": "Les essais précédents étaient négatifs : séances trop courtes, mise en place trop tardive, SDRA moins sévères. Une équipe entraînée et une application précoce font la différence.",
+    "source": "PROSEVA, NEJM 2013",
+    "tags": [
+      "SDRA",
+      "décubitus ventral"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Un antifibrinolytique bon marché qui sauve des vies",
+    "body": "CRASH-2 (2010) randomise plus de 20 000 traumatisés hémorragiques : l'acide tranexamique réduit la mortalité toutes causes (14,5 % contre 16,0 %).",
+    "detail": "Une analyse secondaire montre que le bénéfice est maximal dans la première heure, nul après 3 h, avec même un excès de décès par hémorragie au-delà. D'où la règle des 3 heures, reprise ensuite dans l'HPP (WOMAN).",
+    "source": "CRASH-2, Lancet 2010",
+    "tags": [
+      "trauma",
+      "acide tranexamique"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "7 g/dL suffisent : la transfusion restrictive",
+    "body": "TRICC (1999, 838 patients de réanimation) compare un seuil transfusionnel de 7 g/dL à 10 g/dL. Mortalité à 30 jours non différente (18,7 % contre 23,3 %), avec moitié moins de transfusions dans le bras restrictif.",
+    "detail": "Le bénéfice du seuil restrictif était même significatif chez les patients les moins graves et les moins de 55 ans. Le seuil de 7 g/dL a depuis été confirmé dans le choc septique (TRISS, 2014).",
+    "source": "TRICC, NEJM 1999",
+    "tags": [
+      "transfusion",
+      "anémie"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Albumine ou sérum salé : match nul, sauf pour le cerveau",
+    "body": "SAFE (2004) compare l'albumine à 4 % au sérum salé chez près de 7 000 patients de réanimation : aucune différence de mortalité à 28 jours.",
+    "detail": "Le suivi du sous-groupe traumatisé crânien (SAFE-TBI, 2007) montre une surmortalité sous albumine. Elle est aujourd'hui évitée dans le traumatisme crânien grave.",
+    "source": "SAFE, NEJM 2004 ; SAFE-TBI, NEJM 2007",
+    "tags": [
+      "remplissage",
+      "albumine",
+      "colloïdes"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "33 °C ou 36 °C après un arrêt cardiaque ?",
+    "body": "TTM (2013, 950 patients) ne trouve aucune différence de survie ni de pronostic neurologique entre 33 °C et 36 °C après un arrêt cardiaque extrahospitalier. TTM2 (2021, 1 900 patients) confirme : 33 °C ne fait pas mieux que la seule prévention de la fièvre.",
+    "detail": "Le message actuel : éviter activement la fièvre (> 37,7 °C) pendant au moins 72 h, plutôt que d'imposer une hypothermie profonde.",
+    "source": "TTM, NEJM 2013 ; TTM2, NEJM 2021",
+    "tags": [
+      "arrêt cardiaque",
+      "température"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Le bêtabloquant qui protégeait le cœur… et tuait",
+    "body": "POISE (2008, 8 351 patients) teste le métoprolol à forte dose débuté juste avant une chirurgie non cardiaque. Moins d'infarctus (4,2 % contre 5,7 %), mais plus de décès (3,1 % contre 2,3 %) et deux fois plus d'AVC.",
+    "detail": "La faute : une dose élevée introduite le jour même, source d'hypotension et de bradycardie. Depuis, on n'introduit plus un bêtabloquant en préopératoire immédiat, mais on poursuit celui que le patient prend déjà.",
+    "source": "POISE, Lancet 2008",
+    "tags": [
+      "préopératoire",
+      "bêtabloquants"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "La fin des amidons en réanimation",
+    "body": "6S (2012, 798 patients en sepsis sévère) compare l'HEA 130/0,42 au Ringer acétate. Mortalité à 90 jours : 51 % contre 43 %, avec plus d'épuration extrarénale sous HEA.",
+    "detail": "Avec CHEST (2012), cette étude a conduit l'agence européenne du médicament à restreindre fortement les hydroxyéthylamidons, puis à les retirer du marché.",
+    "source": "6S, NEJM 2012",
+    "tags": [
+      "remplissage",
+      "HEA",
+      "sepsis"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "1:1:1 : reconstituer le sang total",
+    "body": "PROPPR (2015, 680 traumatisés graves) compare un ratio plasma:plaquettes:CGR de 1:1:1 à 1:1:2. Pas de différence de mortalité à 24 h ni à 30 jours, mais une hémostase plus souvent obtenue (86 % contre 78 %) et moins de décès par exsanguination à 24 h.",
+    "detail": "L'étude a installé l'idée d'une transfusion équilibrée et précoce, dès les premières unités, plutôt qu'une correction séquentielle guidée par la biologie.",
+    "source": "PROPPR, JAMA 2015",
+    "tags": [
+      "transfusion massive",
+      "trauma"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Un corticoïde à 1 € contre la COVID grave",
+    "body": "RECOVERY (2020) montre que la dexaméthasone 6 mg/j pendant 10 jours réduit la mortalité à 28 jours des patients ventilés (29,3 % contre 41,4 %) et sous oxygène (23,3 % contre 26,2 %).",
+    "detail": "Aucun bénéfice chez les patients sans oxygène, avec une tendance défavorable. Cet essai pragmatique a recruté des milliers de patients en quelques semaines : un modèle de recherche en pleine crise.",
+    "source": "RECOVERY, NEJM 2020",
+    "tags": [
+      "COVID",
+      "corticoïdes",
+      "SDRA"
+    ]
+  }
+]
