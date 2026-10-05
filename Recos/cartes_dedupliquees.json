@@ -278,7 +278,7 @@
     "tags": ["Hémorragie", "Transfusion", "Ratio CGR/PFC"]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Privilégier les sédations légères",
     "body": "Cibler une sédation légère (score RASS entre -2 et 0) dès que possible pour réduire la durée de ventilation mécanique. Réaliser des arrêts quotidiens ou des baisses systématiques des sédatifs.",
     "source": "SRLF/SFAR 2021",
@@ -343,7 +343,7 @@
     "tags": ["Toxicité", "ISAL", "Intralipide"]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Instauration précoce de la nutrition entérale",
     "body": "Débuter la nutrition entérale dans les 48 premières heures de l'admission en réanimation si le tube digestif est fonctionnel. Préférer systématiquement cette voie à la nutrition parentérale exclusive.",
     "source": "ESPEN 2023",

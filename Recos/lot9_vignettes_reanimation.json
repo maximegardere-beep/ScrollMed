@@ -1,6 +1,6 @@
 [
   {
-    "module": "Sepsis et choc septique",
+    "module": "Sepsis & infectiologie",
     "hook": "3h pour le bundle septique : chaque minute compte",
     "body": "Démarrer antibiothérapie large spectre + hémocultures + remplissage vasculaire (30 ml/kg cristalloïdes) dans l'heure suivant la reconnaissance du sepsis sévère ou choc septique.",
     "detail": "Le délai avant antibiothérapie est le principal facteur de mortalité. La noradrénaline est le vasopresseur de 1ère intention si hypotension persistante après remplissage.",
@@ -9,7 +9,7 @@
     "tags": ["sepsis", "choc septique", "bundle", "urgences"]
   },
   {
-    "module": "SDRA",
+    "module": "Ventilation & oxygénation",
     "hook": "Ventilation protectrice : VT 6 ml/kg max",
     "body": "Réglage immédiat du ventilateur en mode protecteur : VT 4-6 ml/kg, Pplateau < 30 cmH2O, PEEP titrée selon FiO2, et décubitus ventral si PaO2/FiO2 < 150.",
     "detail": "La ventilation protectrice réduit la mortalité de 25%. Le décubitus ventral > 16h/j améliore l'oxygénation et le pronostic.",
@@ -18,25 +18,25 @@
     "tags": ["SDRA", "ventilation mécanique", "décubitus ventral"]
   },
   {
-    "module": "Insuffisance respiratoire aiguë",
-    "hook": "OHD avant VNI dans l'hypoxémie hypercapnique",
-    "body": "Privilégier l'oxygénothérapie à haut débit nasal (Optiflow®) en 1ère intention devant une détresse respiratoire hypoxémique, avant d'envisager la VNI.",
-    "detail": "L'OHD génère une PEP modérée, réduit le travail respiratoire et est mieux tolérée que la VNI. La VNI est indiquée si hypercapnie sévère (pH < 7.35) ou signes de fatigue.",
-    "source": "SRLF 2021",
+    "module": "Ventilation & oxygénation",
+    "hook": "OHD avant VNI dans l'hypoxémie sans hypercapnie",
+    "body": "Privilégier l'oxygénothérapie à haut débit nasal (Optiflow®) en 1ère intention devant une détresse respiratoire hypoxémique sans hypercapnie, plutôt que la VNI.",
+    "detail": "L'OHD génère une PEP modérée, réduit le travail respiratoire et est mieux tolérée que la VNI. La VNI reste indiquée en cas d'hypercapnie avec acidose (pH < 7,35), notamment dans la BPCO, et dans l'OAP cardiogénique.",
+    "source": "FLORALI, NEJM 2015 ; SRLF 2021",
     "grade": "Grade 1+",
     "tags": ["insuffisance respiratoire", "OHD", "VNI", "hypoxémie"]
   },
   {
-    "module": "Choc hémorragique",
-    "hook": "Ratio 1:1:1 pour les CGR en hémorragie massive",
-    "body": "Transfuser en urgence selon la stratégie damage control : CGR:Plasma:Plaquettes = 1:1:1 dès que l'hémorragie est contrôlée chirurgicalement.",
+    "module": "Hémostase & transfusion",
+    "hook": "Hémorragie massive : transfuser 1:1:1 sans attendre",
+    "body": "Transfuser selon la stratégie de damage control dès le début de l'hémorragie massive, sans attendre son contrôle chirurgical : CGR, plasma et plaquettes en ratio proche de 1:1:1 (plasma:CGR au moins 1:2).",
     "detail": "Le fibrinogène doit être maintenu > 1.5-2 g/L. L'acide tranexamique (1g IV) est indiqué si < 3h après le trauma.",
-    "source": "European Trauma Guideline 2019",
+    "source": "PROPPR, JAMA 2015 ; European guideline on major bleeding after trauma 2023",
     "grade": "Grade 1A",
     "tags": ["choc hémorragique", "transfusion massive", "damage control"]
   },
   {
-    "module": "Choc cardiogénique",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Noradrénaline + dobutamine : duo de base",
     "body": "En choc cardiogénique avec hypotension, associer noradrénaline (pour maintenir la PAS > 65 mmHg) et dobutamine (pour améliorer le débit cardiaque).",
     "detail": "La noradrénaline seule peut aggraver la post-charge. La levosimendan est une alternative en cas de dysfonction systolique sévère.",
@@ -45,34 +45,34 @@
     "tags": ["choc cardiogénique", "catécholamines", "insuffisance cardiaque"]
   },
   {
-    "module": "Encéphalopathie en réanimation",
-    "hook": "Glasgow < 8 = intubations systématique",
-    "body": "Toute altération de conscience avec score de Glasgow ≤ 8 impose une protection des voies aériennes par intubation trachéale.",
+    "module": "Neuro-réanimation",
+    "hook": "Glasgow ≤ 8 : intuber selon la cause, pas par réflexe",
+    "body": "Un Glasgow ≤ 8 impose d'évaluer la protection des voies aériennes. L'intubation reste la règle dans le traumatisme crânien grave ou en cas de troubles de déglutition, de vomissements ou d'hypoxémie. Dans les intoxications, une surveillance rapprochée sans intubation peut être plus sûre.",
     "detail": "Les causes à rechercher en urgence : hypoxie, hypoperfusion, intoxication, AVC, encéphalopathie métabolique, méningite. La TDM cérébrale est indispensable si coma non expliqué.",
-    "source": "SRLF 2020",
+    "source": "SFAR 2016 (Traumatisme crânien grave) ; NICO, JAMA 2023",
     "grade": "Recommandation forte",
     "tags": ["encéphalopathie", "coma", "voies aériennes", "Glasgow"]
   },
   {
-    "module": "Insuffisance rénale aiguë",
-    "hook": "Épuration extrarénale : pas avant 72h si possible",
-    "body": "En IRA sévère sans urgence vitale (hyperkaliémie, acidose sévère, OAP), privilégier une stratégie d'attente vigilante avant épuration extrarénale.",
+    "module": "Réanimation médicale",
+    "hook": "Épuration extrarénale : attendre sur critères",
+    "body": "En IRA sévère sans urgence vitale, une stratégie d'attente vigilante évite l'épuration à de nombreux patients. Mais prolonger l'attente au-delà des seuils (oligurie > 72 h ou urée > 40 mmol/L) n'apporte aucun bénéfice et pourrait être délétère.",
     "detail": "Les indications urgentes sont : K+ > 6 mmol/L, pH < 7.15, OAP réfractaire, urémie symptomatique. La modalité (HDFV vs HD) dépend de l'hémodynamique.",
-    "source": "SRLF 2018",
+    "source": "AKIKI, NEJM 2016 ; AKIKI2, Lancet 2021",
     "grade": "Grade 1-",
     "tags": ["IRA", "épuration extrarénale", "hémodialyse"]
   },
   {
-    "module": "Pancréatite aiguë sévère",
-    "hook": "Remplissage agressif les 24 premières heures",
-    "body": "Administrer 250-500 ml/h de cristalloïdes (RL ou NaCl 0.9%) pendant 12-24h en l'absence de signe de surcharge volémique.",
-    "detail": "Le score de Balthazar (TDM) et le score de Ranson aident à stratifier la sévérité. L'antibiothérapie est réservée aux pancréatites nécrosantes infectées.",
-    "source": "IAP/APA 2013",
+    "module": "Réanimation médicale",
+    "hook": "Pancréatite aiguë : remplissage modéré, pas agressif",
+    "body": "Remplir par Ringer lactate de façon modérée et réévaluée : bolus de 10 mL/kg seulement en cas d'hypovolémie, puis environ 1,5 mL/kg/h. Le remplissage agressif augmente les surcharges sans améliorer le pronostic.",
+    "detail": "Dans WATERFALL (2022), la stratégie agressive (bolus de 20 mL/kg puis 3 mL/kg/h) entraînait trois fois plus de surcharges volémiques, sans bénéfice sur la sévérité. L'antibiothérapie est réservée aux pancréatites nécrosantes infectées.",
+    "source": "WATERFALL, NEJM 2022",
     "grade": "Grade 2+",
     "tags": ["pancréatite", "réanimation", "remplissage"]
   },
   {
-    "module": "Intoxication médicamenteuse",
+    "module": "Réanimation médicale",
     "hook": "Charbon activé si < 1h post-ingestion",
     "body": "Administrer du charbon activé (50 g chez l'adulte) dans l'heure suivant l'ingestion d'une substance toxique, si le patient est conscient ou intubé.",
     "detail": "Contre-indications : risque de fausse route, ingestion de corrosifs. Le lavage gastrique est exceptionnellement indiqué.",
@@ -81,7 +81,7 @@
     "tags": ["intoxication", "charbon activé", "urgences"]
   },
   {
-    "module": "Embolie pulmonaire",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Thrombolyse uniquement si choc ou hypotension",
     "body": "Réserver la thrombolyse (altéplase 50 mg IV) aux EP à haut risque : choc ou hypotension persistante (PAS < 90 mmHg) malgré remplissage.",
     "detail": "Pour les EP à risque intermédiaire, l'anticoagulation curative (HBPM ou HNF) suffit. La thrombolyse expose à un risque hémorragique majeur (6-10% de saignement sévère).",
@@ -90,7 +90,7 @@
     "tags": ["embolie pulmonaire", "thrombolyse", "choc"]
   },
   {
-    "module": "Hémorragie digestive haute",
+    "module": "Réanimation médicale",
     "hook": "Érythromycine IV 30-120 min avant endoscopie",
     "body": "Perfuser 250 mg d'érythromycine IV 30 à 120 min avant l'endoscopie pour vider l'estomac et améliorer la visualisation.",
     "detail": "Les inhibiteurs de la pompe à protons (IPP) en bolus IV (80 mg) sont indiqués avant l'endoscopie. La sonde de Blakemore est un recours en cas d'échec.",
@@ -99,7 +99,7 @@
     "tags": ["hémorragie digestive", "endoscopie", "érythromycine"]
   },
   {
-    "module": "BPCO décompensée",
+    "module": "Ventilation & oxygénation",
     "hook": "VNI en 1ère intention si pH < 7.35",
     "body": "Initiier une ventilation non invasive (mode PS + PEEP) devant une décompensation de BPCO avec acidose hypercapnique (pH < 7.35, PaCO2 > 45 mmHg).",
     "detail": "La VNI réduit le taux d'intubation de 50%. Les critères d'échec : pH < 7.25, PaO2 < 60 mmHg malgré FiO2 100%, altération de conscience.",
@@ -108,7 +108,7 @@
     "tags": ["BPCO", "VNI", "acidose respiratoire"]
   },
   {
-    "module": "Asthme aigu grave",
+    "module": "Ventilation & oxygénation",
     "hook": "Magnésium IV si pas d'amélioration sous nébulisations",
     "body": "Administrer 2 g de sulfate de magnésium IV en 20 min si persistance de symptômes sévères après 1h de traitement standard (bêta2-mimétiques + corticoïdes).",
     "detail": "Les signes de gravité : silence auscultatoire, cyanose, épuisement, PaCO2 normale ou élevée. L'intubation est un recours en cas d'échec thérapeutique.",
@@ -117,16 +117,16 @@
     "tags": ["asthme", "crise grave", "magnésium"]
   },
   {
-    "module": "Acidocétose diabétique",
-    "hook": "Insuline IV continue : 0.1 UI/kg/h max",
-    "body": "Démarrer une perfusion continue d'insuline (0.05-0.1 UI/kg/h) avec remplissage (1-1.5 L de NaCl 0.9% en 1ère heure) et correction du potassium si K+ < 5 mmol/L.",
-    "detail": "Éviter une correction trop rapide de la glycémie (< 50 mmol/L/h) pour prévenir l'œdème cérébral. Surveiller la kaliémie toutes les 2h.",
+    "module": "Réanimation médicale",
+    "hook": "Acidocétose : insuline IV continue à 0,1 UI/kg/h",
+    "body": "Après un remplissage initial (1 à 1,5 L de NaCl 0,9 % la 1re heure), démarrer l'insuline IV continue à 0,1 UI/kg/h, seulement si K+ ≥ 3,3 mmol/L. Supplémenter le potassium dès que K+ < 5 mmol/L.",
+    "detail": "Viser une baisse de glycémie d'environ 3 à 4 mmol/L/h pour limiter le risque d'œdème cérébral. Quand la glycémie passe sous environ 11 mmol/L (2 g/L), ajouter du glucose et poursuivre l'insuline jusqu'à résolution de la cétose. Kaliémie toutes les 1 à 2 h.",
     "source": "ADA/ES 2021",
     "grade": "Grade 1+",
     "tags": ["acidocétose", "diabète", "insuline IV"]
   },
   {
-    "module": "AVC ischémique",
+    "module": "Neuro-réanimation",
     "hook": "Thrombolyse IV si < 4h30 ou thrombo-aspiration si < 6h",
     "body": "En AVC ischémique, la thrombolyse IV (rt-PA 0.9 mg/kg) est indiquée si délai < 4h30. La thrombectomie mécanique est possible jusqu'à 6h (voire 24h avec sélection par imagerie).",
     "detail": "Contre-indications : AVC hémorragique, antécédent récent de chirurgie, INR > 1.7. La PAS doit être maintenue entre 140-180 mmHg les 24 premières heures.",
@@ -135,7 +135,7 @@
     "tags": ["AVC", "thrombolyse", "thrombectomie"]
   },
   {
-    "module": "Traumatisme crânien grave",
+    "module": "Neuro-réanimation",
     "hook": "PIC < 20 mmHg : objectif prioritaire",
     "body": "Maintenir la pression intracrânienne (PIC) < 20 mmHg avec tête surélevée à 30°, normocapnie (35-40 mmHg), et osmotiques (mannitol 20% ou NaCl 7.5%) si nécessaire.",
     "detail": "Éviter l'hyperventilation (PaCO2 < 25 mmHg) qui aggrave l'ischémie cérébrale. La décompression chirurgicale est indiquée en cas de signes d'engagement.",
@@ -144,16 +144,16 @@
     "tags": ["traumatisme crânien", "PIC", "neuro-réanimation"]
   },
   {
-    "module": "Post-opératoire compliqué",
-    "hook": "Délirium post-op : halopéridol en 1ère intention",
-    "body": "Traiter un délirium hyperactif post-opératoire par halopéridol IV (1-2 mg toutes les 4-6h) plutôt que par benzodiazépines.",
-    "detail": "Les benzodiazépines aggravent le délirium et la dépression respiratoire. La prévention repose sur la mobilisation précoce, la réduction des opioïdes, et le sommeil.",
+    "module": "Soins quotidiens en réa",
+    "hook": "Délirium post-op : pas d'halopéridol systématique",
+    "body": "Traiter d'abord les causes (douleur, rétention urinaire, hypoxie, sevrage, médicaments) et appliquer les mesures non médicamenteuses. Pas d'halopéridol ni d'antipsychotique en routine : les réserver à une agitation dangereuse, à faible dose et sur une courte durée.",
+    "detail": "Les benzodiazépines aggravent le délirium, sauf en cas de sevrage alcoolique ou aux benzodiazépines. La prévention repose sur la mobilisation précoce, l'épargne morphinique, le respect du sommeil, les lunettes et appareils auditifs.",
     "source": "SCCM PADIS 2018",
     "grade": "Grade 1+",
     "tags": ["post-opératoire", "délirium", "halopéridol"]
   },
   {
-    "module": "Syndrome de sevrage",
+    "module": "Réanimation médicale",
     "hook": "CIWA-Ar > 15 = traitement systématique",
     "body": "Évaluer le syndrome de sevrage alcoolique par le score CIWA-Ar. Un score > 15 impose un traitement par benzodiazépines (diazépam ou oxazépam) en titration.",
     "detail": "Les benzodiazépines à longue durée d'action (diazépam) sont préférées. La vitamine B1 (thiamine) doit être administrée systématiquement avant toute glucothérapie.",
@@ -171,7 +171,7 @@
     "tags": ["arrêt cardiaque", "RCP", "adrénaline"]
   },
   {
-    "module": "Infections nosocomiales",
+    "module": "Sepsis & infectiologie",
     "hook": "Pneumonie sous VM : antibiothérapie large spectre immédiate",
     "body": "En cas de suspicion de pneumonie sous ventilation mécanique, démarrer une antibiothérapie probabiliste (ex : céftazidime + vancomycine) après prélèvements (aspiration trachéale).",
     "detail": "Les germes les plus fréquents sont : Pseudomonas aeruginosa, Staphylococcus aureus (dont MRSA), Enterobacteriaceae. La durée de traitement est de 7 jours si réponse clinique favorable.",
@@ -180,7 +180,7 @@
     "tags": ["pneumonie nosocomiale", "ventilation mécanique", "antibiothérapie"]
   },
   {
-    "module": "Déséquilibres hydro-électrolytiques",
+    "module": "Réanimation médicale",
     "hook": "Hyponatrémie sévère < 120 mmol/L : correction lente",
     "body": "Corriger une hyponatrémie sévère (< 120 mmol/L) ou symptomatique par NaCl 3% à un rythme ≤ 10 mmol/L/24h (≤ 18 mmol/L/48h).",
     "detail": "Une correction trop rapide (> 12 mmol/L/24h) expose à un risque de myélinolyse centropontine. Les causes : SIADH, hypovolémie, hyperglycémie.",
@@ -189,7 +189,7 @@
     "tags": ["hyponatrémie", "déséquilibre électrolytique", "NaCl 3%"]
   },
   {
-    "module": "Syndrome coronarien aigu",
+    "module": "Hémodynamique & cardiologie",
     "hook": "Antiagrégants plaquettaires : aspirine + P2Y12 en urgence",
     "body": "En SCA avec sus-décalage du ST (STEMI), administrer 250-500 mg d'aspirine + charge de P2Y12 (ticagrelor 180 mg ou clopidogrel 600 mg) avant coronarographie.",
     "detail": "Le ticagrelor est préféré au clopidogrel en raison de son action plus rapide et plus puissante. Les bêta-bloquants IV (métoprolol) sont indiqués si PAS > 100 mmHg.",
@@ -198,7 +198,7 @@
     "tags": ["SCA", "STEMI", "antiagrégants"]
   },
   {
-    "module": "Défaillance multi-viscérale",
+    "module": "Sepsis & infectiologie",
     "hook": "SOFA > 2 : alerte précoce",
     "body": "Un score SOFA ≥ 2 doit faire suspecter une défaillance multi-viscérale et déclencher une évaluation approfondie et une prise en charge agressive.",
     "detail": "Le score SOFA évalue 6 organes : respiration (PaO2/FiO2), coagulation (plaquettes), foie (bilirubine), cardiovasculaire (vasopresseurs), neurologique (Glasgow), rénal (créatinine/diurèse).",
@@ -207,7 +207,7 @@
     "tags": ["défaillance multi-viscérale", "SOFA", "pronostic"]
   },
   {
-    "module": "Choc anaphylactique",
+    "module": "Urgences & déchocage",
     "hook": "Adrénaline IM 0.5 mg en 1ère intention",
     "body": "En choc anaphylactique, injecter 0.5 mg d'adrénaline IM (0.01 mg/kg chez l'enfant) dans la face latérale de la cuisse, renouvelable toutes les 5-15 min.",
     "detail": "L'adrénaline IV (0.1 mg en 10 min) est réservée aux cas réfractaires. Les corticoïdes (hydrocortisone 200 mg) et antihistaminiques (diphénhydramine) sont adjuvants.",
@@ -216,7 +216,7 @@
     "tags": ["choc anaphylactique", "adrénaline", "allergie"]
   },
   {
-    "module": "Hémorragie méningée",
+    "module": "Neuro-réanimation",
     "hook": "Nimodipine PO dès le diagnostic",
     "body": "Démarrer la nimodipine (60 mg toutes les 4h) par voie orale ou sonde nasogastrique dès le diagnostic d'hémorragie sous-arachnoïdienne (HSA) anévrismale.",
     "detail": "La nimodipine réduit l'incidence du vasospasme cérébrale et améliore le pronostic. La pression artérielle doit être contrôlée (PAS < 160 mmHg) avec labétalol ou nicardipine.",

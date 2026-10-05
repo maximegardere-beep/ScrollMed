@@ -544,6 +544,32 @@
   .statbox .num{ font-size: 24px; font-weight:800; color: var(--trace); }
   .statbox .lbl{ font-size: 12px; color: var(--muted); margin-top:2px; }
 
+  /* ---------- radar de compétences ---------- */
+  .radar-card{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 12px 14px;
+    margin-bottom: 14px;
+  }
+  .radar-card svg{ width:100%; height:auto; display:block; }
+  .radar-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px; }
+  .radar-head .delta{ font-size:13px; font-weight:700; color: var(--trace); }
+  .radar-head .delta.neg{ color: var(--alert); }
+  .seg{ display:flex; background: var(--bg); border:1px solid var(--line); border-radius:10px; padding:2px; }
+  .seg button{
+    background:none; border:none; color: var(--muted);
+    font-size:12px; font-weight:700; padding:6px 10px; border-radius:8px; cursor:pointer;
+  }
+  .seg button.on{ background: var(--surface-2); color: var(--text); }
+  .legend{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color: var(--muted); margin-top:6px; }
+  .legend i{ display:inline-block; width:14px; height:3px; border-radius:2px; vertical-align:middle; margin-right:5px; }
+  .bar{ height:5px; background: var(--line); border-radius:3px; overflow:hidden; margin-top:7px; position:relative; }
+  .bar i{ position:absolute; left:0; top:0; bottom:0; border-radius:3px; }
+  .bar i.seen{ background: rgba(242,168,62,0.45); }
+  .bar i.mast{ background: var(--trace); }
+  .modrow.stat{ display:block; }
+
   .sectiontitle{
     font-size: 12.5px;
     color: var(--muted);
@@ -746,7 +772,9 @@ function loadState(){
 // mastered[id] est conservé (= level > 0) pour la compatibilité des sauvegardes.
 const MAX_LEVEL = 4;
 function normalizeState(s){
-  s = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, level:{} }, s);
+  // views[id] : nombre de passages de la carte à l'écran ; history[jour] : instantané
+  // quotidien de la progression par thème (radar). Les deux partent dans la sauvegarde.
+  s = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, level:{}, views:{}, history:{} }, s);
   // migration : une fiche "comprise" avant l'introduction des niveaux démarre au niveau 1
   Object.keys(s.mastered).forEach(id => { if(s.mastered[id] && !s.level[id]) s.level[id] = 1; });
   return s;
@@ -981,8 +1009,31 @@ const feedObserver = new IntersectionObserver(entries => {
   if(entries.some(e => e.isIntersecting)) renderNextBatch();
 }, { root: feedEl, rootMargin: '0px 0px 200% 0px' });
 
+// une carte compte comme vue quand elle reste affichée (≥ 60 %) au moins 1,5 s,
+// une seule fois par passage dans le feed
+const VIEW_DELAY_MS = 1500;
+const viewObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    const card = e.target;
+    if(!e.isIntersecting){ clearTimeout(card._viewTimer); return; }
+    if(card.dataset.viewed) return;
+    card._viewTimer = setTimeout(() => {
+      if(!card.isConnected) return;
+      card.dataset.viewed = '1';
+      recordView(card.dataset.id);
+    }, VIEW_DELAY_MS);
+  });
+}, { root: feedEl, threshold: 0.6 });
+
+function recordView(id){
+  STATE.views[id] = (STATE.views[id] || 0) + 1;
+  snapshotProgress();
+  saveState(STATE);
+}
+
 function renderFeed(){
   feedEl.innerHTML = '';
+  viewObserver.disconnect();
   feedEl.scrollTop = 0;
   renderedCount = 0;
   feedObserver.disconnect();
@@ -1000,7 +1051,11 @@ function renderFeed(){
 
 function renderNextBatch(){
   const end = Math.min(renderedCount + RENDER_BATCH, FEED_ORDER.length);
-  for(let idx = renderedCount; idx < end; idx++) feedEl.appendChild(renderCard(FEED_ORDER[idx], idx));
+  for(let idx = renderedCount; idx < end; idx++){
+    const card = renderCard(FEED_ORDER[idx], idx);
+    feedEl.appendChild(card);
+    viewObserver.observe(card);
+  }
   renderedCount = end;
   feedObserver.disconnect();
   if(renderedCount < FEED_ORDER.length){
@@ -1149,6 +1204,7 @@ feedEl.addEventListener('click', (e)=>{
     }
     if(!STATE.level[id]) delete STATE.level[id];
     STATE.mastered[id] = !!STATE.level[id];
+    snapshotProgress();
     saveState(STATE);
     card.querySelector('[data-action="mastered"]').classList.toggle('active', !!STATE.level[id] && !STATE.review[id]);
     card.querySelector('[data-action="review"]').classList.toggle('active', !!STATE.review[id]);
@@ -1229,36 +1285,187 @@ function renderSaved(){
   `).join('');
 }
 
-// ---------- stats panel ----------
+// ---------- stats panel : radar de compétences ----------
+// axes du radar : un par thème ; les thèmes de moins de RADAR_MIN_CARDS cartes
+// sont regroupés dans « Autres » pour garder un graphique lisible
+const RADAR_MIN_CARDS = 4;
+const RADAR_OTHER = 'Autres';
+const RADAR_LABELS = {
+  'Voies aériennes': 'Voies aér.', 'Ventilation & oxygénation': 'Ventilation',
+  'Sepsis & infectiologie': 'Infectio', 'Hémodynamique & cardiologie': 'Hémodyn.',
+  'Arrêt cardiaque': 'ACR', 'Hémostase & transfusion': 'Hémostase',
+  'Évaluation préopératoire': 'Préop', 'Anesthésie peropératoire': 'Perop',
+  'ALR & douleur': 'ALR', 'Obstétrique': 'Obstétrique', 'Pédiatrie': 'Pédiatrie',
+  'Neuro-réanimation': 'Neuro-réa', 'Réanimation médicale': 'Réa médicale', 'Soins quotidiens en réa': 'Soins réa',
+  'Urgences & déchocage': 'Urgences', 'Échographie': 'Écho', 'Posologies': 'Poso',
+  'Physiologie': 'Physio', 'Idées reçues': 'Idées reç.', 'Grandes études': 'Études',
+  'Éthique & droit': 'Éthique', 'Culture & histoire': 'Culture'
+};
+const RADAR_ORDER = Object.keys(RADAR_LABELS);
+let radarCompare = '30';
+
+function localDay(t){
+  const d = new Date(t === undefined ? Date.now() : t);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+// vu = % de cartes du thème déjà affichées (ou validées avant le suivi des vues) ;
+// maîtrise = niveau moyen rapporté au niveau maximal
+function progressByAxis(){
+  const counts = {};
+  POSTS.forEach(p => { counts[p.module] = (counts[p.module] || 0) + 1; });
+  const acc = {}, all = { n:0, seen:0, lvl:0 };
+  POSTS.forEach(p => {
+    const axis = counts[p.module] >= RADAR_MIN_CARDS ? p.module : RADAR_OTHER;
+    const a = acc[axis] || (acc[axis] = { n:0, seen:0, lvl:0 });
+    const seen = STATE.views[p.id] || STATE.level[p.id] ? 1 : 0;
+    const lvl = Math.min(MAX_LEVEL, STATE.level[p.id] || 0);
+    a.n++; a.seen += seen; a.lvl += lvl;
+    all.n++; all.seen += seen; all.lvl += lvl;
+  });
+  const pct = a => [Math.round(100 * a.seen / a.n), Math.round(100 * a.lvl / (a.n * MAX_LEVEL))];
+  const axes = {};
+  Object.keys(acc).forEach(k => { axes[k] = pct(acc[k]); });
+  return { axes, global: all.n ? pct(all) : [0, 0] };
+}
+// un instantané par jour (le dernier de la journée l'emporte)
+function snapshotProgress(){
+  const p = progressByAxis();
+  STATE.history[localDay()] = { a: p.axes, g: p.global };
+}
+function historyEntry(mode){
+  const days = Object.keys(STATE.history).sort();
+  const today = localDay();
+  if(mode === 'start') return days[0] && days[0] < today ? { day: days[0], e: STATE.history[days[0]] } : null;
+  const target = localDay(Date.now() - Number(mode) * 86400000);
+  const day = days.filter(d => d <= target).pop();
+  return day ? { day, e: STATE.history[day] } : null;
+}
+
+function radarSvg(axes, series){
+  const W = 400, H = 350, cx = 200, cy = 175, R = 122, n = axes.length;
+  const pt = (i, v) => {
+    const a = -Math.PI / 2 + 2 * Math.PI * i / n;
+    return [cx + Math.cos(a) * R * v / 100, cy + Math.sin(a) * R * v / 100];
+  };
+  const poly = vals => vals.map((v, i) => pt(i, v).map(x => x.toFixed(1)).join(',')).join(' ');
+  let g = '';
+  [25, 50, 75, 100].forEach(r => {
+    g += `<polygon points="${poly(axes.map(() => r))}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+  });
+  axes.forEach((_, i) => {
+    const [x, y] = pt(i, 100);
+    g += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
+  });
+  series.forEach(s => {
+    g += `<polygon points="${poly(s.values)}" fill="${s.fill || 'none'}" stroke="${s.stroke}" stroke-width="${s.width || 2}"${s.dash ? ` stroke-dasharray="${s.dash}"` : ''} stroke-linejoin="round"/>`;
+  });
+  axes.forEach((ax, i) => {
+    const [x, y] = pt(i, 114);
+    const c = Math.cos(-Math.PI / 2 + 2 * Math.PI * i / n);
+    const anchor = c > 0.25 ? 'start' : c < -0.25 ? 'end' : 'middle';
+    const dy = y < cy - R * 0.9 ? -2 : y > cy + R * 0.9 ? 9 : 4;
+    g += `<text x="${x.toFixed(1)}" y="${(y + dy).toFixed(1)}" text-anchor="${anchor}" font-size="11" font-weight="600" fill="var(--muted)">${escapeHtml(ax.label)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Radar de compétences par thème">${g}</svg>`;
+}
+
+function sparkSvg(points){
+  const W = 360, H = 64, pad = 4;
+  const xs = i => pad + (W - 2 * pad) * i / (points.length - 1);
+  const ys = v => H - pad - (H - 2 * pad) * v / 100;
+  const line = points.map((v, i) => `${xs(i).toFixed(1)},${ys(v).toFixed(1)}`).join(' ');
+  return `<svg viewBox="0 0 ${W} ${H}" aria-label="Évolution de la maîtrise globale">
+    <line x1="${pad}" y1="${ys(50)}" x2="${W - pad}" y2="${ys(50)}" stroke="var(--line)" stroke-dasharray="3 4"/>
+    <polyline points="${line}" fill="none" stroke="var(--trace)" stroke-width="2" stroke-linejoin="round"/>
+  </svg>`;
+}
+
 function renderStats(){
   const body = document.getElementById('statsBody');
   const total = POSTS.length;
   // on compte à partir des fiches existantes : STATE garde des ids de fiches
   // supprimées ou renommées sur GitHub, qui gonflaient les compteurs
+  const seenCount = POSTS.filter(p => STATE.views[p.id] || STATE.level[p.id]).length;
   const masteredCount = POSTS.filter(p => STATE.level[p.id]).length;
   const solidCount = POSTS.filter(p => STATE.level[p.id] >= MAX_LEVEL).length;
   const reviewCount = POSTS.filter(p => STATE.review[p.id]).length;
   const bookmarkCount = POSTS.filter(p => STATE.bookmarks[p.id]).length;
   const mods = activeModules();
 
+  const now = progressByAxis();
+  const axisKeys = Object.keys(now.axes).sort((a, b) => {
+    const ia = a === RADAR_OTHER ? 999 : (RADAR_ORDER.indexOf(a) + 1 || 500);
+    const ib = b === RADAR_OTHER ? 999 : (RADAR_ORDER.indexOf(b) + 1 || 500);
+    return ia - ib || a.localeCompare(b, 'fr');
+  });
+  const past = historyEntry(radarCompare);
+  const pastVals = past ? axisKeys.map(k => (past.e.a[k] || [0, 0])[1]) : null;
+  const delta = past ? now.global[1] - past.e.g[1] : null;
+  const days = Object.keys(STATE.history).sort();
+
+  let radarHtml;
+  if(axisKeys.length < 3){
+    radarHtml = `<div class="hint">Le radar apparaît dès qu'il y a au moins 3 thèmes.</div>`;
+  } else {
+    const axes = axisKeys.map(k => ({ label: RADAR_LABELS[k] || (k.length > 10 ? k.slice(0, 9) + '…' : k) }));
+    const series = [
+      { values: axisKeys.map(k => now.axes[k][0]), stroke: 'rgba(242,168,62,0.8)', width: 1.5 },
+      { values: axisKeys.map(k => now.axes[k][1]), stroke: 'var(--trace)', fill: 'rgba(53,217,153,0.22)' }
+    ];
+    if(pastVals) series.splice(1, 0, { values: pastVals, stroke: 'var(--muted)', width: 1.5, dash: '4 4' });
+    radarHtml = radarSvg(axes, series);
+  }
+  const compareLabel = { '7': '7 jours', '30': '30 jours', 'start': 'le début' }[radarCompare];
+
   body.innerHTML = `
-    <div class="statgrid">
-      <div class="statbox"><div class="num">${total}</div><div class="lbl">recommandations au total</div></div>
-      <div class="statbox"><div class="num">${masteredCount}</div><div class="lbl">comprises (dont ${solidCount} au niveau ${MAX_LEVEL})</div></div>
-      <div class="statbox"><div class="num">${reviewCount}</div><div class="lbl">à revoir</div></div>
-      <div class="statbox"><div class="num">${bookmarkCount}</div><div class="lbl">en favoris</div></div>
+    <div class="radar-card">
+      <div class="radar-head">
+        <div class="seg" id="radarSeg">
+          ${[['7', '7 j'], ['30', '30 j'], ['start', 'Début']].map(([k, l]) => `<button data-cmp="${k}" class="${k === radarCompare ? 'on' : ''}">${l}</button>`).join('')}
+        </div>
+        ${delta === null ? '' : `<div class="delta ${delta < 0 ? 'neg' : ''}">${delta >= 0 ? '+' : ''}${delta} pts</div>`}
+      </div>
+      ${radarHtml}
+      <div class="legend">
+        <span><i style="background:var(--trace)"></i>Maîtrise ${now.global[1]} %</span>
+        <span><i style="background:rgba(242,168,62,0.8)"></i>Vu ${now.global[0]} %</span>
+        ${past ? `<span><i style="background:var(--muted)"></i>Maîtrise il y a ${compareLabel === 'le début' ? 'au début' : compareLabel}</span>` : ''}
+      </div>
+      ${past ? '' : `<div class="hint" style="margin:8px 0 0">Pas encore d'historique à ${compareLabel === 'le début' ? 'comparer' : compareLabel} : la courbe pointillée apparaîtra au fil des jours.</div>`}
     </div>
-    <div class="sectiontitle">Répartition par module</div>
-    ${mods.map(m=>{
-      const modPosts = POSTS.filter(p=>p.module===m);
-      const modMastered = modPosts.filter(p=>STATE.level[p.id]).length;
-      return `<div class="modrow"><div>
+    ${days.length >= 2 ? `<div class="radar-card">
+      <div class="mcount" style="color:var(--muted);font-size:12.5px;font-weight:700;margin-bottom:6px">Maîtrise globale · ${days.length} jours suivis</div>
+      ${sparkSvg(days.map(d => STATE.history[d].g[1]))}
+      <div class="legend" style="justify-content:space-between"><span>${days[0].split('-').reverse().slice(0, 2).join('/')}</span><span>pointillés = 50 %</span><span>aujourd'hui ${now.global[1]} %</span></div>
+    </div>` : ''}
+    <div class="hint" style="margin-top:0">Vu : part des cartes du thème déjà passées à l'écran. Maîtrise : niveau moyen atteint avec « Compris » (100 % = toutes au niveau ${MAX_LEVEL}). Vues et historique sont inclus dans la sauvegarde.</div>
+    <div class="statgrid">
+      <div class="statbox"><div class="num">${total}</div><div class="lbl">cartes au total</div></div>
+      <div class="statbox"><div class="num">${seenCount}</div><div class="lbl">déjà vues</div></div>
+      <div class="statbox"><div class="num">${masteredCount}</div><div class="lbl">comprises (dont ${solidCount} au niveau ${MAX_LEVEL})</div></div>
+      <div class="statbox"><div class="num">${reviewCount}</div><div class="lbl">à revoir · ${bookmarkCount} en favoris</div></div>
+    </div>
+    <div class="sectiontitle">Détail par thème</div>
+    ${mods.map(m => {
+      const modPosts = POSTS.filter(p => p.module === m);
+      const n = modPosts.length;
+      const seen = modPosts.filter(p => STATE.views[p.id] || STATE.level[p.id]).length;
+      const mast = Math.round(100 * modPosts.reduce((t, p) => t + Math.min(MAX_LEVEL, STATE.level[p.id] || 0), 0) / (n * MAX_LEVEL));
+      return `<div class="modrow stat">
         <div class="mname">${escapeHtml(m)}</div>
-        <div class="mcount">${modMastered}/${modPosts.length} comprises</div>
-      </div></div>`;
+        <div class="mcount">${seen}/${n} vues · maîtrise ${mast} %</div>
+        <div class="bar"><i class="seen" style="width:${Math.round(100 * seen / n)}%"></i><i class="mast" style="width:${mast}%"></i></div>
+      </div>`;
     }).join('')}
   `;
 }
+document.getElementById('statsBody').addEventListener('click', e => {
+  const b = e.target.closest('[data-cmp]');
+  if(!b) return;
+  radarCompare = b.dataset.cmp;
+  renderStats();
+});
 
 // ---------- tabs / panels ----------
 const tabs = document.querySelectorAll('nav button');
@@ -1365,6 +1572,7 @@ document.getElementById('btnSyncGithub').addEventListener('click', ()=>{
 });
 
 // ---------- init ----------
+if(!Object.keys(STATE.history).length){ snapshotProgress(); saveState(STATE); }
 // clé de l'ancienne génération Gemini (fonction retirée) : on ne la garde pas sur l'appareil
 localStorage.removeItem("scrollmed_gemini_key_v1");
 renderFeed();

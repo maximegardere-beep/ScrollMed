@@ -185,7 +185,7 @@
     ]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "IPP chez le ventilé : moins de saignements",
     "body": "Chez le patient sous ventilation mécanique invasive, le pantoprazole 40 mg/j réduit les hémorragies digestives hautes cliniquement significatives (1,0 % vs 3,5 %) sans modifier la mortalité à J90 (29,1 % vs 30,9 %) dans REVISE (n=4821).",
     "detail": "Aucune augmentation des pneumonies acquises sous ventilation ni des infections à Clostridioides difficile n'a été observée.",
@@ -211,7 +211,7 @@
     ]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Mobilisation précoce intensive : pas de bénéfice",
     "body": "Une mobilisation active précoce et intensive des patients ventilés n'augmente pas le nombre de jours vivant hors de l'hôpital à J180 par rapport aux soins habituels (143 vs 145 jours) dans TEAM (n=750).",
     "detail": "Les effets indésirables (désaturation, instabilité hémodynamique) étaient plus fréquents dans le groupe intensif : 9,3 % vs 3,7 %.",
@@ -224,7 +224,7 @@
     ]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Choc : nourrir peu la première semaine",
     "body": "Chez le patient ventilé en état de choc, une nutrition hypocalorique et hypoprotéique la première semaine (6 kcal/kg/j, 0,2-0,4 g/kg/j de protéines) ne modifie pas la mortalité à J90 par rapport à des apports standards (41,3 % vs 41,9 %) dans NUTRIREA-3 (n=3044).",
     "detail": "La restriction était associée à une sortie de réanimation plus précoce et à moins de complications digestives.",
@@ -237,7 +237,7 @@
     ]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Hyperprotéiné : pas de gain, voire délétère",
     "body": "Un apport protéique élevé (≥ 2,2 g/kg/j) chez le patient ventilé n'accélère pas la sortie vivant de l'hôpital par rapport à un apport usuel (≤ 1,2 g/kg/j) dans EFFORT Protein (n=1329).",
     "detail": "Un signal de moins bon pronostic était observé chez les patients en insuffisance rénale aiguë ou avec un score SOFA élevé à l'admission.",
@@ -250,7 +250,7 @@
     ]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Halopéridol pour le delirium : pas d'effet net",
     "body": "Chez le patient de réanimation présentant un delirium, l'halopéridol n'augmente pas significativement le nombre de jours vivant hors de l'hôpital à J90 par rapport au placebo dans AID-ICU (n=1000).",
     "detail": "Une mortalité plus faible dans le groupe halopéridol a été observée en analyse secondaire ajustée : un signal à confirmer, pas une indication systématique.",

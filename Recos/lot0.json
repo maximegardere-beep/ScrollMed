@@ -18,7 +18,7 @@
     "tags": ["ACR", "RCP"]
   },
   {
-    "module": "Réanimation médicale",
+    "module": "Soins quotidiens en réa",
     "hook": "Analgésie avant sédation",
     "body": "L'approche 'analgesia-first' consiste à traiter la douleur avant d'ajouter un sédatif, ce qui réduit souvent les besoins en hypnotiques.",
     "detail": "Une douleur non traitée est une cause fréquente d'agitation faussement attribuée à un manque de sédation.",
