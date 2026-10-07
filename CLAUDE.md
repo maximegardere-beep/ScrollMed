@@ -110,6 +110,9 @@ Tableau d'actions, partagé par tous les scénarios :
 - `examen: true` : l'action révèle un résultat (« Pas d'anomalie notable » par défaut) et peut être refaite pour un contrôle.
 - `repetable: true` : geste refaisable (bolus de remplissage, CGR, adrénaline…).
 - `type: "diagnostic"` : hypothèse diagnostique, sans durée ; un seul diagnostic actif à la fois.
+- `voie` : voies fournies par un geste (`vvp` et `io` → `["IV"]`, `ktc` → `["IV", "VVC"]`). `requiert` : voie nécessaire (`"IV"` pour tout médicament ou soluté intraveineux). Sans elle, la tuile est verrouillée (🔒) et l'action ne se lance pas.
+- `titration` : pousse-seringue titré automatiquement (noradrénaline). Une fois lancé, il tient la PAM à `cible_pam` : la dose monte quand la PA baisse (`gain` = mmHg de PAS par unité) et redescend vers `debut` quand la PA dépasse la cible. Elle est plafonnée par `max` selon la meilleure voie posée (ex. `{ "IV": 2, "VVC": 8 }` : plafond bas sur VVP, levé par la VVC). Au plafond, la PA rechute et le scope affiche « MAX ». Dose affichée dans le scope, dose maximale au débriefing.
+- Les actions se réalisent par **appui maintenu** (≈ 0,5 s) sur la tuile, ce qui évite les touchers accidentels. La tuile affiche la durée patient.
 - La catégorie `RCP` n'apparaît que pendant un ACR.
 - Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère).
 
@@ -146,7 +149,8 @@ Tableau d'actions, partagé par tous les scénarios :
 - `alt` : actions interchangeables (plusieurs antibiotiques acceptables). Une seule suffit pour satisfaire l'indispensable.
 - `effet` : variation immédiate des constantes. `pente` sur une action : remplace la pente de l'étape pour ces constantes, jusqu'à la fin de la partie.
 - `refaire: true` : l'action doit être refaite dans cette étape (contrôle), un passage antérieur ne compte pas.
-- `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario.
+- `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).
+- `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation).
 - `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape.
 - `acr.requis` : actions à faire pendant la RCP (90 s réelles) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
@@ -169,6 +173,9 @@ A = {a["id"]: a for a in acts}
 for a in acts:
     assert a.get("label") and isinstance(a.get("path"), list) and a["path"], f"action {a['id']} : label/path"
     assert set(a.get("moniteur", [])) <= {"PA", "CO2", "MCE"}, f"action {a['id']} : moniteur inconnu"
+    assert set(a.get("voie", [])) <= {"IV", "VVC"} and a.get("requiert") in (None, "IV", "VVC"), f"action {a['id']} : voie / requiert"
+    if "titration" in a:
+        assert {"debut", "gain", "max"} <= a["titration"].keys(), f"action {a['id']} : titration incomplète"
 def flat(entries):
     for e in entries:
         yield from (e if isinstance(e, list) else [e])
@@ -180,6 +187,10 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     assert set(sc["constantes"]) <= VITALS, f"{f} : constante inconnue"
     assert sc.get("ecg", "sinus") in ECG, f"{f} : ecg inconnu"
     assert set(sc.get("alarmes", {})) <= {"FC", "PAS", "SpO2"}, f"{f} : alarme inconnue"
+    for k in sc.get("titration", {}): assert "titration" in A.get(k, {}), f"{f} : {k} n'a pas de titration au catalogue"
+    for st in sc["etapes"]:
+        for t in [*sc.get("resultats", {}).values(), *st.get("resultats", {}).values()]:
+            assert t.count("**") % 2 == 0, f"{f} : ** non fermé dans « {t} »"
     steps = {e["id"] for e in sc["etapes"]}
     for k in sc.get("resultats", {}):
         assert k in A, f"{f} : résultat pour une action inconnue {k}"

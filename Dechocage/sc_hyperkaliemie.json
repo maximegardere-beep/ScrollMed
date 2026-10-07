@@ -10,11 +10,11 @@
   "resultats": {
     "scope": "Bradycardie régulière à complexes larges.",
     "ecg": "Bradycardie à 42/min, QRS larges à 160 ms, ondes T amples et pointues, ondes P non visibles.",
-    "gds": "pH 7,18 · HCO3⁻ 12 mmol/L · PaCO2 32 mmHg · K⁺ 7,8 mmol/L (résultat en 2 minutes).",
-    "iono": "K⁺ 7,9 mmol/L · Na 131 mmol/L · créatinine 610 µmol/L · urée 38 mmol/L.",
+    "gds": "**pH 7,18** · **HCO3⁻ 12 mmol/L** · **PaCO2 32 mmHg** · **K⁺ 7,8 mmol/L** (résultat en 2 minutes).",
+    "iono": "**K⁺ 7,9 mmol/L** · **Na 131 mmol/L** · **créatinine 610 µmol/L** · **urée 38 mmol/L**.",
     "glycemie": "Glycémie 1,05 g/L.",
     "lactates": "Lactates 1,6 mmol/L.",
-    "nfs": "Hb 10,8 g/dL · plaquettes 210 G/L.",
+    "nfs": "**Hb 10,8 g/dL** · plaquettes 210 G/L.",
     "troponine": "Troponine négative.",
     "ck": "CPK normales.",
     "ett": "FEVG 50 %, VCI fine et compliante.",
@@ -90,9 +90,9 @@
       "pente": { "FC": -0.2 },
       "diagnostic": ["dx_hyperkaliemie"],
       "resultats": {
-        "iono": "Contrôle : K⁺ 6,6 mmol/L.",
-        "gds": "Contrôle : pH 7,20 · K⁺ 6,5 mmol/L.",
-        "glycemie": "Glycémie 0,58 g/L : hypoglycémie après l'insuline.",
+        "iono": "Contrôle : **K⁺ 6,6 mmol/L**.",
+        "gds": "Contrôle : **pH 7,20** · **K⁺ 6,5 mmol/L**.",
+        "glycemie": "**Glycémie 0,58 g/L** : hypoglycémie après l'insuline.",
         "ecg": "Bradycardie à 64/min, QRS à 110 ms, ondes T encore amples."
       },
       "actions": {
