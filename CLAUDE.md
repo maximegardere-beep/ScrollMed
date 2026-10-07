@@ -85,7 +85,7 @@ Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `m
 
 ### Temps et constantes
 
-- Chrono réel par étape (`chrono`, 90 s par défaut). **1 s réelle = 10 s patient.**
+- Chrono par étape (`chrono`, 90 par défaut), **doublé par le moteur** (`DC_CHRONO_MULT`) : un `chrono` de 90 donne 3 min réelles. **1 s réelle = 5 s patient**, donc une étape dure le même temps patient qu'avant (`chrono` × 10 s), avec plus de temps pour naviguer.
 - Chaque action consomme `duree` minutes patient : l'horloge avance d'autant et la dégradation s'applique d'un coup.
 - `pente` : variation par minute patient, par constante (`FC`, `PAS`, `PAD`, `SpO2`, `FR`, `T`, `GCS`, `EtCO2`). Une variation de PAS entraîne la PAD de moitié si la PAD n'est pas précisée. Une fois le chrono de l'étape écoulé, les pentes sont doublées.
 - `seuils` du scénario (défaut `{ "PAS": 50, "SpO2": 70 }`) : passer sous un seuil déclenche un ACR.
@@ -149,7 +149,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario.
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation).
 - `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape.
-- `acr.requis` : actions à faire pendant la RCP (60 s réelles) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
+- `acr.requis` : actions à faire pendant la RCP (90 s réelles) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
 - `suite` : la première règle qui correspond l'emporte. `si_manque` : au moins une entrée non faite. `si_fait` : toutes faites. La dernière règle est sans condition. `"vers": "fin"` termine la partie.
 - Prévoir pour chaque étape critique une branche d'aggravation (`e1_aggrav`) plutôt que des embranchements multiples.
 - Équilibrage : vérifier qu'une prise en charge complète garde le patient au-dessus des seuils, et que l'inaction le fait passer en ACR avant la fin du chrono doublé.

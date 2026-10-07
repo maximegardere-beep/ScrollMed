@@ -1585,9 +1585,10 @@ document.getElementById('statsBody').addEventListener('click', e => {
 // synchronisés depuis GitHub comme les cartes. Format décrit dans CLAUDE.md.
 // =========================================================
 const DECHOC_CONTENT_KEY = "scrollmed_dechoc_v1";
-const DC_RATIO = 10;              // 1 s réelle = 10 s patient
-const DC_DEFAULT_CHRONO = 90;     // s réelles par étape si le scénario n'en fixe pas
-const DC_ACR_CHRONO = 60;         // s réelles pour récupérer un ACR
+const DC_RATIO = 5;               // 1 s réelle = 5 s patient
+const DC_CHRONO_MULT = 2;         // le chrono d'une étape (scénario) est doublé : le temps patient de l'étape reste le même, la navigation a le temps
+const DC_DEFAULT_CHRONO = 90;     // chrono d'étape si le scénario n'en fixe pas (avant multiplication)
+const DC_ACR_CHRONO = 90;         // s réelles pour récupérer un ACR
 const DC_RCP_ROOT = 'RCP';        // catégorie visible seulement pendant un ACR
 const DC_DEFAULT_SEUILS = { PAS: 50, SpO2: 70 };
 const DC_DEFAULT_ACR = { rythme: 'AESP', requis: ['mce', 'adre_acr'] };
@@ -1720,7 +1721,7 @@ function dcEnterStep(id){
   if(st.constantes) Object.assign(G.vitals, st.constantes);
   if(st.ecg) G.ecg = st.ecg;
   if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
-  G.chrono = G.chronoMax = st.chrono || DC_DEFAULT_CHRONO;
+  G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * DC_CHRONO_MULT;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
   G.nav = []; G.search = '';
 }
@@ -1846,7 +1847,7 @@ function dcRacs(){
   G.vitals = Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS);
   G.phase = 'step';
   G.acr = null;
-  G.chrono = Math.max(G.chrono, 30);
+  G.chrono = Math.max(G.chrono, 30 * DC_CHRONO_MULT);
   dcNibp();
   dcSample();
   showToast('RACS : reprise d’activité circulatoire');
@@ -1992,7 +1993,7 @@ function dcRenderHome(){
     <div class="dc-hero">
       <div class="big">🚑</div>
       <h3>Un patient arrive au déchocage</h3>
-      <div class="hint">Le chrono tourne et les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape. Chaque action consomme du temps patient (1 s = 10 s). Débriefing complet à la fin.</div>
+      <div class="hint">Le chrono tourne et les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape. Chaque action consomme du temps patient (1 s = 5 s). Débriefing complet à la fin.</div>
     </div>
     ${G ? `<button class="btn" data-dc="resume">▶ Reprendre la partie en cours</button>
            <button class="btn secondary" data-dc="abandon">Abandonner la partie</button>`
