@@ -1591,6 +1591,7 @@ let DC_CONTENT = loadDechocContent();
 let DC_VIEW = 'home';     // home | game | debrief
 let G = null;             // partie en cours
 let DC_DEBRIEF = null;    // dernier débriefing affiché
+let DC_SYNC_INFO = '';    // raison d'une synchro sans scénario, affichée sur l'accueil
 
 function loadDechocContent(){
   try{
@@ -1604,7 +1605,13 @@ async function syncDechocFromGithub(cfg, headers){
   const branch = cfg.branch || 'main';
   const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Dechocage?ref=${encodeURIComponent(branch)}`;
   const resp = await fetch(url, { headers });
-  if(resp.status === 404) return { count: 0, errors: [] };   // pas encore de dossier sur cette branche
+  if(resp.status === 404){
+    // pas encore de dossier sur cette branche : on le signale sur l'accueil Déchoc
+    DC_SYNC_INFO = `Dossier Dechocage introuvable sur la branche « ${branch} ».`;
+    if(DC_VIEW === 'home' && document.getElementById('panelDechoc').classList.contains('open')) dcRender();
+    return { count: 0, errors: [] };
+  }
+  DC_SYNC_INFO = '';
   if(!resp.ok) throw new Error(`GitHub ${resp.status}`);
   const files = (await resp.json()).filter(e => e.type === 'file' && /\.json$/i.test(e.name));
   let actions = null;
@@ -1959,7 +1966,10 @@ function dcRenderHome(){
     ${G ? `<button class="btn" data-dc="resume">▶ Reprendre la partie en cours</button>
            <button class="btn secondary" data-dc="abandon">Abandonner la partie</button>`
         : n ? `<button class="btn" data-dc="start">✚ Nouveau patient</button>`
-            : `<div class="hint" style="text-align:center">Aucun scénario chargé. Configure la synchronisation GitHub dans Réglages : les scénarios sont lus dans le dossier <b>Dechocage</b> du dépôt.</div>`}
+            : `<div class="hint" style="text-align:center">Aucun scénario chargé. ${DC_SYNC_INFO
+                ? `${escapeHtml(DC_SYNC_INFO)} Vérifie la branche dans Réglages, puis resynchronise.`
+                : loadGhConfig() ? 'Synchronisation en cours ou impossible : vérifie la branche dans Réglages, puis resynchronise.'
+                : 'Configure la synchronisation GitHub dans Réglages : les scénarios sont lus dans le dossier <b>Dechocage</b> du dépôt.'}</div>`}
     ${n ? `<div class="hint" style="text-align:center;margin-top:10px">${n} scénario(s) disponible(s), tirés au hasard.</div>` : ''}
     ${played.length ? `<div class="sectiontitle">Patients déjà rencontrés</div>` + played.map(s => {
       const st = byId[s.id];
