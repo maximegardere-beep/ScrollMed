@@ -1,0 +1,138 @@
+{
+  "id": "choc_hemorragique_bassin",
+  "titre": "Choc hémorragique sur fracture du bassin",
+  "source": "European guideline on management of major bleeding and coagulopathy following trauma, 6e édition, 2023 ; ERC 2021",
+  "tags": ["traumatologie", "choc hémorragique", "transfusion", "acide tranexamique"],
+  "patient": "Homme, 32 ans, 80 kg",
+  "constantes": { "FC": 132, "PAS": 78, "PAD": 46, "SpO2": 95, "FR": 28, "T": 35.6, "GCS": 14 },
+  "seuils": { "PAS": 50, "SpO2": 70 },
+  "resultats": {
+    "scope": "Tachycardie sinusale.",
+    "ecg": "Tachycardie sinusale à 132/min.",
+    "gds": "pH 7,24 · HCO3⁻ 16 mmol/L · déficit de base −9 · Ca²⁺ ionisé 0,98 mmol/L.",
+    "lactates": "Lactates 5,2 mmol/L.",
+    "hemocue": "Hb capillaire 8,9 g/dL.",
+    "nfs": "Hb 8,6 g/dL · plaquettes 142 G/L.",
+    "tp_tca": "TP 52 % · TCA 1,4 · fibrinogène 1,1 g/L.",
+    "ttem": "FIBTEM A5 à 5 mm : défaut de fibrinogène. EXTEM CT allongé.",
+    "groupe_rai": "Prélevés. Groupe A RhD positif, RAI négative.",
+    "iono": "Créatinine 98 µmol/L · K 4,1 mmol/L.",
+    "glycemie": "Glycémie 1,45 g/L.",
+    "efast": "Pas d'épanchement péritonéal, pleural ni péricardique. Pas de pneumothorax.",
+    "rx_bassin": "Disjonction pubienne de 4 cm et de la sacro-iliaque droite (« open book »).",
+    "rp": "Pas d'hémothorax ni de pneumothorax. Médiastin normal.",
+    "ett": "VG hyperkinétique, petites cavités, VCI collabée.",
+    "tdm_body": "Fracture instable du bassin, extravasation de produit de contraste au niveau de l'artère glutéale supérieure droite."
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Accueil au déchocage",
+      "vignette": "Motard, choc frontal à 70 km/h. Douleur pelvienne intense, pas de plaie hémorragique externe. Pas de traumatisme crânien apparent ; agité (GCS 14). Pâle, extrémités froides.",
+      "chrono": 120,
+      "pente": { "PAS": -1.5, "FC": 1, "SpO2": -0.05, "T": -0.02, "GCS": -0.03 },
+      "diagnostic": ["dx_choc_hemorragique"],
+      "actions": {
+        "scope": { "note": "recommande", "why": "Monitorage continu." },
+        "vvp": { "note": "indispensable", "why": "Deux voies de gros calibre pour transfuser vite." },
+        "io": { "note": "debattu", "why": "Seulement si les voies veineuses périphériques sont impossibles." },
+        "ceinture_pelvienne": { "note": "indispensable", "why": "Suspicion de fracture du bassin avec choc : stabilisation par ceinture pelvienne (guideline européen 2023)." , "pente": { "PAS": -0.8, "FC": 0.5 } },
+        "exacyl": { "note": "indispensable", "why": "Acide tranexamique 1 g en 10 min puis 1 g sur 8 h, le plus tôt possible et dans les 3 premières heures (CRASH-2 ; guideline 2023)." },
+        "ptm": { "note": "indispensable", "alt": "transfusion", "why": "Hémorragie massive probable : déclencher le protocole de transfusion massive.", "pente": { "PAS": -0.3 } },
+        "cgr_od": { "note": "indispensable", "alt": "transfusion", "why": "Choc hémorragique non répondeur : CGR en urgence vitale immédiate sans attendre le groupage.", "effet": { "PAS": 10, "FC": -6 } },
+        "pfc": { "note": "recommande", "why": "Hémorragie massive : plasma précoce avec un ratio PFC/CGR d'au moins 1:2 (guideline 2023).", "effet": { "PAS": 5 } },
+        "groupe_rai": { "note": "recommande", "why": "Groupage et RAI dès l'arrivée, sans retarder les CGR en urgence vitale." },
+        "hemocue": { "note": "recommande", "why": "Hémoglobine rapide, à interpréter avec prudence : peut être normale au début d'une hémorragie." },
+        "nfs": { "note": "recommande", "why": "Hémoglobine et plaquettes." },
+        "tp_tca": { "note": "recommande", "why": "Dépister précocement la coagulopathie traumatique, surtout l'hypofibrinogénémie." },
+        "ttem": { "note": "recommande", "why": "Les tests viscoélastiques sont recommandés pour guider la correction de la coagulopathie (guideline 2023)." },
+        "lactates": { "note": "recommande", "why": "Marqueur de gravité et de suivi du choc." },
+        "gds": { "note": "recommande", "why": "Acidose, déficit de base, calcium ionisé." },
+        "efast": { "note": "indispensable", "why": "Rechercher au lit une source de saignement thoracique ou abdominale." },
+        "rx_bassin": { "note": "recommande", "why": "Confirmer la fracture du bassin chez un patient instable." },
+        "rp": { "note": "recommande", "why": "Éliminer un hémothorax." },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Remplissage limité en attendant les produits sanguins. Objectif : PAS 80-90 mmHg en l'absence de traumatisme crânien grave (hypotension permissive).", "effet": { "PAS": 5 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Les solutés balancés sont préférés ; le NaCl 0,9 % en grand volume aggrave l'acidose.", "effet": { "PAS": 5 } },
+        "hes": { "note": "contre_indique", "why": "Colloïdes de synthèse à éviter : ils aggravent la coagulopathie.", "effet": { "PAS": 5 } },
+        "noradre": { "note": "debattu", "why": "Possible pour maintenir la PAS cible si l'hypotension menace la vie malgré le remplissage (guideline 2023), mais elle ne remplace ni la transfusion ni l'hémostase.", "effet": { "PAS": 10 } },
+        "rechauffement": { "note": "recommande", "why": "T 35,6 °C : l'hypothermie aggrave la coagulopathie (triade létale avec l'acidose).", "pente": { "T": 0.02 } },
+        "calcium": { "note": "recommande", "why": "L'hypocalcémie ionisée est fréquente et s'aggrave avec la transfusion : la corriger (guideline 2023)." },
+        "ketamine_analg": { "note": "recommande", "why": "Analgésie indispensable chez un polytraumatisé ; la kétamine à faible dose respecte l'hémodynamique." },
+        "morphine_titr": { "note": "debattu", "why": "Titration très prudente : risque d'aggraver l'hypotension." },
+        "tdm_body": { "note": "contre_indique", "why": "Patient instable non répondeur : pas de transfert au scanner. Le TDM corps entier est réservé aux patients stabilisés." },
+        "isr_etomidate": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
+        "isr_ketamine": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc hémorragique : collapsus." }
+      },
+      "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", ["cgr_od", "ptm"]], "why": "ACR traumatique (ERC 2021) : traiter la cause en même temps que le massage, c'est-à-dire restaurer la volémie et contrôler le saignement. L'adrénaline passe au second plan." },
+      "suite": [
+        { "si_manque": ["ceinture_pelvienne"], "vers": "e1_aggrav" },
+        { "si_manque": [["cgr_od", "ptm"]], "vers": "e1_aggrav" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Aggravation",
+      "vignette": "Le patient devient très pâle et confus. Le pouls radial est à peine perçu.",
+      "chrono": 75,
+      "constantes": { "PAS": 64, "PAD": 36, "FC": 146, "GCS": 12 },
+      "pente": { "PAS": -1.8, "FC": 1, "GCS": -0.05 },
+      "diagnostic": ["dx_choc_hemorragique"],
+      "actions": {
+        "ceinture_pelvienne": { "note": "indispensable", "why": "Fermer le bassin limite le saignement veineux et osseux.", "pente": { "PAS": -1, "FC": 0.6 } },
+        "ptm": { "note": "indispensable", "alt": "transfusion", "why": "Transfusion massive." },
+        "cgr_od": { "note": "indispensable", "alt": "transfusion", "why": "CGR en urgence vitale immédiate.", "effet": { "PAS": 10, "FC": -6 } },
+        "exacyl": { "note": "indispensable", "why": "Acide tranexamique dans les 3 h." },
+        "hes": { "note": "contre_indique", "why": "Colloïdes de synthèse à éviter.", "effet": { "PAS": 5 } },
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc hémorragique : collapsus." }
+      },
+      "letal_si_manque": { "actions": [["cgr_od", "ptm"]], "issue": "acr", "why": "Exsanguination sans transfusion." },
+      "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", ["cgr_od", "ptm"]], "why": "ACR traumatique : restaurer la volémie et contrôler le saignement." },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "H+30 min : contrôler le saignement",
+      "vignette": "Trente minutes. Le patient a reçu les premiers produits sanguins. L'E-FAST ne montre pas d'épanchement : le saignement est rétropéritonéal, d'origine pelvienne. Le bilan biologique arrive.",
+      "chrono": 90,
+      "pente": { "PAS": -1, "FC": 0.6, "T": -0.02 },
+      "diagnostic": ["dx_choc_hemorragique"],
+      "actions": {
+        "radio_interv": { "note": "indispensable", "alt": "hemostase", "why": "Hémorragie pelvienne d'origine artérielle chez un patient instable : artério-embolisation en urgence (guideline 2023).", "pente": { "PAS": 0.3, "FC": -0.5, "GCS": 0.02, "SpO2": 0 } },
+        "bloc": { "note": "debattu", "alt": "hemostase", "why": "Packing pré-péritonéal et fixateur externe : alternative si l'embolisation n'est pas disponible rapidement ou échoue.", "pente": { "PAS": 0.3, "FC": -0.5, "GCS": 0.02, "SpO2": 0 } },
+        "fibrinogene": { "note": "recommande", "why": "Fibrinogène < 1,5 g/L ou FIBTEM bas : concentré de fibrinogène (guideline 2023)." },
+        "pfc": { "note": "recommande", "why": "Poursuivre le plasma avec un ratio PFC/CGR d'au moins 1:2.", "effet": { "PAS": 5 } },
+        "cgr_od": { "note": "recommande", "why": "Poursuivre la transfusion pour la PAS cible de 80-90 mmHg.", "effet": { "PAS": 8, "FC": -5 } },
+        "calcium": { "note": "recommande", "why": "Ca²⁺ ionisé à 0,98 mmol/L : corriger." },
+        "exacyl": { "note": "indispensable", "why": "Acide tranexamique, toujours dans les 3 h." },
+        "cp": { "note": "debattu", "why": "Plaquettes recommandées pour maintenir > 50 G/L en hémorragie active ; ici 142 G/L." },
+        "tdm_body": { "note": "debattu", "why": "Seulement une fois l'hémorragie contrôlée ou chez un patient répondeur stabilisé." },
+        "rechauffement": { "note": "recommande", "why": "Lutter contre l'hypothermie.", "pente": { "T": 0.02 } },
+        "reanimation": { "note": "recommande", "why": "Admission en réanimation après le geste d'hémostase." }
+      },
+      "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", ["cgr_od", "ptm"]], "why": "ACR traumatique : restaurer la volémie et contrôler le saignement." },
+      "suite": [
+        { "si_manque": [["radio_interv", "bloc"]], "vers": "e3_exsanguination" },
+        { "vers": "fin" }
+      ]
+    },
+    {
+      "id": "e3_exsanguination",
+      "titre": "Saignement non contrôlé",
+      "vignette": "Le saignement continue malgré 6 CGR. Le patient se refroidit et devient somnolent.",
+      "chrono": 60,
+      "constantes": { "PAS": 66, "PAD": 34, "FC": 148, "T": 34.8, "GCS": 11 },
+      "pente": { "PAS": -2, "FC": 1, "GCS": -0.05 },
+      "diagnostic": ["dx_choc_hemorragique"],
+      "actions": {
+        "radio_interv": { "note": "indispensable", "alt": "hemostase", "why": "Le geste d'hémostase est le seul traitement." },
+        "bloc": { "note": "debattu", "alt": "hemostase", "why": "Packing pré-péritonéal si l'embolisation n'est pas disponible." },
+        "fibrinogene": { "note": "recommande", "why": "Corriger l'hypofibrinogénémie." }
+      },
+      "letal_si_manque": { "actions": [["radio_interv", "bloc"]], "issue": "deces", "why": "Hémorragie pelvienne jamais contrôlée : exsanguination." },
+      "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", ["cgr_od", "ptm"]], "why": "ACR traumatique : restaurer la volémie et contrôler le saignement." },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}
