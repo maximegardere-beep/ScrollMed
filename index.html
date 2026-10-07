@@ -613,6 +613,80 @@
     border-top: 1px solid var(--line);
     padding-top: 14px;
   }
+
+  /* ---------- mode Déchoc ---------- */
+  .dc-root{ flex:1; min-height:0; display:flex; flex-direction:column; position:relative; }
+  .dc-scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling: touch; padding: 12px 16px 24px; }
+  .dc-scope{
+    flex-shrink:0;
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:6px;
+    padding: 10px 12px;
+    background:#03060a;
+    border-bottom:1px solid var(--line);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .dc-vt{ background: var(--surface); border:1px solid var(--line); border-radius:10px; padding:5px 8px; }
+  .dc-vt .k{ font-size:10.5px; color:var(--muted); font-weight:700; }
+  .dc-vt .v{ font-size:20px; font-weight:800; line-height:1.15; color:var(--trace); white-space:nowrap; }
+  .dc-vt .v small{ font-size:12px; font-weight:700; opacity:.8; }
+  .dc-vt.warn .v{ color: var(--alert); }
+  .dc-vt.bad .v{ color: var(--danger); }
+  .dc-clock{ grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); padding: 0 2px; }
+  .dc-clock b{ color: var(--text); font-size:15px; }
+  .dc-clock b.late{ color: var(--danger); }
+  .dc-acr{ grid-column: 1 / -1; text-align:center; color: var(--danger); font-weight:800; font-size:17px; padding:4px 0; animation: dcblink 1s steps(2) infinite; }
+  @keyframes dcblink{ 50%{ opacity:.45; } }
+  .dc-steptitle{ font-size:12.5px; color:var(--muted); font-weight:700; margin-bottom:6px; }
+  .dc-vignette{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; font-size:14.5px; line-height:1.5; margin-bottom:10px; }
+  .dc-vignette .pt{ color:var(--muted); font-size:12.5px; margin-bottom:4px; }
+  .dc-results{ background: var(--surface); border:1px solid var(--line); border-radius:14px; margin-bottom:10px; }
+  .dc-results summary{ list-style:none; cursor:pointer; padding:10px 14px; font-weight:700; font-size:13.5px; }
+  .dc-results summary::-webkit-details-marker{ display:none; }
+  .dc-res{ padding: 8px 14px; border-top:1px solid var(--line); font-size:13.5px; line-height:1.45; }
+  .dc-res .lb{ color: var(--muted); font-size:12px; font-weight:700; }
+  .dc-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .dc-chip{ background: var(--surface-2); border:1px solid var(--line); border-radius:100px; padding:5px 10px; font-size:12px; }
+  .dc-chip.dx{ border-color: var(--trace-dim); color: var(--trace); }
+  .dc-search{ margin-bottom:10px; }
+  .dc-crumb{ display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:var(--muted); font-weight:700; }
+  .dc-crumb button{ background: var(--surface); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:6px 12px; font-size:14px; cursor:pointer; }
+  .dc-tiles{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+  .dc-tile{
+    background: var(--surface); border:1px solid var(--line); color: var(--text);
+    border-radius:14px; padding:12px; min-height:58px; text-align:left;
+    font-size:13.5px; font-weight:700; line-height:1.3; cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+  }
+  .dc-tile .ic{ font-size:20px; }
+  .dc-tile.cat{ background: var(--surface-2); }
+  .dc-tile.rcp{ border-color: var(--danger); }
+  .dc-tile.done{ opacity:.45; }
+  .dc-tile.on{ border-color: var(--trace); color: var(--trace); }
+  .dc-tile .sub{ display:block; font-size:11px; color:var(--muted); font-weight:600; margin-top:2px; }
+  .dc-foot{ flex-shrink:0; padding: 8px 16px calc(10px + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background: var(--bg); }
+  .dc-foot .btn{ margin-top:0; }
+  .dc-sheet{ position:absolute; inset:0; background: rgba(0,0,0,.6); display:flex; align-items:flex-end; z-index:5; }
+  .dc-sheet .box{ width:100%; background: var(--surface); border-top:1px solid var(--line); border-radius:18px 18px 0 0; padding:18px 16px calc(16px + env(safe-area-inset-bottom)); }
+  .dc-sheet h3{ margin:0 0 4px; font-size:16px; }
+  .dc-pause{ position:absolute; inset:0; background: rgba(7,11,16,.92); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; z-index:6; padding:24px; text-align:center; }
+  .dc-pause .big{ font-size:40px; }
+  .dc-hero{ text-align:center; padding: 18px 8px 6px; }
+  .dc-hero .big{ font-size:44px; }
+  .dc-hero h3{ margin:6px 0 4px; font-size:19px; }
+  .dc-outcome{ border-radius:14px; padding:14px; margin-bottom:12px; border:1px solid var(--line); background: var(--surface); }
+  .dc-outcome.ok{ border-color: var(--trace-dim); }
+  .dc-outcome.bad{ border-color: var(--danger); }
+  .dc-outcome .t{ font-size:18px; font-weight:800; }
+  .dc-outcome .s{ color: var(--muted); font-size:13px; margin-top:4px; line-height:1.45; }
+  .dc-chart{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px 10px 8px; margin-bottom:12px; }
+  .dc-chart svg{ width:100%; height:auto; display:block; }
+  .dc-step{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:10px; }
+  .dc-step h4{ margin:0 0 8px; font-size:14.5px; }
+  .dc-item{ display:flex; gap:8px; padding:7px 0; border-top:1px solid var(--line); font-size:13.5px; line-height:1.4; }
+  .dc-item:first-of-type{ border-top:none; }
+  .dc-item .ic{ flex-shrink:0; width:20px; text-align:center; }
+  .dc-item .w{ color: var(--muted); font-size:12.5px; margin-top:2px; }
+  .dc-item .pts{ margin-left:auto; flex-shrink:0; font-size:12px; font-weight:700; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -634,6 +708,7 @@
   <nav>
     <button class="active" data-tab="feed"><span class="navic">◎</span>Feed</button>
     <button data-tab="saved"><span class="navic">✦</span>Favoris</button>
+    <button data-tab="dechoc"><span class="navic">✚</span>Déchoc</button>
     <button data-tab="stats"><span class="navic">▤</span>Progrès</button>
     <button data-tab="settings"><span class="navic">⚙︎</span>Réglages</button>
   </nav>
@@ -654,6 +729,15 @@
       <h2>Favoris</h2>
     </div>
     <div class="panel-body" id="savedList"></div>
+  </div>
+
+  <!-- DÉCHOC PANEL -->
+  <div class="panel" id="panelDechoc">
+    <div class="panel-head">
+      <button class="iconbtn" onclick="closePanel('panelDechoc')">←</button>
+      <h2 id="dcTitle">Déchoc</h2>
+    </div>
+    <div class="dc-root" id="dcRoot"></div>
   </div>
 
   <!-- STATS PANEL -->
@@ -775,6 +859,8 @@ function normalizeState(s){
   // views[id] : nombre de passages de la carte à l'écran ; history[jour] : instantané
   // quotidien de la progression par thème (radar). Les deux partent dans la sauvegarde.
   s = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, level:{}, views:{}, history:{} }, s);
+  // dechoc : parties du mode Déchoc (historique + meilleure note par scénario)
+  s.dechoc = Object.assign({ runs: [], best: {}, last: null }, s.dechoc);
   // migration : une fiche "comprise" avant l'introduction des niveaux démarre au niveau 1
   Object.keys(s.mastered).forEach(id => { if(s.mastered[id] && !s.level[id]) s.level[id] = 1; });
   return s;
@@ -824,6 +910,8 @@ async function syncFromGithub(silent){
     // le token (si présent) permet de lire un dépôt privé et relève la limite de 60 requêtes/h
     const headers = { 'Accept': 'application/vnd.github.v3+json' };
     if(cfg.token) headers['Authorization'] = `token ${cfg.token}`;
+    // les scénarios du mode Déchoc se synchronisent en parallèle, sans bloquer les cartes
+    const dechocSync = syncDechocFromGithub(cfg, headers).catch(err => ({ count: 0, errors: [err.message] }));
     const listResp = await fetch(listUrl, { headers });
     if(!listResp.ok){
       throw new Error(listResp.status === 404
@@ -910,6 +998,9 @@ async function syncFromGithub(silent){
     if(duplicates) summary += ` ${duplicates} doublon(s) ignoré(s).`;
     if(!changed) summary += ' Aucun changement.';
     if(fileErrors.length) summary += ` Problème sur : ${fileErrors.join(', ')}.`;
+    const dc = await dechocSync;
+    if(dc && dc.count) summary += ` Déchoc : ${dc.count} scénario(s).`;
+    if(dc && dc.errors.length) summary += ` Déchoc, problème sur : ${dc.errors.join(', ')}.`;
     if(msgEl) msgEl.textContent = summary;
     if(!silent || changed) showToast('Synchronisation GitHub terminée');
   }catch(err){
@@ -1467,6 +1558,622 @@ document.getElementById('statsBody').addEventListener('click', e => {
   renderStats();
 });
 
+// =========================================================
+// Mode Déchoc — simulation de déchocage
+// Le moteur ne contient aucune donnée médicale : le catalogue d'actions
+// (Dechocage/actions.json) et les scénarios (Dechocage/sc_*.json) sont
+// synchronisés depuis GitHub comme les cartes. Format décrit dans CLAUDE.md.
+// =========================================================
+const DECHOC_CONTENT_KEY = "scrollmed_dechoc_v1";
+const DC_RATIO = 10;              // 1 s réelle = 10 s patient
+const DC_DEFAULT_CHRONO = 90;     // s réelles par étape si le scénario n'en fixe pas
+const DC_ACR_CHRONO = 60;         // s réelles pour récupérer un ACR
+const DC_RCP_ROOT = 'RCP';        // catégorie visible seulement pendant un ACR
+const DC_DEFAULT_SEUILS = { PAS: 50, SpO2: 70 };
+const DC_DEFAULT_ACR = { rythme: 'AESP', requis: ['mce', 'adre_acr'] };
+const DC_RACS_VITALS = { FC: 110, PAS: 85, PAD: 50, SpO2: 92 };
+const DC_POINTS = { indispensable: 3, recommande: 2, debattu: 0, inutile: -1, contre_indique: -5 };
+const DC_DX_POINTS = 2;
+const DC_RACS_PENALTY = 5;
+const DC_LIMITS = { FC:[0,220], PAS:[0,250], PAD:[0,160], SpO2:[0,100], FR:[0,60], T:[25,43], GCS:[3,15] };
+// couleur du scope : [normal min, normal max, alerte min, alerte max]
+const DC_RANGES = { FC:[50,100,40,130], PAM:[65,110,55,125], SpO2:[94,100,90,100], FR:[10,22,8,30], T:[36,38,35,39.5], GCS:[15,15,13,15] };
+const DC_TILE_ICONS = { 'Airway / ventilation':'🫁', 'Voies & monitorage':'💉', 'Bilan':'🧪', 'Imagerie & écho':'🔊', 'Traitement':'💊', 'Orientation':'📞', 'Diagnostic':'🩺', 'RCP':'❤️' };
+const DC_NOTE_UI = {
+  indispensable:  { ic:'✅', lb:'Indispensable' },
+  recommande:     { ic:'✅', lb:'Recommandé' },
+  debattu:        { ic:'💬', lb:'Débattu' },
+  inutile:        { ic:'➖', lb:'Inutile' },
+  contre_indique: { ic:'❌', lb:'Contre-indiqué' }
+};
+
+let DC_CONTENT = loadDechocContent();
+let DC_VIEW = 'home';     // home | game | debrief
+let G = null;             // partie en cours
+let DC_DEBRIEF = null;    // dernier débriefing affiché
+
+function loadDechocContent(){
+  try{
+    const c = JSON.parse(localStorage.getItem(DECHOC_CONTENT_KEY) || 'null');
+    if(c && Array.isArray(c.actions) && Array.isArray(c.scenarios)) return c;
+  }catch(e){}
+  return { actions: [], scenarios: [] };
+}
+
+async function syncDechocFromGithub(cfg, headers){
+  const branch = cfg.branch || 'main';
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Dechocage?ref=${encodeURIComponent(branch)}`;
+  const resp = await fetch(url, { headers });
+  if(resp.status === 404) return { count: 0, errors: [] };   // pas encore de dossier sur cette branche
+  if(!resp.ok) throw new Error(`GitHub ${resp.status}`);
+  const files = (await resp.json()).filter(e => e.type === 'file' && /\.json$/i.test(e.name));
+  let actions = null;
+  const scenarios = [], errors = [];
+  for(const f of files){
+    try{
+      const r = await fetch(f.download_url);
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      const data = await r.json();
+      if(f.name === 'actions.json'){
+        if(!Array.isArray(data)) throw new Error('tableau attendu');
+        actions = data;
+      } else {
+        if(!data || !data.id || !Array.isArray(data.etapes) || !data.etapes.length) throw new Error('scénario invalide');
+        scenarios.push(data);
+      }
+    }catch(err){ errors.push(`${f.name} (${err.message})`); }
+  }
+  if(!actions){ errors.push('actions.json manquant'); return { count: 0, errors }; }
+  DC_CONTENT = { actions, scenarios };
+  localStorage.setItem(DECHOC_CONTENT_KEY, JSON.stringify(DC_CONTENT));
+  if(DC_VIEW === 'home' && document.getElementById('panelDechoc').classList.contains('open')) dcRender();
+  return { count: scenarios.length, errors };
+}
+
+// ---------- catalogue ----------
+function dcIndex(){
+  if(dcIndex._src !== DC_CONTENT){
+    dcIndex._src = DC_CONTENT;
+    dcIndex._map = {};
+    DC_CONTENT.actions.forEach(a => { dcIndex._map[a.id] = a; });
+  }
+  return dcIndex._map;
+}
+function dcLabel(id){ const a = dcIndex()[id]; return a ? a.label : id; }
+function dcNorm(s){ return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+function dcIsRcp(a){ return a && a.path && a.path[0] === DC_RCP_ROOT; }
+function dcRepeatable(a){ return !!(a.repetable || a.examen); }
+function dcFmtClock(sec){
+  sec = Math.max(0, Math.round(sec));
+  return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
+}
+
+// ---------- moteur ----------
+function dcStart(scId){
+  const pool = DC_CONTENT.scenarios;
+  if(!pool.length) return;
+  let sc = scId && pool.find(s => s.id === scId);
+  if(!sc){
+    // patient au hasard, sans retomber deux fois de suite sur le même
+    const choices = pool.length > 1 ? pool.filter(s => s.id !== STATE.dechoc.last) : pool;
+    sc = choices[Math.floor(Math.random() * choices.length)];
+  }
+  dcStop();
+  G = {
+    sc, step: null, vitals: Object.assign({}, sc.constantes),
+    override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
+    phase: 'step', doneAll: new Set(), log: [], visited: [],
+    dx: null, results: [], acr: null, acrEpisodes: [], racs: 0,
+    outcome: null, cause: '', history: [], nav: [], search: '', confirm: null,
+    fold: { res: false, chips: false }   // encarts repliés : les tuiles restent visibles
+  };
+  dcEnterStep(sc.etapes[0].id);
+  dcSample();
+  G.timer = setInterval(dcTick, 1000);
+  DC_VIEW = 'game';
+  dcRender();
+}
+function dcStop(){ if(G && G.timer){ clearInterval(G.timer); G.timer = null; } }
+function dcPause(){
+  if(G && G.phase !== 'over' && !G.paused){ G.paused = true; if(DC_VIEW === 'game') dcRender(); }
+}
+function dcResume(){ if(G){ G.paused = false; dcRender(); } }
+function dcAbandon(){
+  if(!confirm('Abandonner cette partie ? Elle ne sera pas comptée.')) return;
+  dcStop(); G = null; DC_VIEW = 'home'; dcRender();
+}
+
+function dcStepById(id){ return G.sc.etapes.find(e => e.id === id); }
+function dcEnterStep(id){
+  const st = dcStepById(id);
+  G.step = st;
+  if(st.constantes) Object.assign(G.vitals, st.constantes);
+  G.chrono = G.chronoMax = st.chrono || DC_DEFAULT_CHRONO;
+  G.visited.push({ id, t0: G.t, t1: null, dx: null });
+  G.nav = []; G.search = '';
+}
+function dcSlopes(){ return Object.assign({}, G.step.pente || {}, G.override); }
+function dcApply(deltas, factor){
+  if(!deltas) return;
+  Object.keys(deltas).forEach(k => {
+    if(!(k in DC_LIMITS)) return;
+    const d = deltas[k] * factor;
+    G.vitals[k] = (G.vitals[k] || 0) + d;
+    // une variation de PAS entraîne la PAD de moitié, sauf si la PAD est précisée
+    if(k === 'PAS' && !('PAD' in deltas)) G.vitals.PAD = (G.vitals.PAD || 0) + d / 2;
+  });
+  Object.keys(DC_LIMITS).forEach(k => {
+    if(G.vitals[k] == null) return;
+    const [lo, hi] = DC_LIMITS[k];
+    G.vitals[k] = Math.min(hi, Math.max(lo, G.vitals[k]));
+  });
+  if(G.vitals.PAD > G.vitals.PAS - 10) G.vitals.PAD = Math.max(0, G.vitals.PAS - 10);
+}
+function dcSample(){
+  const v = G.phase === 'acr' ? { PAS: 0, FC: 0, SpO2: 0 } : G.vitals;
+  G.history.push({ t: G.t, PAS: Math.round(v.PAS), FC: Math.round(v.FC), SpO2: Math.round(v.SpO2) });
+}
+// fait passer du temps patient ; après le chrono de l'étape, la dégradation double
+function dcAdvance(sec){
+  if(sec <= 0) return;
+  G.t += sec;
+  if(G.phase === 'step'){
+    const mult = G.chrono <= 0 ? 2 : 1;
+    dcApply(dcSlopes(), sec / 60 * mult);
+  }
+  dcSample();
+  dcCheckThresholds();
+}
+function dcCheckThresholds(){
+  if(G.phase !== 'step') return;
+  const seuils = G.sc.seuils || DC_DEFAULT_SEUILS;
+  for(const k of Object.keys(seuils)){
+    if(G.vitals[k] != null && G.vitals[k] < seuils[k]){
+      dcEnterAcr(`${k} sous ${seuils[k]}`);
+      return;
+    }
+  }
+}
+function dcTick(){
+  if(!G || G.paused || G.phase === 'over') return;
+  if(G.phase === 'acr'){
+    G.acr.chrono -= 1;
+    G.t += DC_RATIO; dcSample();
+    if(G.acr.chrono <= 0){ dcDie(`ACR non récupéré (${G.acr.cause})`); return; }
+  } else {
+    G.chrono -= 1;
+    dcAdvance(DC_RATIO);
+  }
+  dcRenderScope();
+}
+function dcDoneEntry(e, until){
+  const ids = Array.isArray(e) ? e : [e];
+  return G.log.some(l => ids.includes(l.id) && (until == null || l.t <= until));
+}
+function dcAcrSpec(){ return Object.assign({}, DC_DEFAULT_ACR, G.step.acr || {}); }
+
+function dcDoAction(id){
+  const a = dcIndex()[id];
+  if(!a || !G || G.phase === 'over' || G.paused) return;
+  if(a.type === 'diagnostic'){
+    G.dx = id;   // un seul diagnostic actif ; on en change en touchant un autre
+    dcRender();
+    return;
+  }
+  const inAcr = G.phase === 'acr';
+  // un examen peut toujours être refait (contrôle) ; un geste non répétable, une seule fois
+  if(!dcRepeatable(a) && (dcIsRcp(a) ? (inAcr && G.acr.done.has(id)) : G.doneAll.has(id))) return;
+  if(dcIsRcp(a) && !inAcr) return;
+  dcAdvance((a.duree || 0) * 60);
+  if(G.phase === 'over') return;
+  const etape = G.phase === 'acr' ? 'acr' : G.step.id;
+  G.log.push({ t: G.t, id, etape, step: G.step.id });
+  if(!dcIsRcp(a)) G.doneAll.add(id);
+  if(navigator.vibrate) navigator.vibrate(10);
+
+  // résultat d'examen : celui de l'étape, sinon celui du scénario
+  const res = (G.step.resultats || {})[id] ?? (G.sc.resultats || {})[id] ?? (a.examen ? 'Pas d’anomalie notable.' : null);
+  if(res) G.results.unshift({ id, text: res, t: G.t });
+
+  if(G.phase === 'acr'){
+    G.acr.done.add(id);
+    const ok = (dcAcrSpec().requis || []).every(e => (Array.isArray(e) ? e : [e]).some(x => G.acr.done.has(x)));
+    if(ok) dcRacs();
+    dcRender();
+    return;
+  }
+  const spec = (G.step.actions || {})[id];
+  if(spec){
+    dcApply(spec.effet, 1);
+    if(spec.pente) Object.assign(G.override, spec.pente);
+    if(spec.letal === 'deces'){ dcDie(`${a.label} : ${spec.why || 'erreur létale'}`); return; }
+    if(spec.letal === 'acr'){ dcEnterAcr(a.label); dcRender(); return; }
+  }
+  dcSample();
+  dcCheckThresholds();
+  dcRender();
+}
+
+function dcEnterAcr(cause){
+  if(G.phase !== 'step') return;
+  G.phase = 'acr';
+  G.acr = { chrono: DC_ACR_CHRONO, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id };
+  G.nav = []; G.search = ''; G.confirm = null;
+  dcSample();
+  if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
+}
+function dcRacs(){
+  const spec = dcAcrSpec();
+  G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: true });
+  G.racs++;
+  G.vitals = Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS);
+  G.phase = 'step';
+  G.acr = null;
+  G.chrono = Math.max(G.chrono, 30);
+  dcSample();
+  showToast('RACS : reprise d’activité circulatoire');
+}
+function dcDie(cause){
+  if(G.acr) G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: false });
+  G.outcome = 'deces';
+  G.cause = cause;
+  dcFinish();
+}
+function dcValidate(){
+  if(!G || G.phase !== 'step' || G.paused) return;
+  const st = G.step;
+  const visit = G.visited[G.visited.length - 1];
+  visit.t1 = G.t; visit.dx = G.dx;
+  const lsm = st.letal_si_manque;
+  if(lsm && (lsm.actions || []).some(e => !dcDoneEntry(e))){
+    if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return; }
+    dcEnterAcr(lsm.why || 'omission létale');
+    dcRender();
+    return;
+  }
+  const rule = (st.suite || []).find(r =>
+    (r.si_manque ? r.si_manque.some(e => !dcDoneEntry(e)) : true) &&
+    (r.si_fait ? r.si_fait.every(e => dcDoneEntry(e)) : true)
+  ) || { vers: 'fin' };
+  if(rule.vers === 'fin'){
+    G.outcome = G.racs ? 'racs' : 'vivant';
+    dcFinish();
+    return;
+  }
+  dcEnterStep(rule.vers);
+  showToast(G.step.titre || 'Étape suivante');
+  dcRender();
+}
+
+// ---------- notation ----------
+function dcNoteFor(id, stepId){
+  const own = (dcStepById(stepId).actions || {})[id];
+  if(own) return own;
+  // action anticipée : notée comme dans l'étape où elle est attendue
+  for(const st of G.sc.etapes){
+    const s = (st.actions || {})[id];
+    if(s && ['indispensable', 'recommande', 'debattu'].includes(s.note)) return Object.assign({ anticipe: true }, s);
+  }
+  return null;
+}
+function dcScore(){
+  const scored = new Set();
+  const maxByKey = {};
+  let pts = 0;
+  const steps = G.visited.map((v, i) => {
+    const st = dcStepById(v.id);
+    const t1 = v.t1 != null ? v.t1 : G.t;
+    const items = [];
+    const seen = {};
+    G.log.filter(l => l.etape === v.id && G.visited.indexOf(v) === dcVisitIndex(l)).forEach(l => {
+      if(seen[l.id]){ seen[l.id].n++; return; }
+      const spec = dcNoteFor(l.id, v.id);
+      const note = spec ? spec.note : 'inutile';
+      // un contrôle exigé par l'étape (refaire) se note à chaque étape, le reste une seule fois
+      const key = spec && spec.refaire && !spec.anticipe ? `${l.id}@${v.id}` : l.id;
+      let p = 0;
+      if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
+      pts += p;
+      seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, pts: p, n: 1 };
+      items.push(seen[l.id]);
+    });
+    const actions = st.actions || {};
+    const altDone = alt => Object.keys(actions).some(k => actions[k].alt === alt && dcDoneEntry(k, t1));
+    Object.keys(actions).forEach(id => {
+      const s = actions[id];
+      if(s.note !== 'indispensable' && s.note !== 'recommande') return;
+      const key = s.alt ? `alt:${s.alt}` : s.refaire ? `${id}@${v.id}` : id;
+      // une action attendue dans plusieurs étapes compte pour sa première apparition
+      if(!(key in maxByKey)) maxByKey[key] = DC_POINTS[s.note];
+      const done = s.refaire ? G.log.some(l => l.id === id && l.step === v.id && l.t >= v.t0 && l.t <= t1) : dcDoneEntry(id, t1);
+      if(done || (s.alt && altDone(s.alt)) || seen[id]) return;
+      if(s.note === 'indispensable'){
+        pts -= DC_POINTS.indispensable;
+        items.push({ id, kind: 'oubli', why: s.why, pts: -DC_POINTS.indispensable });
+      } else {
+        items.push({ id, kind: 'nonfait', why: s.why, pts: 0 });
+      }
+    });
+    let dx = null;
+    if(st.diagnostic && st.diagnostic.length){
+      maxByKey[`dx:${v.id}`] = DC_DX_POINTS;
+      const ok = st.diagnostic.includes(v.dx);
+      if(ok) pts += DC_DX_POINTS;
+      dx = { given: v.dx, expected: st.diagnostic[0], ok };
+    }
+    return { id: v.id, titre: st.titre || v.id, items, dx, index: i };
+  });
+  pts -= G.racs * DC_RACS_PENALTY;
+  const max = Object.values(maxByKey).reduce((a, b) => a + b, 0) || 1;
+  const note = G.outcome === 'deces' ? 0 : Math.max(0, Math.min(20, Math.round(pts / max * 20)));
+  return { steps, pts, max, note };
+}
+// un même id d'étape peut en théorie être visité deux fois : on rattache chaque action à sa visite
+function dcVisitIndex(l){
+  let idx = -1;
+  G.visited.forEach((v, i) => { if(v.id === l.step && v.t0 <= l.t) idx = i; });
+  return idx;
+}
+
+function dcFinish(){
+  dcStop();
+  G.phase = 'over';
+  const sc = dcScore();
+  DC_DEBRIEF = Object.assign({ sc: G.sc, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t }, sc);
+  const d = STATE.dechoc;
+  d.runs.push({ sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome });
+  if(d.runs.length > 100) d.runs = d.runs.slice(-100);
+  d.best[G.sc.id] = Math.max(d.best[G.sc.id] || 0, sc.note);
+  d.last = G.sc.id;
+  saveState(STATE);
+  G = null;
+  DC_VIEW = 'debrief';
+  if(navigator.vibrate) navigator.vibrate([30, 60, 30]);
+  dcRender();
+}
+
+// ---------- rendu ----------
+const dcRoot = document.getElementById('dcRoot');
+function dcRender(){
+  if(DC_VIEW === 'game' && G) dcRenderGame();
+  else if(DC_VIEW === 'debrief' && DC_DEBRIEF) dcRenderDebrief();
+  else { DC_VIEW = 'home'; dcRenderHome(); }
+}
+
+function dcRenderHome(){
+  document.getElementById('dcTitle').textContent = 'Déchoc';
+  const n = DC_CONTENT.scenarios.length;
+  const d = STATE.dechoc;
+  const byId = {};
+  d.runs.forEach(r => {
+    const s = byId[r.sc] || (byId[r.sc] = { n: 0, alive: 0 });
+    s.n++; if(r.issue !== 'deces') s.alive++;
+  });
+  const played = DC_CONTENT.scenarios.filter(s => byId[s.id]);
+  dcRoot.innerHTML = `<div class="dc-scroll">
+    <div class="dc-hero">
+      <div class="big">🚑</div>
+      <h3>Un patient arrive au déchocage</h3>
+      <div class="hint">Le chrono tourne et les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape. Chaque action consomme du temps patient (1 s = 10 s). Débriefing complet à la fin.</div>
+    </div>
+    ${G ? `<button class="btn" data-dc="resume">▶ Reprendre la partie en cours</button>
+           <button class="btn secondary" data-dc="abandon">Abandonner la partie</button>`
+        : n ? `<button class="btn" data-dc="start">✚ Nouveau patient</button>`
+            : `<div class="hint" style="text-align:center">Aucun scénario chargé. Configure la synchronisation GitHub dans Réglages : les scénarios sont lus dans le dossier <b>Dechocage</b> du dépôt.</div>`}
+    ${n ? `<div class="hint" style="text-align:center;margin-top:10px">${n} scénario(s) disponible(s), tirés au hasard.</div>` : ''}
+    ${played.length ? `<div class="sectiontitle">Patients déjà rencontrés</div>` + played.map(s => {
+      const st = byId[s.id];
+      return `<div class="modrow stat"><div class="mname">${escapeHtml(s.titre)}</div>
+        <div class="mcount">Record ${d.best[s.id] || 0}/20 · ${st.n} partie(s) · survie ${Math.round(st.alive / st.n * 100)} %</div></div>`;
+    }).join('') : ''}
+  </div>`;
+}
+
+function dcLevel(key, v){
+  const r = DC_RANGES[key];
+  if(!r || v == null) return '';
+  if(v >= r[0] && v <= r[1]) return '';
+  if(v >= r[2] && v <= r[3]) return 'warn';
+  return 'bad';
+}
+function dcScopeHtml(){
+  if(G.phase === 'acr'){
+    const spec = dcAcrSpec();
+    return `<div class="dc-acr">⚠ ARRÊT CARDIAQUE · ${escapeHtml(spec.rythme || '')}</div>
+      <div class="dc-clock"><span>Temps pour récupérer</span><b class="late">${dcFmtClock(G.acr.chrono)}</b></div>`;
+  }
+  const v = G.vitals;
+  const pam = Math.round(v.PAD + (v.PAS - v.PAD) / 3);
+  const cell = (k, label, val, lvKey, lvVal) => `<div class="dc-vt ${dcLevel(lvKey || k, lvVal != null ? lvVal : v[k])}"><div class="k">${label}</div><div class="v">${val}</div></div>`;
+  return cell('FC', 'FC', Math.round(v.FC))
+    + cell('PA', 'PA (PAM)', `${Math.round(v.PAS)}/${Math.round(v.PAD)}<small> (${pam})</small>`, 'PAM', pam)
+    + cell('SpO2', 'SpO2 %', Math.round(v.SpO2))
+    + cell('FR', 'FR', Math.round(v.FR))
+    + cell('T', 'T °C', v.T != null ? v.T.toFixed(1) : '—')
+    + cell('GCS', 'GCS', Math.round(v.GCS))
+    + `<div class="dc-clock"><span>Patient T+${dcFmtClock(G.t)}</span><b class="${G.chrono <= 0 ? 'late' : ''}">${G.chrono <= 0 ? 'Retard +' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b></div>`;
+}
+function dcRenderScope(){
+  const el = document.getElementById('dcScope');
+  if(el && G) el.innerHTML = dcScopeHtml();
+}
+
+function dcTileItems(){
+  const inAcr = G.phase === 'acr';
+  const pool = DC_CONTENT.actions.filter(a => inAcr || !dcIsRcp(a));
+  const q = dcNorm(G.search.trim());
+  if(q.length >= 2){
+    return pool.filter(a => dcNorm(a.label).includes(q)).map(a => ({ leaf: a, sub: a.path.join(' › ') }));
+  }
+  const depth = G.nav.length;
+  const out = [], cats = new Set();
+  pool.forEach(a => {
+    if(!G.nav.every((p, i) => a.path[i] === p)) return;
+    if(a.path.length > depth){
+      const c = a.path[depth];
+      if(!cats.has(c)){ cats.add(c); out.push({ cat: c }); }
+    } else out.push({ leaf: a });
+  });
+  // pendant un ACR, la catégorie RCP passe en premier
+  if(inAcr && depth === 0) out.sort((x, y) => (y.cat === DC_RCP_ROOT) - (x.cat === DC_RCP_ROOT));
+  return out;
+}
+function dcTileHtml(it){
+  if(it.cat){
+    const ic = G.nav.length === 0 ? (DC_TILE_ICONS[it.cat] || '•') : '›';
+    return `<button class="dc-tile cat ${it.cat === DC_RCP_ROOT ? 'rcp' : ''}" data-cat="${escapeHtml(it.cat)}"><span class="ic">${ic}</span><span>${escapeHtml(it.cat)}</span></button>`;
+  }
+  const a = it.leaf;
+  const isDx = a.type === 'diagnostic';
+  const count = G.log.filter(l => l.id === a.id && (!dcIsRcp(a) || (G.acr && l.t >= G.acr.t))).length;
+  const done = !isDx && !dcRepeatable(a) && count > 0;
+  const cls = isDx ? (G.dx === a.id ? 'on' : '') : (done ? 'done' : '');
+  const mark = isDx ? (G.dx === a.id ? '◉' : '○') : done ? '✓' : count ? `×${count}` : '';
+  return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>
+    <span>${escapeHtml(a.label)}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${mark ? ` <b>${mark}</b>` : ''}</span></button>`;
+}
+
+function dcRenderGame(){
+  document.getElementById('dcTitle').textContent = G.phase === 'acr' ? 'Déchoc · ACR' : `Déchoc · ${G.step.titre || ''}`;
+  const st = G.step;
+  const stepActs = G.log.filter(l => G.phase === 'acr' ? l.etape === 'acr' && l.t >= G.acr.t : l.etape === st.id);
+  const chips = [...new Set(stepActs.map(l => l.id))].map(id => `<span class="dc-chip">${escapeHtml(dcLabel(id))}</span>`).join('');
+  const results = G.results.map(r => `<div class="dc-res"><div class="lb">${escapeHtml(dcLabel(r.id))} · T+${dcFmtClock(r.t)}</div>${escapeHtml(r.text)}</div>`).join('');
+  const sheet = G.confirm ? (() => {
+    const a = dcIndex()[G.confirm];
+    const dur = a.duree ? `≈ ${a.duree} min patient` : 'Immédiat';
+    return `<div class="dc-sheet" data-dc="cancel"><div class="box">
+      <h3>${escapeHtml(a.label)}</h3><div class="hint">${dur}${a.duree ? ` : le patient continue d'évoluer pendant ce temps.` : ''}</div>
+      <button class="btn" data-dc="confirm">Réaliser</button>
+      <button class="btn secondary" data-dc="cancel">Annuler</button></div></div>`;
+  })() : '';
+  const pause = G.paused ? `<div class="dc-pause"><div class="big">⏸</div><b>Partie en pause</b>
+      <div class="hint">Le chrono s'arrête quand tu quittes l'écran.</div>
+      <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
+      <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
+  dcRoot.innerHTML = `
+    <div class="dc-scope" id="dcScope">${dcScopeHtml()}</div>
+    <div class="dc-scroll">
+      ${G.phase === 'acr'
+        ? `<div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>`
+        : `<div class="dc-steptitle">Étape ${G.visited.length} · ${escapeHtml(st.titre || '')}</div>
+           <div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>${escapeHtml(st.vignette || '')}</div>`}
+      ${G.dx ? `<div class="dc-chips"><span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(G.dx))}</span></div>` : ''}
+      ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
+      ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}
+      <input class="field dc-search" type="search" placeholder="Rechercher une action…" value="${escapeHtml(G.search)}" autocomplete="off">
+      <div id="dcTiles">${dcTilesHtml()}</div>
+    </div>
+    ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">Valider l'étape ✓</button></div>` : ''}
+    ${sheet}${pause}`;
+}
+function dcTilesHtml(){
+  const crumb = G.nav.length ? `<div class="dc-crumb"><button data-dc="back">←</button>${escapeHtml(G.nav.join(' › '))}</div>` : '';
+  const items = dcTileItems();
+  return `${crumb}<div class="dc-tiles">${items.map(dcTileHtml).join('') || '<div class="hint">Aucune action trouvée.</div>'}</div>`;
+}
+
+function dcChartSvg(d){
+  const W = 360, H = 170, L = 28, R = 8, T = 8, B = 20;
+  const tmax = Math.max(d.tEnd, 60);
+  const x = t => L + (W - L - R) * t / tmax;
+  const y = v => T + (H - T - B) * (1 - Math.min(200, Math.max(0, v)) / 200);
+  const line = (key, color) => `<polyline points="${d.history.map(h => `${x(h.t).toFixed(1)},${y(h[key]).toFixed(1)}`).join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round"/>`;
+  const grid = [50, 100, 150].map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${L - 4}" y="${y(v) + 3}" font-size="9" fill="var(--muted)" text-anchor="end">${v}</text>`).join('');
+  const steps = d.visited.slice(1).map((v, i) => `<line x1="${x(v.t0)}" x2="${x(v.t0)}" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3"/><text x="${x(v.t0) + 3}" y="${T + 9}" font-size="9" fill="var(--muted)">É${i + 2}</text>`).join('');
+  const acr = d.acrEpisodes.map(e => `<rect x="${x(e.t)}" y="${T}" width="${Math.max(2, x(e.t1) - x(e.t))}" height="${H - T - B}" fill="var(--danger)" opacity=".18"/>`).join('');
+  const ticks = d.log.map(l => {
+    const spec = l.etape !== 'acr' ? (d.sc.etapes.find(e => e.id === l.step).actions || {})[l.id] : null;
+    const c = spec && spec.note === 'contre_indique' ? 'var(--danger)' : 'var(--muted)';
+    return `<line x1="${x(l.t)}" x2="${x(l.t)}" y1="${H - B}" y2="${H - B + 6}" stroke="${c}" stroke-width="1.5"/>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" aria-label="Évolution des constantes">
+    ${acr}${grid}${steps}
+    ${line('PAS', 'var(--danger)')}${line('FC', 'var(--trace)')}${line('SpO2', '#5aa9ff')}
+    ${ticks}
+    <text x="${L}" y="${H - 2}" font-size="9" fill="var(--muted)">0</text>
+    <text x="${W - R}" y="${H - 2}" font-size="9" fill="var(--muted)" text-anchor="end">${Math.round(d.tEnd / 60)} min</text>
+  </svg>
+  <div class="legend"><span><i style="background:var(--danger)"></i>PAS</span><span><i style="background:var(--trace)"></i>FC</span><span><i style="background:#5aa9ff"></i>SpO2</span><span>| actions · <span style="color:var(--danger)">|</span> contre-indiquées</span></div>`;
+}
+
+function dcRenderDebrief(){
+  const d = DC_DEBRIEF;
+  document.getElementById('dcTitle').textContent = 'Débriefing';
+  const out = d.outcome === 'deces'
+    ? { cls: 'bad', ic: '🕯️', t: 'Patient décédé', s: d.cause }
+    : d.outcome === 'racs'
+      ? { cls: 'ok', ic: '💓', t: 'Patient vivant, après ACR récupéré', s: `${d.racs} ACR récupéré(s) : −${DC_RACS_PENALTY} points chacun.` }
+      : { cls: 'ok', ic: '💚', t: 'Patient vivant', s: 'Pris en charge jusqu’au bout.' };
+  const itemHtml = it => {
+    const ui = it.kind === 'oubli' ? { ic: '⚠️', lb: 'Oublié' } : it.kind === 'nonfait' ? { ic: '○', lb: 'Non fait' } : DC_NOTE_UI[it.kind];
+    const pts = it.pts ? `${it.pts > 0 ? '+' : ''}${it.pts}` : '';
+    return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
+      <div class="w">${ui.lb}${it.anticipe ? ' (anticipé)' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div></div><span class="pts">${pts}</span></div>`;
+  };
+  const order = { contre_indique: 0, oubli: 1, indispensable: 2, recommande: 3, debattu: 4, inutile: 5, nonfait: 6 };
+  const steps = d.steps.map(s => {
+    const acr = d.acrEpisodes.filter(e => e.step === s.id);
+    const acrHtml = acr.map(e => {
+      const spec = Object.assign({}, DC_DEFAULT_ACR, (d.sc.etapes.find(x => x.id === e.step).acr) || {});
+      const req = (spec.requis || []).map(r => {
+        const ids = Array.isArray(r) ? r : [r];
+        const ok = ids.some(i => e.done.includes(i));
+        return `<div class="dc-item"><span class="ic">${ok ? '✅' : '⚠️'}</span><div><b>${ids.map(i => escapeHtml(dcLabel(i))).join(' ou ')}</b><div class="w">${ok ? 'Fait' : 'Manquant'} pendant la RCP</div></div></div>`;
+      }).join('');
+      return `<div class="dc-item"><span class="ic">💔</span><div><b>ACR ${e.ok ? 'récupéré' : 'non récupéré'}</b><div class="w">Cause : ${escapeHtml(e.cause)}${spec.why ? ' · ' + escapeHtml(spec.why) : ''}</div></div></div>${req}`;
+    }).join('');
+    const dx = s.dx ? `<div class="dc-item"><span class="ic">${s.dx.ok ? '🩺' : '⚠️'}</span><div><b>Diagnostic : ${s.dx.given ? escapeHtml(dcLabel(s.dx.given)) : 'aucun'}</b>
+      <div class="w">${s.dx.ok ? 'Juste' : 'Attendu : ' + escapeHtml(dcLabel(s.dx.expected))}</div></div><span class="pts">${s.dx.ok ? '+' + DC_DX_POINTS : ''}</span></div>` : '';
+    const items = s.items.slice().sort((a, b) => order[a.kind] - order[b.kind]).map(itemHtml).join('');
+    return `<div class="dc-step"><h4>Étape ${s.index + 1} · ${escapeHtml(s.titre)}</h4>${dx}${items || '<div class="hint">Aucune action.</div>'}${acrHtml}</div>`;
+  }).join('');
+  dcRoot.innerHTML = `<div class="dc-scroll">
+    <div class="dc-outcome ${out.cls}"><div class="t">${out.ic} ${out.t}</div><div class="s">${escapeHtml(out.s)}</div>
+      <div class="s"><b style="color:var(--text)">${escapeHtml(d.sc.titre)}</b> · ${escapeHtml(d.sc.patient || '')}</div>
+      <div class="s">Note : <b style="color:var(--text)">${d.note}/20</b> (${d.pts} pts sur ${d.max} possibles)</div></div>
+    <div class="dc-chart">${dcChartSvg(d)}</div>
+    ${steps}
+    <div class="hint">Source : ${escapeHtml(d.sc.source || '—')}</div>
+    <button class="btn" data-dc="start">✚ Nouveau patient</button>
+    <button class="btn secondary" data-dc="home">Accueil Déchoc</button>
+  </div>`;
+}
+
+dcRoot.addEventListener('click', e => {
+  const b = e.target.closest('[data-dc],[data-cat],[data-act]');
+  if(!b) return;
+  if(b.dataset.cat){ G.nav.push(b.dataset.cat); G.search = ''; dcRender(); return; }
+  if(b.dataset.act){
+    const a = dcIndex()[b.dataset.act];
+    if(a.type === 'diagnostic') dcDoAction(a.id);
+    else { G.confirm = a.id; dcRender(); }
+    return;
+  }
+  const act = b.dataset.dc;
+  if(act === 'cancel' && e.target !== b) return;   // clic dans la feuille, pas sur le fond
+  if(act === 'start') dcStart();
+  else if(act === 'resume'){ DC_VIEW = 'game'; dcResume(); }
+  else if(act === 'abandon') dcAbandon();
+  else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }
+  else if(act === 'back'){ G.nav.pop(); dcRender(); }
+  else if(act === 'validate') dcValidate();
+  else if(act === 'cancel'){ G.confirm = null; dcRender(); }
+  else if(act === 'confirm'){ const id = G.confirm; G.confirm = null; G.search = ''; dcDoAction(id); }
+});
+dcRoot.addEventListener('input', e => {
+  if(!e.target.classList.contains('dc-search') || !G) return;
+  G.search = e.target.value;
+  G.nav = [];
+  // on ne redessine que les tuiles : recréer le champ fermerait le clavier sur iPhone
+  document.getElementById('dcTiles').innerHTML = dcTilesHtml();
+});
+dcRoot.addEventListener('toggle', e => {
+  if(G && e.target.dataset && e.target.dataset.fold) G.fold[e.target.dataset.fold] = e.target.open;
+}, true);
+document.addEventListener('visibilitychange', () => { if(document.hidden) dcPause(); });
+window.DECHOC = { start: dcStart, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; } };
+
 // ---------- tabs / panels ----------
 const tabs = document.querySelectorAll('nav button');
 tabs.forEach(btn=>{
@@ -1475,6 +2182,7 @@ tabs.forEach(btn=>{
     tabs.forEach(b=>b.classList.toggle('active', b===btn));
     if(tab === 'feed'){ closeAllPanels(); }
     if(tab === 'saved'){ renderSaved(); openPanel('panelSaved'); }
+    if(tab === 'dechoc'){ openPanel('panelDechoc'); dcRender(); }
     if(tab === 'stats'){ renderStats(); openPanel('panelStats'); }
     if(tab === 'settings'){ openPanel('panelSettings'); }
   });
@@ -1487,10 +2195,12 @@ function openPanel(id){
   document.getElementById(id).classList.add('open');
 }
 function closePanel(id){
+  if(id === 'panelDechoc') dcPause();
   document.getElementById(id).classList.remove('open');
   tabs.forEach(b=>b.classList.toggle('active', b.dataset.tab==='feed'));
 }
 function closeAllPanels(){
+  dcPause();
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));
 }
 window.closePanel = closePanel;
