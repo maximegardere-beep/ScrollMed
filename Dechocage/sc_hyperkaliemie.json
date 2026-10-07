@@ -4,6 +4,7 @@
   "source": "ERC 2021, arrêt cardiaque en circonstances particulières ; UK Kidney Association 2020, hyperkaliémie aiguë de l'adulte",
   "tags": ["hyperkaliémie", "insuffisance rénale", "calcium", "épuration extrarénale"],
   "patient": "Homme, 74 ans, 78 kg",
+  "ecg": "qrs_larges",
   "constantes": { "FC": 42, "PAS": 96, "PAD": 54, "SpO2": 96, "FR": 20, "T": 36.8, "GCS": 15 },
   "seuils": { "PAS": 55, "FC": 30, "SpO2": 70 },
   "resultats": {
@@ -36,7 +37,7 @@
         "gds": { "note": "recommande", "why": "La kaliémie sur gaz du sang est disponible en 2 minutes (ERC 2021)." },
         "iono": { "note": "indispensable", "why": "Confirmer la kaliémie et évaluer la fonction rénale." },
         "glycemie": { "note": "recommande", "why": "Glycémie de référence avant l'insuline." },
-        "calcium": { "note": "indispensable", "why": "QRS larges : sel de calcium IV en premier pour stabiliser la membrane (chlorure de calcium 10 % 10 mL ou gluconate 10 % 30 mL). Effet en quelques minutes, transitoire, sans baisser la kaliémie.", "effet": { "FC": 16, "PAS": 10 }, "pente": { "FC": -0.3 } },
+        "calcium": { "note": "indispensable", "why": "QRS larges : sel de calcium IV en premier pour stabiliser la membrane (chlorure de calcium 10 % 10 mL ou gluconate 10 % 30 mL). Effet en quelques minutes, transitoire, sans baisser la kaliémie.", "effet": { "FC": 16, "PAS": 10 }, "pente": { "FC": -0.3 }, "ecg": "sinus" },
         "insuline_glucose": { "note": "indispensable", "why": "Insuline rapide 10 UI + 25 g de glucose IV : transfert intracellulaire du potassium. Surveiller la glycémie (ERC 2021).", "effet": { "FC": 8 }, "pente": { "FC": 0.2, "PAS": 0 } },
         "salbutamol_neb": { "note": "recommande", "why": "Salbutamol nébulisé 10-20 mg, en complément de l'insuline (UK Kidney Association 2020).", "effet": { "FC": 4 } },
         "bicar_mol": { "note": "debattu", "why": "Effet hypokaliémiant modeste et inconstant. Discuté en cas d'acidose métabolique sévère ; recommandé pendant l'arrêt cardiaque (ERC 2021). Apport sodé important." },
@@ -66,12 +67,13 @@
       "titre": "Rebond",
       "vignette": "Vingt minutes après le calcium, les QRS s'élargissent à nouveau et la fréquence chute : l'effet du calcium est transitoire.",
       "chrono": 75,
+      "ecg": "qrs_larges",
       "constantes": { "FC": 38, "PAS": 84, "PAD": 46 },
       "pente": { "FC": -1, "PAS": -0.8 },
       "diagnostic": ["dx_hyperkaliemie"],
       "actions": {
         "insuline_glucose": { "note": "indispensable", "why": "Le calcium protège le cœur mais ne baisse pas la kaliémie : insuline-glucose sans délai.", "effet": { "FC": 8 }, "pente": { "FC": 0.2, "PAS": 0 } },
-        "calcium": { "note": "recommande", "why": "Nouvelle dose de calcium si les signes ECG persistent.", "effet": { "FC": 14, "PAS": 8 }, "pente": { "FC": -0.3 } },
+        "calcium": { "note": "recommande", "why": "Nouvelle dose de calcium si les signes ECG persistent.", "effet": { "FC": 14, "PAS": 8 }, "pente": { "FC": -0.3 }, "ecg": "sinus" },
         "salbutamol_neb": { "note": "recommande", "why": "En complément de l'insuline.", "effet": { "FC": 4 } },
         "epuration": { "note": "indispensable", "why": "Épuration extrarénale en urgence." },
         "amiodarone": { "note": "contre_indique", "why": "Ralentit encore la conduction.", "effet": { "FC": -8 } }

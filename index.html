@@ -617,23 +617,43 @@
   /* ---------- mode Déchoc ---------- */
   .dc-root{ flex:1; min-height:0; display:flex; flex-direction:column; position:relative; }
   .dc-scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling: touch; padding: 12px 16px 24px; }
-  .dc-scope{
-    flex-shrink:0;
-    display:grid; grid-template-columns: repeat(3, 1fr); gap:6px;
-    padding: 10px 12px;
-    background:#03060a;
-    border-bottom:1px solid var(--line);
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  }
-  .dc-vt{ background: var(--surface); border:1px solid var(--line); border-radius:10px; padding:5px 8px; }
-  .dc-vt .k{ font-size:10.5px; color:var(--muted); font-weight:700; }
+  .dc-scope{ flex-shrink:0; background:#000; border-bottom:1px solid var(--line); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  .dc-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; padding: 10px 12px 6px; }
+  .dc-vt{ background: #0b1219; border:1px solid #1a2532; border-radius:10px; padding:5px 8px; }
+  .dc-vt .k{ font-size:10.5px; color:#8a9bab; font-weight:700; }
   .dc-vt .v{ font-size:20px; font-weight:800; line-height:1.15; color:var(--trace); white-space:nowrap; }
   .dc-vt .v small{ font-size:12px; font-weight:700; opacity:.8; }
   .dc-vt.warn .v{ color: var(--alert); }
   .dc-vt.bad .v{ color: var(--danger); }
-  .dc-clock{ grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--muted); padding: 0 2px; }
-  .dc-clock b{ color: var(--text); font-size:15px; }
-  .dc-clock b.late{ color: var(--danger); }
+  /* scope déplié : courbes à gauche, chiffres à droite */
+  .dc-mon{ display:flex; height: clamp(170px, 34vh, 300px); }
+  .dc-wv{ position:relative; flex:1; min-width:0; }
+  .dc-wv canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .dc-over{ position:absolute; inset:0; pointer-events:none; }
+  .dc-lb{ position:absolute; left:6px; font-size:10px; font-weight:700; opacity:.8; }
+  .dc-almsg{ position:absolute; top:4px; right:6px; padding:2px 6px; border-radius:4px; font-weight:800; font-size:11px; color:#000; }
+  .dc-almsg.l1{ background: var(--alert); }
+  .dc-almsg.l2{ background: var(--danger); animation: dcblink 1s steps(2) infinite; }
+  .dc-nums{ width:116px; flex-shrink:0; display:flex; flex-direction:column; border-left:1px solid #1a2532; }
+  .dc-nb{ flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center; padding:2px 8px; background:none; border:0; border-bottom:1px solid #1a2532; text-align:left; font-family:inherit; color:inherit; }
+  .dc-nb:last-child{ border-bottom:0; }
+  .dc-nb *{ pointer-events:none; }
+  button.dc-nb{ cursor:pointer; }
+  .dc-nb .k{ font-size:10px; font-weight:700; opacity:.85; white-space:nowrap; }
+  .dc-nb .v{ font-size:26px; font-weight:800; line-height:1.05; white-space:nowrap; }
+  .dc-nb .v small{ font-size:11px; font-weight:700; }
+  .dc-nb.pa .v{ font-size:18px; }
+  .dc-nb.l1 .v{ color: var(--alert) !important; }
+  .dc-nb.l2 .v{ color: var(--danger) !important; animation: dcblink 1s steps(2) infinite; }
+  .dc-bar{ display:flex; align-items:center; gap:6px; padding:5px 8px; border-top:1px solid #1a2532; font-size:12px; color:#9fb0c0; }
+  .dc-bar .txt{ flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; column-gap:10px; }
+  .dc-bar b{ color:#fff; font-size:14px; }
+  .dc-bar b.late{ color: var(--danger); }
+  .dc-bar .al1{ color: var(--alert); font-weight:800; }
+  .dc-bar .al2{ color: var(--danger); font-weight:800; }
+  .dc-mbtn{ flex-shrink:0; background:#0f1822; border:1px solid #243140; color:#dfe7ee; border-radius:8px; min-width:36px; height:32px; font-size:15px; cursor:pointer; }
+  .dc-mbtn.on{ border-color: var(--trace); }
+  .dc-mbtn[hidden]{ display:none; }
   .dc-acr{ grid-column: 1 / -1; text-align:center; color: var(--danger); font-weight:800; font-size:17px; padding:4px 0; animation: dcblink 1s steps(2) infinite; }
   @keyframes dcblink{ 50%{ opacity:.45; } }
   .dc-steptitle{ font-size:12.5px; color:var(--muted); font-weight:700; margin-bottom:6px; }
@@ -1575,7 +1595,7 @@ const DC_RACS_VITALS = { FC: 110, PAS: 85, PAD: 50, SpO2: 92 };
 const DC_POINTS = { indispensable: 3, recommande: 2, debattu: 0, inutile: -1, contre_indique: -5 };
 const DC_DX_POINTS = 2;
 const DC_RACS_PENALTY = 5;
-const DC_LIMITS = { FC:[0,220], PAS:[0,250], PAD:[0,160], SpO2:[0,100], FR:[0,60], T:[25,43], GCS:[3,15] };
+const DC_LIMITS = { FC:[0,220], PAS:[0,250], PAD:[0,160], SpO2:[0,100], FR:[0,60], T:[25,43], GCS:[3,15], EtCO2:[0,80] };
 // couleur du scope : [normal min, normal max, alerte min, alerte max]
 const DC_RANGES = { FC:[50,100,40,130], PAM:[65,110,55,125], SpO2:[94,100,90,100], FR:[10,22,8,30], T:[36,38,35,39.5], GCS:[15,15,13,15] };
 const DC_TILE_ICONS = { 'Airway / ventilation':'🫁', 'Voies & monitorage':'💉', 'Bilan':'🧪', 'Imagerie & écho':'🔊', 'Traitement':'💊', 'Orientation':'📞', 'Diagnostic':'🩺', 'RCP':'❤️' };
@@ -1672,9 +1692,12 @@ function dcStart(scId){
     phase: 'step', doneAll: new Set(), log: [], visited: [],
     dx: null, results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', confirm: null,
-    fold: { res: false, chips: false }   // encarts repliés : les tuiles restent visibles
+    fold: { res: false, chips: false },  // encarts repliés : les tuiles restent visibles
+    ecg: sc.ecg || 'sinus', mon: new Set(), nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
   };
+  dcMonReset();
   dcEnterStep(sc.etapes[0].id);
+  dcNibp();
   dcSample();
   G.timer = setInterval(dcTick, 1000);
   DC_VIEW = 'game';
@@ -1695,6 +1718,8 @@ function dcEnterStep(id){
   const st = dcStepById(id);
   G.step = st;
   if(st.constantes) Object.assign(G.vitals, st.constantes);
+  if(st.ecg) G.ecg = st.ecg;
+  if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
   G.chrono = G.chronoMax = st.chrono || DC_DEFAULT_CHRONO;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
   G.nav = []; G.search = '';
@@ -1727,6 +1752,7 @@ function dcAdvance(sec){
   if(G.phase === 'step'){
     const mult = G.chrono <= 0 ? 2 : 1;
     dcApply(dcSlopes(), sec / 60 * mult);
+    if((G.nibpPending != null && G.t >= G.nibpPending) || G.t - G.nibp.t >= DC_NIBP_EVERY) dcNibp();
   }
   dcSample();
   dcCheckThresholds();
@@ -1743,6 +1769,7 @@ function dcCheckThresholds(){
 }
 function dcTick(){
   if(!G || G.paused || G.phase === 'over') return;
+  const phase = G.phase;
   if(G.phase === 'acr'){
     G.acr.chrono -= 1;
     G.t += DC_RATIO; dcSample();
@@ -1751,7 +1778,8 @@ function dcTick(){
     G.chrono -= 1;
     dcAdvance(DC_RATIO);
   }
-  dcRenderScope();
+  if(G.phase === 'over') return;
+  if(G.phase !== phase) dcRender(); else dcRenderScope();
 }
 function dcDoneEntry(e, until){
   const ids = Array.isArray(e) ? e : [e];
@@ -1776,6 +1804,7 @@ function dcDoAction(id){
   const etape = G.phase === 'acr' ? 'acr' : G.step.id;
   G.log.push({ t: G.t, id, etape, step: G.step.id });
   if(!dcIsRcp(a)) G.doneAll.add(id);
+  (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
   if(navigator.vibrate) navigator.vibrate(10);
 
   // résultat d'examen : celui de l'étape, sinon celui du scénario
@@ -1792,6 +1821,7 @@ function dcDoAction(id){
   const spec = (G.step.actions || {})[id];
   if(spec){
     dcApply(spec.effet, 1);
+    if(spec.ecg) G.ecg = spec.ecg;
     if(spec.pente) Object.assign(G.override, spec.pente);
     if(spec.letal === 'deces'){ dcDie(`${a.label} : ${spec.why || 'erreur létale'}`); return; }
     if(spec.letal === 'acr'){ dcEnterAcr(a.label); dcRender(); return; }
@@ -1817,6 +1847,7 @@ function dcRacs(){
   G.phase = 'step';
   G.acr = null;
   G.chrono = Math.max(G.chrono, 30);
+  dcNibp();
   dcSample();
   showToast('RACS : reprise d’activité circulatoire');
 }
@@ -1986,26 +2017,354 @@ function dcLevel(key, v){
   if(v >= r[2] && v <= r[3]) return 'warn';
   return 'bad';
 }
-function dcScopeHtml(){
+
+// ---------- scope : courbes, PNI, alarmes, sons ----------
+const DC_ECG_CODES = ['sinus', 'fa', 'qrs_larges', 'st_plus', 'tv', 'fv', 'asystolie', 'aesp'];
+const DC_SWEEP_S = 4;          // largeur de l'écran du scope, en secondes
+const DC_NIBP_EVERY = 180;     // PNI automatique toutes les 3 min patient
+const DC_NIBP_DELAY = 30;      // durée d'une PNI demandée, en s patient
+const DC_SILENCE_MS = 120000;  // « silence alarmes » : 2 min réelles
+// seuils d'alarme [priorité moyenne, haute] ; un scénario peut les surcharger (champ "alarmes")
+const DC_ALARMS = { FC: { bas: [50, 40], haut: [120, 150] }, PAS: { bas: [90, 70] }, SpO2: { bas: [90, 85] } };
+const DC_ALARM_TXT = { FC: ['Bradycardie', 'Tachycardie'], PAS: ['PA basse'], SpO2: ['SpO2 basse'] };
+const DC_LANES = {
+  ecg:   { label: 'II',    color: '#35d999', lo: -0.7, hi: 1.3 },
+  pleth: { label: 'Pleth', color: '#3fd0ff', lo: -0.05, hi: 1.15 },
+  pa:    { label: 'PA',    color: '#ff5a5f', lo: 0, hi: 180 },
+  co2:   { label: 'CO2',   color: '#f5d742', lo: 0, hi: 50 }
+};
+const DC_PREFS_KEY = 'scrollmed_dechoc_prefs';
+const DC_PREFS = (() => {
+  try { return Object.assign({ son: false, plie: false }, JSON.parse(localStorage.getItem(DC_PREFS_KEY) || '{}')); }
+  catch(e){ return { son: false, plie: false }; }
+})();
+function dcSavePrefs(){ try { localStorage.setItem(DC_PREFS_KEY, JSON.stringify(DC_PREFS)); } catch(e){} }
+const DC_MON = { canvas: document.createElement('canvas'), raf: 0 };
+DC_MON.ctx = DC_MON.canvas.getContext('2d');
+const DC_AUDIO = { ctx: null, silUntil: 0, silLvl: 0, nextAt: 0, played: 0 };
+const DC_MONSTAT = { beats: 0, beeps: 0, bursts: { 1: 0, 2: 0 } };   // pour les tests
+
+function dcMonReset(){
+  Object.assign(DC_MON, { beats: [], next: null, tw: 0, tx: 0, x: 0, prev: {}, key: '', last: 0 });
+  DC_MON.ctx.clearRect(0, 0, DC_MON.canvas.width, DC_MON.canvas.height);
+}
+function dcNibp(){
+  G.nibp = { PAS: Math.round(G.vitals.PAS), PAD: Math.round(G.vitals.PAD), t: G.t };
+  G.nibpPending = null;
+}
+function dcHasMce(){
+  return !!(G.acr && [...G.acr.done].some(id => ((dcIndex()[id] || {}).moniteur || []).includes('MCE')));
+}
+function dcLanes(){
+  const l = ['ecg', 'pleth'];
+  if(G.mon.has('PA')) l.push('pa');
+  if(G.mon.has('CO2')) l.push('co2');
+  return l;
+}
+function dcEcgCode(){
   if(G.phase === 'acr'){
-    const spec = dcAcrSpec();
-    return `<div class="dc-acr">⚠ ARRÊT CARDIAQUE · ${escapeHtml(spec.rythme || '')}</div>
-      <div class="dc-clock"><span>Temps pour récupérer</span><b class="late">${dcFmtClock(G.acr.chrono)}</b></div>`;
+    const s = dcAcrSpec();
+    if(s.ecg) return s.ecg;
+    const r = dcNorm(s.rythme || '');
+    return /\bfv\b|fibrillation ventr/.test(r) ? 'fv' : /\btv\b|tachycardie ventr/.test(r) ? 'tv' : /asystol/.test(r) ? 'asystolie' : 'aesp';
   }
+  return G.ecg || 'sinus';
+}
+// fréquence des complexes affichés (0 : pas de complexes organisés)
+function dcRate(){
+  const code = dcEcgCode();
+  if(code === 'fv' || code === 'asystolie') return 0;
+  if(G.phase === 'acr') return code === 'tv' ? 190 : Math.min(120, Math.max(30, Math.round(G.acr.prev.FC * 0.7)));
+  return Math.round(code === 'tv' ? Math.max(G.vitals.FC, 150) : G.vitals.FC);
+}
+function dcPaShown(){
+  const inv = G.mon.has('PA');
+  if(G.phase === 'acr') return inv && dcHasMce() ? { PAS: 60, PAD: 20, inv } : { PAS: null, inv };
+  if(inv) return { PAS: Math.round(G.vitals.PAS), PAD: Math.round(G.vitals.PAD), inv };
+  return { PAS: G.nibp.PAS, PAD: G.nibp.PAD, inv, t: G.nibp.t };
+}
+function dcEtco2(){
+  if(G.phase === 'acr') return dcHasMce() ? 14 : 4;
+  const base = G.vitals.EtCO2 != null ? G.vitals.EtCO2 : 38;
+  return Math.round(base * Math.min(1, Math.max(0.45, G.vitals.PAS / 100)));
+}
+function dcAlarm(){
+  if(G.phase === 'acr') return { lvl: 2, msg: 'ARRÊT CARDIAQUE', keys: { FC: 2, SpO2: 2, PAS: 2 } };
+  const th = Object.assign({}, DC_ALARMS);
+  Object.entries(G.sc.alarmes || {}).forEach(([k, v]) => { th[k] = Object.assign({}, th[k], v); });
+  const vals = { FC: G.vitals.FC, SpO2: G.vitals.SpO2, PAS: dcPaShown().PAS };
+  const out = { lvl: 0, msg: '', keys: {} }, msgs = { 1: [], 2: [] };
+  Object.entries(th).forEach(([k, t]) => {
+    const v = vals[k];
+    if(v == null) return;
+    let lvl = 0, txt = '';
+    if(t.bas && v < t.bas[0]){ lvl = v < t.bas[1] ? 2 : 1; txt = DC_ALARM_TXT[k][0]; }
+    if(t.haut && v > t.haut[0]){ lvl = v > t.haut[1] ? 2 : 1; txt = DC_ALARM_TXT[k][1]; }
+    if(!lvl) return;
+    out.keys[k] = lvl; msgs[lvl].push(txt);
+    out.lvl = Math.max(out.lvl, lvl);
+  });
+  if(out.lvl) out.msg = msgs[out.lvl].join(' · ');
+  return out;
+}
+
+// --- formes d'onde (temps réel des courbes, en secondes) ---
+const dcG = (x, s) => Math.exp(-x * x / (2 * s * s));
+const dcComp = t => Math.pow(Math.max(0, Math.sin(2 * Math.PI * 110 / 60 * t)), 2);   // massage à 110/min
+function dcBeatEcg(tau, code, k){
+  if(code === 'qrs_larges')   // QRS larges, ondes T amples et pointues, pas d'onde P
+    return 0.7 * dcG(tau, 0.045) - 0.4 * dcG(tau - 0.1, 0.04) + 0.6 * dcG(tau - 0.36 * k, 0.055);
+  if(code === 'tv') return 0.95 * dcG(tau, 0.06) - 0.6 * dcG(tau - 0.17, 0.07);
+  let v = -0.08 * dcG(tau + 0.022, 0.008) + dcG(tau, 0.011) - 0.22 * dcG(tau - 0.024, 0.009) + 0.28 * dcG(tau - 0.3 * k, 0.05);
+  if(code !== 'fa') v += 0.12 * dcG(tau + 0.16 * k, 0.025);
+  if(code === 'st_plus') v += 0.3 / (1 + Math.exp(-(tau - 0.045) / 0.008)) / (1 + Math.exp((tau - 0.3 * k) / 0.04));
+  return v;
+}
+function dcEcgVal(t, code, mce){
+  let v = 0;
+  if(code === 'fv'){
+    v = 0.45 * (Math.sin(2 * Math.PI * 4.7 * t) + 0.6 * Math.sin(2 * Math.PI * 3.1 * t + 1) + 0.35 * Math.sin(2 * Math.PI * 6.9 * t + 2)) * (0.55 + 0.45 * Math.sin(2 * Math.PI * 0.23 * t));
+  } else if(code === 'asystolie'){
+    v = 0.03 * Math.sin(2 * Math.PI * 0.4 * t);
+  } else {
+    const rate = dcRate();
+    const k = rate ? Math.min(1, Math.max(0.55, 60 / rate / 0.9)) : 1;   // T rapprochée en tachycardie
+    const bs = DC_MON.next != null ? DC_MON.beats.concat([DC_MON.next]) : DC_MON.beats;
+    for(const b of bs){
+      const tau = t - b;
+      if(tau > -0.3 && tau < 0.7) v += dcBeatEcg(tau, code, k);
+    }
+    if(code === 'fa') v += 0.04 * Math.sin(2 * Math.PI * 6.3 * t) + 0.03 * Math.sin(2 * Math.PI * 8.9 * t + 1);
+  }
+  if(mce) v += 0.7 * dcComp(t) - 0.2;   // artefact de compressions
+  return v;
+}
+// onde de pouls normalisée (0 à 1), retardée de d sur le QRS
+function dcPulse(t, d){
+  const bs = DC_MON.beats;
+  let i = bs.length - 1;
+  while(i >= 0 && bs[i] > t - d) i--;
+  if(i < 0) return 0;
+  const shape = x => x < 0 ? 0 : x < 0.1 ? Math.pow(Math.sin(Math.PI / 2 * x / 0.1), 2)
+    : 0.62 * Math.exp(-(x - 0.1) / 0.25) + 0.38 * Math.exp(-Math.pow((x - 0.1) / 0.08, 2)) + 0.12 * dcG(x - 0.32, 0.04);
+  const x = t - d - bs[i];
+  // l'onde précédente s'efface pendant la montée de la suivante (pas de cassure)
+  return shape(x) + (x < 0.1 && i > 0 ? shape(t - d - bs[i - 1]) * (1 - x / 0.1) : 0);
+}
+function dcCo2(t){
+  const e = dcEtco2();
+  const fr = G.phase === 'acr' ? 10 : Math.min(30, Math.max(10, G.vitals.FR || 14));
+  const P = 60 / fr, ph = (t % P) / P;
+  if(ph < 0.55) return e * (1 - Math.exp(-ph / 0.04)) * (0.93 + 0.07 * ph / 0.55);
+  return e * Math.exp(-(ph - 0.55) / 0.02);
+}
+function dcWave(lane, t, code, mce){
+  const pulse = G.phase !== 'acr';
+  if(lane === 'ecg') return dcEcgVal(t, code, mce);
+  if(lane === 'pleth'){
+    if(!pulse) return mce ? 0.12 + 0.22 * dcComp(t - 0.2) : 0.08;
+    const A = Math.min(1, Math.max(0.06, (G.vitals.PAS - 35) / 70));
+    return 0.06 + A * dcPulse(t, 0.22);
+  }
+  if(lane === 'pa'){
+    if(!pulse) return mce ? 18 + 42 * dcComp(t - 0.12) : 8;
+    const v = G.vitals;
+    return v.PAD + (v.PAS - v.PAD) * dcPulse(t, 0.16);
+  }
+  return dcCo2(t);
+}
+
+// --- sons (Web Audio : créé au toucher du haut-parleur, coupé par défaut) ---
+function dcAudioCtx(){
+  if(!DC_AUDIO.ctx){
+    const C = window.AudioContext || window.webkitAudioContext;
+    if(!C) return null;
+    // iPhone : jouer même avec le bouton silencieux (iOS 17+)
+    try { if(navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){}
+    DC_AUDIO.ctx = new C();
+  }
+  if(DC_AUDIO.ctx.state === 'suspended') DC_AUDIO.ctx.resume();
+  return DC_AUDIO.ctx;
+}
+function dcTone(freq, at, dur, vol, type){
+  const ctx = DC_AUDIO.ctx;
+  const o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = type || 'sine';
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0, at);
+  g.gain.linearRampToValueAtTime(vol, at + 0.01);
+  g.gain.setValueAtTime(vol, at + dur - 0.015);
+  g.gain.linearRampToValueAtTime(0, at + dur);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(at); o.stop(at + dur + 0.02);
+}
+function dcSoundOn(){ return DC_PREFS.son && DC_AUDIO.ctx; }
+// bip de pouls : plus grave quand la SpO2 baisse (un demi-ton par point)
+function dcBeep(delay){
+  if(!dcSoundOn()) return;
+  const s = Math.min(100, Math.max(60, G.vitals.SpO2));
+  dcTone(880 * Math.pow(2, (s - 100) / 24), DC_AUDIO.ctx.currentTime + delay, 0.06, 0.12);
+  DC_MONSTAT.beeps++;
+}
+// alarmes selon IEC 60601-1-8 : haute = 10 impulsions (3 + 2, deux fois), moyenne = 3 impulsions
+function dcAlarmBurst(lvl){
+  const t0 = DC_AUDIO.ctx.currentTime + 0.05;
+  const offs = lvl === 2 ? [0, 0.18, 0.36, 0.78, 0.96, 1.9, 2.08, 2.26, 2.68, 2.86] : [0, 0.25, 0.5];
+  offs.forEach(o => dcTone(lvl === 2 ? 660 : 520, t0 + o, lvl === 2 ? 0.12 : 0.18, 0.09, 'triangle'));
+  DC_MONSTAT.bursts[lvl]++;
+}
+function dcAlarmSound(){
+  const al = G.alarm;
+  if(!dcSoundOn() || !al) return;
+  const now = performance.now();
+  if(!al.lvl){ DC_AUDIO.played = 0; return; }
+  if(now < DC_AUDIO.silUntil && al.lvl <= DC_AUDIO.silLvl) return;
+  if(al.lvl > DC_AUDIO.played || now >= DC_AUDIO.nextAt){
+    dcAlarmBurst(al.lvl);
+    DC_AUDIO.played = al.lvl;
+    DC_AUDIO.nextAt = now + (al.lvl === 2 ? 7000 : 12000);
+  }
+}
+
+// --- boucle d'animation : battements, tracé en balayage, alarmes ---
+function dcMonStart(){
+  if(DC_MON.raf || !G || DC_VIEW !== 'game' || G.paused || G.phase === 'over') return;
+  DC_MON.last = 0;
+  DC_MON.raf = requestAnimationFrame(dcMonLoop);
+}
+function dcMonLoop(ts){
+  DC_MON.raf = 0;
+  if(!G || DC_VIEW !== 'game' || G.paused || G.phase === 'over') return;
+  const now = ts / 1000;
+  const dt = DC_MON.last ? Math.min(0.1, Math.max(0, now - DC_MON.last)) : 0;
+  DC_MON.last = now;
+  const t1 = DC_MON.tw += dt;
+  const pulse = G.phase !== 'acr';
+  if(DC_MON.next == null){ const r = dcRate(); if(r) DC_MON.next = t1 + 30 / r; }
+  while(DC_MON.next != null && DC_MON.next <= t1){
+    DC_MON.beats.push(DC_MON.next);
+    DC_MONSTAT.beats++;
+    if(pulse) dcBeep(0.2);
+    const r = dcRate();
+    // FA : RR irréguliers
+    DC_MON.next = r ? DC_MON.next + 60 / r * (dcEcgCode() === 'fa' ? 0.65 + 0.7 * Math.random() : 1) : null;
+  }
+  while(DC_MON.beats.length > 2 && DC_MON.beats[1] < t1 - 3) DC_MON.beats.shift();
+  dcMonDraw(t1);
+  dcAlarmSound();
+  DC_MON.raf = requestAnimationFrame(dcMonLoop);
+}
+function dcMonDraw(t1){
+  const c = DC_MON.canvas, ctx = DC_MON.ctx;
+  const cw = c.clientWidth, ch = c.clientHeight;
+  if(!c.isConnected || !cw || !ch){ DC_MON.tx = t1; return; }
+  const lanes = dcLanes();
+  const key = `${lanes.join()}|${cw}x${ch}`;
+  if(key !== DC_MON.key){
+    const dpr = window.devicePixelRatio || 1;
+    DC_MON.key = key;
+    c.width = Math.round(cw * dpr); c.height = Math.round(ch * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.lineWidth = 1.7; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    DC_MON.x = 0; DC_MON.prev = {}; DC_MON.tx = t1;
+    return;
+  }
+  const step = DC_SWEEP_S / cw, laneH = ch / lanes.length, pad = 5;
+  const code = dcEcgCode(), mce = dcHasMce();
+  let n = 0;
+  while(DC_MON.tx + step <= t1){
+    if(++n > 600){ DC_MON.tx = t1; break; }
+    DC_MON.tx += step;
+    if(++DC_MON.x >= cw){ DC_MON.x = 0; DC_MON.prev = {}; }
+    const x = DC_MON.x;
+    ctx.clearRect(x, 0, 14, ch);   // barre d'effacement devant le tracé
+    lanes.forEach((ln, i) => {
+      const L = DC_LANES[ln];
+      const r = (dcWave(ln, DC_MON.tx, code, mce) - L.lo) / (L.hi - L.lo);
+      const y = i * laneH + pad + (laneH - 2 * pad) * (1 - Math.min(1, Math.max(0, r)));
+      const p = DC_MON.prev[ln];
+      if(p != null){
+        ctx.strokeStyle = L.color;
+        ctx.beginPath(); ctx.moveTo(x - 1, p); ctx.lineTo(x, y); ctx.stroke();
+      }
+      DC_MON.prev[ln] = y;
+    });
+  }
+}
+
+// --- affichage chiffré ---
+function dcBoxIds(){ return ['FC', 'SpO2', 'PA'].concat(G.mon.has('CO2') ? ['CO2'] : []); }
+function dcBox(id){
+  const v = G.vitals, acr = G.phase === 'acr', lvl = G.alarm.keys;
+  if(id === 'FC'){
+    const r = dcRate();
+    return { k: 'FC', v: acr ? (r || '---') : Math.round(v.FC), color: DC_LANES.ecg.color, lvl: lvl.FC };
+  }
+  if(id === 'SpO2') return { k: 'SpO2 %', v: acr ? '---' : Math.round(v.SpO2), color: DC_LANES.pleth.color, lvl: lvl.SpO2 };
+  if(id === 'CO2') return { k: 'EtCO2', v: dcEtco2(), color: DC_LANES.co2.color };
+  const pa = dcPaShown();
+  const k = pa.inv ? 'PA' : pa.t == null ? 'PNI' : G.nibpPending != null ? 'PNI ⟳ mesure…'
+    : `PNI · ${G.t - pa.t < 60 ? 'à l’instant' : `il y a ${Math.floor((G.t - pa.t) / 60)}′`}`;
+  const val = pa.PAS == null ? '---' : `${pa.PAS}/${pa.PAD}<small> (${Math.round(pa.PAD + (pa.PAS - pa.PAD) / 3)})</small>`;
+  return { k, v: val, color: DC_LANES.pa.color, lvl: lvl.PAS, cls: 'pa' };
+}
+function dcBarControls(){
+  return `<button class="dc-mbtn" data-dc="sil" id="dcSil" hidden aria-label="Silence alarmes 2 min">🔕</button>
+    <button class="dc-mbtn" data-dc="son" id="dcSon" aria-label="Son du scope"></button>
+    <button class="dc-mbtn" data-dc="fold" aria-label="${DC_PREFS.plie ? 'Agrandir' : 'Réduire'} le scope">${DC_PREFS.plie ? '▾' : '▴'}</button>`;
+}
+function dcScopeShell(){
+  const bar = `<div class="dc-bar"><div class="txt" id="dcBarTxt"></div>${dcBarControls()}</div>`;
+  if(DC_PREFS.plie) return `<div class="dc-scope" id="dcScope"><div class="dc-grid" id="dcGrid"></div>${bar}</div>`;
+  const pa = !G.mon.has('PA');
+  const boxes = dcBoxIds().map(id => id === 'PA' && pa
+    ? `<button class="dc-nb pa" data-dc="pni" id="dcb-${id}" aria-label="Mesurer la PNI"></button>`
+    : `<div class="dc-nb" id="dcb-${id}"></div>`).join('');
+  return `<div class="dc-scope mon" id="dcScope"><div class="dc-mon">
+      <div class="dc-wv" id="dcWv"><div class="dc-over" id="dcOver"></div></div>
+      <div class="dc-nums">${boxes}</div></div>${bar}</div>`;
+}
+function dcGridHtml(){
+  if(G.phase === 'acr') return `<div class="dc-acr">⚠ ARRÊT CARDIAQUE · ${escapeHtml(dcAcrSpec().rythme || '')}</div>`;
   const v = G.vitals;
-  const pam = Math.round(v.PAD + (v.PAS - v.PAD) / 3);
-  const cell = (k, label, val, lvKey, lvVal) => `<div class="dc-vt ${dcLevel(lvKey || k, lvVal != null ? lvVal : v[k])}"><div class="k">${label}</div><div class="v">${val}</div></div>`;
-  return cell('FC', 'FC', Math.round(v.FC))
-    + cell('PA', 'PA (PAM)', `${Math.round(v.PAS)}/${Math.round(v.PAD)}<small> (${pam})</small>`, 'PAM', pam)
-    + cell('SpO2', 'SpO2 %', Math.round(v.SpO2))
-    + cell('FR', 'FR', Math.round(v.FR))
-    + cell('T', 'T °C', v.T != null ? v.T.toFixed(1) : '—')
-    + cell('GCS', 'GCS', Math.round(v.GCS))
-    + `<div class="dc-clock"><span>Patient T+${dcFmtClock(G.t)}</span><b class="${G.chrono <= 0 ? 'late' : ''}">${G.chrono <= 0 ? 'Retard +' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b></div>`;
+  const cell = (label, val, cls) => `<div class="dc-vt ${cls}"><div class="k">${label}</div><div class="v">${val}</div></div>`;
+  const al = l => l === 2 ? 'bad' : l === 1 ? 'warn' : '';
+  const fc = dcBox('FC'), pa = dcBox('PA'), sp = dcBox('SpO2');
+  return cell('FC', fc.v, al(fc.lvl)) + cell(pa.k, pa.v, al(pa.lvl)) + cell('SpO2 %', sp.v, al(sp.lvl))
+    + cell('FR', Math.round(v.FR), dcLevel('FR', v.FR))
+    + cell('T °C', v.T != null ? v.T.toFixed(1) : '—', dcLevel('T', v.T))
+    + (G.mon.has('CO2') ? cell('EtCO2', dcEtco2(), '') : cell('GCS', Math.round(v.GCS), dcLevel('GCS', v.GCS)));
 }
 function dcRenderScope(){
-  const el = document.getElementById('dcScope');
-  if(el && G) el.innerHTML = dcScopeHtml();
+  if(!G || DC_VIEW !== 'game' || !document.getElementById('dcScope')) return;
+  G.alarm = dcAlarm();
+  const al = G.alarm, v = G.vitals, acr = G.phase === 'acr';
+  if(DC_PREFS.plie){
+    document.getElementById('dcGrid').innerHTML = dcGridHtml();
+  } else {
+    const lanes = dcLanes();
+    document.getElementById('dcOver').innerHTML = lanes.map((ln, i) =>
+      `<span class="dc-lb" style="top:${(i * 100 / lanes.length).toFixed(2)}%;color:${DC_LANES[ln].color}">${DC_LANES[ln].label}</span>`).join('')
+      + (al.lvl ? `<span class="dc-almsg l${al.lvl}">${escapeHtml(al.msg)}</span>` : '');
+    dcBoxIds().forEach(id => {
+      const el = document.getElementById('dcb-' + id);
+      if(!el) return;
+      const b = dcBox(id);
+      el.className = `dc-nb ${b.cls || ''} ${b.lvl ? 'l' + b.lvl : ''}`;
+      el.style.color = b.color;
+      el.innerHTML = `<span class="k">${b.k}</span><span class="v">${b.v}</span>`;
+    });
+  }
+  const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${Math.round(v.GCS)}</span>`;
+  const alarm = DC_PREFS.plie && al.lvl && !acr ? `<span class="al${al.lvl}">⚠ ${escapeHtml(al.msg)}</span>` : '';
+  const clock = acr ? `<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
+    : `<span>T+${dcFmtClock(G.t)}</span><b class="${G.chrono <= 0 ? 'late' : ''}">${G.chrono <= 0 ? 'Retard +' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b>`;
+  document.getElementById('dcBarTxt').innerHTML = alarm + vit + clock;
+  const son = document.getElementById('dcSon'), sil = document.getElementById('dcSil');
+  son.textContent = DC_PREFS.son ? '🔊' : '🔇';
+  son.classList.toggle('on', DC_PREFS.son);
+  sil.hidden = !(DC_PREFS.son && (al.lvl || performance.now() < DC_AUDIO.silUntil));
+  sil.classList.toggle('on', performance.now() < DC_AUDIO.silUntil);
 }
 
 function dcTileItems(){
@@ -2062,7 +2421,7 @@ function dcRenderGame(){
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
       <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
   dcRoot.innerHTML = `
-    <div class="dc-scope" id="dcScope">${dcScopeHtml()}</div>
+    ${dcScopeShell()}
     <div class="dc-scroll">
       ${G.phase === 'acr'
         ? `<div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>`
@@ -2076,6 +2435,10 @@ function dcRenderGame(){
     </div>
     ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">Valider l'étape ✓</button></div>` : ''}
     ${sheet}${pause}`;
+  const wv = document.getElementById('dcWv');
+  if(wv) wv.prepend(DC_MON.canvas);   // même canvas d'un rendu à l'autre : le tracé continue
+  dcRenderScope();
+  dcMonStart();
 }
 function dcTilesHtml(){
   const crumb = G.nav.length ? `<div class="dc-crumb"><button data-dc="back">←</button>${escapeHtml(G.nav.join(' › '))}</div>` : '';
@@ -2169,6 +2532,21 @@ dcRoot.addEventListener('click', e => {
   else if(act === 'back'){ G.nav.pop(); dcRender(); }
   else if(act === 'validate') dcValidate();
   else if(act === 'cancel'){ G.confirm = null; dcRender(); }
+  else if(act === 'fold'){ DC_PREFS.plie = !DC_PREFS.plie; dcSavePrefs(); dcRender(); }
+  else if(act === 'son'){
+    DC_PREFS.son = !DC_PREFS.son; dcSavePrefs();
+    if(DC_PREFS.son && dcAudioCtx()){ DC_AUDIO.played = 0; dcBeep(0); }
+    dcRenderScope();
+  }
+  else if(act === 'sil'){
+    const on = performance.now() < DC_AUDIO.silUntil;
+    DC_AUDIO.silUntil = on ? 0 : performance.now() + DC_SILENCE_MS;
+    DC_AUDIO.silLvl = G.alarm.lvl || 2;
+    dcRenderScope();
+  }
+  else if(act === 'pni'){
+    if(G.phase === 'step' && G.nibpPending == null){ G.nibpPending = G.t + DC_NIBP_DELAY; dcRenderScope(); }
+  }
   else if(act === 'confirm'){ const id = G.confirm; G.confirm = null; G.search = ''; dcDoAction(id); }
 });
 dcRoot.addEventListener('input', e => {
@@ -2182,7 +2560,8 @@ dcRoot.addEventListener('toggle', e => {
   if(G && e.target.dataset && e.target.dataset.fold) G.fold[e.target.dataset.fold] = e.target.open;
 }, true);
 document.addEventListener('visibilitychange', () => { if(document.hidden) dcPause(); });
-window.DECHOC = { start: dcStart, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; } };
+window.DECHOC = { start: dcStart, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; },
+  monitor: { stat: DC_MONSTAT, ecg: () => G && dcEcgCode(), lanes: () => G && dcLanes(), alarm: () => G && G.alarm, canvas: DC_MON.canvas } };
 
 // ---------- tabs / panels ----------
 const tabs = document.querySelectorAll('nav button');

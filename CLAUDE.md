@@ -87,8 +87,16 @@ Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `m
 
 - Chrono réel par étape (`chrono`, 90 s par défaut). **1 s réelle = 10 s patient.**
 - Chaque action consomme `duree` minutes patient : l'horloge avance d'autant et la dégradation s'applique d'un coup.
-- `pente` : variation par minute patient, par constante (`FC`, `PAS`, `PAD`, `SpO2`, `FR`, `T`, `GCS`). Une variation de PAS entraîne la PAD de moitié si la PAD n'est pas précisée. Une fois le chrono de l'étape écoulé, les pentes sont doublées.
+- `pente` : variation par minute patient, par constante (`FC`, `PAS`, `PAD`, `SpO2`, `FR`, `T`, `GCS`, `EtCO2`). Une variation de PAS entraîne la PAD de moitié si la PAD n'est pas précisée. Une fois le chrono de l'étape écoulé, les pentes sont doublées.
 - `seuils` du scénario (défaut `{ "PAS": 50, "SpO2": 70 }`) : passer sous un seuil déclenche un ACR.
+
+### Scope
+
+- Courbes en balayage : ECG et pléthysmographie toujours ; PA invasive après une action `"moniteur": ["PA"]` (sinon PNI toutes les 3 min patient, ou à la demande en touchant la case PA) ; capnographie après une action `"moniteur": ["CO2"]` (intubation). `"moniteur": ["MCE"]` (massage) ajoute l'artefact de compressions et la capno de RCP. Ces valeurs se mettent dans le catalogue.
+- `ecg` : rythme affiché, parmi `sinus`, `fa`, `qrs_larges`, `st_plus`, `tv`, `fv`, `asystolie`, `aesp`. Sur le scénario (défaut `sinus`), sur une étape (à l'entrée), sur une action d'étape (ex. le calcium affine les QRS) ou sur `acr` (sinon déduit du texte de `rythme` : FV, TV, asystolie, sinon AESP). Tachycardie et bradycardie découlent de la FC.
+- `EtCO2` : constante optionnelle (38 par défaut), abaissée par le bas débit.
+- `alarmes` du scénario, optionnel : surcharge des seuils `[priorité moyenne, haute]`, défaut `{ "FC": { "bas": [50, 40], "haut": [120, 150] }, "PAS": { "bas": [90, 70] }, "SpO2": { "bas": [90, 85] } }`. L'alarme PA porte sur la valeur affichée (PNI ou invasive).
+- Sons (coupés par défaut) : bip de pouls plus grave quand la SpO2 baisse, alarmes moyenne et haute façon IEC 60601-1-8, silence 2 min.
 
 ### Catalogue : `Dechocage/actions.json`
 
@@ -152,13 +160,15 @@ Tableau d'actions, partagé par tous les scénarios :
 python3 - <<'EOF'
 import json, glob
 NOTES = {"indispensable", "recommande", "debattu", "inutile", "contre_indique"}
-VITALS = {"FC", "PAS", "PAD", "SpO2", "FR", "T", "GCS"}
+VITALS = {"FC", "PAS", "PAD", "SpO2", "FR", "T", "GCS", "EtCO2"}
+ECG = {"sinus", "fa", "qrs_larges", "st_plus", "tv", "fv", "asystolie", "aesp"}
 acts = json.load(open("Dechocage/actions.json", encoding="utf-8"))
 ids = [a["id"] for a in acts]
 assert len(ids) == len(set(ids)), "id d'action en double"
 A = {a["id"]: a for a in acts}
 for a in acts:
     assert a.get("label") and isinstance(a.get("path"), list) and a["path"], f"action {a['id']} : label/path"
+    assert set(a.get("moniteur", [])) <= {"PA", "CO2", "MCE"}, f"action {a['id']} : moniteur inconnu"
 def flat(entries):
     for e in entries:
         yield from (e if isinstance(e, list) else [e])
@@ -168,12 +178,15 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     for k in ("id", "titre", "source", "tags", "patient", "constantes", "etapes"):
         assert k in sc, f"{f} : champ {k} manquant"
     assert set(sc["constantes"]) <= VITALS, f"{f} : constante inconnue"
+    assert sc.get("ecg", "sinus") in ECG, f"{f} : ecg inconnu"
+    assert set(sc.get("alarmes", {})) <= {"FC", "PAS", "SpO2"}, f"{f} : alarme inconnue"
     steps = {e["id"] for e in sc["etapes"]}
     for k in sc.get("resultats", {}):
         assert k in A, f"{f} : résultat pour une action inconnue {k}"
     for st in sc["etapes"]:
         w = f"{f} [{st['id']}]"
         assert st.get("vignette"), f"{w} : vignette manquante"
+        assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG, f"{w} : ecg inconnu"
         for k in list(st.get("pente", {})) + list(st.get("constantes", {})):
             assert k in VITALS, f"{w} : constante inconnue {k}"
         for aid, spec in st.get("actions", {}).items():
@@ -182,6 +195,7 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
             assert spec.get("note") in NOTES, f"{w} : note invalide pour {aid}"
             assert spec.get("why"), f"{w} : justification manquante pour {aid}"
             assert spec.get("letal") in (None, "acr", "deces"), f"{w} : letal invalide pour {aid}"
+            assert spec.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu ({aid})"
             for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
                 assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
         for k in st.get("resultats", {}):
