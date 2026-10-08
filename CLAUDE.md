@@ -6,6 +6,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Recos/` : **le registre de cartes**. L'app liste ce dossier via l'API GitHub, sur la branche `main` par défaut, et charge chaque fichier `.json` à chaque lancement. Une carte poussée sur `main` est donc en ligne tout de suite.
 - `Recos/cartes_complementaires_a_creer.md` : liste des sujets restant à traiter. Cocher (`- [x]`) les sujets couverts par un nouveau lot.
 - `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions et scénarios, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
+- `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR
 
