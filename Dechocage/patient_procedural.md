@@ -110,6 +110,12 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 - **D40** (2026-10-08) : `dans` accepte un id de trame ou « trame/étape », les id d'étape (`e1`, `e2`) se répétant d'une trame à l'autre.
 - **D41** (2026-10-08) : RA serré + propofol : collapsus profond, rattrapable ou ACR selon la PA de départ tirée. Pas d'ACR forcé.
 
+### Implémentation de l'étape 3
+- **D42** (2026-10-08) : résultats variables écrits `{3,8~5,4}` dans le texte du résultat ; la mise en rouge reste explicite (`**…**`) plutôt qu'automatique : l'auteur choisit une plage entièrement anormale ou normale. En mode fixe, valeur médiane (D16).
+- **D43** (2026-10-08) : gravité par défaut : pentes ×0,85 en facile, ×1 en moyen, ×1,2 en difficile ; la trame peut préciser pentes et constantes par niveau (`gravite`).
+- **D44** (2026-10-08) : contextes `dechoc`, `induction`, `perop`, `rea` déclarés par la trame ; filtre en puces sur l'écran de difficulté, avec le nombre de trames.
+- **D45** (2026-10-08) : historique par terrain sur l'accueil Déchoc (moyenne, nombre de parties, survie), les terrains les plus mal gérés en tête. Les patients aléatoires ne comptent plus dans « Patients déjà rencontrés ».
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
   1. ✅ **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
@@ -199,11 +205,11 @@ Sévérité variable et résultats variables (D17), autres complications (D23), 
 Cocher quand c'est fait. Les écarts déjà prévus à l'étape 3 y sont regroupés ; les autres sont ajoutés au plan.
 
 - [x] **3a. Notation** : quand le joueur fait plusieurs actions d'un même groupe d'alternatives, chacune marque ses points (deux inductions « indispensables » dans le STEMI : score > 20). Une seule doit compter. *(hors plan initial)*
-- [ ] **3b. Moteur**
-  - [ ] gravité variable selon la difficulté (D17, D21)
-  - [ ] résultats biologiques variables (D17)
-  - [ ] filtre par contexte au lancement (D5) *(hors plan initial)*
-  - [ ] écran d'historique par terrain (D15)
+- [x] **3b. Moteur**
+  - [x] gravité variable selon la difficulté (D17, D21)
+  - [x] résultats biologiques variables (D17)
+  - [x] filtre par contexte au lancement (D5) *(hors plan initial)*
+  - [x] écran d'historique par terrain (D15)
 - [ ] **3c. Terrains manquants** (D13, D14) : HTA, asthme, SAOS, obésité, allergie au latex, myasthénie, double antiagrégation, estomac plein
 - [ ] **3d. Complications manquantes** (D23) : bronchospasme, inhalation, collapsus d'induction, OAP de surcharge, ischémie myocardique
 - [ ] **3e. Trames** (D18) : hémorragie peropératoire, détresse respiratoire en SSPI

@@ -173,7 +173,10 @@ Tableau d'actions, partagé par tous les scénarios :
 
 Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasard : comorbidités, traitements habituels, allergies, antécédents sans conséquence. Conception et décisions : `Dechocage/patient_procedural.md`.
 
-- Trame : `"terrains": { "exclus": ["estomac_plein"], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] } }`. Fixer `sexe` tant que les vignettes sont genrées. Le scénario reste jouable tel quel en mode fixe.
+- Trame : `"terrains": { "contexte": "induction", "exclus": ["estomac_plein"], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] }, "gravite": { "difficile": { "pente": 1.3, "constantes": { "PAS": -8 } } } }`. Fixer `sexe` tant que les vignettes sont genrées. Le scénario reste jouable tel quel en mode fixe.
+  - `contexte` : `dechoc` (défaut), `induction`, `perop` ou `rea` (réa / SSPI) ; filtre proposé au lancement.
+  - `gravite` : par niveau, multiplicateur des pentes (`pente`) et décalage des constantes de départ (`constantes`). Défaut : pentes ×0,85 en facile, ×1,2 en difficile.
+- Résultats variables : `{3,8~5,4}` dans un texte de résultat est tiré dans la plage, avec les décimales des bornes, une fois par partie ; en mode fixe, valeur médiane. Garder les `**…**` si toute la plage est anormale.
 - Tirage : 0-1 comorbidité (facile), 1-2 (moyen), 2-4 (difficile), effets additifs ; un traitement tiré par comorbidité ; 0 à 2 antécédents « bruit » ; constantes de la trame ± 8 %, puis décalées par le terrain. Fiche complète avant le chrono, bandeau dépliable ensuite.
 - **`Dechocage/terrains.json`** : `{ "terrains": [...], "traitements": [...], "bruit": [...] }`.
 
@@ -201,13 +204,13 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
   - `bruit` : `{ "fiche", "traitement"?, "sexe"? }`, sans effet.
   - `tags` : cartes Recos proposées « Pour réviser » au débriefing (tags communs).
 - **`Dechocage/complications.json`** : tableau d'étapes au format habituel (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
-- Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain à venir) ; elles ne comptent pas dans le record du scénario.
+- Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain sur l'accueil Déchoc, les plus mal gérés d'abord) ; elles ne comptent pas dans le record du scénario.
 
 ### Validation du mode Déchoc (à lancer avant chaque commit touchant `Dechocage/`)
 
 ```bash
 python3 - <<'EOF'
-import json, glob, os
+import json, glob, os, re
 NOTES = {"indispensable", "recommande", "debattu", "inutile", "contre_indique"}
 VITALS = {"FC", "PAS", "PAD", "SpO2", "FR", "T", "GCS", "EtCO2"}
 ECG = {"sinus", "fa", "qrs_larges", "st_plus", "tv", "fv", "asystolie", "aesp"}
@@ -232,6 +235,8 @@ def check_res(w, res):
     for k, t in res.items():
         assert k in A, f"{w} : résultat pour une action inconnue {k}"
         assert t.count("**") % 2 == 0, f"{w} : ** non fermé dans « {t} »"
+        for m in re.findall(r"\{[^}]*\}", t):
+            assert re.fullmatch(r"\{\d+(,\d+)?~\d+(,\d+)?\}", m), f"{w} : plage invalide {m} (format {{3,8~5,4}})"
 def check_step(w, st, steps, compl=False):
     assert st.get("vignette"), f"{w} : vignette manquante"
     assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg_racs", "sinus") in ECG, f"{w} : ecg inconnu"
@@ -329,6 +334,9 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     if "terrains" in sc:
         assert set(sc["terrains"].get("exclus", [])) <= TERR, f"{f} : terrain exclu inconnu"
         assert set(sc["terrains"].get("identite", {})) <= {"sexe", "age", "poids"}, f"{f} : identite : sexe / age / poids"
+        assert sc["terrains"].get("contexte", "dechoc") in {"dechoc", "induction", "perop", "rea"}, f"{f} : contexte inconnu"
+        for niv, g in sc["terrains"].get("gravite", {}).items():
+            assert niv in {"facile", "moyen", "difficile"} and set(g) <= {"pente", "constantes"} and set(g.get("constantes", {})) <= VITALS, f"{f} : gravite invalide"
     check_res(f, sc.get("resultats", {}))
     steps = {e["id"] for e in sc["etapes"]}
     assert not steps & COMPL.keys(), f"{f} : une étape porte l'id d'une complication"
