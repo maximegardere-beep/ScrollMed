@@ -30,7 +30,8 @@
     "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
     "efast": { "type": "efast" },
     "rx_bassin": { "type": "rx_bassin", "disjonction": ["symphyse", "si_d"] },
-    "rp": { "type": "rp" }
+    "rp": { "type": "rp" },
+    "tdm_body": {"type": "tdm", "coupe": "bassin", "fracture": ["sacro_iliaque_d"], "extravasation": true, "cote": "d", "legende": "Coupe pelvienne : fracture-disjonction et saignement actif fessier droit."}
   },
   "etapes": [
     {

@@ -29,7 +29,8 @@
   "schemas": {
     "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
     "echo_renale": { "type": "echo_renale", "dilatation": "d", "calcul": "d" },
-    "rp": { "type": "rp" }
+    "rp": { "type": "rp" },
+    "tdm_ap": {"type": "tdm", "coupe": "abdomen", "hydronephrose": "d", "calcul": "d", "infiltration": "d"}
   },
   "etapes": [
     {

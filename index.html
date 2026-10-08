@@ -3505,12 +3505,141 @@ DC_SCHEMAS.rx_bassin = spec => {
 };
 
 // ===== schéma : tdm (coupes axiales de TDM et d'angioscanner) =====
-
-
-
-
-
-
+// coupe axiale vue d'en bas (convention radiologique) : droite du patient à gauche de l'image.
+// Contraste iodé et os en blanc (--sc-os), anomalie bordée de rouge. Une coupe occupe 320 × 180 ;
+// `coupes: [{ coupe… }, …]` met plusieurs coupes côte à côte (TDM corps entier).
+const DC_TDM_TITRES = { thorax: 'Angioscanner thoracique', abdomen: 'TDM abdominale', bassin: 'TDM pelvienne', cerveau: 'TDM cérébrale' };
+// côté du patient → abscisse de l'image : d à gauche, g à droite (symétrie autour de cx)
+const dcTdmX = (cote, cx, dx) => cote === 'g' ? cx + dx : cx - dx;
+const dcTdmCotes = v => v === true ? ['d'] : [].concat(v || []).filter(c => c === 'd' || c === 'g');
+function dcTdmTxt(x, y, t, opt = {}){
+  return `<text x="${x}" y="${y}" font-size="${opt.fs || 10}" text-anchor="${opt.a || 'middle'}" fill="${opt.c || 'var(--sc-txt)'}"${opt.b ? ' font-weight="700"' : ''}>${escapeHtml(t)}</text>`;
+}
+// étiquettes de pathologie sous le corps, du côté atteint : lignes de 26 caractères au plus, empilées vers le haut
+function dcTdmTags(tags){
+  return ['d', 'g'].map(cote => {
+    const lignes = [];
+    tags.filter(t => t[0] === cote).forEach(([, t]) => {
+      const l = lignes[lignes.length - 1];
+      if(l && (l + ' · ' + t).length <= 26) lignes[lignes.length - 1] = l + ' · ' + t; else lignes.push(t);
+    });
+    return lignes.map((t, i) => dcTdmTxt(cote === 'g' ? 314 : 6, 176 - (lignes.length - 1 - i) * 12, t,
+      { a: cote === 'g' ? 'end' : 'start', c: 'var(--sc-path)', b: 1 })).join('');
+  }).join('');
+}
+// thorax : deux demi-coupes, bifurcation pulmonaire (thrombus) et cavités cardiaques (VD / VG)
+function dcTdmThorax(s){
+  const th = new Set([].concat(s.thrombus || [])), vd = !!s.vd_dilate;
+  const corps = ox => `<ellipse cx="${ox + 80}" cy="98" rx="74" ry="60" fill="var(--sc-tissu-dim)"/>
+    <ellipse cx="${ox + 44}" cy="98" rx="30" ry="46" fill="var(--sc-air)"/><ellipse cx="${ox + 116}" cy="98" rx="30" ry="46" fill="var(--sc-air)"/>
+    <rect x="${ox + 70}" y="140" width="20" height="16" rx="5" fill="var(--sc-os)"/><circle cx="${ox + 98}" cy="136" r="8" fill="var(--sc-os)"/>`;
+  // demi-coupe 1 : tronc de l'AP, artères pulmonaires droite (vers la gauche de l'image) et gauche, aorte ascendante
+  const def = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="7" ry="5" fill="var(--sc-tissu-dim)" stroke="var(--sc-path)" stroke-width="2"/>`;
+  const a = `${corps(0)}
+    <path d="M90 70 Q70 86 44 100" stroke="var(--sc-os)" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <path d="M94 70 Q110 80 116 100" stroke="var(--sc-os)" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <circle cx="92" cy="64" r="12" fill="var(--sc-os)"/><circle cx="64" cy="70" r="10" fill="var(--sc-os)"/>
+    ${th.has('ap_d') ? def(56, 94) : ''}${th.has('ap_g') ? def(112, 91) : ''}
+    ${dcTdmTxt(92, 46, 'AP')}${dcTdmTxt(64, 56, 'Ao')}
+    ${dcTdmTxt(80, 28, 'bifurcation', { c: 'var(--sc-tissu)' })}`;
+  // demi-coupe 2 : VD en avant (haut de l'image), VG en arrière et à gauche du patient
+  const b = vd
+    ? `<ellipse cx="236" cy="84" rx="28" ry="21" fill="var(--sc-os)" stroke="var(--sc-path)" stroke-width="2.5"/>
+       <ellipse cx="264" cy="106" rx="14" ry="12" fill="var(--sc-os)" stroke="var(--sc-tissu)" stroke-width="4"/>`
+    : `<ellipse cx="238" cy="80" rx="17" ry="12" fill="var(--sc-os)"/>
+       <ellipse cx="258" cy="102" rx="22" ry="19" fill="var(--sc-os)" stroke="var(--sc-tissu)" stroke-width="5"/>`;
+  const vdx = vd ? 232 : 238, vgx = vd ? 264 : 258, vgy = vd ? 110 : 106;
+  return `${a}${corps(160)}${b}
+    ${dcTdmTxt(vdx, vd ? 88 : 84, 'VD', { c: 'var(--sc-bg)', b: 1 })}${dcTdmTxt(vgx, vgy, 'VG', { c: 'var(--sc-bg)', b: 1 })}
+    ${dcTdmTxt(240, 28, 'cavités', { c: 'var(--sc-tissu)' })}
+    <line x1="160" y1="30" x2="160" y2="166" stroke="var(--sc-bg)" stroke-width="3"/>
+    ${dcTdmTags([...['d', 'g'].filter(c => th.has('ap_' + c)).map(c => [c, 'thrombus']), ...(vd ? [['g', 'VD > VG']] : [])])}`;
+}
+// abdomen : coupe au niveau des reins (foie, rate, aorte, VCI)
+function dcTdmAbdomen(s){
+  const hn = dcTdmCotes(s.hydronephrose), inf = dcTdmCotes(s.infiltration), calc = dcTdmCotes(s.calcul), tags = [];
+  const rein = cote => {
+    const x = dcTdmX(cote, 160, 50), m = cote === 'g' ? -1 : 1;   // m : sens de la ligne médiane
+    const dil = hn.includes(cote);
+    let o = '';
+    if(inf.includes(cote)){
+      // graisse périrénale infiltrée : fines travées autour du rein (abscisses positives = côté médian)
+      o += [[-30, -16, -20, -6], [-32, 4, -22, 6], [-26, 24, -17, 17], [-8, -36, -5, -27], [6, 36, 4, 27], [16, -26, 11, -19], [18, 18, 13, 13]]
+        .map(([x1, y1, x2, y2]) => `<line x1="${x + m * x1}" y1="${120 + y1}" x2="${x + m * x2}" y2="${120 + y2}" stroke="var(--sc-path)" stroke-width="1.5"/>`).join('');
+    }
+    o += `<ellipse cx="${x}" cy="120" rx="16" ry="23" fill="var(--sc-tissu)" stroke="var(--sc-os)" stroke-width="2.5" transform="rotate(${m * 18} ${x} 120)"/>`;
+    // sinus du rein ouvert vers le hile (côté médian) ; dilaté : bassinet et calices noirs bordés de rouge
+    o += dil
+      ? `<g fill="var(--sc-liquide)" stroke="var(--sc-path)" stroke-width="1.5"><ellipse cx="${x + m * 4}" cy="120" rx="8" ry="11"/><circle cx="${x - m * 5}" cy="106" r="4.5"/><circle cx="${x - m * 7}" cy="120" r="4.5"/><circle cx="${x - m * 5}" cy="134" r="4.5"/></g>`
+      : `<ellipse cx="${x + m * 6}" cy="120" rx="5" ry="7" fill="var(--sc-tissu-dim)"/>`;
+    if(dil) tags.push([cote, 'hydronéphrose']);
+    if(calc.includes(cote)){
+      o += `<circle cx="${x + m * 20}" cy="138" r="4.5" fill="var(--sc-os)" stroke="var(--sc-path)" stroke-width="2"/>`;
+      tags.push([cote, 'calcul']);
+    }
+    if(inf.includes(cote)) tags.push([cote, 'infiltration']);
+    return o;
+  };
+  return `<ellipse cx="160" cy="92" rx="150" ry="66" fill="var(--sc-tissu-dim)"/>
+    <path d="M30 94 Q34 44 96 34 Q150 30 160 50 Q152 80 120 90 Q76 100 30 94Z" fill="var(--sc-tissu)"/>
+    <path d="M292 92 Q296 64 262 52 Q244 64 252 88 Q268 100 292 92Z" fill="var(--sc-tissu)"/>
+    <rect x="146" y="126" width="28" height="22" rx="8" fill="var(--sc-os)"/>
+    <circle cx="172" cy="112" r="8" fill="var(--sc-os)"/><ellipse cx="148" cy="112" rx="8" ry="6" fill="var(--sc-tissu)"/>
+    ${rein('d')}${rein('g')}
+    ${dcTdmTxt(88, 68, 'Foie', { c: 'var(--sc-bg)', b: 1 })}${dcTdmTxt(270, 78, 'Rate', { c: 'var(--sc-bg)', b: 1 })}
+    ${dcTdmTxt(176, 99, 'Ao')}${dcTdmTxt(146, 99, 'VCI')}
+    ${dcTdmTags(tags)}`;
+}
+// bassin : sacrum, ailes iliaques, vessie en avant, fessiers en arrière
+function dcTdmBassin(s){
+  const cote = s.cote === 'g' ? 'g' : 'd', tags = [];
+  const frac = s.fracture === true ? [`sacro_iliaque_${cote}`] : [].concat(s.fracture || []);
+  const aile = c => {
+    const m = c === 'g' ? 1 : -1, si = frac.includes(`sacro_iliaque_${c}`) ? 6 : 0;   // disjonction : l'aile s'écarte du sacrum
+    return `<path d="M${160 + m * (32 + si)} 130 Q${160 + m * (64 + si)} 112 ${160 + m * 104} 64" stroke="var(--sc-os)" stroke-width="9" fill="none" stroke-linecap="round"/>`;
+  };
+  const trait = (x, y) => `<path d="M${x - 8} ${y - 8} l5 5 l-4 3 l7 8" stroke="var(--sc-path)" stroke-width="2.5" fill="none"/>`;
+  let o = `<ellipse cx="160" cy="92" rx="150" ry="66" fill="var(--sc-tissu-dim)"/>
+    <ellipse cx="98" cy="130" rx="44" ry="20" fill="var(--sc-tissu)" opacity=".55"/><ellipse cx="222" cy="130" rx="44" ry="20" fill="var(--sc-tissu)" opacity=".55"/>
+    <path d="M130 120 L190 120 L180 146 L140 146Z" fill="var(--sc-os)"/>
+    ${aile('d')}${aile('g')}
+    <ellipse cx="160" cy="58" rx="26" ry="17" fill="var(--sc-liquide)"/>
+    ${dcTdmTxt(160, 62, 'vessie', { c: 'var(--sc-tissu)' })}${dcTdmTxt(160, 115, 'sacrum')}`;
+  ['d', 'g'].forEach(c => {
+    const m = c === 'g' ? 1 : -1;
+    if(frac.includes(`sacro_iliaque_${c}`)){ o += trait(160 + m * 35, 126); tags.push([c, 'disjonction sacro-iliaque']); }
+    if(frac.includes(`aile_iliaque_${c}`)){ o += trait(160 + m * 86, 88); tags.push([c, 'fracture iliaque']); }
+  });
+  if(frac.includes('sacrum')){ o += trait(162, 134); tags.push([cote, 'fracture du sacrum']); }
+  if(s.hematome){
+    const x = dcTdmX(cote, 160, 46);
+    o += `<ellipse cx="${x}" cy="84" rx="20" ry="14" fill="var(--sc-tissu)" stroke="var(--sc-path)" stroke-width="2" stroke-dasharray="4 3"/>`;
+    tags.push([cote, 'hématome']);
+  }
+  if(s.extravasation){
+    // « blush » : flaque de contraste actif dans la région fessière (artère glutéale)
+    const x = dcTdmX(cote, 160, 72);
+    o += `<path d="M${x - 10} 120 q6 -9 14 -3 q10 -2 8 8 q4 9 -7 10 q-6 7 -13 0 q-9 -4 -2 -15Z" fill="var(--sc-os)" stroke="var(--sc-path)" stroke-width="2.5"/>`;
+    tags.push([cote, 'extravasation (blush)']);
+  }
+  return o + dcTdmTags(tags);
+}
+// cerveau : coupe normale (crâne, faux du cerveau, ventricules latéraux)
+function dcTdmCerveau(){
+  return `<ellipse cx="160" cy="96" rx="64" ry="78" fill="var(--sc-os)"/><ellipse cx="160" cy="96" rx="57" ry="71" fill="var(--sc-tissu)"/>
+    <line x1="160" y1="26" x2="160" y2="166" stroke="var(--sc-tissu-dim)" stroke-width="2"/>
+    <path d="M154 70 Q140 84 146 116 L154 112 Q150 88 156 74Z M166 70 Q180 84 174 116 L166 112 Q170 88 164 74Z" fill="var(--sc-liquide)"/>`;
+}
+function dcTdmCoupe(s){
+  const f = { thorax: dcTdmThorax, abdomen: dcTdmAbdomen, bassin: dcTdmBassin, cerveau: dcTdmCerveau }[s.coupe] || dcTdmThorax;
+  return `${f(s)}${dcTdmTxt(160, 12, DC_TDM_TITRES[s.coupe] || DC_TDM_TITRES.thorax, { c: 'var(--sc-tissu)' })}
+    ${dcTdmTxt(8, 14, 'D', { a: 'start', b: 1 })}${dcTdmTxt(312, 14, 'G', { a: 'end', b: 1 })}`;
+}
+DC_SCHEMAS.tdm = spec => {
+  const coupes = Array.isArray(spec.coupes) && spec.coupes.length ? spec.coupes : [spec];
+  const inner = coupes.map((c, i) => `<g transform="translate(${i * 330} 0)">${dcTdmCoupe(c)}</g>`).join('');
+  return dcSvgFrame(coupes.length * 330 - 10, 180, inner, coupes.map(c => DC_TDM_TITRES[c.coupe] || DC_TDM_TITRES.thorax).join(', '));
+};
 
 // ===== fin des schémas =====
 
