@@ -8,7 +8,7 @@
       "adrénaline",
       "tryptase"
     ],
-    "vignette": "Deux minutes après l'injection : érythème généralisé, œdème des lèvres, sibilants diffus. La pression artérielle s'effondre.",
+    "vignette": "Érythème généralisé, œdème des lèvres, sibilants diffus. La pression artérielle s'effondre.",
     "chrono": 60,
     "constantes": {
       "PAS": 64,
@@ -221,6 +221,314 @@
         "PAS": 90,
         "PAD": 50,
         "SpO2": 88
+      }
+    }
+  },
+  {
+    "id": "bronchospasme",
+    "titre": "Bronchospasme sévère",
+    "source": "GINA 2024 ; ERC 2021",
+    "tags": [
+      "asthme",
+      "bronchospasme"
+    ],
+    "vignette": "Sibilants diffus puis silence auscultatoire, tirage, la SpO2 chute.",
+    "chrono": 60,
+    "constantes": {
+      "SpO2": 85,
+      "FR": 34,
+      "FC": 128
+    },
+    "pente": {
+      "SpO2": -2.5,
+      "PAS": -0.5
+    },
+    "actions": {
+      "arret_ttt": {
+        "note": "indispensable",
+        "refaire": true,
+        "why": "Arrêter le médicament déclenchant."
+      },
+      "o2_masque": {
+        "note": "recommande",
+        "why": "Oxygène pour une SpO2 de 93 à 95 % (GINA 2024).",
+        "effet": {
+          "SpO2": 3
+        }
+      },
+      "salbutamol_neb": {
+        "note": "indispensable",
+        "alt": "b2",
+        "refaire": true,
+        "why": "Bronchodilatateur β2 de courte durée d'action, répété (GINA 2024).",
+        "effet": {
+          "SpO2": 5
+        },
+        "pente": {
+          "SpO2": 0
+        }
+      },
+      "salbutamol_iv": {
+        "note": "debattu",
+        "alt": "b2",
+        "why": "Réservé à l'échec de la voie inhalée.",
+        "effet": {
+          "SpO2": 5
+        },
+        "pente": {
+          "SpO2": 0
+        }
+      },
+      "ipratropium": {
+        "note": "recommande",
+        "why": "Associé au β2 dans les crises graves (GINA 2024).",
+        "effet": {
+          "SpO2": 2
+        }
+      },
+      "cortico_sys": {
+        "note": "recommande",
+        "why": "Corticoïde systémique précoce : effet en quelques heures, réduit les rechutes (GINA 2024)."
+      },
+      "mgso4": {
+        "note": "debattu",
+        "why": "Sulfate de magnésium IV si la réponse aux β2 est insuffisante (GINA 2024)."
+      },
+      "adre_titree": {
+        "note": "debattu",
+        "why": "Bronchospasme menaçant réfractaire aux β2 : adrénaline titrée.",
+        "effet": {
+          "SpO2": 4
+        }
+      },
+      "glucagon": {
+        "note": "debattu",
+        "why": "Bronchospasme induit par un bêtabloquant et résistant aux β2 : le glucagon est une option."
+      }
+    },
+    "letal_si_manque": {
+      "actions": [
+        [
+          "salbutamol_neb",
+          "salbutamol_iv",
+          "adre_titree"
+        ]
+      ],
+      "issue": "acr",
+      "why": "Bronchospasme sans bronchodilatateur : hypoxémie jusqu'à l'arrêt."
+    },
+    "acr": {
+      "rythme": "AESP",
+      "requis": [
+        "mce",
+        "adre_acr",
+        "ventil_acr"
+      ],
+      "why": "Arrêt hypoxique de l'asthme : RCP, ventilation à faible fréquence, rechercher un pneumothorax (ERC 2021)."
+    }
+  },
+  {
+    "id": "oap",
+    "titre": "OAP de surcharge",
+    "source": "ESC 2021 (insuffisance cardiaque aiguë) ; Surviving Sepsis Campaign 2021",
+    "tags": [
+      "OAP",
+      "insuffisance cardiaque",
+      "remplissage"
+    ],
+    "vignette": "Après le dernier bolus : crépitants jusqu'aux sommets, expectoration mousseuse, la SpO2 chute.",
+    "chrono": 60,
+    "constantes": {
+      "SpO2": 84,
+      "FR": 34
+    },
+    "pente": {
+      "SpO2": -2,
+      "PAS": -0.5
+    },
+    "actions": {
+      "vni": {
+        "note": "indispensable",
+        "alt": "oxy",
+        "refaire": true,
+        "why": "OAP hypoxémique : VNI en pression positive (ESC 2021), si la vigilance et l'hémodynamique le permettent.",
+        "effet": {
+          "SpO2": 7
+        },
+        "pente": {
+          "SpO2": 0
+        }
+      },
+      "ohd": {
+        "note": "recommande",
+        "alt": "oxy",
+        "refaire": true,
+        "why": "Oxygénothérapie à haut débit si la VNI est mal tolérée.",
+        "effet": {
+          "SpO2": 5
+        },
+        "pente": {
+          "SpO2": -0.3
+        }
+      },
+      "o2_masque": {
+        "note": "debattu",
+        "alt": "oxy",
+        "why": "Insuffisant seul dans un OAP hypoxémique.",
+        "effet": {
+          "SpO2": 3
+        }
+      },
+      "noradre": {
+        "note": "recommande",
+        "why": "Maintenir la pression par un vasopresseur plutôt que par du remplissage."
+      },
+      "furosemide": {
+        "note": "debattu",
+        "why": "Diurétique de l'anse si la pression le permet ; en état de choc, il aggrave l'hypovolémie relative."
+      },
+      "ett": {
+        "note": "recommande",
+        "why": "Évaluer la fonction VG, les pressions de remplissage et l'absence d'épanchement."
+      },
+      "remp_cristal": {
+        "note": "contre_indique",
+        "why": "Surcharge déjà constituée : arrêter le remplissage.",
+        "effet": {
+          "SpO2": -3
+        }
+      },
+      "remp_nacl": {
+        "note": "contre_indique",
+        "why": "Surcharge déjà constituée : arrêter le remplissage.",
+        "effet": {
+          "SpO2": -3
+        }
+      },
+      "nitres_iv": {
+        "note": "contre_indique",
+        "why": "Dérivés nitrés contre-indiqués quand la PAS est basse (ESC 2021)."
+      }
+    },
+    "letal_si_manque": {
+      "actions": [
+        [
+          "vni",
+          "ohd"
+        ]
+      ],
+      "issue": "acr",
+      "why": "OAP hypoxémique sans pression positive ni oxygénation efficace : arrêt hypoxique."
+    },
+    "acr": {
+      "rythme": "AESP",
+      "requis": [
+        "mce",
+        "adre_acr",
+        "ventil_acr"
+      ],
+      "why": "Arrêt hypoxique : RCP, intubation, ventilation avec PEP (ERC 2021)."
+    }
+  },
+  {
+    "id": "ischemie",
+    "titre": "Ischémie myocardique",
+    "source": "4e définition universelle de l'infarctus, 2018 ; ESC 2023 (SCA)",
+    "tags": [
+      "infarctus",
+      "ischémie"
+    ],
+    "vignette": "Douleur thoracique (ou, sous anesthésie, sous-décalage du ST au scope). L'hypotension a dépassé ce que les coronaires tolèrent.",
+    "chrono": 60,
+    "pente": {
+      "PAS": -1.5,
+      "FC": 1
+    },
+    "resultats": {
+      "ecg": "**Sous-décalage du ST de 2 mm en V4-V6 et en DI-aVL**, sans sus-décalage.",
+      "troponine": "**Troponine élevée** (premier dosage)."
+    },
+    "actions": {
+      "ecg": {
+        "note": "indispensable",
+        "refaire": true,
+        "why": "ECG 12 dérivations : sous-décalage diffus, sans sus-décalage. Ischémie par inadéquation apports-besoins (infarctus de type 2)."
+      },
+      "noradre": {
+        "note": "indispensable",
+        "alt": "pa",
+        "why": "Restaurer la pression de perfusion coronaire : c'est le traitement de l'ischémie de type 2.",
+        "pente": {
+          "PAS": 0.2
+        }
+      },
+      "phenylephrine": {
+        "note": "recommande",
+        "alt": "pa",
+        "why": "Bolus de vasoconstricteur sans tachycardie en attendant le relais.",
+        "effet": {
+          "PAS": 14,
+          "FC": -4
+        }
+      },
+      "ephedrine": {
+        "note": "debattu",
+        "alt": "pa",
+        "why": "Remonte la pression mais accélère le cœur : augmente la consommation d'oxygène.",
+        "effet": {
+          "PAS": 10,
+          "FC": 8
+        }
+      },
+      "troponine": {
+        "note": "recommande",
+        "refaire": true,
+        "why": "Troponine initiale puis cinétique : documente l'infarctus de type 2."
+      },
+      "o2_masque": {
+        "note": "debattu",
+        "why": "Oxygène seulement si SpO2 < 90 % (ESC 2023)."
+      },
+      "aspirine_iv": {
+        "note": "debattu",
+        "why": "Infarctus de type 2 : traiter la cause (hypotension, tachycardie, anémie). Pas d'antithrombotique systématique, surtout en contexte hémorragique ou chirurgical."
+      },
+      "betabloquant_iv": {
+        "note": "contre_indique",
+        "why": "Bêtabloquant en pleine hypotension : aggrave le bas débit."
+      },
+      "nitres_iv": {
+        "note": "contre_indique",
+        "why": "Dérivés nitrés contre-indiqués en hypotension."
+      },
+      "coro": {
+        "note": "debattu",
+        "why": "Coronarographie urgente réservée au sus-décalage du ST ou à l'ischémie qui persiste malgré la correction de la cause."
+      }
+    },
+    "letal_si_manque": {
+      "actions": [
+        [
+          "noradre",
+          "phenylephrine",
+          "ephedrine"
+        ]
+      ],
+      "issue": "acr",
+      "why": "Ischémie myocardique sans restauration de la pression : fibrillation ventriculaire."
+    },
+    "acr": {
+      "rythme": "FV",
+      "ecg": "fv",
+      "requis": [
+        "mce",
+        "choc_ext"
+      ],
+      "why": "FV ischémique : choc électrique sans délai, puis RCP (ERC 2021).",
+      "apres_racs": {
+        "FC": 104,
+        "PAS": 82,
+        "PAD": 46
       }
     }
   }

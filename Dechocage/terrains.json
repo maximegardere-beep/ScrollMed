@@ -43,6 +43,15 @@
       ],
       "tags": [
         "infarctus"
+      ],
+      "seuil": [
+        {
+          "PAS": {
+            "min": 70
+          },
+          "complication": "ischemie",
+          "why": "Coronarien : une hypotension prolongée (PAS < 70 mmHg) abaisse la perfusion coronaire et déclenche une ischémie myocardique. Restaurer vite la pression."
+        }
       ]
     },
     {
@@ -67,7 +76,9 @@
           "plus": {
             "SpO2": -2
           },
-          "why": "FEVG à 30 % : chaque bolus remonte peu la pression et dégrade l'oxygénation (congestion pulmonaire). Petits bolus réévalués, vasopresseur précoce."
+          "why": "FEVG à 30 % : chaque bolus remonte peu la pression et dégrade l'oxygénation. Au 3e bolus, OAP de surcharge. Petits bolus réévalués, vasopresseur précoce.",
+          "complication": "oap",
+          "apres": 3
         },
         {
           "classe": "hypnotique",
@@ -227,6 +238,202 @@
         "rétrécissement aortique",
         "induction"
       ]
+    },
+    {
+      "id": "hta",
+      "label": "HTA",
+      "rubrique": "atcd",
+      "fiche": "HTA ancienne, bien équilibrée.",
+      "constantes": {
+        "PAS": 20,
+        "PAD": 10
+      },
+      "traitements": [
+        [
+          "amlodipine"
+        ],
+        [
+          "ramipril",
+          "amlodipine"
+        ],
+        [
+          "ramipril"
+        ]
+      ],
+      "tags": [
+        "HTA"
+      ]
+    },
+    {
+      "id": "asthme",
+      "label": "Asthme",
+      "rubrique": "atcd",
+      "fiche": "Asthme allergique depuis l'enfance, contrôlé. Une hospitalisation en 2019.",
+      "traitements": [
+        [
+          "budesonide_formoterol"
+        ]
+      ],
+      "ci": [
+        {
+          "id": "betabloquant_iv",
+          "complication": "bronchospasme",
+          "why": "Asthme : un bêtabloquant peut déclencher un bronchospasme grave. Les non cardiosélectifs sont contre-indiqués ; un cardiosélectif exige une indication forte et une surveillance étroite (GINA 2024)."
+        }
+      ],
+      "tags": [
+        "asthme"
+      ]
+    },
+    {
+      "id": "saos",
+      "label": "SAOS appareillé",
+      "rubrique": "atcd",
+      "fiche": "Syndrome d'apnées obstructives du sommeil sévère (IAH 42/h), PPC nocturne.",
+      "module": [
+        {
+          "classe": "morphinique",
+          "plus": {
+            "SpO2": -4
+          },
+          "why": "SAOS : les morphiniques aggravent les apnées et l'hypoventilation. Analgésie multimodale d'épargne morphinique, PPC dès le réveil (ASA 2014)."
+        }
+      ],
+      "promeut": [
+        {
+          "id": "vni",
+          "dans": [
+            "rea"
+          ],
+          "why": "SAOS appareillé : reprendre la PPC habituelle dès la salle de réveil (ASA 2014)."
+        }
+      ],
+      "tags": [
+        "SAOS"
+      ]
+    },
+    {
+      "id": "obesite",
+      "label": "Obésité morbide",
+      "rubrique": "atcd",
+      "fiche": "IMC 44 kg/m².",
+      "identite": {
+        "poids": [
+          110,
+          145
+        ]
+      },
+      "constantes": {
+        "SpO2": -2
+      },
+      "module": [
+        {
+          "classe": "intubation",
+          "plus": {
+            "SpO2": -4
+          },
+          "why": "Obésité : capacité résiduelle fonctionnelle réduite, désaturation rapide pendant l'apnée d'intubation."
+        }
+      ],
+      "promeut": [
+        {
+          "id": "ind_preox_vni",
+          "why": "Obésité : préoxygénation en VNI (ou OHD), en proclive (SFAR 2017)."
+        }
+      ],
+      "tags": [
+        "obésité",
+        "préoxygénation"
+      ]
+    },
+    {
+      "id": "allergie_latex",
+      "label": "Allergie au latex",
+      "rubrique": "allergies",
+      "fiche": "Urticaire géante et œdème des lèvres lors de soins dentaires en 2018. Allergie au latex confirmée par tests.",
+      "promeut": [
+        {
+          "id": "salle_sans_latex",
+          "why": "Allergie au latex : salle, gants et matériel sans latex, préparés avant l'arrivée du patient (SFAR/SFA 2011)."
+        }
+      ],
+      "omission": [
+        {
+          "id": "salle_sans_latex",
+          "dans": [
+            "induction",
+            "perop"
+          ],
+          "complication": "anaphylaxie",
+          "why": "Allergie au latex connue : sans environnement sans latex, l'exposition peropératoire (gants, matériel) déclenche l'anaphylaxie (SFAR/SFA 2011)."
+        }
+      ],
+      "tags": [
+        "anaphylaxie",
+        "allergie",
+        "latex"
+      ]
+    },
+    {
+      "id": "myasthenie",
+      "label": "Myasthénie",
+      "rubrique": "atcd",
+      "fiche": "Myasthénie généralisée (anticorps anti-récepteurs de l'acétylcholine), stable.",
+      "traitements": [
+        [
+          "pyridostigmine"
+        ]
+      ],
+      "promeut": [
+        {
+          "id": "sugammadex",
+          "dans": [
+            "rea"
+          ],
+          "why": "Myasthénie : sensibilité accrue aux curares non dépolarisants. Décurarisation par sugammadex plutôt que par néostigmine, sous monitorage quantitatif."
+        }
+      ],
+      "tags": [
+        "myasthénie",
+        "curares"
+      ]
+    },
+    {
+      "id": "double_antiagregation",
+      "label": "Stent récent sous double antiagrégation",
+      "rubrique": "atcd",
+      "fiche": "Syndrome coronarien aigu il y a 3 mois, stent actif sur la circonflexe.",
+      "traitements": [
+        [
+          "aspirine",
+          "ticagrelor"
+        ]
+      ],
+      "exclut": [
+        "coronarien"
+      ],
+      "seuil": [
+        {
+          "PAS": {
+            "min": 70
+          },
+          "complication": "ischemie",
+          "why": "Stent récent : une hypotension prolongée (PAS < 70 mmHg) déclenche une ischémie myocardique. Restaurer vite la pression."
+        }
+      ],
+      "promeut": [
+        {
+          "id": "cp",
+          "dans": [
+            "perop"
+          ],
+          "why": "Hémorragie grave sous double antiagrégation : transfusion plaquettaire discutée, d'efficacité réduite sous ticagrélor circulant. Ne pas arrêter l'antiagrégation sans avis cardiologique."
+        }
+      ],
+      "tags": [
+        "antiagrégants",
+        "stent"
+      ]
     }
   ],
   "traitements": [
@@ -305,6 +512,35 @@
       "resultats": {
         "tp_tca": "**TP 21 %** · **INR 3,6** (AVK) · **TCA 1,4** · fibrinogène 5,0 g/L."
       }
+    },
+    {
+      "id": "ramipril",
+      "fiche": "Ramipril 5 mg/j (IEC), pris ce matin",
+      "module": [
+        {
+          "classe": "hypnotique",
+          "effet": {
+            "PAS": 1.3
+          },
+          "why": "IEC pris le matin : hypotension d'induction plus fréquente et plus profonde (ESC 2022, chirurgie non cardiaque)."
+        }
+      ]
+    },
+    {
+      "id": "amlodipine",
+      "fiche": "Amlodipine 5 mg/j"
+    },
+    {
+      "id": "budesonide_formoterol",
+      "fiche": "Budésonide + formotérol inhalés"
+    },
+    {
+      "id": "pyridostigmine",
+      "fiche": "Pyridostigmine 60 mg × 4/j"
+    },
+    {
+      "id": "ticagrelor",
+      "fiche": "Ticagrélor 90 mg × 2/j"
     }
   ],
   "bruit": [

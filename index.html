@@ -1885,8 +1885,9 @@ function dcGenPatient(sc, niveau, force){
     if(!force && (exclus.has(t.id) || (t.sexe && t.sexe !== sexe))) continue;
     if(items.some(x => (x.exclut || []).includes(t.id) || (t.exclut || []).includes(x.id))) continue;
     const ti = t.identite || {};
-    if(!fits(age, ti.age) || !fits(poids, ti.poids)) continue;
-    age = narrow(age, ti.age); poids = narrow(poids, ti.poids);
+    if(!fits(age, ti.age)) continue;
+    age = narrow(age, ti.age);
+    if(ti.poids) poids = ti.poids.slice();   // le poids du terrain remplace la fourchette de la trame (obésité)
     items.push(t);
   }
   // un patient sans le terrain « grand âge » n'a pas l'âge de ce terrain
@@ -1951,8 +1952,9 @@ function dcSources(){ return (G && G.terrain) ? G.terrain.sources : []; }
 function dcRuleHits(r, id, stepId){
   const a = dcIndex()[id] || {};
   const sc = G && G.sc ? G.sc.id : '';
-  return (r.id === id || (r.classe && (a.classe || []).includes(r.classe)))
-    && (!r.dans || r.dans.some(d => d === stepId || d === sc || d === `${sc}/${stepId}`));
+  const ctx = G && G.sc ? (G.sc.terrains || {}).contexte || 'dechoc' : '';
+  return (!id || r.id === id || (r.classe && (a.classe || []).includes(r.classe)))
+    && (!r.dans || r.dans.some(d => d === stepId || d === sc || d === ctx || d === `${sc}/${stepId}`));
 }
 function dcRuleFind(kind, id, stepId){
   for(const s of dcSources()) for(const r of s[kind] || []) if(dcRuleHits(r, id, stepId)) return Object.assign({ src: s.label }, r);
@@ -2039,7 +2041,7 @@ function dcStart(scId, mode, opts){
   dcStop();
   if(!DC_MODES[mode]) mode = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
   G = {
-    terrain, fiche: !!terrain, compl: null,
+    terrain, fiche: !!terrain, compl: null, trig: new Set(), events: [],
     sc, mode, pending: 0, step: null, vitals: Object.assign({}, sc.constantes),
     override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
     phase: 'step', doneAll: new Set(), log: [], visited: [],
@@ -2163,6 +2165,7 @@ function dcTick(){
   } else {
     G.chrono -= 1;
     dcAdvance(dcMode().ratio);
+    if(dcTerrainSeuil()){ dcRender(); return; }
   }
   if(G.phase === 'over') return;
   if(G.phase !== phase) dcRender(); else dcRenderScope();
@@ -2302,6 +2305,7 @@ function dcDoAction(id, confirmed){
   dcTitrate();
   dcSample();
   dcCheckThresholds();
+  if(G.phase === 'step') dcTerrainCumul(id) || dcTerrainSeuil();
   dcRender();
 }
 
@@ -2328,6 +2332,60 @@ function dcRacs(){
   dcSample();
   showToast('RACS : reprise d’activité circulatoire');
 }
+// déclencheurs de complication propres au terrain, une fois chacun par partie :
+// "omission" (geste oublié à la validation), "seuil" (constante hors limites), "apres" (N-ième action d'une classe)
+function dcTrigger(rule, ev){
+  const key = `${ev.kind}:${rule.complication}:${rule.src}`;
+  if(!G.terrain || G.trig.has(key) || G.phase !== 'step' || G.step._compl) return false;
+  const cp = (DC_CONTENT.complications || []).find(c => c.id === rule.complication);
+  if(!cp) return false;
+  G.trig.add(key);
+  G.events.push(Object.assign({ t: G.t, step: G.step.id, why: rule.why, terrain: rule.src, compl: cp.id }, ev));
+  dcEnterCompl(cp, ev.cause);
+  return true;
+}
+function dcRulesOf(kind){
+  const out = [];
+  dcSources().forEach(s => (s[kind] || []).forEach(r => out.push(Object.assign({ src: s.label }, r))));
+  return out;
+}
+// seuil : { "PAS": { "min": 70 }, "FC": { "max": 140 }, "complication": "ischemie", "why": "…" }
+function dcTerrainSeuil(){
+  if(!G.terrain || G.phase !== 'step' || G.step._compl) return false;
+  for(const r of dcRulesOf('seuil')){
+    if(!dcRuleHits(r, null, G.step.id)) continue;
+    for(const [k, lim] of Object.entries(r)){
+      if(!(k in DC_LIMITS) || G.vitals[k] == null) continue;
+      // seulement si la limite est franchie en cours de partie : un patient qui arrive déjà au-delà relève de la trame
+      const v0 = G.sc.constantes[k];
+      if(v0 != null && ((lim.min != null && v0 < lim.min) || (lim.max != null && v0 > lim.max))) continue;
+      const v = Math.round(G.vitals[k]);
+      const hit = (lim.min != null && v < lim.min) ? `${k} ${v} (< ${lim.min})` : (lim.max != null && v > lim.max) ? `${k} ${v} (> ${lim.max})` : null;
+      if(hit && dcTrigger(r, { kind: 'seuil', label: hit, cause: hit })) return true;
+    }
+  }
+  return false;
+}
+// cumul : règle "module" avec "complication" et "apres" (ex. 3e remplissage chez l'insuffisant cardiaque)
+function dcTerrainCumul(id){
+  for(const r of dcRulesOf('module')){
+    if(!r.complication || !r.apres || !dcRuleHits(r, id, G.step.id)) continue;
+    const n = G.log.filter(l => !l.ci && dcRuleHits(Object.assign({}, r, { dans: null }), l.id, l.step)).length;
+    if(n >= r.apres && dcTrigger(r, { kind: 'cumul', id, label: `${dcLabel(id)} (${n}e)`, cause: `${dcLabel(id)}, ${n}e fois` })) return true;
+  }
+  return false;
+}
+// omission : { "id": "salle_sans_latex", "dans": ["induction"], "complication": "anaphylaxie", "why": "…" }
+function dcTerrainOmission(){
+  for(const r of dcRulesOf('omission')){
+    if(!dcRuleHits(r, null, G.step.id)) continue;
+    const ids = r.id ? [r.id] : r.ids || [];
+    if(dcDoneEntry(ids)) continue;
+    if(dcTrigger(r, { kind: 'omission', id: ids[0], cause: `Oubli : ${dcLabel(ids[0])}` })) return true;
+  }
+  return false;
+}
+
 // complication injectée : étape de Dechocage/complications.json insérée dans la partie ;
 // l'étape interrompue reste ouverte et reprend à la validation de la complication
 function dcEnterCompl(cp, cause){
@@ -2380,6 +2438,8 @@ function dcValidate(confirmed){
     dcRender();
     return;
   }
+  // terrain : omission d'un geste ou constante hors limites → la complication passe avant la suite
+  if(!st._compl && (dcTerrainOmission() || dcTerrainSeuil())){ dcRender(); return; }
   if(st._compl){
     dcLeaveCompl();
     showToast(`Retour : ${G.step.titre || 'étape en cours'}`);
@@ -2492,6 +2552,9 @@ function dcScore(){
       if(ok) pts += DC_DX_POINTS;
       dx = { given: v.dx, expected: st.diagnostic[0], ok };
     }
+    // conséquences du terrain déclenchées pendant cette étape (omission, seuil, cumul)
+    G.events.filter(e => e.step === v.id && !st._compl).forEach(e => items.push({ id: e.id, label: e.label, kind: e.kind === 'omission' ? 'oubli' : 'evenement',
+      why: e.why, terrain: e.terrain, compl: e.compl, pts: 0 }));
     return { id: v.id, titre: st.titre || v.id, items, dx, index: i };
   });
   pts -= G.racs * DC_RACS_PENALTY;
@@ -3139,18 +3202,18 @@ function dcRenderDebrief(){
   if(pumps) out.s += ' ' + pumps;
   const itemHtml = it => {
     const ui = it.kind === 'oubli' ? { ic: '⚠️', lb: 'Oublié' } : it.kind === 'nonfait' ? { ic: '○', lb: 'Non fait' }
-      : it.kind === 'evite' ? { ic: '🛡️', lb: 'Piège évité' } : DC_NOTE_UI[it.kind];
+      : it.kind === 'evite' ? { ic: '🛡️', lb: 'Piège évité' } : it.kind === 'evenement' ? { ic: '⚡', lb: 'Conséquence' } : DC_NOTE_UI[it.kind];
     const pts = it.pts ? `${it.pts > 0 ? '+' : ''}${it.pts}` : '';
     // annotation du terrain : contre-indication ou adaptation, note d'origine barrée
     const terr = it.terrain
-      ? ` · ${it.kind === 'contre_indique' ? 'chez ce patient' : it.adapte ? 'adaptation au terrain' : ''} (${escapeHtml(it.terrain)})${it.orig && it.orig !== it.kind && DC_NOTE_UI[it.orig] ? ` · <s>${DC_NOTE_UI[it.orig].lb}</s>` : ''}`
+      ? ` · ${['contre_indique', 'oubli', 'evenement'].includes(it.kind) ? 'chez ce patient' : it.adapte ? 'adaptation au terrain' : ''} (${escapeHtml(it.terrain)})${it.orig && it.orig !== it.kind && DC_NOTE_UI[it.orig] ? ` · <s>${DC_NOTE_UI[it.orig].lb}</s>` : ''}`
       : '';
     const compl = it.compl ? ` · → ${escapeHtml((d.sc.etapes.find(e => e.id === it.compl) || {}).titre || it.compl)}` : '';
     const mods = (it.mods || []).map(m => `<div class="w">🧬 ${escapeHtml(m)}</div>`).join('');
-    return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
+    return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(it.label || dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
       <div class="w">${ui.lb}${terr}${compl}${it.anticipe ? ' (anticipé)' : ''}${it.instable ? ' · ⚠️ parti instable' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div>${mods}</div><span class="pts">${pts}</span></div>`;
   };
-  const order = { contre_indique: 0, oubli: 1, indispensable: 2, recommande: 3, evite: 4, debattu: 5, inutile: 6, nonfait: 7 };
+  const order = { contre_indique: 0, evenement: 1, oubli: 1, indispensable: 2, recommande: 3, evite: 4, debattu: 5, inutile: 6, nonfait: 7 };
   const steps = d.steps.map(s => {
     const acr = d.acrEpisodes.filter(e => e.step === s.id);
     const acrHtml = acr.map(e => {

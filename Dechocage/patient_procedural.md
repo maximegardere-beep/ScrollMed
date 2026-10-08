@@ -116,6 +116,15 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 - **D44** (2026-10-08) : contextes `dechoc`, `induction`, `perop`, `rea` déclarés par la trame ; filtre en puces sur l'écran de difficulté, avec le nombre de trames.
 - **D45** (2026-10-08) : historique par terrain sur l'accueil Déchoc (moyenne, nombre de parties, survie), les terrains les plus mal gérés en tête. Les patients aléatoires ne comptent plus dans « Patients déjà rencontrés ».
 
+- **D46** (2026-10-08) : trois déclencheurs de complication en plus de la contre-indication, une fois chacun par partie :
+  - `omission` : geste non fait à la validation d'une étape d'un contexte donné (salle sans latex en induction ou en peropératoire → anaphylaxie) ;
+  - `seuil` : constante qui franchit une limite en cours de partie (PAS < 70 chez le coronarien ou le stenté → ischémie) ;
+  - `apres` sur une modulation : N-ième action d'une classe (3e remplissage chez l'insuffisant cardiaque → OAP).
+  Pas de pénalité de points : la complication est la sanction, signalée au débriefing.
+- **D47** (2026-10-08) : terrain **estomac plein reporté** : toutes les trames actuelles le supposent déjà (déchoc, ISR) ou l'excluent (SSPI). Il prendra sens avec une trame de chirurgie programmée.
+- **D48** (2026-10-08) : pas de complication séparée pour l'**inhalation** (déjà une branche de la trame ISR : induction trop tardive) ni pour le **collapsus d'induction** (produit par la modulation des hypnotiques : RA serré, grand âge, FEVG altérée, IEC). La myasthénie et le SAOS prennent leur sens dans la trame SSPI (sugammadex et PPC promus).
+- **D49** (2026-10-08) : `identite.poids` d'un terrain remplace la fourchette de poids de la trame (obésité : 110 à 145 kg). `dans` accepte aussi un contexte (`induction`, `perop`, `rea`, `dechoc`).
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
   1. ✅ **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
@@ -210,8 +219,8 @@ Cocher quand c'est fait. Les écarts déjà prévus à l'étape 3 y sont regroup
   - [x] résultats biologiques variables (D17)
   - [x] filtre par contexte au lancement (D5) *(hors plan initial)*
   - [x] écran d'historique par terrain (D15)
-- [ ] **3c. Terrains manquants** (D13, D14) : HTA, asthme, SAOS, obésité, allergie au latex, myasthénie, double antiagrégation, estomac plein
-- [ ] **3d. Complications manquantes** (D23) : bronchospasme, inhalation, collapsus d'induction, OAP de surcharge, ischémie myocardique
+- [x] **3c. Terrains manquants** (D13, D14) : HTA, asthme, SAOS, obésité, allergie au latex, myasthénie, double antiagrégation. Estomac plein reporté (D47).
+- [x] **3d. Complications manquantes** (D23) : bronchospasme, OAP de surcharge, ischémie myocardique. Inhalation et collapsus d'induction traités autrement (D48).
 - [ ] **3e. Trames** (D18) : hémorragie peropératoire, détresse respiratoire en SSPI
 - [ ] **3f. Conversion en trames** (D16) : choc hémorragique, EP grave, hyperkaliémie, STEMI
 - [ ] **Sources à vérifier par l'utilisateur** *(hors plan initial)* : aztréonam + amikacine (SPILF 2018), glucagon chez le bêtabloqué (SFAR/SFA 2011), intubation vigile si intubation et ventilation au masque difficiles (SFAR 2017), étude IRIS (Sellick)

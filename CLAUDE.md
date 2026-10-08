@@ -195,11 +195,14 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
 ```
   - `rubrique` : `allergies`, `atcd` (défaut) ou `vie` (mode de vie).
   - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`, sauf avec `"compte": true` (le geste a bien eu lieu : intubation réussie malgré l'anaphylaxie au curare). Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
-  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée. `dans` : limite la règle à une complication (`anaphylaxie`), à une trame (`isr_occlusion`) ou à une étape d'une trame (`isr_occlusion/e2`) ; aussi possible sur `ci` et `module`.
-  - `module` : multiplie l'`effet` des actions visées (`effet`), ajoute un effet propre (`plus`).
+  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée. `dans` : limite la règle à une complication (`anaphylaxie`), à un contexte (`induction`, `perop`, `rea`, `dechoc`), à une trame (`isr_occlusion`) ou à une étape d'une trame (`isr_occlusion/e2`) ; aussi possible sur `ci` et `module`.
+  - `module` : multiplie l'`effet` des actions visées (`effet`), ajoute un effet propre (`plus`). Avec `complication` et `apres` (nombre) : la complication survient à la N-ième action visée (OAP au 3e remplissage chez l'insuffisant cardiaque).
+  - `seuil` : `[{ "PAS": { "min": 70 }, "complication": "ischemie", "why": "…" }]` : la complication survient quand une constante franchit la limite en cours de partie (pas si le patient arrive déjà au-delà).
+  - `omission` : `[{ "id": "salle_sans_latex", "dans": ["induction", "perop"], "complication": "anaphylaxie", "why": "…" }]` : geste non fait à la validation d'une étape visée → complication, puis retour à l'étape. Pas de pénalité de points : la complication est la sanction.
+  - Chaque déclencheur (seuil, cumul, omission) agit une fois par partie ; il est signalé au débriefing (⚡ ou ⚠️).
   - `constantes` : décalage des constantes de départ et des constantes imposées par une étape. `pente` : s'ajoute à celle de l'étape. `bornes` : `[min, max]` (`null` = pas de borne), ex. FC plafonnée sous bêtabloquant.
   - `resultats` : l'emportent sur ceux de l'étape et du scénario. `ecg` : rythme de fond (remplace `sinus`).
-  - `identite.age` : tranche d'âge du terrain ; un patient sans ce terrain est tiré hors de la tranche.
+  - `identite.age` : tranche d'âge du terrain ; un patient sans ce terrain est tiré hors de la tranche. `identite.poids` : remplace la fourchette de poids de la trame (obésité).
   - `traitements` : variantes (listes d'id de `traitements`), une tirée. Un traitement a `id`, `fiche` et les mêmes clés d'effet (`ci`, `promeut`, `module`, `constantes`, `bornes`, `resultats`, `tags`) ; partagé entre comorbidités, il n'est appliqué qu'une fois.
   - `bruit` : `{ "fiche", "traitement"?, "sexe"? }`, sans effet.
   - `tags` : cartes Recos proposées « Pour réviser » au débriefing (tags communs).
@@ -288,19 +291,27 @@ if os.path.exists("Dechocage/complications.json"):
 # terrains : comorbidités, traitements, antécédents sans conséquence
 TERR = set()
 SCS = [json.load(open(f, encoding="utf-8")) for f in glob.glob("Dechocage/sc_*.json")]
-DANS = {sc["id"] for sc in SCS} | {f"{sc['id']}/{e['id']}" for sc in SCS for e in sc["etapes"]}
+DANS = {sc["id"] for sc in SCS} | {f"{sc['id']}/{e['id']}" for sc in SCS for e in sc["etapes"]} | {"dechoc", "induction", "perop", "rea"}
 if os.path.exists("Dechocage/terrains.json"):
     T = json.load(open("Dechocage/terrains.json", encoding="utf-8"))
     TR = {x["id"]: x for x in T.get("traitements", [])}
     assert len(TR) == len(T.get("traitements", [])), "terrains.json : id de traitement en double"
     def check_src(w, s):
-        for kind in ("ci", "promeut", "module"):
+        for kind in ("ci", "promeut", "module", "omission", "seuil"):
             for r in s.get(kind, []):
+                if kind == "seuil":
+                    assert r.get("complication") in COMPL and r.get("why") and set(r) - {"complication", "why", "dans"} <= VITALS, f"{w} : seuil invalide"
+                    for k in set(r) & VITALS: assert set(r[k]) <= {"min", "max"}, f"{w} : seuil {k} : min / max"
+                    continue
+                if kind == "omission":
+                    assert r.get("id") in A and r.get("complication") in COMPL and r.get("why") and r.get("dans"), f"{w} : omission : id, dans, complication, why"
+                    continue
                 assert ("id" in r) != ("classe" in r), f"{w} : {kind} vise soit un id, soit une classe"
                 assert r.get("id", "") in A or r.get("classe") in CLASSES, f"{w} : {kind} vise une action ou une classe inconnue ({r.get('id') or r.get('classe')})"
                 assert kind == "module" or r.get("why"), f"{w} : {kind} sans justification"
                 assert set(r.get("dans", [])) <= COMPL.keys() | DANS, f"{w} : {kind}.dans : ni complication, ni trame, ni « trame/étape »"
-                if kind == "ci" and "complication" in r:
+                if kind in ("ci", "module") and "complication" in r:
+                    assert kind == "ci" or isinstance(r.get("apres"), int), f"{w} : module avec complication : apres (nombre) requis"
                     assert r["complication"] in COMPL, f"{w} : complication inconnue {r['complication']}"
                 if kind == "module":
                     assert set(r.get("effet", {})) | set(r.get("plus", {})) <= VITALS, f"{w} : constante inconnue (module)"
