@@ -26,6 +26,9 @@
     "ett": "VG hyperkinétique, petites cavités, VCI collabée.",
     "tdm_body": "Fracture instable du bassin, extravasation de produit de contraste au niveau de l'artère glutéale supérieure droite."
   },
+  "schemas": {
+    "efast": { "type": "efast" }
+  },
   "etapes": [
     {
       "id": "e1",

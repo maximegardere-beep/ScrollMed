@@ -24,6 +24,9 @@
     "rp": "**Opacités alvéolaires bilatérales périhilaires** : œdème pulmonaire.",
     "sonde_u": "**20 mL** d'urines."
   },
+  "schemas": {
+    "echo_pleuro": { "type": "echo_pleuro", "lignes_b": ["d", "g"] }
+  },
   "etapes": [
     {
       "id": "e1",
