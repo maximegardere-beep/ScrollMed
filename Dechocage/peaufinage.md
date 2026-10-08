@@ -27,7 +27,7 @@ Pistes choisies par QCM le 2026-10-08. **Statut : en attente, à lancer plus tar
 ## Ordre de livraison proposé
 
 - [ ] **L1** Interface : toasts, anneau d'appui, récents, synonymes, résumé du débriefing.
-- [ ] **L2** Silhouette du patient et ambiance par contexte.
+- [ ] **L2** Silhouette du patient (livrée) et ambiance par contexte (à faire).
 - [ ] **L3** Résultats différés.
 - [ ] **L4** Équipe qui parle : moteur, puis messages ajoutés aux 8 trames et aux 5 complications.
-- [ ] **L5** Schémas d'examens SVG, branchés sur les scénarios existants.
+- [x] **L5** Schémas d'examens SVG, branchés sur les scénarios existants (avec TDM et angioscanner).

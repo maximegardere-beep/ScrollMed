@@ -2069,7 +2069,7 @@ function dcStart(scId, mode, opts){
     phase: 'step', doneAll: new Set(), log: [], visited: [],
     dx: [], results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
-    fold: { res: false, chips: false, terrain: false, patient: true },  // encarts repliés : les tuiles restent visibles
+    fold: { res: false, chips: false, terrain: false, patient: true },  // encarts repliés (sauf la silhouette) : les tuiles restent visibles
     ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé
     nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
   };
@@ -2293,7 +2293,9 @@ function dcDoAction(id, confirmed){
 
   // résultat d'examen : celui du terrain, sinon de l'étape, sinon du scénario
   const res = dcResult(id);
-  if(res) G.results.unshift({ id, text: dcDraw(res.text), schema: res.schema, t: G.t });
+  // le schéma garde le matériel posé au moment de l'examen (une radio d'avant l'intubation reste sans sonde)
+  const schema = res && res.schema && Object.assign({}, res.schema, { _etat: { sonde: G.mon.has('CO2'), ktc: G.doneAll.has('ktc') } });
+  if(res) G.results.unshift({ id, text: dcDraw(res.text), schema, t: G.t });
 
   // la contre-indication déclenche sa complication (anaphylaxie…), insérée comme une étape
   const cp = ci && ci.complication && G.phase === 'step' && !G.step._compl
@@ -3553,10 +3555,10 @@ DC_SCHEMAS.rp = spec => {
   epa.forEach(s => tags.push(dcRxTag(dcRxX(s, 40), 176, 'Épanch.')));
   coupole.forEach(s => tags.push(dcRxTag(dcRxX(s, 96), dome(s) + 22, 'Coupole ↑')));
   const grad = `<radialGradient id="${id}o"><stop offset="0" stop-color="var(--sc-path)" stop-opacity=".75"/><stop offset="1" stop-color="var(--sc-path)" stop-opacity="0"/></radialGradient>`;
-  // matériel posé dans la partie (seule exception à la fonction pure ; G peut être nul hors partie)
+  // matériel posé au moment de l'examen (_etat, figé par dcDoAction) ; à défaut, celui de la partie en cours
   const g = typeof G !== 'undefined' && G;
-  const sonde = g && g.mon && g.mon.has('CO2');
-  const ktc = g && g.doneAll && g.doneAll.has('ktc');
+  const et = spec._etat || { sonde: !!(g && g.mon && g.mon.has('CO2')), ktc: !!(g && g.doneAll && g.doneAll.has('ktc')) };
+  const sonde = et.sonde, ktc = et.ktc;
   const mat = (sonde ? `<path d="M160 0 L160 58" stroke="var(--sc-os)" stroke-width="3"/><text x="166" y="12">sonde</text>` : '')
     + (ktc ? `<path d="M134 0 C138 18 146 30 148 42 L150 72" fill="none" stroke="var(--sc-os)" stroke-width="1.8"/><text x="${sonde ? 112 : 128}" y="12" text-anchor="end">KTC</text>` : '');
   return dcSvgFrame(DC_RX_W, 200, `<defs>${grad}</defs>

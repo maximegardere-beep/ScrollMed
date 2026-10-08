@@ -159,7 +159,12 @@ Tableau d'actions, partagé par tous les scénarios :
 - `effet` : variation immédiate des constantes. `pente` sur une action : remplace la pente de l'étape pour ces constantes, jusqu'à la fin de la partie.
 - `refaire: true` : l'action doit être refaite dans cette étape (contrôle), un passage antérieur ne compte pas. Sur une action non `repetable` déjà faite, la tuile est verrouillée : le passage antérieur compte. Un geste qu'une étape peut exiger de nouveau (cardioversion, appel à l'aide, arrêt du produit) doit donc être `repetable`.
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).
-- `schemas` : schéma SVG dessiné par le moteur sous un résultat, mêmes clés que `resultats` et **au même niveau** (scénario, étape, terrain, traitement) : `{ "type": "ett", …paramètres }`, `legende` optionnelle. Le schéma suit le texte retenu : si un terrain remplace le texte sans schéma, rien n'est dessiné. Il ne doit rien montrer que le texte ne dise. Types : `ett`, `efast`, `echo_pleuro`, `echo_veineuse`, `echo_renale`, `rp`, `rx_bassin`, `tdm` (paramètres : bibliothèque `DC_SCHEMAS`, `index.html`).
+- `schemas` : schéma SVG dessiné par le moteur sous un résultat, mêmes clés que `resultats` et **au même niveau** (scénario, étape, terrain, traitement) : `{ "type": "ett", …paramètres }`, `legende` optionnelle. Le schéma suit le texte retenu : si un terrain remplace le texte sans schéma, rien n'est dessiné. Il ne doit rien montrer que le texte ne dise. Types : `ett`, `efast`, `echo_pleuro`, `echo_veineuse`, `echo_renale`, `rp`, `rx_bassin`, `tdm` (bibliothèque `DC_SCHEMAS`, `index.html`). Paramètres (absents = normal ; côtés `"d"` / `"g"`, seuls ou en liste) :
+  - `ett` (apicale 4 cavités + VCI sous-costale) : `vg` (`normal`, `hyperkinetique`, `petit`, `dilate`), `akinesie` (`anterieure`), `vd` (`dilate`), `septum` (`paradoxal`), `vci` (`normale`, `collabee`, `dilatee`, `false` = non dessinée), `pericarde` (bool), `ra` (bool : vue 5 cavités, RA calcifié).
+  - `efast` (6 fenêtres) : `epanchement` (`morison`, `splenorenal`, `douglas`, `pericarde`, `plevre_d`, `plevre_g`), `pneumothorax` (côtés). `echo_pleuro` : `lignes_b`, `epanchement`, `glissement_absent` (côtés).
+  - `echo_veineuse` (avec / sans compression) : `thrombose` (bool), `cote`, `niveau` (`femorale`, `poplitee`). `echo_renale` : `dilatation`, `calcul` (côtés), `petits_reins` (bool), `vessie` (`vide`, `normale`, `globe`).
+  - `rp` : `oap` (bool), `foyer` (`lsd`, `lid`, `lsg`, `lig`), `epanchement`, `pneumothorax`, `coupole` (côtés) ; sonde d'intubation et KTC dessinés s'ils étaient posés au moment de l'examen. `rx_bassin` : `disjonction` (`symphyse`, `si_d`, `si_g`).
+  - `tdm` (coupe axiale, droite du patient à gauche) : `coupe` `thorax` (`thrombus` : `ap_d`, `ap_g` ; `vd_dilate`), `abdomen` (`hydronephrose`, `infiltration`, `calcul` : côtés), `bassin` (`fracture` : `true` ou `sacro_iliaque_d/g`, `aile_iliaque_d/g`, `sacrum` ; `extravasation`, `hematome` (bool), `cote`) ou `cerveau` ; `coupes: [{…}, {…}]` pour plusieurs coupes.
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation). Une constante absente du scénario (GCS d'un patient endormi) s'affiche « — ».
 - `moniteur` et `voies` du scénario : monitorage et voies déjà en place au début (patient au bloc : `"moniteur": ["CO2"]`, `"voies": ["IV"]`).
@@ -171,6 +176,10 @@ Tableau d'actions, partagé par tous les scénarios :
 - `suite` : la première règle qui correspond l'emporte. `si_manque` : au moins une entrée non faite. `si_fait` : toutes faites. La dernière règle est sans condition. `"vers": "fin"` termine la partie.
 - Prévoir pour chaque étape critique une branche d'aggravation (`e1_aggrav`) plutôt que des embranchements multiples.
 - Équilibrage : vérifier qu'une prise en charge complète garde le patient au-dessus des seuils, et que l'inaction le fait passer en ACR avant la fin du chrono doublé.
+
+### Silhouette du patient
+
+Encart « 🧍 Patient » au-dessus des résultats, dessiné par le moteur d'après l'état de la partie seulement (rien à écrire dans le contenu) : pâleur (PAS < 90, < 70), cyanose (SpO2 < 90, < 80), marbrures (PAS < 80), fièvre (T ≥ 38,5), sonde et respirateur (action `"moniteur": ["CO2"]`, ou scénario déjà intubé), VVP, IO (`io`), KTC (voie `VVC`), KTA (`"moniteur": ["PA"]`), un pousse-seringue par `titration` en cours, massage animé pendant l'ACR. Repliable, état mémorisé pendant la partie.
 
 ### Patient procédural (bouton « 🎲 Patient aléatoire »)
 
