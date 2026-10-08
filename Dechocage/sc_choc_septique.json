@@ -27,7 +27,8 @@
     "sonde_u": "Urines troubles, 20 mL à la pose."
   },
   "schemas": {
-    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" }
+    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
+    "echo_renale": { "type": "echo_renale", "dilatation": "d", "calcul": "d" }
   },
   "etapes": [
     {

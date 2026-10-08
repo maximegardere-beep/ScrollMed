@@ -24,7 +24,8 @@
     "sonde_u": "50 mL d'urines concentrées."
   },
   "schemas": {
-    "ett": { "type": "ett", "vci": "normale" }
+    "ett": { "type": "ett", "vci": "normale" },
+    "echo_renale": { "type": "echo_renale", "petits_reins": true, "vessie": "vide" }
   },
   "etapes": [
     {
