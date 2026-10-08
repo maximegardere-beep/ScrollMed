@@ -2401,8 +2401,10 @@ function dcScore(){
       if(seen[l.id]){ seen[l.id].n++; return; }
       const spec = dcNoteFor(l.id, v.id);
       const note = spec ? spec.note : 'inutile';
-      // un contrôle exigé par l'étape (refaire) se note à chaque étape, le reste une seule fois
-      const key = spec && spec.refaire && !spec.anticipe ? `${l.id}@${v.id}` : l.id;
+      // un contrôle exigé par l'étape (refaire) se note à chaque étape, le reste une seule fois ;
+      // dans un groupe d'alternatives, seule la première action faite rapporte des points
+      const step = spec && spec.refaire && !spec.anticipe ? `@${v.id}` : '';
+      const key = spec && spec.alt && ['indispensable', 'recommande'].includes(note) ? `alt:${spec.alt}${step}` : `${l.id}${step}`;
       let p = 0;
       if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
       pts += p;
@@ -2433,7 +2435,7 @@ function dcScore(){
         }
         if(!s.alt || !altOpen(s.alt)) return;
       }
-      const key = s.alt ? `alt:${s.alt}` : s.refaire ? `${id}@${v.id}` : id;
+      const key = (s.alt ? `alt:${s.alt}` : id) + (s.refaire ? `@${v.id}` : '');
       // une action attendue dans plusieurs étapes compte pour sa première apparition
       if(!(key in maxByKey)) maxByKey[key] = DC_POINTS[s.note];
       if((counts(id) && doneIn(id)) || (s.alt && altDone(s.alt)) || (seen[id] && allowed(id))) return;

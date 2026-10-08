@@ -154,7 +154,7 @@ Tableau d'actions, partagé par tous les scénarios :
 
 - **Notes** : `indispensable` (+3 si fait, −3 si oublié), `recommande` (+2), `debattu` (0), `inutile` (−1), `contre_indique` (−5). Une action absente de l'étape vaut `inutile`, sauf si une autre étape l'attend (elle est alors comptée comme anticipée). Diagnostic juste à la validation : +2. ACR récupéré : −5. Décès : 0/20.
 - `why` est obligatoire : c'est le texte du débriefing. Il doit être exact et sourcé, comme une carte.
-- `alt` : actions interchangeables (plusieurs antibiotiques acceptables). Une seule suffit pour satisfaire l'indispensable.
+- `alt` : actions interchangeables (plusieurs antibiotiques acceptables). Une seule suffit pour satisfaire l'indispensable, et seule la première faite rapporte des points.
 - `effet` : variation immédiate des constantes. `pente` sur une action : remplace la pente de l'étape pour ces constantes, jusqu'à la fin de la partie.
 - `refaire: true` : l'action doit être refaite dans cette étape (contrôle), un passage antérieur ne compte pas.
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).

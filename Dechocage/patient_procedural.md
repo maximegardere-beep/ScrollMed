@@ -194,6 +194,22 @@ Terrains écrits à l'étape 1 (sous-ensemble de D13-D14, pour tester tous les m
 ### 4. Hors étape 1
 Sévérité variable et résultats variables (D17), autres complications (D23), trames ISR, hémorragie peropératoire, SSPI (D18), actions d'anesthésie, conversion des 4 autres scénarios, écran d'historique par terrain (D15).
 
+## Écarts à corriger (relevés le 2026-10-08)
+
+Cocher quand c'est fait. Les écarts déjà prévus à l'étape 3 y sont regroupés ; les autres sont ajoutés au plan.
+
+- [x] **3a. Notation** : quand le joueur fait plusieurs actions d'un même groupe d'alternatives, chacune marque ses points (deux inductions « indispensables » dans le STEMI : score > 20). Une seule doit compter. *(hors plan initial)*
+- [ ] **3b. Moteur**
+  - [ ] gravité variable selon la difficulté (D17, D21)
+  - [ ] résultats biologiques variables (D17)
+  - [ ] filtre par contexte au lancement (D5) *(hors plan initial)*
+  - [ ] écran d'historique par terrain (D15)
+- [ ] **3c. Terrains manquants** (D13, D14) : HTA, asthme, SAOS, obésité, allergie au latex, myasthénie, double antiagrégation, estomac plein
+- [ ] **3d. Complications manquantes** (D23) : bronchospasme, inhalation, collapsus d'induction, OAP de surcharge, ischémie myocardique
+- [ ] **3e. Trames** (D18) : hémorragie peropératoire, détresse respiratoire en SSPI
+- [ ] **3f. Conversion en trames** (D16) : choc hémorragique, EP grave, hyperkaliémie, STEMI
+- [ ] **Sources à vérifier par l'utilisateur** *(hors plan initial)* : aztréonam + amikacine (SPILF 2018), glucagon chez le bêtabloqué (SFAR/SFA 2011), intubation vigile si intubation et ventilation au masque difficiles (SFAR 2017), étude IRIS (Sellick)
+
 ## Questions ouvertes
 
 _(aucune pour l'instant)_
