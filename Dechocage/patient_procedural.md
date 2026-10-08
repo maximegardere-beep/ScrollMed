@@ -101,6 +101,82 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
   2. **Anesthésie** : nouvelles actions (hypnotiques et curares d'induction, sugammadex, préoxygénation VNI…) et trame **ISR**.
   3. **Suite** : trames hémorragie peropératoire et détresse respiratoire en SSPI, autres complications de D23, conversion des autres scénarios en trames, historique par terrain.
 
+## Plan de l'étape 1 : moteur sur une trame existante
+
+Objectif : jouer `sc_choc_septique.json` en « Patient aléatoire » avec un terrain tiré, dont l'allergie aux bêtalactamines qui déclenche une anaphylaxie si on l'ignore. Tout le reste du mode Déchoc reste identique.
+
+### 1. Données
+
+**`actions.json`** (ne renommer aucun `id`) :
+- clé `classe` (liste) sur les actions concernées par les terrains de la v1 : `betalactamine` (C3G + amikacine, pipéracilline-tazobactam, méropénème), `remplissage`, `hypnotique`, `curare`, `betabloquant`, `vasopresseur`, `anticoagulant`, `antiagregant`, `ains`…
+- nouvelles actions :
+  - `atb_aztreo_amika` « Aztréonam + amikacine » (alternative des PNA graves chez l'allergique ; à vérifier dans SPILF 2018 au moment de la rédaction) ;
+  - `adre_titree` « Adrénaline IV titrée (bolus) », `repetable` (anaphylaxie : bolus selon le grade) ;
+  - `glucagon` « Glucagon IV » (anaphylaxie réfractaire chez le bêtabloqué) ;
+  - `tryptase` « Tryptase sérique », `examen`, dans `Bilan` ;
+  - `arret_produit` « Arrêt du produit suspect ».
+
+**`terrains.json`** (nouveau) : objet `{ "terrains": [...], "bruit": [...] }`.
+```json
+{
+  "id": "allergie_betalactamines",
+  "label": "Allergie aux bêtalactamines",
+  "fiche": "Choc anaphylactique à l'amoxicilline en 2019 (bilan allergologique)",
+  "rubrique": "allergies",
+  "famille": "allergie",
+  "ci": [ { "classe": "betalactamine", "complication": "anaphylaxie", "why": "…" } ],
+  "promeut": [],
+  "module": [],
+  "constantes": {},
+  "pente": {},
+  "identite": {},
+  "traitements": [],
+  "tags": ["anaphylaxie", "allergie"]
+}
+```
+- `ci` : la note devient `contre_indique` (D4), la `complication` est injectée (D19).
+- `promeut` : `{ "classe" | "id", "why" }` ; la note monte à `recommande` sans jamais dépasser (D25), y compris pour une action absente de l'étape.
+- `module` : `{ "classe", "effet": { "PAS": 0.5 }, "plus": { "SpO2": -2 } }` : multiplie l'`effet` des actions de la classe, ajoute un effet propre (D26).
+- `constantes` : décalage des constantes de départ (BPCO : `SpO2 -6`) ; `pente` : pente ajoutée à celle de l'étape (réserve réduite).
+- `identite` : contraintes sur l'identité (sujet âgé : `age: [76, 92]` ; obésité : `imc: [40, 50]`).
+- `traitements` : variantes tirées (D28), chacune avec `fiche` et ses propres `ci` / `promeut` / `module`. Ex. FA : AOD, AVK ou aucun.
+- `bruit` : antécédents sans effet (D22), `{ "fiche", "rubrique" }`.
+
+Terrains écrits à l'étape 1 (sous-ensemble de D13-D14, pour tester tous les mécanismes) : allergie aux bêtalactamines, bêtabloqué (dont coronarien sous bêtabloquant), insuffisance cardiaque à FEVG basse, BPCO, sujet âgé, FA anticoagulée, plus une dizaine d'antécédents « bruit ».
+
+**`complications.json`** (nouveau) : tableau d'étapes au format habituel (`vignette`, `chrono`, `constantes`, `ecg`, `pente`, `actions` avec `note` et `why`, `acr`, `diagnostic`), plus `id` et `titre`. Pas de `suite` : à la validation, retour à l'étape interrompue. Étape 1 : `anaphylaxie` seule (grade III : collapsus, tachycardie, bronchospasme, érythème ; adrénaline titrée, arrêt du produit, remplissage, O2 indispensables ou recommandés ; tryptase recommandée ; glucagon promu par le terrain bêtabloqué ; corticoïdes débattus). Sources : RFE SFAR-SFA sur l'anaphylaxie périopératoire et recommandations EAACI / WAO, années à vérifier à la rédaction.
+
+**Trame `sc_choc_septique.json`** : ajouter
+```json
+"terrains": {
+  "exclus": [],
+  "identite": { "sexe": ["F"], "age": [55, 85], "poids": [50, 95] }
+}
+```
+- `sexe` fixé tant que les vignettes sont genrées (« Adressée par le SAMU ») ; `age` et `poids` tirés, puis contraints par le terrain.
+- Ajouter `atb_aztreo_amika` aux étapes e1 et e1_aggrav (note `recommande` ; le `why` cite le cas de l'allergique) et aux listes `suite.si_manque` d'antibiotiques.
+
+### 2. Moteur (`index.html`)
+
+- **Synchro** (`syncDechocFromGithub`) : charger `terrains.json` et `complications.json` à côté de `actions.json` ; `DC_CONTENT` gagne `terrains`, `bruit`, `complications`. Contenu absent : le bouton « Patient aléatoire » est masqué, rien d'autre ne change.
+- **Tirage** (`dcGenPatient(trame, difficulte)`, nouveau) : nombre de comorbidités selon D7 ; terrains tirés sans remise hors `exclus` et sans conflit d'identité ; un traitement tiré par comorbidité ; 0 à 2 antécédents « bruit » ; identité ; constantes de la trame ± 5-10 % puis décalages du terrain, bornées par `DC_LIMITS`. Résultat `G.terrain = { items, identite, fiche }`.
+- **Lancement** : `dcStart(scId, mode, proc)` ; bouton « 🎲 Patient aléatoire » sur l'accueil, avec choix de la difficulté (facile, moyen, difficile) puis du rythme existant. Tirage parmi les scénarios qui ont une clé `terrains`.
+- **Fiche patient** (D29) : écran avant le chrono (identité, ATCD, traitements, allergies), puis bandeau compact sous le scope, déplié d'un toucher. Le chrono ne part qu'à la fermeture de la fiche.
+- **Notation** (`dcNoteFor`) : surcouche terrain. Une CI force `contre_indique` avec son `why` ; un `promeut` force au moins `recommande`. La spec d'origine est conservée pour le débriefing.
+- **Effets** (`dcDoAction`) : multiplier `spec.effet` selon `module`, ajouter `plus` ; pente de terrain ajoutée dans `dcSlopes()`.
+- **Complication** : une action contre-indiquée entre dans l'étape de `complications.json` (`dcEnterStep` sur une étape clonée, avec mémoire de l'étape interrompue) ; à la validation, retour à l'étape interrompue, chrono relancé. Une action qui a déclenché une complication ne satisfait ni `alt`, ni `suite`, ni `letal_si_manque` (l'antibiotique allergisant ne compte pas comme antibiothérapie).
+- **Débriefing** : annotation sur l'action touchée (« Contre-indiqué chez ce patient : allergie aux bêtalactamines », note d'origine barrée) ; ligne « piège évité » quand une action promue est faite ou qu'une action contre-indiquée est évitée alors qu'elle était attendue par la trame ; liens vers les cartes Recos dont les tags recoupent ceux du terrain (D11).
+- **Historique** : `STATE.dechoc.runs` enregistre `proc: true`, la difficulté et les id de terrains (l'écran d'historique par terrain viendra à l'étape 3).
+
+### 3. Validation et tests
+
+- Étendre le script de validation de `CLAUDE.md` : `classe` sur les actions ; dans `terrains.json`, `ci.complication` existant dans `complications.json`, classes et id référencés existants, constantes connues ; complications au format d'étape ; trame avec `terrains.exclus` connus.
+- Tests Playwright (Chromium préinstallé) : tirage de 200 patients par difficulté sans incohérence (nombre de comorbidités, identité, constantes bornées) ; partie choc septique avec allergie : C3G donnée → anaphylaxie → adrénaline titrée → retour à e1 → aztréonam → fin, débriefing annoté ; même trame sans terrain identique au mode fixe (non-régression) ; inaction pendant l'anaphylaxie → ACR.
+- Mettre à jour `CLAUDE.md` (section Mode Déchoc : terrains, complications, clé `terrains` d'une trame, `classe`) et cocher l'étape 1 ici.
+
+### 4. Hors étape 1
+Sévérité variable et résultats variables (D17), autres complications (D23), trames ISR, hémorragie peropératoire, SSPI (D18), actions d'anesthésie, conversion des 4 autres scénarios, écran d'historique par terrain (D15).
+
 ## Questions ouvertes
 
 _(aucune pour l'instant)_
