@@ -95,6 +95,12 @@
         "ep_haut_risque/ett": "VG dilaté, **FEVG 30 %** (connue). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. Pas d'épanchement péricardique. **VCI 24 mm, non compliante**.",
         "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue)."
       },
+      "schemas": {
+        "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
+        "stemi_choc_cardiogenique/ett": { "type": "ett", "vg": "dilate", "akinesie": "anterieure", "vci": "dilatee" },
+        "ep_haut_risque/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
+        "ep_haut_risque/e2/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." }
+      },
       "tags": [
         "insuffisance cardiaque",
         "remplissage"
@@ -252,6 +258,11 @@
         "ett": "**Rétrécissement aortique serré** : surface 0,7 cm², gradient moyen 50 mmHg. FEVG 60 %.",
         "ep_haut_risque/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. VG petit, FEVG conservée. **VCI 24 mm, non compliante**.",
         "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu."
+      },
+      "schemas": {
+        "ett": { "type": "ett", "ra": true, "vci": false },
+        "ep_haut_risque/ett": { "type": "ett", "ra": true, "vg": "petit", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
+        "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false }
       },
       "tags": [
         "rétrécissement aortique",

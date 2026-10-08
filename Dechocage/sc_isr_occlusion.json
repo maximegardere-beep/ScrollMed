@@ -17,6 +17,9 @@
     "glycemie": "Glycémie 1,18 g/L.",
     "ett": "Pas d'anomalie notable : FEVG 60 %, VCI de 10 mm, collabée à l'inspiration."
   },
+  "schemas": {
+    "ett": { "type": "ett", "vci": "normale" }
+  },
   "etapes": [
     {
       "id": "e1",

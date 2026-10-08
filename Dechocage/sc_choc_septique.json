@@ -26,6 +26,9 @@
     "rp": "Pas de foyer pulmonaire.",
     "sonde_u": "Urines troubles, 20 mL à la pose."
   },
+  "schemas": {
+    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" }
+  },
   "etapes": [
     {
       "id": "e1",

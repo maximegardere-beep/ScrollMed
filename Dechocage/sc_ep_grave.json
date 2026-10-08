@@ -26,6 +26,9 @@
     "rp": "Discrète surélévation de la coupole droite. Pas de pneumothorax, pas de foyer.",
     "glycemie": "Glycémie 1,18 g/L."
   },
+  "schemas": {
+    "ett": { "type": "ett", "vg": "hyperkinetique", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" }
+  },
   "etapes": [
     {
       "id": "e1",
@@ -109,6 +112,9 @@
       "resultats": {
         "ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**.",
         "lactates": "Contrôle : **lactates 2,6 mmol/L**."
+      },
+      "schemas": {
+        "ett": { "type": "ett", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." }
       },
       "actions": {
         "thrombolyse": { "note": "indispensable", "why": "EP à haut risque : la reperfusion est le seul traitement de la cause (ESC 2019, classe I).", "effet": { "PAS": 16, "PAD": 8, "FC": -14, "SpO2": 5, "EtCO2": 6 }, "pente": { "PAS": 0.3, "FC": -0.3, "SpO2": 0.2, "EtCO2": 0.1 } },
