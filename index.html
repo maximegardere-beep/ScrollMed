@@ -696,6 +696,11 @@
   .dc-pause{ position:absolute; inset:0; background: rgba(7,11,16,.92); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; z-index:6; padding:24px; text-align:center; }
   .dc-pause .big{ font-size:40px; }
   .dc-hero{ text-align:center; padding: 18px 8px 6px; }
+  .dc-mode{ display:flex; gap:12px; align-items:flex-start; width:100%; text-align:left; margin:0 0 10px; padding:14px; border-radius:14px; border:1px solid var(--line); background: var(--surface-2); color:inherit; font:inherit; cursor:pointer; }
+  .dc-mode.on{ border-color: var(--trace); }
+  .dc-mode .ic{ font-size:26px; line-height:1; }
+  .dc-mode b{ display:block; font-size:16px; margin-bottom:3px; }
+  .dc-mode .d{ display:block; font-size:13px; color:var(--muted); line-height:1.35; }
   .dc-hero .big{ font-size:44px; }
   .dc-hero h3{ margin:6px 0 4px; font-size:19px; }
   .dc-outcome{ border-radius:14px; padding:14px; margin-bottom:12px; border:1px solid var(--line); background: var(--surface); }
@@ -1590,10 +1595,16 @@ document.getElementById('statsBody').addEventListener('click', e => {
 // synchronisés depuis GitHub comme les cartes. Format décrit dans CLAUDE.md.
 // =========================================================
 const DECHOC_CONTENT_KEY = "scrollmed_dechoc_v1";
-const DC_RATIO = 5;               // 1 s réelle = 5 s patient
-const DC_CHRONO_MULT = 2;         // le chrono d'une étape (scénario) est doublé : le temps patient de l'étape reste le même, la navigation a le temps
+// rythme de jeu, choisi avant chaque station. ratio : s patient par s réelle ; mult : multiplicateur du chrono
+// d'étape (ratio × mult = 10 : le temps patient d'une étape reste le même) ; acr : s réelles pour récupérer un ACR.
+// « fixe » : pas de chrono, le patient n'évolue qu'à la validation de l'étape, selon le temps consommé par les gestes.
+const DC_MODES = {
+  reel:    { ic:'⏱️', lb:'Temps réel', d:'Difficulté élevée. Le chrono tourne et les constantes se dégradent en continu (1 s = 5 s patient).', ratio: 5, mult: 2, acr: 90 },
+  ralenti: { ic:'🐢', lb:'Ralenti', d:'Même évolution, deux fois plus de temps pour réfléchir (1 s = 2,5 s patient).', ratio: 2.5, mult: 4, acr: 135 },
+  fixe:    { ic:'⏸️', lb:'Temps fixé', d:'Pas de chrono. Le patient n’évolue qu’à la validation de chaque étape, selon le temps patient consommé par tes gestes.', ratio: 5, mult: 2, acr: 180, fige: true }
+};
+function dcMode(){ return DC_MODES[(G && G.mode) || DC_PREFS.mode] || DC_MODES.reel; }
 const DC_DEFAULT_CHRONO = 90;     // chrono d'étape si le scénario n'en fixe pas (avant multiplication)
-const DC_ACR_CHRONO = 90;         // s réelles pour récupérer un ACR
 const DC_RCP_ROOT = 'RCP';        // catégorie visible seulement pendant un ACR
 const DC_DEFAULT_SEUILS = { PAS: 50, SpO2: 70 };
 const DC_DEFAULT_ACR = { rythme: 'AESP', requis: ['mce', 'adre_acr'] };
@@ -1713,7 +1724,7 @@ function dcFmtClock(sec){
 }
 
 // ---------- moteur ----------
-function dcStart(scId){
+function dcStart(scId, mode){
   const pool = DC_CONTENT.scenarios;
   if(!pool.length) return;
   let sc = scId && pool.find(s => s.id === scId);
@@ -1723,8 +1734,9 @@ function dcStart(scId){
     sc = choices[Math.floor(Math.random() * choices.length)];
   }
   dcStop();
+  if(!DC_MODES[mode]) mode = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
   G = {
-    sc, step: null, vitals: Object.assign({}, sc.constantes),
+    sc, mode, pending: 0, step: null, vitals: Object.assign({}, sc.constantes),
     override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
     phase: 'step', doneAll: new Set(), log: [], visited: [],
     dx: null, results: [], acr: null, acrEpisodes: [], racs: 0,
@@ -1757,7 +1769,7 @@ function dcEnterStep(id){
   if(st.constantes) Object.assign(G.vitals, st.constantes);
   if(st.ecg) G.ecg = st.ecg;
   if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
-  G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * DC_CHRONO_MULT;
+  G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
   G.nav = []; G.search = '';
 }
@@ -1783,15 +1795,27 @@ function dcSample(){
   G.history.push({ t: G.t, PAS: Math.round(v.PAS), FC: Math.round(v.FC), SpO2: Math.round(v.SpO2) });
 }
 // fait passer du temps patient ; après le chrono de l'étape, la dégradation double
+// en temps fixé, la dégradation est mise de côté et appliquée à la validation de l'étape (dcSettle)
 function dcAdvance(sec){
   if(sec <= 0) return;
   G.t += sec;
-  if(G.phase === 'step'){
+  if(G.phase === 'step' && dcMode().fige) G.pending += sec;
+  else if(G.phase === 'step'){
     const mult = G.chrono <= 0 ? 2 : 1;
     dcApply(dcSlopes(), sec / 60 * mult);
     dcTitrate();
     if((G.nibpPending != null && G.t >= G.nibpPending) || G.t - G.nibp.t >= DC_NIBP_EVERY) dcNibp();
   }
+  dcSample();
+  dcCheckThresholds();
+}
+function dcSettle(){
+  const sec = G.pending;
+  G.pending = 0;
+  if(sec <= 0) return;
+  dcApply(dcSlopes(), sec / 60);
+  dcTitrate();
+  dcNibp();
   dcSample();
   dcCheckThresholds();
 }
@@ -1810,11 +1834,13 @@ function dcTick(){
   const phase = G.phase;
   if(G.phase === 'acr'){
     G.acr.chrono -= 1;
-    G.t += DC_RATIO; dcSample();
+    G.t += dcMode().ratio; dcSample();
     if(G.acr.chrono <= 0){ dcDie(`ACR non récupéré (${G.acr.cause})`); return; }
+  } else if(dcMode().fige){
+    return;   // temps fixé : rien ne bouge entre deux gestes
   } else {
     G.chrono -= 1;
-    dcAdvance(DC_RATIO);
+    dcAdvance(dcMode().ratio);
   }
   if(G.phase === 'over') return;
   if(G.phase !== phase) dcRender(); else dcRenderScope();
@@ -1875,7 +1901,7 @@ function dcDoAction(id){
 function dcEnterAcr(cause){
   if(G.phase !== 'step') return;
   G.phase = 'acr';
-  G.acr = { chrono: DC_ACR_CHRONO, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id };
+  G.acr = { chrono: dcMode().acr, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id };
   G.nav = []; G.search = '';
   dcSample();
   if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
@@ -1887,7 +1913,7 @@ function dcRacs(){
   G.vitals = Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS);
   G.phase = 'step';
   G.acr = null;
-  G.chrono = Math.max(G.chrono, 30 * DC_CHRONO_MULT);
+  G.chrono = Math.max(G.chrono, 30 * dcMode().mult);
   dcNibp();
   dcSample();
   showToast('RACS : reprise d’activité circulatoire');
@@ -1901,6 +1927,8 @@ function dcDie(cause){
 function dcValidate(){
   if(!G || G.phase !== 'step' || G.paused) return;
   const st = G.step;
+  dcSettle();
+  if(G.phase !== 'step'){ dcRender(); return; }   // l'évolution différée a mené à l'ACR
   const visit = G.visited[G.visited.length - 1];
   visit.t1 = G.t; visit.dx = G.dx;
   const lsm = st.letal_si_manque;
@@ -1998,9 +2026,9 @@ function dcFinish(){
   dcStop();
   G.phase = 'over';
   const sc = dcScore();
-  DC_DEBRIEF = Object.assign({ sc: G.sc, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps }, sc);
+  DC_DEBRIEF = Object.assign({ sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps }, sc);
   const d = STATE.dechoc;
-  d.runs.push({ sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome });
+  d.runs.push({ sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome, mode: G.mode });
   if(d.runs.length > 100) d.runs = d.runs.slice(-100);
   d.best[G.sc.id] = Math.max(d.best[G.sc.id] || 0, sc.note);
   d.last = G.sc.id;
@@ -2015,6 +2043,7 @@ function dcFinish(){
 const dcRoot = document.getElementById('dcRoot');
 function dcRender(){
   if(DC_VIEW === 'game' && G) dcRenderGame();
+  else if(DC_VIEW === 'mode' && !G) dcRenderMode();
   else if(DC_VIEW === 'debrief' && DC_DEBRIEF) dcRenderDebrief();
   else { DC_VIEW = 'home'; dcRenderHome(); }
 }
@@ -2033,7 +2062,7 @@ function dcRenderHome(){
     <div class="dc-hero">
       <div class="big">🚑</div>
       <h3>Un patient arrive au déchocage</h3>
-      <div class="hint">Le chrono tourne et les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape. Chaque action consomme du temps patient (1 s = 5 s). Débriefing complet à la fin.</div>
+      <div class="hint">Les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape. Chaque action consomme du temps patient. Rythme au choix avant chaque patient : temps réel, ralenti ou temps fixé. Débriefing complet à la fin.</div>
     </div>
     ${G ? `<button class="btn" data-dc="resume">▶ Reprendre la partie en cours</button>
            <button class="btn secondary" data-dc="abandon">Abandonner la partie</button>`
@@ -2048,6 +2077,19 @@ function dcRenderHome(){
       return `<div class="modrow stat"><div class="mname">${escapeHtml(s.titre)}</div>
         <div class="mcount">Record ${d.best[s.id] || 0}/20 · ${st.n} partie(s) · survie ${Math.round(st.alive / st.n * 100)} %</div></div>`;
     }).join('') : ''}
+  </div>`;
+}
+
+// choix du rythme avant chaque station
+function dcRenderMode(){
+  document.getElementById('dcTitle').textContent = 'Déchoc · Rythme';
+  const cur = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
+  dcRoot.innerHTML = `<div class="dc-scroll">
+    <div class="dc-hero"><div class="big">🚑</div><h3>Choisis ton rythme</h3>
+      <div class="hint">Le même patient, la même notation. Seul le temps change.</div></div>
+    ${Object.entries(DC_MODES).map(([k, m]) => `<button class="dc-mode ${k === cur ? 'on' : ''}" data-dc="go" data-mode="${k}">
+      <span class="ic">${m.ic}</span><span><b>${m.lb}</b><span class="d">${escapeHtml(m.d)}</span></span></button>`).join('')}
+    <button class="btn secondary" data-dc="home">Annuler</button>
   </div>`;
 }
 
@@ -2399,6 +2441,7 @@ function dcRenderScope(){
   const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${Math.round(v.GCS)}</span>`;
   const alarm = DC_PREFS.plie && al.lvl && !acr ? `<span class="al${al.lvl}">⚠ ${escapeHtml(al.msg)}</span>` : '';
   const clock = acr ? `<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
+    : dcMode().fige ? `<span>T+${dcFmtClock(G.t)}</span><b>Temps fixé</b>`
     : `<span>T+${dcFmtClock(G.t)}</span><b class="${G.chrono <= 0 ? 'late' : ''}">${G.chrono <= 0 ? 'Retard +' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b>`;
   const pumps = Object.entries(G.pumps).map(([id, p]) => {
     const t = dcIndex()[id].titration;
@@ -2456,7 +2499,7 @@ function dcRenderGame(){
   const chips = [...new Set(stepActs.map(l => l.id))].map(id => `<span class="dc-chip">${escapeHtml(dcLabel(id))}</span>`).join('');
   const results = G.results.map(r => `<div class="dc-res"><div class="lb">${escapeHtml(dcLabel(r.id))} · T+${dcFmtClock(r.t)}</div>${dcResHtml(r.text)}</div>`).join('');
   const pause = G.paused ? `<div class="dc-pause"><div class="big">⏸</div><b>Partie en pause</b>
-      <div class="hint">Le chrono s'arrête quand tu quittes l'écran.</div>
+      <div class="hint">${dcMode().fige ? 'Temps fixé : le patient attend ta validation.' : 'Le chrono s\'arrête quand tu quittes l\'écran.'}</div>
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
       <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
   dcRoot.innerHTML = `
@@ -2548,7 +2591,7 @@ function dcRenderDebrief(){
   dcRoot.innerHTML = `<div class="dc-scroll">
     <div class="dc-outcome ${out.cls}"><div class="t">${out.ic} ${out.t}</div><div class="s">${escapeHtml(out.s)}</div>
       <div class="s"><b style="color:var(--text)">${escapeHtml(d.sc.titre)}</b> · ${escapeHtml(d.sc.patient || '')}</div>
-      <div class="s">Note : <b style="color:var(--text)">${d.note}/20</b> (${d.pts} pts sur ${d.max} possibles)</div></div>
+      <div class="s">Note : <b style="color:var(--text)">${d.note}/20</b> (${d.pts} pts sur ${d.max} possibles) · ${(DC_MODES[d.mode] || DC_MODES.reel).ic} ${(DC_MODES[d.mode] || DC_MODES.reel).lb}</div></div>
     <div class="dc-chart">${dcChartSvg(d)}</div>
     ${steps}
     <div class="hint">Source : ${escapeHtml(d.sc.source || '—')}</div>
@@ -2570,7 +2613,8 @@ dcRoot.addEventListener('click', e => {
     return;
   }
   const act = b.dataset.dc;
-  if(act === 'start') dcStart();
+  if(act === 'start'){ DC_VIEW = 'mode'; dcRender(); }
+  else if(act === 'go'){ DC_PREFS.mode = b.dataset.mode; dcSavePrefs(); dcStart(null, b.dataset.mode); }
   else if(act === 'resume'){ DC_VIEW = 'game'; dcResume(); }
   else if(act === 'abandon') dcAbandon();
   else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }

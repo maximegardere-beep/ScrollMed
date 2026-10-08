@@ -85,9 +85,13 @@ Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `m
 
 ### Temps et constantes
 
-- Chrono par étape (`chrono`, 90 par défaut), **doublé par le moteur** (`DC_CHRONO_MULT`) : un `chrono` de 90 donne 3 min réelles. **1 s réelle = 5 s patient**, donc une étape dure le même temps patient qu'avant (`chrono` × 10 s), avec plus de temps pour naviguer.
+- **Rythme** choisi par le joueur avant chaque station (`DC_MODES`, `index.html`) ; le scénario n'a rien à prévoir :
+  - `reel` (temps réel, difficulté élevée) : chrono doublé (un `chrono` de 90 donne 3 min réelles), **1 s réelle = 5 s patient** ;
+  - `ralenti` : chrono quadruplé, 1 s réelle = 2,5 s patient ;
+  - `fixe` (temps fixé) : pas de chrono, rien ne bouge entre deux gestes ; la dégradation (`pente`) du temps patient consommé par les actions de l'étape s'applique d'un coup à la validation.
+  Dans tous les cas, une étape représente `chrono` × 10 s patient. Le temps pour récupérer un ACR passe de 90 s réelles (temps réel) à 135 s (ralenti) et 180 s (temps fixé).
 - Chaque action consomme `duree` minutes patient : l'horloge avance d'autant et la dégradation s'applique d'un coup.
-- `pente` : variation par minute patient, par constante (`FC`, `PAS`, `PAD`, `SpO2`, `FR`, `T`, `GCS`, `EtCO2`). Une variation de PAS entraîne la PAD de moitié si la PAD n'est pas précisée. Une fois le chrono de l'étape écoulé, les pentes sont doublées.
+- `pente` : variation par minute patient, par constante (`FC`, `PAS`, `PAD`, `SpO2`, `FR`, `T`, `GCS`, `EtCO2`). Une variation de PAS entraîne la PAD de moitié si la PAD n'est pas précisée. Une fois le chrono de l'étape écoulé, les pentes sont doublées (sauf en temps fixé).
 - `seuils` du scénario (défaut `{ "PAS": 50, "SpO2": 70 }`) : passer sous un seuil déclenche un ACR.
 
 ### Scope
@@ -153,7 +157,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation).
 - `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape.
-- `acr.requis` : actions à faire pendant la RCP (90 s réelles) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
+- `acr.requis` : actions à faire pendant la RCP (90 s réelles en temps réel) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
 - `suite` : la première règle qui correspond l'emporte. `si_manque` : au moins une entrée non faite. `si_fait` : toutes faites. La dernière règle est sans condition. `"vers": "fin"` termine la partie.
 - Prévoir pour chaque étape critique une branche d'aggravation (`e1_aggrav`) plutôt que des embranchements multiples.
 - Équilibrage : vérifier qu'une prise en charge complète garde le patient au-dessus des seuils, et que l'inaction le fait passer en ACR avant la fin du chrono doublé.
