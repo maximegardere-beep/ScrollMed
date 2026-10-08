@@ -1948,6 +1948,8 @@ function dcBound(v, sources){
   return v;
 }
 function dcSources(){ return (G && G.terrain) ? G.terrain.sources : []; }
+// bornes du terrain (FC plafonnée sous bêtabloquant), levées pendant une TV ou une FV
+function dcBoundSources(){ return G && ['tv', 'fv'].includes(G.ecg) ? [] : dcSources(); }
 // une règle de terrain vise une action par son id ou par une de ses classes, éventuellement
 // "dans" certaines étapes : id de complication, id de trame, ou "trame/étape"
 function dcRuleHits(r, id, stepId){
@@ -2080,11 +2082,11 @@ function dcSetEcg(code){ G.ecg = (code === 'sinus' && G.terrain && G.terrain.ecg
 function dcEnterStep(id){
   const st = dcStepById(id);
   G.step = st;
+  if(st.ecg) dcSetEcg(st.ecg);
   if(st.constantes){
     Object.assign(G.vitals, st.constantes);
-    if(G.terrain) dcShiftVitals(G.vitals, st.constantes, dcSources());
+    if(G.terrain) dcShiftVitals(G.vitals, st.constantes, dcBoundSources());
   }
-  if(st.ecg) dcSetEcg(st.ecg);
   if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
   G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
@@ -2113,7 +2115,7 @@ function dcApply(deltas, factor){
     G.vitals[k] = Math.min(hi, Math.max(lo, G.vitals[k]));
   });
   if(G.vitals.PAD > G.vitals.PAS - 10) G.vitals.PAD = Math.max(0, G.vitals.PAS - 10);
-  dcBound(G.vitals, dcSources());
+  dcBound(G.vitals, dcBoundSources());
 }
 function dcSample(){
   const v = G.phase === 'acr' ? { PAS: 0, FC: 0, SpO2: 0 } : G.vitals;
@@ -2323,8 +2325,8 @@ function dcRacs(){
   const spec = dcAcrSpec();
   G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: true });
   G.racs++;
-  G.vitals = dcBound(Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS), dcSources());
   if(spec.ecg_racs) dcSetEcg(spec.ecg_racs);   // rythme après le RACS (ex. sinus après le choc d'une TV)
+  G.vitals = dcBound(Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS), dcBoundSources());
   G.phase = 'step';
   G.acr = null;
   DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0;   // fin du silence : les alarmes reprennent normalement

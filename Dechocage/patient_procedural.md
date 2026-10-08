@@ -128,11 +128,13 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 - **D50** (2026-10-08) : un scénario peut démarrer avec monitorage et voies en place (`moniteur`, `voies`) : patient déjà intubé au bloc. Une constante absente (GCS sous anesthésie générale) s'affiche « — ».
 - **D51** (2026-10-08) : trame SSPI centrée sur la **curarisation résiduelle** (SFAR 2018) ; le laryngospasme et la dépression morphinique pure restent pour une autre trame. Myasthénie : néostigmine contre-indiquée (sous pyridostigmine) ; SAOS : PPC promue en SSPI ; allergie au rocuronium exclue (le rocuronium a été utilisé). L'omission « salle sans latex » ne joue qu'en induction (D46 révisé : en peropératoire, la salle est déjà installée).
 
+- **D52** (2026-10-08) : les 4 scénarios restants deviennent des trames, sexe masculin fixé (vignettes genrées, cancer de la prostate dans l'EP). Exclusions : STEMI sans coronarien connu, stent récent ni RA serré ; EP sans FA anticoagulée ; hyperkaliémie sans HTA (ramipril déjà dans la vignette) ; hémorragie peropératoire sans FA anticoagulée (anticoagulant arrêté avant une chirurgie programmée). Le plafond de FC du bêtabloquant est levé en TV ou en FV. Sous AVK, le CCP + vitamine K est promu dans les trames hémorragiques (HAS 2008).
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
   1. ✅ **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
   2. ✅ **Anesthésie** (livrée le 2026-10-08) : actions d'induction et de voies aériennes difficiles, trame **ISR** (`sc_isr_occlusion.json`), terrains et complication CICO (D36-D41).
-  3. **Suite** : trames hémorragie peropératoire et détresse respiratoire en SSPI, autres complications de D23, conversion des autres scénarios en trames, historique par terrain.
+  3. ✅ **Suite** (livrée le 2026-10-08) : trames hémorragie peropératoire et SSPI, terrains et complications manquants, conversion des scénarios, gravité et résultats variables, filtre par contexte, historique par terrain (D42-D52). Voir « Écarts à corriger ».
 
 ## Plan de l'étape 1 : moteur sur une trame existante
 
@@ -225,7 +227,7 @@ Cocher quand c'est fait. Les écarts déjà prévus à l'étape 3 y sont regroup
 - [x] **3c. Terrains manquants** (D13, D14) : HTA, asthme, SAOS, obésité, allergie au latex, myasthénie, double antiagrégation. Estomac plein reporté (D47).
 - [x] **3d. Complications manquantes** (D23) : bronchospasme, OAP de surcharge, ischémie myocardique. Inhalation et collapsus d'induction traités autrement (D48).
 - [x] **3e. Trames** (D18) : hémorragie peropératoire (`sc_hemorragie_perop.json`), détresse respiratoire en SSPI par curarisation résiduelle (`sc_sspi_curarisation.json`)
-- [ ] **3f. Conversion en trames** (D16) : choc hémorragique, EP grave, hyperkaliémie, STEMI
+- [x] **3f. Conversion en trames** (D16) : choc hémorragique, EP grave, hyperkaliémie, STEMI (8 trames au total)
 - [ ] **Sources à vérifier par l'utilisateur** *(hors plan initial)* : aztréonam + amikacine (SPILF 2018), glucagon chez le bêtabloqué (SFAR/SFA 2011), intubation vigile si intubation et ventilation au masque difficiles (SFAR 2017), étude IRIS (Sellick)
 
 ## Questions ouvertes

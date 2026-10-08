@@ -82,6 +82,7 @@
   { "id": "pfc", "label": "Plasma frais congelé", "path": ["Traitement", "Transfusion"], "duree": 5, "repetable": true, "requiert": "IV" },
   { "id": "cp", "label": "Concentré plaquettaire", "path": ["Traitement", "Transfusion"], "duree": 5, "requiert": "IV" },
   { "id": "fibrinogene", "label": "Concentré de fibrinogène", "path": ["Traitement", "Transfusion"], "duree": 3, "requiert": "IV" },
+  { "id": "ccp", "label": "Concentré de complexes prothrombiniques (CCP) + vitamine K", "path": ["Traitement", "Transfusion"], "duree": 2, "requiert": "IV" },
   { "id": "noradre", "label": "Noradrénaline IVSE", "path": ["Traitement", "Amines"], "duree": 3, "requiert": "IV", "titration": { "nom": "NAD", "unite": "mg/h", "debut": 0.5, "gain": 10, "cible_pam": 65, "max": { "IV": 2, "VVC": 8 } }, "classe": ["vasopresseur"] },
   { "id": "adrenaline_ivse", "label": "Adrénaline IVSE", "path": ["Traitement", "Amines"], "duree": 3, "requiert": "IV", "classe": ["vasopresseur"] },
   { "id": "dobutamine", "label": "Dobutamine IVSE", "path": ["Traitement", "Amines"], "duree": 3, "requiert": "IV" },

@@ -510,7 +510,17 @@
       "fiche": "Warfarine (AVK), INR cible 2 à 3",
       "resultats": {
         "tp_tca": "**TP 21 %** · **INR 3,6** (AVK) · **TCA 1,4** · fibrinogène 5,0 g/L."
-      }
+      },
+      "promeut": [
+        {
+          "id": "ccp",
+          "dans": [
+            "choc_hemorragique_bassin",
+            "hemorragie_perop"
+          ],
+          "why": "Hémorragie grave sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008)."
+        }
+      ]
     },
     {
       "id": "ramipril",

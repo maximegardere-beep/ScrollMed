@@ -201,7 +201,7 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
   - `seuil` : `[{ "PAS": { "min": 70 }, "complication": "ischemie", "why": "…" }]` : la complication survient quand une constante franchit la limite en cours de partie (pas si le patient arrive déjà au-delà).
   - `omission` : `[{ "id": "salle_sans_latex", "dans": ["induction", "perop"], "complication": "anaphylaxie", "why": "…" }]` : geste non fait à la validation d'une étape visée → complication, puis retour à l'étape. Pas de pénalité de points : la complication est la sanction.
   - Chaque déclencheur (seuil, cumul, omission) agit une fois par partie ; il est signalé au débriefing (⚡ ou ⚠️).
-  - `constantes` : décalage des constantes de départ et des constantes imposées par une étape. `pente` : s'ajoute à celle de l'étape. `bornes` : `[min, max]` (`null` = pas de borne), ex. FC plafonnée sous bêtabloquant.
+  - `constantes` : décalage des constantes de départ et des constantes imposées par une étape. `pente` : s'ajoute à celle de l'étape. `bornes` : `[min, max]` (`null` = pas de borne), ex. FC plafonnée sous bêtabloquant ; levées pendant une TV ou une FV.
   - `resultats` : l'emportent sur ceux de l'étape et du scénario. `ecg` : rythme de fond (remplace `sinus`).
   - `identite.age` : tranche d'âge du terrain ; un patient sans ce terrain est tiré hors de la tranche. `identite.poids` : remplace la fourchette de poids de la trame (obésité).
   - `traitements` : variantes (listes d'id de `traitements`), une tirée. Un traitement a `id`, `fiche` et les mêmes clés d'effet (`ci`, `promeut`, `module`, `constantes`, `bornes`, `resultats`, `tags`) ; partagé entre comorbidités, il n'est appliqué qu'une fois.

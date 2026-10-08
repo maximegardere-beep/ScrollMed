@@ -4,6 +4,7 @@
   "source": "ESC 2019, embolie pulmonaire aiguë ; ERC 2021, arrêt cardiaque en circonstances particulières",
   "tags": ["embolie pulmonaire", "choc obstructif", "thrombolyse", "ventricule droit"],
   "patient": "Homme, 64 ans, 92 kg",
+  "terrains": { "contexte": "dechoc", "exclus": ["fa_anticoagulee"], "identite": { "sexe": ["M"], "age": [45, 85], "poids": [60, 110] } },
   "constantes": { "FC": 126, "PAS": 84, "PAD": 54, "SpO2": 85, "FR": 32, "T": 37.1, "GCS": 14, "EtCO2": 28 },
   "seuils": { "PAS": 50, "SpO2": 70 },
   "resultats": {
