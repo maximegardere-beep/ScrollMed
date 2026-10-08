@@ -712,6 +712,12 @@
   .dc-results summary::-webkit-details-marker{ display:none; }
   .dc-res{ padding: 8px 14px; border-top:1px solid var(--line); font-size:13.5px; line-height:1.45; }
   .dc-res .lb{ color: var(--muted); font-size:12px; font-weight:700; }
+  /* illustrations : schémas d'examens (fond d'écran d'écho / de négatoscope) et silhouette du patient */
+  .dc-schema{ margin-top:6px; --sc-bg:#05080b; --sc-tissu:#8a96a0; --sc-tissu-dim:#3b454e; --sc-liquide:#000; --sc-os:#f2f5f7; --sc-air:#1a2129; --sc-txt:#c9d3db; --sc-path: var(--danger); }
+  .dc-schema svg{ display:block; width:100%; height:auto; max-height:180px; border-radius:10px; background: var(--sc-bg); }
+  .dc-schema .lg{ font-size:11.5px; color: var(--muted); margin-top:3px; }
+  .dc-patient{ margin-bottom:10px; }
+  .dc-patient:empty{ display:none; }
   .dc-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
   .dc-chip{ background: var(--surface-2); border:1px solid var(--line); border-radius:100px; padding:5px 10px; font-size:12px; }
   .dc-chip.dx{ border-color: var(--trace-dim); color: var(--trace); }
@@ -1976,15 +1982,19 @@ function dcModEffet(id, stepId, effet){
   });
   return { effet: out, mods };
 }
-// résultat d'examen propre au terrain (ETT de l'insuffisant cardiaque, INR sous AVK…)
-function dcTerrainRes(id){
+// résultat d'examen : celui du terrain (ETT de l'insuffisant cardiaque, INR sous AVK…), sinon de l'étape,
+// sinon du scénario. Le schéma vient du même niveau que le texte : jamais d'image qui contredit le texte.
+function dcResult(id){
   const sc = G.sc.id, keys = [`${sc}/${G.step.id}/${id}`, `${sc}/${id}`, id];
   for(const k of keys){
     let r;
-    dcSources().forEach(s => { if(s.resultats && s.resultats[k] != null) r = s.resultats[k]; });
-    if(r != null) return r;
+    dcSources().forEach(s => { if(s.resultats && s.resultats[k] != null) r = { text: s.resultats[k], schema: (s.schemas || {})[k] }; });
+    if(r) return r;
   }
-  return undefined;
+  for(const lv of [G.step, G.sc]){
+    if((lv.resultats || {})[id] != null) return { text: lv.resultats[id], schema: (lv.schemas || {})[id] };
+  }
+  return dcIndex()[id].examen ? { text: 'Pas d’anomalie notable.' } : null;
 }
 // résultat variable : "{3,8~6,2}" devient une valeur tirée dans la plage, avec autant de décimales
 // que les bornes ; même tirage pour le même texte pendant toute la partie (médiane en mode fixe)
@@ -2054,8 +2064,9 @@ function dcStart(scId, mode, opts){
     phase: 'step', doneAll: new Set(), log: [], visited: [],
     dx: [], results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
-    fold: { res: false, chips: false, terrain: false },  // encarts repliés : les tuiles restent visibles
-    ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
+    fold: { res: false, chips: false, terrain: false, patient: true },  // encarts repliés : les tuiles restent visibles
+    ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé
+    nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
   };
   dcMonReset();
   dcEnterStep(sc.etapes[0].id);
@@ -2276,8 +2287,8 @@ function dcDoAction(id, confirmed){
   if(navigator.vibrate) navigator.vibrate(10);
 
   // résultat d'examen : celui du terrain, sinon de l'étape, sinon du scénario
-  const res = dcTerrainRes(id) ?? (G.step.resultats || {})[id] ?? (G.sc.resultats || {})[id] ?? (a.examen ? 'Pas d’anomalie notable.' : null);
-  if(res) G.results.unshift({ id, text: dcDraw(res), t: G.t });
+  const res = dcResult(id);
+  if(res) G.results.unshift({ id, text: dcDraw(res.text), schema: res.schema, t: G.t });
 
   // la contre-indication déclenche sa complication (anaphylaxie…), insérée comme une étape
   const cp = ci && ci.complication && G.phase === 'step' && !G.step._compl
@@ -3087,12 +3098,85 @@ function dcRenderScope(){
     return `<span class="dc-pump ${p.capped ? 'max' : ''}">💉 ${escapeHtml(t.nom || id)} ${dcFmtDose(p.dose)} ${escapeHtml(t.unite || '')}${p.capped ? ' · MAX' + (dcHasVoie('VVC') ? '' : ' VVP') : ''}</span>`;
   }).join('');
   document.getElementById('dcBarTxt').innerHTML = alarm + pumps + vit + clock;
+  const pat = document.getElementById('dcPatient');
+  if(pat){ const h = dcPatientSvg(); if(pat.innerHTML !== h) pat.innerHTML = h; }   // silhouette suivie à chaque tick
   const son = document.getElementById('dcSon'), sil = document.getElementById('dcSil');
   son.textContent = DC_PREFS.son ? '🔊' : '🔇';
   son.classList.toggle('on', DC_PREFS.son);
   sil.hidden = !(acr || (DC_PREFS.son && (al.lvl || performance.now() < DC_AUDIO.silUntil)));
   sil.classList.toggle('on', performance.now() < DC_AUDIO.silUntil);
 }
+
+// ---------- illustrations ----------
+// Dessinées par le moteur, sans image externe : la silhouette d'après l'état de la partie, les schémas
+// d'après les paramètres `schemas` du contenu ({ "type": "ett", … }), au même niveau que `resultats`.
+
+// silhouette du patient : teint, cyanose, marbrures, sonde, voies, pousse-seringues, massage
+function dcPatientSvg(){ return ''; }
+
+
+
+
+
+
+
+// bibliothèque de schémas : type → fonction(spec) qui renvoie le contenu d'un dcSvgFrame
+const DC_SCHEMAS = {};
+// cadre commun : fond d'écran (variables --sc-* de .dc-schema), viewBox w × h, police lisible à 390 px
+function dcSvgFrame(w, h, inner, label){
+  return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(label || 'Schéma')}" font-family="inherit" font-size="11" fill="var(--sc-txt)">${inner}</svg>`;
+}
+function dcSchemaSvg(spec){
+  const f = spec && DC_SCHEMAS[spec.type];
+  if(!f) return '';
+  try { return f(spec) || ''; } catch(e){ console.warn('schéma', spec.type, e); return ''; }
+}
+function dcSchemaHtml(spec){
+  const svg = dcSchemaSvg(spec);
+  return svg ? `<div class="dc-schema">${svg}${spec.legende ? `<div class="lg">${escapeHtml(spec.legende)}</div>` : ''}</div>` : '';
+}
+
+// ===== schéma : ett (échocardiographie : apicale 4 cavités + VCI) =====
+
+
+
+
+
+
+
+// ===== schéma : efast_pleuro (E-FAST, échographie pleuropulmonaire) =====
+
+
+
+
+
+
+
+// ===== schéma : echo_veineuse_renale (écho veineuse de compression, écho rénale et vésicale) =====
+
+
+
+
+
+
+
+// ===== schéma : radio (radio de thorax, radio de bassin) =====
+
+
+
+
+
+
+
+// ===== schéma : tdm (coupes axiales de TDM et d'angioscanner) =====
+
+
+
+
+
+
+
+// ===== fin des schémas =====
 
 function dcTileItems(){
   const inAcr = G.phase === 'acr';
@@ -3146,7 +3230,7 @@ function dcRenderGame(){
   const st = G.step;
   const stepActs = G.log.filter(l => G.phase === 'acr' ? l.etape === 'acr' && l.t >= G.acr.t : l.etape === st.id);
   const chips = [...new Set(stepActs.map(l => l.id))].map(id => `<span class="dc-chip">${escapeHtml(dcLabel(id))}</span>`).join('');
-  const results = G.results.map(r => `<div class="dc-res"><div class="lb">${escapeHtml(dcLabel(r.id))} · T+${dcFmtClock(r.t)}</div>${dcResHtml(r.text)}</div>`).join('');
+  const results = G.results.map(r => `<div class="dc-res"><div class="lb">${escapeHtml(dcLabel(r.id))} · T+${dcFmtClock(r.t)}</div>${dcResHtml(r.text)}${dcSchemaHtml(r.schema)}</div>`).join('');
   const pause = G.paused ? `<div class="dc-pause"><div class="big">⏸</div><b>Partie en pause</b>
       <div class="hint">${dcMode().fige ? 'Temps fixé : le patient attend ta validation.' : 'Le chrono s\'arrête quand tu quittes l\'écran.'}</div>
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
@@ -3165,6 +3249,7 @@ function dcRenderGame(){
              : `<button class="dc-acrbox" data-dc="sil">🔕 Silence alarme · lancer le métronome</button>`}`
         : `<div class="dc-steptitle">${st._compl ? '⚠️ Complication' : `Étape ${G.visited.indexOf(dcCurVisit()) + 1}`} · ${escapeHtml(st.titre || '')}</div>
            <div class="dc-vignette ${st._compl ? 'compl' : ''}">${pt}${st._compl && G.compl ? `<div class="pt">Après : ${escapeHtml(G.compl.cause)}</div>` : ''}${escapeHtml(st.vignette || '')}</div>`}
+      <div class="dc-patient" id="dcPatient">${dcPatientSvg()}</div>
       ${G.dx.length ? `<div class="dc-chips">${G.dx.map(x => `<span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(x))}</span>`).join('')}</div>` : ''}
       ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
       ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}

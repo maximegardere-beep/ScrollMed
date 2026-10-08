@@ -159,6 +159,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `effet` : variation immédiate des constantes. `pente` sur une action : remplace la pente de l'étape pour ces constantes, jusqu'à la fin de la partie.
 - `refaire: true` : l'action doit être refaite dans cette étape (contrôle), un passage antérieur ne compte pas. Sur une action non `repetable` déjà faite, la tuile est verrouillée : le passage antérieur compte. Un geste qu'une étape peut exiger de nouveau (cardioversion, appel à l'aide, arrêt du produit) doit donc être `repetable`.
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).
+- `schemas` : schéma SVG dessiné par le moteur sous un résultat, mêmes clés que `resultats` et **au même niveau** (scénario, étape, terrain, traitement) : `{ "type": "ett", …paramètres }`, `legende` optionnelle. Le schéma suit le texte retenu : si un terrain remplace le texte sans schéma, rien n'est dessiné. Il ne doit rien montrer que le texte ne dise. Types : `ett`, `efast`, `echo_pleuro`, `echo_veineuse`, `echo_renale`, `rp`, `rx_bassin`, `tdm` (paramètres : bibliothèque `DC_SCHEMAS`, `index.html`).
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation). Une constante absente du scénario (GCS d'un patient endormi) s'affiche « — ».
 - `moniteur` et `voies` du scénario : monitorage et voies déjà en place au début (patient au bloc : `"moniteur": ["CO2"]`, `"voies": ["IV"]`).
@@ -244,6 +245,12 @@ def check_res(w, res, prefixe=False):
         assert t.count("**") % 2 == 0, f"{w} : ** non fermé dans « {t} »"
         for m in re.findall(r"\{[^}]*\}", t):
             assert re.fullmatch(r"\{\d+(,\d+)?~\d+(,\d+)?\}", m), f"{w} : plage invalide {m} (format {{3,8~5,4}})"
+SCHEMAS = {"ett", "efast", "echo_pleuro", "echo_veineuse", "echo_renale", "rp", "rx_bassin", "tdm"}
+def check_schemas(w, o):
+    # schéma d'examen : même clé qu'un résultat du même niveau (le schéma illustre ce texte)
+    for k, s in o.get("schemas", {}).items():
+        assert k in o.get("resultats", {}), f"{w} : schéma {k} sans résultat au même niveau"
+        assert isinstance(s, dict) and s.get("type") in SCHEMAS, f"{w} : type de schéma inconnu pour {k}"
 def check_step(w, st, steps, compl=False):
     assert st.get("vignette"), f"{w} : vignette manquante"
     assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg_racs", "sinus") in ECG, f"{w} : ecg inconnu"
@@ -261,6 +268,7 @@ def check_step(w, st, steps, compl=False):
         for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
             assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
     check_res(w, st.get("resultats", {}))
+    check_schemas(w, st)
     for dx in st.get("diagnostic", []):
         assert A.get(dx, {}).get("type") == "diagnostic", f"{w} : {dx} n'est pas un diagnostic"
     tr = st.get("transfert")
@@ -325,6 +333,7 @@ if os.path.exists("Dechocage/terrains.json"):
         assert set(s.get("constantes", {})) | set(s.get("pente", {})) | set(s.get("bornes", {})) <= VITALS, f"{w} : constante inconnue"
         assert s.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu"
         check_res(w, s.get("resultats", {}), prefixe=True)
+        check_schemas(w, s)
     for t in T["terrains"]:
         w = f"terrains.json [{t.get('id')}]"
         assert t.get("id") and t.get("label") and t.get("fiche"), f"{w} : id / label / fiche"
@@ -357,6 +366,7 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
         for niv, g in sc["terrains"].get("gravite", {}).items():
             assert niv in {"facile", "moyen", "difficile"} and set(g) <= {"pente", "constantes"} and set(g.get("constantes", {})) <= VITALS, f"{f} : gravite invalide"
     check_res(f, sc.get("resultats", {}))
+    check_schemas(f, sc)
     steps = {e["id"] for e in sc["etapes"]}
     assert not steps & COMPL.keys(), f"{f} : une étape porte l'id d'une complication"
     for st in sc["etapes"]:
