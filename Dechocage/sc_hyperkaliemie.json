@@ -25,7 +25,8 @@
   },
   "schemas": {
     "ett": { "type": "ett", "vci": "normale" },
-    "echo_renale": { "type": "echo_renale", "petits_reins": true, "vessie": "vide" }
+    "echo_renale": { "type": "echo_renale", "petits_reins": true, "vessie": "vide" },
+    "rp": { "type": "rp" }
   },
   "etapes": [
     {

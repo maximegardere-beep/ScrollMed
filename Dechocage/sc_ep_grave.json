@@ -29,7 +29,8 @@
   "schemas": {
     "ett": { "type": "ett", "vg": "hyperkinetique", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
     "echo_pleuro": { "type": "echo_pleuro" },
-    "echo_veineuse": { "type": "echo_veineuse", "thrombose": true, "cote": "g", "niveau": "femorale" }
+    "echo_veineuse": { "type": "echo_veineuse", "thrombose": true, "cote": "g", "niveau": "femorale" },
+    "rp": { "type": "rp", "coupole": "d" }
   },
   "etapes": [
     {

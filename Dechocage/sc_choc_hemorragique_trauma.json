@@ -28,7 +28,9 @@
   },
   "schemas": {
     "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
-    "efast": { "type": "efast" }
+    "efast": { "type": "efast" },
+    "rx_bassin": { "type": "rx_bassin", "disjonction": ["symphyse", "si_d"] },
+    "rp": { "type": "rp" }
   },
   "etapes": [
     {

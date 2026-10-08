@@ -28,7 +28,8 @@
   },
   "schemas": {
     "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
-    "echo_renale": { "type": "echo_renale", "dilatation": "d", "calcul": "d" }
+    "echo_renale": { "type": "echo_renale", "dilatation": "d", "calcul": "d" },
+    "rp": { "type": "rp" }
   },
   "etapes": [
     {
