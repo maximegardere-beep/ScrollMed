@@ -57,7 +57,7 @@
         "sonde_u": { "note": "recommande", "why": "Surveillance de la diurèse, marqueur de perfusion." },
         "ett": { "note": "recommande", "why": "Éliminer une dysfonction cardiaque et guider le remplissage." },
         "echo_renale": { "note": "recommande", "why": "Pyélonéphrite avec choc : imagerie urgente à la recherche d'un obstacle. L'échographie au lit est une alternative à l'uroscanner (SPILF 2018)." },
-        "tdm_ap": { "note": "debattu", "why": "L'uroscanner est l'examen de référence, mais transporter une patiente non stabilisée est risqué. L'échographie au lit suffit à voir l'obstacle." },
+        "tdm_ap": { "note": "debattu", "why": "L'uroscanner est l'examen de référence, mais transporter une patiente non stabilisée est risqué. L'échographie au lit suffit à voir l'obstacle.", "si_instable": "acr" },
         "hydrocortisone": { "note": "debattu", "why": "SSC 2021 suggère l'hydrocortisone quand la noradrénaline reste ≥ 0,25 µg/kg/min depuis au moins 4 h. C'est prématuré ici." },
         "isr_etomidate": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
         "isr_ketamine": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
@@ -112,7 +112,7 @@
         "dobutamine": { "note": "inutile", "why": "Pas de dysfonction ventriculaire gauche : FEVG conservée." },
         "bicar_iso": { "note": "inutile", "why": "pH > 7,20 : SSC 2021 suggère de ne pas donner de bicarbonate pour une acidose lactique d'hypoperfusion." },
         "hydrocortisone": { "note": "debattu", "why": "À discuter si la noradrénaline reste ≥ 0,25 µg/kg/min depuis au moins 4 h (SSC 2021)." },
-        "tdm_ap": { "note": "debattu", "why": "Examen de référence, mais transport risqué ; l'échographie a déjà sa réponse." }
+        "tdm_ap": { "note": "debattu", "why": "Examen de référence, mais transport risqué ; l'échographie a déjà sa réponse.", "si_instable": "acr" }
       },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage et adrénaline." },
       "suite": [

@@ -60,7 +60,7 @@
         "calcium": { "note": "recommande", "why": "L'hypocalcémie ionisée est fréquente et s'aggrave avec la transfusion : la corriger (guideline 2023)." },
         "ketamine_analg": { "note": "recommande", "why": "Analgésie indispensable chez un polytraumatisé ; la kétamine à faible dose respecte l'hémodynamique." },
         "morphine_titr": { "note": "debattu", "why": "Titration très prudente : risque d'aggraver l'hypotension." },
-        "tdm_body": { "note": "contre_indique", "why": "Patient instable non répondeur : pas de transfert au scanner. Le TDM corps entier est réservé aux patients stabilisés." },
+        "tdm_body": { "note": "contre_indique", "why": "Patient instable non répondeur : pas de transfert au scanner. Le TDM corps entier est réservé aux patients stabilisés.", "si_instable": "acr" },
         "isr_etomidate": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
         "isr_ketamine": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc hémorragique : collapsus." }
@@ -108,7 +108,7 @@
         "calcium": { "note": "recommande", "why": "Ca²⁺ ionisé à 0,98 mmol/L : corriger." },
         "exacyl": { "note": "indispensable", "why": "Acide tranexamique, toujours dans les 3 h." },
         "cp": { "note": "debattu", "why": "Plaquettes recommandées pour maintenir > 50 G/L en hémorragie active ; ici 142 G/L." },
-        "tdm_body": { "note": "debattu", "why": "Seulement une fois l'hémorragie contrôlée ou chez un patient répondeur stabilisé." },
+        "tdm_body": { "note": "debattu", "why": "Seulement une fois l'hémorragie contrôlée ou chez un patient répondeur stabilisé.", "si_instable": "acr" },
         "rechauffement": { "note": "recommande", "why": "Lutter contre l'hypothermie.", "pente": { "T": 0.02 } },
         "reanimation": { "note": "recommande", "why": "Admission en réanimation après le geste d'hémostase." }
       },

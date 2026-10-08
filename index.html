@@ -683,6 +683,15 @@
   .dc-mbtn{ flex-shrink:0; background:#0f1822; border:1px solid #243140; color:#dfe7ee; border-radius:8px; min-width:36px; height:32px; font-size:15px; cursor:pointer; }
   .dc-mbtn.on{ border-color: var(--trace); }
   .dc-mbtn[hidden]{ display:none; }
+  .dc-modal{ z-index:7; overflow-y:auto; }
+  .dc-stab{ margin: 8px 0 2px; padding: 10px 14px; border-radius: 12px; font-weight:700; font-size:14px; text-align:left; max-width:340px; }
+  .dc-stab.ok{ background: rgba(53,217,153,.12); border:1px solid var(--trace-dim); color: var(--trace); }
+  .dc-stab.ko{ background: rgba(226,87,90,.12); border:1px solid var(--danger); color: #ffb3b4; }
+  .dc-stab ul{ margin:6px 0 0; padding-left:18px; font-weight:600; color: var(--text); }
+  .dc-acrbox{ display:block; width:100%; margin: -2px 0 10px; padding: 12px 14px; border-radius: 14px; border: 2px solid var(--danger); background: rgba(226,87,90,.14); color: var(--text); font: inherit; font-weight: 800; font-size: 15px; text-align:center; cursor:pointer; animation: dcblink 1s steps(2) infinite; }
+  .dc-acrbox.on{ animation:none; border-color: var(--trace-dim); background: var(--surface); font-weight:700; font-size:13.5px; cursor:default; }
+  .dc-metro{ color: var(--danger); font-weight:800; transition: transform .08s; display:inline-block; }
+  .dc-metro.beat{ transform: scale(1.35); color:#fff; }
   .dc-acr{ grid-column: 1 / -1; text-align:center; color: var(--danger); font-weight:800; font-size:17px; padding:4px 0; animation: dcblink 1s steps(2) infinite; }
   @keyframes dcblink{ 50%{ opacity:.45; } }
   .dc-steptitle{ font-size:12.5px; color:var(--muted); font-weight:700; margin-bottom:6px; }
@@ -1920,7 +1929,7 @@ function dcCheckThresholds(){
   }
 }
 function dcTick(){
-  if(!G || G.paused || G.phase === 'over') return;
+  if(!G || G.paused || G.modal || G.phase === 'over') return;
   const phase = G.phase;
   if(G.phase === 'acr'){
     G.acr.chrono -= 1;
@@ -1941,9 +1950,63 @@ function dcDoneEntry(e, until){
 }
 function dcAcrSpec(){ return Object.assign({}, DC_DEFAULT_ACR, G.step.acr || {}); }
 
-function dcDoAction(id){
+// ---------- transfert : le patient est-il assez stable pour quitter le déchoc ? ----------
+// critères dans le catalogue (action "transfert") ou sur l'étape (départ à la validation) :
+// { "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }
+const DC_STAB_TXT = { PAM: ['PAM', 'mmHg'], PAS: ['PAS', 'mmHg'], SpO2: ['SpO2', '%'], FC: ['FC', '/min'], FR: ['FR', '/min'], GCS: ['GCS', ''], T: ['T', '°C'] };
+function dcStability(crit){
+  const v = G.vitals;
+  const val = k => k === 'PAM' ? Math.round(v.PAD + (v.PAS - v.PAD) / 3) : Math.round(v[k]);
+  const probs = [];
+  const intube = G.mon.has('CO2');
+  Object.entries(crit.min || {}).forEach(([k, m]) => {
+    if(v[k] == null && k !== 'PAM') return;
+    if(k === 'GCS' && intube) return;   // voies aériennes protégées
+    const x = val(k), [lb, u] = DC_STAB_TXT[k] || [k, ''];
+    if(x < m) probs.push(`${lb} ${x}${u ? ' ' + u : ''} (< ${m})${k === 'GCS' ? ', non intubé' : ''}`);
+  });
+  Object.entries(crit.max || {}).forEach(([k, m]) => {
+    if(v[k] == null) return;
+    const x = val(k), [lb, u] = DC_STAB_TXT[k] || [k, ''];
+    if(x > m) probs.push(`${lb} ${x}${u ? ' ' + u : ''} (> ${m})`);
+  });
+  Object.entries(G.pumps).forEach(([id, p]) => { if(p.capped) probs.push(`${dcIndex()[id].titration.nom || id} au plafond, PA non tenue`); });
+  return { ok: !probs.length, probs };
+}
+function dcAskTransfer(kind, id){
+  dcSettle();   // temps fixé : l'évolution en attente s'applique avant d'évaluer le patient
+  if(G.phase !== 'step'){ dcRender(); return; }
+  const crit = kind === 'step' ? G.step.transfert : dcIndex()[id].transfert;
+  G.modal = { kind, id, crit, stab: dcStability(crit) };
+  dcRender();
+}
+function dcModalHtml(){
+  const m = G.modal;
+  const what = m.kind === 'step' ? `Départ ${m.crit.vers || ''}` : `${dcLabel(m.id)}${m.crit.vers ? ' · ' + m.crit.vers : ''}`;
+  const v = G.vitals, pa = dcPaShown();
+  return `<div class="dc-pause dc-modal">
+    <div class="big">🚑</div><b>${escapeHtml(what)}</b>
+    <div class="dc-stab ${m.stab.ok ? 'ok' : 'ko'}">${m.stab.ok
+      ? '✅ Patient stable pour le transfert'
+      : `⚠️ Patient instable<ul>${m.stab.probs.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`}</div>
+    <div class="hint">FC ${Math.round(v.FC)} · PA ${pa.PAS}/${pa.PAD} · SpO2 ${Math.round(v.SpO2)} % · GCS ${Math.round(v.GCS)}${G.mon.has('CO2') ? ' · intubé' : ''}</div>
+    ${m.stab.ok ? '' : `<div class="hint">Si le geste est le traitement de l'instabilité (hémostase, drainage, reperfusion), le transfert reste justifié : accompagné, monitoré, médecin présent.</div>`}
+    <button class="btn" data-dc="tr-go" style="max-width:300px">🚑 Partir maintenant</button>
+    <button class="btn secondary" data-dc="tr-wait" style="max-width:300px">⏳ Pas maintenant</button>
+    <div class="hint" style="margin-top:4px">Le chrono est arrêté pendant la décision. « Pas maintenant » : tu pourras redemander plus tard.</div>
+  </div>`;
+}
+// conséquence d'un départ instable, prévue par le scénario ("si_instable": "acr" | "deces")
+function dcUnstableOutcome(issue, label){
+  const cause = `${label} : patient instable pendant le transfert`;
+  if(issue === 'deces'){ dcDie(cause); return true; }
+  if(issue === 'acr'){ dcEnterAcr(cause); dcRender(); return true; }
+  return false;
+}
+
+function dcDoAction(id, confirmed){
   const a = dcIndex()[id];
-  if(!a || !G || G.phase === 'over' || G.paused) return;
+  if(!a || !G || G.phase === 'over' || G.paused || G.modal) return;
   if(a.type === 'diagnostic'){
     G.dx = id;   // un seul diagnostic actif ; on en change en touchant un autre
     dcRender();
@@ -1954,10 +2017,21 @@ function dcDoAction(id){
   if(!dcRepeatable(a) && (dcIsRcp(a) ? (inAcr && G.acr.done.has(id)) : G.doneAll.has(id))) return;
   if(dcIsRcp(a) && !inAcr) return;
   if(dcLocked(a)){ showToast(`🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}`); return; }
+  if(a.transfert && inAcr){ showToast('Pas de transfert pendant un arrêt cardiaque'); return; }
+  if(a.transfert && !confirmed){ dcAskTransfer('action', id); return; }
+  const instable = a.transfert ? !dcStability(a.transfert).ok : false;
+  const siInstable = instable && ((G.step.actions || {})[id] || {}).si_instable;
+  if(siInstable){
+    // l'arrêt survient pendant le transfert, avant la fin du geste
+    G.log.push({ t: G.t, id, etape: G.step.id, step: G.step.id, instable });
+    G.doneAll.add(id);
+    dcUnstableOutcome(siInstable, a.label);
+    return;
+  }
   dcAdvance((a.duree || 0) * 60);
   if(G.phase === 'over') return;
   const etape = G.phase === 'acr' ? 'acr' : G.step.id;
-  G.log.push({ t: G.t, id, etape, step: G.step.id });
+  G.log.push({ t: G.t, id, etape, step: G.step.id, instable });
   if(!dcIsRcp(a)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
   if(navigator.vibrate) navigator.vibrate(10);
@@ -1991,8 +2065,9 @@ function dcDoAction(id){
 function dcEnterAcr(cause){
   if(G.phase !== 'step') return;
   G.phase = 'acr';
-  G.acr = { chrono: dcMode().acr, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id };
+  G.acr = { chrono: dcMode().acr, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id, metro: false };
   G.nav = []; G.search = '';
+  DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0; DC_MON.metroNext = null;
   dcSample();
   if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
 }
@@ -2004,6 +2079,7 @@ function dcRacs(){
   if(spec.ecg_racs) G.ecg = spec.ecg_racs;   // rythme après le RACS (ex. sinus après le choc d'une TV)
   G.phase = 'step';
   G.acr = null;
+  DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0;   // fin du silence : les alarmes reprennent normalement
   G.chrono = Math.max(G.chrono, 30 * dcMode().mult);
   dcNibp();
   dcSample();
@@ -2015,11 +2091,17 @@ function dcDie(cause){
   G.cause = cause;
   dcFinish();
 }
-function dcValidate(){
-  if(!G || G.phase !== 'step' || G.paused) return;
+function dcValidate(confirmed){
+  if(!G || G.phase !== 'step' || G.paused || G.modal) return;
   const st = G.step;
+  // étape qui se termine par un départ (salle, bloc…) : on vérifie d'abord la stabilité
+  if(st.transfert && !confirmed){ dcAskTransfer('step'); return; }
   dcSettle();
   if(G.phase !== 'step'){ dcRender(); return; }   // l'évolution différée a mené à l'ACR
+  if(st.transfert && !dcStability(st.transfert).ok){
+    G.visited[G.visited.length - 1].instable = true;
+    if(dcUnstableOutcome(st.transfert.si_instable, `Départ ${st.transfert.vers || ''}`.trim())) return;
+  }
   const visit = G.visited[G.visited.length - 1];
   visit.t1 = G.t; visit.dx = G.dx;
   const lsm = st.letal_si_manque;
@@ -2072,7 +2154,7 @@ function dcScore(){
       let p = 0;
       if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
       pts += p;
-      seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, pts: p, n: 1 };
+      seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, instable: l.instable, pts: p, n: 1 };
       items.push(seen[l.id]);
     });
     const actions = st.actions || {};
@@ -2218,7 +2300,7 @@ function dcSavePrefs(){ try { localStorage.setItem(DC_PREFS_KEY, JSON.stringify(
 const DC_MON = { canvas: document.createElement('canvas'), raf: 0 };
 DC_MON.ctx = DC_MON.canvas.getContext('2d');
 const DC_AUDIO = { ctx: null, silUntil: 0, silLvl: 0, nextAt: 0, played: 0 };
-const DC_MONSTAT = { beats: 0, beeps: 0, bursts: { 1: 0, 2: 0 } };   // pour les tests
+const DC_MONSTAT = { beats: 0, beeps: 0, bursts: { 1: 0, 2: 0 }, metro: 0 };   // pour les tests
 
 function dcMonReset(){
   Object.assign(DC_MON, { beats: [], next: null, tw: 0, tx: 0, x: 0, prev: {}, key: '', last: 0 });
@@ -2264,8 +2346,12 @@ function dcEtco2(){
   const base = G.vitals.EtCO2 != null ? G.vitals.EtCO2 : 38;
   return Math.round(base * Math.min(1, Math.max(0.45, G.vitals.PAS / 100)));
 }
+// alarme d'arythmie létale, comme sur un scope : nommée d'après le tracé affiché
+const DC_ACR_ALARM = { asystolie: 'ASYSTOLIE', fv: 'FIBRILLATION VENTRICULAIRE', tv: 'TACHYCARDIE VENTRICULAIRE', aesp: 'PAS DE POULS (AESP)' };
+function dcAcrAlarmMsg(){ return DC_ACR_ALARM[dcEcgCode()] || 'ARRÊT CARDIAQUE'; }
+const DC_METRO_RATE = 110;      // métronome de RCP : 100 à 120 compressions/min (ERC 2021)
 function dcAlarm(){
-  if(G.phase === 'acr') return { lvl: 2, msg: 'ARRÊT CARDIAQUE', keys: { FC: 2, SpO2: 2, PAS: 2 } };
+  if(G.phase === 'acr') return { lvl: 2, msg: dcAcrAlarmMsg(), keys: { FC: 2, SpO2: 2, PAS: 2 } };
   const th = Object.assign({}, DC_ALARMS);
   Object.entries(G.sc.alarmes || {}).forEach(([k, v]) => { th[k] = Object.assign({}, th[k], v); });
   const vals = { FC: G.vitals.FC, SpO2: G.vitals.SpO2, PAS: dcPaShown().PAS };
@@ -2426,6 +2512,17 @@ function dcMonLoop(ts){
     DC_MON.next = r ? DC_MON.next + 60 / r * (dcEcgCode() === 'fa' ? 0.65 + 0.7 * Math.random() : 1) : null;
   }
   while(DC_MON.beats.length > 2 && DC_MON.beats[1] < t1 - 3) DC_MON.beats.shift();
+  // métronome de massage : lancé par le silence de l'alarme d'ACR, jusqu'au RACS
+  if(G.phase === 'acr' && G.acr.metro){
+    if(DC_MON.metroNext == null) DC_MON.metroNext = t1;
+    while(DC_MON.metroNext <= t1){
+      DC_MON.metroNext += 60 / DC_METRO_RATE;
+      DC_MONSTAT.metro++;
+      if(dcSoundOn()) dcTone(1250, DC_AUDIO.ctx.currentTime + 0.02, 0.035, 0.14, 'square');
+      const m = document.getElementById('dcMetro');
+      if(m){ m.classList.add('beat'); clearTimeout(m._t); m._t = setTimeout(() => m.classList.remove('beat'), 120); }
+    }
+  } else DC_MON.metroNext = null;
   dcMonDraw(t1);
   dcAlarmSound();
   DC_MON.raf = requestAnimationFrame(dcMonLoop);
@@ -2501,7 +2598,7 @@ function dcScopeShell(){
       <div class="dc-nums">${boxes}</div></div>${bar}</div>`;
 }
 function dcGridHtml(){
-  if(G.phase === 'acr') return `<div class="dc-acr">⚠ ARRÊT CARDIAQUE · ${escapeHtml(dcAcrSpec().rythme || '')}</div>`;
+  if(G.phase === 'acr') return `<div class="dc-acr">⚠ ${escapeHtml(dcAcrAlarmMsg())}</div>`;
   const v = G.vitals;
   const cell = (label, val, cls) => `<div class="dc-vt ${cls}"><div class="k">${label}</div><div class="v">${val}</div></div>`;
   const al = l => l === 2 ? 'bad' : l === 1 ? 'warn' : '';
@@ -2533,7 +2630,7 @@ function dcRenderScope(){
   }
   const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${Math.round(v.GCS)}</span>`;
   const alarm = DC_PREFS.plie && al.lvl && !acr ? `<span class="al${al.lvl}">⚠ ${escapeHtml(al.msg)}</span>` : '';
-  const clock = acr ? `<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
+  const clock = acr ? `${G.acr.metro ? `<span class="dc-metro" id="dcMetro">♥ ${DC_METRO_RATE}/min</span>` : ''}<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
     : dcMode().fige ? `<span>T+${dcFmtClock(G.t)}</span><b>Temps fixé</b>`
     : `<span>T+${dcFmtClock(G.t)}</span><b class="${G.chrono <= 0 ? 'late' : ''}">${G.chrono <= 0 ? 'Retard +' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b>`;
   const pumps = Object.entries(G.pumps).map(([id, p]) => {
@@ -2544,7 +2641,7 @@ function dcRenderScope(){
   const son = document.getElementById('dcSon'), sil = document.getElementById('dcSil');
   son.textContent = DC_PREFS.son ? '🔊' : '🔇';
   son.classList.toggle('on', DC_PREFS.son);
-  sil.hidden = !(DC_PREFS.son && (al.lvl || performance.now() < DC_AUDIO.silUntil));
+  sil.hidden = !(acr || (DC_PREFS.son && (al.lvl || performance.now() < DC_AUDIO.silUntil)));
   sil.classList.toggle('on', performance.now() < DC_AUDIO.silUntil);
 }
 
@@ -2605,11 +2702,15 @@ function dcRenderGame(){
       <div class="hint">${dcMode().fige ? 'Temps fixé : le patient attend ta validation.' : 'Le chrono s\'arrête quand tu quittes l\'écran.'}</div>
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
       <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
+  const modal = G.modal && !G.paused ? dcModalHtml() : '';
   dcRoot.innerHTML = `
     ${dcScopeShell()}
     <div class="dc-scroll">
       ${G.phase === 'acr'
-        ? `<div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>`
+        ? `<div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>
+           ${G.acr.metro
+             ? `<div class="dc-acrbox on">🎵 Métronome ${DC_METRO_RATE}/min jusqu'à la reprise d'un rythme${DC_PREFS.son ? '' : ' (son coupé : active 🔇 pour l’entendre)'}.</div>`
+             : `<button class="dc-acrbox" data-dc="sil">🔕 Silence alarme · lancer le métronome</button>`}`
         : `<div class="dc-steptitle">Étape ${G.visited.length} · ${escapeHtml(st.titre || '')}</div>
            <div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>${escapeHtml(st.vignette || '')}</div>`}
       ${G.dx ? `<div class="dc-chips"><span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(G.dx))}</span></div>` : ''}
@@ -2619,7 +2720,7 @@ function dcRenderGame(){
       <div id="dcTiles">${dcTilesHtml()}</div>
     </div>
     ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">Valider l'étape ✓</button></div>` : ''}
-    ${pause}`;
+    ${pause}${modal}`;
   const scroller = dcRoot.querySelector('.dc-scroll');
   if(scroller) scroller.scrollTop = anchor == null ? 0 : Math.max(0, document.getElementById('dcTiles').offsetTop - anchor);
   const wv = document.getElementById('dcWv');
@@ -2674,7 +2775,7 @@ function dcRenderDebrief(){
     const ui = it.kind === 'oubli' ? { ic: '⚠️', lb: 'Oublié' } : it.kind === 'nonfait' ? { ic: '○', lb: 'Non fait' } : DC_NOTE_UI[it.kind];
     const pts = it.pts ? `${it.pts > 0 ? '+' : ''}${it.pts}` : '';
     return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
-      <div class="w">${ui.lb}${it.anticipe ? ' (anticipé)' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div></div><span class="pts">${pts}</span></div>`;
+      <div class="w">${ui.lb}${it.anticipe ? ' (anticipé)' : ''}${it.instable ? ' · ⚠️ parti instable' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div></div><span class="pts">${pts}</span></div>`;
   };
   const order = { contre_indique: 0, oubli: 1, indispensable: 2, recommande: 3, debattu: 4, inutile: 5, nonfait: 6 };
   const steps = d.steps.map(s => {
@@ -2725,11 +2826,25 @@ dcRoot.addEventListener('click', e => {
   else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }
   else if(act === 'back'){ G.nav.pop(); dcRender(); }
   else if(act === 'validate') dcValidate();
+  else if(act === 'tr-wait'){ G.modal = null; dcRender(); }
+  else if(act === 'tr-go'){
+    const m = G.modal; G.modal = null;
+    if(m.kind === 'step') dcValidate(true);
+    else { G.search = ''; dcDoAction(m.id, true); }
+  }
   else if(act === 'fold'){ DC_PREFS.plie = !DC_PREFS.plie; dcSavePrefs(); dcRender(); }
   else if(act === 'son'){
     DC_PREFS.son = !DC_PREFS.son; dcSavePrefs();
     if(DC_PREFS.son && dcAudioCtx()){ DC_AUDIO.played = 0; dcBeep(0); }
     dcRenderScope();
+  }
+  else if(act === 'sil' && G && G.phase === 'acr'){
+    // comme sur un scope : on acquitte l'alarme, et le métronome de massage démarre
+    dcAudioCtx();
+    DC_AUDIO.silUntil = performance.now() + DC_SILENCE_MS;
+    DC_AUDIO.silLvl = 2;
+    if(!G.acr.metro){ G.acr.metro = true; DC_MON.metroNext = null; }
+    dcRender();
   }
   else if(act === 'sil'){
     const on = performance.now() < DC_AUDIO.silUntil;

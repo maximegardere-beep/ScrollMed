@@ -43,8 +43,8 @@
   { "id": "echo_pleuro", "label": "Échographie pleuropulmonaire", "path": ["Imagerie & écho"], "duree": 3, "examen": true },
   { "id": "rp", "label": "Radio de thorax au lit", "path": ["Imagerie & écho"], "duree": 3, "examen": true },
   { "id": "rx_bassin", "label": "Radio de bassin au lit", "path": ["Imagerie & écho"], "duree": 3, "examen": true },
-  { "id": "tdm_body", "label": "TDM corps entier", "path": ["Imagerie & écho"], "duree": 30, "examen": true },
-  { "id": "tdm_ap", "label": "TDM abdominopelvien injecté", "path": ["Imagerie & écho"], "duree": 30, "examen": true },
+  { "id": "tdm_body", "label": "TDM corps entier", "path": ["Imagerie & écho"], "duree": 30, "examen": true, "transfert": { "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } } },
+  { "id": "tdm_ap", "label": "TDM abdominopelvien injecté", "path": ["Imagerie & écho"], "duree": 30, "examen": true, "transfert": { "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } } },
 
   { "id": "remp_cristal", "label": "Cristalloïde balancé, 500 mL", "path": ["Traitement", "Remplissage"], "duree": 5, "repetable": true, "requiert": "IV" },
   { "id": "remp_nacl", "label": "NaCl 0,9 %, 500 mL", "path": ["Traitement", "Remplissage"], "duree": 5, "repetable": true, "requiert": "IV" },
@@ -98,9 +98,9 @@
 
   { "id": "renfort", "label": "Appeler le senior / des renforts", "path": ["Orientation"], "duree": 1 },
   { "id": "coro", "label": "Alerter la salle de coronarographie (angioplastie primaire)", "path": ["Orientation"], "duree": 2 },
-  { "id": "bloc", "label": "Bloc opératoire en urgence", "path": ["Orientation"], "duree": 5 },
-  { "id": "radio_interv", "label": "Radiologie interventionnelle (embolisation)", "path": ["Orientation"], "duree": 5 },
-  { "id": "uro_drainage", "label": "Drainage urinaire en urgence (sonde JJ / néphrostomie)", "path": ["Orientation"], "duree": 5 },
+  { "id": "bloc", "label": "Bloc opératoire en urgence", "path": ["Orientation"], "duree": 5, "transfert": { "vers": "au bloc opératoire", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } } },
+  { "id": "radio_interv", "label": "Radiologie interventionnelle (embolisation)", "path": ["Orientation"], "duree": 5, "transfert": { "vers": "en salle de radiologie interventionnelle", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } } },
+  { "id": "uro_drainage", "label": "Drainage urinaire en urgence (sonde JJ / néphrostomie)", "path": ["Orientation"], "duree": 5, "transfert": { "vers": "au bloc ou en radiologie", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } } },
   { "id": "epuration", "label": "Épuration extrarénale en urgence", "path": ["Orientation"], "duree": 5 },
   { "id": "reanimation", "label": "Admission en réanimation", "path": ["Orientation"], "duree": 2 },
 

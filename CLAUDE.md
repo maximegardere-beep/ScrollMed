@@ -101,6 +101,7 @@ Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `m
 - `EtCO2` : constante optionnelle (38 par défaut), abaissée par le bas débit.
 - `alarmes` du scénario, optionnel : surcharge des seuils `[priorité moyenne, haute]`, défaut `{ "FC": { "bas": [50, 40], "haut": [120, 150] }, "PAS": { "bas": [90, 70] }, "SpO2": { "bas": [90, 85] } }`. L'alarme PA porte sur la valeur affichée (PNI ou invasive).
 - Sons (coupés par défaut) : bip de pouls plus grave quand la SpO2 baisse, alarmes moyenne et haute façon IEC 60601-1-8, silence 2 min.
+- ACR : alarme nommée d'après le tracé (ASYSTOLIE, FIBRILLATION VENTRICULAIRE, TACHYCARDIE VENTRICULAIRE, PAS DE POULS pour l'AESP), qui sonne même si un silence était en cours. Le bouton « Silence alarme » acquitte et lance un métronome de massage à 110/min (son + pulsation à l'écran), jusqu'au RACS.
 
 ### Catalogue : `Dechocage/actions.json`
 
@@ -116,6 +117,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `type: "diagnostic"` : hypothèse diagnostique, sans durée ; un seul diagnostic actif à la fois.
 - `voie` : voies fournies par un geste (`vvp` et `io` → `["IV"]`, `ktc` → `["IV", "VVC"]`). `requiert` : voie nécessaire (`"IV"` pour tout médicament ou soluté intraveineux). Sans elle, la tuile est verrouillée (🔒) et l'action ne se lance pas.
 - `titration` : pousse-seringue titré automatiquement (noradrénaline). Une fois lancé, il tient la PAM à `cible_pam` : la dose monte quand la PA baisse (`gain` = mmHg de PAS par unité) et redescend vers `debut` quand la PA dépasse la cible. Elle est plafonnée par `max` selon la meilleure voie posée (ex. `{ "IV": 2, "VVC": 8 }` : plafond bas sur VVP, levé par la VVC). Au plafond, la PA rechute et le scope affiche « MAX ». Dose affichée dans le scope, dose maximale au débriefing.
+- `transfert` : l'action fait quitter le déchoc (scanner, bloc, radiologie interventionnelle…). Avant de la lancer, une fenêtre évalue la stabilité du patient et propose « Partir maintenant » ou « Pas maintenant » (redemander plus tard) ; le chrono est arrêté pendant la décision. Format : `{ "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }` (le critère GCS est levé si le patient est intubé ; une noradrénaline au plafond rend instable).
 - Les actions se réalisent par **appui maintenu** (≈ 0,5 s) sur la tuile, ce qui évite les touchers accidentels. La tuile affiche la durée patient.
 - La catégorie `RCP` n'apparaît que pendant un ACR.
 - Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère).
@@ -156,6 +158,8 @@ Tableau d'actions, partagé par tous les scénarios :
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation).
+- `si_instable` sur une action d'étape (`acr` ou `deces`) : conséquence d'un départ en `transfert` alors que le patient est instable (ex. TDM dans un choc hémorragique non contrôlé). Sans ce champ, partir instable n'a pas de conséquence (le geste est le traitement : embolisation, bloc, coronarographie). Le débriefing signale « parti instable ».
+- `transfert` sur une étape (même format que dans le catalogue, plus `si_instable`) : l'étape se termine par un départ ; la fenêtre de stabilité s'ouvre au clic sur « Valider l'étape ».
 - `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape.
 - `acr.ecg_racs` : rythme affiché après le RACS (sinon celui d'avant l'ACR ; ex. `st_plus` après le choc d'une TV).
 - `acr.requis` : actions à faire pendant la RCP (90 s réelles en temps réel) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
@@ -181,6 +185,8 @@ for a in acts:
     assert set(a.get("voie", [])) <= {"IV", "VVC"} and a.get("requiert") in (None, "IV", "VVC"), f"action {a['id']} : voie / requiert"
     if "titration" in a:
         assert {"debut", "gain", "max"} <= a["titration"].keys(), f"action {a['id']} : titration incomplète"
+    if "transfert" in a:
+        assert set(a["transfert"].get("min", {})) | set(a["transfert"].get("max", {})) <= VITALS | {"PAM"}, f"action {a['id']} : critère de transfert inconnu"
 def flat(entries):
     for e in entries:
         yield from (e if isinstance(e, list) else [e])
@@ -211,6 +217,8 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
             assert spec.get("note") in NOTES, f"{w} : note invalide pour {aid}"
             assert spec.get("why"), f"{w} : justification manquante pour {aid}"
             assert spec.get("letal") in (None, "acr", "deces"), f"{w} : letal invalide pour {aid}"
+            assert spec.get("si_instable") in (None, "acr", "deces"), f"{w} : si_instable invalide pour {aid}"
+            assert "si_instable" not in spec or "transfert" in A[aid], f"{w} : si_instable sur {aid}, qui n'a pas de transfert"
             assert spec.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu ({aid})"
             for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
                 assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
@@ -218,6 +226,9 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
             assert k in A, f"{w} : résultat pour une action inconnue {k}"
         for dx in st.get("diagnostic", []):
             assert A.get(dx, {}).get("type") == "diagnostic", f"{w} : {dx} n'est pas un diagnostic"
+        tr = st.get("transfert")
+        if tr:
+            assert set(tr.get("min", {})) | set(tr.get("max", {})) <= VITALS | {"PAM"} and tr.get("si_instable") in (None, "acr", "deces"), f"{w} : transfert invalide"
         lsm = st.get("letal_si_manque")
         if lsm:
             assert lsm.get("issue") in ("acr", "deces"), f"{w} : issue de letal_si_manque"

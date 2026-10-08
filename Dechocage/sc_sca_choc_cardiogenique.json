@@ -103,6 +103,7 @@
     {
       "id": "e2",
       "titre": "Avant le départ en salle",
+      "transfert": { "vers": "en salle de coronarographie", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "si_instable": "acr" },
       "vignette": "La salle de coronarographie sera prête dans 10 minutes. Le patient s'épuise : SpO2 86 % sous masque haute concentration, polypnée à 34/min, il devient agité et arrache son masque. Les marbrures remontent aux cuisses.",
       "chrono": 90,
       "constantes": { "SpO2": 86, "FR": 34, "GCS": 13 },
