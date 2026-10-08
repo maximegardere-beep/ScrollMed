@@ -4,6 +4,7 @@
   "source": "Surviving Sepsis Campaign 2021 ; SPILF, infections urinaires communautaires 2018",
   "tags": ["sepsis", "choc septique", "noradrénaline", "pyélonéphrite"],
   "patient": "Femme, 68 ans, 70 kg",
+  "terrains": { "exclus": [], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] } },
   "constantes": { "FC": 124, "PAS": 82, "PAD": 44, "SpO2": 94, "FR": 26, "T": 39.2, "GCS": 14 },
   "seuils": { "PAS": 50, "SpO2": 70 },
   "resultats": {
@@ -50,6 +51,7 @@
         "atb_c3g_amika": { "note": "indispensable", "alt": "atb", "why": "Choc septique : antibiotique dans l'heure (SSC 2021). Pyélonéphrite grave sans facteur de risque de BLSE : C3G parentérale + amikacine (SPILF 2018)." },
         "atb_pipe_tazo": { "note": "debattu", "alt": "atb", "why": "Spectre inutilement large sans facteur de risque de Pseudomonas. L'association de référence est C3G + amikacine." },
         "atb_carba": { "note": "debattu", "alt": "atb", "why": "Le carbapénème (+ amikacine) est réservé au choc septique avec facteur de risque de BLSE (SPILF 2018). Ici, aucun : épargne des carbapénèmes." },
+        "atb_aztreo_amika": { "note": "debattu", "alt": "atb", "why": "Réservé à l'allergie grave aux bêtalactamines (SPILF 2018). Sans allergie, la C3G + amikacine reste le premier choix." },
         "noradre": { "note": "recommande", "why": "PAM < 65 mmHg : la noradrénaline est le vasopresseur de première intention. SSC 2021 suggère de la débuter sur voie périphérique plutôt que d'attendre le cathéter central.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
         "dopamine": { "note": "contre_indique", "why": "La noradrénaline est préférée. La dopamine provoque plus d'arythmies (SOAP II).", "effet": { "PAS": 10, "FC": 15 } },
         "ktc": { "note": "debattu", "why": "Utile pour poursuivre la noradrénaline, mais 15 minutes de pose : ne doit retarder ni l'antibiotique ni la noradrénaline sur VVP." },
@@ -65,7 +67,7 @@
       },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage de qualité, adrénaline 1 mg dès que possible, puis correction des causes (hypovolémie, acidose)." },
       "suite": [
-        { "si_manque": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba"]], "vers": "e1_aggrav" },
+        { "si_manque": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "vers": "e1_aggrav" },
         { "si_manque": [["remp_cristal", "remp_nacl", "albumine"]], "vers": "e1_aggrav" },
         { "vers": "e2" }
       ]
@@ -82,13 +84,14 @@
         "atb_c3g_amika": { "note": "indispensable", "alt": "atb", "why": "Chaque heure de retard à l'antibiotique augmente la mortalité du choc septique." },
         "atb_pipe_tazo": { "note": "debattu", "alt": "atb", "why": "Spectre inutilement large ; C3G + amikacine suffit sans facteur de risque." },
         "atb_carba": { "note": "debattu", "alt": "atb", "why": "Réservé aux facteurs de risque de BLSE." },
+        "atb_aztreo_amika": { "note": "debattu", "alt": "atb", "why": "Réservé à l'allergie grave aux bêtalactamines." },
         "remp_cristal": { "note": "indispensable", "alt": "remplissage", "why": "Remplissage initial non fait ou insuffisant.", "effet": { "PAS": 8, "FC": -6 } },
         "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer les solutés balancés.", "effet": { "PAS": 8, "FC": -6 } },
         "noradre": { "note": "indispensable", "why": "Hypotension profonde : la noradrénaline ne doit pas attendre la fin du remplissage.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
         "hes": { "note": "contre_indique", "why": "HEA contre-indiqués dans le sepsis.", "effet": { "PAS": 8 } },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." }
       },
-      "letal_si_manque": { "actions": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba"]], "issue": "acr", "why": "Pas d'antibiotique malgré l'aggravation : le choc devient réfractaire." },
+      "letal_si_manque": { "actions": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "issue": "acr", "why": "Pas d'antibiotique malgré l'aggravation : le choc devient réfractaire." },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage, adrénaline, et traitement de l'hypovolémie." },
       "suite": [ { "vers": "e2" } ]
     },

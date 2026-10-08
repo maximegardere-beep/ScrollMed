@@ -1,0 +1,101 @@
+{
+  "terrains": [
+    {
+      "id": "allergie_betalactamines", "label": "Allergie grave aux bêtalactamines", "rubrique": "allergies",
+      "fiche": "Choc anaphylactique à la ceftriaxone en 2019. Bilan allergologique : tests cutanés positifs à l'amoxicilline, à la ceftriaxone et à l'imipénème. Éviction de toutes les bêtalactamines.",
+      "ci": [
+        { "classe": "betalactamine", "complication": "anaphylaxie", "why": "Anaphylaxie à la ceftriaxone et tests cutanés positifs aux pénicillines, aux céphalosporines et aux carbapénèmes : toute bêtalactamine est contre-indiquée chez ce patient. Choisir une autre famille." }
+      ],
+      "promeut": [
+        { "id": "atb_aztreo_amika", "why": "Allergie grave aux bêtalactamines : aztréonam + amikacine dans la pyélonéphrite grave (SPILF 2018). L'aztréonam (monobactame) n'a pas d'allergie croisée avec les pénicillines ni avec la ceftriaxone ; il partage seulement la chaîne latérale de la ceftazidime." }
+      ],
+      "tags": ["anaphylaxie", "allergie", "bêtalactamines", "choc anaphylactique"]
+    },
+    {
+      "id": "coronarien", "label": "Cardiopathie ischémique", "rubrique": "atcd",
+      "fiche": "Infarctus antérieur en 2021, stent actif sur l'IVA. FEVG conservée à la dernière ETT.",
+      "traitements": [["betabloquant", "aspirine", "statine"], ["aspirine", "statine"]],
+      "tags": ["infarctus"]
+    },
+    {
+      "id": "ic_fevg_alteree", "label": "Insuffisance cardiaque à FEVG altérée", "rubrique": "atcd",
+      "fiche": "Cardiomyopathie dilatée, FEVG 30 % (ETT 2025), dyspnée NYHA II.",
+      "traitements": [["betabloquant", "sacubitril_valsartan", "furosemide_po", "spironolactone"]],
+      "module": [
+        { "classe": "remplissage", "effet": { "PAS": 0.5 }, "plus": { "SpO2": -2 }, "why": "FEVG à 30 % : chaque bolus remonte peu la pression et dégrade l'oxygénation (congestion pulmonaire). Petits bolus réévalués, vasopresseur précoce." }
+      ],
+      "resultats": {
+        "ett": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale. VCI de 14 mm, peu compliante. Pas d'épanchement péricardique.",
+        "bnp": "**NT-proBNP 4 800 pg/mL**."
+      },
+      "tags": ["insuffisance cardiaque", "remplissage"]
+    },
+    {
+      "id": "bpco", "label": "BPCO sévère", "rubrique": "atcd",
+      "fiche": "BPCO GOLD 3, tabagisme sevré (40 paquets-années). Une exacerbation hospitalisée en 2024. Pas d'oxygénothérapie au long cours.",
+      "traitements": [["tiotropium_olodaterol"], ["tiotropium_olodaterol", "salbutamol_pa"]],
+      "constantes": { "SpO2": -5, "FR": 2 },
+      "tags": ["BPCO"]
+    },
+    {
+      "id": "grand_age", "label": "Grand âge", "rubrique": "vie",
+      "fiche": "Vit seule à domicile, autonome pour les actes de la vie quotidienne.",
+      "identite": { "age": [80, 92] },
+      "pente": { "PAS": -0.2 },
+      "module": [
+        { "classe": "hypnotique", "effet": { "PAS": 1.5 }, "why": "Sujet âgé : réserve hémodynamique réduite, chute de pression plus forte avec les hypnotiques." }
+      ],
+      "tags": ["sujet âgé"]
+    },
+    {
+      "id": "fa_anticoagulee", "label": "Fibrillation atriale anticoagulée", "rubrique": "atcd",
+      "fiche": "Fibrillation atriale permanente, CHA2DS2-VASc 4.",
+      "ecg": "fa",
+      "traitements": [["betabloquant", "apixaban"], ["betabloquant", "warfarine"], ["apixaban"]],
+      "resultats": {
+        "scope": "**Fibrillation atriale rapide**, irrégulière.",
+        "ecg": "**Fibrillation atriale rapide**, QRS fins, pas de trouble de la repolarisation."
+      },
+      "tags": ["FA", "anticoagulants"]
+    }
+  ],
+  "traitements": [
+    {
+      "id": "betabloquant", "fiche": "Bisoprolol 5 mg/j",
+      "constantes": { "FC": -25 },
+      "bornes": { "FC": [null, 100] },
+      "promeut": [
+        { "id": "glucagon", "dans": ["anaphylaxie"], "why": "Patient sous bêtabloquant : l'anaphylaxie peut résister à l'adrénaline. Glucagon IV en cas de résistance (SFAR/SFA 2011)." }
+      ],
+      "module": [
+        { "classe": "adrenaline", "dans": ["anaphylaxie"], "effet": { "PAS": 0.5 }, "why": "Sous bêtabloquant, l'adrénaline est moins efficace : bolus répétés, et glucagon si la pression ne remonte pas." }
+      ],
+      "tags": ["bêtabloquants"]
+    },
+    { "id": "aspirine", "fiche": "Aspirine 75 mg/j" },
+    { "id": "statine", "fiche": "Atorvastatine 40 mg/j" },
+    { "id": "sacubitril_valsartan", "fiche": "Sacubitril-valsartan 49/51 mg × 2/j" },
+    { "id": "furosemide_po", "fiche": "Furosémide 40 mg/j" },
+    { "id": "spironolactone", "fiche": "Spironolactone 25 mg/j" },
+    { "id": "tiotropium_olodaterol", "fiche": "Tiotropium + olodatérol inhalés" },
+    { "id": "salbutamol_pa", "fiche": "Salbutamol inhalé à la demande" },
+    { "id": "apixaban", "fiche": "Apixaban 5 mg × 2/j" },
+    {
+      "id": "warfarine", "fiche": "Warfarine (AVK), INR cible 2 à 3",
+      "resultats": { "tp_tca": "**TP 21 %** · **INR 3,6** (AVK) · **TCA 1,4** · fibrinogène 5,0 g/L." }
+    }
+  ],
+  "bruit": [
+    { "fiche": "Appendicectomie dans l'enfance" },
+    { "fiche": "Cholécystectomie en 2012" },
+    { "fiche": "Hypothyroïdie", "traitement": "Lévothyroxine 75 µg/j" },
+    { "fiche": "Cataracte opérée des deux yeux" },
+    { "fiche": "Gonarthrose bilatérale" },
+    { "fiche": "Hernie inguinale opérée" },
+    { "fiche": "Glaucome chronique", "traitement": "Latanoprost collyre" },
+    { "fiche": "Reflux gastro-œsophagien", "traitement": "Ésoméprazole 20 mg/j" },
+    { "fiche": "Épisode dépressif ancien, stabilisé", "traitement": "Sertraline 50 mg/j" },
+    { "fiche": "Hypertrophie bénigne de la prostate", "traitement": "Tamsulosine 0,4 mg/j", "sexe": "M" },
+    { "fiche": "Hystérectomie pour fibrome en 2005", "sexe": "F" }
+  ]
+}

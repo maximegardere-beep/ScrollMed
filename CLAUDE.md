@@ -5,7 +5,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `index.html` : toute l'app (HTML + CSS + JS, sans build ni dépendance). Contient aussi quelques cartes de départ codées en dur.
 - `Recos/` : **le registre de cartes**. L'app liste ce dossier via l'API GitHub, sur la branche `main` par défaut, et charge chaque fichier `.json` à chaque lancement. Une carte poussée sur `main` est donc en ligne tout de suite.
 - `Recos/cartes_complementaires_a_creer.md` : liste des sujets restant à traiter. Cocher (`- [x]`) les sujets couverts par un nouveau lot.
-- `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions et scénarios, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
+- `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
 - `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR
@@ -121,7 +121,8 @@ Tableau d'actions, partagé par tous les scénarios :
 - `transfert` : l'action fait quitter le déchoc (scanner, bloc, radiologie interventionnelle…). Avant de la lancer, une fenêtre évalue la stabilité du patient et propose « Partir maintenant » ou « Pas maintenant » (redemander plus tard) ; le chrono est arrêté pendant la décision. Format : `{ "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }` (le critère GCS est levé si le patient est intubé ; une noradrénaline au plafond rend instable).
 - Les actions se réalisent par **appui maintenu** (≈ 0,5 s) sur la tuile, ce qui évite les touchers accidentels. La tuile affiche la durée patient.
 - La catégorie `RCP` n'apparaît que pendant un ACR.
-- Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère).
+- `classe` : classes pharmacologiques ou de geste (`betalactamine`, `remplissage`, `hypnotique`, `curare`, `curare_depolarisant`, `vasopresseur`, `adrenaline`, `betabloquant`, `antithrombotique`, `anticoagulant`, `aminoside`…), visées par les terrains du patient procédural. Une nouvelle action d'une classe existante est couverte d'office.
+- Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère). Idem pour les `id` de terrains et de complications.
 
 ### Scénario : `Dechocage/sc_<nom>.json`
 
@@ -168,11 +169,45 @@ Tableau d'actions, partagé par tous les scénarios :
 - Prévoir pour chaque étape critique une branche d'aggravation (`e1_aggrav`) plutôt que des embranchements multiples.
 - Équilibrage : vérifier qu'une prise en charge complète garde le patient au-dessus des seuils, et que l'inaction le fait passer en ACR avant la fin du chrono doublé.
 
+### Patient procédural (bouton « 🎲 Patient aléatoire »)
+
+Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasard : comorbidités, traitements habituels, allergies, antécédents sans conséquence. Conception et décisions : `Dechocage/patient_procedural.md`.
+
+- Trame : `"terrains": { "exclus": ["estomac_plein"], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] } }`. Fixer `sexe` tant que les vignettes sont genrées. Le scénario reste jouable tel quel en mode fixe.
+- Tirage : 0-1 comorbidité (facile), 1-2 (moyen), 2-4 (difficile), effets additifs ; un traitement tiré par comorbidité ; 0 à 2 antécédents « bruit » ; constantes de la trame ± 8 %, puis décalées par le terrain. Fiche complète avant le chrono, bandeau dépliable ensuite.
+- **`Dechocage/terrains.json`** : `{ "terrains": [...], "traitements": [...], "bruit": [...] }`.
+
+```json
+{
+  "id": "allergie_betalactamines", "label": "Allergie grave aux bêtalactamines", "rubrique": "allergies",
+  "fiche": "Texte de la fiche patient.",
+  "ci": [ { "classe": "betalactamine", "complication": "anaphylaxie", "why": "…" } ],
+  "promeut": [ { "id": "atb_aztreo_amika", "dans": ["e1"], "why": "…" } ],
+  "module": [ { "classe": "remplissage", "effet": { "PAS": 0.5 }, "plus": { "SpO2": -2 }, "why": "…" } ],
+  "constantes": { "SpO2": -5 }, "pente": { "PAS": -0.2 }, "bornes": { "FC": [null, 100] },
+  "ecg": "fa", "resultats": { "ett": "**FEVG 30 %** …" }, "identite": { "age": [80, 92] },
+  "traitements": [["betabloquant", "aspirine"], ["aspirine"]], "exclut": ["autre_terrain"],
+  "tags": ["anaphylaxie"]
+}
+```
+  - `rubrique` : `allergies`, `atcd` (défaut) ou `vie` (mode de vie).
+  - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`. Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
+  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée. `dans` : limite à certaines étapes ou complications (aussi possible sur `ci` et `module`).
+  - `module` : multiplie l'`effet` des actions visées (`effet`), ajoute un effet propre (`plus`).
+  - `constantes` : décalage des constantes de départ et des constantes imposées par une étape. `pente` : s'ajoute à celle de l'étape. `bornes` : `[min, max]` (`null` = pas de borne), ex. FC plafonnée sous bêtabloquant.
+  - `resultats` : l'emportent sur ceux de l'étape et du scénario. `ecg` : rythme de fond (remplace `sinus`).
+  - `identite.age` : tranche d'âge du terrain ; un patient sans ce terrain est tiré hors de la tranche.
+  - `traitements` : variantes (listes d'id de `traitements`), une tirée. Un traitement a `id`, `fiche` et les mêmes clés d'effet (`ci`, `promeut`, `module`, `constantes`, `bornes`, `resultats`, `tags`) ; partagé entre comorbidités, il n'est appliqué qu'une fois.
+  - `bruit` : `{ "fiche", "traitement"?, "sexe"? }`, sans effet.
+  - `tags` : cartes Recos proposées « Pour réviser » au débriefing (tags communs).
+- **`Dechocage/complications.json`** : tableau d'étapes au format habituel (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
+- Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain à venir) ; elles ne comptent pas dans le record du scénario.
+
 ### Validation du mode Déchoc (à lancer avant chaque commit touchant `Dechocage/`)
 
 ```bash
 python3 - <<'EOF'
-import json, glob
+import json, glob, os
 NOTES = {"indispensable", "recommande", "debattu", "inutile", "contre_indique"}
 VITALS = {"FC", "PAS", "PAD", "SpO2", "FR", "T", "GCS", "EtCO2"}
 ECG = {"sinus", "fa", "qrs_larges", "st_plus", "tv", "fv", "asystolie", "aesp"}
@@ -180,10 +215,12 @@ acts = json.load(open("Dechocage/actions.json", encoding="utf-8"))
 ids = [a["id"] for a in acts]
 assert len(ids) == len(set(ids)), "id d'action en double"
 A = {a["id"]: a for a in acts}
+CLASSES = {c for a in acts for c in a.get("classe", [])}
 for a in acts:
     assert a.get("label") and isinstance(a.get("path"), list) and a["path"], f"action {a['id']} : label/path"
     assert set(a.get("moniteur", [])) <= {"PA", "CO2", "MCE"}, f"action {a['id']} : moniteur inconnu"
     assert set(a.get("voie", [])) <= {"IV", "VVC"} and a.get("requiert") in (None, "IV", "VVC"), f"action {a['id']} : voie / requiert"
+    assert isinstance(a.get("classe", []), list), f"action {a['id']} : classe doit être une liste"
     if "titration" in a:
         assert {"debut", "gain", "max"} <= a["titration"].keys(), f"action {a['id']} : titration incomplète"
     if "transfert" in a:
@@ -191,6 +228,93 @@ for a in acts:
 def flat(entries):
     for e in entries:
         yield from (e if isinstance(e, list) else [e])
+def check_res(w, res):
+    for k, t in res.items():
+        assert k in A, f"{w} : résultat pour une action inconnue {k}"
+        assert t.count("**") % 2 == 0, f"{w} : ** non fermé dans « {t} »"
+def check_step(w, st, steps, compl=False):
+    assert st.get("vignette"), f"{w} : vignette manquante"
+    assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg_racs", "sinus") in ECG, f"{w} : ecg inconnu"
+    for k in list(st.get("pente", {})) + list(st.get("constantes", {})):
+        assert k in VITALS, f"{w} : constante inconnue {k}"
+    for aid, spec in st.get("actions", {}).items():
+        assert aid in A, f"{w} : action inconnue {aid}"
+        assert A[aid].get("type") != "diagnostic", f"{w} : {aid} est un diagnostic"
+        assert spec.get("note") in NOTES, f"{w} : note invalide pour {aid}"
+        assert spec.get("why"), f"{w} : justification manquante pour {aid}"
+        assert spec.get("letal") in (None, "acr", "deces"), f"{w} : letal invalide pour {aid}"
+        assert spec.get("si_instable") in (None, "acr", "deces"), f"{w} : si_instable invalide pour {aid}"
+        assert "si_instable" not in spec or "transfert" in A[aid], f"{w} : si_instable sur {aid}, qui n'a pas de transfert"
+        assert spec.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu ({aid})"
+        for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
+            assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
+    check_res(w, st.get("resultats", {}))
+    for dx in st.get("diagnostic", []):
+        assert A.get(dx, {}).get("type") == "diagnostic", f"{w} : {dx} n'est pas un diagnostic"
+    tr = st.get("transfert")
+    if tr:
+        assert set(tr.get("min", {})) | set(tr.get("max", {})) <= VITALS | {"PAM"} and tr.get("si_instable") in (None, "acr", "deces"), f"{w} : transfert invalide"
+    lsm = st.get("letal_si_manque")
+    if lsm:
+        assert lsm.get("issue") in ("acr", "deces"), f"{w} : issue de letal_si_manque"
+        for aid in flat(lsm["actions"]): assert aid in A, f"{w} : action inconnue {aid}"
+    for e in st.get("acr", {}).get("requis", []):
+        alts = e if isinstance(e, list) else [e]
+        for aid in alts: assert aid in A, f"{w} : action inconnue {aid} (acr.requis)"
+        # refaisable pendant la RCP : catégorie RCP ou action repetable
+        assert any(A[a].get("repetable") or A[a]["path"][0] == "RCP" for a in alts), f"{w} : {alts} (acr.requis) doit être RCP ou repetable"
+    if compl:
+        assert "suite" not in st, f"{w} : une complication n'a pas de suite (retour à l'étape interrompue)"
+        return
+    suite = st.get("suite", [])
+    assert suite and not ("si_manque" in suite[-1] or "si_fait" in suite[-1]), f"{w} : la dernière règle de suite doit être sans condition"
+    for r in suite:
+        assert r["vers"] == "fin" or r["vers"] in steps, f"{w} : cible inconnue {r['vers']}"
+        for aid in flat(r.get("si_manque", []) + r.get("si_fait", [])): assert aid in A, f"{w} : action inconnue {aid}"
+# complications injectées par le terrain : une étape, sans suite
+COMPL = {}
+if os.path.exists("Dechocage/complications.json"):
+    for c in json.load(open("Dechocage/complications.json", encoding="utf-8")):
+        w = f"complications.json [{c.get('id')}]"
+        assert c.get("id") and c.get("titre") and c.get("source"), f"{w} : id / titre / source"
+        assert c["id"] not in COMPL, f"{w} : id en double"
+        COMPL[c["id"]] = c
+        check_step(w, c, set(), compl=True)
+# terrains : comorbidités, traitements, antécédents sans conséquence
+TERR = set()
+if os.path.exists("Dechocage/terrains.json"):
+    T = json.load(open("Dechocage/terrains.json", encoding="utf-8"))
+    TR = {x["id"]: x for x in T.get("traitements", [])}
+    assert len(TR) == len(T.get("traitements", [])), "terrains.json : id de traitement en double"
+    def check_src(w, s):
+        for kind in ("ci", "promeut", "module"):
+            for r in s.get(kind, []):
+                assert ("id" in r) != ("classe" in r), f"{w} : {kind} vise soit un id, soit une classe"
+                assert r.get("id", "") in A or r.get("classe") in CLASSES, f"{w} : {kind} vise une action ou une classe inconnue ({r.get('id') or r.get('classe')})"
+                assert kind == "module" or r.get("why"), f"{w} : {kind} sans justification"
+                assert set(r.get("dans", [])) <= COMPL.keys() | {e["id"] for f in glob.glob("Dechocage/sc_*.json") for e in json.load(open(f, encoding="utf-8"))["etapes"]}, f"{w} : étape inconnue dans {kind}.dans"
+                if kind == "ci" and "complication" in r:
+                    assert r["complication"] in COMPL, f"{w} : complication inconnue {r['complication']}"
+                if kind == "module":
+                    assert set(r.get("effet", {})) | set(r.get("plus", {})) <= VITALS, f"{w} : constante inconnue (module)"
+        assert set(s.get("constantes", {})) | set(s.get("pente", {})) | set(s.get("bornes", {})) <= VITALS, f"{w} : constante inconnue"
+        assert s.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu"
+        check_res(w, s.get("resultats", {}))
+    for t in T["terrains"]:
+        w = f"terrains.json [{t.get('id')}]"
+        assert t.get("id") and t.get("label") and t.get("fiche"), f"{w} : id / label / fiche"
+        assert t["id"] not in TERR, f"{w} : id en double"
+        TERR.add(t["id"])
+        assert t.get("rubrique", "atcd") in {"atcd", "allergies", "vie"}, f"{w} : rubrique inconnue"
+        assert set(t.get("identite", {})) <= {"age", "poids"}, f"{w} : identite : age / poids"
+        for var in t.get("traitements", []):
+            for x in var: assert x in TR, f"{w} : traitement inconnu {x}"
+        check_src(w, t)
+    for x in TR.values():
+        assert x.get("fiche"), f"terrains.json [{x['id']}] : fiche manquante"
+        check_src(f"terrains.json [{x['id']}]", x)
+    for b in T.get("bruit", []):
+        assert b.get("fiche") and b.get("sexe") in (None, "F", "M"), f"terrains.json : antécédent « bruit » invalide {b}"
 n = 0
 for f in sorted(glob.glob("Dechocage/sc_*.json")):
     sc = json.load(open(f, encoding="utf-8")); n += 1
@@ -200,51 +324,15 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     assert sc.get("ecg", "sinus") in ECG, f"{f} : ecg inconnu"
     assert set(sc.get("alarmes", {})) <= {"FC", "PAS", "SpO2"}, f"{f} : alarme inconnue"
     for k in sc.get("titration", {}): assert "titration" in A.get(k, {}), f"{f} : {k} n'a pas de titration au catalogue"
-    for st in sc["etapes"]:
-        for t in [*sc.get("resultats", {}).values(), *st.get("resultats", {}).values()]:
-            assert t.count("**") % 2 == 0, f"{f} : ** non fermé dans « {t} »"
+    if "terrains" in sc:
+        assert set(sc["terrains"].get("exclus", [])) <= TERR, f"{f} : terrain exclu inconnu"
+        assert set(sc["terrains"].get("identite", {})) <= {"sexe", "age", "poids"}, f"{f} : identite : sexe / age / poids"
+    check_res(f, sc.get("resultats", {}))
     steps = {e["id"] for e in sc["etapes"]}
-    for k in sc.get("resultats", {}):
-        assert k in A, f"{f} : résultat pour une action inconnue {k}"
+    assert not steps & COMPL.keys(), f"{f} : une étape porte l'id d'une complication"
     for st in sc["etapes"]:
-        w = f"{f} [{st['id']}]"
-        assert st.get("vignette"), f"{w} : vignette manquante"
-        assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg_racs", "sinus") in ECG, f"{w} : ecg inconnu"
-        for k in list(st.get("pente", {})) + list(st.get("constantes", {})):
-            assert k in VITALS, f"{w} : constante inconnue {k}"
-        for aid, spec in st.get("actions", {}).items():
-            assert aid in A, f"{w} : action inconnue {aid}"
-            assert A[aid].get("type") != "diagnostic", f"{w} : {aid} est un diagnostic"
-            assert spec.get("note") in NOTES, f"{w} : note invalide pour {aid}"
-            assert spec.get("why"), f"{w} : justification manquante pour {aid}"
-            assert spec.get("letal") in (None, "acr", "deces"), f"{w} : letal invalide pour {aid}"
-            assert spec.get("si_instable") in (None, "acr", "deces"), f"{w} : si_instable invalide pour {aid}"
-            assert "si_instable" not in spec or "transfert" in A[aid], f"{w} : si_instable sur {aid}, qui n'a pas de transfert"
-            assert spec.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu ({aid})"
-            for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
-                assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
-        for k in st.get("resultats", {}):
-            assert k in A, f"{w} : résultat pour une action inconnue {k}"
-        for dx in st.get("diagnostic", []):
-            assert A.get(dx, {}).get("type") == "diagnostic", f"{w} : {dx} n'est pas un diagnostic"
-        tr = st.get("transfert")
-        if tr:
-            assert set(tr.get("min", {})) | set(tr.get("max", {})) <= VITALS | {"PAM"} and tr.get("si_instable") in (None, "acr", "deces"), f"{w} : transfert invalide"
-        lsm = st.get("letal_si_manque")
-        if lsm:
-            assert lsm.get("issue") in ("acr", "deces"), f"{w} : issue de letal_si_manque"
-            for aid in flat(lsm["actions"]): assert aid in A, f"{w} : action inconnue {aid}"
-        for e in st.get("acr", {}).get("requis", []):
-            alts = e if isinstance(e, list) else [e]
-            for aid in alts: assert aid in A, f"{w} : action inconnue {aid} (acr.requis)"
-            # refaisable pendant la RCP : catégorie RCP ou action repetable
-            assert any(A[a].get("repetable") or A[a]["path"][0] == "RCP" for a in alts), f"{w} : {alts} (acr.requis) doit être RCP ou repetable"
-        suite = st.get("suite", [])
-        assert suite and not ("si_manque" in suite[-1] or "si_fait" in suite[-1]), f"{w} : la dernière règle de suite doit être sans condition"
-        for r in suite:
-            assert r["vers"] == "fin" or r["vers"] in steps, f"{w} : cible inconnue {r['vers']}"
-            for aid in flat(r.get("si_manque", []) + r.get("si_fait", [])): assert aid in A, f"{w} : action inconnue {aid}"
-print(f"{len(acts)} actions, {n} scénarios : OK")
+        check_step(f"{f} [{st['id']}]", st, steps)
+print(f"{len(acts)} actions, {n} scénarios, {len(TERR)} terrains, {len(COMPL)} complications : OK")
 EOF
 ```
 

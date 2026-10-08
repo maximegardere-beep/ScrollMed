@@ -95,6 +95,13 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
   - un **lien vers les cartes Recos** correspondantes (tags communs).
   - Écartée : section « Terrain » séparée.
 
+### Implémentation de l'étape 1
+- **D31** (2026-10-08) : l'allergie aux bêtalactamines de la v1 est une allergie **à toutes les bêtalactamines testées** (anaphylaxie à la ceftriaxone, tests positifs à l'amoxicilline, à la ceftriaxone et à l'imipénème). Une allergie isolée à la pénicilline n'aurait pas contre-indiqué le méropénème, ni forcément la C3G.
+- **D32** (2026-10-08) : dans la trame choc septique, l'aztréonam + amikacine est une alternative `debattu` de l'antibiothérapie (hors allergie, la C3G reste le premier choix) ; le terrain allergique la promeut à `recommande`.
+- **D33** (2026-10-08) : une action contre-indiquée par le terrain ne satisfait ni les alternatives, ni la `suite`, ni `letal_si_manque` ; elle n'est plus attendue, ses alternatives le restent. Ne pas la faire, l'alternative faite, s'affiche « piège évité ».
+- **D34** (2026-10-08) : la promotion par le terrain peut être limitée à certaines étapes ou complications (`dans`) : le glucagon n'est promu que pendant l'anaphylaxie du bêtabloqué.
+- **D35** (2026-10-08) : les parties procédurales n'entrent pas dans le record du scénario (difficulté différente) ; elles sont enregistrées avec niveau et terrains.
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
   1. **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
@@ -102,6 +109,8 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
   3. **Suite** : trames hémorragie peropératoire et détresse respiratoire en SSPI, autres complications de D23, conversion des autres scénarios en trames, historique par terrain.
 
 ## Plan de l'étape 1 : moteur sur une trame existante
+
+- [x] **Étape 1 livrée** (2026-10-08). Format de référence : `CLAUDE.md`, section « Patient procédural ». Choix faits pendant l'implémentation : voir D31 à D35.
 
 Objectif : jouer `sc_choc_septique.json` en « Patient aléatoire » avec un terrain tiré, dont l'allergie aux bêtalactamines qui déclenche une anaphylaxie si on l'ignore. Tout le reste du mode Déchoc reste identique.
 

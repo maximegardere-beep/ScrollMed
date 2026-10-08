@@ -697,6 +697,13 @@
   .dc-steptitle{ font-size:12.5px; color:var(--muted); font-weight:700; margin-bottom:6px; }
   .dc-vignette{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px 14px; font-size:14.5px; line-height:1.5; margin-bottom:10px; }
   .dc-vignette .pt{ color:var(--muted); font-size:12.5px; margin-bottom:4px; }
+  .dc-vignette.compl{ border-color: var(--danger); }
+  .dc-terrain{ margin: 0 0 6px; font-size:12.5px; color: var(--muted); }
+  .dc-terrain summary{ cursor:pointer; color: var(--text); font-weight:600; }
+  .dc-fiche-r{ margin-top:8px; line-height:1.45; }
+  .dc-fiche-r .lb{ font-weight:700; color: var(--text); margin-bottom:2px; }
+  .dc-fiche{ justify-content:flex-start; }
+  .dc-fiche-box{ text-align:left; max-width:420px; width:100%; background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:4px 14px 12px; font-size:14px; margin:6px 0; }
   .dc-results{ background: var(--surface); border:1px solid var(--line); border-radius:14px; margin-bottom:10px; }
   .dc-results summary{ list-style:none; cursor:pointer; padding:10px 14px; font-weight:700; font-size:13.5px; }
   .dc-results summary::-webkit-details-marker{ display:none; }
@@ -1752,7 +1759,7 @@ async function syncDechocFromGithub(cfg, headers){
     return { count: 0, errors: [] };
   }
   DC_SYNC_INFO = '';
-  let actions = null;
+  let actions = null, terrains = null, complications = [];
   const scenarios = [], errors = [];
   for(const { file: f, data, error } of await ghFetchJson(cfg, list.files)){
     try{
@@ -1760,6 +1767,13 @@ async function syncDechocFromGithub(cfg, headers){
       if(f.name === 'actions.json'){
         if(!Array.isArray(data)) throw new Error('tableau attendu');
         actions = data;
+      } else if(f.name === 'terrains.json'){
+        // patient procédural : comorbidités, traitements et antécédents sans conséquence
+        if(!data || !Array.isArray(data.terrains)) throw new Error('liste de terrains attendue');
+        terrains = data;
+      } else if(f.name === 'complications.json'){
+        if(!Array.isArray(data)) throw new Error('tableau attendu');
+        complications = data;
       } else {
         if(!data || !data.id || !Array.isArray(data.etapes) || !data.etapes.length) throw new Error('scénario invalide');
         scenarios.push(data);
@@ -1767,7 +1781,7 @@ async function syncDechocFromGithub(cfg, headers){
     }catch(err){ errors.push(`${f.name} (${err.message})`); }
   }
   if(!actions){ errors.push('actions.json manquant'); return { count: 0, errors }; }
-  DC_CONTENT = { actions, scenarios };
+  DC_CONTENT = { actions, scenarios, terrains, complications };
   localStorage.setItem(DECHOC_CONTENT_KEY, JSON.stringify(DC_CONTENT));
   if(DC_VIEW === 'home' && document.getElementById('panelDechoc').classList.contains('open')) dcRender();
   return { count: scenarios.length, errors };
@@ -1822,9 +1836,157 @@ function dcFmtClock(sec){
   return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
 }
 
+// ---------- patient procédural : une trame (scénario avec "terrains") + un terrain tiré au hasard ----------
+// Dechocage/terrains.json : comorbidités, traitements habituels, antécédents sans conséquence.
+// Un terrain agit par classe d'action (clé "classe" du catalogue) : contre-indication (note forcée,
+// complication injectée), promotion jusqu'à « recommandé », modulation de l'effet. Format dans CLAUDE.md.
+const DC_NIVEAUX = {
+  facile:    { ic:'🟢', lb:'Facile',    d:'0 à 1 comorbidité.', n:[0, 1] },
+  moyen:     { ic:'🟠', lb:'Moyen',     d:'1 à 2 comorbidités.', n:[1, 2] },
+  difficile: { ic:'🔴', lb:'Difficile', d:'2 à 4 comorbidités, effets cumulés.', n:[2, 4] }
+};
+const DC_RUBRIQUES = [['allergies', '⚠️ Allergies'], ['atcd', '📋 Antécédents'], ['traitements', '💊 Traitements'], ['vie', '🏠 Mode de vie']];
+let DC_NEXT = null;   // partie à lancer après le choix du rythme : { proc: true, niveau }
+function dcRandInt(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
+function dcPick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+function dcShuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+// trames jouables en patient aléatoire : scénarios qui déclarent "terrains"
+function dcTrames(){ return DC_CONTENT.terrains ? DC_CONTENT.scenarios.filter(s => s.terrains) : []; }
+// tire un patient sur une trame. force : liste d'id de terrains imposés (tests)
+function dcGenPatient(sc, niveau, force){
+  const cat = DC_CONTENT.terrains || { terrains: [] };
+  const tr = sc.terrains || {}, idt = tr.identite || {};
+  const exclus = new Set(tr.exclus || []);
+  const [nMin, nMax] = (DC_NIVEAUX[niveau] || DC_NIVEAUX.moyen).n;
+  const sexe = dcPick(idt.sexe || ['F', 'M']);
+  let age = (idt.age || [25, 85]).slice(), poids = (idt.poids || [55, 95]).slice();
+  const fits = (range, r) => !r || Math.max(range[0], r[0]) <= Math.min(range[1], r[1]);
+  const narrow = (range, r) => r ? [Math.max(range[0], r[0]), Math.min(range[1], r[1])] : range;
+  const items = [];
+  const want = force ? force.length : dcRandInt(nMin, nMax);
+  const pool = force ? force.map(id => cat.terrains.find(t => t.id === id)).filter(Boolean) : dcShuffle(cat.terrains);
+  for(const t of pool){
+    if(items.length >= want) break;
+    if(!force && (exclus.has(t.id) || (t.sexe && t.sexe !== sexe))) continue;
+    if(items.some(x => (x.exclut || []).includes(t.id) || (t.exclut || []).includes(x.id))) continue;
+    const ti = t.identite || {};
+    if(!fits(age, ti.age) || !fits(poids, ti.poids)) continue;
+    age = narrow(age, ti.age); poids = narrow(poids, ti.poids);
+    items.push(t);
+  }
+  // un patient sans le terrain « grand âge » n'a pas l'âge de ce terrain
+  cat.terrains.forEach(t => {
+    const r = t.identite && t.identite.age;
+    if(!r || items.includes(t)) return;
+    if(r[0] > age[0] && r[0] <= age[1]) age[1] = r[0] - 1;
+    else if(r[1] < age[1] && r[1] >= age[0]) age[0] = r[1] + 1;
+  });
+  // traitements habituels : une variante tirée par comorbidité, sans doublon
+  const trById = {};
+  (cat.traitements || []).forEach(x => { trById[x.id] = x; });
+  const traitements = [];
+  items.forEach(t => {
+    if(!t.traitements || !t.traitements.length) return;
+    dcPick(t.traitements).forEach(id => { if(trById[id] && !traitements.includes(trById[id])) traitements.push(trById[id]); });
+  });
+  const bruit = dcShuffle((cat.bruit || []).filter(b => !b.sexe || b.sexe === sexe)).slice(0, dcRandInt(0, 2));
+  const P = {
+    niveau, sexe, age: dcRandInt(age[0], age[1]), poids: dcRandInt(poids[0], poids[1]),
+    items, traitements, bruit,
+    sources: [...items, ...traitements.map(x => Object.assign({ label: x.fiche }, x))]
+  };
+  P.patient = `${sexe === 'F' ? 'Femme' : 'Homme'}, ${P.age} ans, ${P.poids} kg`;
+  P.ecg = (P.sources.find(s => s.ecg) || {}).ecg || null;
+  // constantes de la trame, légèrement variables (PAS et PAD ensemble), puis décalées par le terrain
+  const v = Object.assign({}, sc.constantes);
+  const f = () => 1 + (Math.random() - 0.5) * 0.16;
+  const fp = f();
+  ['PAS', 'PAD'].forEach(k => { if(v[k] != null) v[k] = Math.round(v[k] * fp); });
+  ['FC', 'FR', 'EtCO2'].forEach(k => { if(v[k] != null) v[k] = Math.round(v[k] * f()); });
+  if(v.SpO2 != null) v.SpO2 = Math.min(100, v.SpO2 + dcRandInt(-2, 1));
+  if(v.T != null) v.T = Math.round((v.T + (Math.random() - 0.5) * 0.6) * 10) / 10;
+  P.constantes = dcShiftVitals(v, v, P.sources);
+  return P;
+}
+// décalage des constantes par le terrain (BPCO : SpO2 plus basse…), puis bornes (bêtabloquant : FC plafonnée)
+function dcShiftVitals(v, keys, sources){
+  sources.forEach(s => Object.entries(s.constantes || {}).forEach(([k, d]) => { if(k in keys && v[k] != null) v[k] += d; }));
+  Object.keys(DC_LIMITS).forEach(k => { if(v[k] != null) v[k] = Math.min(DC_LIMITS[k][1], Math.max(DC_LIMITS[k][0], v[k])); });
+  return dcBound(v, sources);
+}
+function dcBound(v, sources){
+  sources.forEach(s => Object.entries(s.bornes || {}).forEach(([k, [lo, hi]]) => {
+    if(v[k] == null) return;
+    if(lo != null) v[k] = Math.max(lo, v[k]);
+    if(hi != null) v[k] = Math.min(hi, v[k]);
+  }));
+  if(v.PAD != null && v.PAS != null && v.PAD > v.PAS - 10) v.PAD = Math.max(0, v.PAS - 10);
+  return v;
+}
+function dcSources(){ return (G && G.terrain) ? G.terrain.sources : []; }
+// une règle de terrain vise une action par son id ou par une de ses classes, éventuellement dans certaines étapes
+function dcRuleHits(r, id, stepId){
+  const a = dcIndex()[id] || {};
+  return (r.id === id || (r.classe && (a.classe || []).includes(r.classe))) && (!r.dans || r.dans.includes(stepId));
+}
+function dcRuleFind(kind, id, stepId){
+  for(const s of dcSources()) for(const r of s[kind] || []) if(dcRuleHits(r, id, stepId)) return Object.assign({ src: s.label }, r);
+  return null;
+}
+function dcTerrainCi(id, stepId){ return dcRuleFind('ci', id, stepId); }
+// effet d'une action modulé par le terrain : facteurs multiplicatifs ("effet") et effet propre ("plus")
+function dcModEffet(id, stepId, effet){
+  const mods = [];
+  dcSources().forEach(s => (s.module || []).forEach(m => { if(dcRuleHits(m, id, stepId)) mods.push(Object.assign({ src: s.label }, m)); }));
+  if(!mods.length) return { effet, mods };
+  const out = Object.assign({}, effet || {});
+  mods.forEach(m => {
+    Object.entries(m.effet || {}).forEach(([k, x]) => { if(k in out) out[k] *= x; });
+    Object.entries(m.plus || {}).forEach(([k, d]) => { out[k] = (out[k] || 0) + d; });
+  });
+  return { effet: out, mods };
+}
+// résultat d'examen propre au terrain (ETT de l'insuffisant cardiaque, INR sous AVK…)
+function dcTerrainRes(id){
+  let r;
+  dcSources().forEach(s => { if(s.resultats && s.resultats[id] != null) r = s.resultats[id]; });
+  return r;
+}
+// fiche patient : rubriques → lignes
+function dcFicheRows(T){
+  const rows = { allergies: [], atcd: [], traitements: [], vie: [] };
+  T.items.forEach(t => (rows[t.rubrique] || rows.atcd).push(`<b>${escapeHtml(t.label)}</b> : ${escapeHtml(t.fiche || '')}`));
+  T.bruit.forEach(b => rows.atcd.push(escapeHtml(b.fiche)));
+  T.traitements.forEach(x => rows.traitements.push(escapeHtml(x.fiche)));
+  T.bruit.forEach(b => { if(b.traitement) rows.traitements.push(escapeHtml(b.traitement)); });
+  if(!rows.allergies.length) rows.allergies.push('Aucune allergie connue');
+  if(!rows.atcd.length) rows.atcd.push('Aucun antécédent notable');
+  if(!rows.traitements.length) rows.traitements.push('Aucun traitement');
+  return DC_RUBRIQUES.filter(([k]) => rows[k].length).map(([k, lb]) => `<div class="dc-fiche-r"><div class="lb">${lb}</div>${rows[k].map(r => `<div>${r}</div>`).join('')}</div>`).join('');
+}
+function dcTerrainSummary(T){
+  const lb = T.items.map(t => (t.rubrique === 'allergies' ? '⚠️ ' : '') + t.label);
+  return lb.length ? lb.join(' · ') : 'Pas de comorbidité notable';
+}
+// cartes Recos à réviser : tags communs avec le terrain et les complications rencontrées
+function dcRevisionCards(d){
+  const tags = new Set();
+  (d.terrain ? d.terrain.sources : []).forEach(s => (s.tags || []).forEach(t => tags.add(dcNorm(t))));
+  d.sc.etapes.filter(e => e._compl).forEach(e => (e.tags || []).forEach(t => tags.add(dcNorm(t))));
+  if(!tags.size) return [];
+  return POSTS.map(p => ({ p, n: (p.tags || []).filter(t => tags.has(dcNorm(t))).length }))
+    .filter(x => x.n).sort((a, b) => b.n - a.n).slice(0, 4).map(x => x.p);
+}
+
 // ---------- moteur ----------
-function dcStart(scId, mode){
-  const pool = DC_CONTENT.scenarios;
+// opts : { proc: true, niveau, force } pour un patient procédural (trame + terrain tiré)
+function dcStart(scId, mode, opts){
+  opts = opts || {};
+  const pool = opts.proc ? dcTrames() : DC_CONTENT.scenarios;
   if(!pool.length) return;
   let sc = scId && pool.find(s => s.id === scId);
   if(!sc){
@@ -1832,16 +1994,23 @@ function dcStart(scId, mode){
     const choices = pool.length > 1 ? pool.filter(s => s.id !== STATE.dechoc.last) : pool;
     sc = choices[Math.floor(Math.random() * choices.length)];
   }
+  let terrain = null;
+  if(opts.proc){
+    terrain = dcGenPatient(sc, opts.niveau, opts.force);
+    // copie de la trame : identité et constantes tirées, complications ajoutées en cours de partie
+    sc = Object.assign({}, sc, { patient: terrain.patient, constantes: terrain.constantes, etapes: sc.etapes.slice() });
+  }
   dcStop();
   if(!DC_MODES[mode]) mode = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
   G = {
+    terrain, fiche: !!terrain, compl: null,
     sc, mode, pending: 0, step: null, vitals: Object.assign({}, sc.constantes),
     override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
     phase: 'step', doneAll: new Set(), log: [], visited: [],
     dx: null, results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
-    fold: { res: false, chips: false },  // encarts repliés : les tuiles restent visibles
-    ecg: sc.ecg || 'sinus', mon: new Set(), nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
+    fold: { res: false, chips: false, terrain: false },  // encarts repliés : les tuiles restent visibles
+    ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(), nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
   };
   dcMonReset();
   dcEnterStep(sc.etapes[0].id);
@@ -1862,17 +2031,32 @@ function dcAbandon(){
 }
 
 function dcStepById(id){ return G.sc.etapes.find(e => e.id === id); }
+// visite en cours de l'étape affichée (une complication s'intercale sans clore l'étape interrompue)
+function dcCurVisit(){
+  for(let i = G.visited.length - 1; i >= 0; i--) if(G.visited[i].id === G.step.id) return G.visited[i];
+  return G.visited[G.visited.length - 1];
+}
+// rythme imposé par le scénario ; un rythme sinusal laisse celui du terrain (FA)
+function dcSetEcg(code){ G.ecg = (code === 'sinus' && G.terrain && G.terrain.ecg) ? G.terrain.ecg : code; }
 function dcEnterStep(id){
   const st = dcStepById(id);
   G.step = st;
-  if(st.constantes) Object.assign(G.vitals, st.constantes);
-  if(st.ecg) G.ecg = st.ecg;
+  if(st.constantes){
+    Object.assign(G.vitals, st.constantes);
+    if(G.terrain) dcShiftVitals(G.vitals, st.constantes, dcSources());
+  }
+  if(st.ecg) dcSetEcg(st.ecg);
   if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
   G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
   G.nav = []; G.search = '';
 }
-function dcSlopes(){ return Object.assign({}, G.step.pente || {}, G.override); }
+// pente de l'étape, remplacée par celle des actions ; celle du terrain s'ajoute (réserve réduite)
+function dcSlopes(){
+  const s = Object.assign({}, G.step.pente || {}, G.override);
+  dcSources().forEach(src => Object.entries(src.pente || {}).forEach(([k, d]) => { s[k] = (s[k] || 0) + d; }));
+  return s;
+}
 function dcApply(deltas, factor){
   if(!deltas) return;
   Object.keys(deltas).forEach(k => {
@@ -1888,6 +2072,7 @@ function dcApply(deltas, factor){
     G.vitals[k] = Math.min(hi, Math.max(lo, G.vitals[k]));
   });
   if(G.vitals.PAD > G.vitals.PAS - 10) G.vitals.PAD = Math.max(0, G.vitals.PAS - 10);
+  dcBound(G.vitals, dcSources());
 }
 function dcSample(){
   const v = G.phase === 'acr' ? { PAS: 0, FC: 0, SpO2: 0 } : G.vitals;
@@ -1929,7 +2114,7 @@ function dcCheckThresholds(){
   }
 }
 function dcTick(){
-  if(!G || G.paused || G.modal || G.phase === 'over') return;
+  if(!G || G.paused || G.modal || G.fiche || G.phase === 'over') return;
   const phase = G.phase;
   if(G.phase === 'acr'){
     G.acr.chrono -= 1;
@@ -1944,9 +2129,10 @@ function dcTick(){
   if(G.phase === 'over') return;
   if(G.phase !== phase) dcRender(); else dcRenderScope();
 }
+// une action contre-indiquée par le terrain (l.ci) ne compte pas : l'antibiotique allergisant n'est pas une antibiothérapie
 function dcDoneEntry(e, until){
   const ids = Array.isArray(e) ? e : [e];
-  return G.log.some(l => ids.includes(l.id) && (until == null || l.t <= until));
+  return G.log.some(l => ids.includes(l.id) && !l.ci && (until == null || l.t <= until));
 }
 function dcAcrSpec(){ return Object.assign({}, DC_DEFAULT_ACR, G.step.acr || {}); }
 
@@ -2006,7 +2192,7 @@ function dcUnstableOutcome(issue, label){
 
 function dcDoAction(id, confirmed){
   const a = dcIndex()[id];
-  if(!a || !G || G.phase === 'over' || G.paused || G.modal) return;
+  if(!a || !G || G.phase === 'over' || G.paused || G.modal || G.fiche) return;
   if(a.type === 'diagnostic'){
     G.dx = id;   // un seul diagnostic actif ; on en change en touchant un autre
     dcRender();
@@ -2031,14 +2217,28 @@ function dcDoAction(id, confirmed){
   dcAdvance((a.duree || 0) * 60);
   if(G.phase === 'over') return;
   const etape = G.phase === 'acr' ? 'acr' : G.step.id;
-  G.log.push({ t: G.t, id, etape, step: G.step.id, instable });
+  // contre-indication du terrain : notée comme telle, et ne satisfait pas les attentes de la trame
+  const ci = dcTerrainCi(id, G.step.id);
+  const entry = { t: G.t, id, etape, step: G.step.id, instable };
+  if(ci) entry.ci = true;
+  G.log.push(entry);
   if(!dcIsRcp(a)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
   if(navigator.vibrate) navigator.vibrate(10);
 
-  // résultat d'examen : celui de l'étape, sinon celui du scénario
-  const res = (G.step.resultats || {})[id] ?? (G.sc.resultats || {})[id] ?? (a.examen ? 'Pas d’anomalie notable.' : null);
+  // résultat d'examen : celui du terrain, sinon de l'étape, sinon du scénario
+  const res = dcTerrainRes(id) ?? (G.step.resultats || {})[id] ?? (G.sc.resultats || {})[id] ?? (a.examen ? 'Pas d’anomalie notable.' : null);
   if(res) G.results.unshift({ id, text: res, t: G.t });
+
+  // la contre-indication déclenche sa complication (anaphylaxie…), insérée comme une étape
+  const cp = ci && ci.complication && G.phase === 'step' && !G.step._compl
+    && (DC_CONTENT.complications || []).find(c => c.id === ci.complication);
+  if(cp){
+    entry.compl = cp.id;
+    dcEnterCompl(cp, a.label);
+    dcRender();
+    return;
+  }
 
   if(G.phase === 'acr'){
     G.acr.done.add(id);
@@ -2049,9 +2249,14 @@ function dcDoAction(id, confirmed){
   }
   if(a.titration && !G.pumps[id]){ const d = dcTitration(id).debut; G.pumps[id] = { dose: d, peak: d, max: d, capped: false }; }
   const spec = (G.step.actions || {})[id];
+  const mod = dcModEffet(id, G.step.id, spec && spec.effet);
+  if(mod.mods.length){
+    entry.mods = mod.mods.map(m => m.why).filter(Boolean);
+    if(!spec) dcApply(mod.effet, 1);   // effet propre au terrain d'une action non prévue par l'étape
+  }
   if(spec){
-    dcApply(spec.effet, 1);
-    if(spec.ecg) G.ecg = spec.ecg;
+    dcApply(mod.effet, 1);
+    if(spec.ecg) dcSetEcg(spec.ecg);
     if(spec.pente) Object.assign(G.override, spec.pente);
     if(spec.letal === 'deces'){ dcDie(`${a.label} : ${spec.why || 'erreur létale'}`); return; }
     if(spec.letal === 'acr'){ dcEnterAcr(a.label); dcRender(); return; }
@@ -2075,8 +2280,8 @@ function dcRacs(){
   const spec = dcAcrSpec();
   G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: true });
   G.racs++;
-  G.vitals = Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS);
-  if(spec.ecg_racs) G.ecg = spec.ecg_racs;   // rythme après le RACS (ex. sinus après le choc d'une TV)
+  G.vitals = dcBound(Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS), dcSources());
+  if(spec.ecg_racs) dcSetEcg(spec.ecg_racs);   // rythme après le RACS (ex. sinus après le choc d'une TV)
   G.phase = 'step';
   G.acr = null;
   DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0;   // fin du silence : les alarmes reprennent normalement
@@ -2085,6 +2290,32 @@ function dcRacs(){
   dcSample();
   showToast('RACS : reprise d’activité circulatoire');
 }
+// complication injectée : étape de Dechocage/complications.json insérée dans la partie ;
+// l'étape interrompue reste ouverte et reprend à la validation de la complication
+function dcEnterCompl(cp, cause){
+  dcSettle();   // temps fixé : l'évolution en attente s'applique d'abord
+  if(G.phase !== 'step') return;
+  if(!dcStepById(cp.id)) G.sc.etapes.push(Object.assign({}, cp, { _compl: true }));
+  G.compl = { ret: G.step, chrono: G.chrono, override: G.override, ecg: G.ecg, dx: G.dx, cause };
+  G.override = {};
+  G.dx = null;
+  dcEnterStep(cp.id);
+  dcNibp();
+  dcSample();
+  dcCheckThresholds();
+  showToast(`⚠️ ${cp.titre || 'Complication'}`);
+  if(navigator.vibrate) navigator.vibrate([120, 60, 120]);
+}
+function dcLeaveCompl(){
+  const c = G.compl;
+  G.compl = null;
+  G.step = c.ret;
+  G.override = c.override;   // la pente des gestes de la complication ne survit pas à celle-ci
+  G.ecg = c.ecg;
+  G.dx = c.dx;
+  G.chrono = G.chronoMax = Math.max(c.chrono, 30 * dcMode().mult);
+  G.nav = []; G.search = '';
+}
 function dcDie(cause){
   if(G.acr) G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: false });
   G.outcome = 'deces';
@@ -2092,22 +2323,28 @@ function dcDie(cause){
   dcFinish();
 }
 function dcValidate(confirmed){
-  if(!G || G.phase !== 'step' || G.paused || G.modal) return;
+  if(!G || G.phase !== 'step' || G.paused || G.modal || G.fiche) return;
   const st = G.step;
   // étape qui se termine par un départ (salle, bloc…) : on vérifie d'abord la stabilité
   if(st.transfert && !confirmed){ dcAskTransfer('step'); return; }
   dcSettle();
   if(G.phase !== 'step'){ dcRender(); return; }   // l'évolution différée a mené à l'ACR
   if(st.transfert && !dcStability(st.transfert).ok){
-    G.visited[G.visited.length - 1].instable = true;
+    dcCurVisit().instable = true;
     if(dcUnstableOutcome(st.transfert.si_instable, `Départ ${st.transfert.vers || ''}`.trim())) return;
   }
-  const visit = G.visited[G.visited.length - 1];
+  const visit = dcCurVisit();
   visit.t1 = G.t; visit.dx = G.dx;
   const lsm = st.letal_si_manque;
   if(lsm && (lsm.actions || []).some(e => !dcDoneEntry(e))){
     if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return; }
     dcEnterAcr(lsm.why || 'omission létale');
+    dcRender();
+    return;
+  }
+  if(st._compl){
+    dcLeaveCompl();
+    showToast(`Retour : ${G.step.titre || 'étape en cours'}`);
     dcRender();
     return;
   }
@@ -2126,18 +2363,30 @@ function dcValidate(confirmed){
 }
 
 // ---------- notation ----------
-function dcNoteFor(id, stepId){
+function dcBaseNote(id, stepId){
   const own = (dcStepById(stepId).actions || {})[id];
   if(own) return own;
-  // action anticipée : notée comme dans l'étape où elle est attendue
+  // action anticipée : notée comme dans l'étape où elle est attendue (pas dans une complication)
   for(const st of G.sc.etapes){
+    if(st._compl) continue;
     const s = (st.actions || {})[id];
     if(s && ['indispensable', 'recommande', 'debattu'].includes(s.note)) return Object.assign({ anticipe: true }, s);
   }
   return null;
 }
+// le terrain surcharge la note : contre-indication, ou promotion jusqu'à « recommandé »
+function dcNoteFor(id, stepId){
+  const base = dcBaseNote(id, stepId);
+  const ci = dcTerrainCi(id, stepId);
+  if(ci) return { note: 'contre_indique', why: ci.why, terrain: ci.src, orig: base ? base.note : null };
+  const pr = dcRuleFind('promeut', id, stepId);
+  if(pr && !(base && ['indispensable', 'recommande'].includes(base.note)))
+    return Object.assign({}, base || {}, { note: 'recommande', why: pr.why, terrain: pr.src, orig: base ? base.note : 'inutile', adapte: true });
+  return base;
+}
 function dcScore(){
   const scored = new Set();
+  const evited = new Set();
   const maxByKey = {};
   let pts = 0;
   const steps = G.visited.map((v, i) => {
@@ -2154,24 +2403,43 @@ function dcScore(){
       let p = 0;
       if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
       pts += p;
-      seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, instable: l.instable, pts: p, n: 1 };
+      seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, instable: l.instable, pts: p, n: 1,
+        terrain: spec && spec.terrain, orig: spec && spec.orig, adapte: spec && spec.adapte, compl: l.compl, mods: l.mods };
       items.push(seen[l.id]);
     });
     const actions = st.actions || {};
-    const altDone = alt => Object.keys(actions).some(k => actions[k].alt === alt && dcDoneEntry(k, t1));
+    const doneIn = id => actions[id].refaire
+      ? G.log.some(l => l.id === id && !l.ci && l.step === v.id && l.t >= v.t0 && l.t <= t1)
+      : dcDoneEntry(id, t1);
+    // les actions contre-indiquées par le terrain ne sont plus attendues ; les alternatives restent dues
+    const allowed = id => !dcTerrainCi(id, v.id);
+    const altDone = alt => Object.keys(actions).some(k => actions[k].alt === alt && allowed(k) && doneIn(k));
+    const altOpen = alt => Object.keys(actions).some(k => actions[k].alt === alt && allowed(k));
     Object.keys(actions).forEach(id => {
       const s = actions[id];
       if(s.note !== 'indispensable' && s.note !== 'recommande') return;
+      if(!allowed(id)){
+        // piège évité : l'action attendue par la trame, contre-indiquée chez ce patient, n'a pas été faite
+        if(!seen[id] && !evited.has(id) && (!s.alt || altDone(s.alt))){
+          evited.add(id);
+          const ci = dcTerrainCi(id, v.id);
+          items.push({ id, kind: 'evite', why: ci.why, terrain: ci.src, pts: 0 });
+        }
+        if(!s.alt || !altOpen(s.alt)) return;
+      }
       const key = s.alt ? `alt:${s.alt}` : s.refaire ? `${id}@${v.id}` : id;
       // une action attendue dans plusieurs étapes compte pour sa première apparition
       if(!(key in maxByKey)) maxByKey[key] = DC_POINTS[s.note];
-      const done = s.refaire ? G.log.some(l => l.id === id && l.step === v.id && l.t >= v.t0 && l.t <= t1) : dcDoneEntry(id, t1);
-      if(done || (s.alt && altDone(s.alt)) || seen[id]) return;
+      if((allowed(id) && doneIn(id)) || (s.alt && altDone(s.alt)) || (seen[id] && allowed(id))) return;
+      // oubli signalé sur l'action elle-même, ou sur une alternative permise si elle est contre-indiquée
+      const tgt = allowed(id) ? id : Object.keys(actions).find(k => actions[k].alt === s.alt && allowed(k));
+      const pr = !allowed(id) && dcRuleFind('promeut', tgt, v.id);
+      const why = pr ? pr.why : actions[tgt].why;
       if(s.note === 'indispensable'){
         pts -= DC_POINTS.indispensable;
-        items.push({ id, kind: 'oubli', why: s.why, pts: -DC_POINTS.indispensable });
+        items.push({ id: tgt, kind: 'oubli', why, pts: -DC_POINTS.indispensable });
       } else {
-        items.push({ id, kind: 'nonfait', why: s.why, pts: 0 });
+        items.push({ id: tgt, kind: 'nonfait', why, pts: 0 });
       }
     });
     let dx = null;
@@ -2199,11 +2467,14 @@ function dcFinish(){
   dcStop();
   G.phase = 'over';
   const sc = dcScore();
-  DC_DEBRIEF = Object.assign({ sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps }, sc);
+  DC_DEBRIEF = Object.assign({ sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps, terrain: G.terrain }, sc);
   const d = STATE.dechoc;
-  d.runs.push({ sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome, mode: G.mode });
+  const run = { sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome, mode: G.mode };
+  // patient procédural : niveau et terrains gardés pour l'historique par terrain
+  if(G.terrain) Object.assign(run, { proc: true, niveau: G.terrain.niveau, terrains: G.terrain.items.map(t => t.id) });
+  d.runs.push(run);
   if(d.runs.length > 100) d.runs = d.runs.slice(-100);
-  d.best[G.sc.id] = Math.max(d.best[G.sc.id] || 0, sc.note);
+  if(!G.terrain) d.best[G.sc.id] = Math.max(d.best[G.sc.id] || 0, sc.note);
   d.last = G.sc.id;
   saveState(STATE);
   G = null;
@@ -2218,6 +2489,7 @@ function dcRender(){
   if(!(DC_VIEW === 'game' && G)){ dcRoot.classList.remove('game'); delete dcRoot.dataset.ctx; }
   if(DC_VIEW === 'game' && G) dcRenderGame();
   else if(DC_VIEW === 'mode' && !G) dcRenderMode();
+  else if(DC_VIEW === 'niveau' && !G) dcRenderNiveau();
   else if(DC_VIEW === 'debrief' && DC_DEBRIEF) dcRenderDebrief();
   else { DC_VIEW = 'home'; dcRenderHome(); }
 }
@@ -2240,7 +2512,9 @@ function dcRenderHome(){
     </div>
     ${G ? `<button class="btn" data-dc="resume">▶ Reprendre la partie en cours</button>
            <button class="btn secondary" data-dc="abandon">Abandonner la partie</button>`
-        : n ? `<button class="btn" data-dc="start">✚ Nouveau patient</button>`
+        : n ? `<button class="btn" data-dc="start">✚ Nouveau patient</button>
+               ${dcTrames().length ? `<button class="btn secondary" data-dc="proc">🎲 Patient aléatoire</button>
+               <div class="hint" style="text-align:center">Une situation connue, un patient tiré au hasard : antécédents, traitements et allergies à prendre en compte.</div>` : ''}`
             : `<div class="hint" style="text-align:center">Aucun scénario chargé. ${DC_SYNC_INFO
                 ? `${escapeHtml(DC_SYNC_INFO)} Vérifie la branche dans Réglages, puis resynchronise.`
                 : loadGhConfig() ? 'Synchronisation en cours ou impossible : vérifie la branche dans Réglages, puis resynchronise.'
@@ -2265,6 +2539,30 @@ function dcRenderMode(){
     ${Object.entries(DC_MODES).map(([k, m]) => `<button class="dc-mode ${k === cur ? 'on' : ''}" data-dc="go" data-mode="${k}">
       <span class="ic">${m.ic}</span><span><b>${m.lb}</b><span class="d">${escapeHtml(m.d)}</span></span></button>`).join('')}
     <button class="btn secondary" data-dc="home">Annuler</button>
+  </div>`;
+}
+
+// patient aléatoire : choix du niveau (nombre de comorbidités), puis du rythme
+function dcRenderNiveau(){
+  document.getElementById('dcTitle').textContent = 'Déchoc · Patient aléatoire';
+  const cur = DC_NIVEAUX[DC_PREFS.niveau] ? DC_PREFS.niveau : 'moyen';
+  dcRoot.innerHTML = `<div class="dc-scroll">
+    <div class="dc-hero"><div class="big">🎲</div><h3>Choisis la difficulté</h3>
+      <div class="hint">Le patient arrive avec ses comorbidités, ses traitements et ses allergies. Lis sa fiche : certaines actions habituelles lui sont contre-indiquées.</div></div>
+    ${Object.entries(DC_NIVEAUX).map(([k, m]) => `<button class="dc-mode ${k === cur ? 'on' : ''}" data-dc="niv" data-niv="${k}">
+      <span class="ic">${m.ic}</span><span><b>${m.lb}</b><span class="d">${escapeHtml(m.d)}</span></span></button>`).join('')}
+    <button class="btn secondary" data-dc="home">Annuler</button>
+  </div>`;
+}
+// fiche patient lue avant le chrono
+function dcFicheHtml(){
+  const T = G.terrain;
+  return `<div class="dc-pause dc-modal dc-fiche">
+    <div class="big">📋</div><b>${escapeHtml(G.sc.patient)}</b>
+    <div class="hint">${escapeHtml(DC_NIVEAUX[T.niveau] ? DC_NIVEAUX[T.niveau].lb : '')} · lis la fiche avant de prendre en charge le patient.</div>
+    <div class="dc-fiche-box">${dcFicheRows(T)}</div>
+    <button class="btn" data-dc="fiche-go" style="max-width:300px">▶ Prendre en charge</button>
+    <div class="hint">Le chrono démarre à la fermeture de la fiche. Elle reste consultable sous la vignette.</div>
   </div>`;
 }
 
@@ -2702,17 +3000,20 @@ function dcRenderGame(){
       <div class="hint">${dcMode().fige ? 'Temps fixé : le patient attend ta validation.' : 'Le chrono s\'arrête quand tu quittes l\'écran.'}</div>
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
       <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
-  const modal = G.modal && !G.paused ? dcModalHtml() : '';
+  const modal = G.fiche && !G.paused ? dcFicheHtml() : G.modal && !G.paused ? dcModalHtml() : '';
+  // bandeau du terrain sous l'identité, déplié d'un toucher
+  const pt = `<div class="pt">${escapeHtml(G.sc.patient || '')}</div>${G.terrain
+    ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>${escapeHtml(dcTerrainSummary(G.terrain))}</summary>${dcFicheRows(G.terrain)}</details>` : ''}`;
   dcRoot.innerHTML = `
     ${dcScopeShell()}
     <div class="dc-scroll">
       ${G.phase === 'acr'
-        ? `<div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>
+        ? `<div class="dc-vignette">${pt}Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>
            ${G.acr.metro
              ? `<div class="dc-acrbox on">🎵 Métronome ${DC_METRO_RATE}/min jusqu'à la reprise d'un rythme${DC_PREFS.son ? '' : ' (son coupé : active 🔇 pour l’entendre)'}.</div>`
              : `<button class="dc-acrbox" data-dc="sil">🔕 Silence alarme · lancer le métronome</button>`}`
-        : `<div class="dc-steptitle">Étape ${G.visited.length} · ${escapeHtml(st.titre || '')}</div>
-           <div class="dc-vignette"><div class="pt">${escapeHtml(G.sc.patient || '')}</div>${escapeHtml(st.vignette || '')}</div>`}
+        : `<div class="dc-steptitle">${st._compl ? '⚠️ Complication' : `Étape ${G.visited.indexOf(dcCurVisit()) + 1}`} · ${escapeHtml(st.titre || '')}</div>
+           <div class="dc-vignette ${st._compl ? 'compl' : ''}">${pt}${st._compl && G.compl ? `<div class="pt">Après : ${escapeHtml(G.compl.cause)}</div>` : ''}${escapeHtml(st.vignette || '')}</div>`}
       ${G.dx ? `<div class="dc-chips"><span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(G.dx))}</span></div>` : ''}
       ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
       ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}
@@ -2745,7 +3046,7 @@ function dcChartSvg(d){
   const acr = d.acrEpisodes.map(e => `<rect x="${x(e.t)}" y="${T}" width="${Math.max(2, x(e.t1) - x(e.t))}" height="${H - T - B}" fill="var(--danger)" opacity=".18"/>`).join('');
   const ticks = d.log.map(l => {
     const spec = l.etape !== 'acr' ? (d.sc.etapes.find(e => e.id === l.step).actions || {})[l.id] : null;
-    const c = spec && spec.note === 'contre_indique' ? 'var(--danger)' : 'var(--muted)';
+    const c = l.ci || (spec && spec.note === 'contre_indique') ? 'var(--danger)' : 'var(--muted)';
     return `<line x1="${x(l.t)}" x2="${x(l.t)}" y1="${H - B}" y2="${H - B + 6}" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
   return `<svg viewBox="0 0 ${W} ${H}" aria-label="Évolution des constantes">
@@ -2772,12 +3073,19 @@ function dcRenderDebrief(){
   }).join(' ');
   if(pumps) out.s += ' ' + pumps;
   const itemHtml = it => {
-    const ui = it.kind === 'oubli' ? { ic: '⚠️', lb: 'Oublié' } : it.kind === 'nonfait' ? { ic: '○', lb: 'Non fait' } : DC_NOTE_UI[it.kind];
+    const ui = it.kind === 'oubli' ? { ic: '⚠️', lb: 'Oublié' } : it.kind === 'nonfait' ? { ic: '○', lb: 'Non fait' }
+      : it.kind === 'evite' ? { ic: '🛡️', lb: 'Piège évité' } : DC_NOTE_UI[it.kind];
     const pts = it.pts ? `${it.pts > 0 ? '+' : ''}${it.pts}` : '';
+    // annotation du terrain : contre-indication ou adaptation, note d'origine barrée
+    const terr = it.terrain
+      ? ` · ${it.kind === 'contre_indique' ? 'chez ce patient' : it.adapte ? 'adaptation au terrain' : ''} (${escapeHtml(it.terrain)})${it.orig && it.orig !== it.kind && DC_NOTE_UI[it.orig] ? ` · <s>${DC_NOTE_UI[it.orig].lb}</s>` : ''}`
+      : '';
+    const compl = it.compl ? ` · → ${escapeHtml((d.sc.etapes.find(e => e.id === it.compl) || {}).titre || it.compl)}` : '';
+    const mods = (it.mods || []).map(m => `<div class="w">🧬 ${escapeHtml(m)}</div>`).join('');
     return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
-      <div class="w">${ui.lb}${it.anticipe ? ' (anticipé)' : ''}${it.instable ? ' · ⚠️ parti instable' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div></div><span class="pts">${pts}</span></div>`;
+      <div class="w">${ui.lb}${terr}${compl}${it.anticipe ? ' (anticipé)' : ''}${it.instable ? ' · ⚠️ parti instable' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div>${mods}</div><span class="pts">${pts}</span></div>`;
   };
-  const order = { contre_indique: 0, oubli: 1, indispensable: 2, recommande: 3, debattu: 4, inutile: 5, nonfait: 6 };
+  const order = { contre_indique: 0, oubli: 1, indispensable: 2, recommande: 3, evite: 4, debattu: 5, inutile: 6, nonfait: 7 };
   const steps = d.steps.map(s => {
     const acr = d.acrEpisodes.filter(e => e.step === s.id);
     const acrHtml = acr.map(e => {
@@ -2792,16 +3100,25 @@ function dcRenderDebrief(){
     const dx = s.dx ? `<div class="dc-item"><span class="ic">${s.dx.ok ? '🩺' : '⚠️'}</span><div><b>Diagnostic : ${s.dx.given ? escapeHtml(dcLabel(s.dx.given)) : 'aucun'}</b>
       <div class="w">${s.dx.ok ? 'Juste' : 'Attendu : ' + escapeHtml(dcLabel(s.dx.expected))}</div></div><span class="pts">${s.dx.ok ? '+' + DC_DX_POINTS : ''}</span></div>` : '';
     const items = s.items.slice().sort((a, b) => order[a.kind] - order[b.kind]).map(itemHtml).join('');
-    return `<div class="dc-step"><h4>Étape ${s.index + 1} · ${escapeHtml(s.titre)}</h4>${dx}${items || '<div class="hint">Aucune action.</div>'}${acrHtml}</div>`;
+    const compl = (d.sc.etapes.find(e => e.id === s.id) || {})._compl;
+    return `<div class="dc-step"><h4>${compl ? '⚠️ Complication' : `Étape ${s.index + 1}`} · ${escapeHtml(s.titre)}</h4>${dx}${items || '<div class="hint">Aucune action.</div>'}${acrHtml}</div>`;
   }).join('');
+  const revs = dcRevisionCards(d);
+  const revHtml = revs.length ? `<div class="sectiontitle">📚 Pour réviser</div>` + revs.map(p => `<div class="savedcard">
+      <div class="hk">${escapeHtml(p.hook)}</div><div class="bd">${escapeHtml(p.body)}</div>
+      <div class="source src">${escapeHtml(p.module)} · ${escapeHtml(p.source || '')}</div></div>`).join('') : '';
+  const terrain = d.terrain ? `<div class="s">🎲 ${escapeHtml(DC_NIVEAUX[d.terrain.niveau] ? DC_NIVEAUX[d.terrain.niveau].lb : '')} · ${escapeHtml(dcTerrainSummary(d.terrain))}</div>` : '';
+  const compSrc = d.sc.etapes.filter(e => e._compl && e.source).map(e => e.source);
   dcRoot.innerHTML = `<div class="dc-scroll">
     <div class="dc-outcome ${out.cls}"><div class="t">${out.ic} ${out.t}</div><div class="s">${escapeHtml(out.s)}</div>
-      <div class="s"><b style="color:var(--text)">${escapeHtml(d.sc.titre)}</b> · ${escapeHtml(d.sc.patient || '')}</div>
+      <div class="s"><b style="color:var(--text)">${escapeHtml(d.sc.titre)}</b> · ${escapeHtml(d.sc.patient || '')}</div>${terrain}
       <div class="s">Note : <b style="color:var(--text)">${d.note}/20</b> (${d.pts} pts sur ${d.max} possibles) · ${(DC_MODES[d.mode] || DC_MODES.reel).ic} ${(DC_MODES[d.mode] || DC_MODES.reel).lb}</div></div>
     <div class="dc-chart">${dcChartSvg(d)}</div>
     ${steps}
-    <div class="hint">Source : ${escapeHtml(d.sc.source || '—')}</div>
-    <button class="btn" data-dc="start">✚ Nouveau patient</button>
+    <div class="hint">Source : ${escapeHtml([d.sc.source || '—', ...compSrc].join(' ; '))}</div>
+    ${revHtml}
+    ${d.terrain ? `<button class="btn" data-dc="proc">🎲 Autre patient aléatoire</button>` : ''}
+    <button class="btn ${d.terrain ? 'secondary' : ''}" data-dc="start">✚ Nouveau patient</button>
     <button class="btn secondary" data-dc="home">Accueil Déchoc</button>
   </div>`;
 }
@@ -2819,8 +3136,11 @@ dcRoot.addEventListener('click', e => {
     return;
   }
   const act = b.dataset.dc;
-  if(act === 'start'){ DC_VIEW = 'mode'; dcRender(); }
-  else if(act === 'go'){ DC_PREFS.mode = b.dataset.mode; dcSavePrefs(); dcStart(null, b.dataset.mode); }
+  if(act === 'start'){ DC_NEXT = null; DC_VIEW = 'mode'; dcRender(); }
+  else if(act === 'proc'){ DC_VIEW = 'niveau'; dcRender(); }
+  else if(act === 'niv'){ DC_PREFS.niveau = b.dataset.niv; dcSavePrefs(); DC_NEXT = { proc: true, niveau: b.dataset.niv }; DC_VIEW = 'mode'; dcRender(); }
+  else if(act === 'go'){ DC_PREFS.mode = b.dataset.mode; dcSavePrefs(); dcStart(null, b.dataset.mode, DC_NEXT); }
+  else if(act === 'fiche-go' && G){ G.fiche = false; dcRender(); }
   else if(act === 'resume'){ DC_VIEW = 'game'; dcResume(); }
   else if(act === 'abandon') dcAbandon();
   else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }
@@ -2895,7 +3215,7 @@ dcRoot.addEventListener('toggle', e => {
   if(G && e.target.dataset && e.target.dataset.fold) G.fold[e.target.dataset.fold] = e.target.open;
 }, true);
 document.addEventListener('visibilitychange', () => { if(document.hidden) dcPause(); });
-window.DECHOC = { start: dcStart, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; },
+window.DECHOC = { start: dcStart, act: dcDoAction, validate: dcValidate, gen: dcGenPatient, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; },
   monitor: { stat: DC_MONSTAT, ecg: () => G && dcEcgCode(), lanes: () => G && dcLanes(), alarm: () => G && G.alarm, canvas: DC_MON.canvas } };
 
 // ---------- tabs / panels ----------
