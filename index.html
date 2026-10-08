@@ -718,6 +718,11 @@
   .dc-schema .lg{ font-size:11.5px; color: var(--muted); margin-top:3px; }
   .dc-patient{ margin-bottom:10px; }
   .dc-patient:empty{ display:none; }
+  .dc-patient-fig{ padding: 0 10px 10px; }
+  .dc-patient-fig svg{ display:block; width:100%; height:auto; max-height:110px; border-radius:10px; background:#0d1318; }
+  .dc-patient-mce{ transform-box: fill-box; transform-origin: 50% 30%; animation: dcPatientMce .545s ease-in-out infinite; }
+  @keyframes dcPatientMce{ 0%, 100%{ transform: none; } 45%{ transform: translateY(2px) scale(.9); } }
+  @media (prefers-reduced-motion: reduce){ .dc-patient-mce{ animation: none; } }
   .dc-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
   .dc-chip{ background: var(--surface-2); border:1px solid var(--line); border-radius:100px; padding:5px 10px; font-size:12px; }
   .dc-chip.dx{ border-color: var(--trace-dim); color: var(--trace); }
@@ -3112,13 +3117,114 @@ function dcRenderScope(){
 // d'après les paramètres `schemas` du contenu ({ "type": "ett", … }), au même niveau que `resultats`.
 
 // silhouette du patient : teint, cyanose, marbrures, sonde, voies, pousse-seringues, massage
-function dcPatientSvg(){ return ''; }
-
-
-
-
-
-
+// patient allongé vu de dessus, tête à gauche (son côté droit en bas) ; seuils de dessin, pas de donnée médicale
+const DC_PAT_TEINT = { normal: '#c99a7c', pale: '#d9c2b2', tres_pale: '#e6d6cb', gris: '#8e979f' };
+// emplacements des voies (x, y du point de ponction)
+const DC_PAT_VOIE = { vvp: [170, 24], kta: [186, 76], ktc: [124, 37], io: [298, 59] };
+function dcPatientState(){
+  const v = G.vitals, idx = dcIndex(), done = [...G.doneAll], acr = G.phase === 'acr';
+  const scV = G.sc.voies || [], scM = G.sc.moniteur || [];
+  const voieDone = k => done.some(id => ((idx[id] || {}).voie || []).includes(k));
+  const io = G.doneAll.has('io');
+  const ktc = G.doneAll.has('ktc') || scV.includes('VVC') || voieDone('VVC');
+  // capno de RCP (BAVU, hors doneAll) : pas une intubation ; sonde = CO2 du scénario ou geste hors RCP
+  const intube = scM.includes('CO2') || done.some(id => ((idx[id] || {}).moniteur || []).includes('CO2'));
+  return {
+    acr, mce: acr && dcHasMce(), bavu: acr && !intube && G.acr.done.has('ventil_acr'),
+    pale: v.PAS < 70 ? 2 : v.PAS < 90 ? 1 : 0,
+    cyan: v.SpO2 < 80 ? 2 : v.SpO2 < 90 ? 1 : 0,
+    marbre: v.PAS < 80, fievre: v.T != null && v.T >= 38.5,
+    intube, crico: G.doneAll.has('cricothyro'),
+    vvp: G.doneAll.has('vvp') || scV.includes('IV') || (voieDone('IV') && !ktc && !io),
+    io, ktc, kta: G.doneAll.has('kta') || G.mon.has('PA'),
+    pumps: Object.entries(G.pumps).map(([id, p]) => ({ nom: ((idx[id] || {}).titration || {}).nom || dcLabel(id), max: !!p.capped }))
+  };
+}
+function dcPatientSummary(s){
+  const t = [];
+  if(s.acr) t.push(s.mce ? 'en arrêt, massage' : 'en arrêt');
+  else if(s.pale) t.push(s.pale > 1 ? 'très pâle' : 'pâle');
+  if(s.cyan) t.push('cyanosé');
+  if(s.marbre && !s.acr) t.push('marbré');
+  if(s.fievre) t.push('fébrile');
+  if(s.intube) t.push(s.crico ? 'canule de crico' : 'intubé');
+  const voies = [['vvp', 'VVP'], ['io', 'IO'], ['ktc', 'KTC'], ['kta', 'KTA']].filter(([k]) => s[k]).map(([, l]) => l);
+  if(voies.length) t.push(voies.join(' · '));
+  s.pumps.forEach(p => t.push('💉 ' + p.nom));
+  return t.length ? t.join(', ') : 'teint normal';
+}
+function dcPatientSvg(){
+  if(!G || DC_VIEW !== 'game') return '';
+  // l'encart est réécrit à chaque tick : on garde l'état replié/déplié choisi par le joueur
+  const cur = document.querySelector('#dcPatient > details');
+  if(cur && dcPatientSvg._g === G) G.fold.patient = cur.open;
+  dcPatientSvg._g = G;
+  const s = dcPatientState();
+  const peau = s.acr ? DC_PAT_TEINT.gris : DC_PAT_TEINT[['normal', 'pale', 'tres_pale'][s.pale]];
+  const bout = s.cyan > 1 ? '#8a8fd0' : s.cyan ? '#aeaacb' : peau;          // mains et pieds
+  const levres = s.cyan > 1 ? '#3d55e0' : s.cyan ? '#6a7fd6' : '#b06a62';
+  const ln = 'stroke="#0b0f13" stroke-width=".8"';
+  const o = [];
+  // brancard
+  o.push(`<rect x="70" y="6" width="306" height="88" rx="10" fill="#1a2229" stroke="#33404b"/>`);
+  // membres et tronc
+  o.push(`<rect x="116" y="19" width="74" height="10" rx="5" fill="${peau}" ${ln}/><rect x="116" y="71" width="74" height="10" rx="5" fill="${peau}" ${ln}/>`);
+  o.push(`<rect x="208" y="35" width="142" height="13" rx="6" fill="${peau}" ${ln}/><rect x="208" y="52" width="142" height="13" rx="6" fill="${peau}" ${ln}/>`);
+  o.push(`<ellipse cx="195" cy="24" rx="6" ry="5" fill="${bout}" ${ln}/><ellipse cx="195" cy="76" rx="6" ry="5" fill="${bout}" ${ln}/>`);
+  o.push(`<ellipse cx="354" cy="41.5" rx="5" ry="7" fill="${bout}" ${ln}/><ellipse cx="354" cy="58.5" rx="5" ry="7" fill="${bout}" ${ln}/>`);
+  o.push(`<rect x="106" y="45" width="10" height="10" fill="${peau}"/><rect x="112" y="31" width="80" height="38" rx="12" fill="${peau}" ${ln}/>`);
+  o.push(`<rect x="186" y="33" width="30" height="34" rx="8" fill="#4b5661" ${ln}/>`);
+  // tête : cheveux côté gauche, yeux, lèvres (cyanose)
+  o.push(`<circle cx="96" cy="50" r="12" fill="${peau}" ${ln}/><path d="M92,38.6 A12,12 0 0 0 92,61.4 A16,16 0 0 1 92,38.6Z" fill="#3a2c25"/>`);
+  o.push(`<path d="M97,45.5h3M97,54.5h3" stroke="#3a2c25" stroke-width="1.2"/><ellipse cx="104.3" cy="50" rx="2" ry="4" fill="${levres}"/>`);
+  // marbrures des genoux (bas débit)
+  if(s.marbre && !s.acr){
+    const m = [[262, 39, 3, 1.6], [268, 44, 2.5, 1.3], [275, 40, 3, 1.4], [281, 45, 2, 1.2], [264, 56, 3, 1.5], [271, 61, 2.5, 1.4], [278, 56, 3, 1.3], [284, 61, 2, 1.2]];
+    o.push(`<g fill="#7d3a63" opacity=".8">${m.map(([x, y, rx, ry]) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" transform="rotate(${(x * 7) % 50 - 25} ${x} ${y})"/>`).join('')}</g>`);
+  }
+  // fièvre : gouttes de sueur et frissons
+  if(s.fievre){
+    const g = [[86, 40], [84, 60], [140, 37], [165, 62], [150, 48]];
+    o.push(`<g fill="#8fd0ff">${g.map(([x, y]) => `<path d="M${x},${y - 3}q2.4,3.2 0,4.6q-2.4,-1.4 0,-4.6z"/>`).join('')}</g>`);
+    o.push(`<path d="M232,30l3,-3l3,3l3,-3l3,3M300,30l3,-3l3,3l3,-3l3,3M232,70l3,3l3,-3l3,3l3,-3" fill="none" stroke="#8fd0ff" stroke-width="1"/>`);
+  }
+  // voies posées
+  const lab = (x, y, t) => `<text x="${x}" y="${y}" font-size="10" fill="#c9d3db" text-anchor="middle">${t}</text>`;
+  if(s.vvp){ const [x, y] = DC_PAT_VOIE.vvp; o.push(`<rect x="${x - 4}" y="${y - 3}" width="8" height="6" rx="1" fill="#e9eef2" opacity=".85"/><rect x="${x - 1}" y="${y - 6}" width="3" height="5" fill="#f0a030"/>${lab(x, 16, 'VVP')}`); }
+  if(s.kta){ const [x, y] = DC_PAT_VOIE.kta; o.push(`<rect x="${x - 4}" y="${y - 3}" width="8" height="6" rx="1" fill="#e9eef2" opacity=".85"/><rect x="${x - 1}" y="${y + 1}" width="3" height="5" fill="#e0403a"/>${lab(x, 91, 'KTA')}`); }
+  if(s.ktc){ const [x, y] = DC_PAT_VOIE.ktc; o.push(`<path d="M${x - 2},${y}l-8,-3M${x - 2},${y + 2}l-9,0M${x - 2},${y + 4}l-8,3" stroke="#6fb7ff" stroke-width="1.4"/><rect x="${x - 4}" y="${y - 3}" width="9" height="9" rx="1.5" fill="#e9eef2" opacity=".85"/>${lab(101, 30, 'KTC')}`); }
+  if(s.io){ const [x, y] = DC_PAT_VOIE.io; o.push(`<rect x="${x - 4}" y="${y - 4}" width="8" height="8" rx="1.5" fill="#f2c94c" stroke="#0b0f13" stroke-width=".8"/>${lab(x, 77, 'IO')}`); }
+  // pousse-seringues, reliés à la meilleure voie
+  const dest = DC_PAT_VOIE[s.ktc ? 'ktc' : s.vvp ? 'vvp' : s.io ? 'io' : 'vvp'];
+  s.pumps.slice(0, 3).forEach((p, i) => {   // 3 au plus dans la colonne (respirateur en dessous)
+    const y = 6 + i * 20, [x2, y2] = dest, via = 2;   // par le bord haut du brancard
+    o.push(`<path d="M64,${y + 8}C${x2 * .5 + 32},${via} ${x2 - 10},${via} ${x2},${y2}" fill="none" stroke="#f0b43c" stroke-width="1" opacity=".7"/>`);
+    o.push(`<rect x="2" y="${y}" width="62" height="16" rx="3" fill="#23303a" style="stroke:${p.max ? 'var(--danger)' : '#f0b43c'}"/><text x="33" y="${y + 11.5}" font-size="10" fill="#f6dca0" text-anchor="middle">💉 ${escapeHtml(String(p.nom).slice(0, 8))}</text>`);
+  });
+  // sonde d'intubation (ou canule de crico) et raccord au respirateur
+  if(s.intube){
+    const [x0, y0] = s.crico ? [110, 52] : [104, 52];
+    o.push(`<path d="M${x0},${y0}L102,64" stroke="#e8eef2" stroke-width="3" stroke-linecap="round"/><rect x="98" y="63" width="8" height="5" rx="1" fill="#6fb7ff"/>`);
+    o.push(`<path d="M100,68C94,86 76,86 62,84" fill="none" stroke="#7d8b97" stroke-width="4" stroke-dasharray="2 1.2"/>`);
+    o.push(`<rect x="4" y="74" width="58" height="20" rx="4" fill="#23303a" stroke="#6fb7ff"/>${lab(33, 87.5, 'Respi')}`);
+  }
+  // BAVU pendant la RCP
+  if(s.bavu) o.push(`<ellipse cx="100" cy="50" rx="7" ry="9" fill="rgba(200,230,255,.35)" stroke="#cfe6ff"/><ellipse cx="44" cy="50" rx="16" ry="8" fill="#3b6d9a" stroke="#cfe6ff"/><path d="M60,50H93" stroke="#cfe6ff" stroke-width="3"/>`);
+  // mains de massage sur le sternum, au rythme du métronome
+  if(s.mce) o.push(`<g class="dc-patient-mce" style="animation-duration:${(60 / DC_METRO_RATE).toFixed(3)}s"><path d="M146,96L148,58M156,96L152,58" stroke="#4f7aa6" stroke-width="7"/><ellipse cx="150" cy="51" rx="10" ry="7.5" fill="#e3c6a8" stroke="#0b0f13"/><ellipse cx="150" cy="48" rx="9" ry="6.5" fill="#edd3b8" stroke="#0b0f13"/></g>`);
+  const sum = dcPatientSummary(s);
+  const h = `<details class="dc-results" data-fold="patient" ${G.fold.patient ? 'open' : ''}><summary>🧍 Patient · ${escapeHtml(sum)}</summary>`
+    + `<div class="dc-patient-fig"><svg viewBox="0 0 380 100" role="img" aria-label="${escapeHtml('Patient : ' + sum)}" font-family="inherit">${o.join('')}</svg></div></details>`;
+  // forme sérialisée par le navigateur (balises SVG fermées, open="") : dcRenderScope compare avec innerHTML,
+  // l'encart n'est réécrit que si l'état change (sinon l'animation du massage repartirait à chaque tick)
+  if(h !== dcPatientSvg._in){
+    const tpl = document.createElement('template');
+    tpl.innerHTML = h;
+    dcPatientSvg._in = h;
+    dcPatientSvg._out = tpl.innerHTML;
+  }
+  return dcPatientSvg._out;
+}
 
 // bibliothèque de schémas : type → fonction(spec) qui renvoie le contenu d'un dcSvgFrame
 const DC_SCHEMAS = {};
