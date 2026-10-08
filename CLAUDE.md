@@ -157,6 +157,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation).
 - `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape.
+- `acr.ecg_racs` : rythme affiché après le RACS (sinon celui d'avant l'ACR ; ex. `st_plus` après le choc d'une TV).
 - `acr.requis` : actions à faire pendant la RCP (90 s réelles en temps réel) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
 - `suite` : la première règle qui correspond l'emporte. `si_manque` : au moins une entrée non faite. `si_fait` : toutes faites. La dernière règle est sans condition. `"vers": "fin"` termine la partie.
 - Prévoir pour chaque étape critique une branche d'aggravation (`e1_aggrav`) plutôt que des embranchements multiples.
@@ -201,7 +202,7 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     for st in sc["etapes"]:
         w = f"{f} [{st['id']}]"
         assert st.get("vignette"), f"{w} : vignette manquante"
-        assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG, f"{w} : ecg inconnu"
+        assert st.get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg", "sinus") in ECG and st.get("acr", {}).get("ecg_racs", "sinus") in ECG, f"{w} : ecg inconnu"
         for k in list(st.get("pente", {})) + list(st.get("constantes", {})):
             assert k in VITALS, f"{w} : constante inconnue {k}"
         for aid, spec in st.get("actions", {}).items():

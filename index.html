@@ -1911,6 +1911,7 @@ function dcRacs(){
   G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: true });
   G.racs++;
   G.vitals = Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS);
+  if(spec.ecg_racs) G.ecg = spec.ecg_racs;   // rythme après le RACS (ex. sinus après le choc d'une TV)
   G.phase = 'step';
   G.acr = null;
   G.chrono = Math.max(G.chrono, 30 * dcMode().mult);
