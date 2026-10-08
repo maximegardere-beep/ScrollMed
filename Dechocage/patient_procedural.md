@@ -125,6 +125,9 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 - **D48** (2026-10-08) : pas de complication séparée pour l'**inhalation** (déjà une branche de la trame ISR : induction trop tardive) ni pour le **collapsus d'induction** (produit par la modulation des hypnotiques : RA serré, grand âge, FEVG altérée, IEC). La myasthénie et le SAOS prennent leur sens dans la trame SSPI (sugammadex et PPC promus).
 - **D49** (2026-10-08) : `identite.poids` d'un terrain remplace la fourchette de poids de la trame (obésité : 110 à 145 kg). `dans` accepte aussi un contexte (`induction`, `perop`, `rea`, `dechoc`).
 
+- **D50** (2026-10-08) : un scénario peut démarrer avec monitorage et voies en place (`moniteur`, `voies`) : patient déjà intubé au bloc. Une constante absente (GCS sous anesthésie générale) s'affiche « — ».
+- **D51** (2026-10-08) : trame SSPI centrée sur la **curarisation résiduelle** (SFAR 2018) ; le laryngospasme et la dépression morphinique pure restent pour une autre trame. Myasthénie : néostigmine contre-indiquée (sous pyridostigmine) ; SAOS : PPC promue en SSPI ; allergie au rocuronium exclue (le rocuronium a été utilisé). L'omission « salle sans latex » ne joue qu'en induction (D46 révisé : en peropératoire, la salle est déjà installée).
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
   1. ✅ **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
@@ -221,7 +224,7 @@ Cocher quand c'est fait. Les écarts déjà prévus à l'étape 3 y sont regroup
   - [x] écran d'historique par terrain (D15)
 - [x] **3c. Terrains manquants** (D13, D14) : HTA, asthme, SAOS, obésité, allergie au latex, myasthénie, double antiagrégation. Estomac plein reporté (D47).
 - [x] **3d. Complications manquantes** (D23) : bronchospasme, OAP de surcharge, ischémie myocardique. Inhalation et collapsus d'induction traités autrement (D48).
-- [ ] **3e. Trames** (D18) : hémorragie peropératoire, détresse respiratoire en SSPI
+- [x] **3e. Trames** (D18) : hémorragie peropératoire (`sc_hemorragie_perop.json`), détresse respiratoire en SSPI par curarisation résiduelle (`sc_sspi_curarisation.json`)
 - [ ] **3f. Conversion en trames** (D16) : choc hémorragique, EP grave, hyperkaliémie, STEMI
 - [ ] **Sources à vérifier par l'utilisateur** *(hors plan initial)* : aztréonam + amikacine (SPILF 2018), glucagon chez le bêtabloqué (SFAR/SFA 2011), intubation vigile si intubation et ventilation au masque difficiles (SFAR 2017), étude IRIS (Sellick)
 

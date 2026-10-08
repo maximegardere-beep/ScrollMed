@@ -361,8 +361,7 @@
         {
           "id": "salle_sans_latex",
           "dans": [
-            "induction",
-            "perop"
+            "induction"
           ],
           "complication": "anaphylaxie",
           "why": "Allergie au latex connue : sans environnement sans latex, l'exposition peropératoire (gants, matériel) déclenche l'anaphylaxie (SFAR/SFA 2011)."
@@ -384,19 +383,19 @@
           "pyridostigmine"
         ]
       ],
-      "promeut": [
-        {
-          "id": "sugammadex",
-          "dans": [
-            "rea"
-          ],
-          "why": "Myasthénie : sensibilité accrue aux curares non dépolarisants. Décurarisation par sugammadex plutôt que par néostigmine, sous monitorage quantitatif."
-        }
-      ],
       "tags": [
         "myasthénie",
         "curares"
-      ]
+      ],
+      "ci": [
+        {
+          "id": "neostigmine",
+          "why": "Myasthénie sous pyridostigmine : la néostigmine a un effet imprévisible (résistance ou crise cholinergique). Décurariser par sugammadex, sous monitorage quantitatif."
+        }
+      ],
+      "constantes": {
+        "SpO2": -2
+      }
     },
     {
       "id": "double_antiagregation",

@@ -1,0 +1,83 @@
+{
+  "id": "sspi_curarisation",
+  "titre": "Détresse respiratoire en SSPI : curarisation résiduelle",
+  "source": "SFAR 2018 (RFE curarisation et décurarisation en anesthésie) ; ASA 2014 (SAOS périopératoire)",
+  "tags": ["anesthésie", "SSPI", "curares", "curarisation résiduelle"],
+  "patient": "Femme, 52 ans, 68 kg",
+  "terrains": { "contexte": "rea", "exclus": ["allergie_curares"], "identite": { "sexe": ["F", "M"], "age": [30, 85], "poids": [55, 100] } },
+  "voies": ["IV"],
+  "constantes": { "FC": 112, "PAS": 152, "PAD": 84, "SpO2": 87, "FR": 32, "T": 36.4, "GCS": 14 },
+  "resultats": {
+    "tof": "**Rapport T4/T1 à {0,45~0,65}** (4 réponses).",
+    "gds": "**pH 7,28** · **PaCO2 {55~62} mmHg** · **PaO2 58 mmHg** sous 3 L/min d'O2.",
+    "rp": "Pas de foyer, pas d'épanchement, pas de pneumothorax.",
+    "glycemie": "Glycémie 1,24 g/L.",
+    "ecg": "Tachycardie sinusale, pas de trouble de la repolarisation."
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "SpO2 à 87 % en salle de réveil",
+      "vignette": "Extubation il y a 15 min après une cholécystectomie par cœlioscopie (rocuronium, dernière réinjection 30 min avant la fin, sans monitorage de la curarisation ni antagonisation). Morphine 6 mg en fin d'intervention. Agitation, respiration rapide et superficielle, impossible de lever la tête ; pupilles intermédiaires.",
+      "chrono": 90,
+      "pente": { "SpO2": -1.2, "FC": 0.5, "GCS": -0.05 },
+      "diagnostic": ["dx_curarisation_residuelle"],
+      "actions": {
+        "o2_masque": { "note": "recommande", "why": "Oxygène au masque pour remonter la SpO2 pendant le diagnostic.", "effet": { "SpO2": 3 } },
+        "tof": { "note": "indispensable", "why": "Signes de faiblesse musculaire après un curare non antagonisé : mesurer le rapport T4/T1 ; la curarisation résiduelle se définit par un rapport < 0,9 (SFAR 2018)." },
+        "sugammadex": { "note": "indispensable", "alt": "decur", "why": "Bloc résiduel au rocuronium : sugammadex, efficace quelle que soit la profondeur du bloc (SFAR 2018).", "effet": { "SpO2": 6, "FR": -10, "PAS": -14, "FC": -10 }, "pente": { "SpO2": 0.4, "GCS": 0 } },
+        "neostigmine": { "note": "recommande", "alt": "decur", "why": "Néostigmine + atropine : efficace avec 4 réponses au TOF, à effet plafond ; après rocuronium, le sugammadex est plus rapide et plus fiable (SFAR 2018).", "effet": { "SpO2": 4, "FR": -8, "PAS": -10, "FC": -6 }, "pente": { "SpO2": 0.2, "GCS": 0 } },
+        "naloxone": { "note": "debattu", "why": "Dépression morphinique possible, mais la respiration rapide et superficielle et la faiblesse musculaire orientent vers la curarisation. La naloxone lève aussi l'analgésie.", "effet": { "SpO2": 1 } },
+        "gds": { "note": "recommande", "why": "Gaz du sang : hypercapnie et hypoxémie d'hypoventilation." },
+        "vni": { "note": "debattu", "why": "La VNI ne traite pas un bloc neuromusculaire : décurariser d'abord.", "effet": { "SpO2": 2 } },
+        "rp": { "note": "debattu", "why": "Utile si l'hypoxémie persiste après la décurarisation (atélectasie, inhalation)." },
+        "morphine_titr": { "note": "contre_indique", "why": "Ajouter un morphinique chez un patient qui hypoventile : aggrave l'hypercapnie.", "effet": { "SpO2": -3 } },
+        "midazolam": { "note": "contre_indique", "why": "Sédatif pour l'agitation d'un patient hypoxémique : dépression respiratoire. L'agitation est un signe d'hypoxie.", "effet": { "SpO2": -4 } },
+        "isr_etomidate_rocu": { "note": "contre_indique", "why": "Réintuber au rocuronium un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
+        "isr_ketamine": { "note": "contre_indique", "why": "Réintuber au rocuronium un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
+        "isr_propofol": { "note": "contre_indique", "why": "Réintuber au rocuronium un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
+        "isr_etomidate": { "note": "inutile", "why": "Réintubation non nécessaire si la décurarisation est faite à temps." },
+        "isr_ketamine_succi": { "note": "inutile", "why": "Réintubation non nécessaire si la décurarisation est faite à temps." },
+        "isr_propofol_succi": { "note": "inutile", "why": "Réintubation non nécessaire si la décurarisation est faite à temps." }
+      },
+      "suite": [ { "si_manque": [["sugammadex", "neostigmine"]], "vers": "e1_aggrav" }, { "vers": "e2" } ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Épuisement respiratoire",
+      "vignette": "Respiration de plus en plus superficielle, somnolence, sueurs. SpO2 en chute malgré l'oxygène.",
+      "chrono": 60,
+      "constantes": { "SpO2": 80, "FR": 10, "GCS": 10, "FC": 124 },
+      "pente": { "SpO2": -2, "GCS": -0.1 },
+      "actions": {
+        "sugammadex": { "note": "indispensable", "alt": "decur", "why": "Décurariser sans attendre : sugammadex.", "effet": { "SpO2": 8, "FR": 6, "GCS": 2 }, "pente": { "SpO2": 0.4, "GCS": 0.1 } },
+        "neostigmine": { "note": "debattu", "alt": "decur", "why": "Délai d'action de plusieurs minutes et effet plafond : insuffisant en urgence.", "effet": { "SpO2": 4, "FR": 4 }, "pente": { "SpO2": 0, "GCS": 0 } },
+        "ventil_masque": { "note": "recommande", "why": "Ventilation au masque en attendant l'effet de la décurarisation.", "effet": { "SpO2": 6 } },
+        "isr_etomidate": { "note": "recommande", "alt": "reintub", "why": "Si la décurarisation n'est pas possible ou inefficace : réintuber.", "effet": { "SpO2": 10 } },
+        "isr_ketamine_succi": { "note": "recommande", "alt": "reintub", "why": "Si la décurarisation n'est pas possible ou inefficace : réintuber.", "effet": { "SpO2": 10 } },
+        "naloxone": { "note": "debattu", "why": "Peut participer à la somnolence, mais ne lève pas le bloc." }
+      },
+      "letal_si_manque": { "actions": [["sugammadex", "neostigmine", "isr_etomidate", "isr_ketamine_succi", "isr_etomidate_rocu", "isr_ketamine", "isr_propofol", "isr_propofol_succi"]], "issue": "acr", "why": "Hypoventilation par curarisation résiduelle non traitée : arrêt hypoxique." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique : RCP, intubation et ventilation (ERC 2021)." },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Après la décurarisation",
+      "vignette": "Respiration ample, tête levée et tenue 5 secondes. Douleurs abdominales et scapulaires.",
+      "chrono": 60,
+      "constantes": { "FR": 18 },
+      "pente": { "SpO2": 0.3 },
+      "resultats": { "tof": "Rapport T4/T1 à **0,96**." },
+      "actions": {
+        "tof": { "note": "recommande", "refaire": true, "why": "Contrôle : rapport T4/T1 ≥ 0,9 avant la sortie de SSPI (SFAR 2018)." },
+        "ketamine_analg": { "note": "recommande", "why": "Analgésie multimodale d'épargne morphinique après une hypoventilation." },
+        "morphine_titr": { "note": "debattu", "why": "Titration prudente possible une fois la ventilation normalisée, sous surveillance de la sédation et de la fréquence respiratoire." },
+        "o2_masque": { "note": "recommande", "why": "Oxygène jusqu'à normalisation de la SpO2.", "effet": { "SpO2": 2 } },
+        "vni": { "note": "debattu", "why": "Pas d'indication si la ventilation est redevenue efficace." },
+        "midazolam": { "note": "contre_indique", "why": "Pas de benzodiazépine chez un patient qui sort d'une hypoventilation.", "effet": { "SpO2": -4 } }
+      },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}

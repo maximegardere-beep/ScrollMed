@@ -1,0 +1,97 @@
+{
+  "id": "hemorragie_perop",
+  "titre": "Hémorragie peropératoire : plaie de la veine cave",
+  "source": "ESAIC 2022 (saignement périopératoire sévère, 2e mise à jour) ; CRASH-2 2010",
+  "tags": ["anesthésie", "hémorragie", "transfusion massive", "peropératoire"],
+  "patient": "Homme, 64 ans, 80 kg",
+  "terrains": { "contexte": "perop", "exclus": [], "identite": { "sexe": ["F", "M"], "age": [40, 85], "poids": [55, 100] } },
+  "moniteur": ["CO2"],
+  "voies": ["IV"],
+  "titration": { "noradre": { "max": { "IV": 1, "VVC": 1 } } },
+  "constantes": { "FC": 116, "PAS": 86, "PAD": 50, "SpO2": 99, "FR": 14, "T": 36.1, "EtCO2": 30 },
+  "resultats": {
+    "hemocue": "**Hémoglobine capillaire {7,6~8,6} g/dL**.",
+    "nfs": "**Hb {7,6~8,6} g/dL** · plaquettes {150~190} G/L.",
+    "tp_tca": "TP 72 % · TCA 1,1 · fibrinogène {2,0~2,6} g/L.",
+    "gds": "**pH 7,31** · PaCO2 38 mmHg · **lactates 3,1 mmol/L** · **Ca²⁺ ionisé 1,02 mmol/L**.",
+    "ttem": "Pas de coagulopathie à ce stade : EXTEM et FIBTEM normaux.",
+    "groupe_rai": "Groupe O RhD positif, RAI négatives (bilan préopératoire)."
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Saignement brutal",
+      "vignette": "Néphrectomie élargie sous anesthésie générale : intubation, une VVP de bon calibre. Plaie de la veine cave : le champ se remplit de sang, 1,5 L dans les aspirations en quelques minutes.",
+      "chrono": 90,
+      "pente": { "PAS": -2.5, "FC": 1.5, "EtCO2": -0.5 },
+      "diagnostic": ["dx_choc_hemorragique"],
+      "actions": {
+        "renfort": { "note": "indispensable", "why": "Hémorragie massive : appeler un second anesthésiste et une IADE, annoncer la situation à toute l'équipe." },
+        "compression_chir": { "note": "indispensable", "why": "Le premier geste d'hémostase est chirurgical : compression manuelle ou clampage, le temps de rattraper la volémie (ESAIC 2022).", "effet": { "PAS": 6 }, "pente": { "PAS": -0.8 } },
+        "ptm": { "note": "indispensable", "alt": "transfusion", "why": "Hémorragie massive : déclencher le protocole de transfusion massive, CGR, plasma et plaquettes livrés ensemble.", "pente": { "PAS": -0.3 } },
+        "cgr_od": { "note": "indispensable", "alt": "transfusion", "why": "Choc hémorragique : CGR sans attendre ; groupe et RAI disponibles grâce au bilan préopératoire.", "effet": { "PAS": 10, "FC": -6 } },
+        "pfc": { "note": "recommande", "why": "Plasma associé précocement aux CGR dans l'hémorragie massive, pour prévenir la coagulopathie de dilution.", "effet": { "PAS": 6 } },
+        "exacyl": { "note": "indispensable", "why": "Acide tranexamique 1 g dès que le saignement est important (ESAIC 2022 ; CRASH-2)." },
+        "remp_cristal": { "note": "debattu", "alt": "remplissage", "why": "Cristalloïdes en attendant les produits sanguins, sans excès : ils diluent les facteurs de coagulation.", "effet": { "PAS": 5 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Cristalloïdes en attendant les produits sanguins, sans excès ; préférer les solutés balancés.", "effet": { "PAS": 5 } },
+        "noradre": { "note": "debattu", "why": "Vasopresseur pour passer un cap, sans masquer l'hypovolémie : la cible reste la volémie et l'hémostase." },
+        "phenylephrine": { "note": "debattu", "why": "Bolus pour passer un cap pendant que les produits sanguins arrivent.", "effet": { "PAS": 8 } },
+        "kta": { "note": "recommande", "why": "PA invasive : suivi battement par battement et prélèvements répétés." },
+        "hemocue": { "note": "recommande", "why": "Hémoglobine au lit, répétable : guide la transfusion." },
+        "gds": { "note": "recommande", "why": "Gaz du sang : lactates, pH, calcium ionisé." },
+        "rechauffement": { "note": "recommande", "why": "Maintenir la normothermie : l'hypothermie aggrave la coagulopathie (ESAIC 2022)." },
+        "ktc": { "note": "inutile", "why": "Pas le moment de poser un cathéter central : la VVP de bon calibre suffit pour transfuser." },
+        "albumine": { "note": "inutile", "why": "Pas de place pour l'albumine dans l'hémorragie aiguë : produits sanguins." },
+        "hes": { "note": "contre_indique", "why": "Hydroxyéthylamidons : troubles de l'hémostase et néphrotoxicité." }
+      },
+      "suite": [ { "si_manque": [["ptm", "cgr_od"]], "vers": "e1_aggrav" }, { "vers": "e2" } ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Désamorçage",
+      "vignette": "Les aspirations dépassent 2,5 L. EtCO2 à 18 mmHg, pouls filant, la PA est à peine mesurable.",
+      "chrono": 60,
+      "constantes": { "PAS": 58, "PAD": 32, "FC": 142, "EtCO2": 18 },
+      "pente": { "PAS": -2, "FC": 1 },
+      "actions": {
+        "ptm": { "note": "indispensable", "alt": "transfusion", "why": "Transfusion massive sans délai." },
+        "cgr_od": { "note": "indispensable", "alt": "transfusion", "why": "CGR en urgence vitale.", "effet": { "PAS": 12, "FC": -6, "EtCO2": 4 } },
+        "compression_chir": { "note": "indispensable", "why": "Compression ou clampage immédiat.", "effet": { "PAS": 6 }, "pente": { "PAS": -0.8 } },
+        "pfc": { "note": "recommande", "why": "Plasma avec les CGR.", "effet": { "PAS": 6 } },
+        "exacyl": { "note": "indispensable", "why": "Acide tranexamique 1 g (ESAIC 2022)." },
+        "noradre": { "note": "debattu", "why": "Pour passer un cap, sans remplacer la transfusion." }
+      },
+      "letal_si_manque": { "actions": [["cgr_od", "ptm"]], "issue": "acr", "why": "Hémorragie massive non transfusée : arrêt par désamorçage." },
+      "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", "cgr_od"], "why": "Arrêt hypovolémique : massage, transfusion massive et hémostase chirurgicale ; l'adrénaline passe après (ERC 2021)." },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Coagulopathie",
+      "vignette": "La veine cave est clampée et suturée. 3 L de pertes au total. Le chirurgien voit maintenant un saignement en nappe sur toute la loge.",
+      "chrono": 90,
+      "pente": { "PAS": -0.8, "FC": 0.4, "T": -0.03 },
+      "resultats": {
+        "ttem": "**FIBTEM A5 6 mm** (hypofibrinogénémie) · **EXTEM CT allongé**.",
+        "tp_tca": "**TP 44 %** · **TCA 1,6** · **fibrinogène {0,9~1,3} g/L**.",
+        "nfs": "**Hb {6,8~7,6} g/dL** · **plaquettes {62~85} G/L**.",
+        "hemocue": "**Hémoglobine capillaire {6,8~7,6} g/dL**.",
+        "gds": "**pH 7,25** · **lactates 3,8 mmol/L** · **Ca²⁺ ionisé 0,88 mmol/L**."
+      },
+      "actions": {
+        "ttem": { "note": "recommande", "alt": "coag", "why": "Test viscoélastique : guide l'apport de fibrinogène, de plasma et de plaquettes en quelques minutes (ESAIC 2022)." },
+        "tp_tca": { "note": "recommande", "alt": "coag", "why": "Bilan d'hémostase de contrôle : fibrinogène, TP, plaquettes." },
+        "fibrinogene": { "note": "indispensable", "why": "Saignement diffus avec fibrinogène bas (< 1,5 g/L ou FIBTEM abaissé) : concentré de fibrinogène (ESAIC 2022).", "effet": { "PAS": 4 }, "pente": { "PAS": -0.3 } },
+        "calcium": { "note": "indispensable", "why": "Calcium ionisé bas après transfusion (citrate) : le corriger, il est nécessaire à la coagulation et à la contractilité (ESAIC 2022).", "effet": { "PAS": 4 } },
+        "cgr_od": { "note": "recommande", "why": "Hb autour de 7 g/dL avec un saignement actif : poursuivre la transfusion.", "effet": { "PAS": 6 } },
+        "pfc": { "note": "recommande", "why": "Plasma pour corriger le TP, guidé par la biologie ou le test viscoélastique.", "effet": { "PAS": 4 } },
+        "cp": { "note": "debattu", "why": "Plaquettes à plus de 50 G/L : pas d'indication systématique, sauf saignement persistant ou antiagrégants." },
+        "rechauffement": { "note": "recommande", "why": "Hypothermie qui s'installe : réchauffer patient et produits sanguins." },
+        "exacyl": { "note": "recommande", "why": "Si elle n'a pas été faite : acide tranexamique 1 g." },
+        "gds": { "note": "recommande", "refaire": true, "why": "Contrôle : lactates, pH, calcium ionisé." },
+        "bicar_mol": { "note": "inutile", "why": "L'acidose se corrige avec la restauration de la perfusion, pas avec le bicarbonate." }
+      },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}

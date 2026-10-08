@@ -1806,7 +1806,8 @@ function dcRepeatable(a){ return !!(a.repetable || a.examen); }
 const DC_HOLD_MS = 450;   // appui maintenu pour réaliser une action
 const DC_VOIE_TXT = { IV: 'Voie veineuse requise', VVC: 'Voie centrale requise' };
 // voies posées : une action "voie": ["IV", …] les fournit, une action "requiert": "IV" en a besoin
-function dcHasVoie(k){ return [...G.doneAll].some(id => ((dcIndex()[id] || {}).voie || []).includes(k)); }
+// voies déjà en place au début (scénario "voies": ["IV"], patient au bloc) ou posées par un geste
+function dcHasVoie(k){ return (G.sc.voies || []).includes(k) || [...G.doneAll].some(id => ((dcIndex()[id] || {}).voie || []).includes(k)); }
 function dcLocked(a){ return !!(a.requiert && !dcHasVoie(a.requiert)); }
 // texte de résultat : **valeur** = anormal, affiché en rouge
 function dcResHtml(t){ return escapeHtml(t).replace(/\*\*(.+?)\*\*/g, '<b class="dc-ab">$1</b>'); }
@@ -2048,7 +2049,7 @@ function dcStart(scId, mode, opts){
     dx: null, results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
     fold: { res: false, chips: false, terrain: false },  // encarts repliés : les tuiles restent visibles
-    ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(), nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
+    ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
   };
   dcMonReset();
   dcEnterStep(sc.etapes[0].id);
@@ -2216,7 +2217,7 @@ function dcModalHtml(){
     <div class="dc-stab ${m.stab.ok ? 'ok' : 'ko'}">${m.stab.ok
       ? '✅ Patient stable pour le transfert'
       : `⚠️ Patient instable<ul>${m.stab.probs.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`}</div>
-    <div class="hint">FC ${Math.round(v.FC)} · PA ${pa.PAS}/${pa.PAD} · SpO2 ${Math.round(v.SpO2)} % · GCS ${Math.round(v.GCS)}${G.mon.has('CO2') ? ' · intubé' : ''}</div>
+    <div class="hint">FC ${Math.round(v.FC)} · PA ${pa.PAS}/${pa.PAD} · SpO2 ${Math.round(v.SpO2)} % · GCS ${v.GCS != null ? Math.round(v.GCS) : '—'}${G.mon.has('CO2') ? ' · intubé' : ''}</div>
     ${m.stab.ok ? '' : `<div class="hint">Si le geste est le traitement de l'instabilité (hémostase, drainage, reperfusion), le transfert reste justifié : accompagné, monitoré, médecin présent.</div>`}
     <button class="btn" data-dc="tr-go" style="max-width:300px">🚑 Partir maintenant</button>
     <button class="btn secondary" data-dc="tr-wait" style="max-width:300px">⏳ Pas maintenant</button>
@@ -3032,7 +3033,7 @@ function dcGridHtml(){
   return cell('FC', fc.v, al(fc.lvl)) + cell(pa.k, pa.v, al(pa.lvl)) + cell('SpO2 %', sp.v, al(sp.lvl))
     + cell('FR', Math.round(v.FR), dcLevel('FR', v.FR))
     + cell('T °C', v.T != null ? v.T.toFixed(1) : '—', dcLevel('T', v.T))
-    + (G.mon.has('CO2') ? cell('EtCO2', dcEtco2(), '') : cell('GCS', Math.round(v.GCS), dcLevel('GCS', v.GCS)));
+    + (G.mon.has('CO2') ? cell('EtCO2', dcEtco2(), '') : cell('GCS', v.GCS != null ? Math.round(v.GCS) : '—', dcLevel('GCS', v.GCS)));
 }
 function dcRenderScope(){
   if(!G || DC_VIEW !== 'game' || !document.getElementById('dcScope')) return;
@@ -3054,7 +3055,7 @@ function dcRenderScope(){
       el.innerHTML = `<span class="k">${b.k}</span><span class="v">${b.v}</span>`;
     });
   }
-  const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${Math.round(v.GCS)}</span>`;
+  const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${v.GCS != null ? Math.round(v.GCS) : '—'}</span>`;
   const alarm = DC_PREFS.plie && al.lvl && !acr ? `<span class="al${al.lvl}">⚠ ${escapeHtml(al.msg)}</span>` : '';
   const clock = acr ? `${G.acr.metro ? `<span class="dc-metro" id="dcMetro">♥ ${DC_METRO_RATE}/min</span>` : ''}<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
     : dcMode().fige ? `<span>T+${dcFmtClock(G.t)}</span><b>Temps fixé</b>`

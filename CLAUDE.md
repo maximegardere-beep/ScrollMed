@@ -159,7 +159,8 @@ Tableau d'actions, partagé par tous les scénarios :
 - `refaire: true` : l'action doit être refaite dans cette étape (contrôle), un passage antérieur ne compte pas.
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
-- `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation).
+- `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation). Une constante absente du scénario (GCS d'un patient endormi) s'affiche « — ».
+- `moniteur` et `voies` du scénario : monitorage et voies déjà en place au début (patient au bloc : `"moniteur": ["CO2"]`, `"voies": ["IV"]`).
 - `si_instable` sur une action d'étape (`acr` ou `deces`) : conséquence d'un départ en `transfert` alors que le patient est instable (ex. TDM dans un choc hémorragique non contrôlé). Sans ce champ, partir instable n'a pas de conséquence (le geste est le traitement : embolisation, bloc, coronarographie). Le débriefing signale « parti instable ».
 - `transfert` sur une étape (même format que dans le catalogue, plus `si_instable`) : l'étape se termine par un départ ; la fenêtre de stabilité s'ouvre au clic sur « Valider l'étape ».
 - `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape.
@@ -341,6 +342,7 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     assert set(sc["constantes"]) <= VITALS, f"{f} : constante inconnue"
     assert sc.get("ecg", "sinus") in ECG, f"{f} : ecg inconnu"
     assert set(sc.get("alarmes", {})) <= {"FC", "PAS", "SpO2"}, f"{f} : alarme inconnue"
+    assert set(sc.get("moniteur", [])) <= {"PA", "CO2"} and set(sc.get("voies", [])) <= {"IV", "VVC"}, f"{f} : moniteur / voies"
     for k in sc.get("titration", {}): assert "titration" in A.get(k, {}), f"{f} : {k} n'a pas de titration au catalogue"
     if "terrains" in sc:
         assert set(sc["terrains"].get("exclus", [])) <= TERR, f"{f} : terrain exclu inconnu"
