@@ -26,6 +26,9 @@
     "ett": "VG hyperkinétique, petites cavités, VCI collabée.",
     "tdm_body": "Fracture instable du bassin, extravasation de produit de contraste au niveau de l'artère glutéale supérieure droite."
   },
+  "schemas": {
+    "tdm_body": {"type": "tdm", "coupe": "bassin", "fracture": ["sacro_iliaque_d"], "extravasation": true, "cote": "d", "legende": "Coupe pelvienne : fracture-disjonction et saignement actif fessier droit."}
+  },
   "etapes": [
     {
       "id": "e1",

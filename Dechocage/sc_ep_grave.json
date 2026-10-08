@@ -26,6 +26,9 @@
     "rp": "Discrète surélévation de la coupole droite. Pas de pneumothorax, pas de foyer.",
     "glycemie": "Glycémie 1,18 g/L."
   },
+  "schemas": {
+    "angioscanner_thorax": {"type": "tdm", "coupe": "thorax", "thrombus": ["ap_d", "ap_g"], "vd_dilate": true}
+  },
   "etapes": [
     {
       "id": "e1",
