@@ -62,8 +62,11 @@
         "tdm_ap": { "note": "debattu", "why": "L'uroscanner est l'examen de référence, mais transporter une patiente non stabilisée est risqué. L'échographie au lit suffit à voir l'obstacle.", "si_instable": "acr" },
         "hydrocortisone": { "note": "debattu", "why": "SSC 2021 suggère l'hydrocortisone quand la noradrénaline reste ≥ 0,25 µg/kg/min depuis au moins 4 h. C'est prématuré ici." },
         "isr_etomidate": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
+        "isr_etomidate_rocu": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
         "isr_ketamine": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
-        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez une patiente en choc non réanimé : collapsus. Et aucune indication d'intubation ici." }
+        "isr_ketamine_succi": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez une patiente en choc non réanimé : collapsus. Et aucune indication d'intubation ici." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez une patiente en choc non réanimé : collapsus. Et aucune indication d'intubation ici." }
       },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage de qualité, adrénaline 1 mg dès que possible, puis correction des causes (hypovolémie, acidose)." },
       "suite": [
@@ -89,7 +92,8 @@
         "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer les solutés balancés.", "effet": { "PAS": 8, "FC": -6 } },
         "noradre": { "note": "indispensable", "why": "Hypotension profonde : la noradrénaline ne doit pas attendre la fin du remplissage.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
         "hes": { "note": "contre_indique", "why": "HEA contre-indiqués dans le sepsis.", "effet": { "PAS": 8 } },
-        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." }
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." }
       },
       "letal_si_manque": { "actions": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "issue": "acr", "why": "Pas d'antibiotique malgré l'aggravation : le choc devient réfractaire." },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage, adrénaline, et traitement de l'hypovolémie." },

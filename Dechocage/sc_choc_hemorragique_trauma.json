@@ -62,8 +62,11 @@
         "morphine_titr": { "note": "debattu", "why": "Titration très prudente : risque d'aggraver l'hypotension." },
         "tdm_body": { "note": "contre_indique", "why": "Patient instable non répondeur : pas de transfert au scanner. Le TDM corps entier est réservé aux patients stabilisés.", "si_instable": "acr" },
         "isr_etomidate": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
+        "isr_etomidate_rocu": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
         "isr_ketamine": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
-        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc hémorragique : collapsus." }
+        "isr_ketamine_succi": { "note": "inutile", "why": "GCS 14, pas de détresse respiratoire : pas d'indication immédiate, et l'induction aggraverait le choc." },
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc hémorragique : collapsus." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc hémorragique : collapsus." }
       },
       "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", ["cgr_od", "ptm"]], "why": "ACR traumatique (ERC 2021) : traiter la cause en même temps que le massage, c'est-à-dire restaurer la volémie et contrôler le saignement. L'adrénaline passe au second plan." },
       "suite": [
@@ -86,7 +89,8 @@
         "cgr_od": { "note": "indispensable", "alt": "transfusion", "why": "CGR en urgence vitale immédiate.", "effet": { "PAS": 10, "FC": -6 } },
         "exacyl": { "note": "indispensable", "why": "Acide tranexamique dans les 3 h." },
         "hes": { "note": "contre_indique", "why": "Colloïdes de synthèse à éviter.", "effet": { "PAS": 5 } },
-        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc hémorragique : collapsus." }
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc hémorragique : collapsus." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc hémorragique : collapsus." }
       },
       "letal_si_manque": { "actions": [["cgr_od", "ptm"]], "issue": "acr", "why": "Exsanguination sans transfusion." },
       "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", ["cgr_od", "ptm"]], "why": "ACR traumatique : restaurer la volémie et contrôler le saignement." },

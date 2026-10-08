@@ -102,10 +102,18 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 - **D34** (2026-10-08) : la promotion par le terrain peut être limitée à certaines étapes ou complications (`dans`) : le glucagon n'est promu que pendant l'anaphylaxie du bêtabloqué.
 - **D35** (2026-10-08) : les parties procédurales n'entrent pas dans le record du scénario (difficulté différente) ; elles sont enregistrées avec niveau et terrains.
 
+### Implémentation de l'étape 2 (anesthésie, trame ISR)
+- **D36** (2026-10-08) : l'induction reste modélisée par des **combinaisons hypnotique + curare** (6 tuiles : étomidate, kétamine ou propofol, avec succinylcholine ou rocuronium) plutôt que par des drogues séparées. Les scénarios existants restent compatibles : les 3 nouvelles combinaisons y reprennent la note de celle qui a le même hypnotique. Exception : en hyperkaliémie, les combinaisons avec succinylcholine deviennent contre-indiquées.
+- **D37** (2026-10-08) : une contre-indication peut garder le geste comme fait (`"compte": true`) : une intubation au rocuronium chez l'allergique réussit malgré l'anaphylaxie, alors qu'une ISR chez l'intubation difficile connue échoue (complication CICO).
+- **D38** (2026-10-08) : nouveaux terrains : **allergie au rocuronium** (tests négatifs à la succinylcholine et au cisatracurium : il faut lire le courrier d'allergologie), **intubation difficile connue** (ISR → CICO ; fibroscopie vigile promue), **rétrécissement aortique serré** (chute de PA des hypnotiques ×1,8). L'insuffisance cardiaque à FEVG altérée amplifie aussi l'hypotension d'induction (×1,5).
+- **D39** (2026-10-08) : nouvelle complication **CICO** (SFAR 2017, DAS 2015) : appel à l'aide, dispositif supraglottique, cricothyroïdotomie ; sans oxygénation rétablie, ACR.
+- **D40** (2026-10-08) : `dans` accepte un id de trame ou « trame/étape », les id d'étape (`e1`, `e2`) se répétant d'une trame à l'autre.
+- **D41** (2026-10-08) : RA serré + propofol : collapsus profond, rattrapable ou ACR selon la PA de départ tirée. Pas d'ACR forcé.
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
-  1. **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
-  2. **Anesthésie** : nouvelles actions (hypnotiques et curares d'induction, sugammadex, préoxygénation VNI…) et trame **ISR**.
+  1. ✅ **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).
+  2. ✅ **Anesthésie** (livrée le 2026-10-08) : actions d'induction et de voies aériennes difficiles, trame **ISR** (`sc_isr_occlusion.json`), terrains et complication CICO (D36-D41).
   3. **Suite** : trames hémorragie peropératoire et détresse respiratoire en SSPI, autres complications de D23, conversion des autres scénarios en trames, historique par terrain.
 
 ## Plan de l'étape 1 : moteur sur une trame existante

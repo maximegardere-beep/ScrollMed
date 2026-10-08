@@ -51,9 +51,12 @@
         "ees": { "note": "debattu", "why": "Seuil de capture souvent élevé en hyperkaliémie : à réserver à l'échec du calcium." },
         "amiodarone": { "note": "contre_indique", "why": "Ralentit encore la conduction sur un myocarde hyperkaliémique : risque d'asystolie.", "effet": { "FC": -8 } },
         "epuration": { "note": "recommande", "why": "Organiser l'épuration extrarénale d'emblée : seul traitement qui retire rapidement le potassium chez un insuffisant rénal sévère." },
-        "isr_etomidate": { "note": "inutile", "why": "Pas d'indication d'intubation." },
+        "isr_etomidate": { "note": "contre_indique", "why": "Succinylcholine contre-indiquée en hyperkaliémie : elle élève la kaliémie d'environ 0,5 mmol/L. Et pas d'indication d'intubation ici." },
+        "isr_etomidate_rocu": { "note": "inutile", "why": "Pas d'indication d'intubation." },
         "isr_ketamine": { "note": "inutile", "why": "Pas d'indication d'intubation." },
-        "isr_propofol": { "note": "inutile", "why": "Pas d'indication d'intubation." }
+        "isr_ketamine_succi": { "note": "contre_indique", "why": "Succinylcholine contre-indiquée en hyperkaliémie : elle élève la kaliémie d'environ 0,5 mmol/L. Et pas d'indication d'intubation ici." },
+        "isr_propofol": { "note": "inutile", "why": "Pas d'indication d'intubation." },
+        "isr_propofol_succi": { "note": "contre_indique", "why": "Succinylcholine contre-indiquée en hyperkaliémie : elle élève la kaliémie d'environ 0,5 mmol/L. Et pas d'indication d'intubation ici." }
       },
       "letal_si_manque": { "actions": ["calcium"], "issue": "acr", "why": "Hyperkaliémie avec QRS larges non traitée par calcium : évolution vers l'asystolie." },
       "acr": { "rythme": "Asystolie hyperkaliémique", "requis": ["mce", "calcium", "adre_acr"], "why": "ERC 2021 : massage, adrénaline, et traitement de la cause. Chlorure de calcium 10 % 10 mL en bolus, insuline-glucose, bicarbonate 50 mmol, et discuter l'épuration extrarénale en cas d'arrêt réfractaire.", "apres_racs": { "FC": 64, "PAS": 92, "PAD": 52, "SpO2": 93 } },

@@ -1928,10 +1928,13 @@ function dcBound(v, sources){
   return v;
 }
 function dcSources(){ return (G && G.terrain) ? G.terrain.sources : []; }
-// une règle de terrain vise une action par son id ou par une de ses classes, éventuellement dans certaines étapes
+// une règle de terrain vise une action par son id ou par une de ses classes, éventuellement
+// "dans" certaines étapes : id de complication, id de trame, ou "trame/étape"
 function dcRuleHits(r, id, stepId){
   const a = dcIndex()[id] || {};
-  return (r.id === id || (r.classe && (a.classe || []).includes(r.classe))) && (!r.dans || r.dans.includes(stepId));
+  const sc = G && G.sc ? G.sc.id : '';
+  return (r.id === id || (r.classe && (a.classe || []).includes(r.classe)))
+    && (!r.dans || r.dans.some(d => d === stepId || d === sc || d === `${sc}/${stepId}`));
 }
 function dcRuleFind(kind, id, stepId){
   for(const s of dcSources()) for(const r of s[kind] || []) if(dcRuleHits(r, id, stepId)) return Object.assign({ src: s.label }, r);
@@ -2220,7 +2223,7 @@ function dcDoAction(id, confirmed){
   // contre-indication du terrain : notée comme telle, et ne satisfait pas les attentes de la trame
   const ci = dcTerrainCi(id, G.step.id);
   const entry = { t: G.t, id, etape, step: G.step.id, instable };
-  if(ci) entry.ci = true;
+  if(ci && !ci.compte) entry.ci = true;   // "compte": le geste reste fait (intubation réussie malgré l'allergie)
   G.log.push(entry);
   if(!dcIsRcp(a)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
@@ -2411,17 +2414,20 @@ function dcScore(){
     const doneIn = id => actions[id].refaire
       ? G.log.some(l => l.id === id && !l.ci && l.step === v.id && l.t >= v.t0 && l.t <= t1)
       : dcDoneEntry(id, t1);
-    // les actions contre-indiquées par le terrain ne sont plus attendues ; les alternatives restent dues
+    // les actions contre-indiquées par le terrain ne sont plus attendues ; les alternatives restent dues.
+    // Faite malgré tout, une action contre-indiquée ne compte que si la règle le prévoit ("compte")
     const allowed = id => !dcTerrainCi(id, v.id);
-    const altDone = alt => Object.keys(actions).some(k => actions[k].alt === alt && allowed(k) && doneIn(k));
+    const counts = id => { const c = dcTerrainCi(id, v.id); return !c || !!c.compte; };
+    const altDone = alt => Object.keys(actions).some(k => actions[k].alt === alt && counts(k) && doneIn(k));
     const altOpen = alt => Object.keys(actions).some(k => actions[k].alt === alt && allowed(k));
     Object.keys(actions).forEach(id => {
       const s = actions[id];
       if(s.note !== 'indispensable' && s.note !== 'recommande') return;
       if(!allowed(id)){
         // piège évité : l'action attendue par la trame, contre-indiquée chez ce patient, n'a pas été faite
-        if(!seen[id] && !evited.has(id) && (!s.alt || altDone(s.alt))){
-          evited.add(id);
+        const ek = s.alt ? `alt:${s.alt}` : id;   // une seule ligne par groupe d'alternatives
+        if(!seen[id] && !evited.has(ek) && (!s.alt || altDone(s.alt))){
+          evited.add(ek);
           const ci = dcTerrainCi(id, v.id);
           items.push({ id, kind: 'evite', why: ci.why, terrain: ci.src, pts: 0 });
         }
@@ -2430,7 +2436,7 @@ function dcScore(){
       const key = s.alt ? `alt:${s.alt}` : s.refaire ? `${id}@${v.id}` : id;
       // une action attendue dans plusieurs étapes compte pour sa première apparition
       if(!(key in maxByKey)) maxByKey[key] = DC_POINTS[s.note];
-      if((allowed(id) && doneIn(id)) || (s.alt && altDone(s.alt)) || (seen[id] && allowed(id))) return;
+      if((counts(id) && doneIn(id)) || (s.alt && altDone(s.alt)) || (seen[id] && allowed(id))) return;
       // oubli signalé sur l'action elle-même, ou sur une alternative permise si elle est contre-indiquée
       const tgt = allowed(id) ? id : Object.keys(actions).find(k => actions[k].alt === s.alt && allowed(k));
       const pr = !allowed(id) && dcRuleFind('promeut', tgt, v.id);

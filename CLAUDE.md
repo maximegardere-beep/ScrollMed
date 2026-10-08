@@ -191,8 +191,8 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
 }
 ```
   - `rubrique` : `allergies`, `atcd` (défaut) ou `vie` (mode de vie).
-  - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`. Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
-  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée. `dans` : limite à certaines étapes ou complications (aussi possible sur `ci` et `module`).
+  - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`, sauf avec `"compte": true` (le geste a bien eu lieu : intubation réussie malgré l'anaphylaxie au curare). Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
+  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée. `dans` : limite la règle à une complication (`anaphylaxie`), à une trame (`isr_occlusion`) ou à une étape d'une trame (`isr_occlusion/e2`) ; aussi possible sur `ci` et `module`.
   - `module` : multiplie l'`effet` des actions visées (`effet`), ajoute un effet propre (`plus`).
   - `constantes` : décalage des constantes de départ et des constantes imposées par une étape. `pente` : s'ajoute à celle de l'étape. `bornes` : `[min, max]` (`null` = pas de borne), ex. FC plafonnée sous bêtabloquant.
   - `resultats` : l'emportent sur ceux de l'étape et du scénario. `ecg` : rythme de fond (remplace `sinus`).
@@ -282,6 +282,8 @@ if os.path.exists("Dechocage/complications.json"):
         check_step(w, c, set(), compl=True)
 # terrains : comorbidités, traitements, antécédents sans conséquence
 TERR = set()
+SCS = [json.load(open(f, encoding="utf-8")) for f in glob.glob("Dechocage/sc_*.json")]
+DANS = {sc["id"] for sc in SCS} | {f"{sc['id']}/{e['id']}" for sc in SCS for e in sc["etapes"]}
 if os.path.exists("Dechocage/terrains.json"):
     T = json.load(open("Dechocage/terrains.json", encoding="utf-8"))
     TR = {x["id"]: x for x in T.get("traitements", [])}
@@ -292,7 +294,7 @@ if os.path.exists("Dechocage/terrains.json"):
                 assert ("id" in r) != ("classe" in r), f"{w} : {kind} vise soit un id, soit une classe"
                 assert r.get("id", "") in A or r.get("classe") in CLASSES, f"{w} : {kind} vise une action ou une classe inconnue ({r.get('id') or r.get('classe')})"
                 assert kind == "module" or r.get("why"), f"{w} : {kind} sans justification"
-                assert set(r.get("dans", [])) <= COMPL.keys() | {e["id"] for f in glob.glob("Dechocage/sc_*.json") for e in json.load(open(f, encoding="utf-8"))["etapes"]}, f"{w} : étape inconnue dans {kind}.dans"
+                assert set(r.get("dans", [])) <= COMPL.keys() | DANS, f"{w} : {kind}.dans : ni complication, ni trame, ni « trame/étape »"
                 if kind == "ci" and "complication" in r:
                     assert r["complication"] in COMPL, f"{w} : complication inconnue {r['complication']}"
                 if kind == "module":

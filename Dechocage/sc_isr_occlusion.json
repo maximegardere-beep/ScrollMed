@@ -1,0 +1,119 @@
+{
+  "id": "isr_occlusion",
+  "titre": "Induction en séquence rapide : occlusion du grêle",
+  "source": "SFAR 2017 (RFE intubation difficile et extubation en anesthésie chez l'adulte) ; CURASMUR, JAMA 2019 ; IRIS, JAMA Surg 2019 ; IMPROVE, NEJM 2013",
+  "tags": ["anesthésie", "estomac plein", "ISR", "induction"],
+  "patient": "Homme, 62 ans, 78 kg",
+  "terrains": { "exclus": [], "identite": { "sexe": ["F", "M"], "age": [35, 88], "poids": [55, 100] } },
+  "constantes": { "FC": 104, "PAS": 108, "PAD": 64, "SpO2": 96, "FR": 22, "T": 37.6, "GCS": 15 },
+  "resultats": {
+    "scope": "Tachycardie sinusale régulière.",
+    "ecg": "Tachycardie sinusale, pas de trouble de la repolarisation.",
+    "iono": "Na 134 · **K 3,2 mmol/L** · **urée 14 mmol/L** · **créatinine 118 µmol/L**.",
+    "gds": "pH 7,47 · PaCO2 40 mmHg · **HCO3⁻ 29 mmol/L** · PaO2 82 mmHg en air ambiant.",
+    "lactates": "Lactates 1,6 mmol/L.",
+    "nfs": "**Hb 15,8 g/dL** (hémoconcentration) · leucocytes 12 G/L · plaquettes 260 G/L.",
+    "groupe_rai": "Groupe A RhD positif, RAI négatives.",
+    "glycemie": "Glycémie 1,18 g/L.",
+    "ett": "Pas d'anomalie notable : FEVG 60 %, VCI de 10 mm, collabée à l'inspiration."
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Induction en séquence rapide",
+      "vignette": "Occlusion du grêle sur bride : vomissements depuis la veille, abdomen distendu, pas de sonde gastrique. Laparotomie en urgence. Sur la table d'opération, à toi de préparer, d'induire et d'intuber.",
+      "chrono": 120,
+      "pente": { "PAS": -0.3, "FC": 0.2 },
+      "actions": {
+        "scope": { "note": "indispensable", "why": "Monitorage standard avant toute induction : ECG, PNI, SpO2, capnographie prête." },
+        "vvp": { "note": "indispensable", "why": "Voie veineuse fiable avant l'induction." },
+        "check_isr": { "note": "indispensable", "why": "Estomac plein : aspiration branchée et testée, chariot d'intubation difficile vérifié, plan B annoncé à l'équipe avant d'induire (SFAR 2017)." },
+        "ind_preox": { "note": "indispensable", "alt": "preox", "why": "Préoxygénation jusqu'à une FeO2 ≥ 90 % : l'ISR ne prévoit pas de ventilation au masque avant l'intubation, la réserve en oxygène couvre l'apnée (SFAR 2017).", "effet": { "SpO2": 3 } },
+        "ind_preox_vni": { "note": "debattu", "alt": "preox", "why": "Préoxygénation en VNI : recommandée chez l'obèse ou l'hypoxémique (SFAR 2017) ; ici, le masque facial bien appliqué suffit.", "effet": { "SpO2": 3 } },
+        "sng": { "note": "recommande", "why": "Occlusion : vidange gastrique par sonde avant l'induction. Elle réduit le volume gastrique sans garantir un estomac vide : l'ISR reste nécessaire." },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Déshydratation (vomissements, troisième secteur) : remplissage avant l'induction pour limiter le collapsus.", "effet": { "PAS": 6, "FC": -4 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Efficace, mais les solutés balancés sont préférés aux grands volumes de NaCl 0,9 % (acidose hyperchlorémique).", "effet": { "PAS": 6, "FC": -4 } },
+        "iono": { "note": "recommande", "why": "Vomissements : hypokaliémie et alcalose métabolique fréquentes, insuffisance rénale fonctionnelle." },
+        "groupe_rai": { "note": "debattu", "why": "Laparotomie à faible risque hémorragique, mais groupe et RAI utiles en cas de résection étendue." },
+        "isr_etomidate": { "note": "indispensable", "alt": "isr", "why": "ISR : hypnotique d'action rapide et curare d'installation rapide, intubation sans ventilation au masque préalable. Étomidate : peu d'effet hémodynamique. Succinylcholine : délai le plus court, non-infériorité du rocuronium non démontrée (CURASMUR 2019).", "effet": { "PAS": -18, "FC": -6 } },
+        "isr_etomidate_rocu": { "note": "recommande", "alt": "isr", "why": "Rocuronium 1,2 mg/kg : alternative à la succinylcholine (contre-indication, hyperkaliémie), réversible par le sugammadex. Non-infériorité non démontrée dans CURASMUR (2019).", "effet": { "PAS": -18, "FC": -6 } },
+        "isr_ketamine_succi": { "note": "recommande", "alt": "isr", "why": "Kétamine : préserve la pression artérielle chez le patient hypovolémique. Succinylcholine : curare de référence de l'ISR.", "effet": { "PAS": -8, "FC": 6 } },
+        "isr_ketamine": { "note": "recommande", "alt": "isr", "why": "Kétamine et rocuronium 1,2 mg/kg : association acceptable chez le patient hypovolémique.", "effet": { "PAS": -8, "FC": 6 } },
+        "isr_propofol_succi": { "note": "debattu", "alt": "isr", "why": "Propofol chez un patient déshydraté : collapsus d'induction plus marqué. Dose réduite et vasopresseur prêt si on le choisit.", "effet": { "PAS": -35, "FC": -8 } },
+        "isr_propofol": { "note": "debattu", "alt": "isr", "why": "Propofol chez un patient déshydraté : collapsus d'induction plus marqué.", "effet": { "PAS": -35, "FC": -8 } },
+        "iot_fibro_vigile": { "note": "inutile", "alt": "isr", "why": "Sans critère d'intubation difficile, l'intubation vigile retarde la chirurgie sans bénéfice ; l'ISR est la technique de référence.", "effet": { "PAS": -10 } },
+        "sellick": { "note": "debattu", "why": "Pression cricoïdienne : pas de réduction démontrée des inhalations, intubation parfois plus difficile (IRIS, JAMA Surg 2019). À relâcher si elle gêne la laryngoscopie." },
+        "ventil_masque": { "note": "debattu", "why": "En ISR, pas de ventilation au masque avant l'intubation, sauf désaturation : elle insuffle l'estomac. Une ventilation douce à basse pression est discutée chez le patient à risque d'hypoxémie." },
+        "midazolam": { "note": "inutile", "why": "Prémédication sédative chez un patient à estomac plein : risque d'inhalation, aucun bénéfice ici." },
+        "morphine_titr": { "note": "inutile", "why": "Pas de titration de morphine avant une induction imminente : dépression respiratoire et vomissements." },
+        "ett": { "note": "inutile", "why": "Pas de point d'appel cardiaque : l'ETT retarde la chirurgie." }
+      },
+      "suite": [
+        { "si_manque": [["isr_etomidate", "isr_etomidate_rocu", "isr_ketamine_succi", "isr_ketamine", "isr_propofol_succi", "isr_propofol", "iot_fibro_vigile", "cricothyro"]], "vers": "e1_retard" },
+        { "si_manque": [["ind_preox", "ind_preox_vni"]], "vers": "e2_desat" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_retard",
+      "titre": "Vomissement sur la table",
+      "vignette": "Les voies aériennes ne sont toujours pas protégées. Vomissement abondant en décubitus, toux, la SpO2 baisse. Le chirurgien est habillé et attend.",
+      "chrono": 60,
+      "constantes": { "SpO2": 91, "FC": 118, "FR": 28 },
+      "pente": { "SpO2": -1, "PAS": -0.5, "FC": 0.5 },
+      "actions": {
+        "check_isr": { "note": "indispensable", "why": "Aspiration de la bouche et du pharynx, proclive, puis intubation sans attendre." },
+        "ind_preox": { "note": "recommande", "alt": "preox", "why": "Préoxygénation, même courte : la réserve en oxygène s'épuise.", "effet": { "SpO2": 3 } },
+        "ind_preox_vni": { "note": "debattu", "alt": "preox", "why": "VNI chez un patient qui vomit : insufflation gastrique, risque d'inhalation accru.", "effet": { "SpO2": 3 } },
+        "isr_etomidate": { "note": "indispensable", "alt": "isr", "why": "Protéger les voies aériennes : ISR sans délai.", "effet": { "PAS": -18, "SpO2": 2 } },
+        "isr_etomidate_rocu": { "note": "recommande", "alt": "isr", "why": "Protéger les voies aériennes : ISR sans délai.", "effet": { "PAS": -18, "SpO2": 2 } },
+        "isr_ketamine_succi": { "note": "recommande", "alt": "isr", "why": "Protéger les voies aériennes : ISR sans délai.", "effet": { "PAS": -8, "SpO2": 2 } },
+        "isr_ketamine": { "note": "recommande", "alt": "isr", "why": "Protéger les voies aériennes : ISR sans délai.", "effet": { "PAS": -8, "SpO2": 2 } },
+        "isr_propofol_succi": { "note": "debattu", "alt": "isr", "why": "Propofol chez un patient déshydraté et hypoxémique : collapsus.", "effet": { "PAS": -35, "SpO2": 2 } },
+        "isr_propofol": { "note": "debattu", "alt": "isr", "why": "Propofol chez un patient déshydraté et hypoxémique : collapsus.", "effet": { "PAS": -35, "SpO2": 2 } },
+        "iot_fibro_vigile": { "note": "inutile", "alt": "isr", "why": "Trop lente chez un patient qui vomit et désature, sans critère d'intubation difficile.", "effet": { "PAS": -10 } },
+        "sng": { "note": "recommande", "why": "Vidange gastrique pour limiter de nouveaux vomissements." }
+      },
+      "letal_si_manque": { "actions": [["isr_etomidate", "isr_etomidate_rocu", "isr_ketamine_succi", "isr_ketamine", "isr_propofol_succi", "isr_propofol", "iot_fibro_vigile", "cricothyro"]], "issue": "acr", "why": "Inhalation massive chez un patient aux voies aériennes non protégées : hypoxémie jusqu'à l'arrêt." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique après inhalation : RCP, intubation et ventilation en FiO2 100 % (ERC 2021)." },
+      "suite": [ { "vers": "e2_desat" } ]
+    },
+    {
+      "id": "e2_desat",
+      "titre": "Désaturation après l'intubation",
+      "vignette": "La sonde est en place, capnographie présente. La SpO2 continue de baisser : la réserve en oxygène était insuffisante, ou du liquide gastrique a été inhalé.",
+      "chrono": 60,
+      "constantes": { "SpO2": 84 },
+      "pente": { "SpO2": -1.5, "PAS": -0.8 },
+      "actions": {
+        "vm_protectrice": { "note": "indispensable", "why": "Ventilation en FiO2 100 %, puis PEP et manœuvre de recrutement une fois la position de la sonde vérifiée (capnographie, auscultation).", "effet": { "SpO2": 8 }, "pente": { "SpO2": 0.3 } },
+        "rp": { "note": "recommande", "why": "Radio de thorax : position de la sonde, recherche d'une inhalation (opacités du lobe inférieur droit)." },
+        "echo_pleuro": { "note": "recommande", "why": "Échographie pleuropulmonaire au bloc : intubation sélective, condensation, pneumothorax." },
+        "atb_c3g_amika": { "note": "inutile", "why": "L'inhalation de liquide gastrique donne d'abord une pneumopathie chimique : pas d'antibiothérapie systématique d'emblée." }
+      },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Hypotension après l'intubation",
+      "vignette": "Sonde d'intubation en place, capnographie présente. L'incision commence ; la pression artérielle baisse depuis l'induction.",
+      "chrono": 90,
+      "pente": { "PAS": -1.2, "FC": 0.3 },
+      "diagnostic": ["dx_hypotension_induction"],
+      "actions": {
+        "vm_protectrice": { "note": "indispensable", "why": "Ventilation protectrice peropératoire : VT 6 à 8 mL/kg de poids idéal, PEP, manœuvres de recrutement (IMPROVE, NEJM 2013). Une PEP excessive aggrave l'hypotension.", "effet": { "SpO2": 2 } },
+        "entretien": { "note": "indispensable", "why": "Relais immédiat de l'hypnotique d'induction, qui ne dure que quelques minutes : sinon, risque de mémorisation peropératoire.", "effet": { "PAS": -4 } },
+        "phenylephrine": { "note": "recommande", "alt": "vaso", "why": "Hypotension post-induction : bolus de vasoconstricteur, à la place de l'arrêt de l'anesthésie. Phényléphrine : α pur, sans tachycardie.", "effet": { "PAS": 14, "FC": -4 } },
+        "ephedrine": { "note": "recommande", "alt": "vaso", "why": "Hypotension post-induction : bolus d'éphédrine, utile si la FC est basse.", "effet": { "PAS": 10, "FC": 6 } },
+        "noradre": { "note": "recommande", "alt": "vaso", "why": "Hypotension persistante malgré les bolus : noradrénaline en continu, possible sur voie périphérique à faible dose." },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Hypovolémie (vomissements, troisième secteur) : bolus de cristalloïdes réévalué.", "effet": { "PAS": 5, "FC": -3 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer les solutés balancés.", "effet": { "PAS": 5, "FC": -3 } },
+        "kta": { "note": "debattu", "why": "Cathéter artériel si l'instabilité persiste ou chez le patient fragile." },
+        "sng": { "note": "recommande", "why": "Si elle n'a pas été posée : sonde gastrique après l'intubation, pour la chirurgie et le réveil." },
+        "adrenaline_ivse": { "note": "inutile", "why": "Pas de choc réfractaire : les bolus de vasoconstricteur et le remplissage suffisent." },
+        "sugammadex": { "note": "inutile", "why": "La chirurgie commence : aucune raison d'antagoniser la curarisation." }
+      },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}

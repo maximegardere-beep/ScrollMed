@@ -1,28 +1,227 @@
 [
   {
-    "id": "anaphylaxie", "titre": "Choc anaphylactique",
+    "id": "anaphylaxie",
+    "titre": "Choc anaphylactique",
     "source": "SFAR/SFA 2011 (RFE réactions d'hypersensibilité peranesthésiques) ; ERC 2021 (anaphylaxie)",
-    "tags": ["anaphylaxie", "adrénaline", "tryptase"],
-    "vignette": "Deux minutes après le début de la perfusion : érythème généralisé, œdème des lèvres, sibilants diffus. La pression artérielle s'effondre.",
+    "tags": [
+      "anaphylaxie",
+      "adrénaline",
+      "tryptase"
+    ],
+    "vignette": "Deux minutes après l'injection : érythème généralisé, œdème des lèvres, sibilants diffus. La pression artérielle s'effondre.",
     "chrono": 60,
-    "constantes": { "PAS": 64, "PAD": 34, "FC": 136, "SpO2": 89, "FR": 30 },
-    "pente": { "PAS": -3, "SpO2": -1 },
-    "diagnostic": ["dx_choc_anaphylactique"],
-    "actions": {
-      "arret_ttt": { "note": "indispensable", "refaire": true, "why": "Premier geste : arrêter l'injection du produit suspect (SFAR/SFA 2011)." },
-      "adre_titree": { "note": "indispensable", "refaire": true, "why": "Choc anaphylactique (grade III) : adrénaline IV titrée, 100 à 200 µg toutes les 1 à 2 min jusqu'à restauration de la pression (SFAR/SFA 2011).", "effet": { "PAS": 24, "SpO2": 3 }, "pente": { "PAS": 0, "SpO2": 0 } },
-      "o2_masque": { "note": "recommande", "why": "Oxygène pur (FiO2 100 %) : bronchospasme et œdème réduisent l'oxygénation.", "effet": { "SpO2": 4 } },
-      "remp_cristal": { "note": "recommande", "alt": "remplissage", "refaire": true, "why": "Remplissage rapide par cristalloïdes : vasoplégie et fuite capillaire créent une hypovolémie relative (SFAR/SFA 2011).", "effet": { "PAS": 6 } },
-      "remp_nacl": { "note": "recommande", "alt": "remplissage", "refaire": true, "why": "Remplissage rapide par cristalloïdes : vasoplégie et fuite capillaire créent une hypovolémie relative (SFAR/SFA 2011).", "effet": { "PAS": 6 } },
-      "tryptase": { "note": "recommande", "refaire": true, "why": "Tryptase sérique dès que possible (idéalement 30 min à 2 h après le début), puis dosage de base à distance : elle documente la dégranulation mastocytaire et oriente le bilan allergologique à 4-6 semaines." },
-      "adrenaline_ivse": { "note": "debattu", "why": "Relais en perfusion continue si les bolus doivent être répétés.", "effet": { "PAS": 10 } },
-      "noradre": { "note": "debattu", "why": "Choc réfractaire à l'adrénaline : la noradrénaline peut être associée ; elle ne remplace pas l'adrénaline." },
-      "salbutamol_neb": { "note": "debattu", "why": "Bronchospasme persistant malgré l'adrénaline." },
-      "cortico_sys": { "note": "debattu", "why": "Traitement de second plan : aucun effet immédiat sur le choc. Ne retarde jamais l'adrénaline." },
-      "glucagon": { "note": "inutile", "why": "Réservé au patient sous bêtabloquant dont le choc résiste à l'adrénaline.", "effet": { "PAS": 8 } },
-      "ephedrine": { "note": "inutile", "why": "Insuffisante dans un choc anaphylactique : l'adrénaline est le traitement de référence.", "effet": { "PAS": 4 } }
+    "constantes": {
+      "PAS": 64,
+      "PAD": 34,
+      "FC": 136,
+      "SpO2": 89,
+      "FR": 30
     },
-    "letal_si_manque": { "actions": ["adre_titree"], "issue": "acr", "why": "Choc anaphylactique sans adrénaline : collapsus jusqu'à l'arrêt cardiaque." },
-    "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "remp_cristal"], "why": "Arrêt cardiaque anaphylactique : RCP standard, adrénaline 1 mg toutes les 3 à 5 min, remplissage massif (ERC 2021).", "apres_racs": { "FC": 120, "PAS": 85, "PAD": 45, "SpO2": 90 } }
+    "pente": {
+      "PAS": -3,
+      "SpO2": -1
+    },
+    "diagnostic": [
+      "dx_choc_anaphylactique"
+    ],
+    "actions": {
+      "arret_ttt": {
+        "note": "indispensable",
+        "refaire": true,
+        "why": "Premier geste : arrêter l'injection du produit suspect (SFAR/SFA 2011)."
+      },
+      "adre_titree": {
+        "note": "indispensable",
+        "refaire": true,
+        "why": "Choc anaphylactique (grade III) : adrénaline IV titrée, 100 à 200 µg toutes les 1 à 2 min jusqu'à restauration de la pression (SFAR/SFA 2011).",
+        "effet": {
+          "PAS": 24,
+          "SpO2": 3
+        },
+        "pente": {
+          "PAS": 0,
+          "SpO2": 0
+        }
+      },
+      "o2_masque": {
+        "note": "recommande",
+        "why": "Oxygène pur (FiO2 100 %) : bronchospasme et œdème réduisent l'oxygénation.",
+        "effet": {
+          "SpO2": 4
+        }
+      },
+      "remp_cristal": {
+        "note": "recommande",
+        "alt": "remplissage",
+        "refaire": true,
+        "why": "Remplissage rapide par cristalloïdes : vasoplégie et fuite capillaire créent une hypovolémie relative (SFAR/SFA 2011).",
+        "effet": {
+          "PAS": 6
+        }
+      },
+      "remp_nacl": {
+        "note": "recommande",
+        "alt": "remplissage",
+        "refaire": true,
+        "why": "Remplissage rapide par cristalloïdes : vasoplégie et fuite capillaire créent une hypovolémie relative (SFAR/SFA 2011).",
+        "effet": {
+          "PAS": 6
+        }
+      },
+      "tryptase": {
+        "note": "recommande",
+        "refaire": true,
+        "why": "Tryptase sérique dès que possible (idéalement 30 min à 2 h après le début), puis dosage de base à distance : elle documente la dégranulation mastocytaire et oriente le bilan allergologique à 4-6 semaines."
+      },
+      "adrenaline_ivse": {
+        "note": "debattu",
+        "why": "Relais en perfusion continue si les bolus doivent être répétés.",
+        "effet": {
+          "PAS": 10
+        }
+      },
+      "noradre": {
+        "note": "debattu",
+        "why": "Choc réfractaire à l'adrénaline : la noradrénaline peut être associée ; elle ne remplace pas l'adrénaline."
+      },
+      "salbutamol_neb": {
+        "note": "debattu",
+        "why": "Bronchospasme persistant malgré l'adrénaline."
+      },
+      "cortico_sys": {
+        "note": "debattu",
+        "why": "Traitement de second plan : aucun effet immédiat sur le choc. Ne retarde jamais l'adrénaline."
+      },
+      "glucagon": {
+        "note": "inutile",
+        "why": "Réservé au patient sous bêtabloquant dont le choc résiste à l'adrénaline.",
+        "effet": {
+          "PAS": 8
+        }
+      },
+      "ephedrine": {
+        "note": "inutile",
+        "why": "Insuffisante dans un choc anaphylactique : l'adrénaline est le traitement de référence.",
+        "effet": {
+          "PAS": 4
+        }
+      }
+    },
+    "letal_si_manque": {
+      "actions": [
+        "adre_titree"
+      ],
+      "issue": "acr",
+      "why": "Choc anaphylactique sans adrénaline : collapsus jusqu'à l'arrêt cardiaque."
+    },
+    "acr": {
+      "rythme": "AESP",
+      "requis": [
+        "mce",
+        "adre_acr",
+        "remp_cristal"
+      ],
+      "why": "Arrêt cardiaque anaphylactique : RCP standard, adrénaline 1 mg toutes les 3 à 5 min, remplissage massif (ERC 2021).",
+      "apres_racs": {
+        "FC": 120,
+        "PAS": 85,
+        "PAD": 45,
+        "SpO2": 90
+      }
+    }
+  },
+  {
+    "id": "cico",
+    "titre": "Intubation impossible, oxygénation impossible",
+    "source": "SFAR 2017 (RFE intubation difficile et extubation en anesthésie chez l'adulte) ; DAS 2015",
+    "tags": [
+      "CICO",
+      "intubation difficile",
+      "VAD",
+      "cricothyroïdotomie"
+    ],
+    "vignette": "Après l'induction : glotte invisible à la laryngoscopie, deuxième tentative en échec. La ventilation au masque est inefficace. La SpO2 chute.",
+    "chrono": 60,
+    "constantes": {
+      "SpO2": 86,
+      "FC": 124
+    },
+    "pente": {
+      "SpO2": -6,
+      "FC": 1,
+      "PAS": -0.5
+    },
+    "actions": {
+      "renfort": {
+        "note": "indispensable",
+        "refaire": true,
+        "why": "Appeler à l'aide et annoncer la situation à voix haute : « je ne peux ni intuber ni oxygéner » (DAS 2015)."
+      },
+      "ventil_masque": {
+        "note": "recommande",
+        "refaire": true,
+        "why": "Optimiser la ventilation au masque : deux opérateurs, canule oropharyngée, FiO2 100 % (SFAR 2017).",
+        "effet": {
+          "SpO2": 3
+        }
+      },
+      "dsg": {
+        "note": "indispensable",
+        "alt": "oxygenation",
+        "refaire": true,
+        "why": "Après l'échec de l'intubation : dispositif supraglottique de 2e génération pour rétablir l'oxygénation (SFAR 2017, DAS 2015).",
+        "effet": {
+          "SpO2": 8
+        },
+        "pente": {
+          "SpO2": -2
+        }
+      },
+      "cricothyro": {
+        "note": "indispensable",
+        "alt": "oxygenation",
+        "refaire": true,
+        "why": "Ni intubation ni oxygénation malgré le dispositif supraglottique : abord trachéal sans délai, technique scalpel-bougie-sonde (DAS 2015).",
+        "effet": {
+          "SpO2": 22
+        },
+        "pente": {
+          "SpO2": 0.5
+        }
+      },
+      "sugammadex": {
+        "note": "debattu",
+        "why": "Antagonise le rocuronium (16 mg/kg) pour rendre une ventilation spontanée ; ne lève pas l'obstruction des voies aériennes et ne remplace pas l'abord trachéal. Sans effet sur la succinylcholine."
+      },
+      "iot_fibro_vigile": {
+        "note": "inutile",
+        "why": "Trop tard : la fibroscopie vigile se prévoit avant l'induction ; en hypoxémie, elle retarde l'oxygénation."
+      }
+    },
+    "letal_si_manque": {
+      "actions": [
+        [
+          "dsg",
+          "cricothyro"
+        ]
+      ],
+      "issue": "acr",
+      "why": "Aucun moyen d'oxygénation rétabli : arrêt cardiaque hypoxique."
+    },
+    "acr": {
+      "rythme": "AESP",
+      "requis": [
+        "mce",
+        "adre_acr",
+        "ventil_acr"
+      ],
+      "why": "Arrêt hypoxique : RCP, adrénaline, et oxygénation par abord trachéal (ERC 2021).",
+      "apres_racs": {
+        "FC": 110,
+        "PAS": 90,
+        "PAD": 50,
+        "SpO2": 88
+      }
+    }
   }
 ]

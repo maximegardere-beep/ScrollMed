@@ -68,8 +68,11 @@
         "sonde_u": { "note": "debattu", "why": "Diurèse horaire utile pour suivre la perfusion, à poser sans retarder la coronarographie." },
         "renfort": { "note": "recommande", "why": "Choc cardiogénique : prévenir le senior, le cardiologue interventionnel et le réanimateur." },
         "isr_etomidate": { "note": "inutile", "why": "GCS 14 et SpO2 corrigeable sous O2 : pas encore d'indication d'intubation. L'induction aggraverait l'hypotension.", "effet": { "PAS": -8 } },
+        "isr_etomidate_rocu": { "note": "inutile", "why": "GCS 14 et SpO2 corrigeable sous O2 : pas encore d'indication d'intubation. L'induction aggraverait l'hypotension.", "effet": { "PAS": -8 } },
         "isr_ketamine": { "note": "inutile", "why": "Pas encore d'indication d'intubation. L'induction aggraverait l'hypotension.", "effet": { "PAS": -8 } },
+        "isr_ketamine_succi": { "note": "inutile", "why": "Pas encore d'indication d'intubation. L'induction aggraverait l'hypotension.", "effet": { "PAS": -8 } },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc cardiogénique non soutenu : collapsus." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc cardiogénique non soutenu : collapsus." },
         "biai": { "note": "inutile", "why": "Le ballon de contre-pulsion ne réduit pas la mortalité du choc post-infarctus (IABP-SHOCK II 2012) : pas d'utilisation systématique (ESC 2023, classe III)." }
       },
       "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021).", "apres_racs": { "FC": 108, "PAS": 80, "PAD": 48, "SpO2": 89 } },
@@ -94,7 +97,8 @@
         "coro": { "note": "indispensable", "why": "La TV traduit l'ischémie en cours : seule la reperfusion traite la cause (ESC 2023)." },
         "renfort": { "note": "recommande", "why": "Appeler le senior et le cardiologue." },
         "betabloquant_iv": { "note": "contre_indique", "why": "TV en choc cardiogénique : un bêtabloquant IV effondrerait la PA. Le traitement est électrique.", "effet": { "PAS": -14 } },
-        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc : collapsus." }
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc : collapsus." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc : collapsus." }
       },
       "letal_si_manque": { "actions": [["cardioversion", "choc_ext"], "coro"], "issue": "acr", "why": "TV non réduite ou ischémie non reperfusée : dégénérescence en fibrillation ventriculaire." },
       "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "ecg_racs": "st_plus", "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021). Puis reperfusion en urgence.", "apres_racs": { "FC": 108, "PAS": 78, "PAD": 46, "SpO2": 88 } },
@@ -116,8 +120,11 @@
       },
       "actions": {
         "isr_ketamine": { "note": "indispensable", "alt": "isr", "why": "Hypoxémie réfractaire, épuisement et agitation avant le transport en salle : intubation. Kétamine à dose réduite, noradrénaline en cours, préoxygénation, et vasopresseur prêt pour le collapsus d'induction.", "effet": { "SpO2": 9, "PAS": -8, "GCS": 0 }, "pente": { "SpO2": 0.1 } },
+        "isr_ketamine_succi": { "note": "indispensable", "alt": "isr", "why": "Hypoxémie réfractaire, épuisement et agitation avant le transport en salle : intubation. Kétamine à dose réduite, noradrénaline en cours, préoxygénation, et vasopresseur prêt pour le collapsus d'induction.", "effet": { "SpO2": 9, "PAS": -8, "GCS": 0 }, "pente": { "SpO2": 0.1 } },
         "isr_etomidate": { "note": "indispensable", "alt": "isr", "why": "Hypoxémie réfractaire et épuisement : intubation. L'étomidate a peu d'effet hémodynamique ; dose réduite, noradrénaline en cours, vasopresseur prêt.", "effet": { "SpO2": 9, "PAS": -6 }, "pente": { "SpO2": 0.1 } },
+        "isr_etomidate_rocu": { "note": "indispensable", "alt": "isr", "why": "Hypoxémie réfractaire et épuisement : intubation. L'étomidate a peu d'effet hémodynamique ; dose réduite, noradrénaline en cours, vasopresseur prêt.", "effet": { "SpO2": 9, "PAS": -6 }, "pente": { "SpO2": 0.1 } },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc cardiogénique : collapsus et arrêt." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc cardiogénique : collapsus et arrêt." },
         "vm_protectrice": { "note": "recommande", "why": "Après l'intubation : VT 6 mL/kg de poids idéal et PEP modérée. La pression positive réduit la précharge et la postcharge du VG, mais une PEP élevée peut baisser la PA.", "effet": { "SpO2": 2 } },
         "vni": { "note": "debattu", "why": "Agitation, épuisement et choc : la VNI risque de retarder une intubation devenue nécessaire et sera difficile à tenir pendant la coronarographie.", "effet": { "SpO2": 2, "PAS": -3 } },
         "dobutamine": { "note": "recommande", "why": "PAM à 65 mmHg mais hypoperfusion qui s'aggrave (lactates en hausse, marbrures, anurie) avec une FEVG à 25 % : inotrope à discuter en complément de la noradrénaline (ESC 2021, classe IIb).", "effet": { "PAS": 4, "FC": 8 }, "pente": { "PAS": -0.2 } },

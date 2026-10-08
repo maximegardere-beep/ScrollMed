@@ -62,8 +62,11 @@
         "renfort": { "note": "recommande", "why": "EP à haut risque : senior, réanimateur, et équipe capable d'une reperfusion mécanique si besoin." },
         "vni": { "note": "debattu", "why": "La pression positive baisse le retour veineux et peut effondrer un VD défaillant. Préférer l'oxygène à haut débit.", "effet": { "SpO2": 3, "PAS": -6 } },
         "isr_etomidate": { "note": "contre_indique", "why": "Induction et ventilation en pression positive sur un VD défaillant : collapsus et arrêt fréquents. N'intuber qu'en cas d'échec de l'oxygénation (ESC 2019).", "effet": { "PAS": -26, "SpO2": 4 } },
+        "isr_etomidate_rocu": { "note": "contre_indique", "why": "Induction et ventilation en pression positive sur un VD défaillant : collapsus et arrêt fréquents. N'intuber qu'en cas d'échec de l'oxygénation (ESC 2019).", "effet": { "PAS": -26, "SpO2": 4 } },
         "isr_ketamine": { "note": "contre_indique", "why": "Même risque de collapsus à l'induction, malgré la kétamine. N'intuber qu'en dernier recours.", "effet": { "PAS": -22, "SpO2": 4 } },
+        "isr_ketamine_succi": { "note": "contre_indique", "why": "Même risque de collapsus à l'induction, malgré la kétamine. N'intuber qu'en dernier recours.", "effet": { "PAS": -22, "SpO2": 4 } },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction sur un choc obstructif : arrêt cardiaque." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction sur un choc obstructif : arrêt cardiaque." },
         "furosemide": { "note": "contre_indique", "why": "Le VD est dépendant de sa précharge : un diurétique aggrave le choc.", "effet": { "PAS": -8 } },
         "nitres_iv": { "note": "contre_indique", "why": "Vasodilatateur en état de choc : effondrement tensionnel.", "effet": { "PAS": -16 } },
         "assistance_meca": { "note": "debattu", "why": "L'ECMO VA peut être envisagée dans l'EP avec collapsus ou arrêt réfractaire, associée à une reperfusion (ESC 2019, classe IIb)." },
@@ -88,6 +91,7 @@
         "noradre": { "note": "indispensable", "why": "Hypotension profonde : noradrénaline sans délai.", "effet": { "PAS": 14, "PAD": 6 }, "pente": { "PAS": -0.3 } },
         "assistance_meca": { "note": "debattu", "why": "ECMO VA à discuter dans un centre qui la pratique, en complément d'une reperfusion." },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol en plein collapsus : arrêt." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol en plein collapsus : arrêt." },
         "remp_cristal": { "note": "debattu", "why": "Le remplissage dilate le VD sans corriger la cause.", "effet": { "PAS": 2 } }
       },
       "letal_si_manque": { "actions": [["thrombolyse", "embolectomie"]], "issue": "acr", "why": "EP à haut risque jamais reperfusée : arrêt cardiaque en AESP." },
@@ -113,7 +117,8 @@
         "reanimation": { "note": "indispensable", "why": "EP à haut risque, thrombolysée ou non : réanimation, surveillance du saignement et de la récidive." },
         "angioscanner_thorax": { "note": "debattu", "why": "Une fois le patient stabilisé, le scanner confirme le diagnostic. Seulement si le transport est sans risque.", "si_instable": "acr" },
         "assistance_meca": { "note": "debattu", "why": "En cas d'échec de la reperfusion avec choc persistant." },
-        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc obstructif : arrêt." }
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc obstructif : arrêt." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol en choc obstructif : arrêt." }
       },
       "letal_si_manque": { "actions": [["thrombolyse", "embolectomie"]], "issue": "acr", "why": "EP à haut risque jamais reperfusée : arrêt cardiaque en AESP." },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "ERC 2021 : thrombolyse pendant la RCP si l'EP est probable, puis RCP prolongée 60 à 90 minutes.", "apres_racs": { "FC": 120, "PAS": 82, "PAD": 50, "SpO2": 86 } },
