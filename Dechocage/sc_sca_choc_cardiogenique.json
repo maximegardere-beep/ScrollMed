@@ -25,7 +25,8 @@
     "sonde_u": "**20 mL** d'urines."
   },
   "schemas": {
-    "ett": { "type": "ett", "akinesie": "anterieure", "vci": "dilatee" }
+    "ett": { "type": "ett", "akinesie": "anterieure", "vci": "dilatee" },
+    "echo_pleuro": { "type": "echo_pleuro", "lignes_b": ["d", "g"] }
   },
   "etapes": [
     {

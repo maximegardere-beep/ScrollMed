@@ -27,7 +27,8 @@
     "tdm_body": "Fracture instable du bassin, extravasation de produit de contraste au niveau de l'artère glutéale supérieure droite."
   },
   "schemas": {
-    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" }
+    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
+    "efast": { "type": "efast" }
   },
   "etapes": [
     {

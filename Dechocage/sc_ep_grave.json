@@ -27,7 +27,8 @@
     "glycemie": "Glycémie 1,18 g/L."
   },
   "schemas": {
-    "ett": { "type": "ett", "vg": "hyperkinetique", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" }
+    "ett": { "type": "ett", "vg": "hyperkinetique", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
+    "echo_pleuro": { "type": "echo_pleuro" }
   },
   "etapes": [
     {

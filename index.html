@@ -3235,12 +3235,92 @@ DC_SCHEMAS.ett = spec => {
 };
 
 // ===== schéma : efast_pleuro (E-FAST, échographie pleuropulmonaire) =====
-
-
-
-
-
-
+// côtés ou sites : liste, chaîne seule tolérée
+function dcEfLst(v){ return Array.isArray(v) ? v : v ? [v] : []; }
+// liquide : bande noire (anéchogène) bordée de rouge, le long d'un tracé
+function dcEfLiq(d, w){ return `<path d="${d}" fill="none" stroke="var(--sc-path)" stroke-width="${w + 3}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="var(--sc-liquide)" stroke-width="${w}" stroke-linecap="round"/>`; }
+// fenêtre pleurale vue entre deux côtes : x, y, w, h de la zone d'image ; o = { liq, pno, lignesB }
+function dcEfPlevre(x, y, w, h, o){
+  const r = Math.round(w * 0.13), pl = y + h * 0.27, a = x + r * 2.3, b = x + w - r * 2.3;   // ligne pleurale entre les côtes
+  const liqY = o.liq ? y + h * 0.62 : y + h;
+  let s = `<rect x="${x}" y="${y}" width="${w}" height="${h * 0.16}" fill="var(--sc-tissu-dim)"/>`
+    + `<rect x="${a}" y="${pl}" width="${b - a}" height="${y + h - pl}" fill="var(--sc-air)"/>`;
+  [x + r * 1.3, x + w - r * 1.3].forEach(cx => {   // côte et cône d'ombre
+    s += `<path d="M${cx - r} ${y + h * 0.2} L${cx + r} ${y + h * 0.2} L${cx + r * 1.15} ${y + h} L${cx - r * 1.15} ${y + h} Z" fill="#000"/>`
+      + `<ellipse cx="${cx}" cy="${y + h * 0.2}" rx="${r}" ry="${h * 0.07}" fill="var(--sc-os)"/>`;
+  });
+  if(o.lignesB){   // faisceaux verticaux nés de la ligne pleurale, jusqu'au bas de l'image
+    [0.2, 0.5, 0.8].forEach(f => { const bx = a + (b - a) * f; s += `<path d="M${bx - 1.5} ${pl} L${bx + 1.5} ${pl} L${bx + 3} ${liqY} L${bx - 3} ${liqY} Z" fill="var(--sc-os)" opacity=".75"/>`; });
+  } else {         // lignes A : répliques horizontales de la ligne pleurale
+    [2, 3].forEach(k => { const ly = y + h * 0.27 * k; if(ly < liqY - 3) s += `<line x1="${a + 4}" y1="${ly}" x2="${b - 4}" y2="${ly}" stroke="var(--sc-tissu)" stroke-width="1.5" opacity=".55"/>`; });
+  }
+  if(o.liq) s += `<rect x="${a + 1}" y="${liqY}" width="${b - a - 2}" height="${y + h - liqY - 1.5}" fill="var(--sc-liquide)" stroke="var(--sc-path)" stroke-width="1.5"/>`;
+  s += `<line x1="${a}" y1="${pl}" x2="${b}" y2="${pl}" stroke="${o.pno ? 'var(--sc-path)' : 'var(--sc-os)'}" stroke-width="2.5"${o.pno ? ' stroke-dasharray="5 3"' : ''}/>`;
+  return s;
+}
+// E-FAST : 6 fenêtres. epanchement : morison, splenorenal, douglas, pericarde, plevre_d, plevre_g ; pneumothorax : d, g
+DC_SCHEMAS.efast = spec => {
+  const liq = new Set(dcEfLst(spec.epanchement)), pno = new Set(dcEfLst(spec.pneumothorax));
+  const W = 104, H = 88, iw = 96;
+  const org = (x, y, t) => `<text x="${x}" y="${y}" font-size="10" text-anchor="middle" fill="var(--sc-txt)" opacity=".8">${t}</text>`;
+  const win = {
+    morison: (x, y) => `<path d="M${x} ${y} L${x + 80} ${y} Q${x + 58} ${y + 26} ${x} ${y + 40} Z" fill="var(--sc-tissu)" opacity=".5"/>`
+      + `<ellipse cx="${x + 64}" cy="${y + 42}" rx="26" ry="13" fill="var(--sc-tissu-dim)" stroke="var(--sc-tissu)"/><ellipse cx="${x + 64}" cy="${y + 42}" rx="13" ry="5" fill="var(--sc-tissu)" opacity=".6"/>`
+      + (liq.has('morison') ? dcEfLiq(`M${x + 40} ${y + 33} Q${x + 60} ${y + 22} ${x + 88} ${y + 32}`, 4) : '')
+      + org(x + 24, y + 18, 'foie') + org(x + 16, y + 50, 'rein'),
+    splenorenal: (x, y) => `<path d="M${x + iw} ${y} L${x + 30} ${y} Q${x + 46} ${y + 22} ${x + iw} ${y + 34} Z" fill="var(--sc-tissu)" opacity=".5"/>`
+      + `<ellipse cx="${x + 34}" cy="${y + 42}" rx="26" ry="13" fill="var(--sc-tissu-dim)" stroke="var(--sc-tissu)"/><ellipse cx="${x + 34}" cy="${y + 42}" rx="13" ry="5" fill="var(--sc-tissu)" opacity=".6"/>`
+      + (liq.has('splenorenal') ? dcEfLiq(`M${x + 10} ${y + 32} Q${x + 36} ${y + 22} ${x + 58} ${y + 33}`, 4) : '')
+      + org(x + 74, y + 16, 'rate') + org(x + 80, y + 50, 'rein'),
+    douglas: (x, y) => `<rect x="${x + 22}" y="${y + 6}" width="52" height="28" rx="12" fill="var(--sc-liquide)" stroke="var(--sc-tissu)" stroke-width="1.5"/>`
+      + `<rect x="${x + 6}" y="${y + 42}" width="${iw - 12}" height="14" rx="7" fill="var(--sc-tissu-dim)"/>`
+      + (liq.has('douglas') ? dcEfLiq(`M${x + 18} ${y + 38} Q${x + 48} ${y + 46} ${x + 78} ${y + 38}`, 4) : '')
+      + org(x + 48, y + 24, 'vessie'),
+    pericarde: (x, y) => `<path d="M${x} ${y} L${x + iw} ${y} L${x + iw} ${y + 8} Q${x + 48} ${y + 18} ${x} ${y + 8} Z" fill="var(--sc-tissu)" opacity=".5"/>`
+      + (liq.has('pericarde') ? `<ellipse cx="${x + 48}" cy="${y + 35}" rx="37" ry="18" fill="none" stroke="var(--sc-path)" stroke-width="7"/><ellipse cx="${x + 48}" cy="${y + 35}" rx="37" ry="18" fill="none" stroke="var(--sc-liquide)" stroke-width="4"/>`
+        : `<ellipse cx="${x + 48}" cy="${y + 35}" rx="35" ry="16" fill="none" stroke="var(--sc-os)" stroke-width="1.5"/>`)
+      + `<ellipse cx="${x + 48}" cy="${y + 35}" rx="32" ry="13" fill="var(--sc-tissu-dim)"/>`
+      + `<ellipse cx="${x + 34}" cy="${y + 35}" rx="10" ry="7" fill="var(--sc-liquide)"/><ellipse cx="${x + 62}" cy="${y + 35}" rx="11" ry="8" fill="var(--sc-liquide)"/>`
+      + org(x + 48, y + 39, 'cœur'),
+    plevre_d: (x, y) => dcEfPlevre(x, y, iw, 52, { liq: liq.has('plevre_d'), pno: pno.has('d') }),
+    plevre_g: (x, y) => dcEfPlevre(x, y, iw, 52, { liq: liq.has('plevre_g'), pno: pno.has('g') })
+  };
+  const titres = { morison: 'Morison', splenorenal: 'Spléno-rénal', douglas: 'Douglas', pericarde: 'Péricarde', plevre_d: 'Plèvre D', plevre_g: 'Plèvre G' };
+  let s = '';
+  Object.keys(win).forEach((k, i) => {
+    const x = 4 + (i % 3) * (W + 4), y = 4 + Math.floor(i / 3) * (H + 4), ix = x + 4, iy = y + 18;
+    const cote = k === 'plevre_d' ? 'd' : k === 'plevre_g' ? 'g' : '';
+    const l = liq.has(k), p = !!cote && pno.has(cote), ano = l || p;
+    // constat en bas de la fenêtre ; en plèvre, glissement + sauf pneumothorax de ce côté
+    const bas = l && p ? 'liquide · PNO' : p ? 'PNO · glissement −' : l ? 'liquide' : cote ? 'glissement +' : '';
+    s += `<rect x="${x}" y="${y}" width="${W}" height="${H}" rx="6" fill="#0a0f14" stroke="${ano ? 'var(--sc-path)' : 'var(--sc-tissu-dim)'}"/>`
+      + `<text x="${x + 6}" y="${y + 13}" font-size="10.5" font-weight="700" fill="${ano ? 'var(--sc-path)' : 'var(--sc-txt)'}">${titres[k]}</text>`
+      + win[k](ix, iy)
+      + (bas ? `<text x="${x + W / 2}" y="${y + H - 4}" font-size="10" text-anchor="middle" font-weight="${ano ? 700 : 400}" fill="${ano ? 'var(--sc-path)' : 'var(--sc-txt)'}">${bas}</text>` : '');
+  });
+  return dcSvgFrame(4 + 3 * (W + 4), 4 + 2 * (H + 4), s, 'E-FAST');
+};
+// échographie pleuropulmonaire : panneaux droite / gauche ; lignes_b, epanchement, glissement_absent : côtés d, g
+DC_SCHEMAS.echo_pleuro = spec => {
+  const lb = new Set(dcEfLst(spec.lignes_b)), liq = new Set(dcEfLst(spec.epanchement)), ng = new Set(dcEfLst(spec.glissement_absent));
+  const W = 154, H = 162;
+  let s = '';
+  [['d', 'Droite'], ['g', 'Gauche']].forEach(([c, nom], i) => {
+    const x = 4 + i * (W + 4), y = 4;
+    const anos = [lb.has(c) ? 'lignes B' : '', liq.has(c) ? 'épanchement' : '', ng.has(c) ? 'glissement −' : ''].filter(Boolean);
+    const normal = [lb.has(c) ? '' : 'lignes A', ng.has(c) ? '' : 'glissement +'].filter(Boolean);
+    s += `<rect x="${x}" y="${y}" width="${W}" height="${H}" rx="6" fill="#0a0f14" stroke="${anos.length ? 'var(--sc-path)' : 'var(--sc-tissu-dim)'}"/>`
+      + `<text x="${x + 8}" y="${y + 15}" font-size="11.5" font-weight="700">${nom}</text>`
+      + dcEfPlevre(x + 6, y + 22, W - 12, 100, { liq: liq.has(c), pno: ng.has(c), lignesB: lb.has(c) });
+    // constats sous l'image : anomalies en rouge, puis signes normaux
+    const lignes = [anos.length ? anos.slice(0, 2).join(' · ') : '', anos.length > 2 ? anos[2] : '', normal.join(' · ')].filter(Boolean);
+    lignes.forEach((t, j) => {
+      const rouge = anos.length && (j === 0 || (j === 1 && anos.length > 2));
+      s += `<text x="${x + W / 2}" y="${y + 134 + j * 12}" font-size="10.5" text-anchor="middle" font-weight="${rouge ? 700 : 400}" fill="${rouge ? 'var(--sc-path)' : 'var(--sc-txt)'}">${t}</text>`;
+    });
+  });
+  return dcSvgFrame(4 + 2 * (W + 4), H + 8, s, 'Échographie pleuropulmonaire');
+};
 
 // ===== schéma : echo_veineuse_renale (écho veineuse de compression, écho rénale et vésicale) =====
 
