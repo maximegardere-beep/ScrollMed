@@ -14,6 +14,9 @@
     "glycemie": "Glycémie 1,24 g/L.",
     "ecg": "Tachycardie sinusale, pas de trouble de la repolarisation."
   },
+  "schemas": {
+    "rp": { "type": "rp" }
+  },
   "etapes": [
     {
       "id": "e1",

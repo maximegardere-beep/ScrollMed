@@ -23,6 +23,9 @@
     "rp": "Pas de surcharge pulmonaire.",
     "sonde_u": "50 mL d'urines concentrées."
   },
+  "schemas": {
+    "rp": { "type": "rp" }
+  },
   "etapes": [
     {
       "id": "e1",
