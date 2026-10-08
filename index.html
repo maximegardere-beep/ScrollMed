@@ -1978,9 +1978,13 @@ function dcModEffet(id, stepId, effet){
 }
 // résultat d'examen propre au terrain (ETT de l'insuffisant cardiaque, INR sous AVK…)
 function dcTerrainRes(id){
-  let r;
-  dcSources().forEach(s => { if(s.resultats && s.resultats[id] != null) r = s.resultats[id]; });
-  return r;
+  const sc = G.sc.id, keys = [`${sc}/${G.step.id}/${id}`, `${sc}/${id}`, id];
+  for(const k of keys){
+    let r;
+    dcSources().forEach(s => { if(s.resultats && s.resultats[k] != null) r = s.resultats[k]; });
+    if(r != null) return r;
+  }
+  return undefined;
 }
 // résultat variable : "{3,8~6,2}" devient une valeur tirée dans la plage, avec autant de décimales
 // que les bornes ; même tirage pour le même texte pendant toute la partie (médiane en mode fixe)
@@ -2048,7 +2052,7 @@ function dcStart(scId, mode, opts){
     sc, mode, pending: 0, step: null, vitals: Object.assign({}, sc.constantes),
     override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
     phase: 'step', doneAll: new Set(), log: [], visited: [],
-    dx: null, results: [], acr: null, acrEpisodes: [], racs: 0,
+    dx: [], results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
     fold: { res: false, chips: false, terrain: false },  // encarts repliés : les tuiles restent visibles
     ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
@@ -2238,7 +2242,8 @@ function dcDoAction(id, confirmed){
   const a = dcIndex()[id];
   if(!a || !G || G.phase === 'over' || G.paused || G.modal || G.fiche) return;
   if(a.type === 'diagnostic'){
-    G.dx = id;   // un seul diagnostic actif ; on en change en touchant un autre
+    // plusieurs diagnostics possibles (choc cardiogénique + SCA + OAP…) ; un toucher ajoute ou retire
+    G.dx = G.dx.includes(id) ? G.dx.filter(x => x !== id) : [...G.dx, id];
     dcRender();
     return;
   }
@@ -2326,6 +2331,11 @@ function dcRacs(){
   G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: true });
   G.racs++;
   if(spec.ecg_racs) dcSetEcg(spec.ecg_racs);   // rythme après le RACS (ex. sinus après le choc d'une TV)
+  else if(['tv', 'fv', 'asystolie', 'aesp'].includes(G.ecg)){
+    // sans ecg_racs, un rythme d'arrêt ne survit pas au RACS : retour au rythme de l'étape ou du scénario
+    const base = G.step.ecg && !['tv', 'fv', 'asystolie', 'aesp'].includes(G.step.ecg) ? G.step.ecg : (G.sc.ecg || 'sinus');
+    dcSetEcg(base);
+  }
   G.vitals = dcBound(Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS), dcBoundSources());
   G.phase = 'step';
   G.acr = null;
@@ -2395,9 +2405,9 @@ function dcEnterCompl(cp, cause){
   dcSettle();   // temps fixé : l'évolution en attente s'applique d'abord
   if(G.phase !== 'step') return;
   if(!dcStepById(cp.id)) G.sc.etapes.push(Object.assign({}, cp, { _compl: true }));
-  G.compl = { ret: G.step, chrono: G.chrono, override: G.override, ecg: G.ecg, dx: G.dx, cause };
+  G.compl = { ret: G.step, chrono: G.chrono, override: G.override, ecg: G.ecg, dx: G.dx.slice(), cause };
   G.override = {};
-  G.dx = null;
+  G.dx = [];
   dcEnterStep(cp.id);
   dcNibp();
   dcSample();
@@ -2433,9 +2443,16 @@ function dcValidate(confirmed){
     if(dcUnstableOutcome(st.transfert.si_instable, `Départ ${st.transfert.vers || ''}`.trim())) return;
   }
   const visit = dcCurVisit();
-  visit.t1 = G.t; visit.dx = G.dx;
+  visit.t1 = G.t; visit.dx = G.dx.slice();
   const lsm = st.letal_si_manque;
-  if(lsm && (lsm.actions || []).some(e => !dcDoneEntry(e))){
+  // "etape": true : le geste doit avoir été fait pendant cette étape (une cardioversion antérieure ne réduit pas cette TV)
+  // "etape": liste des gestes concernés (ou true pour tous)
+  const lsmDone = e => {
+    const ids = Array.isArray(e) ? e : [e];
+    const inStep = lsm.etape === true || (Array.isArray(lsm.etape) && ids.some(x => lsm.etape.includes(x)));
+    return inStep ? G.log.some(l => ids.includes(l.id) && !l.ci && l.step === st.id && l.t >= visit.t0) : dcDoneEntry(e);
+  };
+  if(lsm && (lsm.actions || []).some(e => !lsmDone(e))){
     if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return; }
     dcEnterAcr(lsm.why || 'omission létale');
     dcRender();
@@ -2511,7 +2528,8 @@ function dcScore(){
       items.push(seen[l.id]);
     });
     const actions = st.actions || {};
-    const doneIn = id => actions[id].refaire
+    // refaire : fait dans cette étape ; pour un geste non répétable déjà fait avant, la tuile est verrouillée et il compte
+    const doneIn = id => actions[id].refaire && dcRepeatable(dcIndex()[id] || {})
       ? G.log.some(l => l.id === id && !l.ci && l.step === v.id && l.t >= v.t0 && l.t <= t1)
       : dcDoneEntry(id, t1);
     // les actions contre-indiquées par le terrain ne sont plus attendues ; les alternatives restent dues.
@@ -2551,9 +2569,11 @@ function dcScore(){
     let dx = null;
     if(st.diagnostic && st.diagnostic.length){
       maxByKey[`dx:${v.id}`] = DC_DX_POINTS;
-      const ok = st.diagnostic.includes(v.dx);
+      // juste si au moins un des diagnostics posés est attendu ; les autres sont signalés sans pénalité
+      const given = v.dx || [];
+      const ok = given.some(x => st.diagnostic.includes(x));
       if(ok) pts += DC_DX_POINTS;
-      dx = { given: v.dx, expected: st.diagnostic[0], ok };
+      dx = { given, expected: st.diagnostic, ok };
     }
     // conséquences du terrain déclenchées pendant cette étape (omission, seuil, cumul)
     G.events.filter(e => e.step === v.id && !st._compl).forEach(e => items.push({ id: e.id, label: e.label, kind: e.kind === 'omission' ? 'oubli' : 'evenement',
@@ -3104,8 +3124,8 @@ function dcTileHtml(it){
   const count = G.log.filter(l => l.id === a.id && (!dcIsRcp(a) || (G.acr && l.t >= G.acr.t))).length;
   const done = !isDx && !dcRepeatable(a) && count > 0;
   const lock = !isDx && !done && dcLocked(a);
-  const cls = isDx ? (G.dx === a.id ? 'on' : '') : (done ? 'done' : lock ? 'lock' : 'act');
-  const mark = isDx ? (G.dx === a.id ? '◉' : '○') : done ? '✓' : count ? `×${count}` : '';
+  const cls = isDx ? (G.dx.includes(a.id) ? 'on' : '') : (done ? 'done' : lock ? 'lock' : 'act');
+  const mark = isDx ? (G.dx.includes(a.id) ? '☑' : '☐') : done ? '✓' : count ? `×${count}` : '';
   const info = isDx || done ? '' : lock ? `🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}` : a.duree ? `⏱ ${a.duree} min` : '⏱ immédiat';
   return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>
     <span>${escapeHtml(a.label)}${mark ? ` <b>${mark}</b>` : ''}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${info ? `<span class="sub">${info}</span>` : ''}</span></button>`;
@@ -3145,13 +3165,13 @@ function dcRenderGame(){
              : `<button class="dc-acrbox" data-dc="sil">🔕 Silence alarme · lancer le métronome</button>`}`
         : `<div class="dc-steptitle">${st._compl ? '⚠️ Complication' : `Étape ${G.visited.indexOf(dcCurVisit()) + 1}`} · ${escapeHtml(st.titre || '')}</div>
            <div class="dc-vignette ${st._compl ? 'compl' : ''}">${pt}${st._compl && G.compl ? `<div class="pt">Après : ${escapeHtml(G.compl.cause)}</div>` : ''}${escapeHtml(st.vignette || '')}</div>`}
-      ${G.dx ? `<div class="dc-chips"><span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(G.dx))}</span></div>` : ''}
+      ${G.dx.length ? `<div class="dc-chips">${G.dx.map(x => `<span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(x))}</span>`).join('')}</div>` : ''}
       ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
       ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}
       <input class="field dc-search" type="search" placeholder="Rechercher une action…" value="${escapeHtml(G.search)}" autocomplete="off">
       <div id="dcTiles">${dcTilesHtml()}</div>
     </div>
-    ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">Valider l'étape ✓</button></div>` : ''}
+    ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">${st.transfert ? `🚑 Partir ${escapeHtml(st.transfert.vers || '')}` : 'Valider l\'étape ✓'}</button></div>` : ''}
     ${pause}${modal}`;
   const scroller = dcRoot.querySelector('.dc-scroll');
   if(scroller) scroller.scrollTop = anchor == null ? 0 : Math.max(0, document.getElementById('dcTiles').offsetTop - anchor);
@@ -3228,8 +3248,9 @@ function dcRenderDebrief(){
       }).join('');
       return `<div class="dc-item"><span class="ic">💔</span><div><b>ACR ${e.ok ? 'récupéré' : 'non récupéré'}</b><div class="w">Cause : ${escapeHtml(e.cause)}${spec.why ? ' · ' + escapeHtml(spec.why) : ''}</div></div></div>${req}`;
     }).join('');
-    const dx = s.dx ? `<div class="dc-item"><span class="ic">${s.dx.ok ? '🩺' : '⚠️'}</span><div><b>Diagnostic : ${s.dx.given ? escapeHtml(dcLabel(s.dx.given)) : 'aucun'}</b>
-      <div class="w">${s.dx.ok ? 'Juste' : 'Attendu : ' + escapeHtml(dcLabel(s.dx.expected))}</div></div><span class="pts">${s.dx.ok ? '+' + DC_DX_POINTS : ''}</span></div>` : '';
+    const dxs = s.dx ? [].concat(s.dx.given || []) : [];
+    const dx = s.dx ? `<div class="dc-item"><span class="ic">${s.dx.ok ? '🩺' : '⚠️'}</span><div><b>Diagnostic : ${dxs.length ? dxs.map(x => escapeHtml(dcLabel(x)) + ([].concat(s.dx.expected).includes(x) ? ' ✓' : '')).join(' · ') : 'aucun'}</b>
+      <div class="w">${s.dx.ok ? 'Juste' : 'Attendu'} · réponses acceptées : ${[].concat(s.dx.expected).map(x => escapeHtml(dcLabel(x))).join(', ')}</div></div><span class="pts">${s.dx.ok ? '+' + DC_DX_POINTS : ''}</span></div>` : '';
     const items = s.items.slice().sort((a, b) => order[a.kind] - order[b.kind]).map(itemHtml).join('');
     const compl = (d.sc.etapes.find(e => e.id === s.id) || {})._compl;
     return `<div class="dc-step"><h4>${compl ? '⚠️ Complication' : `Étape ${s.index + 1}`} · ${escapeHtml(s.titre)}</h4>${dx}${items || '<div class="hint">Aucune action.</div>'}${acrHtml}</div>`;

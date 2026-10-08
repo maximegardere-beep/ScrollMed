@@ -31,7 +31,7 @@
       "vignette": "Fumeur, diabétique de type 2. Douleur thoracique constrictive depuis 2 heures, apparue au repos. Il est venu seul aux urgences et passe directement au déchocage : pâle, couvert de sueurs, marbrures aux genoux, crépitants aux deux bases.",
       "chrono": 100,
       "pente": { "PAS": -1, "FC": 0.4, "SpO2": -0.15, "GCS": -0.02 },
-      "diagnostic": ["dx_choc_cardiogenique", "dx_sca"],
+      "diagnostic": ["dx_choc_cardiogenique", "dx_sca", "dx_oap"],
       "actions": {
         "scope": { "note": "indispensable", "why": "Monitorage continu et défibrillateur à portée : le risque de fibrillation ventriculaire est maximal dans les premières heures de l'infarctus (ESC 2023)." },
         "ecg": { "note": "indispensable", "why": "ECG 12 dérivations dans les 10 minutes du premier contact (ESC 2023, classe I). Le diagnostic de SCA ST+ est électrique : il déclenche la reperfusion sans attendre la troponine." },
@@ -74,9 +74,10 @@
         "isr_ketamine_succi": { "note": "inutile", "why": "Pas encore d'indication d'intubation. L'induction aggraverait l'hypotension.", "effet": { "PAS": -8 } },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc cardiogénique non soutenu : collapsus." },
         "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc cardiogénique non soutenu : collapsus." },
-        "biai": { "note": "inutile", "why": "Le ballon de contre-pulsion ne réduit pas la mortalité du choc post-infarctus (IABP-SHOCK II 2012) : pas d'utilisation systématique (ESC 2023, classe III)." }
+        "biai": { "note": "inutile", "why": "Le ballon de contre-pulsion ne réduit pas la mortalité du choc post-infarctus (IABP-SHOCK II 2012) : pas d'utilisation systématique (ESC 2023, classe III)." },
+        "cardioversion": { "note": "debattu", "why": "Rythme sinusal : pas d'indication. Une tachyarythmie mal tolérée (FA rapide, TV) en choc relève d'une cardioversion électrique en urgence (ESC 2023 ; ERC 2021)." }
       },
-      "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021).", "apres_racs": { "FC": 108, "PAS": 80, "PAD": 48, "SpO2": 89 } },
+      "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "ecg_racs": "st_plus", "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021).", "apres_racs": { "FC": 108, "PAS": 80, "PAD": 48, "SpO2": 89 } },
       "suite": [
         { "si_manque": ["coro", "noradre"], "vers": "e1_aggrav" },
         { "vers": "e2" }
@@ -90,9 +91,9 @@
       "ecg": "tv",
       "constantes": { "FC": 190, "PAS": 66, "PAD": 40, "GCS": 12 },
       "pente": { "PAS": -1.4, "SpO2": -0.3, "GCS": -0.05 },
-      "diagnostic": ["dx_choc_cardiogenique", "dx_sca"],
+      "diagnostic": ["dx_choc_cardiogenique", "dx_sca", "dx_oap"],
       "actions": {
-        "cardioversion": { "note": "indispensable", "why": "TV mal tolérée (hypotension, confusion) : cardioversion électrique synchronisée sous brève sédation, sans attendre un antiarythmique (ERC 2021).", "effet": { "FC": -82, "PAS": 14, "PAD": 8, "GCS": 1 }, "ecg": "st_plus" },
+        "cardioversion": { "note": "indispensable", "refaire": true, "why": "TV mal tolérée (hypotension, confusion) : cardioversion électrique synchronisée sous brève sédation, sans attendre un antiarythmique (ERC 2021).", "effet": { "FC": -82, "PAS": 14, "PAD": 8, "GCS": 1 }, "ecg": "st_plus" },
         "amiodarone": { "note": "recommande", "why": "Après la cardioversion, amiodarone 300 mg IV pour prévenir la récidive (ERC 2021).", "effet": { "FC": -4 } },
         "noradre": { "note": "indispensable", "why": "Hypotension profonde : noradrénaline sans délai.", "effet": { "PAS": 14, "PAD": 6 }, "pente": { "PAS": -0.3 } },
         "coro": { "note": "indispensable", "why": "La TV traduit l'ischémie en cours : seule la reperfusion traite la cause (ESC 2023)." },
@@ -101,7 +102,7 @@
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc : collapsus." },
         "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction en choc : collapsus." }
       },
-      "letal_si_manque": { "actions": [["cardioversion", "choc_ext"], "coro"], "issue": "acr", "why": "TV non réduite ou ischémie non reperfusée : dégénérescence en fibrillation ventriculaire." },
+      "letal_si_manque": { "actions": [["cardioversion", "choc_ext"], "coro"], "etape": ["cardioversion", "choc_ext"], "issue": "acr", "why": "TV non réduite ou ischémie non reperfusée : dégénérescence en fibrillation ventriculaire." },
       "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "ecg_racs": "st_plus", "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021). Puis reperfusion en urgence.", "apres_racs": { "FC": 108, "PAS": 78, "PAD": 46, "SpO2": 88 } },
       "suite": [ { "vers": "e2" } ]
     },
@@ -113,7 +114,7 @@
       "chrono": 90,
       "constantes": { "SpO2": 86, "FR": 34, "GCS": 13 },
       "pente": { "SpO2": -0.4, "FC": 0.2, "PAS": -0.6 },
-      "diagnostic": ["dx_choc_cardiogenique", "dx_sca"],
+      "diagnostic": ["dx_choc_cardiogenique", "dx_sca", "dx_oap"],
       "resultats": {
         "lactates": "Contrôle : **lactates 5,2 mmol/L**, en hausse malgré une PAM à 65 mmHg.",
         "gds": "Contrôle : **pH 7,22** · **PaO2 52 mmHg** · **PaCO2 46 mmHg** · **lactates 5,2 mmol/L** : épuisement respiratoire.",
@@ -142,7 +143,7 @@
         "nitres_iv": { "note": "contre_indique", "why": "Contre-indiqués en choc.", "effet": { "PAS": -15 } },
         "betabloquant_iv": { "note": "contre_indique", "why": "Contre-indiqué en choc cardiogénique.", "effet": { "PAS": -12, "FC": -15 } }
       },
-      "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021).", "apres_racs": { "FC": 108, "PAS": 78, "PAD": 46, "SpO2": 88 } },
+      "acr": { "rythme": "FV", "requis": ["mce", "choc_ext"], "ecg_racs": "st_plus", "why": "FV : choc électrique externe sans délai, puis massage 2 minutes ; adrénaline et amiodarone après le 3e choc (ERC 2021).", "apres_racs": { "FC": 108, "PAS": 78, "PAD": 46, "SpO2": 88 } },
       "suite": [ { "vers": "fin" } ]
     }
   ]
