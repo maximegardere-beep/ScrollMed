@@ -508,6 +508,11 @@
     border: 1px solid var(--line);
   }
   .hint{ color:var(--muted); font-size:13px; line-height:1.55; margin: 4px 0 14px; }
+  .nudge{ display:flex; align-items:center; gap:8px; margin: 0 12px 8px; padding: 8px 8px 8px 12px; border-radius: 12px;
+    background: var(--surface-2); border: 1px solid var(--alert); font-size: 13px; flex-shrink:0; }
+  .nudge[hidden]{ display:none; }
+  .nudge span{ flex:1; line-height:1.35; }
+  .nudge button{ background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 9px; padding: 6px 10px; font: inherit; font-weight:700; cursor:pointer; white-space:nowrap; }
   .toast{
     position:absolute;
     top: 42%; /* zone vide du milieu de carte : ne masque ni le texte ni les boutons */
@@ -733,6 +738,12 @@
     </div>
   </header>
 
+  <div class="nudge" id="backupNudge" hidden>
+    <span id="backupNudgeTxt"></span>
+    <button data-nudge="save">💾 Sauvegarder</button>
+    <button data-nudge="later" aria-label="Plus tard">✕</button>
+  </div>
+
   <div id="feed"></div>
 
   <nav>
@@ -807,6 +818,7 @@
           <input type="file" id="restoreFileInput" accept="application/json" style="display:none">
           <button class="btn secondary" id="btnRestoreBackup">📥 Restaurer une sauvegarde</button>
           <div class="hint" id="backupMsg"></div>
+          <div class="hint" id="storageMsg"></div>
         </div>
       </details>
 
@@ -909,6 +921,60 @@ function loadGhConfig(){
 }
 function saveGhConfig(cfg){ localStorage.setItem(GH_CONFIG_KEY, JSON.stringify(cfg)); }
 
+// cache de synchro : ETag de chaque liste de dossier, et contenu de chaque fichier
+// avec son sha. Au lancement suivant, une liste inchangée répond 304 et un fichier
+// dont le sha n'a pas bougé n'est pas retéléchargé.
+const GH_CACHE_KEY = "scrollmed_gh_cache_v1";
+let GH_CACHE = (() => {
+  try { return Object.assign({ lists: {}, files: {} }, JSON.parse(localStorage.getItem(GH_CACHE_KEY) || '{}')); }
+  catch(e){ return { lists: {}, files: {} }; }
+})();
+function saveGhCache(){
+  try { localStorage.setItem(GH_CACHE_KEY, JSON.stringify(GH_CACHE)); }
+  catch(e){ GH_CACHE = { lists: {}, files: {} }; try { localStorage.removeItem(GH_CACHE_KEY); } catch(_){} }  // stockage plein : on se passe du cache
+}
+// liste un dossier du dépôt : { status: 200 | 404, files: [{ name, path, sha, download_url }] }
+async function ghListDir(cfg, headers, dir){
+  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${dir}?ref=${encodeURIComponent(cfg.branch || 'main')}`;
+  const cached = GH_CACHE.lists[url];
+  const h = Object.assign({}, headers);
+  if(cached && cached.etag) h['If-None-Match'] = cached.etag;
+  const resp = await fetch(url, { headers: h, cache: 'no-store' });
+  if(resp.status === 304 && cached) return { status: 200, files: cached.files, url };
+  if(resp.status === 404) return { status: 404, files: [], url };
+  if(!resp.ok) throw new Error(`GitHub ${resp.status}`);
+  const files = (await resp.json())
+    .filter(e => e.type === 'file' && /\.json$/i.test(e.name))
+    .map(e => ({ name: e.name, path: e.path, sha: e.sha, download_url: e.download_url }));
+  GH_CACHE.lists[url] = { etag: resp.headers.get('ETag'), files };
+  return { status: 200, files, url };
+}
+// télécharge les fichiers en parallèle, sauf ceux dont le sha est déjà en cache.
+// Renvoie [{ file, data }] ou [{ file, error }] dans l'ordre de la liste.
+async function ghFetchJson(cfg, files){
+  const prefix = `${cfg.owner}/${cfg.repo}@${cfg.branch || 'main'}:`;
+  const out = await Promise.all(files.map(async file => {
+    const key = prefix + file.path;
+    const hit = GH_CACHE.files[key];
+    if(hit && hit.sha === file.sha) return { file, data: hit.data };
+    try{
+      const r = await fetch(file.download_url, { cache: 'no-store' });
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      const data = await r.json();
+      GH_CACHE.files[key] = { sha: file.sha, data };
+      return { file, data };
+    }catch(err){ return { file, error: err.message }; }
+  }));
+  // oublie les fichiers retirés de ce dossier
+  const dir = files.length ? files[0].path.replace(/[^/]*$/, '') : null;
+  if(dir){
+    const live = new Set(files.map(f => prefix + f.path));
+    Object.keys(GH_CACHE.files).forEach(k => { if(k.startsWith(prefix + dir) && !live.has(k)) delete GH_CACHE.files[k]; });
+  }
+  saveGhCache();
+  return out;
+}
+
 function deriveModuleName(filename){
   let base = filename.replace(/\.json$/i, '');
   base = base.replace(/[-_]+/g, ' ').trim();
@@ -933,8 +999,6 @@ async function syncFromGithub(silent){
     if(!silent && msgEl) msgEl.textContent = "Renseigne d'abord ton utilisateur et ton dépôt GitHub.";
     return;
   }
-  const branch = cfg.branch || 'main';
-  const listUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Recos?ref=${encodeURIComponent(branch)}`;
   if(msgEl) msgEl.textContent = 'Synchronisation en cours...';
   try{
     // le token (si présent) permet de lire un dépôt privé et relève la limite de 60 requêtes/h
@@ -942,14 +1006,11 @@ async function syncFromGithub(silent){
     if(cfg.token) headers['Authorization'] = `token ${cfg.token}`;
     // les scénarios du mode Déchoc se synchronisent en parallèle, sans bloquer les cartes
     const dechocSync = syncDechocFromGithub(cfg, headers).catch(err => ({ count: 0, errors: [err.message] }));
-    const listResp = await fetch(listUrl, { headers });
-    if(!listResp.ok){
-      throw new Error(listResp.status === 404
-        ? `Dossier 'Recos' introuvable à cette adresse : ${listUrl} — vérifie la casse du nom de dossier, le nom de la branche (main vs master), et que le dépôt est public.`
-        : `Erreur GitHub (${listResp.status}) sur ${listUrl}`);
+    const list = await ghListDir(cfg, headers, 'Recos');
+    if(list.status === 404){
+      throw new Error(`Dossier 'Recos' introuvable à cette adresse : ${list.url} — vérifie la casse du nom de dossier, le nom de la branche (main vs master), et que le dépôt est public.`);
     }
-    const entries = await listResp.json();
-    const files = entries.filter(e => e.type === 'file' && /\.json$/i.test(e.name));
+    const files = list.files;
     if(files.length === 0){
       if(msgEl) msgEl.textContent = "Aucun fichier .json trouvé dans le dossier Recos.";
       return;
@@ -959,11 +1020,9 @@ async function syncFromGithub(silent){
     const newRemotePosts = [];
     let fileErrors = [];
     let duplicates = 0;
-    for(const file of files){
+    for(const { file, data: items, error } of await ghFetchJson(cfg, files)){
       try{
-        const fileResp = await fetch(file.download_url);
-        if(!fileResp.ok) throw new Error(`HTTP ${fileResp.status}`);
-        const items = await fileResp.json();
+        if(error) throw new Error(error);
         if(!Array.isArray(items)) throw new Error("le fichier ne contient pas un tableau JSON");
         const fallbackModuleName = deriveModuleName(file.name);
         items.forEach(item=>{
@@ -1020,9 +1079,9 @@ async function syncFromGithub(silent){
     if(changed){
       POSTS = keptPosts.concat(newRemotePosts);
       savePosts(POSTS);
-      FEED_ORDER = buildFeedOrder();
-      renderFeed();
-      }
+      // premières cartes GitHub : les cartes de départ affichées disparaissent, on repart du haut
+      if(oldSeeds.length){ FEED_ORDER = buildFeedOrder(); renderFeed(); } else mergeFeedOrder();
+    }
 
     let summary = `${newRemotePosts.length} fiche(s) synchronisée(s) depuis ${files.length} fichier(s).`;
     if(duplicates) summary += ` ${duplicates} doublon(s) ignoré(s).`;
@@ -1168,6 +1227,18 @@ function renderFeed(){
     return;
   }
   renderNextBatch();
+}
+
+// après une synchro : les cartes déjà affichées restent en place (pas de retour en haut du feed),
+// les nouvelles et les modifiées se glissent dans la suite, pas encore affichée
+function mergeFeedOrder(){
+  if(!renderedCount || !feedEl.querySelector('.card[data-id]')){ FEED_ORDER = buildFeedOrder(); renderFeed(); return; }
+  const shown = FEED_ORDER.slice(0, renderedCount);
+  const shownIds = new Set(shown.map(p => p.id));
+  FEED_ORDER = shown.concat(buildFeedOrder().filter(p => !shownIds.has(p.id)));
+  feedSentinel.remove();
+  feedObserver.disconnect();
+  if(renderedCount < FEED_ORDER.length){ feedEl.appendChild(feedSentinel); feedObserver.observe(feedSentinel); }
 }
 
 function renderNextBatch(){
@@ -1640,24 +1711,19 @@ function loadDechocContent(){
 
 async function syncDechocFromGithub(cfg, headers){
   const branch = cfg.branch || 'main';
-  const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/Dechocage?ref=${encodeURIComponent(branch)}`;
-  const resp = await fetch(url, { headers });
-  if(resp.status === 404){
+  const list = await ghListDir(cfg, headers, 'Dechocage');
+  if(list.status === 404){
     // pas encore de dossier sur cette branche : on le signale sur l'accueil Déchoc
     DC_SYNC_INFO = `Dossier Dechocage introuvable sur la branche « ${branch} ».`;
     if(DC_VIEW === 'home' && document.getElementById('panelDechoc').classList.contains('open')) dcRender();
     return { count: 0, errors: [] };
   }
   DC_SYNC_INFO = '';
-  if(!resp.ok) throw new Error(`GitHub ${resp.status}`);
-  const files = (await resp.json()).filter(e => e.type === 'file' && /\.json$/i.test(e.name));
   let actions = null;
   const scenarios = [], errors = [];
-  for(const f of files){
+  for(const { file: f, data, error } of await ghFetchJson(cfg, list.files)){
     try{
-      const r = await fetch(f.download_url);
-      if(!r.ok) throw new Error(`HTTP ${r.status}`);
-      const data = await r.json();
+      if(error) throw new Error(error);
       if(f.name === 'actions.json'){
         if(!Array.isArray(data)) throw new Error('tableau attendu');
         actions = data;
@@ -2711,6 +2777,46 @@ function closeAllPanels(){
 window.closePanel = closePanel;
 
 // ---------- sauvegarde / restauration ----------
+// Safari peut effacer les données d'un site non installé après 7 jours sans visite :
+// on demande un stockage protégé, et on rappelle la sauvegarde quand il y a de quoi perdre.
+const BACKUP_KEY = 'scrollmed_backup_v1';          // { last: date du dernier export, snooze: date de fin du report }
+const BACKUP_EVERY_DAYS = 14;
+const BACKUP_SNOOZE_DAYS = 3;
+function backupInfo(){ try { return JSON.parse(localStorage.getItem(BACKUP_KEY) || '{}'); } catch(e){ return {}; } }
+function setBackupInfo(patch){ try { localStorage.setItem(BACKUP_KEY, JSON.stringify(Object.assign(backupInfo(), patch))); } catch(e){} }
+function progressWorthSaving(){
+  return Object.keys(STATE.level).length + Object.keys(STATE.bookmarks).filter(k => STATE.bookmarks[k]).length + STATE.dechoc.runs.length >= 10;
+}
+function daysSince(t){ return Math.floor((Date.now() - t) / 86400000); }
+function checkBackupNudge(){
+  const el = document.getElementById('backupNudge');
+  const info = backupInfo();
+  // date de référence : dernier export, sinon premier jour de suivi de la progression
+  const first = Object.keys(STATE.history).sort()[0];
+  const ref = info.last || (first ? new Date(first + 'T00:00').getTime() : Date.now());
+  const due = progressWorthSaving() && daysSince(ref) >= BACKUP_EVERY_DAYS && !(info.snooze && Date.now() < info.snooze);
+  el.hidden = !due;
+  if(due) document.getElementById('backupNudgeTxt').textContent = info.last
+    ? `Dernière sauvegarde il y a ${daysSince(info.last)} jours.`
+    : 'Ta progression n’a jamais été sauvegardée.';
+}
+document.getElementById('backupNudge').addEventListener('click', e => {
+  const b = e.target.closest('[data-nudge]');
+  if(!b) return;
+  if(b.dataset.nudge === 'save') document.getElementById('btnExportBackup').click();
+  else setBackupInfo({ snooze: Date.now() + BACKUP_SNOOZE_DAYS * 86400000 });
+  document.getElementById('backupNudge').hidden = true;
+});
+async function protectStorage(){
+  const msg = document.getElementById('storageMsg');
+  if(!navigator.storage || !navigator.storage.persist){ msg.textContent = ''; return; }
+  let ok = false;
+  try { ok = await navigator.storage.persisted() || await navigator.storage.persist(); } catch(e){}
+  msg.textContent = ok
+    ? '🔒 Stockage protégé : le navigateur ne videra pas ces données de lui-même.'
+    : '⚠️ Stockage non protégé : le navigateur peut effacer ces données (sur iPhone, après 7 jours sans ouvrir l’app si elle n’est pas ajoutée à l’écran d’accueil). Ajoute ScrollMed à l’écran d’accueil et sauvegarde régulièrement.';
+}
+
 document.getElementById('btnExportBackup').addEventListener('click', ()=>{
   const backup = {
     type: 'scrollmed-backup',
@@ -2729,6 +2835,7 @@ document.getElementById('btnExportBackup').addEventListener('click', ()=>{
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  setBackupInfo({ last: Date.now(), snooze: 0 });
   showToast('Sauvegarde téléchargée');
 });
 
@@ -2791,6 +2898,8 @@ if(!Object.keys(STATE.history).length){ snapshotProgress(); saveState(STATE); }
 // clé de l'ancienne génération Gemini (fonction retirée) : on ne la garde pas sur l'appareil
 localStorage.removeItem("scrollmed_gemini_key_v1");
 renderFeed();
+protectStorage();
+checkBackupNudge();
 // tentative de synchronisation silencieuse si une config GitHub existe déjà
 if(loadGhConfig()){ syncFromGithub(true); }
 </script>
