@@ -26,6 +26,9 @@
     "rp": "Pas de foyer pulmonaire.",
     "sonde_u": "Urines troubles, 20 mL à la pose."
   },
+  "schemas": {
+    "echo_renale": { "type": "echo_renale", "dilatation": "d", "calcul": "d" }
+  },
   "etapes": [
     {
       "id": "e1",

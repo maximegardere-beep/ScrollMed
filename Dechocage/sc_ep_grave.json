@@ -26,6 +26,9 @@
     "rp": "Discrète surélévation de la coupole droite. Pas de pneumothorax, pas de foyer.",
     "glycemie": "Glycémie 1,18 g/L."
   },
+  "schemas": {
+    "echo_veineuse": { "type": "echo_veineuse", "thrombose": true, "cote": "g", "niveau": "femorale" }
+  },
   "etapes": [
     {
       "id": "e1",

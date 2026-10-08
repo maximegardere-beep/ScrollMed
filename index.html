@@ -3153,12 +3153,76 @@ function dcSchemaHtml(spec){
 
 
 // ===== schéma : echo_veineuse_renale (écho veineuse de compression, écho rénale et vésicale) =====
-
-
-
-
-
-
+// côté(s) touché(s) : "d", "g", "dg", ["d", "g"] ou true (les deux)
+function dcCote(v, c){ return v === true || (Array.isArray(v) ? v.includes(c) : typeof v === 'string' && v.includes(c)); }
+// écho veineuse de compression : coupe transversale sans / avec compression (artère ronde + veine)
+DC_SCHEMAS.echo_veineuse = spec => {
+  const throm = !!spec.thrombose, popl = spec.niveau === 'poplitee';
+  const titre = `Veine ${popl ? 'poplitée' : 'fémorale'} ${spec.cote === 'd' ? 'D' : 'G'} · coupe transversale`;
+  const panel = (px, comp) => {
+    // fémorale : veine médiale à l'artère ; poplitée : veine superficielle à l'artère
+    const a = popl ? { x: px + 75, y: 110, r: 12 } : { x: px + 48, y: 88, r: 13 };
+    const v = popl ? { x: px + 75, y: 72, r: 16 } : { x: px + 100, y: 90, r: 18 };
+    const dy = comp ? 6 : 0;   // la sonde appuie
+    let s = `<rect x="${px}" y="30" width="150" height="118" rx="8" fill="var(--sc-tissu-dim)"/>`
+      + `<path d="M${px + 52} ${20 + dy}h46l-4 10h-38z" fill="var(--sc-tissu)"/>`
+      + (comp ? `<path d="M${px + 75} ${4 + dy}v12m-5 -5l5 5l5 -5" stroke="var(--sc-txt)" stroke-width="1.6" fill="none"/>` : '')
+      + `<circle cx="${a.x}" cy="${a.y}" r="${a.r}" fill="var(--sc-liquide)" stroke="var(--sc-tissu)" stroke-width="1.2"/>`
+      + `<text x="${a.x}" y="${a.y + 4}" text-anchor="middle">A</text>`;
+    if(comp && !throm){
+      // veine normale : écrasée par la sonde
+      s += `<ellipse cx="${v.x}" cy="${v.y - v.r + 3}" rx="${v.r + 3}" ry="2.2" fill="var(--sc-liquide)" stroke="var(--sc-tissu)"/>`
+        + `<text x="${v.x}" y="${v.y - v.r + 18}" text-anchor="middle">V écrasée</text>`;
+    } else {
+      // veine ronde ; thrombose : contenu échogène, cerclée de rouge
+      s += `<circle cx="${v.x}" cy="${v.y}" r="${v.r}" fill="var(--sc-liquide)" stroke="${throm ? 'var(--sc-path)' : 'var(--sc-tissu)'}" stroke-width="${throm ? 2 : 1.2}"/>`
+        + (throm ? `<circle cx="${v.x}" cy="${v.y}" r="${v.r - 2}" fill="var(--sc-tissu)" opacity=".5"/>` : '')
+        + `<text x="${v.x}" y="${v.y + 4}" text-anchor="middle">V</text>`;
+      if(comp) s += `<text x="${px + 75}" y="142" text-anchor="middle" fill="var(--sc-path)" font-weight="600">veine incompressible</text>`;
+    }
+    return s + `<text x="${px + 75}" y="162" text-anchor="middle" font-size="10.5">${comp ? 'avec' : 'sans'} compression</text>`;
+  };
+  return dcSvgFrame(320, 176, `<g transform="translate(0 8)">${panel(5, false) + panel(165, true)}</g>`
+    + `<text x="160" y="11" text-anchor="middle" font-size="10.5" opacity=".85">${titre}</text>`,
+    `Échographie veineuse de compression${throm ? ' : veine incompressible (thrombose)' : ''}`);
+};
+// écho rénale et vésicale : reins en coupe longitudinale (D à gauche de l'image) + vessie
+DC_SCHEMAS.echo_renale = spec => {
+  const petit = !!spec.petits_reins, vessie = spec.vessie || 'normale';
+  const rein = (c, cx) => {
+    const g = c === 'g', rx = petit ? 38 : 54, ry = petit ? 18 : 25, cy = 50;
+    const dil = dcCote(spec.dilatation, c), calc = dcCote(spec.calcul, c);
+    const m = g ? -1 : 1;   // sens du hile (vers le centre de l'image)
+    // petit rein : contour pointillé d'un rein de taille normale pour comparer
+    let s = petit ? `<ellipse cx="${cx}" cy="${cy}" rx="54" ry="25" fill="none" stroke="var(--sc-tissu-dim)" stroke-dasharray="3 3"/>` : '';
+    s += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="var(--sc-tissu-dim)" stroke="var(--sc-tissu)" stroke-width="1.4"/>`
+      + `<ellipse cx="${cx}" cy="${cy}" rx="${rx * 0.6}" ry="${ry * 0.45}" fill="var(--sc-tissu)" opacity=".85"/>`;
+    // jonction pyélo-urétérale (vers le centre), calcul dans l'uretère proximal
+    const ux = cx + m * rx * 0.35, uy = cy + ry * 0.4, sx = cx + m * 28, sy = 100;
+    if(dil){
+      // cavités pyélocalicielles dilatées : calices + bassinet anéchogènes
+      s += `<g fill="var(--sc-liquide)" stroke="var(--sc-path)" stroke-width="1.2">`
+        + [-0.4, 0, 0.4].map(k => `<circle cx="${cx + k * rx * 0.75}" cy="${cy - ry * 0.25}" r="${ry * 0.2 + 1}"/>`).join('')
+        + `<ellipse cx="${ux}" cy="${uy}" rx="${rx * 0.22}" ry="${ry * 0.3}"/></g>`;
+    }
+    if(calc){
+      s += `<path d="M${ux} ${uy + ry * 0.2}Q${ux} ${sy - 10} ${sx} ${sy - 5}" stroke="${dil ? 'var(--sc-liquide)' : 'var(--sc-tissu)'}" stroke-width="${dil ? 6 : 2}" fill="none"/>`
+        + `<path d="M${sx - 6} ${sy + 3}L${sx - 11} ${sy + 34}H${sx + 11}L${sx + 6} ${sy + 3}z" fill="#000" opacity=".9"/>`
+        + `<ellipse cx="${sx}" cy="${sy}" rx="7" ry="4.5" fill="var(--sc-os)"/>`
+        + `<text x="${sx - m * 12}" y="${sy + 4}" text-anchor="${g ? 'start' : 'end'}" fill="var(--sc-path)" font-weight="600">calcul</text>`
+        + `<text x="${sx - m * 12}" y="${sy + 17}" text-anchor="${g ? 'start' : 'end'}" font-size="10">cône d'ombre</text>`;
+    }
+    // titre au-dessus du rein (l'uretère occupe le dessous), anomalie en rouge
+    return s + `<text x="${cx}" y="16" text-anchor="middle">Rein ${g ? 'G' : 'D'}${dil ? ' · <tspan fill="var(--sc-path)" font-weight="600">cavités dilatées</tspan>' : ''}</text>`
+      + (petit ? `<text x="${cx}" y="${cy + 40}" text-anchor="middle" fill="var(--sc-path)" font-weight="600">petit rein</text>` : '');
+  };
+  const vs = { vide: [14, 4], normale: [32, 18], globe: [46, 30] }[vessie] || [32, 18], vy = 150 - vs[1];
+  const vessieSvg = `<ellipse cx="160" cy="${vy}" rx="${vs[0]}" ry="${vs[1]}" fill="var(--sc-liquide)" stroke="${vessie === 'globe' ? 'var(--sc-path)' : 'var(--sc-tissu)'}" stroke-width="1.4"/>`
+    + `<text x="160" y="${vy + vs[1] + 13}" text-anchor="middle"${vessie === 'globe' ? ' fill="var(--sc-path)" font-weight="600"' : ''}>${vessie === 'globe' ? 'globe vésical' : vessie === 'vide' ? 'Vessie vide' : 'Vessie'}</text>`;
+  const dil = dcCote(spec.dilatation, 'd') || dcCote(spec.dilatation, 'g');
+  return dcSvgFrame(320, 168, rein('d', 70) + rein('g', 250) + vessieSvg,
+    `Échographie rénale et vésicale${dil ? ' : dilatation des cavités' : ''}${petit ? ' : petits reins' : ''}`);
+};
 
 // ===== schéma : radio (radio de thorax, radio de bassin) =====
 
