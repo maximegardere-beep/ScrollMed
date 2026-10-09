@@ -2447,6 +2447,7 @@ function dcRacs(){
   G.vitals = dcBound(Object.assign({}, G.acr.prev, spec.apres_racs || DC_RACS_VITALS), dcBoundSources());
   G.phase = 'step';
   G.acr = null;
+  if(G.nav[0] === DC_RCP_ROOT){ G.nav = []; G.search = ''; }   // la catégorie RCP disparaît avec l'ACR
   DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0;   // fin du silence : les alarmes reprennent normalement
   G.chrono = Math.max(G.chrono, 30 * dcMode().mult);
   dcNibp();
