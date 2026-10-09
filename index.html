@@ -631,6 +631,7 @@
     #panelDechoc .panel-head{ padding: 4px max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left)); gap:8px; }
     #panelDechoc .panel-head h2{ font-size:15px; }
     #panelDechoc .panel-head .iconbtn{ width:30px; height:30px; }
+    #panelDechoc:has(.dc-root.game) .panel-head{ display:none; }   /* en jeu : ⏸ et titre dans la barre du scope */
     .dc-root.game{ display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); grid-template-rows: minmax(0, 1fr) auto; }
     .dc-root.game > .dc-scope{ grid-column:1; grid-row: 1 / 3; display:flex; flex-direction:column; min-height:0; border-bottom:0; border-right:1px solid var(--line); padding-left: env(safe-area-inset-left); }
     .dc-root.game > .dc-scope .dc-mon{ flex:1; min-height:0; height:auto; flex-direction:column; }
@@ -639,9 +640,14 @@
     .dc-root.game > .dc-scope .dc-nb .v{ font-size:22px; }
     .dc-root.game > .dc-scope .dc-nb.pa .v{ font-size:16px; }
     .dc-root.game > .dc-scope .dc-grid{ grid-template-columns: repeat(2, 1fr); }
-    .dc-root.game > .dc-scope .dc-bar{ flex-wrap:wrap; }
+    .dc-root.game > .dc-scope .dc-bar{ flex-wrap:wrap; gap:4px; }
+    .dc-root.game > .dc-scope .dc-bar .txt{ order:9; flex-basis:100%; }
+    .dc-root.game > .dc-scope .dc-bar .txt:empty{ display:none; }
+    .dc-root.game > .dc-scope .dc-cmd{ flex:1; }
+    .dc-root.game > .dc-scope .dc-mbtn{ min-width:32px; }
+    .dc-root.game > .dc-scope .dc-vbtn{ display:inline-flex; }
     .dc-root.game > .dc-scroll{ grid-column:2; grid-row:1; padding-right: max(16px, env(safe-area-inset-right)); }
-    .dc-root.game > .dc-foot{ grid-column:2; grid-row:2; padding: 6px max(16px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) 16px; }
+    .dc-root.game > .dc-foot{ display:none; }
     .dc-root.game .dc-tiles{ grid-template-columns: repeat(3, 1fr); }
     .dc-root.game .dc-tile{ min-height:50px; padding:10px; }
   }
@@ -683,6 +689,24 @@
   .dc-mbtn{ flex-shrink:0; background:#0f1822; border:1px solid #243140; color:#dfe7ee; border-radius:8px; min-width:36px; height:32px; font-size:15px; cursor:pointer; }
   .dc-mbtn.on{ border-color: var(--trace); }
   .dc-mbtn[hidden]{ display:none; }
+  /* commande de la barre : titre de l'étape, chrono, temps restant, temps patient */
+  .dc-cmd{ min-width:0; display:flex; flex-direction:column; gap:1px; line-height:1.15; }
+  .dc-cmd .st{ width:0; min-width:100%; font-size:11px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }   /* le titre ne fixe pas la largeur */
+  .dc-cmd .st.acr{ color: var(--danger); }
+  .dc-cmd .ck{ display:flex; align-items:baseline; gap:6px; line-height:1; white-space:nowrap; overflow:hidden; }
+  .dc-cmd .ck b{ flex-shrink:0; font-size:18px; }
+  .dc-cmd .ck small{ min-width:0; overflow:hidden; text-overflow:ellipsis; font-size:10.5px; color: var(--muted); }
+  .dc-cmd .pg{ height:3px; border-radius:2px; background:#1a2532; overflow:hidden; }
+  .dc-cmd .pg.late{ background: var(--danger); }
+  .dc-cmd .pg i{ display:block; height:100%; background: var(--trace); }
+  .dc-cmd .pg i.l1{ background: var(--alert); }
+  .dc-cmd .pg i.l2{ background: var(--danger); }
+  .dc-vbtn{ display:none; flex-shrink:0; align-items:center; justify-content:center; height:32px; min-width:48px; padding:0 10px; border:0; border-radius:8px; background: var(--trace); color:#06110c; font:inherit; font-size:14px; font-weight:800; cursor:pointer; }
+  /* Valider l'étape : appui maintenu, remplissage pendant l'appui */
+  .dc-hv{ position:relative; overflow:hidden; touch-action: manipulation; }
+  .dc-hv > span{ position:relative; }
+  .dc-hv::before{ content:""; position:absolute; inset:0; width:0; background: rgba(255,255,255,.45); }
+  .dc-hv.hold::before{ width:100%; transition: width .45s linear; }
   .dc-modal{ z-index:7; overflow-y:auto; }
   .dc-stab{ margin: 8px 0 2px; padding: 10px 14px; border-radius: 12px; font-weight:700; font-size:14px; text-align:left; max-width:340px; }
   .dc-stab.ok{ background: rgba(53,217,153,.12); border:1px solid var(--trace-dim); color: var(--trace); }
@@ -3054,7 +3078,11 @@ function dcBarControls(){
     <button class="dc-mbtn" data-dc="fold" aria-label="${DC_PREFS.plie ? 'Agrandir' : 'Réduire'} le scope">${DC_PREFS.plie ? '▾' : '▴'}</button>`;
 }
 function dcScopeShell(){
-  const bar = `<div class="dc-bar"><div class="txt" id="dcBarTxt"></div>${dcBarControls()}</div>`;
+  // Valider compact (paysage, appui maintenu) : nombre de gestes de l'étape, ou 🚑 si l'étape finit par un départ
+  const vl = escapeHtml(G.step.transfert ? `Partir ${G.step.transfert.vers || ''}` : 'Valider l’étape');
+  const valid = G.phase === 'step' ? `<button class="dc-vbtn dc-hv" data-dc="validate" aria-label="${vl} (appui maintenu)" title="${vl}"><span>${G.step.transfert ? '🚑' : `✓ ${dcStepActs().length}`}</span></button>` : '';
+  const bar = `<div class="dc-bar"><button class="dc-mbtn" data-dc="pause" aria-label="Pause">⏸</button><div class="dc-cmd" id="dcCmd"></div>
+    <div class="txt" id="dcBarTxt"></div>${dcBarControls()}${valid}</div>`;
   if(DC_PREFS.plie) return `<div class="dc-scope" id="dcScope"><div class="dc-grid" id="dcGrid"></div>${bar}</div>`;
   const pa = !G.mon.has('PA');
   const boxes = dcBoxIds().map(id => id === 'PA' && pa
@@ -3063,6 +3091,18 @@ function dcScopeShell(){
   return `<div class="dc-scope mon" id="dcScope"><div class="dc-mon">
       <div class="dc-wv" id="dcWv"><div class="dc-over" id="dcOver"></div></div>
       <div class="dc-nums">${boxes}</div></div>${bar}</div>`;
+}
+// barre du scope : titre court de l'étape, chrono en gros, barre du temps restant, temps patient en petit
+function dcCmdHtml(){
+  const pg = (f, late) => `<div class="pg ${late ? 'late' : ''}"><i class="${f < .25 ? 'l2' : f < .5 ? 'l1' : ''}" style="width:${(Math.min(1, Math.max(0, f)) * 100).toFixed(1)}%"></i></div>`;
+  const tp = `<small>T+${dcFmtClock(G.t)}</small>`;
+  if(G.phase === 'acr') return `<div class="st acr">ACR · RCP${G.acr.metro ? ` <span class="dc-metro" id="dcMetro">♥ ${DC_METRO_RATE}/min</span>` : ''}</div>
+    <div class="ck"><b class="late">⏱ ${dcFmtClock(G.acr.chrono)}</b>${tp}</div>${pg(G.acr.chrono / dcMode().acr)}`;
+  const late = !dcMode().fige && G.chrono <= 0;
+  const st = `<div class="st">${late ? '<span class="al2">Retard</span> · ' : ''}${G.step._compl ? '⚠️ ' : ''}${escapeHtml(G.step.titre || '')}</div>`;
+  if(dcMode().fige) return `${st}<div class="ck"><b>T+${dcFmtClock(G.t)}</b><small>temps fixé</small></div>`;
+  return `${st}<div class="ck"><b class="${late ? 'late' : ''}">⏱ ${late ? '+' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b>${tp}</div>
+    ${pg(G.chrono / ((G.step.chrono || DC_DEFAULT_CHRONO) * dcMode().mult), late)}`;
 }
 function dcGridHtml(){
   if(G.phase === 'acr') return `<div class="dc-acr">⚠ ${escapeHtml(dcAcrAlarmMsg())}</div>`;
@@ -3097,14 +3137,12 @@ function dcRenderScope(){
   }
   const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${v.GCS != null ? Math.round(v.GCS) : '—'}</span>`;
   const alarm = DC_PREFS.plie && al.lvl && !acr ? `<span class="al${al.lvl}">⚠ ${escapeHtml(al.msg)}</span>` : '';
-  const clock = acr ? `${G.acr.metro ? `<span class="dc-metro" id="dcMetro">♥ ${DC_METRO_RATE}/min</span>` : ''}<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
-    : dcMode().fige ? `<span>T+${dcFmtClock(G.t)}</span><b>Temps fixé</b>`
-    : `<span>T+${dcFmtClock(G.t)}</span><b class="${G.chrono <= 0 ? 'late' : ''}">${G.chrono <= 0 ? 'Retard +' + dcFmtClock(-G.chrono) : dcFmtClock(G.chrono)}</b>`;
   const pumps = Object.entries(G.pumps).map(([id, p]) => {
     const t = dcIndex()[id].titration;
     return `<span class="dc-pump ${p.capped ? 'max' : ''}">💉 ${escapeHtml(t.nom || id)} ${dcFmtDose(p.dose)} ${escapeHtml(t.unite || '')}${p.capped ? ' · MAX' + (dcHasVoie('VVC') ? '' : ' VVP') : ''}</span>`;
   }).join('');
-  document.getElementById('dcBarTxt').innerHTML = alarm + pumps + vit + clock;
+  document.getElementById('dcBarTxt').innerHTML = alarm + pumps + vit;
+  document.getElementById('dcCmd').innerHTML = dcCmdHtml();
   const pat = document.getElementById('dcPatient');
   if(pat){ const h = dcPatientSvg(); if(pat.innerHTML !== h) pat.innerHTML = h; }   // silhouette suivie à chaque tick
   const son = document.getElementById('dcSon'), sil = document.getElementById('dcSil');
@@ -3788,6 +3826,7 @@ function dcTileHtml(it){
     <span>${escapeHtml(a.label)}${mark ? ` <b>${mark}</b>` : ''}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${info ? `<span class="sub">${info}</span>` : ''}</span></button>`;
 }
 
+function dcStepActs(){ return G.log.filter(l => G.phase === 'acr' ? l.etape === 'acr' && l.t >= G.acr.t : l.etape === G.step.id); }
 function dcRenderGame(){
   // garder la position de défilement d'un rendu à l'autre (sinon l'écran remonte à chaque geste) ;
   // retour en haut seulement quand l'étape change ou qu'un ACR commence
@@ -3801,12 +3840,13 @@ function dcRenderGame(){
   dcRoot.classList.add('game');
   document.getElementById('dcTitle').textContent = G.phase === 'acr' ? 'Déchoc · ACR' : `Déchoc · ${G.step.titre || ''}`;
   const st = G.step;
-  const stepActs = G.log.filter(l => G.phase === 'acr' ? l.etape === 'acr' && l.t >= G.acr.t : l.etape === st.id);
+  const stepActs = dcStepActs();
   const chips = [...new Set(stepActs.map(l => l.id))].map(id => `<span class="dc-chip">${escapeHtml(dcLabel(id))}</span>`).join('');
   const results = G.results.map(r => `<div class="dc-res"><div class="lb">${escapeHtml(dcLabel(r.id))} · T+${dcFmtClock(r.t)}</div>${dcResHtml(r.text)}${dcSchemaHtml(r.schema)}</div>`).join('');
   const pause = G.paused ? `<div class="dc-pause"><div class="big">⏸</div><b>Partie en pause</b>
       <div class="hint">${dcMode().fige ? 'Temps fixé : le patient attend ta validation.' : 'Le chrono s\'arrête quand tu quittes l\'écran.'}</div>
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
+      <button class="btn secondary" data-dc="quit" style="max-width:260px">← Quitter (reste en pause)</button>
       <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
   const modal = G.fiche && !G.paused ? dcFicheHtml() : G.modal && !G.paused ? dcModalHtml() : '';
   // bandeau du terrain sous l'identité, déplié d'un toucher
@@ -3829,7 +3869,7 @@ function dcRenderGame(){
       <input class="field dc-search" type="search" placeholder="Rechercher une action…" value="${escapeHtml(G.search)}" autocomplete="off">
       <div id="dcTiles">${dcTilesHtml()}</div>
     </div>
-    ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">${st.transfert ? `🚑 Partir ${escapeHtml(st.transfert.vers || '')}` : 'Valider l\'étape ✓'}</button></div>` : ''}
+    ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn dc-hv" data-dc="validate"><span>${st.transfert ? `🚑 Partir ${escapeHtml(st.transfert.vers || '')}` : 'Valider l\'étape ✓'}</span></button></div>` : ''}
     ${pause}${modal}`;
   const scroller = dcRoot.querySelector('.dc-scroll');
   if(scroller) scroller.scrollTop = anchor == null ? 0 : Math.max(0, document.getElementById('dcTiles').offsetTop - anchor);
@@ -3956,7 +3996,13 @@ dcRoot.addEventListener('click', e => {
   else if(act === 'abandon') dcAbandon();
   else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }
   else if(act === 'back'){ G.nav.pop(); dcRender(); }
-  else if(act === 'validate') dcValidate();
+  else if(act === 'validate'){
+    // clavier (detail 0) : validation directe ; clic qui suit l'appui maintenu : ignoré
+    if(e.detail === 0) dcValidate();
+    else if(performance.now() - dcHold.vAt > 1000) showToast('Maintiens appuyé pour valider');
+  }
+  else if(act === 'pause') dcPause();
+  else if(act === 'quit') closePanel('panelDechoc');
   else if(act === 'tr-wait'){ G.modal = null; dcRender(); }
   else if(act === 'tr-go'){
     const m = G.modal; G.modal = null;
@@ -3988,7 +4034,7 @@ dcRoot.addEventListener('click', e => {
   }
 });
 // appui maintenu sur une tuile d'action : évite les touchers accidentels
-const dcHold = { timer: 0, el: null, fired: false };
+const dcHold = { timer: 0, el: null, fired: false, vAt: 0 };
 function dcHoldEnd(){
   clearTimeout(dcHold.timer);
   if(dcHold.el) dcHold.el.classList.remove('hold');
@@ -4014,7 +4060,22 @@ dcRoot.addEventListener('pointerdown', e => {
 ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => dcRoot.addEventListener(t, e => {
   if(dcHold.el && (t !== 'pointerleave' || e.target === dcHold.el)) dcHoldEnd();
 }, true));
-dcRoot.addEventListener('contextmenu', e => { if(e.target.closest('.dc-tile')) e.preventDefault(); });
+// Valider l'étape : même appui maintenu (dcValidate peut ouvrir la fenêtre de départ)
+dcRoot.addEventListener('pointerdown', e => {
+  const b = e.target.closest('.dc-hv');
+  if(!b || !G || G.paused || G.modal || G.fiche || G.phase !== 'step') return;
+  dcHoldEnd();
+  dcHold.el = b;
+  b.classList.add('hold');
+  dcHold.timer = setTimeout(() => {
+    const live = b.isConnected;
+    dcHoldEnd();
+    if(!live) return;
+    dcHold.vAt = performance.now();
+    dcValidate();
+  }, DC_HOLD_MS);
+});
+dcRoot.addEventListener('contextmenu', e => { if(e.target.closest('.dc-tile, .dc-hv')) e.preventDefault(); });
 dcRoot.addEventListener('input', e => {
   if(!e.target.classList.contains('dc-search') || !G) return;
   G.search = e.target.value;
