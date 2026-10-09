@@ -633,11 +633,17 @@
     #panelDechoc .panel-head .iconbtn{ width:30px; height:30px; }
     .dc-root.game{ display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); grid-template-rows: minmax(0, 1fr) auto; }
     .dc-root.game > .dc-scope{ grid-column:1; grid-row: 1 / 3; display:flex; flex-direction:column; min-height:0; border-bottom:0; border-right:1px solid var(--line); padding-left: env(safe-area-inset-left); }
-    .dc-root.game > .dc-scope .dc-mon{ flex:1; min-height:0; height:auto; flex-direction:column; }
-    .dc-root.game > .dc-scope .dc-nums{ width:auto; flex-direction:row; flex-wrap:wrap; border-left:0; border-top:1px solid #1a2532; }
-    .dc-root.game > .dc-scope .dc-nb{ flex: 1 1 50%; padding:3px 8px; border-bottom:1px solid #1a2532; }
-    .dc-root.game > .dc-scope .dc-nb .v{ font-size:22px; }
-    .dc-root.game > .dc-scope .dc-nb.pa .v{ font-size:16px; }
+    /* vrai moniteur : chaque case de chiffres en face de sa courbe (bande vide pour la PNI), FR / T / GCS dessous */
+    .dc-root.game > .dc-scope .dc-mon{ flex:1; min-height:0; height:auto; display:grid; grid-template-columns: minmax(0, 1fr) clamp(84px, 12vw, 108px); grid-template-rows: minmax(0, 1fr) auto; }
+    .dc-root.game > .dc-scope .dc-wv{ grid-column:1; grid-row:1; }
+    .dc-root.game > .dc-scope .dc-nums{ grid-column:2; grid-row:1; width:auto; min-height:0; }
+    .dc-root.game > .dc-scope .dc-nb{ padding:2px 6px; overflow:hidden; }
+    .dc-root.game > .dc-scope .dc-nb .k{ font-size:9px; }
+    .dc-root.game > .dc-scope .dc-almsg{ max-width: calc(100% - 36px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .dc-root.game > .dc-scope .dc-nb .v{ font-size:30px; }
+    .dc-root.game > .dc-scope .dc-nb.pa .v{ font-size:20px; }
+    .dc-root.game > .dc-scope .dc-nb.pa .v small{ display:block; font-size:12px; }
+    .dc-root.game > .dc-scope .dc-mini{ grid-column:2; grid-row:2; display:grid; grid-template-columns: repeat(3, auto); justify-content:space-around; border-left:1px solid #1a2532; border-top:1px solid #1a2532; }
     .dc-root.game > .dc-scope .dc-grid{ grid-template-columns: repeat(2, 1fr); }
     .dc-root.game > .dc-scope .dc-bar{ flex-wrap:wrap; }
     .dc-root.game > .dc-scroll{ grid-column:2; grid-row:1; padding-right: max(16px, env(safe-area-inset-right)); }
@@ -674,6 +680,13 @@
   .dc-nb.pa .v{ font-size:18px; }
   .dc-nb.l1 .v{ color: var(--alert) !important; }
   .dc-nb.l2 .v{ color: var(--danger) !important; animation: dcblink 1s steps(2) infinite; }
+  /* FR, T, GCS en petites cases sous les chiffres (paysage seulement ; en portrait, dans la barre) */
+  .dc-mini{ display:none; }
+  .dc-mini > div{ padding:2px 0 3px; min-width:0; }
+  .dc-mini .k{ font-size:9px; font-weight:700; color:#8a9bab; white-space:nowrap; }
+  .dc-mini .v{ font-size:13px; font-weight:800; line-height:1.1; color:var(--trace); white-space:nowrap; }
+  .dc-mini .warn .v{ color: var(--alert); }
+  .dc-mini .bad .v{ color: var(--danger); }
   .dc-bar{ display:flex; align-items:center; gap:6px; padding:5px 8px; border-top:1px solid #1a2532; font-size:12px; color:#9fb0c0; }
   .dc-bar .txt{ flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; column-gap:10px; }
   .dc-bar b{ color:#fff; font-size:14px; }
@@ -2780,12 +2793,16 @@ function dcNibp(){
 function dcHasMce(){
   return !!(G.acr && [...G.acr.done].some(id => ((dcIndex()[id] || {}).moniteur || []).includes('MCE')));
 }
-function dcLanes(){
-  const l = ['ecg', 'pleth'];
-  if(G.mon.has('PA')) l.push('pa');
-  if(G.mon.has('CO2')) l.push('co2');
-  return l;
-}
+// rangées du scope déplié, une par case de chiffres : sans PA invasive, la PNI a une rangée sans courbe
+const DC_ROW_BOX = { ecg: 'FC', pleth: 'SpO2', pni: 'PA', pa: 'PA', co2: 'CO2' };
+function dcRows(){ return ['ecg', 'pleth', G.mon.has('PA') ? 'pa' : 'pni'].concat(G.mon.has('CO2') ? ['co2'] : []); }
+function dcLanes(){ return dcRows().filter(r => DC_LANES[r]); }   // courbes seules
+// téléphone en paysage (même requête que le CSS) : chiffres face aux courbes, la PNI garde sa bande vide
+const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px)');
+function dcBands(){ return DC_LAND.matches ? dcRows() : dcLanes(); }
+// rotation : étiquettes des bandes et barre à jour, même en temps fixé (pas de tick)
+if(DC_LAND.addEventListener) DC_LAND.addEventListener('change', () => dcRenderScope());
+else DC_LAND.addListener(() => dcRenderScope());
 function dcEcgCode(){
   if(G.phase === 'acr'){
     const s = dcAcrSpec();
@@ -2998,7 +3015,7 @@ function dcMonDraw(t1){
   const c = DC_MON.canvas, ctx = DC_MON.ctx;
   const cw = c.clientWidth, ch = c.clientHeight;
   if(!c.isConnected || !cw || !ch){ DC_MON.tx = t1; return; }
-  const lanes = dcLanes();
+  const lanes = dcBands();
   const key = `${lanes.join()}|${cw}x${ch}`;
   if(key !== DC_MON.key){
     const dpr = window.devicePixelRatio || 1;
@@ -3020,6 +3037,7 @@ function dcMonDraw(t1){
     ctx.clearRect(x, 0, 14, ch);   // barre d'effacement devant le tracé
     lanes.forEach((ln, i) => {
       const L = DC_LANES[ln];
+      if(!L) return;   // bande de la PNI : pas de courbe
       const r = (dcWave(ln, DC_MON.tx, code, mce) - L.lo) / (L.hi - L.lo);
       const y = i * laneH + pad + (laneH - 2 * pad) * (1 - Math.min(1, Math.max(0, r)));
       const p = DC_MON.prev[ln];
@@ -3033,7 +3051,7 @@ function dcMonDraw(t1){
 }
 
 // --- affichage chiffré ---
-function dcBoxIds(){ return ['FC', 'SpO2', 'PA'].concat(G.mon.has('CO2') ? ['CO2'] : []); }
+function dcBoxIds(){ return dcRows().map(r => DC_ROW_BOX[r]); }
 function dcBox(id){
   const v = G.vitals, acr = G.phase === 'acr', lvl = G.alarm.keys;
   if(id === 'FC'){
@@ -3062,7 +3080,7 @@ function dcScopeShell(){
     : `<div class="dc-nb" id="dcb-${id}"></div>`).join('');
   return `<div class="dc-scope mon" id="dcScope"><div class="dc-mon">
       <div class="dc-wv" id="dcWv"><div class="dc-over" id="dcOver"></div></div>
-      <div class="dc-nums">${boxes}</div></div>${bar}</div>`;
+      <div class="dc-nums">${boxes}</div><div class="dc-mini" id="dcMini"></div></div>${bar}</div>`;
 }
 function dcGridHtml(){
   if(G.phase === 'acr') return `<div class="dc-acr">⚠ ${escapeHtml(dcAcrAlarmMsg())}</div>`;
@@ -3082,9 +3100,9 @@ function dcRenderScope(){
   if(DC_PREFS.plie){
     document.getElementById('dcGrid').innerHTML = dcGridHtml();
   } else {
-    const lanes = dcLanes();
-    document.getElementById('dcOver').innerHTML = lanes.map((ln, i) =>
-      `<span class="dc-lb" style="top:${(i * 100 / lanes.length).toFixed(2)}%;color:${DC_LANES[ln].color}">${DC_LANES[ln].label}</span>`).join('')
+    const lanes = dcBands();
+    document.getElementById('dcOver').innerHTML = lanes.map((ln, i) => DC_LANES[ln] ?
+      `<span class="dc-lb" style="top:${(i * 100 / lanes.length).toFixed(2)}%;color:${DC_LANES[ln].color}">${DC_LANES[ln].label}</span>` : '').join('')
       + (al.lvl ? `<span class="dc-almsg l${al.lvl}">${escapeHtml(al.msg)}</span>` : '');
     dcBoxIds().forEach(id => {
       const el = document.getElementById('dcb-' + id);
@@ -3094,8 +3112,16 @@ function dcRenderScope(){
       el.style.color = b.color;
       el.innerHTML = `<span class="k">${b.k}</span><span class="v">${b.v}</span>`;
     });
+    if(DC_LAND.matches){   // petites cases FR / T / GCS, visibles en paysage seulement
+      const mini = [['FR', acr ? '---' : v.FR != null ? Math.round(v.FR) : '—', acr ? '' : dcLevel('FR', v.FR)],
+        ['T °C', v.T != null ? v.T.toFixed(1) : '—', dcLevel('T', v.T)],
+        ['GCS', acr ? '---' : v.GCS != null ? Math.round(v.GCS) : '—', acr ? '' : dcLevel('GCS', v.GCS)]];
+      const el = document.getElementById('dcMini'), h = mini.map(([k, val, cls]) => `<div class="${cls}"><div class="k">${k}</div><div class="v">${val}</div></div>`).join('');
+      if(el.innerHTML !== h) el.innerHTML = h;
+    }
   }
-  const vit = DC_PREFS.plie || acr ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${v.GCS != null ? Math.round(v.GCS) : '—'}</span>`;
+  // en paysage, FR / T / GCS sont dans les petites cases sous les chiffres
+  const vit = DC_PREFS.plie || acr || DC_LAND.matches ? '' : `<span>FR ${Math.round(v.FR)}</span><span>T ${v.T != null ? v.T.toFixed(1) : '—'}</span><span>GCS ${v.GCS != null ? Math.round(v.GCS) : '—'}</span>`;
   const alarm = DC_PREFS.plie && al.lvl && !acr ? `<span class="al${al.lvl}">⚠ ${escapeHtml(al.msg)}</span>` : '';
   const clock = acr ? `${G.acr.metro ? `<span class="dc-metro" id="dcMetro">♥ ${DC_METRO_RATE}/min</span>` : ''}<span class="al2">RCP</span><b class="late">${dcFmtClock(G.acr.chrono)}</b>`
     : dcMode().fige ? `<span>T+${dcFmtClock(G.t)}</span><b>Temps fixé</b>`
@@ -4027,7 +4053,7 @@ dcRoot.addEventListener('toggle', e => {
 }, true);
 document.addEventListener('visibilitychange', () => { if(document.hidden) dcPause(); });
 window.DECHOC = { start: dcStart, act: dcDoAction, validate: dcValidate, gen: dcGenPatient, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; },
-  monitor: { stat: DC_MONSTAT, ecg: () => G && dcEcgCode(), lanes: () => G && dcLanes(), alarm: () => G && G.alarm, canvas: DC_MON.canvas } };
+  monitor: { stat: DC_MONSTAT, ecg: () => G && dcEcgCode(), lanes: () => G && dcLanes(), bands: () => G && dcBands(), alarm: () => G && G.alarm, canvas: DC_MON.canvas } };
 
 // ---------- tabs / panels ----------
 const tabs = document.querySelectorAll('nav button');
