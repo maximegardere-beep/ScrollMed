@@ -746,8 +746,20 @@
   .dc-foot .btn{ margin-top:0; }
   .dc-tile{ position:relative; overflow:hidden; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; touch-action: manipulation; }
   .dc-tile > span{ position:relative; }
-  .dc-tile.act::before{ content:""; position:absolute; inset:0; width:0; background: var(--trace-dim); }
-  .dc-tile.hold::before{ width:100%; transition: width .45s linear; }
+  /* appui maintenu : contour qui se trace le long de la bordure (visible autour du doigt), flash vert au déclenchement */
+  .dc-tile .dc-ring{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:0; }
+  .dc-tile .dc-ring rect{ fill:none; stroke: var(--trace); stroke-width:6; stroke-dasharray: var(--len, 1000); stroke-dashoffset: var(--len, 1000); }
+  .dc-tile.hold{ border-color: var(--trace-dim); }
+  .dc-tile.hold .dc-ring{ opacity:1; }
+  .dc-tile.hold .dc-ring rect{ stroke-dashoffset:0; transition: stroke-dashoffset var(--dc-hold, .45s) linear; }
+  .dc-tile.fired{ animation: dcfired .5s ease-out; }
+  @keyframes dcfired{ from{ background: var(--trace-dim); border-color: var(--trace); box-shadow: 0 0 0 2px var(--trace); } }
+  @media (prefers-reduced-motion: reduce){
+    .dc-tile.hold .dc-ring rect{ transition:none; }
+    .dc-tile.fired{ animation:none; background: var(--trace-dim); border-color: var(--trace); }
+  }
+  .dc-sec{ font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color: var(--muted); margin: 0 2px 6px; }
+  .dc-tiles.dc-recent{ margin-bottom:12px; padding-bottom:12px; border-bottom:1px dashed var(--line); }
   .dc-tile.lock{ opacity:.6; }
   .dc-ab{ color: var(--danger); }
   .dc-pump{ color:#f5d742; font-weight:800; }
@@ -2289,7 +2301,7 @@ function dcDoAction(id, confirmed){
   G.log.push(entry);
   if(!dcIsRcp(a)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
-  if(navigator.vibrate) navigator.vibrate(10);
+  try { if(navigator.vibrate) navigator.vibrate(15); } catch(_){}   // seule vibration du geste (appui maintenu ou départ confirmé)
 
   // résultat d'examen : celui du terrain, sinon de l'étape, sinon du scénario
   const res = dcResult(id);
@@ -3771,6 +3783,28 @@ function dcTileItems(){
   if(inAcr && depth === 0) out.sort((x, y) => (y.cat === DC_RCP_ROOT) - (x.cat === DC_RCP_ROOT));
   return out;
 }
+function dcTileCount(a){ return G.log.filter(l => l.id === a.id && (!dcIsRcp(a) || (G.acr && l.t >= G.acr.t))).length; }
+function dcTileDone(a, n){ return a.type !== 'diagnostic' && !dcRepeatable(a) && (n == null ? dcTileCount(a) : n) > 0; }
+// catégories d'abord, gestes déjà faits (non répétables) en fin de niveau ; tri stable
+function dcTileSort(items){
+  const rank = it => it.cat ? 0 : dcTileDone(it.leaf) ? 2 : 1;
+  return items.map((it, i) => [rank(it), i, it]).sort((x, y) => x[0] - y[0] || x[1] - y[1]).map(x => x[2]);
+}
+// 6 derniers gestes répétables distincts (bolus, contrôles…), le plus récent en premier
+function dcRecent(){
+  const out = [];
+  for(let i = G.log.length - 1; i >= 0 && out.length < 6; i--){
+    const a = dcIndex()[G.log[i].id];
+    if(a && dcRepeatable(a) && !dcIsRcp(a) && !a.transfert && a.type !== 'diagnostic' && !out.includes(a.id)) out.push(a.id);
+  }
+  return out;
+}
+function dcRecentHtml(){
+  if(G.phase === 'acr') return '';   // pendant un ACR, les tuiles RCP restent seules en tête
+  const ids = dcRecent();
+  return ids.length ? `<div class="dc-sec">Récents</div><div class="dc-tiles dc-recent">${ids.map(id => dcTileHtml({ leaf: dcIndex()[id] })).join('')}</div>` : '';
+}
+const DC_RING = '<svg class="dc-ring" aria-hidden="true"><rect width="100%" height="100%" rx="14"/></svg>';
 function dcTileHtml(it){
   if(it.cat){
     const ic = G.nav.length === 0 ? (DC_TILE_ICONS[it.cat] || '•') : '›';
@@ -3778,13 +3812,13 @@ function dcTileHtml(it){
   }
   const a = it.leaf;
   const isDx = a.type === 'diagnostic';
-  const count = G.log.filter(l => l.id === a.id && (!dcIsRcp(a) || (G.acr && l.t >= G.acr.t))).length;
-  const done = !isDx && !dcRepeatable(a) && count > 0;
+  const count = dcTileCount(a);
+  const done = dcTileDone(a, count);
   const lock = !isDx && !done && dcLocked(a);
   const cls = isDx ? (G.dx.includes(a.id) ? 'on' : '') : (done ? 'done' : lock ? 'lock' : 'act');
   const mark = isDx ? (G.dx.includes(a.id) ? '☑' : '☐') : done ? '✓' : count ? `×${count}` : '';
   const info = isDx || done ? '' : lock ? `🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}` : a.duree ? `⏱ ${a.duree} min` : '⏱ immédiat';
-  return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>
+  return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>${cls === 'act' ? DC_RING : ''}
     <span>${escapeHtml(a.label)}${mark ? ` <b>${mark}</b>` : ''}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${info ? `<span class="sub">${info}</span>` : ''}</span></button>`;
 }
 
@@ -3840,8 +3874,9 @@ function dcRenderGame(){
 }
 function dcTilesHtml(){
   const crumb = G.nav.length ? `<div class="dc-crumb"><button data-dc="back">←</button>${escapeHtml(G.nav.join(' › '))}</div>` : '';
-  const items = dcTileItems();
-  return `${crumb}<div class="dc-tiles">${items.map(dcTileHtml).join('') || '<div class="hint">Aucune action trouvée.</div>'}</div>`;
+  const items = dcTileSort(dcTileItems());
+  const recent = !G.nav.length && dcNorm(G.search.trim()).length < 2 ? dcRecentHtml() : '';
+  return `${crumb}${recent}<div class="dc-tiles">${items.map(dcTileHtml).join('') || '<div class="hint">Aucune action trouvée.</div>'}</div>`;
 }
 
 function dcChartSvg(d){
@@ -3989,6 +4024,22 @@ dcRoot.addEventListener('click', e => {
 });
 // appui maintenu sur une tuile d'action : évite les touchers accidentels
 const dcHold = { timer: 0, el: null, fired: false };
+dcRoot.style.setProperty('--dc-hold', DC_HOLD_MS + 'ms');
+// longueur du contour de la tuile, calculée avant que l'appui ne lance le tracé
+dcRoot.addEventListener('pointerdown', e => {
+  const b = e.target.closest('.dc-tile.act'), r = b && b.querySelector('.dc-ring rect');
+  if(!r || !G || G.paused) return;
+  const w = b.clientWidth, h = b.clientHeight, rx = Math.min(14, w / 2, h / 2);
+  b.style.setProperty('--len', (2 * (w + h) - (8 - 2 * Math.PI) * rx).toFixed(1));
+  getComputedStyle(r).strokeDashoffset;   // applique la longueur avant la transition
+}, true);
+// geste réalisé : flash vert sur la tuile (et sa copie dans les Récents) ; la vibration est dans dcDoAction
+function dcHoldFired(id){
+  dcRoot.querySelectorAll(`.dc-tile[data-act="${CSS.escape(id)}"]`).forEach(t => {
+    t.classList.add('fired');
+    setTimeout(() => t.classList.remove('fired'), 500);
+  });
+}
 function dcHoldEnd(){
   clearTimeout(dcHold.timer);
   if(dcHold.el) dcHold.el.classList.remove('hold');
@@ -4008,7 +4059,9 @@ dcRoot.addEventListener('pointerdown', e => {
     if(!live) return;
     dcHold.fired = true;
     G.search = '';
+    const n = G.log.length;
     dcDoAction(id);
+    if(G && G.log.length > n) dcHoldFired(id);   // pas de flash si rien n'a été fait (fenêtre de transfert…)
   }, DC_HOLD_MS);
 });
 ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => dcRoot.addEventListener(t, e => {
