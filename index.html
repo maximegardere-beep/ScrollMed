@@ -2445,7 +2445,9 @@ function dcDoAction(id, confirmed){
     G.results.unshift(r);
     G.unread = (G.unread || 0) + 1;
     const txt = r.text.replace(/\*\*/g, '').replace(/<\/?[a-z][^<>]*>/gi, '').replace(/\s+/g, ' ').trim();
-    showToast(`🧾 ${a.label} : ${txt.length > 60 ? txt.slice(0, 59).trimEnd() + '…' : txt}`);
+    // « Lactates 4,6 mmol/L » se suffit : pas de libellé répété devant
+    const msg = dcNorm(txt).startsWith(dcNorm(a.label)) ? txt : `${a.label} : ${txt}`;
+    showToast(`🧾 ${msg.length > 70 ? msg.slice(0, 69).trimEnd() + '…' : msg}`);
   }
 
   // la contre-indication déclenche sa complication (anaphylaxie…), insérée comme une étape

@@ -26,7 +26,8 @@ Pistes choisies par QCM le 2026-10-08. **Statut : en attente, à lancer plus tar
 
 ## Ordre de livraison proposé
 
-- [ ] **L1** Interface : toasts, anneau d'appui, récents, synonymes, résumé du débriefing.
+- [ ] **L1** Interface : toasts, anneau d'appui, récents, synonymes (livrés le 2026-10-09) ; reste le résumé du débriefing.
+- [x] **L0** Ergonomie iPhone en paysage (2026-10-09) : barre de titre masquée en jeu, barre du scope avec ⏸, titre, chrono à barre et « ✓ n » en appui maintenu ; chiffres face aux courbes ; colonne d'icônes des catégories et 🔍 ; onglets Gestes / Dossier avec pastille de résultats ; silhouette remplacée par un résumé sous la vignette (dessin via 🧍 et à la pause).
 - [ ] **L2** Silhouette du patient (livrée) et ambiance par contexte (à faire).
 - [ ] **L3** Résultats différés.
 - [ ] **L4** Équipe qui parle : moteur, puis messages ajoutés aux 8 trames et aux 5 complications.
