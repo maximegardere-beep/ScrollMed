@@ -1,0 +1,134 @@
+{
+  "id": "depression_respiratoire_opioides",
+  "titre": "Dépression respiratoire morphinique en SSPI",
+  "source": "SFAR 2008 et réactualisation 2016 (RFE douleur postopératoire) ; APSF 2011 (surveillance de la dépression respiratoire postopératoire) ; SFAR 2018 (curarisation résiduelle) ; Goldfrank, Ann Emerg Med 1986 (naloxone IVSE) ; ERC 2021",
+  "tags": ["SSPI", "morphine", "opioïdes", "naloxone", "PCA", "dépression respiratoire", "analgésie postopératoire"],
+  "patient": "Homme, 71 ans, 82 kg",
+  "terrains": { "contexte": "rea", "exclus": ["estomac_plein", "allergie_curares"], "identite": { "sexe": ["F", "M"], "age": [45, 88], "poids": [55, 100] } },
+  "voies": ["IV"],
+  "constantes": { "FC": 88, "PAS": 124, "PAD": 68, "SpO2": 86, "FR": 6, "T": 36.3, "GCS": 10 },
+  "resultats": {
+    "gds": "**pH {7,20~7,25}** · **PaCO2 {66~74} mmHg** · **PaO2 {52~58} mmHg** sous 2 L/min d'O2 · HCO3⁻ 26 mmol/L.",
+    "glycemie": "Glycémie 1,28 g/L.",
+    "tof": "Rapport T4/T1 à 0,97 : pas de curarisation résiduelle.",
+    "ecg": "Rythme sinusal, pas de trouble de la repolarisation."
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Patient qui ne se réveille pas",
+      "vignette": "SSPI. Prothèse totale de hanche sous anesthésie générale (propofol, sufentanil, rocuronium décurarisé par sugammadex, extubation sur critères cliniques), fin il y a 90 min. Titration de morphine en SSPI : 15 mg en 40 min (EVA 8 → 2), puis PCA de morphine (bolus 1 mg, période réfractaire 7 min, sans débit continu) branchée il y a 30 min. L'infirmière vous appelle : patient endormi, réveillable seulement à la stimulation forte, 6 cycles/min, pupilles en myosis serré. La SpO2 baisse malgré 2 L/min d'O2.",
+      "chrono": 90,
+      "pente": { "SpO2": -1.6, "FR": -0.15, "GCS": -0.08 },
+      "diagnostic": ["dx_depression_opioides"],
+      "actions": {
+        "stimulation_eveil": { "note": "recommande", "why": "Premier geste : stimuler, appeler le patient, lui demander de respirer. La sédation est le signe le plus précoce du surdosage, avant la bradypnée (SFAR 2008).", "effet": { "SpO2": 2, "FR": 3, "GCS": 1 } },
+        "arret_ttt": { "note": "indispensable", "why": "Arrêter la PCA et tout autre sédatif : sinon le patient, réveillé par la naloxone et douloureux, se réinjecte de la morphine (SFAR 2008)." },
+        "naloxone": { "note": "indispensable", "alt": "nalox", "why": "Naloxone titrée : bolus de 0,04 mg (ampoule de 0,4 mg diluée dans 10 mL) toutes les 2 à 3 min, jusqu'à FR ≥ 10/min et patient réveillable. La titration lève la dépression respiratoire en préservant une partie de l'analgésie (SFAR 2008).", "effet": { "SpO2": 6, "FR": 5, "GCS": 3, "PAS": 5, "FC": 5 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
+        "naloxone_bolus": { "note": "contre_indique", "alt": "nalox", "why": "Bolus d'emblée de 0,4 mg chez un patient opéré : levée brutale de l'analgésie, douleur intense, décharge adrénergique (HTA, tachycardie, arythmies), œdème pulmonaire décrit (RCP de la naloxone). Titrer par petits bolus.", "effet": { "SpO2": 10, "FR": 12, "GCS": 5, "PAS": 45, "FC": 35 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
+        "o2_masque": { "note": "recommande", "why": "Corriger l'hypoxémie. Mais l'oxygène ne traite pas l'hypoventilation : sous O2, la SpO2 reste longtemps normale pendant que la PaCO2 monte (APSF 2011). Surveiller la FR et la sédation, pas seulement la SpO2.", "effet": { "SpO2": 5 } },
+        "ventil_masque": { "note": "recommande", "why": "Bradypnée à 6/min et désaturation : assister la ventilation au masque (canule, O2) en attendant l'effet de la naloxone.", "effet": { "SpO2": 6 } },
+        "gds": { "note": "recommande", "why": "Gaz du sang : acidose respiratoire aiguë (hypercapnie), qui confirme l'hypoventilation alvéolaire." },
+        "glycemie": { "note": "recommande", "why": "Devant tout trouble de conscience, éliminer une hypoglycémie." },
+        "tof": { "note": "recommande", "why": "Éliminer une curarisation résiduelle : rapport T4/T1 ≥ 0,9 (SFAR 2018). Ici, respiration lente et profonde, myosis, somnolence : tableau morphinique, pas la respiration rapide et superficielle du bloc résiduel." },
+        "naloxone_ivse": { "note": "recommande", "why": "Relais anticipé justifié : 15 mg de morphine plus la PCA, alors que l'effet de la naloxone dure moins longtemps que celui de la morphine." },
+        "morphine_titr": { "note": "contre_indique", "why": "Ajouter un morphinique chez un patient en dépression respiratoire morphinique : apnée.", "effet": { "SpO2": -6, "FR": -2, "GCS": -2 } },
+        "midazolam": { "note": "contre_indique", "why": "Benzodiazépine chez un patient déjà sédaté : dépression respiratoire additive.", "effet": { "SpO2": -5, "GCS": -2 } },
+        "vni": { "note": "contre_indique", "why": "Trouble de conscience d'origine médicamenteuse : la VNI ne traite pas la cause et expose à l'inhalation (contre-indication, conférence de consensus SFAR-SPLF-SRLF 2006). Antagoniser d'abord.", "effet": { "SpO2": 1 } },
+        "sugammadex": { "note": "inutile", "why": "Pas de curarisation résiduelle (TOF ≥ 0,9) : le sugammadex ne réveille pas un patient sous morphine." },
+        "neostigmine": { "note": "inutile", "why": "Pas de curarisation résiduelle : la néostigmine n'a pas d'indication." },
+        "isr_etomidate_rocu": { "note": "inutile", "why": "Intubation non nécessaire : la naloxone titrée lève la dépression respiratoire." },
+        "isr_ketamine": { "note": "inutile", "why": "Intubation non nécessaire : la naloxone titrée lève la dépression respiratoire." },
+        "isr_etomidate": { "note": "inutile", "why": "Intubation non nécessaire : la naloxone titrée lève la dépression respiratoire." },
+        "isr_ketamine_succi": { "note": "inutile", "why": "Intubation non nécessaire : la naloxone titrée lève la dépression respiratoire." }
+      },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique : RCP, ventilation et adrénaline (ERC 2021). La naloxone n'a pas d'intérêt démontré une fois l'arrêt cardiaque installé.", "apres_racs": { "FC": 104, "PAS": 112, "PAD": 64, "SpO2": 90 } },
+      "suite": [
+        { "si_fait": [["isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"]], "vers": "fin" },
+        { "si_manque": [["naloxone", "naloxone_bolus"]], "vers": "e1_aggrav" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Apnée",
+      "vignette": "Le patient ne répond plus à la stimulation. Pauses respiratoires prolongées, 3 cycles/min, cyanose des lèvres. SpO2 en chute, la fréquence cardiaque ralentit.",
+      "chrono": 60,
+      "constantes": { "FR": 3, "SpO2": 80, "GCS": 6, "FC": 64 },
+      "pente": { "SpO2": -2.5, "FC": -1, "GCS": -0.1 },
+      "actions": {
+        "ventil_masque": { "note": "indispensable", "why": "Apnée : ventiler au masque (O2 15 L/min, canule, deux mains) avant tout ; la naloxone met 1 à 2 min à agir.", "effet": { "SpO2": 8 }, "pente": { "SpO2": -0.5 } },
+        "naloxone": { "note": "indispensable", "alt": "nalox", "why": "Naloxone titrée par bolus répétés sous ventilation au masque, jusqu'à reprise d'une ventilation efficace.", "effet": { "SpO2": 8, "FR": 8, "GCS": 5, "FC": 12, "PAS": 10 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
+        "naloxone_bolus": { "note": "debattu", "alt": "nalox", "why": "En apnée, une dose plus forte se discute (ERC 2021 : naloxone dans l'arrêt respiratoire d'origine opioïde), au prix d'une levée brutale : douleur, HTA, œdème pulmonaire. En postopératoire, préférer la titration sous ventilation au masque.", "effet": { "SpO2": 12, "FR": 12, "GCS": 7, "PAS": 40, "FC": 35 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
+        "arret_ttt": { "note": "indispensable", "why": "Arrêter la PCA de morphine." },
+        "o2_masque": { "note": "recommande", "why": "Oxygène dès que la ventilation spontanée reprend.", "effet": { "SpO2": 4 } },
+        "renfort": { "note": "recommande", "why": "Appeler de l'aide : ventilation au masque à deux, préparation d'une intubation si la naloxone échoue." },
+        "isr_etomidate_rocu": { "note": "debattu", "alt": "nalox", "why": "Intubation si la ventilation au masque échoue ou si la naloxone est inefficace ; sinon, l'antagonisation suffit.", "effet": { "SpO2": 12 }, "pente": { "SpO2": 0 } },
+        "isr_ketamine": { "note": "debattu", "alt": "nalox", "why": "Intubation si la ventilation au masque échoue ou si la naloxone est inefficace ; sinon, l'antagonisation suffit.", "effet": { "SpO2": 12 }, "pente": { "SpO2": 0 } },
+        "isr_etomidate": { "note": "debattu", "alt": "nalox", "why": "Intubation si la ventilation au masque échoue ou si la naloxone est inefficace ; sinon, l'antagonisation suffit.", "effet": { "SpO2": 12 }, "pente": { "SpO2": 0 } },
+        "isr_ketamine_succi": { "note": "debattu", "alt": "nalox", "why": "Intubation si la ventilation au masque échoue ou si la naloxone est inefficace ; sinon, l'antagonisation suffit.", "effet": { "SpO2": 12 }, "pente": { "SpO2": 0 } },
+        "morphine_titr": { "note": "contre_indique", "letal": "acr", "why": "Morphinique chez un patient en apnée morphinique : arrêt hypoxique." },
+        "midazolam": { "note": "contre_indique", "letal": "acr", "why": "Benzodiazépine chez un patient en apnée : arrêt hypoxique." },
+        "vni": { "note": "contre_indique", "why": "Patient inconscient en apnée : la VNI ne ventile pas un patient sans commande respiratoire et expose à l'inhalation. Ventilation au masque.", "effet": { "SpO2": 1 } }
+      },
+      "letal_si_manque": { "actions": [["naloxone", "naloxone_bolus", "isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"]], "issue": "acr", "why": "Apnée morphinique ni antagonisée ni intubée : arrêt cardiaque hypoxique." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique : RCP, ventilation et adrénaline (ERC 2021). La naloxone n'a pas d'intérêt démontré une fois l'arrêt cardiaque installé.", "apres_racs": { "FC": 104, "PAS": 112, "PAD": 64, "SpO2": 90 } },
+      "suite": [
+        { "si_fait": [["isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"]], "vers": "fin" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e2",
+      "titre": "Réveillé, 30 minutes plus tard",
+      "vignette": "Le patient est réveillé, respire à 14/min, pupilles intermédiaires. Il se plaint d'une douleur de hanche cotée 7/10 et réclame sa pompe. Les 15 mg de morphine et la PCA continuent d'agir.",
+      "chrono": 60,
+      "constantes": { "FC": 92, "PAS": 150, "PAD": 82, "SpO2": 95, "FR": 14, "GCS": 15 },
+      "pente": { "FC": 0.2, "PAS": 0.3 },
+      "resultats": { "gds": "Contrôle : pH 7,37 · PaCO2 44 mmHg · PaO2 96 mmHg sous 2 L/min d'O2." },
+      "actions": {
+        "naloxone_ivse": { "note": "indispensable", "why": "La demi-vie de la naloxone (environ 1 h) est plus courte que celle de la morphine : la sédation récidive quand son effet s'épuise. Relais IVSE, environ deux tiers de la dose de titration efficace par heure (Goldfrank 1986), adapté à la FR et à la sédation.", "pente": { "SpO2": 0.2, "FR": 0, "GCS": 0 } },
+        "reanimation": { "note": "recommande", "why": "Sous naloxone IVSE après une dépression respiratoire : surveillance continue (sédation, FR, SpO2) en SSPI prolongée ou en unité de surveillance continue, pas de retour en service standard (APSF 2011)." },
+        "ketamine_analg": { "note": "recommande", "why": "Analgésie multimodale d'épargne morphinique : kétamine à faible dose, avec paracétamol, AINS sans contre-indication et ALR (SFAR 2016)." },
+        "gds": { "note": "recommande", "refaire": true, "why": "Contrôle : normalisation de la PaCO2 après l'antagonisation." },
+        "o2_masque": { "note": "debattu", "why": "Oxygène si la SpO2 baisse ; il masque une hypoventilation sur l'oxymètre : surveiller la FR et la sédation (APSF 2011).", "effet": { "SpO2": 2 } },
+        "vni": { "note": "debattu", "why": "Pas d'indication chez un patient réveillé qui ventile, sauf PPC d'un SAOS appareillé ou acidose hypercapnique persistante.", "effet": { "SpO2": 1 } },
+        "naloxone": { "note": "inutile", "why": "Patient réveillé, FR 14 : un nouveau bolus majore la douleur sans bénéfice. Ce qui manque, c'est le relais." },
+        "naloxone_bolus": { "note": "contre_indique", "why": "Levée brutale chez un patient déjà réveillé et douloureux : douleur, HTA, tachycardie (RCP de la naloxone).", "effet": { "PAS": 40, "FC": 30 } },
+        "morphine_titr": { "note": "contre_indique", "why": "Reprendre la morphine chez un patient qui vient d'être antagonisé : récidive de la dépression respiratoire. Analgésie multimodale d'abord ; une PCA ne se reprend qu'à doses réduites, sans débit continu, sous surveillance continue.", "effet": { "SpO2": -4, "FR": -4, "GCS": -2 }, "pente": { "SpO2": -1, "FR": -0.15, "GCS": -0.08 } },
+        "midazolam": { "note": "contre_indique", "why": "Pas de benzodiazépine chez un patient qui sort d'une dépression respiratoire.", "effet": { "SpO2": -4, "GCS": -2 } }
+      },
+      "suite": [
+        { "si_manque": ["naloxone_ivse"], "vers": "e2_remorph" },
+        { "si_manque": ["arret_ttt"], "vers": "e2_remorph" },
+        { "si_fait": ["morphine_titr"], "vers": "e2_remorph" },
+        { "vers": "fin" }
+      ]
+    },
+    {
+      "id": "e2_remorph",
+      "titre": "Remorphinisation",
+      "vignette": "Une heure après la naloxone, l'infirmière vous rappelle : le patient s'est rendormi, respire à 6/min, myosis serré, SpO2 en baisse. L'effet de la naloxone s'est épuisé avant celui de la morphine.",
+      "chrono": 60,
+      "constantes": { "FR": 6, "SpO2": 80, "GCS": 9, "FC": 70, "PAS": 128, "PAD": 70 },
+      "pente": { "FC": -0.3 },
+      "resultats": { "gds": "**pH 7,24** · **PaCO2 68 mmHg** · **PaO2 55 mmHg** sous O2." },
+      "actions": {
+        "naloxone": { "note": "indispensable", "refaire": true, "why": "Remorphinisation : nouvelle titration de naloxone par bolus de 0,04 mg.", "effet": { "SpO2": 8, "FR": 6, "GCS": 4 }, "pente": { "SpO2": -0.2, "FR": 0, "GCS": 0 } },
+        "naloxone_ivse": { "note": "indispensable", "why": "Sans relais, la sédation récidivera à chaque fin d'effet de la naloxone : naloxone IVSE, environ deux tiers de la dose de titration efficace par heure (Goldfrank 1986).", "pente": { "SpO2": 0.2, "FR": 0, "GCS": 0 } },
+        "arret_ttt": { "note": "indispensable", "why": "La PCA doit être arrêtée." },
+        "stimulation_eveil": { "note": "recommande", "why": "Stimuler le patient en attendant l'effet de la naloxone.", "effet": { "SpO2": 2, "FR": 3, "GCS": 1 } },
+        "o2_masque": { "note": "recommande", "why": "Corriger l'hypoxémie.", "effet": { "SpO2": 4 } },
+        "ventil_masque": { "note": "recommande", "why": "Assister la ventilation au masque en attendant la naloxone.", "effet": { "SpO2": 6 } },
+        "reanimation": { "note": "recommande", "why": "Surveillance continue en SSPI prolongée ou en unité de surveillance continue tant que dure le relais (APSF 2011)." },
+        "naloxone_bolus": { "note": "contre_indique", "why": "Levée brutale : douleur, HTA, tachycardie, œdème pulmonaire décrit (RCP de la naloxone). Titrer.", "effet": { "SpO2": 10, "FR": 10, "GCS": 5, "PAS": 40, "FC": 30 }, "pente": { "SpO2": -0.2, "FR": 0, "GCS": 0 } },
+        "morphine_titr": { "note": "contre_indique", "letal": "acr", "why": "Morphinique pendant une remorphinisation : apnée et arrêt hypoxique." },
+        "midazolam": { "note": "contre_indique", "why": "Benzodiazépine chez un patient sédaté : dépression respiratoire additive.", "effet": { "SpO2": -5, "GCS": -2 } },
+        "vni": { "note": "contre_indique", "why": "Trouble de conscience d'origine médicamenteuse : la VNI ne traite pas la cause et expose à l'inhalation. Antagoniser.", "effet": { "SpO2": 1 } }
+      },
+      "letal_si_manque": { "actions": [["naloxone", "naloxone_bolus"]], "etape": ["naloxone", "naloxone_bolus"], "issue": "acr", "why": "Remorphinisation non antagonisée : apnée et arrêt cardiaque hypoxique." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique : RCP, ventilation et adrénaline (ERC 2021).", "apres_racs": { "FC": 104, "PAS": 112, "PAD": 64, "SpO2": 90 } },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}
