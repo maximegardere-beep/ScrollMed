@@ -644,6 +644,11 @@
     .dc-root.game > .dc-foot{ grid-column:2; grid-row:2; padding: 6px max(16px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) 16px; }
     .dc-root.game .dc-tiles{ grid-template-columns: repeat(3, 1fr); }
     .dc-root.game .dc-tile{ min-height:50px; padding:10px; }
+    /* onglets Gestes / Dossier : barre fixe en haut de la colonne, un seul volet affiché */
+    .dc-root.game > .dc-scroll{ padding-top:0; }
+    .dc-root.game .dc-tabs{ display:flex; }
+    .dc-root.game .dc-acr-gestes{ display:block; margin-top:0; }
+    .dc-root.game[data-tab="gestes"] .dc-pane-dossier, .dc-root.game[data-tab="dossier"] .dc-pane-gestes{ display:none; }
   }
   .dc-scroll{ flex:1; overflow-y:auto; -webkit-overflow-scrolling: touch; padding: 12px 16px 24px; }
   .dc-scope{ flex-shrink:0; background:#000; border-bottom:1px solid var(--line); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
@@ -727,6 +732,11 @@
   .dc-chip{ background: var(--surface-2); border:1px solid var(--line); border-radius:100px; padding:5px 10px; font-size:12px; }
   .dc-chip.dx{ border-color: var(--trace-dim); color: var(--trace); }
   .dc-search{ margin-bottom:10px; }
+  .dc-tabs{ display:none; position:sticky; top:0; z-index:2; height:34px; margin-bottom:8px; background: var(--bg); border-bottom:1px solid var(--line); }
+  .dc-tabs button{ flex:1; display:flex; align-items:center; justify-content:center; gap:6px; background:none; border:0; border-bottom:2px solid transparent; color: var(--muted); font: inherit; font-size:13.5px; font-weight:700; cursor:pointer; }
+  .dc-tabs button.on{ color: var(--trace); border-bottom-color: var(--trace); }
+  .dc-acr-gestes{ display:none; }
+  .dc-badge{ min-width:18px; height:18px; padding:0 5px; border-radius:9px; background: var(--danger); color:#fff; font-size:11px; font-weight:800; line-height:18px; text-align:center; }
   .dc-crumb{ display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:13px; color:var(--muted); font-weight:700; }
   .dc-crumb button{ background: var(--surface); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:6px 12px; font-size:14px; cursor:pointer; }
   .dc-tiles{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
@@ -1815,6 +1825,7 @@ function dcNorm(s){ return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').to
 function dcIsRcp(a){ return a && a.path && a.path[0] === DC_RCP_ROOT; }
 function dcRepeatable(a){ return !!(a.repetable || a.examen); }
 const DC_HOLD_MS = 450;   // appui maintenu pour réaliser une action
+const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px)');   // même requête que le CSS paysage (onglets Gestes / Dossier)
 const DC_VOIE_TXT = { IV: 'Voie veineuse requise', VVC: 'Voie centrale requise' };
 // voies posées : une action "voie": ["IV", …] les fournit, une action "requiert": "IV" en a besoin
 // voies déjà en place au début (scénario "voies": ["IV"], patient au bloc) ou posées par un geste
@@ -2111,7 +2122,10 @@ function dcEnterStep(id){
   G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
   G.nav = []; G.search = '';
+  dcOpenDossier();
 }
+// paysage : onglet Dossier ouvert à chaque étape, complication ou ACR (lire la vignette), Gestes dès qu'on agit
+function dcOpenDossier(){ G.tab = 'dossier'; G.unread = 0; }
 // pente de l'étape, remplacée par celle des actions ; celle du terrain s'ajoute (réserve réduite)
 function dcSlopes(){
   const s = Object.assign({}, G.step.pente || {}, G.override);
@@ -2258,6 +2272,7 @@ function dcDoAction(id, confirmed){
   const a = dcIndex()[id];
   if(!a || !G || G.phase === 'over' || G.paused || G.modal || G.fiche) return;
   if(a.type === 'diagnostic'){
+    G.tab = 'gestes';
     // plusieurs diagnostics possibles (choc cardiogénique + SCA + OAP…) ; un toucher ajoute ou retire
     G.dx = G.dx.includes(id) ? G.dx.filter(x => x !== id) : [...G.dx, id];
     dcRender();
@@ -2270,6 +2285,7 @@ function dcDoAction(id, confirmed){
   if(dcLocked(a)){ showToast(`🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}`); return; }
   if(a.transfert && inAcr){ showToast('Pas de transfert pendant un arrêt cardiaque'); return; }
   if(a.transfert && !confirmed){ dcAskTransfer('action', id); return; }
+  G.tab = 'gestes';
   const instable = a.transfert ? !dcStability(a.transfert).ok : false;
   const siInstable = instable && ((G.step.actions || {})[id] || {}).si_instable;
   if(siInstable){
@@ -2295,7 +2311,13 @@ function dcDoAction(id, confirmed){
   const res = dcResult(id);
   // le schéma garde le matériel posé au moment de l'examen (une radio d'avant l'intubation reste sans sonde)
   const schema = res && res.schema && Object.assign({}, res.schema, { _etat: { sonde: G.mon.has('CO2'), ktc: G.doneAll.has('ktc') } });
-  if(res) G.results.unshift({ id, text: dcDraw(res.text), schema, t: G.t });
+  if(res){
+    const r = { id, text: dcDraw(res.text), schema, t: G.t };
+    G.results.unshift(r);
+    G.unread = (G.unread || 0) + 1;
+    const txt = r.text.replace(/\*\*/g, '').replace(/<\/?[a-z][^<>]*>/gi, '').replace(/\s+/g, ' ').trim();
+    showToast(`🧾 ${a.label} : ${txt.length > 60 ? txt.slice(0, 59).trimEnd() + '…' : txt}`);
+  }
 
   // la contre-indication déclenche sa complication (anaphylaxie…), insérée comme une étape
   const cp = ci && ci.complication && G.phase === 'step' && !G.step._compl
@@ -2340,6 +2362,7 @@ function dcEnterAcr(cause){
   G.phase = 'acr';
   G.acr = { chrono: dcMode().acr, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id, metro: false };
   G.nav = []; G.search = '';
+  dcOpenDossier();
   DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0; DC_MON.metroNext = null;
   dcSample();
   if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
@@ -3796,8 +3819,17 @@ function dcRenderGame(){
   // les tuiles restent sous le doigt au lieu d'être poussées vers le bas
   const prevScroll = dcRoot.querySelector('.dc-scroll'), prevTiles = document.getElementById('dcTiles');
   const same = prevScroll && prevTiles && dcRoot.dataset.ctx === ctxKey;
-  const anchor = same ? prevTiles.offsetTop - prevScroll.scrollTop : null;
+  // paysage : onglets Gestes / Dossier, chacun garde sa position de défilement
+  const prevBar = prevScroll && prevScroll.querySelector('.dc-tabs'), prevTab = dcRoot.dataset.tab;
+  const tabsOn = !!(prevBar && prevBar.offsetHeight), tabSwitch = same && tabsOn && prevTab !== G.tab;
+  if(!same || !G.tabScroll) G.tabScroll = {};
+  else if(tabSwitch) G.tabScroll[prevTab] = prevScroll.scrollTop;
+  const anchor = !same || tabSwitch ? null : tabsOn && G.tab === 'dossier' ? false : prevTiles.offsetTop - prevScroll.scrollTop;
+  const keep = same && anchor === false ? prevScroll.scrollTop : 0;
   dcRoot.dataset.ctx = ctxKey;
+  dcRoot.dataset.tab = G.tab;
+  const land = DC_LAND.matches;   // résultats ouverts d'office dans le Dossier en paysage
+  if(!land) G.unread = 0;         // portrait : tout est affiché, rien n'est « non lu »
   dcRoot.classList.add('game');
   document.getElementById('dcTitle').textContent = G.phase === 'acr' ? 'Déchoc · ACR' : `Déchoc · ${G.step.titre || ''}`;
   const st = G.step;
@@ -3812,9 +3844,12 @@ function dcRenderGame(){
   // bandeau du terrain sous l'identité, déplié d'un toucher
   const pt = `<div class="pt">${escapeHtml(G.sc.patient || '')}</div>${G.terrain
     ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>${escapeHtml(dcTerrainSummary(G.terrain))}</summary>${dcFicheRows(G.terrain)}</details>` : ''}`;
+  const tabBtn = (k, txt) => `<button class="${G.tab === k ? 'on' : ''}" data-dc="tab" data-pane="${k}" role="tab" aria-selected="${G.tab === k}">${txt}</button>`;
   dcRoot.innerHTML = `
     ${dcScopeShell()}
     <div class="dc-scroll">
+      <div class="dc-tabs" role="tablist">${tabBtn('gestes', '🩺 Gestes')}${tabBtn('dossier', `📋 Dossier${G.unread ? ` <span class="dc-badge">${G.unread}</span>` : ''}`)}</div>
+      <div class="dc-pane-dossier">
       ${G.phase === 'acr'
         ? `<div class="dc-vignette">${pt}Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>
            ${G.acr.metro
@@ -3824,15 +3859,19 @@ function dcRenderGame(){
            <div class="dc-vignette ${st._compl ? 'compl' : ''}">${pt}${st._compl && G.compl ? `<div class="pt">Après : ${escapeHtml(G.compl.cause)}</div>` : ''}${escapeHtml(st.vignette || '')}</div>`}
       <div class="dc-patient" id="dcPatient">${dcPatientSvg()}</div>
       ${G.dx.length ? `<div class="dc-chips">${G.dx.map(x => `<span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(x))}</span>`).join('')}</div>` : ''}
-      ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
+      ${results ? `<details class="dc-results" data-fold="${land ? 'resL' : 'res'}" ${(land ? G.fold.resL !== false : G.fold.res) ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
       ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}
+      </div>
+      <div class="dc-pane-gestes">
+      ${G.phase === 'acr' && !G.acr.metro ? `<button class="dc-acrbox dc-acr-gestes" data-dc="sil">🔕 Silence alarme · lancer le métronome</button>` : ''}
       <input class="field dc-search" type="search" placeholder="Rechercher une action…" value="${escapeHtml(G.search)}" autocomplete="off">
       <div id="dcTiles">${dcTilesHtml()}</div>
+      </div>
     </div>
     ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn" data-dc="validate">${st.transfert ? `🚑 Partir ${escapeHtml(st.transfert.vers || '')}` : 'Valider l\'étape ✓'}</button></div>` : ''}
     ${pause}${modal}`;
   const scroller = dcRoot.querySelector('.dc-scroll');
-  if(scroller) scroller.scrollTop = anchor == null ? 0 : Math.max(0, document.getElementById('dcTiles').offsetTop - anchor);
+  if(scroller) scroller.scrollTop = tabSwitch ? G.tabScroll[G.tab] || 0 : anchor === false ? keep : anchor == null ? 0 : Math.max(0, document.getElementById('dcTiles').offsetTop - anchor);
   const wv = document.getElementById('dcWv');
   if(wv) wv.prepend(DC_MON.canvas);   // même canvas d'un rendu à l'autre : le tracé continue
   dcRenderScope();
@@ -3936,7 +3975,7 @@ function dcRenderDebrief(){
 dcRoot.addEventListener('click', e => {
   const b = e.target.closest('[data-dc],[data-cat],[data-act]');
   if(!b) return;
-  if(b.dataset.cat){ G.nav.push(b.dataset.cat); G.search = ''; dcRender(); return; }
+  if(b.dataset.cat){ G.nav.push(b.dataset.cat); G.search = ''; G.tab = 'gestes'; dcRender(); return; }
   if(b.dataset.act){
     const a = dcIndex()[b.dataset.act];
     if(a.type === 'diagnostic') dcDoAction(a.id);
@@ -3956,6 +3995,7 @@ dcRoot.addEventListener('click', e => {
   else if(act === 'abandon') dcAbandon();
   else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }
   else if(act === 'back'){ G.nav.pop(); dcRender(); }
+  else if(act === 'tab' && G){ G.tab = b.dataset.pane; if(G.tab === 'dossier') G.unread = 0; dcRender(); }
   else if(act === 'validate') dcValidate();
   else if(act === 'tr-wait'){ G.modal = null; dcRender(); }
   else if(act === 'tr-go'){
@@ -4026,6 +4066,7 @@ dcRoot.addEventListener('toggle', e => {
   if(G && e.target.dataset && e.target.dataset.fold) G.fold[e.target.dataset.fold] = e.target.open;
 }, true);
 document.addEventListener('visibilitychange', () => { if(document.hidden) dcPause(); });
+DC_LAND.addEventListener('change', () => { if(DC_VIEW === 'game' && G) dcRender(); });
 window.DECHOC = { start: dcStart, act: dcDoAction, validate: dcValidate, gen: dcGenPatient, get state(){ return G; }, get debrief(){ return DC_DEBRIEF; },
   monitor: { stat: DC_MONSTAT, ecg: () => G && dcEcgCode(), lanes: () => G && dcLanes(), alarm: () => G && G.alarm, canvas: DC_MON.canvas } };
 
