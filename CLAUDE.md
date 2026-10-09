@@ -128,6 +128,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - La validation de l'étape se fait aussi par appui maintenu (un toucher simple affiche un rappel). En paysage, la barre de titre est masquée pendant la partie : la barre du scope porte ⏸ (pause, avec « Quitter »), le titre de l'étape, le chrono et le bouton compact « ✓ n » (gestes de l'étape) ou « 🚑 » (étape avec `transfert`).
 - La catégorie `RCP` n'apparaît que pendant un ACR.
 - `classe` : classes pharmacologiques ou de geste (`betalactamine`, `remplissage`, `hypnotique`, `curare`, `curare_depolarisant`, `vasopresseur`, `adrenaline`, `betabloquant`, `antithrombotique`, `anticoagulant`, `aminoside`…), visées par les terrains du patient procédural. Une nouvelle action d'une classe existante est couverte d'office.
+- `alias` : synonymes et abréviations trouvés par la recherche de tuiles, en plus du libellé (`["NAD", "noradré"]`, `["IOT", "intubation"]`, noms commerciaux). Uniquement des termes usuels qui désignent bien l'action (pas un constat ni un diagnostic voisin), et absents du libellé ; un alias partagé par des actions proches est admis. La tuile trouvée par un alias l'indique (`≈ NAD`).
 - Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère). Idem pour les `id` de terrains et de complications.
 
 ### Scénario : `Dechocage/sc_<nom>.json`
@@ -247,6 +248,7 @@ for a in acts:
     assert set(a.get("moniteur", [])) <= {"PA", "CO2", "MCE"}, f"action {a['id']} : moniteur inconnu"
     assert set(a.get("voie", [])) <= {"IV", "VVC"} and a.get("requiert") in (None, "IV", "VVC"), f"action {a['id']} : voie / requiert"
     assert isinstance(a.get("classe", []), list), f"action {a['id']} : classe doit être une liste"
+    assert isinstance(a.get("alias", []), list) and all(isinstance(x, str) and x.strip() for x in a.get("alias", [])), f"action {a['id']} : alias doit être une liste de chaînes"
     if "titration" in a:
         assert {"debut", "gain", "max"} <= a["titration"].keys(), f"action {a['id']} : titration incomplète"
     if "transfert" in a:
