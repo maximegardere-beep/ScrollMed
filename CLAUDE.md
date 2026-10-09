@@ -102,7 +102,7 @@ Sur téléphone en paysage, la colonne de droite a deux onglets : **Gestes** (re
 
 - Courbes en balayage : ECG et pléthysmographie toujours ; PA invasive après une action `"moniteur": ["PA"]` (sinon PNI toutes les 3 min patient, ou à la demande en touchant la case PA) ; capnographie après une action `"moniteur": ["CO2"]` (intubation). `"moniteur": ["MCE"]` (massage) ajoute l'artefact de compressions et la capno de RCP. Ces valeurs se mettent dans le catalogue.
 - Téléphone en paysage : chaque case de chiffres est en face de sa courbe (FC / ECG, SpO2 / pléthysmographie, PA, EtCO2 / capnographie ; sans PA invasive, la PNI garde une bande vide), FR, T et GCS en petites cases dessous (`dcRows()`, `index.html`). En portrait, ils restent dans la barre du bas.
-- `ecg` : rythme affiché, parmi `sinus`, `fa`, `qrs_larges`, `st_plus`, `tv`, `fv`, `asystolie`, `aesp`. Sur le scénario (défaut `sinus`), sur une étape (à l'entrée), sur une action d'étape (ex. le calcium affine les QRS) ou sur `acr` (sinon déduit du texte de `rythme` : FV, TV, asystolie, sinon AESP). Tachycardie et bradycardie découlent de la FC.
+- `ecg` : rythme affiché, parmi `sinus`, `fa`, `qrs_larges`, `st_plus`, `bav3`, `entraine`, `tv`, `fv`, `asystolie`, `aesp`. `bav3` (BAV complet) : P régulières à 78/min (toujours plus rapides que la FC) dissociées de QRS d'échappement larges à la FC ; `entraine` : spicule de stimulation avant chaque QRS large, à la FC. Sur une FA (terrain ou scénario), ondes f au lieu des P. Tous deux persistent après un RACS (prévoir `apres_racs.FC` bas pour un BAV). Sur le scénario (défaut `sinus`), sur une étape (à l'entrée), sur une action d'étape (ex. le calcium affine les QRS) ou sur `acr` (sinon déduit du texte de `rythme` : FV, TV, asystolie, sinon AESP). Tachycardie et bradycardie découlent de la FC.
 - `EtCO2` : constante optionnelle (38 par défaut), abaissée par le bas débit.
 - `alarmes` du scénario, optionnel : surcharge des seuils `[priorité moyenne, haute]`, défaut `{ "FC": { "bas": [50, 40], "haut": [120, 150] }, "PAS": { "bas": [90, 70] }, "SpO2": { "bas": [90, 85] } }`. L'alarme PA porte sur la valeur affichée (PNI ou invasive).
 - Sons (coupés par défaut) : bip de pouls plus grave quand la SpO2 baisse, alarmes moyenne et haute façon IEC 60601-1-8, silence 2 min.
@@ -237,7 +237,7 @@ python3 - <<'EOF'
 import json, glob, os, re
 NOTES = {"indispensable", "recommande", "debattu", "inutile", "contre_indique"}
 VITALS = {"FC", "PAS", "PAD", "SpO2", "FR", "T", "GCS", "EtCO2"}
-ECG = {"sinus", "fa", "qrs_larges", "st_plus", "tv", "fv", "asystolie", "aesp"}
+ECG = {"sinus", "fa", "qrs_larges", "st_plus", "bav3", "entraine", "tv", "fv", "asystolie", "aesp"}
 acts = json.load(open("Dechocage/actions.json", encoding="utf-8"))
 ids = [a["id"] for a in acts]
 assert len(ids) == len(set(ids)), "id d'action en double"
