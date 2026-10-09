@@ -99,6 +99,7 @@ Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `m
 ### Scope
 
 - Courbes en balayage : ECG et pléthysmographie toujours ; PA invasive après une action `"moniteur": ["PA"]` (sinon PNI toutes les 3 min patient, ou à la demande en touchant la case PA) ; capnographie après une action `"moniteur": ["CO2"]` (intubation). `"moniteur": ["MCE"]` (massage) ajoute l'artefact de compressions et la capno de RCP. Ces valeurs se mettent dans le catalogue.
+- Téléphone en paysage : chaque case de chiffres est en face de sa courbe (FC / ECG, SpO2 / pléthysmographie, PA, EtCO2 / capnographie ; sans PA invasive, la PNI garde une bande vide), FR, T et GCS en petites cases dessous (`dcRows()`, `index.html`). En portrait, ils restent dans la barre du bas.
 - `ecg` : rythme affiché, parmi `sinus`, `fa`, `qrs_larges`, `st_plus`, `tv`, `fv`, `asystolie`, `aesp`. Sur le scénario (défaut `sinus`), sur une étape (à l'entrée), sur une action d'étape (ex. le calcium affine les QRS) ou sur `acr` (sinon déduit du texte de `rythme` : FV, TV, asystolie, sinon AESP). Tachycardie et bradycardie découlent de la FC.
 - `EtCO2` : constante optionnelle (38 par défaut), abaissée par le bas débit.
 - `alarmes` du scénario, optionnel : surcharge des seuils `[priorité moyenne, haute]`, défaut `{ "FC": { "bas": [50, 40], "haut": [120, 150] }, "PAS": { "bas": [90, 70] }, "SpO2": { "bas": [90, 85] } }`. L'alarme PA porte sur la valeur affichée (PNI ou invasive).
