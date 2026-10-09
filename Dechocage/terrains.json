@@ -124,6 +124,26 @@
         "SpO2": -5,
         "FR": 2
       },
+      "module": [
+        {
+          "id": "clonazepam",
+          "dans": ["etat_de_mal_epileptique"],
+          "plus": { "SpO2": -3 },
+          "why": "BPCO sévère : les benzodiazépines dépriment davantage la ventilation de l'insuffisant respiratoire chronique. Elles restent le traitement de l'EME : O2 titré, aspiration, ventilation prête."
+        },
+        {
+          "id": "midazolam_im",
+          "dans": ["etat_de_mal_epileptique"],
+          "plus": { "SpO2": -3 },
+          "why": "BPCO sévère : les benzodiazépines dépriment davantage la ventilation de l'insuffisant respiratoire chronique. Elles restent le traitement de l'EME : O2 titré, aspiration, ventilation prête."
+        },
+        {
+          "id": "phenobarbital",
+          "dans": ["etat_de_mal_epileptique"],
+          "plus": { "SpO2": -3 },
+          "why": "BPCO sévère : après les benzodiazépines, le phénobarbital majore la dépression respiratoire. Préférer une 2e ligne sans effet ventilatoire (lévétiracétam)."
+        }
+      ],
       "tags": [
         "BPCO"
       ]
@@ -149,6 +169,12 @@
             "PAS": 1.5
           },
           "why": "Sujet âgé : réserve hémodynamique réduite, chute de pression plus forte avec les hypnotiques."
+        },
+        {
+          "id": "fosphenytoine",
+          "dans": ["etat_de_mal_epileptique"],
+          "effet": { "PAS": 1.5, "FC": 1.5 },
+          "why": "Sujet âgé : hypotension, bradycardie et troubles de conduction plus fréquents sous fosphénytoïne. Débit de perfusion réduit, scope continu (RCP)."
         }
       ],
       "tags": [
@@ -543,6 +569,11 @@
           "complication": "oap",
           "apres": 3,
           "why": "Dialysé anurique : rien de ce qui est perfusé n'est éliminé. Au 3e bolus, OAP de surcharge. Petits bolus réévalués, vasopresseur précoce ; seule l'ultrafiltration retire l'excès."
+        },
+        {
+          "id": "levetiracetam",
+          "dans": ["etat_de_mal_epileptique"],
+          "why": "Dialysé : le lévétiracétam est éliminé par le rein. La dose de charge de l'EME n'est pas réduite ; l'entretien l'est (500 à 1 000 mg/j, supplément après chaque séance, RCP)."
         }
       ],
       "resultats": {
@@ -649,8 +680,16 @@
         "hemorragie_perop/e2/tp_tca": "**TP 31 %** · **TCA 1,8** · **fibrinogène {0,6~0,9} g/L**.",
         "choc_septique_pna/nfs": "**Leucocytes 21 G/L** · Hb 10,6 g/dL · **plaquettes 54 G/L**.",
         "choc_septique_pna/tp_tca": "**TP 41 %** · **TCA 1,4** · fibrinogène 2,4 g/L.",
-        "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**."
+        "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**.",
+        "etat_de_mal_epileptique/alcoolemie": "**Alcoolémie {0,3~0,8} g/L**."
       },
+      "ci": [
+        {
+          "id": "valproate",
+          "dans": ["etat_de_mal_epileptique"],
+          "why": "Cirrhose : le valproate est contre-indiqué en cas d'hépatopathie (RCP) : hépatotoxicité et encéphalopathie hyperammoniémique. Lévétiracétam, fosphénytoïne ou phénobarbital en 2e ligne (SRLF-SFMU 2018)."
+        }
+      ],
       "tags": [
         "cirrhose",
         "alcool",
@@ -736,7 +775,8 @@
       "fiche": "Warfarine (AVK), INR cible 2 à 3",
       "resultats": {
         "tp_tca": "**TP 21 %** · **INR 3,6** (AVK) · **TCA 1,4** · fibrinogène 5,0 g/L.",
-        "choc_hemorragique_bassin/tp_tca": "**TP 18 %** · **INR 4,1** (AVK) · **TCA 1,6** · **fibrinogène 1,1 g/L**."
+        "choc_hemorragique_bassin/tp_tca": "**TP 18 %** · **INR 4,1** (AVK) · **TCA 1,6** · **fibrinogène 1,1 g/L**.",
+        "etat_de_mal_epileptique/tdm_cerebral": "**Hématome sous-dural aigu** frontopariétal droit de 6 mm, sans déviation de la ligne médiane (chute sous AVK). Hypodensité frontale gauche ancienne (séquelle connue)."
       },
       "promeut": [
         {
@@ -746,6 +786,14 @@
             "hemorragie_perop"
           ],
           "why": "Hémorragie grave sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008)."
+        },
+        {
+          "id": "ccp",
+          "dans": [
+            "etat_de_mal_epileptique/e3",
+            "etat_de_mal_epileptique/e3_aggrav"
+          ],
+          "why": "Hématome intracrânien sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008). Avis neurochirurgical ; un hématome sous-dural < 10 mm sans déviation > 5 mm n'est pas opéré d'emblée (BTF 2006)."
         }
       ]
     },
