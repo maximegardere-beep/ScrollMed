@@ -114,7 +114,7 @@ Tableau d'actions, partagé par tous les scénarios :
 { "id": "noradre", "label": "Noradrénaline IVSE", "path": ["Traitement", "Amines"], "duree": 3 }
 ```
 
-- `path` : chemin dans l'arbre de tuiles (1er niveau : Airway / ventilation · Voies & monitorage · Bilan · Imagerie & écho · Traitement · Orientation · Diagnostic · RCP). Ajouter une action ou une sous-catégorie = ajouter une ligne, sans toucher au code.
+- `path` : chemin dans l'arbre de tuiles (1er niveau : Airway / ventilation · Voies & monitorage · Bilan · Imagerie & écho · Traitement · Orientation · Diagnostic · RCP). Ajouter une action ou une sous-catégorie = ajouter une ligne, sans toucher au code. Sur téléphone en paysage, le 1er niveau devient une colonne d'icônes fixe entre le scope et les tuiles (icône `DC_TILE_ICONS`, libellé court `DC_RAIL_LABELS`, `index.html` ; une nouvelle catégorie y apparaît d'office, nom tronqué), avec 🔍 en bas pour la recherche.
 - `examen: true` : l'action révèle un résultat (« Pas d'anomalie notable » par défaut) et peut être refaite pour un contrôle.
 - `repetable: true` : geste refaisable (bolus de remplissage, CGR, adrénaline…).
 - `type: "diagnostic"` : hypothèse diagnostique, sans durée ; un seul diagnostic actif à la fois.

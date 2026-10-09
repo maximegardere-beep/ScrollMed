@@ -625,14 +625,22 @@
   .dc-root, .dc-root *{ -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
   .dc-root input{ -webkit-user-select:text; user-select:text; }
   .dc-scroll{ overscroll-behavior: contain; }
-  /* téléphone en paysage, partie en cours : scope sur le 1/3 gauche, tuiles sur les 2/3 droits */
+  /* colonne d'icônes des catégories : paysage seulement */
+  .dc-rail{ display:none; }
+  .dc-rail-cats{ flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; display:flex; flex-direction:column; gap:3px; scrollbar-width:none; }
+  .dc-rail-b{ flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; width:100%; min-height:42px; padding:3px 0; border:1px solid transparent; border-radius:10px; background:none; color:var(--muted); font:inherit; font-size:9.5px; font-weight:700; line-height:1.1; cursor:pointer; touch-action:manipulation; }
+  .dc-rail-b .ic{ font-size:18px; line-height:1; }
+  .dc-rail-b.on{ background: var(--surface-2); border-color: var(--trace); color: var(--trace); }
+  .dc-rail-b.rcp{ color: var(--danger); border-color: var(--danger); }
+  .dc-rail-b.rcp.on{ background: rgba(226,87,90,.18); }
+  /* téléphone en paysage, partie en cours : scope sur le 1/3 gauche, colonne d'icônes, tuiles sur les 2/3 droits */
   @media (orientation: landscape) and (max-height: 560px){
     #app:has(#panelDechoc.open){ max-width:none; border:0; }
     #panelDechoc .panel-head{ padding: 4px max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left)); gap:8px; }
     #panelDechoc .panel-head h2{ font-size:15px; }
     #panelDechoc .panel-head .iconbtn{ width:30px; height:30px; }
     #panelDechoc:has(.dc-root.game) .panel-head{ display:none; }   /* en jeu : ⏸ et titre dans la barre du scope */
-    .dc-root.game{ display:grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); grid-template-rows: minmax(0, 1fr) auto; }
+    .dc-root.game{ display:grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 2fr); grid-template-rows: minmax(0, 1fr) auto; }
     .dc-root.game > .dc-scope{ grid-column:1; grid-row: 1 / 3; display:flex; flex-direction:column; min-height:0; border-bottom:0; border-right:1px solid var(--line); padding-left: env(safe-area-inset-left); }
     /* vrai moniteur : chaque case de chiffres en face de sa courbe (bande vide pour la PNI), FR / T / GCS dessous */
     .dc-root.game > .dc-scope .dc-mon{ flex:1; min-height:0; height:auto; display:grid; grid-template-columns: minmax(0, 1fr) clamp(84px, 12vw, 108px); grid-template-rows: minmax(0, 1fr) auto; }
@@ -652,7 +660,9 @@
     .dc-root.game > .dc-scope .dc-cmd{ flex:1; }
     .dc-root.game > .dc-scope .dc-mbtn{ min-width:32px; }
     .dc-root.game > .dc-scope .dc-vbtn{ display:inline-flex; }
-    .dc-root.game > .dc-scroll{ grid-column:2; grid-row:1; padding-right: max(16px, env(safe-area-inset-right)); }
+    .dc-root.game > .dc-rail{ grid-column:2; grid-row: 1 / 3; display:flex; flex-direction:column; gap:4px; width:52px; min-height:0; padding: 4px 3px calc(4px + env(safe-area-inset-bottom)); border-right:1px solid var(--line); background: var(--bg); }
+    .dc-root.game .dc-search:not(.open){ display:none; }
+    .dc-root.game > .dc-scroll{ grid-column:3; grid-row:1; padding-right: max(16px, env(safe-area-inset-right)); }
     .dc-root.game > .dc-foot{ display:none; }
     .dc-root.game .dc-tiles{ grid-template-columns: repeat(3, 1fr); }
     .dc-root.game .dc-tile{ min-height:50px; padding:10px; }
@@ -1783,6 +1793,9 @@ const DC_LIMITS = { FC:[0,220], PAS:[0,250], PAD:[0,160], SpO2:[0,100], FR:[0,60
 // couleur du scope : [normal min, normal max, alerte min, alerte max]
 const DC_RANGES = { FC:[50,100,40,130], PAM:[65,110,55,125], SpO2:[94,100,90,100], FR:[10,22,8,30], T:[36,38,35,39.5], GCS:[15,15,13,15] };
 const DC_TILE_ICONS = { 'Airway / ventilation':'🫁', 'Voies & monitorage':'💉', 'Bilan':'🧪', 'Imagerie & écho':'🔊', 'Traitement':'💊', 'Orientation':'📞', 'Diagnostic':'🩺', 'RCP':'❤️' };
+// colonne d'icônes (paysage) : libellé court ; une catégorie inconnue garde son nom tronqué
+const DC_RAIL_LABELS = { 'Airway / ventilation':'Airway', 'Voies & monitorage':'Voies', 'Bilan':'Bilan', 'Imagerie & écho':'Imagerie', 'Traitement':'Trait.', 'Orientation':'Orient.', 'Diagnostic':'Diag.', 'RCP':'RCP' };
+const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px)');
 const DC_NOTE_UI = {
   indispensable:  { ic:'✅', lb:'Indispensable' },
   recommande:     { ic:'✅', lb:'Recommandé' },
@@ -2152,7 +2165,7 @@ function dcEnterStep(id){
   if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
   G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
-  G.nav = []; G.search = '';
+  G.nav = []; G.search = ''; G.searchOpen = false;
 }
 // pente de l'étape, remplacée par celle des actions ; celle du terrain s'ajoute (réserve réduite)
 function dcSlopes(){
@@ -2381,7 +2394,7 @@ function dcEnterAcr(cause){
   if(G.phase !== 'step') return;
   G.phase = 'acr';
   G.acr = { chrono: dcMode().acr, done: new Set(), prev: Object.assign({}, G.vitals), cause, t: G.t, step: G.step.id, metro: false };
-  G.nav = []; G.search = '';
+  G.nav = []; G.search = ''; G.searchOpen = false;
   DC_AUDIO.silUntil = 0; DC_AUDIO.played = 0; DC_MON.metroNext = null;
   dcSample();
   if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
@@ -2483,7 +2496,7 @@ function dcLeaveCompl(){
   G.ecg = c.ecg;
   G.dx = c.dx;
   G.chrono = G.chronoMax = Math.max(c.chrono, 30 * dcMode().mult);
-  G.nav = []; G.search = '';
+  G.nav = []; G.search = ''; G.searchOpen = false;
 }
 function dcDie(cause){
   if(G.acr) G.acrEpisodes.push({ t: G.acr.t, t1: G.t, step: G.acr.step, cause: G.acr.cause, done: [...G.acr.done], ok: false });
@@ -3824,6 +3837,34 @@ DC_SCHEMAS.tdm = spec => {
 
 // ===== fin des schémas =====
 
+// catégories racines du catalogue (RCP seulement pendant un ACR, et alors en tête)
+function dcRoots(){
+  const inAcr = G.phase === 'acr';
+  const out = [...new Set(DC_CONTENT.actions.filter(a => inAcr || !dcIsRcp(a)).map(a => a.path[0]))];
+  return inAcr ? out.sort((x, y) => (y === DC_RCP_ROOT) - (x === DC_RCP_ROOT)) : out;
+}
+// en paysage, la colonne d'icônes remplace le niveau racine : sans catégorie choisie, RCP en ACR, sinon la première
+function dcNav(){
+  if(!DC_LAND.matches) return G.nav;
+  const roots = dcRoots();
+  return G.nav.length && roots.includes(G.nav[0]) ? G.nav : roots.slice(0, 1);
+}
+function dcRailHtml(){
+  const cur = dcNorm(G.search.trim()).length >= 2 ? null : dcNav()[0];
+  const lb = c => DC_RAIL_LABELS[c] || (c.length > 7 ? c.slice(0, 6) + '.' : c);
+  return `<div class="dc-rail-cats">${dcRoots().map(c => `<button class="dc-rail-b ${c === DC_RCP_ROOT ? 'rcp' : ''} ${c === cur ? 'on' : ''}" data-dc="rail" data-cat-root="${escapeHtml(c)}" aria-label="${escapeHtml(c)}"><span class="ic">${DC_TILE_ICONS[c] || '›'}</span><span>${escapeHtml(lb(c))}</span></button>`).join('')}</div>
+    <button class="dc-rail-b ${G.searchOpen ? 'on' : ''}" data-dc="rail-search" aria-label="Rechercher une action"><span class="ic">🔍</span><span>Chercher</span></button>`;
+}
+// changement de catégorie : colonne et tuiles seulement (le défilement reste en place)
+function dcRefreshTiles(){
+  const sc = dcRoot.querySelector('.dc-scroll'), tiles = document.getElementById('dcTiles'), rail = document.getElementById('dcRail');
+  if(!sc || !tiles) return dcRender();
+  if(rail) rail.innerHTML = dcRailHtml();
+  tiles.innerHTML = dcTilesHtml();
+  // début de la nouvelle liste passé au-dessus de l'écran : on le ramène en haut
+  const d = tiles.getBoundingClientRect().top - sc.getBoundingClientRect().top;
+  if(d < 0) sc.scrollTop += d;
+}
 function dcTileItems(){
   const inAcr = G.phase === 'acr';
   const pool = DC_CONTENT.actions.filter(a => inAcr || !dcIsRcp(a));
@@ -3831,10 +3872,10 @@ function dcTileItems(){
   if(q.length >= 2){
     return pool.filter(a => dcNorm(a.label).includes(q)).map(a => ({ leaf: a, sub: a.path.join(' › ') }));
   }
-  const depth = G.nav.length;
+  const nav = dcNav(), depth = nav.length;
   const out = [], cats = new Set();
   pool.forEach(a => {
-    if(!G.nav.every((p, i) => a.path[i] === p)) return;
+    if(!nav.every((p, i) => a.path[i] === p)) return;
     if(a.path.length > depth){
       const c = a.path[depth];
       if(!cats.has(c)){ cats.add(c); out.push({ cat: c }); }
@@ -3846,7 +3887,7 @@ function dcTileItems(){
 }
 function dcTileHtml(it){
   if(it.cat){
-    const ic = G.nav.length === 0 ? (DC_TILE_ICONS[it.cat] || '•') : '›';
+    const ic = G.nav.length === 0 && !DC_LAND.matches ? (DC_TILE_ICONS[it.cat] || '•') : '›';
     return `<button class="dc-tile cat ${it.cat === DC_RCP_ROOT ? 'rcp' : ''}" data-cat="${escapeHtml(it.cat)}"><span class="ic">${ic}</span><span>${escapeHtml(it.cat)}</span></button>`;
   }
   const a = it.leaf;
@@ -3892,6 +3933,7 @@ function dcRenderGame(){
     ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>${escapeHtml(dcTerrainSummary(G.terrain))}</summary>${dcFicheRows(G.terrain)}</details>` : ''}`;
   dcRoot.innerHTML = `
     ${dcScopeShell()}
+    <div class="dc-rail" id="dcRail">${dcRailHtml()}</div>
     <div class="dc-scroll">
       ${G.phase === 'acr'
         ? `<div class="dc-vignette">${pt}Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div><div class="dc-patsum"></div>
@@ -3903,7 +3945,7 @@ function dcRenderGame(){
       ${G.dx.length ? `<div class="dc-chips">${G.dx.map(x => `<span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(x))}</span>`).join('')}</div>` : ''}
       ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
       ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}
-      <input class="field dc-search" type="search" placeholder="Rechercher une action…" value="${escapeHtml(G.search)}" autocomplete="off">
+      <input class="field dc-search ${G.searchOpen ? 'open' : ''}" type="search" placeholder="Rechercher une action…" value="${escapeHtml(G.search)}" autocomplete="off">
       <div id="dcTiles">${dcTilesHtml()}</div>
     </div>
     ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn dc-hv" data-dc="validate"><span>${st.transfert ? `🚑 Partir ${escapeHtml(st.transfert.vers || '')}` : 'Valider l\'étape ✓'}</span></button></div>` : ''}
@@ -3916,7 +3958,9 @@ function dcRenderGame(){
   dcMonStart();
 }
 function dcTilesHtml(){
-  const crumb = G.nav.length ? `<div class="dc-crumb"><button data-dc="back">←</button>${escapeHtml(G.nav.join(' › '))}</div>` : '';
+  // en paysage, le premier niveau est porté par la colonne d'icônes : ← seulement dans une sous-catégorie
+  const nav = dcNav(), searching = dcNorm(G.search.trim()).length >= 2;
+  const crumb = !searching && nav.length > (DC_LAND.matches ? 1 : 0) ? `<div class="dc-crumb"><button data-dc="back">←</button>${escapeHtml(nav.join(' › '))}</div>` : '';
   const items = dcTileItems();
   return `${crumb}<div class="dc-tiles">${items.map(dcTileHtml).join('') || '<div class="hint">Aucune action trouvée.</div>'}</div>`;
 }
@@ -4013,7 +4057,7 @@ function dcRenderDebrief(){
 dcRoot.addEventListener('click', e => {
   const b = e.target.closest('[data-dc],[data-cat],[data-act]');
   if(!b) return;
-  if(b.dataset.cat){ G.nav.push(b.dataset.cat); G.search = ''; dcRender(); return; }
+  if(b.dataset.cat){ G.nav = [...dcNav(), b.dataset.cat]; G.search = ''; dcRender(); return; }
   if(b.dataset.act){
     const a = dcIndex()[b.dataset.act];
     if(a.type === 'diagnostic') dcDoAction(a.id);
@@ -4032,7 +4076,17 @@ dcRoot.addEventListener('click', e => {
   else if(act === 'resume'){ DC_VIEW = 'game'; dcResume(); }
   else if(act === 'abandon') dcAbandon();
   else if(act === 'home'){ DC_VIEW = 'home'; dcRender(); }
-  else if(act === 'back'){ G.nav.pop(); dcRender(); }
+  else if(act === 'back'){ G.nav = dcNav().slice(0, -1); dcRender(); }
+  else if(act === 'rail' || act === 'rail-search'){
+    // colonne d'icônes (paysage) : catégorie racine, ou 🔍 qui affiche / masque la recherche
+    const f = dcRoot.querySelector('.dc-search');
+    if(act === 'rail'){ G.nav = [b.dataset.catRoot]; G.searchOpen = false; }
+    else G.searchOpen = !G.searchOpen;
+    G.search = '';
+    if(f){ f.value = ''; f.classList.toggle('open', !!G.searchOpen); }
+    dcRefreshTiles();
+    if(f && G.searchOpen) f.focus(); else if(f) f.blur();
+  }
   else if(act === 'validate'){
     // clavier (detail 0) : validation directe ; clic qui suit l'appui maintenu : ignoré
     if(e.detail === 0) dcValidate();
@@ -4118,9 +4172,19 @@ dcRoot.addEventListener('contextmenu', e => { if(e.target.closest('.dc-tile, .dc
 dcRoot.addEventListener('input', e => {
   if(!e.target.classList.contains('dc-search') || !G) return;
   G.search = e.target.value;
-  G.nav = [];
+  if(!DC_LAND.matches) G.nav = [];   // en paysage, refermer la recherche ramène à la catégorie en cours
   // on ne redessine que les tuiles : recréer le champ fermerait le clavier sur iPhone
   document.getElementById('dcTiles').innerHTML = dcTilesHtml();
+  const rail = DC_LAND.matches && document.getElementById('dcRail');
+  if(rail) rail.innerHTML = dcRailHtml();
+});
+// rotation : le niveau racine change (tuiles de catégories en portrait, colonne d'icônes en paysage)
+DC_LAND.addEventListener('change', () => {
+  if(!(DC_VIEW === 'game' && G)) return;
+  const f = dcRoot.querySelector('.dc-search');
+  // recherche en cours, ou clavier ouvert (il peut faire basculer la fenêtre) : champ gardé visible et non recréé
+  if(f && (G.search || f === document.activeElement)){ G.searchOpen = true; f.classList.add('open'); }
+  if(f && f === document.activeElement) dcRefreshTiles(); else dcRender();
 });
 dcRoot.addEventListener('toggle', e => {
   if(G && e.target.dataset && e.target.dataset.fold) G.fold[e.target.dataset.fold] = e.target.open;
