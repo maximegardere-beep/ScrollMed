@@ -1795,6 +1795,7 @@ const DC_RANGES = { FC:[50,100,40,130], PAM:[65,110,55,125], SpO2:[94,100,90,100
 const DC_TILE_ICONS = { 'Airway / ventilation':'🫁', 'Voies & monitorage':'💉', 'Bilan':'🧪', 'Imagerie & écho':'🔊', 'Traitement':'💊', 'Orientation':'📞', 'Diagnostic':'🩺', 'RCP':'❤️' };
 // colonne d'icônes (paysage) : libellé court ; une catégorie inconnue garde son nom tronqué
 const DC_RAIL_LABELS = { 'Airway / ventilation':'Airway', 'Voies & monitorage':'Voies', 'Bilan':'Bilan', 'Imagerie & écho':'Imagerie', 'Traitement':'Trait.', 'Orientation':'Orient.', 'Diagnostic':'Diag.', 'RCP':'RCP' };
+// téléphone en paysage, partie en cours (même requête que le CSS)
 const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px)');
 const DC_NOTE_UI = {
   indispensable:  { ic:'✅', lb:'Indispensable' },
@@ -2839,8 +2840,7 @@ function dcHasMce(){
 const DC_ROW_BOX = { ecg: 'FC', pleth: 'SpO2', pni: 'PA', pa: 'PA', co2: 'CO2' };
 function dcRows(){ return ['ecg', 'pleth', G.mon.has('PA') ? 'pa' : 'pni'].concat(G.mon.has('CO2') ? ['co2'] : []); }
 function dcLanes(){ return dcRows().filter(r => DC_LANES[r]); }   // courbes seules
-// téléphone en paysage (même requête que le CSS) : chiffres face aux courbes, la PNI garde sa bande vide
-const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px)');
+// téléphone en paysage (DC_LAND) : chiffres face aux courbes, la PNI garde sa bande vide
 function dcBands(){ return DC_LAND.matches ? dcRows() : dcLanes(); }
 // rotation : étiquettes des bandes et barre à jour, même en temps fixé (pas de tick)
 if(DC_LAND.addEventListener) DC_LAND.addEventListener('change', () => dcRenderScope());
