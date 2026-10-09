@@ -531,5 +531,140 @@
         "PAD": 46
       }
     }
+  },
+  {
+    "id": "inhalation",
+    "titre": "Inhalation du contenu gastrique",
+    "source": "Mendelson, Am J Obstet Gynecol 1946 ; Marik, NEJM 2001 ; Dragan et al., Clin Infect Dis 2018 ; Mandell et Niederman, NEJM 2019",
+    "tags": [
+      "inhalation",
+      "estomac plein",
+      "aspiration",
+      "ISR"
+    ],
+    "vignette": "Pendant la ventilation au masque, régurgitation de liquide gastrique. À la laryngoscopie, liquide dans le pharynx et entre les cordes vocales. Une fois la sonde en place : sibilants, pressions d'insufflation élevées, la SpO2 chute.",
+    "chrono": 60,
+    "constantes": {
+      "SpO2": 86,
+      "FC": 118
+    },
+    "pente": {
+      "SpO2": -2,
+      "PAS": -0.4
+    },
+    "resultats": {
+      "gds": "En FiO2 100 % : **pH 7,29** · **PaCO2 52 mmHg** · **PaO2 68 mmHg**.",
+      "rp": "Peut rester normale dans les premières heures. Ici : **opacités alvéolaires du lobe inférieur droit**. Sonde d'intubation en place.",
+      "echo_pleuro": "**Lignes B et condensation postéro-basale droite**. Glissement pleural présent des deux côtés."
+    },
+    "schemas": {
+      "rp": { "type": "rp", "foyer": "lid" },
+      "echo_pleuro": { "type": "echo_pleuro", "lignes_b": "d" }
+    },
+    "diagnostic": [
+      "dx_inhalation"
+    ],
+    "actions": {
+      "aspiration_pharyngee": {
+        "note": "indispensable",
+        "refaire": true,
+        "why": "Aspirer le pharynx, puis la trachée par la sonde, avant de reprendre la ventilation en pression positive : on évite de pousser le liquide gastrique vers les alvéoles (Marik, NEJM 2001).",
+        "effet": {
+          "SpO2": 3
+        },
+        "pente": {
+          "SpO2": -1
+        }
+      },
+      "vm_protectrice": {
+        "note": "indispensable",
+        "why": "FiO2 100 %, puis PEP (5 à 10 cmH2O) et volume courant de 6 mL/kg de poids idéal : la pneumopathie chimique se traite comme une agression pulmonaire aiguë.",
+        "effet": {
+          "SpO2": 6
+        },
+        "pente": {
+          "SpO2": 0.3
+        }
+      },
+      "sng": {
+        "note": "recommande",
+        "why": "Vider l'estomac par une sonde gastrique une fois les voies aériennes protégées : moins de liquide à régurgiter."
+      },
+      "tete_30": {
+        "note": "recommande",
+        "why": "Sonde à ballonnet en place : proclive pour limiter un nouveau reflux. Avant l'intubation, devant une régurgitation, c'est au contraire tête basse et tournée pour drainer le pharynx."
+      },
+      "salbutamol_neb": {
+        "note": "recommande",
+        "refaire": true,
+        "why": "Bronchospasme réflexe : bronchodilatateur β2 dans le circuit du respirateur.",
+        "effet": {
+          "SpO2": 2
+        }
+      },
+      "gds": {
+        "note": "recommande",
+        "refaire": true,
+        "why": "Gaz du sang : sévérité de l'hypoxémie (PaO2/FiO2) et réglage de la ventilation."
+      },
+      "rp": {
+        "note": "recommande",
+        "refaire": true,
+        "why": "Radio de thorax : position de la sonde et opacités, souvent dans le lobe inférieur droit. Elle peut être normale au début."
+      },
+      "echo_pleuro": {
+        "note": "debattu",
+        "why": "Échographie pleuropulmonaire au lit : condensation, lignes B, et élimine une intubation sélective ou un pneumothorax."
+      },
+      "cortico_sys": {
+        "note": "inutile",
+        "why": "Corticoïdes : aucun bénéfice démontré sur la pneumopathie d'inhalation, risque infectieux accru. Pas d'indication (Marik, NEJM 2001)."
+      },
+      "atb_c3g_amika": {
+        "note": "inutile",
+        "why": "Pas d'antibiothérapie systématique : l'inhalation donne d'abord une pneumopathie chimique. L'antibioprophylaxie n'améliore pas la survie et favorise l'escalade (Dragan, Clin Infect Dis 2018). Antibiotiques si la pneumopathie persiste au-delà de 48 h, ou si le liquide est colonisé (occlusion intestinale)."
+      },
+      "atb_pipe_tazo": {
+        "note": "inutile",
+        "why": "Pas d'antibiothérapie systématique : l'inhalation donne d'abord une pneumopathie chimique. L'antibioprophylaxie n'améliore pas la survie et favorise l'escalade (Dragan, Clin Infect Dis 2018). Antibiotiques si la pneumopathie persiste au-delà de 48 h, ou si le liquide est colonisé (occlusion intestinale)."
+      },
+      "atb_carba": {
+        "note": "inutile",
+        "why": "Pas d'antibiothérapie systématique, et encore moins un carbapénème : l'inhalation donne d'abord une pneumopathie chimique (Marik, NEJM 2001)."
+      },
+      "furosemide": {
+        "note": "inutile",
+        "why": "Œdème lésionnel, pas de surcharge : le diurétique n'améliore pas l'oxygénation."
+      },
+      "ventil_masque": {
+        "note": "contre_indique",
+        "why": "Ventiler au masque un estomac qui régurgite insuffle de l'air dans l'estomac et pousse le liquide vers les poumons. La sonde est en place : ventiler par la sonde, après aspiration.",
+        "effet": {
+          "SpO2": -2
+        }
+      }
+    },
+    "letal_si_manque": {
+      "actions": [
+        "vm_protectrice"
+      ],
+      "issue": "acr",
+      "why": "Inhalation sans oxygénation en pression positive : hypoxémie jusqu'à l'arrêt."
+    },
+    "acr": {
+      "rythme": "AESP",
+      "requis": [
+        "mce",
+        "adre_acr",
+        "ventil_acr"
+      ],
+      "why": "Arrêt hypoxique après inhalation : RCP, aspiration trachéale, ventilation en FiO2 100 % (ERC 2021).",
+      "apres_racs": {
+        "FC": 112,
+        "PAS": 88,
+        "PAD": 48,
+        "SpO2": 86
+      }
+    }
   }
 ]

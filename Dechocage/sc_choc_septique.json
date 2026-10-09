@@ -4,7 +4,7 @@
   "source": "Surviving Sepsis Campaign 2021 ; SPILF, infections urinaires communautaires 2018",
   "tags": ["sepsis", "choc septique", "noradrénaline", "pyélonéphrite"],
   "patient": "Femme, 68 ans, 70 kg",
-  "terrains": { "contexte": "dechoc", "exclus": [], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] } },
+  "terrains": { "contexte": "dechoc", "exclus": ["estomac_plein", "irc_dialyse"], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] } },
   "constantes": { "FC": 124, "PAS": 82, "PAD": 44, "SpO2": 94, "FR": 26, "T": 39.2, "GCS": 14 },
   "seuils": { "PAS": 50, "SpO2": 70 },
   "resultats": {

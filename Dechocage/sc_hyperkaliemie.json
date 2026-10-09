@@ -4,7 +4,7 @@
   "source": "ERC 2021, arrêt cardiaque en circonstances particulières ; UK Kidney Association 2020, hyperkaliémie aiguë de l'adulte",
   "tags": ["hyperkaliémie", "insuffisance rénale", "calcium", "épuration extrarénale"],
   "patient": "Homme, 74 ans, 78 kg",
-  "terrains": { "contexte": "dechoc", "exclus": ["hta"], "identite": { "sexe": ["M"], "age": [55, 88], "poids": [55, 95] } },
+  "terrains": { "contexte": "dechoc", "exclus": ["hta", "estomac_plein", "irc_dialyse"], "identite": { "sexe": ["M"], "age": [55, 88], "poids": [55, 95] } },
   "ecg": "qrs_larges",
   "constantes": { "FC": 42, "PAS": 96, "PAD": 54, "SpO2": 96, "FR": 20, "T": 36.8, "GCS": 15 },
   "seuils": { "PAS": 55, "FC": 30, "SpO2": 70 },
