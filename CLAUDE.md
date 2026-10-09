@@ -181,7 +181,10 @@ Tableau d'actions, partagé par tous les scénarios :
 
 ### Silhouette du patient
 
-Encart « 🧍 Patient » au-dessus des résultats, dessiné par le moteur d'après l'état de la partie seulement (rien à écrire dans le contenu) : pâleur (PAS < 90, < 70), cyanose (SpO2 < 90, < 80), marbrures (PAS < 80), fièvre (T ≥ 38,5), sonde et respirateur (action `"moniteur": ["CO2"]`, ou scénario déjà intubé), VVP, IO (`io`), KTC (voie `VVC`), KTA (`"moniteur": ["PA"]`), un pousse-seringue par `titration` en cours, massage animé pendant l'ACR. Repliable, état mémorisé pendant la partie.
+Silhouette du patient sur son brancard, dessinée par le moteur d'après l'état de la partie seulement (rien à écrire dans le contenu) : pâleur (PAS < 90, < 70), cyanose (SpO2 < 90, < 80), marbrures (PAS < 80), fièvre (T ≥ 38,5), sonde et respirateur (action `"moniteur": ["CO2"]`, ou scénario déjà intubé), VVP, IO (`io`), KTC (voie `VVC`), KTA (`"moniteur": ["PA"]`), un pousse-seringue par `titration` en cours, massage animé pendant l'ACR.
+
+- Sous la vignette (étape et ACR) : résumé en une ligne (`🧍 pâle · marbré · VVP · 💉 NAD`), états anormaux en orange, graves (très pâle, cyanose profonde, arrêt, pousse-seringue au plafond) en rouge ; mis à jour à chaque tick.
+- Le dessin s'ouvre par le bouton 🧍 de la barre du scope, dans une fenêtre par-dessus le jeu (fermée par « Fermer » ou un toucher sur le fond). Le chrono continue pendant ce coup d'œil. Il figure aussi sur l'écran de pause.
 
 ### Patient procédural (bouton « 🎲 Patient aléatoire »)
 

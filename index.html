@@ -753,9 +753,14 @@
   .dc-schema{ margin-top:6px; --sc-bg:#05080b; --sc-tissu:#8a96a0; --sc-tissu-dim:#3b454e; --sc-liquide:#000; --sc-os:#f2f5f7; --sc-air:#1a2129; --sc-txt:#c9d3db; --sc-path: var(--danger); }
   .dc-schema svg{ display:block; width:100%; height:auto; max-height:180px; border-radius:10px; background: var(--sc-bg); }
   .dc-schema .lg{ font-size:11.5px; color: var(--muted); margin-top:3px; }
-  .dc-patient{ margin-bottom:10px; }
-  .dc-patient:empty{ display:none; }
-  .dc-patient-fig{ padding: 0 10px 10px; }
+  .dc-patsum{ margin: -6px 4px 10px; font-size:12px; line-height:1.4; color: var(--muted); }
+  .dc-patsum .a{ color: var(--alert); font-weight:700; }
+  .dc-patsum .d{ color: var(--danger); font-weight:700; }
+  .dc-patient-fig{ width:100%; max-width:340px; }
+  .dc-patview{ padding: 16px 8px; }
+  .dc-patview .dc-patient-fig{ max-width:560px; }
+  .dc-patview .dc-patient-fig svg{ max-height:52vh; }
+  .dc-patview .dc-patsum{ margin:2px 0 6px; font-size:13px; }
   .dc-patient-fig svg{ display:block; width:100%; height:auto; max-height:110px; border-radius:10px; background:#0d1318; }
   .dc-patient-mce{ transform-box: fill-box; transform-origin: 50% 30%; animation: dcPatientMce .545s ease-in-out infinite; }
   @keyframes dcPatientMce{ 0%, 100%{ transform: none; } 45%{ transform: translateY(2px) scale(.9); } }
@@ -2106,7 +2111,7 @@ function dcStart(scId, mode, opts){
     phase: 'step', doneAll: new Set(), log: [], visited: [],
     dx: [], results: [], acr: null, acrEpisodes: [], racs: 0,
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
-    fold: { res: false, chips: false, terrain: false, patient: true },  // encarts repliés (sauf la silhouette) : les tuiles restent visibles
+    fold: { res: false, chips: false, terrain: false },  // encarts repliés : les tuiles restent visibles
     ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé
     nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
   };
@@ -3093,6 +3098,7 @@ function dcBox(id){
 function dcBarControls(){
   return `<button class="dc-mbtn" data-dc="sil" id="dcSil" hidden aria-label="Silence alarmes 2 min">🔕</button>
     <button class="dc-mbtn" data-dc="son" id="dcSon" aria-label="Son du scope"></button>
+    <button class="dc-mbtn ${G && G.patientView ? 'on' : ''}" data-dc="patient" aria-label="Voir le patient">🧍</button>
     <button class="dc-mbtn" data-dc="fold" aria-label="${DC_PREFS.plie ? 'Agrandir' : 'Réduire'} le scope">${DC_PREFS.plie ? '▾' : '▴'}</button>`;
 }
 function dcScopeShell(){
@@ -3169,8 +3175,10 @@ function dcRenderScope(){
   }).join('');
   document.getElementById('dcBarTxt').innerHTML = alarm + pumps + vit;
   document.getElementById('dcCmd').innerHTML = dcCmdHtml();
-  const pat = document.getElementById('dcPatient');
-  if(pat){ const h = dcPatientSvg(); if(pat.innerHTML !== h) pat.innerHTML = h; }   // silhouette suivie à chaque tick
+  // résumé et silhouette suivis à chaque tick, réécrits seulement s'ils changent (sinon le massage animé repartirait)
+  const ps = dcRoot.querySelectorAll('.dc-patsum'), pf = dcRoot.querySelectorAll('.dc-patient-fig'), pst = dcPatientState();
+  if(ps.length){ const h = dcPatSumHtml(pst); ps.forEach(el => { if(el._h !== h){ el._h = h; el.innerHTML = h; } }); }
+  if(pf.length){ const h = dcPatientSvg(pst); pf.forEach(el => { if(el._h !== h){ el._h = h; el.innerHTML = h; } }); }
   const son = document.getElementById('dcSon'), sil = document.getElementById('dcSil');
   son.textContent = DC_PREFS.son ? '🔊' : '🔇';
   son.classList.toggle('on', DC_PREFS.son);
@@ -3206,26 +3214,28 @@ function dcPatientState(){
     pumps: Object.entries(G.pumps).map(([id, p]) => ({ nom: ((idx[id] || {}).titration || {}).nom || dcLabel(id), max: !!p.capped }))
   };
 }
-function dcPatientSummary(s){
-  const t = [];
-  if(s.acr) t.push(s.mce ? 'en arrêt, massage' : 'en arrêt');
-  else if(s.pale) t.push(s.pale > 1 ? 'très pâle' : 'pâle');
-  if(s.cyan) t.push('cyanosé');
-  if(s.marbre && !s.acr) t.push('marbré');
-  if(s.fievre) t.push('fébrile');
-  if(s.intube) t.push(s.crico ? 'canule de crico' : 'intubé');
-  const voies = [['vvp', 'VVP'], ['io', 'IO'], ['ktc', 'KTC'], ['kta', 'KTA']].filter(([k]) => s[k]).map(([, l]) => l);
-  if(voies.length) t.push(voies.join(' · '));
-  s.pumps.forEach(p => t.push('💉 ' + p.nom));
-  return t.length ? t.join(', ') : 'teint normal';
+// segments du résumé : { t: texte, l: 'a' (anormal) | 'd' (grave) | '' }
+function dcPatientSegs(s){
+  const t = [], add = (x, l) => t.push({ t: x, l: l || '' });
+  if(s.acr) add(s.mce ? 'en arrêt, massage' : 'en arrêt', 'd');
+  else if(s.pale) add(s.pale > 1 ? 'très pâle' : 'pâle', s.pale > 1 ? 'd' : 'a');
+  if(s.cyan) add('cyanosé', s.cyan > 1 ? 'd' : 'a');
+  if(s.marbre && !s.acr) add('marbré', 'a');
+  if(s.fievre) add('fébrile', 'a');
+  if(s.intube) add(s.crico ? 'canule de crico' : 'intubé');
+  [['vvp', 'VVP'], ['io', 'IO'], ['ktc', 'KTC'], ['kta', 'KTA']].forEach(([k, l]) => { if(s[k]) add(l); });
+  s.pumps.forEach(p => add('💉 ' + p.nom + (p.max ? ' MAX' : ''), p.max ? 'd' : ''));
+  return t.length ? t : [{ t: 'teint normal', l: '' }];
 }
-function dcPatientSvg(){
+function dcPatientSummary(s){ return dcPatientSegs(s).map(x => x.t).join(' · '); }
+// puces sous la vignette (et dans la vue patient)
+function dcPatSumHtml(s){
+  if(!G) return '';
+  return '🧍 ' + dcPatientSegs(s || dcPatientState()).map(x => x.l ? `<span class="${x.l}">${escapeHtml(x.t)}</span>` : escapeHtml(x.t)).join(' · ');
+}
+function dcPatientSvg(s){
   if(!G || DC_VIEW !== 'game') return '';
-  // l'encart est réécrit à chaque tick : on garde l'état replié/déplié choisi par le joueur
-  const cur = document.querySelector('#dcPatient > details');
-  if(cur && dcPatientSvg._g === G) G.fold.patient = cur.open;
-  dcPatientSvg._g = G;
-  const s = dcPatientState();
+  s = s || dcPatientState();
   const peau = s.acr ? DC_PAT_TEINT.gris : DC_PAT_TEINT[['normal', 'pale', 'tres_pale'][s.pale]];
   const bout = s.cyan > 1 ? '#8a8fd0' : s.cyan ? '#aeaacb' : peau;          // mains et pieds
   const levres = s.cyan > 1 ? '#3d55e0' : s.cyan ? '#6a7fd6' : '#b06a62';
@@ -3278,18 +3288,17 @@ function dcPatientSvg(){
   if(s.bavu) o.push(`<ellipse cx="100" cy="50" rx="7" ry="9" fill="rgba(200,230,255,.35)" stroke="#cfe6ff"/><ellipse cx="44" cy="50" rx="16" ry="8" fill="#3b6d9a" stroke="#cfe6ff"/><path d="M60,50H93" stroke="#cfe6ff" stroke-width="3"/>`);
   // mains de massage sur le sternum, au rythme du métronome
   if(s.mce) o.push(`<g class="dc-patient-mce" style="animation-duration:${(60 / DC_METRO_RATE).toFixed(3)}s"><path d="M146,96L148,58M156,96L152,58" stroke="#4f7aa6" stroke-width="7"/><ellipse cx="150" cy="51" rx="10" ry="7.5" fill="#e3c6a8" stroke="#0b0f13"/><ellipse cx="150" cy="48" rx="9" ry="6.5" fill="#edd3b8" stroke="#0b0f13"/></g>`);
-  const sum = dcPatientSummary(s);
-  const h = `<details class="dc-results" data-fold="patient" ${G.fold.patient ? 'open' : ''}><summary>🧍 Patient · ${escapeHtml(sum)}</summary>`
-    + `<div class="dc-patient-fig"><svg viewBox="0 0 380 100" role="img" aria-label="${escapeHtml('Patient : ' + sum)}" font-family="inherit">${o.join('')}</svg></div></details>`;
-  // forme sérialisée par le navigateur (balises SVG fermées, open="") : dcRenderScope compare avec innerHTML,
-  // l'encart n'est réécrit que si l'état change (sinon l'animation du massage repartirait à chaque tick)
-  if(h !== dcPatientSvg._in){
-    const tpl = document.createElement('template');
-    tpl.innerHTML = h;
-    dcPatientSvg._in = h;
-    dcPatientSvg._out = tpl.innerHTML;
-  }
-  return dcPatientSvg._out;
+  return `<svg viewBox="0 0 380 100" role="img" aria-label="${escapeHtml('Patient : ' + dcPatientSummary(s))}" font-family="inherit">${o.join('')}</svg>`;
+}
+// vue patient (bouton 🧍 du scope) : par-dessus le jeu, le chrono continue ; un toucher sur le fond la ferme
+function dcPatientViewHtml(){
+  return `<div class="dc-pause dc-modal dc-patview" data-dc="patient-x">
+    <b>🧍 Patient</b>
+    <div class="dc-patient-fig"></div>
+    <div class="dc-patsum"></div>
+    <button class="btn secondary" data-dc="patient-x" style="max-width:260px">Fermer</button>
+    <div class="hint">Le chrono continue.</div>
+  </div>`;
 }
 
 // bibliothèque de schémas : type → fonction(spec) qui renvoie le contenu d'un dcSvgFrame
@@ -3862,6 +3871,8 @@ function dcRenderGame(){
   const prevScroll = dcRoot.querySelector('.dc-scroll'), prevTiles = document.getElementById('dcTiles');
   const same = prevScroll && prevTiles && dcRoot.dataset.ctx === ctxKey;
   const anchor = same ? prevTiles.offsetTop - prevScroll.scrollTop : null;
+  // la vue patient se ferme d'elle-même quand l'étape change, qu'un ACR commence ou qu'une autre fenêtre s'ouvre
+  if(dcRoot.dataset.ctx !== ctxKey || G.modal || G.fiche) G.patientView = false;
   dcRoot.dataset.ctx = ctxKey;
   dcRoot.classList.add('game');
   document.getElementById('dcTitle').textContent = G.phase === 'acr' ? 'Déchoc · ACR' : `Déchoc · ${G.step.titre || ''}`;
@@ -3871,10 +3882,11 @@ function dcRenderGame(){
   const results = G.results.map(r => `<div class="dc-res"><div class="lb">${escapeHtml(dcLabel(r.id))} · T+${dcFmtClock(r.t)}</div>${dcResHtml(r.text)}${dcSchemaHtml(r.schema)}</div>`).join('');
   const pause = G.paused ? `<div class="dc-pause"><div class="big">⏸</div><b>Partie en pause</b>
       <div class="hint">${dcMode().fige ? 'Temps fixé : le patient attend ta validation.' : 'Le chrono s\'arrête quand tu quittes l\'écran.'}</div>
+      <div class="dc-patient-fig"></div>
       <button class="btn" data-dc="resume" style="max-width:260px">▶ Reprendre</button>
       <button class="btn secondary" data-dc="quit" style="max-width:260px">← Quitter (reste en pause)</button>
       <button class="btn secondary" data-dc="abandon" style="max-width:260px">Abandonner</button></div>` : '';
-  const modal = G.fiche && !G.paused ? dcFicheHtml() : G.modal && !G.paused ? dcModalHtml() : '';
+  const modal = G.fiche && !G.paused ? dcFicheHtml() : G.modal && !G.paused ? dcModalHtml() : G.patientView && !G.paused ? dcPatientViewHtml() : '';
   // bandeau du terrain sous l'identité, déplié d'un toucher
   const pt = `<div class="pt">${escapeHtml(G.sc.patient || '')}</div>${G.terrain
     ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>${escapeHtml(dcTerrainSummary(G.terrain))}</summary>${dcFicheRows(G.terrain)}</details>` : ''}`;
@@ -3882,13 +3894,12 @@ function dcRenderGame(){
     ${dcScopeShell()}
     <div class="dc-scroll">
       ${G.phase === 'acr'
-        ? `<div class="dc-vignette">${pt}Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div>
+        ? `<div class="dc-vignette">${pt}Le patient fait un arrêt cardiaque. Rythme : <b>${escapeHtml(dcAcrSpec().rythme || '')}</b>. Lance la RCP et traite la cause.</div><div class="dc-patsum"></div>
            ${G.acr.metro
              ? `<div class="dc-acrbox on">🎵 Métronome ${DC_METRO_RATE}/min jusqu'à la reprise d'un rythme${DC_PREFS.son ? '' : ' (son coupé : active 🔇 pour l’entendre)'}.</div>`
              : `<button class="dc-acrbox" data-dc="sil">🔕 Silence alarme · lancer le métronome</button>`}`
         : `<div class="dc-steptitle">${st._compl ? '⚠️ Complication' : `Étape ${G.visited.indexOf(dcCurVisit()) + 1}`} · ${escapeHtml(st.titre || '')}</div>
-           <div class="dc-vignette ${st._compl ? 'compl' : ''}">${pt}${st._compl && G.compl ? `<div class="pt">Après : ${escapeHtml(G.compl.cause)}</div>` : ''}${escapeHtml(st.vignette || '')}</div>`}
-      <div class="dc-patient" id="dcPatient">${dcPatientSvg()}</div>
+           <div class="dc-vignette ${st._compl ? 'compl' : ''}">${pt}${st._compl && G.compl ? `<div class="pt">Après : ${escapeHtml(G.compl.cause)}</div>` : ''}${escapeHtml(st.vignette || '')}</div><div class="dc-patsum"></div>`}
       ${G.dx.length ? `<div class="dc-chips">${G.dx.map(x => `<span class="dc-chip dx">🩺 ${escapeHtml(dcLabel(x))}</span>`).join('')}</div>` : ''}
       ${results ? `<details class="dc-results" data-fold="res" ${G.fold.res ? 'open' : ''}><summary>🧾 Résultats (${G.results.length}) · dernier : ${escapeHtml(dcLabel(G.results[0].id))}</summary>${results}</details>` : ''}
       ${chips ? `<details class="dc-results" data-fold="chips" ${G.fold.chips ? 'open' : ''}><summary>✓ Réalisé dans l'étape (${stepActs.length})</summary><div class="dc-chips" style="padding:0 12px 4px">${chips}</div></details>` : ''}
@@ -4035,6 +4046,8 @@ dcRoot.addEventListener('click', e => {
     if(m.kind === 'step') dcValidate(true);
     else { G.search = ''; dcDoAction(m.id, true); }
   }
+  else if(act === 'patient' && G){ G.patientView = !G.patientView; dcRender(); }
+  else if(act === 'patient-x' && G && (e.target === b || b.tagName === 'BUTTON')){ G.patientView = false; dcRender(); }
   else if(act === 'fold'){ DC_PREFS.plie = !DC_PREFS.plie; dcSavePrefs(); dcRender(); }
   else if(act === 'son'){
     DC_PREFS.son = !DC_PREFS.son; dcSavePrefs();
