@@ -4,7 +4,7 @@
   "source": "ESC 2023, syndromes coronariens aigus ; ESC 2021, insuffisance cardiaque aiguë ; ERC 2021 ; IABP-SHOCK II 2012 ; CULPRIT-SHOCK 2017 ; ECLS-SHOCK 2023 ; DanGer Shock 2024",
   "tags": ["SCA ST+", "choc cardiogénique", "angioplastie primaire", "noradrénaline", "TV"],
   "patient": "Homme, 61 ans, 85 kg",
-  "terrains": { "contexte": "dechoc", "exclus": ["coronarien", "double_antiagregation", "ra_serre"], "identite": { "sexe": ["M"], "age": [40, 80], "poids": [60, 110] } },
+  "terrains": { "contexte": "dechoc", "exclus": ["coronarien", "double_antiagregation", "ra_serre", "estomac_plein"], "identite": { "sexe": ["M"], "age": [40, 80], "poids": [60, 110] } },
   "ecg": "st_plus",
   "constantes": { "FC": 112, "PAS": 84, "PAD": 56, "SpO2": 89, "FR": 28, "T": 36.4, "GCS": 14, "EtCO2": 32 },
   "seuils": { "PAS": 50, "SpO2": 70 },

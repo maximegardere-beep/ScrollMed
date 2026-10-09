@@ -4,7 +4,7 @@
   "source": "SFAR 2018 (RFE curarisation et décurarisation en anesthésie) ; ASA 2014 (SAOS périopératoire)",
   "tags": ["anesthésie", "SSPI", "curares", "curarisation résiduelle"],
   "patient": "Femme, 52 ans, 68 kg",
-  "terrains": { "contexte": "rea", "exclus": ["allergie_curares"], "identite": { "sexe": ["F", "M"], "age": [30, 85], "poids": [55, 100] } },
+  "terrains": { "contexte": "rea", "exclus": ["allergie_curares", "estomac_plein"], "identite": { "sexe": ["F", "M"], "age": [30, 85], "poids": [55, 100] } },
   "voies": ["IV"],
   "constantes": { "FC": 112, "PAS": 152, "PAD": 84, "SpO2": 87, "FR": 32, "T": 36.4, "GCS": 14 },
   "resultats": {
@@ -38,6 +38,7 @@
         "midazolam": { "note": "contre_indique", "why": "Sédatif pour l'agitation d'un patient hypoxémique : dépression respiratoire. L'agitation est un signe d'hypoxie.", "effet": { "SpO2": -4 } },
         "isr_etomidate_rocu": { "note": "contre_indique", "why": "Réintuber au rocuronium un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
         "isr_ketamine": { "note": "contre_indique", "why": "Réintuber au rocuronium un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
+        "ind_classique": { "note": "contre_indique", "why": "Réintuber avec un curare non dépolarisant un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
         "isr_propofol": { "note": "contre_indique", "why": "Réintuber au rocuronium un patient déjà curarisé, sans décurariser : prolonge le bloc ; la décurarisation suffit ici." },
         "isr_etomidate": { "note": "inutile", "why": "Réintubation non nécessaire si la décurarisation est faite à temps." },
         "isr_ketamine_succi": { "note": "inutile", "why": "Réintubation non nécessaire si la décurarisation est faite à temps." },
@@ -58,9 +59,10 @@
         "ventil_masque": { "note": "recommande", "why": "Ventilation au masque en attendant l'effet de la décurarisation.", "effet": { "SpO2": 6 } },
         "isr_etomidate": { "note": "recommande", "alt": "reintub", "why": "Si la décurarisation n'est pas possible ou inefficace : réintuber.", "effet": { "SpO2": 10 } },
         "isr_ketamine_succi": { "note": "recommande", "alt": "reintub", "why": "Si la décurarisation n'est pas possible ou inefficace : réintuber.", "effet": { "SpO2": 10 } },
+        "ind_classique": { "note": "debattu", "alt": "reintub", "why": "Réintuber avec un curare non dépolarisant sans décurariser : le bloc se prolonge. Acceptable si la décurarisation est impossible ; préférer le sugammadex.", "effet": { "SpO2": 10 } },
         "naloxone": { "note": "debattu", "why": "Peut participer à la somnolence, mais ne lève pas le bloc." }
       },
-      "letal_si_manque": { "actions": [["sugammadex", "neostigmine", "isr_etomidate", "isr_ketamine_succi", "isr_etomidate_rocu", "isr_ketamine", "isr_propofol", "isr_propofol_succi"]], "issue": "acr", "why": "Hypoventilation par curarisation résiduelle non traitée : arrêt hypoxique." },
+      "letal_si_manque": { "actions": [["sugammadex", "neostigmine", "isr_etomidate", "isr_ketamine_succi", "isr_etomidate_rocu", "isr_ketamine", "isr_propofol", "isr_propofol_succi", "ind_classique"]], "issue": "acr", "why": "Hypoventilation par curarisation résiduelle non traitée : arrêt hypoxique." },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique : RCP, intubation et ventilation (ERC 2021)." },
       "suite": [ { "vers": "e2" } ]
     },

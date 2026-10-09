@@ -5,7 +5,7 @@
   "tags": ["traumatologie", "choc hémorragique", "transfusion", "acide tranexamique"],
   "titration": { "noradre": { "max": { "IV": 1, "VVC": 1 } } },
   "patient": "Homme, 32 ans, 80 kg",
-  "terrains": { "contexte": "dechoc", "exclus": [], "identite": { "sexe": ["M"], "age": [18, 60], "poids": [60, 100] } },
+  "terrains": { "contexte": "dechoc", "exclus": ["estomac_plein"], "identite": { "sexe": ["M"], "age": [18, 60], "poids": [60, 100] } },
   "constantes": { "FC": 132, "PAS": 78, "PAD": 46, "SpO2": 95, "FR": 28, "T": 35.6, "GCS": 14 },
   "seuils": { "PAS": 50, "SpO2": 70 },
   "resultats": {

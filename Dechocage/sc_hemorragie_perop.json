@@ -4,7 +4,7 @@
   "source": "ESAIC 2022 (saignement périopératoire sévère, 2e mise à jour) ; CRASH-2 2010",
   "tags": ["anesthésie", "hémorragie", "transfusion massive", "peropératoire"],
   "patient": "Homme, 64 ans, 80 kg",
-  "terrains": { "contexte": "perop", "exclus": ["fa_anticoagulee"], "identite": { "sexe": ["F", "M"], "age": [40, 85], "poids": [55, 100] } },
+  "terrains": { "contexte": "perop", "exclus": ["fa_anticoagulee", "estomac_plein"], "identite": { "sexe": ["F", "M"], "age": [40, 85], "poids": [55, 100] } },
   "moniteur": ["CO2"],
   "voies": ["IV"],
   "titration": { "noradre": { "max": { "IV": 1, "VVC": 1 } } },
