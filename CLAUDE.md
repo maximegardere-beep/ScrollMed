@@ -85,6 +85,8 @@ Jeu de simulation : un patient tiré au hasard arrive au déchocage, ses constan
 
 Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `main`, pas de PR).
 
+Sur téléphone en paysage, la colonne de droite a deux onglets : **Gestes** (recherche et tuiles) et **Dossier** (étape, vignette, silhouette, diagnostics, résultats dépliés, gestes réalisés, encart d'ACR). Le Dossier s'ouvre seul à chaque étape, complication ou ACR, et l'on revient aux Gestes dès qu'on agit ; un résultat d'examen s'annonce par un toast et une pastille de non-lus sur le Dossier. En portrait, tout reste empilé sans onglets.
+
 ### Temps et constantes
 
 - **Rythme** choisi par le joueur avant chaque station (`DC_MODES`, `index.html`) ; le scénario n'a rien à prévoir :
