@@ -257,10 +257,12 @@
       "resultats": {
         "ett": "**Rétrécissement aortique serré** : surface 0,7 cm², gradient moyen 50 mmHg. FEVG 60 %.",
         "ep_haut_risque/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. VG petit, FEVG conservée. **VCI 24 mm, non compliante**.",
-        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu."
+        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu.",
+        "bav_complet_degeneratif/ett": "**Rétrécissement aortique serré** (surface 0,7 cm², gradient moyen 50 mmHg), valve très calcifiée, calcifications de l'anneau mitral. FEVG 60 %. VCI de 17 mm, compliante. La bradycardie est très mal tolérée sur ce débit fixe."
       },
       "schemas": {
         "ett": { "type": "ett", "ra": true, "vci": false },
+        "bav_complet_degeneratif/ett": { "type": "ett", "ra": true, "vci": "normale" },
         "ep_haut_risque/ett": { "type": "ett", "ra": true, "vg": "petit", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
         "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false }
       },
@@ -441,6 +443,15 @@
       "exclut": [
         "coronarien"
       ],
+      "ci": [
+        {
+          "id": "isoprenaline",
+          "dans": [
+            "bav_complet_degeneratif"
+          ],
+          "why": "Coronarien avec stent récent : l'isoprénaline, bêta-agoniste pur, augmente la consommation d'oxygène du myocarde et l'arythmie ; elle est contre-indiquée dans l'insuffisance coronarienne (RCP Isuprel). Pont par adrénaline IVSE ou, mieux, entraînement électrosystolique (ERC 2021)."
+        }
+      ],
       "seuil": [
         {
           "PAS": {
@@ -547,8 +558,25 @@
       ],
       "resultats": {
         "iono": "Na 137 mmol/L · **K⁺ {5,2~5,8} mmol/L** · **urée {18~28} mmol/L** · **créatinine {650~900} µmol/L** (dialysé).",
-        "isr_occlusion/iono": "Na {132~137} · K⁺ {3,8~4,6} mmol/L (vomissements chez un dialysé) · **urée {24~34} mmol/L** · **créatinine {750~980} µmol/L**."
+        "isr_occlusion/iono": "Na {132~137} · K⁺ {3,8~4,6} mmol/L (vomissements chez un dialysé) · **urée {24~34} mmol/L** · **créatinine {750~980} µmol/L**.",
+        "bav_complet_degeneratif/iono": "Na 136 mmol/L · **K⁺ {6,0~6,4} mmol/L** · **urée {22~30} mmol/L** · **créatinine {700~900} µmol/L** (dialysé, dernière séance avant-hier)."
       },
+      "promeut": [
+        {
+          "id": "calcium",
+          "dans": [
+            "bav_complet_degeneratif"
+          ],
+          "why": "Dialysé hyperkaliémique avec QRS larges et bradycardie : sel de calcium IV sans attendre, dès qu'il existe des modifications ECG (UK Kidney Association 2020 ; ERC 2021). Si le BAV persiste après le calcium, l'hyperkaliémie modérée n'en est pas la cause : entraîner."
+        },
+        {
+          "id": "epuration",
+          "dans": [
+            "bav_complet_degeneratif"
+          ],
+          "why": "Hyperkaliémie chez un dialysé anurique : avancer la séance d'épuration extrarénale, seul moyen d'éliminer le potassium (UK Kidney Association 2020)."
+        }
+      ],
       "tags": [
         "insuffisance rénale",
         "dialyse",

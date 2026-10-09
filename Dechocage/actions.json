@@ -203,5 +203,6 @@
   { "id": "dx_inhalation", "label": "Inhalation du contenu gastrique", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["Mendelson", "pneumopathie d'inhalation"] },
   { "id": "dx_hematome_cervical", "label": "Hématome cervical compressif", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["hématome de loge", "hématome post-thyroïdectomie"] },
   { "id": "dx_toxicite_al", "label": "Toxicité systémique des anesthésiques locaux", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["LAST", "intoxication aux AL", "ISAL"] },
-  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] }
+  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] },
+  { "id": "bav_cardio_pacemaker", "label": "Avis cardiologique : stimulateur cardiaque définitif", "path": ["Orientation"], "duree": 2, "alias": ["pacemaker", "PM", "rythmologue", "cardiologue"] }
 ]
