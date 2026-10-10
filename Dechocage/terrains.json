@@ -77,7 +77,10 @@
         "stemi_choc_cardiogenique/ett": "**FEVG 20 %** (30 % connue), VG dilaté, **akinésie antérieure et apicale** nouvelle. VD de taille normale. Pas d'épanchement, pas de CIV, pas d'insuffisance mitrale significative. **VCI 22 mm, peu compliante**.",
         "ep_haut_risque/ett": "VG dilaté, **FEVG 30 %** (connue). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. Pas d'épanchement péricardique. **VCI 24 mm, non compliante**.",
         "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue).",
-        "acidocetose_diabetique/ett": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale. **VCI de 9 mm, collabée** : hypovolémie malgré la cardiopathie. Remplir par petits bolus réévalués."
+        "acidocetose_diabetique/ett": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale. **VCI de 9 mm, collabée** : hypovolémie malgré la cardiopathie. Remplir par petits bolus réévalués.",
+        "plaie_thoracique/ett": "VG dilaté, **FEVG 30 %** (connue). **Lame d'épanchement péricardique de 5 mm**, sans collapsus des cavités droites. **VCI dilatée**, peu compliante.",
+        "plaie_thoracique/e2/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**.",
+        "plaie_thoracique/e2_aggrav/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**."
       },
       "schemas": {
         "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
@@ -91,7 +94,10 @@
           "vci": false,
           "legende": "Septum un peu moins déplacé qu'à l'arrivée."
         },
-        "acidocetose_diabetique/ett": { "type": "ett", "vg": "dilate", "vci": "collabee" }
+        "acidocetose_diabetique/ett": { "type": "ett", "vg": "dilate", "vci": "collabee" },
+        "plaie_thoracique/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" },
+        "plaie_thoracique/e2/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" },
+        "plaie_thoracique/e2_aggrav/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" }
       },
       "tags": ["insuffisance cardiaque", "remplissage"],
       "promeut": [
@@ -154,7 +160,9 @@
       "resultats": {
         "depression_respiratoire_opioides/gds": "**pH {7,17~7,22}** · **PaCO2 {78~88} mmHg** · **PaO2 {50~56} mmHg** sous O2 · **HCO3⁻ 32 mmol/L** (hypercapnie chronique décompensée).",
         "depression_respiratoire_opioides/e2/gds": "Contrôle : **pH 7,32** · **PaCO2 58 mmHg** · PaO2 68 mmHg · **HCO3⁻ 31 mmol/L** : acidose hypercapnique persistante.",
-        "depression_respiratoire_opioides/e2_remorph/gds": "**pH 7,18** · **PaCO2 84 mmHg** · **PaO2 52 mmHg** · **HCO3⁻ 31 mmol/L**."
+        "depression_respiratoire_opioides/e2_remorph/gds": "**pH 7,18** · **PaCO2 84 mmHg** · **PaO2 52 mmHg** · **HCO3⁻ 31 mmol/L**.",
+        "plaie_thoracique/e1/gds": "Sous O2 : **pH 7,22** · **PaO2 50 mmHg** · **PaCO2 62 mmHg** · **HCO3⁻ 30 mmol/L** (BPCO hypercapnique) : réserve respiratoire minime, pneumothorax très mal toléré.",
+        "plaie_thoracique/e1_aggrav/gds": "Sous O2 : **pH 7,18** · **PaO2 46 mmHg** · **PaCO2 70 mmHg** · **HCO3⁻ 30 mmol/L** (BPCO hypercapnique) : épuisement respiratoire."
       }
     },
     {
@@ -262,13 +270,19 @@
         "ett": "**Rétrécissement aortique serré** : surface 0,7 cm², gradient moyen 50 mmHg. FEVG 60 %.",
         "ep_haut_risque/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. VG petit, FEVG conservée. **VCI 24 mm, non compliante**.",
         "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu.",
-        "bav_complet_degeneratif/ett": "**Rétrécissement aortique serré** (surface 0,7 cm², gradient moyen 50 mmHg), valve très calcifiée, calcifications de l'anneau mitral. FEVG 60 %. VCI de 17 mm, compliante. La bradycardie est très mal tolérée sur ce débit fixe."
+        "bav_complet_degeneratif/ett": "**Rétrécissement aortique serré** (surface 0,7 cm², gradient moyen 50 mmHg), valve très calcifiée, calcifications de l'anneau mitral. FEVG 60 %. VCI de 17 mm, compliante. La bradycardie est très mal tolérée sur ce débit fixe.",
+        "plaie_thoracique/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²), FEVG 60 %. **Lame d'épanchement péricardique de 5 mm**, sans collapsus des cavités droites. **VCI dilatée**.",
+        "plaie_thoracique/e2/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. **Rétrécissement aortique serré** connu : débit fixe, très mauvaise tolérance de la tamponnade. **VCI dilatée (24 mm), sans variation respiratoire**.",
+        "plaie_thoracique/e2_aggrav/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. **Rétrécissement aortique serré** connu : débit fixe, très mauvaise tolérance de la tamponnade. **VCI dilatée (24 mm), sans variation respiratoire**."
       },
       "schemas": {
         "ett": { "type": "ett", "ra": true, "vci": false },
         "ep_haut_risque/ett": { "type": "ett", "ra": true, "vg": "petit", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
         "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false },
-        "bav_complet_degeneratif/ett": { "type": "ett", "ra": true, "vci": "normale" }
+        "bav_complet_degeneratif/ett": { "type": "ett", "ra": true, "vci": "normale" },
+        "plaie_thoracique/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" },
+        "plaie_thoracique/e2/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" },
+        "plaie_thoracique/e2_aggrav/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" }
       },
       "tags": ["rétrécissement aortique", "induction"]
     },
@@ -361,7 +375,14 @@
           "why": "Obésité : en décubitus, la capacité résiduelle fonctionnelle s'effondre. Position semi-assise (≥ 30°) pour la ventilation spontanée comme au masque."
         }
       ],
-      "tags": ["obésité", "préoxygénation"]
+      "tags": ["obésité", "préoxygénation"],
+      "ci": [
+        {
+          "id": "ind_preox_vni",
+          "dans": ["plaie_thoracique"],
+          "why": "Plaie thoracique avec pneumothorax : la VNI est contre-indiquée tant que le pneumothorax n'est pas drainé (conférence de consensus SFAR-SPLF-SRLF 2006). Aucune intubation n'est à préparer au déchoc : elle se fera au bloc."
+        }
+      ]
     },
     {
       "id": "allergie_latex",
@@ -380,6 +401,12 @@
           "dans": ["induction"],
           "complication": "anaphylaxie",
           "why": "Allergie au latex connue : sans environnement sans latex, l'exposition peropératoire (gants, matériel) déclenche l'anaphylaxie (SFAR/SFA 2011)."
+        },
+        {
+          "id": "salle_sans_latex",
+          "dans": ["plaie_thoracique/e2"],
+          "complication": "anaphylaxie",
+          "why": "Allergie au latex connue : prévenir le bloc avant le départ pour une salle, des gants et des sondes sans latex. Sans cela, l'exposition (gants, sondes, garrots) déclenche l'anaphylaxie chez un patient déjà en choc (SFAR/SFA 2011)."
         }
       ],
       "tags": ["anaphylaxie", "allergie", "latex"]
@@ -429,6 +456,11 @@
           "id": "cp",
           "dans": ["perop"],
           "why": "Hémorragie grave sous double antiagrégation : transfusion plaquettaire discutée, d'efficacité réduite sous ticagrélor circulant. Ne pas arrêter l'antiagrégation sans avis cardiologique."
+        },
+        {
+          "id": "cp",
+          "dans": ["plaie_thoracique"],
+          "why": "Plaie cardiaque sous double antiagrégation : transfusion plaquettaire discutée avant la chirurgie (guideline européen 2023), d'efficacité réduite sous ticagrélor circulant. Prévenir le chirurgien du risque hémorragique ; ne pas arrêter l'antiagrégation sans avis cardiologique."
         }
       ],
       "tags": ["antiagrégants", "stent"],
@@ -613,6 +645,11 @@
         {
           "id": "thiamine",
           "why": "Éthylisme chronique : thiamine IV avant tout apport glucosé, pour prévenir l'encéphalopathie de Gayet-Wernicke (EFNS 2010)."
+        },
+        {
+          "id": "fibrinogene",
+          "dans": ["plaie_thoracique/e2", "plaie_thoracique/e2_aggrav"],
+          "why": "Hémorragie chez le cirrhotique, fibrinogène < 1,5 g/L : concentré de fibrinogène avant la chirurgie (guideline européen 2023)."
         }
       ],
       "resultats": {
@@ -629,7 +666,15 @@
         "choc_septique_pna/tp_tca": "**TP 41 %** · **TCA 1,4** · fibrinogène 2,4 g/L.",
         "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**.",
         "etat_de_mal_epileptique/alcoolemie": "**Alcoolémie {0,3~0,8} g/L**.",
-        "acidocetose_diabetique/nfs": "**Leucocytes 16 G/L** · Hb 12,8 g/dL · **plaquettes {52~75} G/L** (hypersplénisme) · **VGM 104 fL**."
+        "acidocetose_diabetique/nfs": "**Leucocytes 16 G/L** · Hb 12,8 g/dL · **plaquettes {52~75} G/L** (hypersplénisme) · **VGM 104 fL**.",
+        "plaie_thoracique/nfs": "**Hb {10,8~11,6} g/dL** · **plaquettes {48~75} G/L** (hypersplénisme) · **VGM 104 fL**.",
+        "plaie_thoracique/e2/nfs": "**Hb {8,6~9,6} g/dL** · **plaquettes {40~60} G/L** (cirrhose).",
+        "plaie_thoracique/e2_aggrav/nfs": "**Hb {8,6~9,6} g/dL** · **plaquettes {40~60} G/L** (cirrhose).",
+        "plaie_thoracique/hemocue": "**Hb capillaire {10,8~11,6} g/dL** (anémie de la cirrhose).",
+        "plaie_thoracique/e2/hemocue": "**Hb capillaire {8,6~9,6} g/dL**.",
+        "plaie_thoracique/e2_aggrav/hemocue": "**Hb capillaire {8,6~9,6} g/dL**.",
+        "plaie_thoracique/e2/tp_tca": "**TP {36~46} %** · **TCA 1,4** · **fibrinogène {1,0~1,3} g/L** (cirrhose et saignement).",
+        "plaie_thoracique/e2_aggrav/tp_tca": "**TP {36~46} %** · **TCA 1,4** · **fibrinogène {1,0~1,3} g/L** (cirrhose et saignement)."
       },
       "ci": [
         {
@@ -707,7 +752,20 @@
     },
     { "id": "tiotropium_olodaterol", "fiche": "Tiotropium + olodatérol inhalés" },
     { "id": "salbutamol_pa", "fiche": "Salbutamol inhalé à la demande" },
-    { "id": "apixaban", "fiche": "Apixaban 5 mg × 2/j" },
+    {
+      "id": "apixaban",
+      "fiche": "Apixaban 5 mg × 2/j",
+      "promeut": [
+        {
+          "id": "ccp",
+          "dans": ["plaie_thoracique"],
+          "why": "Hémorragie grave sous apixaban : andexanet alfa, ou à défaut CCP 25 à 50 UI/kg (guideline européen 2023). La vitamine K est inutile sous AOD."
+        }
+      ],
+      "resultats": {
+        "plaie_thoracique/tp_tca": "TP {64~76} % · TCA 1,1 · fibrinogène 2,6 g/L. Sous apixaban, un bilan standard peu modifié n'exclut pas un effet anticoagulant : demander l'activité anti-Xa spécifique."
+      }
+    },
     {
       "id": "warfarine",
       "fiche": "Warfarine (AVK), INR cible 2 à 3",
@@ -726,6 +784,11 @@
           "id": "ccp",
           "dans": ["etat_de_mal_epileptique/e3", "etat_de_mal_epileptique/e3_aggrav"],
           "why": "Hématome intracrânien sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008). Avis neurochirurgical ; un hématome sous-dural < 10 mm sans déviation > 5 mm n'est pas opéré d'emblée (BTF 2006)."
+        },
+        {
+          "id": "ccp",
+          "dans": ["plaie_thoracique"],
+          "why": "Plaie cardiaque sous AVK, chirurgie urgente : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008)."
         }
       ]
     },

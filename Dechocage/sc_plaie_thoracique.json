@@ -1,0 +1,919 @@
+{
+  "id": "plaie_thoracique",
+  "titre": "Plaie thoracique : pneumothorax compressif puis tamponnade",
+  "source": "ATLS 10e édition, 2018 ; ERC 2021, arrêt cardiaque traumatique ; CRASH-2, 2010 ; European guideline on management of major bleeding and coagulopathy following trauma, 6e édition, 2023",
+  "tags": [
+    "traumatologie",
+    "trauma",
+    "pneumothorax",
+    "tamponnade",
+    "choc obstructif",
+    "drainage"
+  ],
+  "patient": "Homme, 27 ans, 75 kg",
+  "terrains": {
+    "contexte": "dechoc",
+    "exclus": [
+      "estomac_plein",
+      "grand_age",
+      "iot_difficile"
+    ],
+    "identite": {
+      "sexe": [
+        "M"
+      ],
+      "age": [
+        18,
+        70
+      ],
+      "poids": [
+        60,
+        100
+      ]
+    }
+  },
+  "constantes": {
+    "FC": 134,
+    "PAS": 86,
+    "PAD": 60,
+    "SpO2": 83,
+    "FR": 36,
+    "T": 36.4,
+    "GCS": 14
+  },
+  "seuils": {
+    "PAS": 50,
+    "SpO2": 70
+  },
+  "resultats": {
+    "ecg": "Tachycardie sinusale, QRS fins, pas de trouble de la repolarisation.",
+    "gds": "Sous O2 : **pH 7,28** · **PaO2 56 mmHg** · **PaCO2 49 mmHg** · HCO3⁻ 22 mmol/L.",
+    "lactates": "**Lactates {3,2~4,4} mmol/L**.",
+    "hemocue": "Hb capillaire {13,0~14,2} g/dL (hémorragie récente : chiffre faussement rassurant).",
+    "nfs": "Hb {13,0~14,2} g/dL · plaquettes {210~260} G/L.",
+    "tp_tca": "TP 88 % · TCA 1,05 · fibrinogène 2,6 g/L.",
+    "groupe_rai": "Prélevés. Groupe O RhD positif, RAI négative.",
+    "iono": "Na 140 · K⁺ 3,9 mmol/L · créatinine 84 µmol/L.",
+    "glycemie": "Glycémie 1,32 g/L.",
+    "alcoolemie": "**Alcoolémie 1,1 g/L**.",
+    "efast": "**Glissement pleural aboli à gauche**, **point poumon** : pneumothorax gauche. **Lame d'épanchement péricardique de 5 mm**, sans collapsus des cavités droites. Pas d'épanchement péritonéal.",
+    "ett": "**Lame d'épanchement péricardique de 5 mm**, sans collapsus des cavités droites. VG hyperkinétique. **VCI dilatée**, peu compliante.",
+    "echo_pleuro": "**Glissement pleural aboli à gauche**, **point poumon** latéral. Glissement présent à droite, pas de lignes B.",
+    "rp": "**Pneumothorax gauche complet**, **médiastin refoulé vers la droite**.",
+    "tdm_body": "**Pneumothorax gauche**. **Hémopéricarde de 8 mm** en regard d'un trajet de plaie parasternal gauche. Pas de lésion abdominale.",
+    "angioscanner_thorax": "**Pneumothorax gauche**. **Hémopéricarde de 8 mm** en regard d'un trajet de plaie parasternal gauche. Pas de lésion des gros vaisseaux."
+  },
+  "schemas": {
+    "efast": {
+      "type": "efast",
+      "pneumothorax": [
+        "g"
+      ],
+      "epanchement": [
+        "pericarde"
+      ]
+    },
+    "ett": {
+      "type": "ett",
+      "vg": "hyperkinetique",
+      "pericarde": true,
+      "vci": "dilatee"
+    },
+    "echo_pleuro": {
+      "type": "echo_pleuro",
+      "glissement_absent": [
+        "g"
+      ]
+    },
+    "rp": {
+      "type": "rp",
+      "pneumothorax": [
+        "g"
+      ]
+    }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Accueil : plaie thoracique",
+      "vignette": "Agression à l'arme blanche il y a 20 minutes. Plaie de 2 cm parasternale gauche, au 4e espace intercostal. Agité, angoissé, en détresse respiratoire. Hémithorax gauche distendu, immobile, tympanique, murmure vésiculaire aboli à gauche. Trachée déviée vers la droite, jugulaires turgescentes, pouls radial filant.",
+      "chrono": 90,
+      "pente": {
+        "SpO2": -1.2,
+        "PAS": -0.8,
+        "FC": 0.5,
+        "GCS": -0.03
+      },
+      "diagnostic": [
+        "dx_pnx",
+        "dx_choc_obstructif"
+      ],
+      "actions": {
+        "exsufflation": {
+          "note": "indispensable",
+          "why": "Pneumothorax compressif : diagnostic clinique, décompression immédiate sans attendre l'imagerie. Aiguille ou thoracostomie au doigt au 4e-5e espace intercostal, en avant de la ligne axillaire moyenne chez l'adulte (ATLS 2018), puis drain thoracique.",
+          "effet": {
+            "SpO2": 8,
+            "PAS": 14,
+            "FC": -12,
+            "FR": -6
+          },
+          "pente": {
+            "SpO2": 0.1
+          }
+        },
+        "drain_thorax": {
+          "note": "recommande",
+          "why": "Le drain thoracique prend le relais de l'aiguille, qui se coude, se bouche ou se déplace (ATLS 2018). En premier geste, ses 10 minutes retardent la décompression : l'aiguille ou le doigt d'abord.",
+          "effet": {
+            "SpO2": 5,
+            "PAS": 8,
+            "FC": -6,
+            "FR": -4
+          },
+          "pente": {
+            "SpO2": 0.1
+          }
+        },
+        "o2_masque": {
+          "note": "indispensable",
+          "why": "Oxygène à haut débit chez tout traumatisé grave en détresse (ATLS 2018).",
+          "effet": {
+            "SpO2": 4
+          }
+        },
+        "vvp": {
+          "note": "indispensable",
+          "why": "Deux voies veineuses de gros calibre : plaie précordiale, hémorragie et tamponnade possibles."
+        },
+        "scope": {
+          "note": "recommande",
+          "why": "Monitorage continu : risque d'arrêt cardiaque."
+        },
+        "efast": {
+          "note": "recommande",
+          "why": "L'E-FAST confirme le pneumothorax et cherche un épanchement péricardique, attendu sur une plaie précordiale (ATLS 2018). Elle ne doit pas retarder la décompression."
+        },
+        "renfort": {
+          "note": "recommande",
+          "why": "Plaie précordiale : prévenir d'emblée le senior, le chirurgien thoracique et le bloc."
+        },
+        "exacyl": {
+          "note": "recommande",
+          "why": "Traumatisé qui saigne ou risque de saigner : acide tranexamique 1 g en 10 min puis 1 g sur 8 h, dans les 3 premières heures (CRASH-2 2010 ; guideline européen 2023)."
+        },
+        "remp_cristal": {
+          "note": "recommande",
+          "alt": "remplissage",
+          "why": "Remplissage limité par cristalloïde balancé, en visant une PAS de 80 à 90 mmHg (hypotension permissive sans traumatisme crânien, guideline européen 2023).",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "remp_nacl": {
+          "note": "debattu",
+          "alt": "remplissage",
+          "why": "Les solutés balancés sont préférés ; le NaCl 0,9 % en grand volume aggrave l'acidose.",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "groupe_rai": {
+          "note": "recommande",
+          "why": "Groupage et RAI dès l'arrivée : transfusion probable."
+        },
+        "nfs": {
+          "note": "recommande",
+          "why": "Hémoglobine et plaquettes de référence."
+        },
+        "tp_tca": {
+          "note": "recommande",
+          "why": "Dépister une coagulopathie traumatique ou un traitement anticoagulant."
+        },
+        "lactates": {
+          "note": "recommande",
+          "why": "Gravité de l'état de choc."
+        },
+        "gds": {
+          "note": "debattu",
+          "why": "Utile, mais ne doit pas retarder la décompression."
+        },
+        "hemocue": {
+          "note": "debattu",
+          "why": "Hémoglobine rapide, normale au début d'une hémorragie : elle ne rassure pas."
+        },
+        "ecg": {
+          "note": "debattu",
+          "why": "Peu contributif à ce stade ; ne retarde pas la décompression."
+        },
+        "rp": {
+          "note": "debattu",
+          "why": "Le pneumothorax compressif est un diagnostic clinique : la radio ne doit pas retarder la décompression (ATLS 2018)."
+        },
+        "echo_pleuro": {
+          "note": "debattu",
+          "why": "Redondante avec l'E-FAST, qui explore aussi le péricarde."
+        },
+        "ett": {
+          "note": "debattu",
+          "why": "Une ETT complète n'est pas le moment ; la fenêtre péricardique de l'E-FAST suffit."
+        },
+        "io": {
+          "note": "debattu",
+          "why": "Seulement si les voies veineuses périphériques échouent."
+        },
+        "cgr_od": {
+          "note": "debattu",
+          "why": "Le choc est d'abord obstructif ; la transfusion s'impose si l'hypotension persiste après la décompression.",
+          "effet": {
+            "PAS": 8,
+            "FC": -4
+          }
+        },
+        "ketamine_analg": {
+          "note": "debattu",
+          "why": "Analgésie utile, après la décompression ; la kétamine à faible dose respecte l'hémodynamique."
+        },
+        "morphine_titr": {
+          "note": "inutile",
+          "why": "Choc non contrôlé : la morphine aggrave l'hypotension."
+        },
+        "noradre": {
+          "note": "inutile",
+          "why": "Choc obstructif : seul le geste de décompression le lève ; un vasopresseur masque l'urgence.",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "pericardiocentese": {
+          "note": "inutile",
+          "why": "Pas de tamponnade à ce stade : lame de 5 mm sans compression des cavités droites."
+        },
+        "vni": {
+          "note": "contre_indique",
+          "why": "Pneumothorax non drainé : contre-indication de la VNI (conférence de consensus SFAR-SPLF-SRLF 2006). La pression positive aggrave la tension.",
+          "effet": {
+            "SpO2": -4,
+            "PAS": -8
+          }
+        },
+        "ventil_masque": {
+          "note": "contre_indique",
+          "why": "Ventilation en pression positive sur un pneumothorax non drainé : elle aggrave la tension.",
+          "effet": {
+            "SpO2": -3,
+            "PAS": -8
+          }
+        },
+        "hes": {
+          "note": "contre_indique",
+          "why": "Colloïdes de synthèse à éviter chez le traumatisé qui saigne : ils aggravent la coagulopathie (guideline européen 2023).",
+          "effet": {
+            "PAS": 5
+          }
+        },
+        "tdm_body": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "angioscanner_thorax": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "iot_fibro_vigile": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          [
+            "exsufflation",
+            "drain_thorax"
+          ]
+        ],
+        "issue": "acr",
+        "why": "Pneumothorax compressif jamais décomprimé : retour veineux effondré, arrêt en AESP (ATLS 2018 ; ERC 2021)."
+      },
+      "acr": {
+        "rythme": "AESP (pneumothorax compressif)",
+        "requis": [
+          "mce",
+          "exsufflation"
+        ],
+        "why": "Arrêt traumatique (ERC 2021) : traiter les causes réversibles en même temps que le massage. Ici, décomprimer le thorax (aiguille ou thoracostomie au doigt). Après le RACS, poser le drain.",
+        "apres_racs": {
+          "FC": 124,
+          "PAS": 88,
+          "PAD": 58,
+          "SpO2": 90
+        }
+      },
+      "suite": [
+        {
+          "si_manque": [
+            "drain_thorax"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "vers": "e2"
+        }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Récidive du pneumothorax compressif",
+      "vignette": "Quelques minutes après l'exsufflation, nouvelle désaturation : le cathéter s'est coudé, l'hémithorax gauche se distend de nouveau. Aucun drain n'est en place. Le patient s'épuise.",
+      "chrono": 90,
+      "constantes": {
+        "SpO2": 80,
+        "PAS": 80,
+        "PAD": 58,
+        "FC": 138,
+        "FR": 38
+      },
+      "pente": {
+        "SpO2": -1,
+        "PAS": -2.2,
+        "FC": 0.6,
+        "GCS": -0.05
+      },
+      "diagnostic": [
+        "dx_pnx",
+        "dx_choc_obstructif"
+      ],
+      "actions": {
+        "drain_thorax": {
+          "note": "indispensable",
+          "why": "Après une exsufflation, le cathéter se coude, se bouche ou se déplace : seul le drain thoracique traite durablement (ATLS 2018).",
+          "effet": {
+            "SpO2": 8,
+            "PAS": 12,
+            "FC": -8,
+            "FR": -6
+          },
+          "pente": {
+            "SpO2": 0.1
+          }
+        },
+        "exsufflation": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Re-décomprimer tout de suite (aiguille ou thoracostomie au doigt) pendant la préparation du drain.",
+          "effet": {
+            "SpO2": 6,
+            "PAS": 10,
+            "FC": -6
+          }
+        },
+        "o2_masque": {
+          "note": "recommande",
+          "why": "Oxygène à haut débit.",
+          "effet": {
+            "SpO2": 4
+          }
+        },
+        "renfort": {
+          "note": "recommande",
+          "why": "Appeler de l'aide : drain et chirurgien thoracique."
+        },
+        "vni": {
+          "note": "contre_indique",
+          "why": "Pneumothorax non drainé : contre-indication de la VNI (conférence de consensus SFAR-SPLF-SRLF 2006). La pression positive aggrave la tension.",
+          "effet": {
+            "SpO2": -4,
+            "PAS": -8
+          }
+        },
+        "tdm_body": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "angioscanner_thorax": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        },
+        "iot_fibro_vigile": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Pneumothorax compressif : la ventilation en pression positive aggrave la tension et l'induction supprime la vasoconstriction compensatrice. Arrêt cardiaque en quelques minutes. Décomprimer d'abord (ATLS 2018) ; le patient parle, ses voies aériennes sont libres."
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          "drain_thorax"
+        ],
+        "issue": "acr",
+        "why": "Pneumothorax compressif récidivant sans drain : arrêt en AESP."
+      },
+      "acr": {
+        "rythme": "AESP (pneumothorax compressif)",
+        "requis": [
+          "mce",
+          "exsufflation"
+        ],
+        "why": "Arrêt traumatique (ERC 2021) : traiter les causes réversibles en même temps que le massage. Ici, décomprimer le thorax (aiguille ou thoracostomie au doigt). Après le RACS, poser le drain.",
+        "apres_racs": {
+          "FC": 124,
+          "PAS": 88,
+          "PAD": 58,
+          "SpO2": 90
+        }
+      },
+      "suite": [
+        {
+          "vers": "e2"
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "titre": "Choc persistant après le drainage",
+      "vignette": "Le poumon gauche est réexpansé et la SpO2 remonte, mais le choc s'aggrave : pression artérielle pincée, jugulaires toujours turgescentes, bruits du cœur assourdis. Le drain a ramené 250 mL de sang, puis plus rien.",
+      "chrono": 90,
+      "constantes": {
+        "FC": 128,
+        "PAS": 80,
+        "PAD": 64,
+        "FR": 28,
+        "GCS": 13
+      },
+      "pente": {
+        "PAS": -2.2,
+        "FC": 0.6,
+        "GCS": -0.05
+      },
+      "diagnostic": [
+        "dx_tamponnade",
+        "dx_choc_obstructif"
+      ],
+      "actions": {
+        "efast": {
+          "note": "indispensable",
+          "alt": "echo",
+          "refaire": true,
+          "why": "Choc persistant après décompression d'une plaie précordiale : refaire l'E-FAST. La fenêtre sous-xiphoïdienne montre l'épanchement péricardique (ATLS 2018)."
+        },
+        "ett": {
+          "note": "indispensable",
+          "alt": "echo",
+          "refaire": true,
+          "why": "L'échographie cardiaque au lit montre l'épanchement et le collapsus diastolique des cavités droites."
+        },
+        "bloc": {
+          "note": "indispensable",
+          "why": "Plaie cardiaque avec tamponnade : sternotomie ou thoracotomie au bloc en urgence, seul traitement définitif (ATLS 2018). Partir même instable : le geste est le traitement.",
+          "pente": {
+            "PAS": 0.5,
+            "FC": -0.6,
+            "GCS": 0.03
+          }
+        },
+        "remp_cristal": {
+          "note": "recommande",
+          "alt": "remplissage",
+          "why": "La tamponnade dépend de la précharge : un remplissage limité soutient la pression en attendant le bloc.",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "remp_nacl": {
+          "note": "debattu",
+          "alt": "remplissage",
+          "why": "Les solutés balancés sont préférés au NaCl 0,9 %.",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "cgr_od": {
+          "note": "recommande",
+          "why": "Plaie cardiaque et hémothorax : CGR O en urgence vitale immédiate si le choc persiste (guideline européen 2023).",
+          "effet": {
+            "PAS": 8,
+            "FC": -4
+          }
+        },
+        "lactates": {
+          "note": "recommande",
+          "why": "Suivre l'hypoperfusion."
+        },
+        "renfort": {
+          "note": "recommande",
+          "why": "Chirurgien cardiothoracique et anesthésiste senior : l'induction se fera au bloc, chirurgien prêt."
+        },
+        "pericardiocentese": {
+          "note": "debattu",
+          "why": "Geste d'attente seulement si la chirurgie n'est pas immédiatement disponible : souvent inefficace sur du sang coagulé, il ne doit pas retarder le bloc (ATLS 2018).",
+          "effet": {
+            "PAS": 12,
+            "PAD": 4,
+            "FC": -8
+          }
+        },
+        "ptm": {
+          "note": "debattu",
+          "why": "À déclencher si le saignement devient massif (drain > 1 500 mL d'emblée ou > 200 mL/h : indication de thoracotomie, ATLS 2018)."
+        },
+        "noradre": {
+          "note": "debattu",
+          "why": "Peut aider à tenir la pression en attendant le bloc, sans lever l'obstacle.",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "ecg": {
+          "note": "debattu",
+          "why": "Peu contributif dans la tamponnade aiguë traumatique ; ne retarde pas le bloc."
+        },
+        "gds": {
+          "note": "debattu",
+          "why": "Acidose métabolique du choc ; ne retarde pas le bloc."
+        },
+        "kta": {
+          "note": "inutile",
+          "why": "Dix minutes perdues : le cathéter artériel sera posé au bloc."
+        },
+        "ktc": {
+          "note": "inutile",
+          "why": "Quinze minutes perdues : deux VVP de gros calibre suffisent pour partir au bloc."
+        },
+        "vni": {
+          "note": "contre_indique",
+          "why": "Pression positive sur une tamponnade : elle effondre le retour veineux.",
+          "effet": {
+            "PAS": -10
+          }
+        },
+        "ventil_masque": {
+          "note": "contre_indique",
+          "why": "Pression positive sur une tamponnade : elle effondre le retour veineux.",
+          "effet": {
+            "PAS": -8
+          }
+        },
+        "hes": {
+          "note": "contre_indique",
+          "why": "Colloïdes de synthèse à éviter chez le traumatisé qui saigne (guideline européen 2023).",
+          "effet": {
+            "PAS": 5
+          }
+        },
+        "tdm_body": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "angioscanner_thorax": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "iot_fibro_vigile": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        }
+      },
+      "resultats": {
+        "efast": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'oreillette et du ventricule droits**. Poumon gauche à la paroi, drain en place. Pas d'épanchement péritonéal.",
+        "ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG petit, hyperkinétique. **VCI dilatée (24 mm), sans variation respiratoire**.",
+        "echo_pleuro": "Glissement pleural retrouvé à gauche, drain en place. Pas d'épanchement pleural significatif.",
+        "rp": "Poumon gauche réexpansé, drain en place. Silhouette cardiaque normale : un épanchement aigu de faible volume suffit à comprimer le cœur.",
+        "gds": "Sous O2 : **pH 7,24** · PaO2 92 mmHg · PaCO2 36 mmHg · **HCO3⁻ 15 mmol/L** · **déficit de base −10**.",
+        "lactates": "**Lactates {5,0~6,4} mmol/L**.",
+        "hemocue": "**Hb capillaire {10,4~11,4} g/dL**.",
+        "nfs": "**Hb {10,2~11,2} g/dL** · plaquettes {180~230} G/L.",
+        "ecg": "Tachycardie sinusale, QRS fins, **microvoltage relatif**. L'ECG est peu contributif dans la tamponnade aiguë traumatique."
+      },
+      "schemas": {
+        "efast": {
+          "type": "efast",
+          "epanchement": [
+            "pericarde"
+          ]
+        },
+        "ett": {
+          "type": "ett",
+          "vg": "hyperkinetique",
+          "pericarde": true,
+          "vci": "dilatee"
+        },
+        "echo_pleuro": {
+          "type": "echo_pleuro"
+        },
+        "rp": {
+          "type": "rp"
+        }
+      },
+      "acr": {
+        "rythme": "AESP (tamponnade)",
+        "requis": [
+          "thoracotomie_sauvetage",
+          [
+            "cgr_od",
+            "remp_cristal"
+          ]
+        ],
+        "why": "Arrêt traumatique sur plaie pénétrante avec tamponnade (ERC 2021) : thoracotomie de ressuscitation pour lever la tamponnade et contrôler la plaie cardiaque, et restauration de la volémie. Le massage externe est peu efficace sur un cœur comprimé ; l'adrénaline passe au second plan.",
+        "apres_racs": {
+          "FC": 122,
+          "PAS": 84,
+          "PAD": 56,
+          "SpO2": 92
+        }
+      },
+      "suite": [
+        {
+          "si_manque": [
+            "bloc"
+          ],
+          "vers": "e2_aggrav"
+        },
+        {
+          "vers": "fin"
+        }
+      ]
+    },
+    {
+      "id": "e2_aggrav",
+      "titre": "Tamponnade décompensée",
+      "vignette": "Le patient devient gris et somnolent. Pouls radial imperceptible, jugulaires distendues. L'arrêt est imminent.",
+      "chrono": 60,
+      "constantes": {
+        "FC": 142,
+        "PAS": 66,
+        "PAD": 52,
+        "GCS": 10
+      },
+      "pente": {
+        "PAS": -1.8,
+        "FC": 0.5,
+        "GCS": -0.1
+      },
+      "diagnostic": [
+        "dx_tamponnade",
+        "dx_choc_obstructif"
+      ],
+      "actions": {
+        "bloc": {
+          "note": "indispensable",
+          "why": "Tamponnade traumatique : le bloc, maintenant, même instable (ATLS 2018).",
+          "pente": {
+            "PAS": 0.5,
+            "FC": -0.6,
+            "GCS": 0.03
+          }
+        },
+        "pericardiocentese": {
+          "note": "recommande",
+          "why": "Patient in extremis, bloc pas encore prêt : la ponction péricardique peut faire gagner quelques minutes. Elle ne remplace pas la chirurgie (ATLS 2018).",
+          "effet": {
+            "PAS": 14,
+            "PAD": 6,
+            "FC": -8
+          }
+        },
+        "cgr_od": {
+          "note": "recommande",
+          "why": "CGR O en urgence vitale pour soutenir la précharge.",
+          "effet": {
+            "PAS": 8,
+            "FC": -4
+          }
+        },
+        "remp_cristal": {
+          "note": "recommande",
+          "why": "Remplissage pour soutenir la précharge en attendant le bloc.",
+          "effet": {
+            "PAS": 6
+          }
+        },
+        "renfort": {
+          "note": "recommande",
+          "why": "Chirurgien et équipe prêts à une thoracotomie de ressuscitation."
+        },
+        "tdm_body": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "angioscanner_thorax": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Patient instable sur une plaie thoracique : pas de transfert au scanner. Le diagnostic se fait au lit (clinique, E-FAST) et le traitement au déchoc ou au bloc (ATLS 2018)."
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "iot_fibro_vigile": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        }
+      },
+      "resultats": {
+        "efast": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'oreillette et du ventricule droits**. Poumon gauche à la paroi, drain en place. Pas d'épanchement péritonéal.",
+        "ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG petit, hyperkinétique. **VCI dilatée (24 mm), sans variation respiratoire**.",
+        "echo_pleuro": "Glissement pleural retrouvé à gauche, drain en place. Pas d'épanchement pleural significatif.",
+        "rp": "Poumon gauche réexpansé, drain en place. Silhouette cardiaque normale : un épanchement aigu de faible volume suffit à comprimer le cœur.",
+        "gds": "Sous O2 : **pH 7,24** · PaO2 92 mmHg · PaCO2 36 mmHg · **HCO3⁻ 15 mmol/L** · **déficit de base −10**.",
+        "lactates": "**Lactates {5,0~6,4} mmol/L**.",
+        "hemocue": "**Hb capillaire {10,4~11,4} g/dL**.",
+        "nfs": "**Hb {10,2~11,2} g/dL** · plaquettes {180~230} G/L.",
+        "ecg": "Tachycardie sinusale, QRS fins, **microvoltage relatif**. L'ECG est peu contributif dans la tamponnade aiguë traumatique."
+      },
+      "schemas": {
+        "efast": {
+          "type": "efast",
+          "epanchement": [
+            "pericarde"
+          ]
+        },
+        "ett": {
+          "type": "ett",
+          "vg": "hyperkinetique",
+          "pericarde": true,
+          "vci": "dilatee"
+        },
+        "echo_pleuro": {
+          "type": "echo_pleuro"
+        },
+        "rp": {
+          "type": "rp"
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          "bloc"
+        ],
+        "issue": "acr",
+        "why": "Tamponnade traumatique sans chirurgie : arrêt en AESP."
+      },
+      "acr": {
+        "rythme": "AESP (tamponnade)",
+        "requis": [
+          "thoracotomie_sauvetage",
+          [
+            "cgr_od",
+            "remp_cristal"
+          ]
+        ],
+        "why": "Arrêt traumatique sur plaie pénétrante avec tamponnade (ERC 2021) : thoracotomie de ressuscitation pour lever la tamponnade et contrôler la plaie cardiaque, et restauration de la volémie. Le massage externe est peu efficace sur un cœur comprimé ; l'adrénaline passe au second plan.",
+        "apres_racs": {
+          "FC": 122,
+          "PAS": 84,
+          "PAD": 56,
+          "SpO2": 92
+        }
+      },
+      "suite": [
+        {
+          "vers": "fin"
+        }
+      ]
+    }
+  ]
+}
