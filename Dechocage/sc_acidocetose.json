@@ -1,0 +1,764 @@
+{
+  "id": "acidocetose_diabetique",
+  "titre": "Acidocétose diabétique sévère",
+  "source": "Consensus ADA-EASD-JBDS-AACE-DTS 2024, crises hyperglycémiques de l'adulte (Umpierrez et al., Diabetes Care 2024) ; ERC 2021, arrêt cardiaque en circonstances particulières",
+  "tags": [
+    "acidocétose",
+    "diabète",
+    "insuline",
+    "potassium",
+    "hypokaliémie"
+  ],
+  "patient": "Femme, 21 ans, 54 kg",
+  "terrains": {
+    "contexte": "dechoc",
+    "exclus": [
+      "estomac_plein",
+      "diabete",
+      "grand_age",
+      "ra_serre",
+      "fa_anticoagulee",
+      "bpco",
+      "coronarien",
+      "double_antiagregation"
+    ],
+    "identite": {
+      "sexe": [
+        "F"
+      ],
+      "age": [
+        28,
+        50
+      ],
+      "poids": [
+        45,
+        80
+      ]
+    },
+    "gravite": {
+      "difficile": {
+        "pente": 1.2,
+        "constantes": {
+          "PAS": -6
+        }
+      }
+    }
+  },
+  "constantes": {
+    "FC": 126,
+    "PAS": 94,
+    "PAD": 56,
+    "SpO2": 98,
+    "FR": 30,
+    "T": 37.4,
+    "GCS": 14
+  },
+  "seuils": {
+    "PAS": 50,
+    "SpO2": 70
+  },
+  "resultats": {
+    "scope": "Tachycardie sinusale régulière.",
+    "ecg": "Tachycardie sinusale à 126/min. **Ondes T amples et pointues** en précordiales, QRS fins, PR normal.",
+    "gds": "**pH 7,09** · **PaCO2 17 mmHg** · **HCO3⁻ 5 mmol/L** · PaO2 104 mmHg en air ambiant · **K⁺ 5,6 mmol/L**.",
+    "iono": "Na 131 mmol/L (natrémie corrigée 137) · **K⁺ 5,7 mmol/L** · Cl⁻ 98 mmol/L · **HCO3⁻ 5 mmol/L** · **trou anionique 28 mmol/L** · **urée 11 mmol/L** · **créatinine 128 µmol/L**.",
+    "glycemie": "**Glycémie 4,9 g/L** (27 mmol/L).",
+    "cetonemie": "**β-hydroxybutyrate 6,1 mmol/L**.",
+    "bhcg": "βHCG négatifs.",
+    "lactates": "**Lactates {2,2~3,0} mmol/L**.",
+    "nfs": "**Leucocytes 17 G/L** · **Hb 15,6 g/dL** (hémoconcentration) · plaquettes 310 G/L.",
+    "bilan_hep": "**Lipase 2 × N** · transaminases et bilirubine normales.",
+    "troponine": "Troponine négative.",
+    "hemoc": "Prélevées. Résultats dans 24 à 48 h.",
+    "ecbu": "Bandelette : **glycosurie et cétonurie massives**, pas de leucocytes ni de nitrites.",
+    "sonde_u": "**Polyurie** : 300 mL d'urines claires à la pose, **glycosurie et cétonurie massives**.",
+    "ett": "VG hyperkinétique, FEVG 70 %. **VCI de 8 mm, collabée** à l'inspiration.",
+    "rp": "Pas de foyer, pas d'épanchement."
+  },
+  "schemas": {
+    "ett": {
+      "type": "ett",
+      "vg": "hyperkinetique",
+      "vci": "collabee"
+    },
+    "rp": {
+      "type": "rp"
+    }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Accueil au déchocage",
+      "vignette": "Diabète de type 1 depuis l'enfance, sous insuline basale et rapide. Gastro-entérite depuis 2 jours : vomissements, ne mange plus, a arrêté son insuline. Adressée pour malaise. Somnolente, muqueuses sèches, respiration ample et rapide, haleine à l'odeur de pomme, douleurs abdominales diffuses.",
+      "chrono": 120,
+      "pente": {
+        "PAS": -0.9,
+        "FC": 0.6,
+        "GCS": -0.03,
+        "FR": 0.1
+      },
+      "diagnostic": [
+        "dx_acidocetose"
+      ],
+      "actions": {
+        "scope": {
+          "note": "recommande",
+          "why": "Monitorage ECG continu : la kaliémie va varier vite sous insuline."
+        },
+        "vvp": {
+          "note": "indispensable",
+          "why": "Deux voies veineuses : solutés, insuline IVSE, puis potassium et glucosé."
+        },
+        "remp_cristal": {
+          "note": "indispensable",
+          "alt": "remplissage",
+          "why": "Cristalloïde isotonique, 500 à 1 000 mL/h les premières heures, réévalué (consensus ADA-EASD-JBDS 2024). Le déficit hydrique de l'acidocétose (diurèse osmotique, vomissements) dépasse souvent 5 litres. Les solutés balancés limitent l'acidose hyperchlorémique et pourraient raccourcir l'acidocétose.",
+          "effet": {
+            "PAS": 10,
+            "FC": -6
+          },
+          "pente": {
+            "PAS": -0.2
+          }
+        },
+        "remp_nacl": {
+          "note": "indispensable",
+          "alt": "remplissage",
+          "why": "Cristalloïde isotonique, 500 à 1 000 mL/h les premières heures, réévalué (consensus ADA-EASD-JBDS 2024). Le déficit hydrique de l'acidocétose (diurèse osmotique, vomissements) dépasse souvent 5 litres. Le NaCl 0,9 % reste acceptable ; en grand volume, il ajoute une acidose hyperchlorémique qui retarde la remontée des bicarbonates.",
+          "effet": {
+            "PAS": 10,
+            "FC": -6
+          },
+          "pente": {
+            "PAS": -0.2
+          }
+        },
+        "albumine": {
+          "note": "inutile",
+          "why": "Aucune place dans l'acidocétose : la perte est hydrosodée, les cristalloïdes suffisent.",
+          "effet": {
+            "PAS": 8
+          }
+        },
+        "hes": {
+          "note": "contre_indique",
+          "why": "Hydroxyéthylamidons : plus d'insuffisance rénale aiguë, sans bénéfice (6S, CHEST). Aucune indication ici.",
+          "effet": {
+            "PAS": 8
+          }
+        },
+        "insuline_ivse": {
+          "note": "indispensable",
+          "why": "Insuline IV à débit fixe 0,1 UI/kg/h, le bolus n'est pas nécessaire. Kaliémie d'abord : l'insuline est différée si K⁺ < 3,5 mmol/L (arythmie). Elle se poursuit jusqu'à la résolution de la cétose, pas seulement de l'hyperglycémie (consensus 2024).",
+          "pente": {
+            "GCS": 0.03,
+            "FR": -0.2
+          }
+        },
+        "insuline_glucose": {
+          "note": "inutile",
+          "why": "Schéma de l'hyperkaliémie (bolus d'insuline + glucose) : sans objet. K⁺ 5,7 sans signe ECG grave ; l'insuline IVSE fera baisser la kaliémie, et le glucose aggrave l'hyperglycémie."
+        },
+        "iono": {
+          "note": "indispensable",
+          "why": "Kaliémie avant l'insuline, natrémie corrigée, trou anionique (> 12), créatinine (insuffisance rénale fonctionnelle)."
+        },
+        "gds": {
+          "note": "indispensable",
+          "why": "pH et bicarbonates définissent l'acidose et sa gravité (bicarbonates < 10 mmol/L : forme sévère). Un gaz veineux suffit au suivi (consensus 2024). Kaliémie en 2 minutes."
+        },
+        "cetonemie": {
+          "note": "indispensable",
+          "why": "β-hydroxybutyrate ≥ 3 mmol/L : critère diagnostique de l'acidocétose (consensus 2024), et repère de son suivi (baisse attendue ≥ 0,5 mmol/L/h)."
+        },
+        "glycemie": {
+          "note": "recommande",
+          "why": "Glycémie capillaire de départ, puis horaire sous insuline."
+        },
+        "bhcg": {
+          "note": "recommande",
+          "why": "Femme en âge de procréer : la grossesse favorise l'acidocétose (parfois à glycémie modérée) et change la prise en charge."
+        },
+        "ecg": {
+          "note": "recommande",
+          "why": "Retentissement de la kaliémie, et recherche d'un facteur déclenchant (infarctus silencieux du diabétique)."
+        },
+        "nfs": {
+          "note": "recommande",
+          "why": "Bilan initial. L'hyperleucocytose est fréquente dans l'acidocétose, même sans infection."
+        },
+        "lactates": {
+          "note": "debattu",
+          "why": "Souvent modérément élevés (hypovolémie) ; n'expliquent pas un trou anionique de cette taille."
+        },
+        "bilan_hep": {
+          "note": "debattu",
+          "why": "La lipase est souvent élevée dans l'acidocétose sans pancréatite ; utile si la douleur abdominale persiste après correction."
+        },
+        "troponine": {
+          "note": "debattu",
+          "why": "Facteur déclenchant à évoquer chez le diabétique ancien ; peu probable ici."
+        },
+        "hemoc": {
+          "note": "debattu",
+          "why": "À prélever s'il y a de la fièvre ou un foyer : l'infection est le premier facteur déclenchant. Ici, gastro-entérite et arrêt de l'insuline."
+        },
+        "ecbu": {
+          "note": "debattu",
+          "why": "Bandelette urinaire : recherche d'un foyer urinaire, facteur déclenchant fréquent."
+        },
+        "sonde_u": {
+          "note": "debattu",
+          "why": "Diurèse horaire utile, mais pas de sondage systématique chez une patiente consciente qui urine."
+        },
+        "sng": {
+          "note": "debattu",
+          "why": "Vomissements avec somnolence : la sonde gastrique limite le risque d'inhalation."
+        },
+        "ett": {
+          "note": "debattu",
+          "why": "Peut confirmer l'hypovolémie (VCI collabée) ; utile surtout chez le cardiaque."
+        },
+        "ktc": {
+          "note": "debattu",
+          "why": "Pas nécessaire d'emblée : les voies périphériques suffisent."
+        },
+        "kta": {
+          "note": "inutile",
+          "why": "Les contrôles répétés se font sur gaz veineux ; pas de vasopresseur ici."
+        },
+        "o2_masque": {
+          "note": "inutile",
+          "why": "SpO2 98 % : la polypnée compense l'acidose, ce n'est pas une hypoxémie."
+        },
+        "vni": {
+          "note": "inutile",
+          "why": "Pas d'insuffisance respiratoire : polypnée de compensation. Masque et vomissements exposent à l'inhalation."
+        },
+        "noradre": {
+          "note": "debattu",
+          "why": "Hypotension d'hypovolémie : le remplissage d'abord. Vasopresseur seulement si la pression reste basse après 1 à 2 litres.",
+          "effet": {
+            "PAS": 12
+          }
+        },
+        "kcl_iv": {
+          "note": "contre_indique",
+          "why": "K⁺ 5,7 mmol/L : pas de potassium tant que K⁺ > 5 mmol/L, contrôle toutes les 2 h. Il sera ajouté aux solutés dès qu'elle passe sous ce seuil, ce qui arrive vite sous insuline (consensus 2024)."
+        },
+        "glucose_iv": {
+          "note": "contre_indique",
+          "why": "Glycémie 4,9 g/L : le glucosé ne s'ajoute que quand la glycémie passe sous 2,5 g/L, en poursuivant l'insuline."
+        },
+        "furosemide": {
+          "note": "contre_indique",
+          "why": "Patiente déshydratée (diurèse osmotique, vomissements) : le diurétique aggrave l'hypovolémie.",
+          "effet": {
+            "PAS": -6
+          }
+        },
+        "bicar_mol": {
+          "note": "inutile",
+          "why": "pH 7,09 : pas de bicarbonate au-dessus de pH 7,0 (consensus 2024). Il expose à l'hypokaliémie sans bénéfice démontré."
+        },
+        "bicar_iso": {
+          "note": "inutile",
+          "why": "pH 7,09 : pas de bicarbonate au-dessus de pH 7,0 (consensus 2024). Il expose à l'hypokaliémie sans bénéfice démontré."
+        },
+        "arret_ttt": {
+          "note": "inutile",
+          "why": "Aucun médicament en cause : c'est l'arrêt de l'insuline qui a déclenché l'acidocétose. Même sans manger, l'insuline basale ne s'arrête jamais (règles des « jours de maladie »)."
+        },
+        "atb_c3g_amika": {
+          "note": "inutile",
+          "why": "Pas de foyer bactérien : gastro-entérite et arrêt de l'insuline expliquent le tableau. Chercher l'infection, sans antibiotique systématique."
+        },
+        "reanimation": {
+          "note": "recommande",
+          "why": "Acidocétose sévère (bicarbonates < 10, cétonémie > 6, tachycardie > 100) : surveillance continue en réanimation ou soins intensifs (JBDS)."
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation. En plus, la succinylcholine élève la kaliémie d'environ 0,5 mmol/L, déjà haute ici."
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation."
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation."
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation. En plus, la succinylcholine élève la kaliémie d'environ 0,5 mmol/L, déjà haute ici."
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation. En plus, la succinylcholine élève la kaliémie d'environ 0,5 mmol/L, déjà haute ici."
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation."
+        },
+        "iot_fibro_vigile": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation."
+        },
+        "videolaryngoscope": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Contre-indiquée : la polypnée de Kussmaul compense l'acidose (PaCO2 17 mmHg). Sous ventilation mécanique, la PaCO2 remonte et le pH s'effondre : arrêt cardiaque autour de l'induction. GCS 14 : aucune indication d'intubation."
+        }
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          [
+            "remp_cristal",
+            "remp_nacl"
+          ]
+        ],
+        "why": "AESP sur hypovolémie et acidose : massage, adrénaline, remplissage rapide et traitement des causes réversibles (ERC 2021).",
+        "apres_racs": {
+          "FC": 128,
+          "PAS": 84,
+          "PAD": 46,
+          "SpO2": 96
+        }
+      },
+      "suite": [
+        {
+          "si_manque": [
+            [
+              "remp_cristal",
+              "remp_nacl"
+            ]
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_manque": [
+            "insuline_ivse"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "vers": "e2"
+        }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Collapsus",
+      "vignette": "Vingt minutes plus tard : la patiente ne répond plus qu'à la douleur, marbrée, extrémités froides. La respiration reste ample et rapide. Elle vomit encore.",
+      "chrono": 90,
+      "constantes": {
+        "PAS": 70,
+        "PAD": 36,
+        "FC": 140,
+        "GCS": 11,
+        "FR": 34
+      },
+      "pente": {
+        "PAS": -1.5,
+        "FC": 0.8,
+        "GCS": -0.05
+      },
+      "diagnostic": [
+        "dx_acidocetose"
+      ],
+      "resultats": {
+        "gds": "**pH 6,94** · **PaCO2 14 mmHg** · **HCO3⁻ 3 mmol/L** · **K⁺ 6,0 mmol/L**.",
+        "iono": "Na 129 mmol/L · **K⁺ 6,0 mmol/L** · Cl⁻ 96 mmol/L · **HCO3⁻ 3 mmol/L** · **trou anionique 30 mmol/L** · **créatinine 165 µmol/L**.",
+        "glycemie": "**Glycémie 5,6 g/L**.",
+        "lactates": "**Lactates 4,8 mmol/L**."
+      },
+      "actions": {
+        "remp_cristal": {
+          "note": "indispensable",
+          "alt": "remplissage",
+          "why": "Collapsus hypovolémique : remplissage rapide par cristalloïde, réévalué après chaque bolus (consensus 2024).",
+          "effet": {
+            "PAS": 10,
+            "FC": -6
+          },
+          "pente": {
+            "PAS": -0.3
+          }
+        },
+        "remp_nacl": {
+          "note": "indispensable",
+          "alt": "remplissage",
+          "why": "Collapsus hypovolémique : remplissage rapide par cristalloïde, réévalué après chaque bolus (consensus 2024).",
+          "effet": {
+            "PAS": 10,
+            "FC": -6
+          },
+          "pente": {
+            "PAS": -0.3
+          }
+        },
+        "insuline_ivse": {
+          "note": "indispensable",
+          "why": "Sans insuline, la cétogenèse continue et l'acidose s'aggrave. Insuline IV 0,1 UI/kg/h dès la kaliémie connue (K⁺ ≥ 3,5).",
+          "pente": {
+            "GCS": 0.03,
+            "FR": -0.2
+          }
+        },
+        "noradre": {
+          "note": "recommande",
+          "why": "Pression qui reste basse malgré le remplissage : noradrénaline en complément, sans remplacer les solutés.",
+          "effet": {
+            "PAS": 14
+          }
+        },
+        "gds": {
+          "note": "recommande",
+          "why": "Mesurer l'aggravation de l'acidose et la kaliémie."
+        },
+        "iono": {
+          "note": "recommande",
+          "why": "Kaliémie avant l'insuline."
+        },
+        "bicar_mol": {
+          "note": "debattu",
+          "why": "pH < 7,0 : le bicarbonate peut se discuter (consensus 2024), en surveillant la kaliémie. Il ne remplace ni les solutés ni l'insuline."
+        },
+        "bicar_iso": {
+          "note": "debattu",
+          "why": "pH < 7,0 : le bicarbonate peut se discuter (consensus 2024), en surveillant la kaliémie. Il ne remplace ni les solutés ni l'insuline."
+        },
+        "sng": {
+          "note": "recommande",
+          "why": "Somnolence et vomissements : sonde gastrique contre l'inhalation."
+        },
+        "kcl_iv": {
+          "note": "contre_indique",
+          "why": "K⁺ 6,0 mmol/L : pas de potassium au-dessus de 5 mmol/L."
+        },
+        "furosemide": {
+          "note": "contre_indique",
+          "why": "Hypovolémie profonde : le diurétique l'aggrave.",
+          "effet": {
+            "PAS": -6
+          }
+        },
+        "reanimation": {
+          "note": "recommande",
+          "why": "Acidocétose sévère avec collapsus et troubles de conscience : réanimation."
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque. En plus, la succinylcholine élève la kaliémie d'environ 0,5 mmol/L, déjà haute ici."
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque."
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque."
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque. En plus, la succinylcholine élève la kaliémie d'environ 0,5 mmol/L, déjà haute ici."
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque. En plus, la succinylcholine élève la kaliémie d'environ 0,5 mmol/L, déjà haute ici."
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque."
+        },
+        "iot_fibro_vigile": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque."
+        },
+        "videolaryngoscope": {
+          "note": "contre_indique",
+          "letal": "acr",
+          "why": "Somnolence et vomissements : position latérale de sécurité et aspiration. C'est la correction de l'hypovolémie et de l'acidose qui restaure la conscience. Intuber supprime la compensation respiratoire d'une acidose majeure : arrêt cardiaque."
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          [
+            "remp_cristal",
+            "remp_nacl"
+          ],
+          "insuline_ivse"
+        ],
+        "issue": "acr",
+        "why": "Collapsus et acidose majeure (pH < 7,0) sans remplissage ou sans insuline : arrêt cardiaque."
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          [
+            "remp_cristal",
+            "remp_nacl"
+          ]
+        ],
+        "why": "AESP sur hypovolémie et acidose : massage, adrénaline, remplissage rapide (ERC 2021).",
+        "apres_racs": {
+          "FC": 128,
+          "PAS": 84,
+          "PAD": 46,
+          "SpO2": 96
+        }
+      },
+      "suite": [
+        {
+          "vers": "e2"
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "titre": "Contrôle à H+2",
+      "vignette": "Deux heures plus tard. Deux litres de cristalloïde sont passés, l'insuline IVSE tourne à 0,1 UI/kg/h. La patiente est mieux réveillée, la respiration se calme. L'infirmière demande : « On continue pareil ? »",
+      "chrono": 90,
+      "constantes": {
+        "FC": 104,
+        "FR": 22,
+        "GCS": 15
+      },
+      "pente": {
+        "FC": 0
+      },
+      "diagnostic": [
+        "dx_acidocetose"
+      ],
+      "resultats": {
+        "iono": "Na 138 mmol/L · K⁺ 3,8 mmol/L (sous insuline) · Cl⁻ 108 mmol/L · **HCO3⁻ 12 mmol/L** · **trou anionique 18 mmol/L** · créatinine 96 µmol/L.",
+        "gds": "**pH 7,25** · **PaCO2 28 mmHg** · **HCO3⁻ 12 mmol/L** · K⁺ 3,7 mmol/L.",
+        "glycemie": "**Glycémie 2,3 g/L** (12,8 mmol/L).",
+        "cetonemie": "**β-hydroxybutyrate 2,9 mmol/L**.",
+        "ecg": "Rythme sinusal à 104/min. **Ondes T aplaties**, QRS fins."
+      },
+      "actions": {
+        "iono": {
+          "note": "indispensable",
+          "refaire": true,
+          "why": "Kaliémie toutes les 1 à 2 h sous insuline : le potassium entre dans les cellules et le déficit, masqué à l'arrivée, apparaît."
+        },
+        "glycemie": {
+          "note": "indispensable",
+          "refaire": true,
+          "why": "Glycémie horaire sous insuline : elle fixe le moment d'ajouter le glucosé."
+        },
+        "cetonemie": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Suivi de la cétose : baisse attendue ≥ 0,5 mmol/L/h. Résolution : cétonémie < 0,6 mmol/L et pH ≥ 7,3 ou bicarbonates ≥ 18 mmol/L (consensus 2024)."
+        },
+        "gds": {
+          "note": "debattu",
+          "why": "Un pH veineux suffit au suivi."
+        },
+        "ecg": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Ondes T aplaties : premier signe ECG de l'hypokaliémie."
+        },
+        "kcl_iv": {
+          "note": "indispensable",
+          "refaire": true,
+          "why": "K⁺ 3,8 mmol/L sous insuline : potassium dans les solutés (20 à 30 mmol par litre) pour tenir la kaliémie entre 4 et 5 mmol/L (consensus 2024). Sous 3,5 mmol/L, potassium d'abord et insuline suspendue."
+        },
+        "glucose_iv": {
+          "note": "indispensable",
+          "why": "Glycémie < 2,5 g/L (13,9 mmol/L) : ajouter du glucosé à 5-10 % et poursuivre l'insuline jusqu'à la résolution de la cétose (consensus 2024). Arrêter l'insuline, c'est relancer l'acidocétose."
+        },
+        "remp_cristal": {
+          "note": "recommande",
+          "alt": "remplissage_e2",
+          "refaire": true,
+          "why": "Poursuivre les solutés à débit plus lent (250 à 500 mL/h), réévalués : le déficit n'est pas encore comblé.",
+          "effet": {
+            "PAS": 4
+          }
+        },
+        "remp_nacl": {
+          "note": "recommande",
+          "alt": "remplissage_e2",
+          "refaire": true,
+          "why": "Poursuivre les solutés à débit plus lent (250 à 500 mL/h), réévalués : le déficit n'est pas encore comblé.",
+          "effet": {
+            "PAS": 4
+          }
+        },
+        "reanimation": {
+          "note": "recommande",
+          "why": "Acidocétose sévère : surveillance continue en réanimation ou soins intensifs jusqu'à la résolution (JBDS)."
+        },
+        "bicar_mol": {
+          "note": "inutile",
+          "why": "pH 7,25 : aucune indication, et le bicarbonate aggrave l'hypokaliémie."
+        },
+        "bicar_iso": {
+          "note": "inutile",
+          "why": "pH 7,25 : aucune indication, et le bicarbonate aggrave l'hypokaliémie."
+        },
+        "furosemide": {
+          "note": "contre_indique",
+          "why": "Hypovolémie encore présente, et perte de potassium.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "insuline_glucose": {
+          "note": "contre_indique",
+          "why": "Un bolus d'insuline ferait chuter une kaliémie déjà à 3,8 mmol/L."
+        }
+      },
+      "acr": {
+        "rythme": "FV",
+        "ecg": "fv",
+        "requis": [
+          "mce",
+          "choc_ext",
+          "kcl_iv"
+        ],
+        "why": "FV sur dyskaliémie : chocs électriques, RCP, et correction du potassium (ERC 2021).",
+        "apres_racs": {
+          "FC": 110,
+          "PAS": 100,
+          "PAD": 58,
+          "SpO2": 96
+        }
+      },
+      "suite": [
+        {
+          "si_manque": [
+            "kcl_iv"
+          ],
+          "vers": "e2_aggrav"
+        },
+        {
+          "vers": "fin"
+        }
+      ]
+    },
+    {
+      "id": "e2_aggrav",
+      "titre": "Hypokaliémie",
+      "vignette": "Quarante minutes plus tard, la patiente se plaint de crampes et d'une faiblesse des jambes. Le scope montre des extrasystoles ventriculaires en doublets. L'insuline et les solutés passent toujours, sans potassium.",
+      "chrono": 75,
+      "constantes": {
+        "FC": 122,
+        "FR": 22
+      },
+      "pente": {
+        "FC": 0.5
+      },
+      "diagnostic": [
+        "dx_acidocetose"
+      ],
+      "resultats": {
+        "iono": "**K⁺ 2,6 mmol/L** · **Mg 0,55 mmol/L** · **HCO3⁻ 14 mmol/L** · Na 139 mmol/L.",
+        "gds": "**pH 7,28** · **HCO3⁻ 14 mmol/L** · **K⁺ 2,5 mmol/L**.",
+        "glycemie": "**Glycémie 2,1 g/L**.",
+        "ecg": "Rythme sinusal à 122/min. **Ondes U**, **sous-décalage du ST**, **QT(U) allongé**, **extrasystoles ventriculaires polymorphes en doublets**.",
+        "scope": "**Extrasystoles ventriculaires en doublets**."
+      },
+      "actions": {
+        "kcl_iv": {
+          "note": "indispensable",
+          "refaire": true,
+          "why": "K⁺ 2,6 mmol/L avec extrasystoles : potassium IV sous scope, jusqu'à 20 mmol/h, plus vite en cas d'arythmie menaçante (ERC 2021). Insuline suspendue tant que K⁺ < 3,5 mmol/L (consensus 2024)."
+        },
+        "mgso4": {
+          "note": "recommande",
+          "why": "Magnésium IV : l'hypomagnésémie, fréquente dans l'acidocétose, entretient l'hypokaliémie et les arythmies (ERC 2021)."
+        },
+        "ecg": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Ondes U, sous-décalage du ST, QT allongé : risque de torsade de pointes."
+        },
+        "iono": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Contrôle rapproché de la kaliémie pendant la recharge."
+        },
+        "ktc": {
+          "note": "debattu",
+          "why": "Voie centrale pour un potassium concentré ; ne doit pas retarder la correction par voie périphérique."
+        },
+        "amiodarone": {
+          "note": "inutile",
+          "why": "Les extrasystoles de l'hypokaliémie se traitent par le potassium et le magnésium ; l'amiodarone allonge encore le QT."
+        },
+        "reanimation": {
+          "note": "recommande",
+          "why": "Hypokaliémie menaçante sous insuline : réanimation, scope continu."
+        },
+        "insuline_glucose": {
+          "note": "contre_indique",
+          "why": "Un bolus d'insuline ferait encore chuter la kaliémie."
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          "kcl_iv"
+        ],
+        "etape": true,
+        "issue": "acr",
+        "why": "Hypokaliémie profonde non corrigée : torsade de pointes, puis fibrillation ventriculaire."
+      },
+      "acr": {
+        "rythme": "FV",
+        "ecg": "fv",
+        "requis": [
+          "mce",
+          "choc_ext",
+          "kcl_iv"
+        ],
+        "why": "FV sur hypokaliémie : chocs et RCP, potassium 2 mmol/min pendant 10 min puis 10 mmol en 5 à 10 min, et magnésium (ERC 2021).",
+        "apres_racs": {
+          "FC": 110,
+          "PAS": 100,
+          "PAD": 58,
+          "SpO2": 95
+        }
+      },
+      "suite": [
+        {
+          "vers": "fin"
+        }
+      ]
+    }
+  ]
+}
