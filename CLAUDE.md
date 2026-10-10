@@ -7,6 +7,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Recos/cartes_complementaires_a_creer.md` : liste des sujets restant à traiter. Cocher (`- [x]`) les sujets couverts par un nouveau lot.
 - `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
 - `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
+- `Dechocage/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json`.
 - `Dechocage/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Dechocage/peaufinage.md` : plan de peaufinage du mode Déchoc (interface, réalisme, illustrations), en attente.
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR

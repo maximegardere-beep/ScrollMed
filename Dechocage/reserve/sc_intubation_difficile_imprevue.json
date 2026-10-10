@@ -1,0 +1,666 @@
+{
+  "id": "intubation_difficile_imprevue",
+  "titre": "Intubation difficile imprévue après l'induction",
+  "source": "SFAR 2017 (RFE intubation difficile et extubation en anesthésie chez l'adulte) ; DAS 2015 (Frerk et al., Br J Anaesth) ; NAP5 2014 ; Langeron et al., Anesthesiology 2000",
+  "tags": [
+    "intubation difficile",
+    "VAD",
+    "CICO",
+    "induction",
+    "vidéolaryngoscope",
+    "cricothyroïdotomie"
+  ],
+  "patient": "Homme, 48 ans, 82 kg",
+  "terrains": {
+    "contexte": "induction",
+    "exclus": [
+      "iot_difficile",
+      "allergie_curares",
+      "allergie_latex"
+    ],
+    "identite": {
+      "sexe": [
+        "F",
+        "M"
+      ],
+      "age": [
+        30,
+        88
+      ],
+      "poids": [
+        55,
+        100
+      ]
+    },
+    "gravite": {
+      "facile": {
+        "pente": 0.85
+      },
+      "difficile": {
+        "pente": 1.25,
+        "constantes": {
+          "SpO2": -2
+        }
+      }
+    }
+  },
+  "constantes": {
+    "FC": 88,
+    "PAS": 122,
+    "PAD": 70,
+    "SpO2": 94,
+    "T": 36.5
+  },
+  "voies": [
+    "IV"
+  ],
+  "resultats": {
+    "scope": "Rythme sinusal régulier.",
+    "ecg": "Rythme sinusal, pas de trouble de la repolarisation.",
+    "tof": "**TOF 0, PTC 2** : bloc neuromusculaire profond (rocuronium injecté il y a quelques minutes).",
+    "gds": "FiO2 100 % : **pH {7,26~7,31}** · **PaCO2 {50~58} mmHg** (apnée) · **PaO2 {62~78} mmHg** · HCO3⁻ 24 mmol/L.",
+    "glycemie": "Glycémie 1,08 g/L.",
+    "rp": "Pas d'opacité, pas de pneumothorax, coupoles en place."
+  },
+  "schemas": {
+    "rp": {
+      "type": "rp"
+    }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Échec de la laryngoscopie directe",
+      "vignette": "Cholécystectomie par cœlioscopie, programmée. Consultation sans critère alarmant (Mallampati 2, ouverture de bouche correcte). Préoxygénation, puis induction : propofol, sufentanil, rocuronium. La ventilation au masque a été possible. À la laryngoscopie directe (lame Macintosh, tête en position amendée), seule l'épiglotte est visible (Cormack-Lehane 3) : la sonde ne passe pas. Tu retires la lame : le patient est en apnée et la SpO2 baisse.",
+      "chrono": 60,
+      "pente": {
+        "SpO2": -2.5,
+        "FC": 0.5
+      },
+      "diagnostic": [
+        "dx_intubation_difficile"
+      ],
+      "actions": {
+        "renfort": {
+          "note": "indispensable",
+          "why": "Appeler à l'aide dès le premier échec : un second opérateur expérimenté et le chariot d'intubation difficile (SFAR 2017, DAS 2015)."
+        },
+        "ventil_masque": {
+          "note": "indispensable",
+          "why": "La priorité est l'oxygénation, pas l'intubation : réoxygéner au masque (deux opérateurs, canule oropharyngée, FiO2 100 %) entre chaque tentative (SFAR 2017, DAS 2015).",
+          "effet": {
+            "SpO2": 6,
+            "FC": -2
+          }
+        },
+        "check_isr": {
+          "note": "recommande",
+          "why": "Chariot d'intubation difficile et aspiration à portée de main, plan B (dispositif supraglottique) et plan D (cricothyroïdotomie) annoncés à l'équipe (DAS 2015)."
+        },
+        "videolaryngoscope": {
+          "note": "recommande",
+          "why": "Après l'échec de la laryngoscopie directe, la tentative suivante doit changer quelque chose : le vidéolaryngoscope améliore la vue de la glotte (SFAR 2017, DAS 2015). Ici, glotte vue, sonde en place, capnographie franche.",
+          "effet": {
+            "SpO2": 12
+          }
+        },
+        "bougie": {
+          "note": "recommande",
+          "why": "Long mandrin béquillé : passe sous l'épiglotte quand la glotte est mal vue (Cormack 3), puis la sonde glisse dessus (DAS 2015)."
+        },
+        "tete_30": {
+          "note": "debattu",
+          "why": "Optimiser la position avant une nouvelle tentative : tête et cou en position amendée, rampe chez l'obèse (conduit auditif au niveau du sternum) (DAS 2015)."
+        },
+        "aspiration_pharyngee": {
+          "note": "debattu",
+          "why": "Aspiration prête : utile s'il y a des sécrétions, du sang ou une régurgitation dans le pharynx."
+        },
+        "sellick": {
+          "note": "debattu",
+          "why": "Pression cricoïdienne : à relâcher si elle gêne la laryngoscopie ou la ventilation au masque (DAS 2015)."
+        },
+        "ohd": {
+          "note": "debattu",
+          "why": "Oxygène nasal à haut débit pendant les tentatives (oxygénation apnéique) : allonge le temps d'apnée sans désaturation, à installer avant la tentative (DAS 2015).",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "ind_preox_vni": {
+          "note": "debattu",
+          "why": "Masque branché sur le respirateur, en pression positive avec PEP : une façon de ventiler au masque entre les tentatives. Le geste de base reste la ventilation au masque à deux mains avec canule.",
+          "effet": {
+            "SpO2": 4
+          }
+        },
+        "dsg": {
+          "note": "debattu",
+          "why": "Le dispositif supraglottique de 2e génération est le plan B : légitime si l'oxygénation se dégrade, mais une tentative au vidéolaryngoscope s'imposait d'abord (3 tentatives au plus) (DAS 2015).",
+          "effet": {
+            "SpO2": 8
+          }
+        },
+        "tof": {
+          "note": "debattu",
+          "why": "Profondeur du bloc : utile pour décider d'un réveil et doser le sugammadex, pas urgent tant que l'oxygénation est assurée."
+        },
+        "entretien": {
+          "note": "debattu",
+          "why": "Les tentatives prolongées exposent à la mémorisation peropératoire, plus fréquente lors des intubations difficiles (NAP5 2014) : réinjecter l'hypnotique si elles se prolongent.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "reveil_patient": {
+          "note": "debattu",
+          "why": "Le réveil est une option du plan B, une fois le dispositif supraglottique en place : ici, un vidéolaryngoscope n'a pas encore été essayé (DAS 2015)."
+        },
+        "idi_laryngoscopie_directe": {
+          "note": "inutile",
+          "why": "Refaire la même laryngoscopie directe sans rien changer ne donne pas une meilleure vue : chaque tentative ajoute œdème et saignement et mène vers la situation « ni intubation, ni oxygénation ». 3 tentatives au plus (DAS 2015).",
+          "effet": {
+            "SpO2": -4
+          }
+        },
+        "cricothyro": {
+          "note": "contre_indique",
+          "why": "L'oxygénation au masque est possible : l'abord trachéal n'est indiqué qu'en situation « ni intubation, ni oxygénation » (SFAR 2017, DAS 2015).",
+          "effet": {
+            "SpO2": 10
+          }
+        },
+        "sugammadex": {
+          "note": "inutile",
+          "why": "Ventilation possible et vidéolaryngoscope non essayé : pas d'indication à antagoniser maintenant. Le sugammadex ne garantit pas une ventilation spontanée efficace sous hypnotique et morphinique."
+        },
+        "ind_preox": {
+          "note": "inutile",
+          "why": "Patient curarisé, en apnée : un masque posé sans ventiler n'apporte presque pas d'oxygène. Il faut ventiler au masque.",
+          "effet": {
+            "SpO2": 1
+          }
+        },
+        "o2_masque": {
+          "note": "inutile",
+          "why": "Patient curarisé, en apnée : l'oxygène au masque sans ventilation ne réoxygène pas."
+        },
+        "neostigmine": {
+          "note": "inutile",
+          "why": "Bloc profond : la néostigmine est inefficace (SFAR 2018, curarisation)."
+        }
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique : RCP, adrénaline, et rétablir l'oxygénation (ERC 2021).",
+        "apres_racs": {
+          "FC": 110,
+          "PAS": 90,
+          "PAD": 50,
+          "SpO2": 88
+        }
+      },
+      "suite": [
+        {
+          "si_fait": [
+            "cricothyro"
+          ],
+          "vers": "fin"
+        },
+        {
+          "si_fait": [
+            "reveil_patient"
+          ],
+          "vers": "e3_reveil"
+        },
+        {
+          "si_fait": [
+            "videolaryngoscope"
+          ],
+          "si_manque": [
+            "dsg"
+          ],
+          "vers": "e3"
+        },
+        {
+          "si_fait": [
+            "dsg"
+          ],
+          "vers": "e2"
+        },
+        {
+          "vers": "e1_aggrav"
+        }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Désaturation après les tentatives",
+      "vignette": "Toujours pas de sonde dans la trachée. Les tentatives ont fait saigner et œdématié le pharynx : la ventilation au masque devient difficile. La SpO2 chute, le cœur accélère.",
+      "chrono": 45,
+      "constantes": {
+        "SpO2": 84,
+        "FC": 118,
+        "PAS": 138
+      },
+      "pente": {
+        "SpO2": -3,
+        "FC": 1
+      },
+      "diagnostic": [
+        "dx_intubation_difficile"
+      ],
+      "resultats": {
+        "ecg": "Tachycardie sinusale (hypoxémie), pas de trouble de la repolarisation."
+      },
+      "actions": {
+        "renfort": {
+          "note": "indispensable",
+          "why": "Aide expérimentée et chariot d'intubation difficile immédiatement (SFAR 2017, DAS 2015)."
+        },
+        "dsg": {
+          "note": "indispensable",
+          "why": "Échec de l'intubation et oxygénation qui se dégrade : dispositif supraglottique de 2e génération pour rétablir l'oxygénation (plan B, SFAR 2017, DAS 2015).",
+          "effet": {
+            "SpO2": 10
+          }
+        },
+        "ventil_masque": {
+          "note": "recommande",
+          "why": "Optimiser la ventilation au masque : deux opérateurs, canule oropharyngée, FiO2 100 %.",
+          "effet": {
+            "SpO2": 4
+          }
+        },
+        "videolaryngoscope": {
+          "note": "debattu",
+          "why": "Une dernière tentative par l'opérateur le plus expérimenté est admise (3 + 1), seulement une fois l'oxygénation restaurée ; en hypoxémie, le dispositif supraglottique passe avant (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          }
+        },
+        "aspiration_pharyngee": {
+          "note": "debattu",
+          "why": "Sang et sécrétions après les tentatives : aspirer avant de reposer un dispositif."
+        },
+        "tete_30": {
+          "note": "debattu",
+          "why": "Position optimisée (rampe chez l'obèse) : améliore la ventilation au masque."
+        },
+        "cricothyro": {
+          "note": "debattu",
+          "why": "Prématuré tant que le dispositif supraglottique n'a pas été essayé ; ouvrir le kit et repérer la membrane cricothyroïdienne dès maintenant (DAS 2015).",
+          "effet": {
+            "SpO2": 20
+          }
+        },
+        "sugammadex": {
+          "note": "debattu",
+          "why": "Antagonise le rocuronium (16 mg/kg en urgence) ; ne lève pas l'obstruction des voies aériennes et ne remplace pas l'oxygénation."
+        },
+        "idi_laryngoscopie_directe": {
+          "note": "contre_indique",
+          "why": "Nouvelle laryngoscopie directe en pleine désaturation : retarde l'oxygénation et aggrave l'œdème, chemin direct vers la situation « ni intubation, ni oxygénation » (DAS 2015).",
+          "effet": {
+            "SpO2": -5
+          }
+        },
+        "gds": {
+          "note": "inutile",
+          "why": "Le gaz du sang ne change rien à l'urgence : rétablir l'oxygénation."
+        }
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique : RCP, adrénaline, et oxygénation, au besoin par abord trachéal (ERC 2021, DAS 2015).",
+        "apres_racs": {
+          "FC": 110,
+          "PAS": 90,
+          "PAD": 50,
+          "SpO2": 86
+        }
+      },
+      "suite": [
+        {
+          "si_fait": [
+            "cricothyro"
+          ],
+          "vers": "fin"
+        },
+        {
+          "si_fait": [
+            "videolaryngoscope"
+          ],
+          "si_manque": [
+            "dsg"
+          ],
+          "vers": "e3"
+        },
+        {
+          "si_fait": [
+            "dsg"
+          ],
+          "vers": "e2"
+        },
+        {
+          "vers": "e2_cico"
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "titre": "Intubation impossible, ventilation possible",
+      "vignette": "Le dispositif supraglottique de 2e génération est en place : courbe de capnographie, la SpO2 remonte. Ce n'est qu'une solution d'attente. Stop : il faut décider maintenant de la suite.",
+      "chrono": 60,
+      "constantes": {
+        "SpO2": 93,
+        "FC": 100
+      },
+      "pente": {
+        "SpO2": -0.8
+      },
+      "actions": {
+        "reveil_patient": {
+          "note": "recommande",
+          "alt": "decision",
+          "why": "Chirurgie programmée et voies aériennes non sécurisées : réveiller le patient est le plus souvent l'option la plus sûre. L'intervention sera reprogrammée avec une intubation vigile (DAS 2015, SFAR 2017)."
+        },
+        "idi_fibro_dsg": {
+          "note": "debattu",
+          "alt": "decision",
+          "why": "Intubation sous fibroscopie à travers le dispositif supraglottique : possible si l'oxygénation est stable et l'opérateur entraîné, surtout si la chirurgie ne peut pas attendre (DAS 2015). Ici, elle est programmée."
+        },
+        "sugammadex": {
+          "note": "recommande",
+          "why": "Pour réveiller, il faut lever le bloc : sugammadex 4 mg/kg si PTC 1 à 2, 16 mg/kg pour une levée immédiate (RCP du sugammadex)."
+        },
+        "tof": {
+          "note": "recommande",
+          "why": "Mesurer la profondeur du bloc pour choisir la dose de sugammadex, puis contrôler le TOF ratio avant de retirer le dispositif."
+        },
+        "renfort": {
+          "note": "recommande",
+          "why": "Garder l'aide expérimentée jusqu'à la fin de la prise en charge."
+        },
+        "entretien": {
+          "note": "debattu",
+          "why": "Nécessaire si l'on intube à travers le dispositif supraglottique ; à arrêter si l'on réveille le patient.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "aspiration_pharyngee": {
+          "note": "debattu",
+          "why": "Aspiration du pharynx avant de réveiller, ou en cas de régurgitation."
+        },
+        "sng": {
+          "note": "debattu",
+          "why": "Le dispositif de 2e génération a un canal de drainage : une sonde gastrique vide l'estomac insufflé par la ventilation au masque."
+        },
+        "videolaryngoscope": {
+          "note": "inutile",
+          "why": "Plan B atteint : ne plus multiplier les tentatives de laryngoscopie (DAS 2015). Si l'on veut intuber, c'est à travers le dispositif, sous fibroscopie."
+        },
+        "idi_laryngoscopie_directe": {
+          "note": "contre_indique",
+          "why": "Retirer un dispositif qui ventile pour une nouvelle laryngoscopie : perte de l'oxygénation et œdème, risque de situation « ni intubation, ni oxygénation » (DAS 2015).",
+          "effet": {
+            "SpO2": -8
+          }
+        },
+        "cricothyro": {
+          "note": "contre_indique",
+          "why": "L'oxygénation est assurée par le dispositif supraglottique : pas d'indication à un abord trachéal."
+        },
+        "ventil_masque": {
+          "note": "inutile",
+          "why": "Le dispositif supraglottique ventile déjà."
+        },
+        "neostigmine": {
+          "note": "inutile",
+          "why": "Bloc profond : la néostigmine est inefficace ; le sugammadex lève le bloc dû au rocuronium (SFAR 2018, curarisation)."
+        }
+      },
+      "resultats": {
+        "tof": "**TOF 0, PTC 2** : bloc neuromusculaire profond."
+      },
+      "suite": [
+        {
+          "si_fait": [
+            "cricothyro"
+          ],
+          "vers": "fin"
+        },
+        {
+          "si_fait": [
+            "reveil_patient"
+          ],
+          "vers": "e3_reveil"
+        },
+        {
+          "si_fait": [
+            "idi_fibro_dsg"
+          ],
+          "vers": "e3"
+        },
+        {
+          "vers": "e2_cico"
+        }
+      ]
+    },
+    {
+      "id": "e2_cico",
+      "titre": "Ni intubation, ni oxygénation",
+      "vignette": "Ni le masque ni le dispositif supraglottique n'arrivent plus à ventiler : fuite, œdème du pharynx après les tentatives. Pas de capnographie efficace, la SpO2 s'effondre.",
+      "chrono": 40,
+      "constantes": {
+        "SpO2": 82,
+        "FC": 124
+      },
+      "pente": {
+        "SpO2": -2.5,
+        "FC": -1,
+        "PAS": -1
+      },
+      "diagnostic": [
+        "dx_intubation_difficile"
+      ],
+      "actions": {
+        "cricothyro": {
+          "note": "indispensable",
+          "why": "Situation « ni intubation, ni oxygénation » : l'annoncer à voix haute, puis cricothyroïdotomie sans délai, technique scalpel, bougie, sonde (DAS 2015, SFAR 2017).",
+          "effet": {
+            "SpO2": 22,
+            "FC": -10
+          },
+          "pente": {
+            "SpO2": 1,
+            "FC": 0,
+            "PAS": 0
+          }
+        },
+        "renfort": {
+          "note": "indispensable",
+          "why": "Appeler à l'aide et annoncer « je ne peux ni intuber ni oxygéner » (DAS 2015)."
+        },
+        "ventil_masque": {
+          "note": "recommande",
+          "why": "Dernière tentative de ventilation au masque à deux opérateurs pendant que l'on prépare l'abord trachéal (plan C, DAS 2015).",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "dsg": {
+          "note": "recommande",
+          "why": "S'il n'a pas été essayé, un dispositif supraglottique de 2e génération en même temps que l'on prépare l'abord (DAS 2015).",
+          "effet": {
+            "SpO2": 3
+          }
+        },
+        "sugammadex": {
+          "note": "debattu",
+          "why": "Sugammadex 16 mg/kg : ne lève pas l'obstruction des voies aériennes et ne doit pas retarder l'abord trachéal (DAS 2015)."
+        },
+        "videolaryngoscope": {
+          "note": "contre_indique",
+          "why": "Nouvelle tentative d'intubation en situation CICO : elle retarde l'abord trachéal, seul geste qui rétablit l'oxygénation (DAS 2015)."
+        },
+        "idi_laryngoscopie_directe": {
+          "note": "contre_indique",
+          "why": "Nouvelle tentative d'intubation en situation CICO : elle retarde l'abord trachéal (DAS 2015)."
+        },
+        "idi_fibro_dsg": {
+          "note": "contre_indique",
+          "why": "Le dispositif ne ventile plus : une fibroscopie retarde l'abord trachéal."
+        },
+        "reveil_patient": {
+          "note": "inutile",
+          "why": "Le réveil prend plusieurs minutes : l'hypoxémie tue avant. Abord trachéal d'abord."
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          "cricothyro"
+        ],
+        "issue": "acr",
+        "why": "Aucune oxygénation rétablie : arrêt cardiaque hypoxique."
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique : RCP, adrénaline, et oxygénation par abord trachéal (ERC 2021, DAS 2015).",
+        "apres_racs": {
+          "FC": 110,
+          "PAS": 90,
+          "PAD": 50,
+          "SpO2": 80
+        }
+      },
+      "suite": [
+        {
+          "vers": "fin"
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "titre": "Voies aériennes sécurisées",
+      "vignette": "Sonde dans la trachée : courbe de capnographie franche et persistante, la SpO2 remonte. Plusieurs minutes ont passé depuis le bolus de propofol. La chirurgie va commencer.",
+      "chrono": 60,
+      "pente": {
+        "SpO2": 2
+      },
+      "resultats": {
+        "rp": "Sonde d'intubation en place, extrémité 3 cm au-dessus de la carène. Pas d'opacité, pas de pneumothorax."
+      },
+      "schemas": {
+        "rp": {
+          "type": "rp"
+        }
+      },
+      "actions": {
+        "entretien": {
+          "note": "indispensable",
+          "why": "Relais immédiat de l'hypnotique : la difficulté d'intubation est une situation classique de mémorisation peropératoire (NAP5 2014).",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "vm_protectrice": {
+          "note": "recommande",
+          "why": "Ventilation protectrice : VT 6 à 8 mL/kg de poids idéal, PEP, FiO2 adaptée (IMPROVE, NEJM 2013).",
+          "effet": {
+            "SpO2": 3
+          }
+        },
+        "sng": {
+          "note": "recommande",
+          "why": "La ventilation au masque prolongée a insufflé l'estomac : sonde gastrique avant la cœlioscopie."
+        },
+        "idi_courrier": {
+          "note": "recommande",
+          "why": "Tracer la difficulté (dossier, technique qui a réussi), informer le patient et lui remettre un courrier d'intubation difficile ; prévoir une extubation à risque (SFAR 2017, DAS 2015)."
+        },
+        "rp": {
+          "note": "debattu",
+          "why": "La capnographie confirme la position trachéale ; la radio vérifie la hauteur de la sonde."
+        },
+        "tof": {
+          "note": "inutile",
+          "why": "La chirurgie commence : le bloc est voulu."
+        },
+        "sugammadex": {
+          "note": "inutile",
+          "why": "La chirurgie commence : aucune raison d'antagoniser la curarisation."
+        },
+        "reveil_patient": {
+          "note": "inutile",
+          "why": "La sonde est en place et vérifiée : la chirurgie peut se dérouler."
+        }
+      },
+      "suite": [
+        {
+          "vers": "fin"
+        }
+      ]
+    },
+    {
+      "id": "e3_reveil",
+      "titre": "Réveil du patient",
+      "vignette": "Décision prise : on réveille. Hypnotique arrêté, ventilation en FiO2 100 %. Le patient est encore curarisé : il faut lever le bloc avant de le laisser respirer seul et de retirer le dispositif.",
+      "chrono": 60,
+      "actions": {
+        "sugammadex": {
+          "note": "indispensable",
+          "why": "Réveiller un patient curarisé est impossible et dangereux : sugammadex selon la profondeur du bloc (4 mg/kg si PTC 1 à 2, 16 mg/kg pour une levée immédiate) (RCP du sugammadex, SFAR 2018)."
+        },
+        "tof": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Contrôler le TOF ratio ≥ 0,9 avant de retirer le dispositif chez un patient réveillé (SFAR 2018)."
+        },
+        "idi_courrier": {
+          "note": "recommande",
+          "why": "Informer le patient, tracer la difficulté et lui remettre un courrier d'intubation difficile : la prochaine anesthésie se fera en intubation vigile (SFAR 2017, DAS 2015)."
+        },
+        "o2_masque": {
+          "note": "debattu",
+          "why": "Oxygène après le retrait du dispositif, chez un patient réveillé et décurarisé."
+        },
+        "entretien": {
+          "note": "inutile",
+          "why": "On réveille : ne pas réinjecter d'hypnotique.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "neostigmine": {
+          "note": "inutile",
+          "why": "Bloc profond : la néostigmine est inefficace (SFAR 2018)."
+        }
+      },
+      "resultats": {
+        "tof": "Si le sugammadex a été donné : TOF ratio 0,96. Sinon : **TOF 0, PTC 2**, bloc profond."
+      },
+      "suite": [
+        {
+          "vers": "fin"
+        }
+      ]
+    }
+  ]
+}

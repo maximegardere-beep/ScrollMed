@@ -1,0 +1,161 @@
+{
+  "id": "induction_programmee",
+  "titre": "Induction programmée : colectomie sous cœlioscopie",
+  "source": "HAS 2018 (check-list « Sécurité du patient au bloc opératoire ») ; SFAR 2017 (RFE intubation difficile et extubation en anesthésie chez l'adulte) ; SFAR 2018 (RFE antibioprophylaxie ; RFE curarisation et décurarisation) ; INPRESS, JAMA 2017 ; IMPROVE, NEJM 2013 ; RELIEF, NEJM 2018",
+  "tags": ["anesthésie", "induction", "check-list", "hypotension", "préoxygénation"],
+  "patient": "Homme, 58 ans, 80 kg",
+  "terrains": { "contexte": "induction", "exclus": ["double_antiagregation"], "identite": { "sexe": ["F", "M"], "age": [35, 85], "poids": [55, 100] } },
+  "constantes": { "FC": 82, "PAS": 138, "PAD": 78, "SpO2": 98, "FR": 16, "T": 36.8, "GCS": 15 },
+  "resultats": {
+    "ecg": "Rythme sinusal, pas de trouble de la repolarisation.",
+    "glycemie": "Glycémie {0,92~1,18} g/L.",
+    "iono": "Na 139 mmol/L · K⁺ {3,8~4,6} mmol/L · créatinine {68~92} µmol/L (bilan de consultation).",
+    "nfs": "Hb {13,2~14,6} g/dL · plaquettes 245 G/L (bilan de consultation).",
+    "tof": "TOF de référence 4/4 avant le curare ; après l'injection, 0/4 en quelques minutes : conditions d'intubation réunies.",
+    "ett": "FEVG 60 %, pas de valvulopathie significative. VCI de 14 mm, compliante."
+  },
+  "schemas": {
+    "ett": { "type": "ett", "vci": "normale" }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Préparation et induction",
+      "vignette": "Colectomie sigmoïdienne programmée sous cœlioscopie (diverticulite récidivante). Consultation d'anesthésie il y a trois semaines, visite la veille. À jeun : solides depuis la veille au soir, liquides clairs jusqu'à 2 h avant. Sur la table d'opération, à toi de préparer et d'induire. Protocole habituel de la salle : propofol, sufentanil, rocuronium.",
+      "chrono": 150,
+      "actions": {
+        "checklist_has": { "note": "indispensable", "why": "Check-list « Sécurité du patient au bloc opératoire » (HAS, version 2018), temps « avant induction » : identité, intervention et site, matériel, et vérification croisée des allergies, du risque d'inhalation, d'intubation difficile et de saignement. C'est là que se repèrent les pièges du terrain." },
+        "scope": { "note": "indispensable", "why": "Surveillance obligatoire avant toute induction : ECG, pression artérielle, SpO2, puis capnographie (décret du 5 décembre 1994)." },
+        "vvp": { "note": "indispensable", "why": "Voie veineuse fiable avant l'induction. Une seule VVP suffit pour cette chirurgie à faible risque hémorragique." },
+        "ind_preox": { "note": "indispensable", "alt": "preox", "why": "Préoxygénation de tout patient avant l'induction, jusqu'à une FeO2 ≥ 90 % : elle allonge l'apnée sans désaturation si l'intubation se prolonge (SFAR 2017).", "effet": { "SpO2": 2 } },
+        "ind_preox_vni": { "note": "debattu", "alt": "preox", "why": "Préoxygénation en VNI : recommandée chez l'obèse ou l'hypoxémique (SFAR 2017) ; ici, le masque facial bien appliqué suffit.", "effet": { "SpO2": 2 } },
+        "abp_cephalo": { "note": "indispensable", "alt": "abp", "why": "Chirurgie colorectale : antibioprophylaxie par céfoxitine 2 g IV, ou céfazoline 2 g + métronidazole 1 g, dans l'heure qui précède l'incision (SFAR 2018)." },
+        "abp_allergie": { "note": "debattu", "alt": "abp", "why": "Hors allergie aux bêtalactamines, la céphalosporine reste le premier choix. Chez l'allergique, en chirurgie colorectale : métronidazole + gentamicine (SFAR 2018)." },
+        "ind_classique": { "note": "indispensable", "alt": "induction", "why": "Patient à jeun, sans critère d'intubation difficile : induction IV classique, ventilation au masque, intubation une fois le curare installé (SFAR 2017). Le propofol vasodilate : une chute de pression est attendue, à anticiper.", "effet": { "PAS": -48, "FC": -8 } },
+        "ind_classique_cisa": { "note": "indispensable", "alt": "induction", "why": "Cisatracurium : installation plus lente (3 à 5 min), sans gêne chez le patient à jeun en chirurgie programmée. C'est le curare de l'allergique au rocuronium quand le bilan l'autorise.", "effet": { "PAS": -48, "FC": -8 } },
+        "isr_etomidate": { "note": "debattu", "alt": "induction", "why": "Séquence rapide sans indication chez un patient à jeun. Succinylcholine : myalgies, hyperkaliémie, et c'est un des curares les plus souvent en cause dans l'anaphylaxie peranesthésique. Étomidate : réservé au patient instable ou fragile.", "effet": { "PAS": -18, "FC": -4 } },
+        "isr_etomidate_rocu": { "note": "debattu", "alt": "induction", "why": "Séquence rapide sans indication chez un patient à jeun : rocuronium à 1,2 mg/kg, bloc prolongé sans bénéfice. Étomidate : réservé au patient instable ou fragile.", "effet": { "PAS": -18, "FC": -4 } },
+        "isr_propofol": { "note": "debattu", "alt": "induction", "why": "Séquence rapide sans indication chez un patient à jeun : rocuronium à forte dose, bloc prolongé sans bénéfice.", "effet": { "PAS": -48, "FC": -8 } },
+        "isr_propofol_succi": { "note": "debattu", "alt": "induction", "why": "Séquence rapide sans indication chez un patient à jeun. Succinylcholine : myalgies, hyperkaliémie, anaphylaxie plus fréquente.", "effet": { "PAS": -48, "FC": -8 } },
+        "isr_ketamine": { "note": "debattu", "alt": "induction", "why": "Kétamine chez un patient normovolémique et stable : tachycardie, hypertension, sans bénéfice ; séquence rapide sans indication.", "effet": { "PAS": -8, "FC": 6 } },
+        "isr_ketamine_succi": { "note": "debattu", "alt": "induction", "why": "Kétamine chez un patient normovolémique et stable : tachycardie, hypertension, sans bénéfice ; séquence rapide sans indication.", "effet": { "PAS": -8, "FC": 6 } },
+        "iot_fibro_vigile": { "note": "inutile", "alt": "induction", "why": "Sans critère d'intubation difficile, l'intubation vigile est longue et inconfortable, sans bénéfice.", "effet": { "PAS": -25, "FC": -6 } },
+        "videolaryngoscope": { "note": "debattu", "why": "Vidéolaryngoscope : utile en cas de difficulté, ou d'emblée si l'opérateur y est entraîné (SFAR 2017). Il ne remplace ni l'induction ni la préoxygénation." },
+        "tof": { "note": "recommande", "why": "Monitorage instrumental de la curarisation dès l'injection du curare : référence, délai d'intubation, entretien du bloc, puis décision de décurarisation (SFAR 2018)." },
+        "check_isr": { "note": "debattu", "why": "Aspiration prête et chariot d'intubation difficile accessible avant toute induction ; la check-list HAS couvre déjà ces points." },
+        "sellick": { "note": "inutile", "why": "Patient à jeun : pas d'indication à la pression cricoïdienne, qui peut gêner la laryngoscopie et la ventilation au masque (IRIS, JAMA Surg 2019)." },
+        "ventil_masque": { "note": "debattu", "why": "La ventilation au masque fait déjà partie de l'induction classique, avant l'intubation." },
+        "salle_sans_latex": { "note": "inutile", "why": "Sans allergie au latex connue, l'éviction n'est pas nécessaire." },
+        "midazolam": { "note": "debattu", "why": "Prémédication sédative : non systématique. En chirurgie programmée, le lorazépam n'améliore pas le vécu du patient (PremedX, JAMA 2015). Prudence chez le sujet âgé (confusion), le patient apnéique ou myasthénique (dépression respiratoire)." },
+        "kta": { "note": "inutile", "why": "Patient ASA 2, chirurgie à faible risque : la PNI suffit." },
+        "noradre": { "note": "debattu", "why": "Noradrénaline dès l'induction : utile chez le patient fragile, non systématique chez un patient ASA 2." },
+        "phenylephrine": { "note": "debattu", "why": "Bolus de vasoconstricteur si la pression chute après l'induction ; pas avant.", "effet": { "PAS": 14, "FC": -4 } },
+        "ephedrine": { "note": "debattu", "why": "Bolus d'éphédrine si la pression chute après l'induction, surtout si la FC est basse.", "effet": { "PAS": 10, "FC": 6 } },
+        "remp_cristal": { "note": "debattu", "why": "Liquides clairs autorisés jusqu'à 2 h avant : pas d'hypovolémie, pas de remplissage systématique avant l'induction.", "effet": { "PAS": 4 } },
+        "glycemie": { "note": "debattu", "why": "Glycémie capillaire non systématique chez le non-diabétique." },
+        "iono": { "note": "inutile", "why": "Bilan fait en consultation : pas d'examen systématique le jour de l'intervention (SFAR 2012, examens préinterventionnels)." },
+        "nfs": { "note": "inutile", "why": "Bilan fait en consultation : pas d'examen systématique le jour de l'intervention (SFAR 2012, examens préinterventionnels)." },
+        "ett": { "note": "inutile", "why": "Pas de point d'appel cardiaque : l'ETT retarde l'intervention." },
+        "dsg": { "note": "inutile", "why": "Dispositif supraglottique en première intention pour une cœlioscopie colique : protection des voies aériennes insuffisante. Réservé au sauvetage." },
+        "reveil_patient": { "note": "debattu", "why": "Après un échec d'intubation en chirurgie programmée, une fois l'oxygénation rétablie (masque ou dispositif supraglottique), réveiller et reporter est souvent la solution la plus sûre (DAS 2015)." }
+      },
+      "suite": [
+        { "si_fait": ["reveil_patient"], "vers": "fin" },
+        { "si_manque": [["ind_classique", "ind_classique_cisa", "isr_etomidate", "isr_etomidate_rocu", "isr_propofol", "isr_propofol_succi", "isr_ketamine", "isr_ketamine_succi", "iot_fibro_vigile", "cricothyro", "dsg"]], "vers": "fin" },
+        { "si_manque": [["ind_preox", "ind_preox_vni"]], "vers": "e1_desat" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_desat",
+      "titre": "Désaturation à l'intubation",
+      "vignette": "Sans préoxygénation, la réserve en oxygène s'est épuisée pendant l'apnée de l'intubation. La sonde est en place, capnographie présente, mais la SpO2 continue de chuter.",
+      "chrono": 60,
+      "constantes": { "SpO2": 82, "FC": 96 },
+      "pente": { "SpO2": -1.5, "PAS": -1 },
+      "actions": {
+        "vm_protectrice": { "note": "indispensable", "why": "FiO2 100 % et ventilation par la sonde, après vérification de sa position (capnographie, auscultation) ; PEP une fois la SpO2 remontée (SFAR 2017).", "effet": { "SpO2": 10 }, "pente": { "SpO2": 0.3 } },
+        "echo_pleuro": { "note": "recommande", "why": "Intubation sélective, pneumothorax, atélectasie : l'échographie pleuropulmonaire tranche au bloc." },
+        "rp": { "note": "debattu", "why": "Radio de thorax : position de la sonde ; plus lente que l'échographie au bloc." },
+        "gds": { "note": "debattu", "why": "Utile pour régler la ventilation, sans retarder l'oxygénation." },
+        "ventil_masque": { "note": "inutile", "why": "La sonde est en place : ventiler par la sonde." },
+        "phenylephrine": { "note": "debattu", "why": "La priorité est l'oxygénation ; un bolus de vasoconstricteur si la pression baisse.", "effet": { "PAS": 14, "FC": -4 } },
+        "ephedrine": { "note": "debattu", "why": "La priorité est l'oxygénation ; un bolus d'éphédrine si la pression et la FC baissent.", "effet": { "PAS": 10, "FC": 6 } }
+      },
+      "resultats": {
+        "echo_pleuro": "Glissement pleural présent des deux côtés, pas de condensation : désaturation par apnée prolongée, sonde bien placée."
+      },
+      "letal_si_manque": { "actions": ["vm_protectrice"], "issue": "acr", "why": "Hypoxémie sans oxygénation efficace : arrêt hypoxique." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique : RCP, ventilation en FiO2 100 % par la sonde, adrénaline (ERC 2021).", "apres_racs": { "FC": 100, "PAS": 95, "PAD": 52, "SpO2": 90 } },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Hypotension après l'induction",
+      "vignette": "Sonde d'intubation en place, capnographie présente. Installation et champs en cours : pas encore de stimulation chirurgicale. La pression artérielle a chuté à l'induction et continue de baisser.",
+      "chrono": 90,
+      "pente": { "PAS": -1.5 },
+      "diagnostic": ["dx_hypotension_induction"],
+      "actions": {
+        "vm_protectrice": { "note": "indispensable", "why": "Ventilation protectrice : VT 6 à 8 mL/kg de poids idéal, PEP, manœuvres de recrutement (IMPROVE, NEJM 2013). Une PEP excessive majore l'hypotension.", "effet": { "SpO2": 1 } },
+        "entretien": { "note": "indispensable", "why": "Relais immédiat de l'hypnotique d'induction et du morphinique : sans lui, risque de mémorisation peropératoire. Adapter les doses à la pression, sans arrêter l'anesthésie.", "effet": { "PAS": -4 } },
+        "phenylephrine": { "note": "recommande", "alt": "vaso", "why": "Hypotension après l'induction (PAM < 65 mmHg ou PAS < 80 % de la valeur de base) : la traiter sans attendre par un vasoconstricteur. Phényléphrine en bolus : α pur, ralentit un peu la FC. Garder la PAS à ± 10 % de la référence réduit les dysfonctions d'organe (INPRESS, JAMA 2017).", "effet": { "PAS": 14, "FC": -4 } },
+        "ephedrine": { "note": "recommande", "alt": "vaso", "why": "Éphédrine en bolus : α et β, remonte aussi la FC ; préférée si la FC est basse (patient bêtabloqué).", "effet": { "PAS": 10, "FC": 6 } },
+        "noradre": { "note": "debattu", "alt": "vaso", "why": "Noradrénaline en continu, possible sur voie périphérique à faible dose, si les bolus se répètent. C'est le vasopresseur d'INPRESS (JAMA 2017) ; non nécessaire d'emblée chez un patient ASA 2." },
+        "baisse_hypnotique": { "note": "recommande", "why": "Avant l'incision, l'anesthésie est souvent trop profonde pour une stimulation nulle : réduire l'hypnotique, guidé si possible par un index de profondeur (BIS), sans descendre sous le seuil de mémorisation.", "effet": { "PAS": 6 }, "pente": { "PAS": -0.3 } },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Remplissage modéré : un bolus de 250 à 500 mL de cristalloïde balancé, réévalué. Pas de remplissage libéral, mais une stratégie trop restrictive augmente l'insuffisance rénale aiguë (RELIEF, NEJM 2018).", "effet": { "PAS": 6, "FC": -2 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer un cristalloïde balancé au NaCl 0,9 % (acidose hyperchlorémique).", "effet": { "PAS": 6, "FC": -2 } },
+        "atropine": { "note": "debattu", "why": "Si une bradycardie accompagne l'hypotension ; l'éphédrine corrige souvent les deux.", "effet": { "FC": 15, "PAS": 3 } },
+        "kta": { "note": "debattu", "why": "Cathéter artériel si l'instabilité persiste ou chez le patient fragile." },
+        "ett": { "note": "debattu", "why": "L'hypotension d'induction est surtout vasoplégique ; l'ETT sert si elle ne répond pas aux vasoconstricteurs." },
+        "tryptase": { "note": "debattu", "why": "Hypotension qui ne répond pas : évoquer une anaphylaxie (érythème, bronchospasme) et doser la tryptase (SFAR/SFA 2011)." },
+        "adrenaline_ivse": { "note": "inutile", "why": "Pas de choc réfractaire : les bolus de vasoconstricteur suffisent." },
+        "sugammadex": { "note": "inutile", "why": "La chirurgie va commencer : aucune raison d'antagoniser la curarisation." }
+      },
+      "resultats": {
+        "ett": "VG hyperkinétique, FEVG 65 %, petite VCI : vasoplégie anesthésique, pas de dysfonction cardiaque.",
+        "tryptase": "Tryptase {3,1~6,4} µg/L : pas d'argument pour une anaphylaxie."
+      },
+      "schemas": {
+        "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" }
+      },
+      "suite": [
+        { "si_manque": [["phenylephrine", "ephedrine", "noradre"]], "vers": "e2_aggrav" },
+        { "vers": "fin" }
+      ]
+    },
+    {
+      "id": "e2_aggrav",
+      "titre": "Collapsus persistant",
+      "vignette": "Aucun vasoconstricteur : la pression continue de chuter, la PNI peine à mesurer. Le chirurgien veut insuffler le pneumopéritoine, qui réduira encore le retour veineux.",
+      "chrono": 60,
+      "constantes": { "PAS": 64, "PAD": 34 },
+      "pente": { "PAS": -2.5 },
+      "diagnostic": ["dx_hypotension_induction"],
+      "actions": {
+        "phenylephrine": { "note": "indispensable", "alt": "vaso", "why": "Collapsus d'induction : vasoconstricteur sans délai, et demander au chirurgien d'attendre avant le pneumopéritoine (INPRESS, JAMA 2017).", "effet": { "PAS": 16, "FC": -4 } },
+        "ephedrine": { "note": "indispensable", "alt": "vaso", "why": "Collapsus d'induction : éphédrine en bolus, surtout si la FC est basse.", "effet": { "PAS": 12, "FC": 6 } },
+        "noradre": { "note": "recommande", "alt": "vaso", "why": "Bolus insuffisants ou répétés : noradrénaline en continu, possible sur voie périphérique à faible dose.", "pente": { "PAS": -0.5 } },
+        "adre_titree": { "note": "debattu", "alt": "vaso", "why": "Collapsus réfractaire aux vasoconstricteurs usuels : adrénaline en petits bolus, et chercher une anaphylaxie.", "effet": { "PAS": 18, "FC": 10 } },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Bolus de cristalloïde balancé, réévalué.", "effet": { "PAS": 6, "FC": -2 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer un cristalloïde balancé.", "effet": { "PAS": 6, "FC": -2 } },
+        "baisse_hypnotique": { "note": "recommande", "why": "Alléger une anesthésie trop profonde avant l'incision, sans descendre sous le seuil de mémorisation.", "effet": { "PAS": 6 }, "pente": { "PAS": -0.3 } },
+        "renfort": { "note": "recommande", "why": "Collapsus qui ne répond pas : appeler à l'aide." },
+        "ett": { "note": "recommande", "why": "Collapsus : l'ETT cherche une hypovolémie, une dysfonction ventriculaire ou une tamponnade, et oriente le traitement." },
+        "tryptase": { "note": "recommande", "why": "Collapsus réfractaire après l'induction : penser à l'anaphylaxie (l'érythème peut manquer) et doser la tryptase (SFAR/SFA 2011)." },
+        "kta": { "note": "recommande", "why": "Pression artérielle invasive pour titrer les vasopresseurs." },
+        "entretien": { "note": "recommande", "why": "Entretien de l'anesthésie à doses réduites : ne pas l'arrêter (mémorisation)." }
+      },
+      "resultats": {
+        "ett": "VG hyperkinétique, FEVG 65 %, petite VCI : vasoplégie anesthésique, pas de dysfonction cardiaque.",
+        "tryptase": "Tryptase {3,1~6,4} µg/L : pas d'argument pour une anaphylaxie."
+      },
+      "schemas": {
+        "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" }
+      },
+      "letal_si_manque": { "actions": [["phenylephrine", "ephedrine", "noradre", "adre_titree"]], "issue": "acr", "why": "Collapsus d'induction non traité : bas débit coronaire puis arrêt cardiaque." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "Arrêt sur collapsus : RCP, adrénaline 1 mg, et traiter la cause (profondeur d'anesthésie, hypovolémie, anaphylaxie) (ERC 2021).", "apres_racs": { "FC": 104, "PAS": 92, "PAD": 50 } },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}

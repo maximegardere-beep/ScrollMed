@@ -1,0 +1,337 @@
+diff --git a/Dechocage/actions.json b/Dechocage/actions.json
+index bf9c126..a200587 100644
+--- a/Dechocage/actions.json
++++ b/Dechocage/actions.json
+@@ -203,5 +203,11 @@
+   { "id": "dx_inhalation", "label": "Inhalation du contenu gastrique", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["Mendelson", "pneumopathie d'inhalation"] },
+   { "id": "dx_hematome_cervical", "label": "Hématome cervical compressif", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["hématome de loge", "hématome post-thyroïdectomie"] },
+   { "id": "dx_toxicite_al", "label": "Toxicité systémique des anesthésiques locaux", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["LAST", "intoxication aux AL", "ISAL"] },
+-  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] }
++  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] },
++
++  { "id": "checklist_has", "label": "Check-list HAS « Sécurité du patient au bloc » : temps avant induction", "path": ["Traitement", "Mesures générales"], "duree": 2, "alias": ["checklist", "check-list", "time out", "vérification croisée"] },
++  { "id": "abp_cephalo", "label": "Antibioprophylaxie : céphalosporine IV (céfazoline, céfoxitine)", "path": ["Traitement", "Anti-infectieux"], "duree": 1, "requiert": "IV", "classe": ["betalactamine"], "alias": ["ABP", "Céfacidal", "C1G", "C2G"] },
++  { "id": "abp_allergie", "label": "Antibioprophylaxie sans bêtalactamine (protocole de l'allergique)", "path": ["Traitement", "Anti-infectieux"], "duree": 1, "requiert": "IV", "alias": ["ABP", "métronidazole", "gentamicine", "clindamycine", "vancomycine"] },
++  { "id": "ind_classique_cisa", "label": "Induction IV classique avec cisatracurium (propofol, morphinique, ventilation au masque)", "path": ["Airway / ventilation", "Intubation (ISR)"], "duree": 10, "moniteur": ["CO2"], "requiert": "IV", "classe": ["hypnotique", "propofol", "curare", "intubation", "induction_classique", "cisatracurium"], "alias": ["IOT", "intubation", "AG", "anesthésie générale", "Nimbex"] },
++  { "id": "baisse_hypnotique", "label": "Diminuer l'hypnotique (profondeur d'anesthésie)", "path": ["Traitement", "Sédation-analgésie"], "duree": 1, "alias": ["alléger l'anesthésie", "baisser le propofol", "baisser l'halogéné", "réduire la MAC"] }
+ ]
+diff --git a/Dechocage/terrains.json b/Dechocage/terrains.json
+index d4be30d..55485ca 100644
+--- a/Dechocage/terrains.json
++++ b/Dechocage/terrains.json
+@@ -16,6 +16,13 @@
+         {
+           "id": "atb_aztreo_amika",
+           "why": "Allergie grave aux bêtalactamines : aztréonam + amikacine dans la pyélonéphrite grave (SPILF 2018). L'aztréonam (monobactame) n'a pas d'allergie croisée avec les pénicillines ni avec la ceftriaxone ; il partage seulement la chaîne latérale de la ceftazidime."
++        },
++        {
++          "id": "abp_allergie",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "Allergie grave aux bêtalactamines : antibioprophylaxie sans bêtalactamine. En chirurgie colorectale : métronidazole + gentamicine (SFAR 2018)."
+         }
+       ],
+       "tags": [
+@@ -23,7 +30,10 @@
+         "allergie",
+         "bêtalactamines",
+         "choc anaphylactique"
+-      ]
++      ],
++      "resultats": {
++        "induction_programmee/anaphylaxie/tryptase": "**Tryptase {22~58} µg/L** (prélevée 30 min après le début) : dégranulation mastocytaire. Bilan allergologique à 4-6 semaines."
++      }
+     },
+     {
+       "id": "coronarien",
+@@ -104,6 +114,36 @@
+       "tags": [
+         "insuffisance cardiaque",
+         "remplissage"
++      ],
++      "promeut": [
++        {
++          "id": "isr_etomidate_rocu",
++          "dans": [
++            "induction_programmee/e1"
++          ],
++          "why": "FEVG altérée : l'étomidate est l'hypnotique qui respecte le mieux la pression artérielle. Ici, étomidate + rocuronium, sans qu'une séquence rapide soit nécessaire chez ce patient à jeun."
++        },
++        {
++          "id": "isr_etomidate",
++          "dans": [
++            "induction_programmee/e1"
++          ],
++          "why": "FEVG altérée : l'étomidate est l'hypnotique qui respecte le mieux la pression artérielle. Ici, étomidate + succinylcholine, sans qu'une séquence rapide soit nécessaire chez ce patient à jeun."
++        },
++        {
++          "id": "kta",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "FEVG altérée : pression artérielle invasive posée avant l'induction, pour traiter la moindre chute sans délai."
++        },
++        {
++          "id": "noradre",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "FEVG altérée : soutenir la pression par la noradrénaline plutôt que par le remplissage, mal toléré."
++        }
+       ]
+     },
+     {
+@@ -181,7 +221,8 @@
+         "stemi_choc_cardiogenique/scope": "**Fibrillation atriale rapide**. Sus-décalage du ST visible sur la dérivation du scope.",
+         "hyperkaliemie_menacante/ecg": "**Fibrillation atriale lente à 42/min**, **QRS larges à 160 ms**, **ondes T amples et pointues**.",
+         "hyperkaliemie_menacante/scope": "**Bradycardie irrégulière à complexes larges**.",
+-        "hyperkaliemie_menacante/e2/ecg": "Fibrillation atriale à 64/min, **QRS à 110 ms**, **ondes T encore amples**."
++        "hyperkaliemie_menacante/e2/ecg": "Fibrillation atriale à 64/min, **QRS à 110 ms**, **ondes T encore amples**.",
++        "induction_programmee/ischemie/ecg": "**Fibrillation atriale rapide**. **Sous-décalage du ST de 2 mm en V4-V6 et en DI-aVL**, sans sus-décalage."
+       },
+       "tags": [
+         "FA",
+@@ -208,13 +249,25 @@
+           "complication": "anaphylaxie",
+           "why": "Anaphylaxie au rocuronium documentée par tests cutanés : le rocuronium est contre-indiqué. Le bilan autorise la succinylcholine et le cisatracurium : lire le courrier d'allergo-anesthésie avant d'induire.",
+           "compte": true
++        },
++        {
++          "id": "ind_classique",
++          "dans": [
++            "induction_programmee"
++          ],
++          "complication": "anaphylaxie",
++          "compte": true,
++          "why": "Allergie au rocuronium : le protocole de la salle (propofol, sufentanil, rocuronium) expose au curare en cause. Le bilan autorise le cisatracurium et la succinylcholine : induction au cisatracurium."
+         }
+       ],
+       "tags": [
+         "anaphylaxie",
+         "curares",
+         "allergie"
+-      ]
++      ],
++      "resultats": {
++        "induction_programmee/anaphylaxie/tryptase": "**Tryptase {22~58} µg/L** (prélevée 30 min après le début) : dégranulation mastocytaire. Bilan allergologique à 4-6 semaines."
++      }
+     },
+     {
+       "id": "iot_difficile",
+@@ -232,6 +285,13 @@
+         {
+           "id": "iot_fibro_vigile",
+           "why": "Intubation et ventilation au masque difficiles prévues : intubation vigile sous fibroscopie, en ventilation spontanée, avant toute induction (SFAR 2017)."
++        },
++        {
++          "id": "renfort",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "Intubation difficile prévue : un second opérateur expérimenté présent avant de commencer (SFAR 2017)."
+         }
+       ],
+       "tags": [
+@@ -267,6 +327,36 @@
+       "tags": [
+         "rétrécissement aortique",
+         "induction"
++      ],
++      "promeut": [
++        {
++          "id": "isr_etomidate_rocu",
++          "dans": [
++            "induction_programmee/e1"
++          ],
++          "why": "RA serré : l'étomidate est l'hypnotique qui respecte le mieux la pression artérielle. Ici, étomidate + rocuronium, sans qu'une séquence rapide soit nécessaire chez ce patient à jeun."
++        },
++        {
++          "id": "isr_etomidate",
++          "dans": [
++            "induction_programmee/e1"
++          ],
++          "why": "RA serré : l'étomidate est l'hypnotique qui respecte le mieux la pression artérielle. Ici, étomidate + succinylcholine, sans qu'une séquence rapide soit nécessaire chez ce patient à jeun."
++        },
++        {
++          "id": "kta",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "RA serré : pression artérielle invasive posée avant l'induction, pour traiter la moindre chute sans délai."
++        },
++        {
++          "id": "phenylephrine",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "RA serré : phényléphrine dès la chute de pression, voire en prévention : α pur, sans tachycardie (la tachycardie raccourcit la diastole et aggrave l'ischémie sous-endocardique)."
++        }
+       ]
+     },
+     {
+@@ -327,6 +417,26 @@
+             "SpO2": -4
+           },
+           "why": "SAOS : les morphiniques aggravent les apnées et l'hypoventilation. Analgésie multimodale d'épargne morphinique, PPC dès le réveil (ASA 2014)."
++        },
++        {
++          "classe": "intubation",
++          "dans": [
++            "induction_programmee"
++          ],
++          "plus": {
++            "SpO2": -3
++          },
++          "why": "SAOS : ventilation au masque plus souvent difficile et désaturation rapide pendant l'apnée d'intubation."
++        },
++        {
++          "id": "midazolam",
++          "dans": [
++            "induction_programmee"
++          ],
++          "plus": {
++            "SpO2": -4
++          },
++          "why": "SAOS : une benzodiazépine en prémédication aggrave l'obstruction des voies aériennes et les apnées ; l'éviter ou surveiller la SpO2 (ASA 2014)."
+         }
+       ],
+       "promeut": [
+@@ -336,6 +446,13 @@
+             "rea"
+           ],
+           "why": "SAOS appareillé : reprendre la PPC habituelle dès la salle de réveil (ASA 2014)."
++        },
++        {
++          "id": "ind_preox_vni",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "SAOS sévère : préoxygénation en pression positive (VNI ou PPC habituelle), en position proclive : la désaturation à l'induction est plus rapide (SFAR 2017)."
+         }
+       ],
+       "tags": [
+@@ -401,7 +518,10 @@
+         "anaphylaxie",
+         "allergie",
+         "latex"
+-      ]
++      ],
++      "resultats": {
++        "induction_programmee/anaphylaxie/tryptase": "**Tryptase {22~58} µg/L** (prélevée 30 min après le début) : dégranulation mastocytaire. Bilan allergologique à 4-6 semaines."
++      }
+     },
+     {
+       "id": "myasthenie",
+@@ -425,7 +545,19 @@
+       ],
+       "constantes": {
+         "SpO2": -2
+-      }
++      },
++      "module": [
++        {
++          "id": "midazolam",
++          "dans": [
++            "induction_programmee"
++          ],
++          "plus": {
++            "SpO2": -3
++          },
++          "why": "Myasthénie : une benzodiazépine en prémédication peut majorer la faiblesse des muscles respiratoires ; l'éviter ou la réduire."
++        }
++      ]
+     },
+     {
+       "id": "double_antiagregation",
+@@ -555,6 +687,15 @@
+         "hémodialyse",
+         "hyperkaliémie",
+         "succinylcholine"
++      ],
++      "promeut": [
++        {
++          "id": "iono",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "Dialysé, dernière séance avant-hier : kaliémie du jour avant l'induction. Elle guide le choix du curare (pas de succinylcholine) et le report si elle est trop haute."
++        }
+       ]
+     },
+     {
+@@ -599,6 +740,27 @@
+             "induction"
+           ],
+           "why": "Gastroparésie diabétique : vidange gastrique ralentie, estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide."
++        },
++        {
++          "id": "isr_propofol",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "Gastroparésie diabétique : estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide ; le propofol convient chez ce patient stable."
++        },
++        {
++          "id": "isr_propofol_succi",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "Gastroparésie diabétique : estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide ; le propofol convient chez ce patient stable."
++        },
++        {
++          "id": "glycemie",
++          "dans": [
++            "induction_programmee"
++          ],
++          "why": "Diabétique : glycémie capillaire avant l'induction, puis toutes les 1 à 2 h pendant l'intervention (SFD-SFAR 2018)."
+         }
+       ],
+       "resultats": {
+@@ -610,6 +772,17 @@
+         "glycémie",
+         "insuline",
+         "estomac plein"
++      ],
++      "ci": [
++        {
++          "classe": "induction_classique",
++          "dans": [
++            "induction_programmee"
++          ],
++          "complication": "inhalation",
++          "compte": true,
++          "why": "Gastroparésie diabétique symptomatique : l'estomac peut rester plein malgré le jeûne, dont les règles ne s'appliquent pas à ces patients (ASA 2017). Ventilation au masque et curare d'installation lente exposent à l'inhalation : induction en séquence rapide."
++        }
+       ]
+     },
+     {
+@@ -759,6 +932,28 @@
+             "PAS": 1.3
+           },
+           "why": "IEC pris le matin : hypotension d'induction plus fréquente et plus profonde (ESC 2022, chirurgie non cardiaque)."
++        },
++        {
++          "classe": "vasopresseur",
++          "dans": [
++            "induction_programmee/e1",
++            "induction_programmee/e2",
++            "induction_programmee/e2_aggrav"
++          ],
++          "effet": {
++            "PAS": 0.7
++          },
++          "why": "Sous IEC pris le matin, l'hypotension d'induction répond moins aux bolus d'éphédrine et de phényléphrine (système rénine-angiotensine bloqué) : noradrénaline précoce."
++        }
++      ],
++      "promeut": [
++        {
++          "id": "noradre",
++          "dans": [
++            "induction_programmee/e2",
++            "induction_programmee/e2_aggrav"
++          ],
++          "why": "Sous IEC pris le matin, l'hypotension d'induction répond moins aux bolus d'éphédrine et de phényléphrine (système rénine-angiotensine bloqué) : noradrénaline précoce."
+         }
+       ]
+     },

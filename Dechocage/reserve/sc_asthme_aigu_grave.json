@@ -1,0 +1,212 @@
+{
+  "id": "asthme_aigu_grave",
+  "titre": "Asthme aigu grave",
+  "source": "GINA 2024 (prise en charge des exacerbations) ; ERC 2021, arrêt cardiaque en circonstances particulières (asthme) ; SRLF-SFMU 2002, conférence de consensus sur l'asthme aigu grave",
+  "tags": ["asthme", "asthme aigu grave", "bronchospasme", "intubation", "kétamine", "magnésium", "hypercapnie", "auto-PEEP"],
+  "patient": "Femme, 26 ans, 58 kg",
+  "terrains": {
+    "contexte": "dechoc",
+    "exclus": ["asthme", "estomac_plein", "bpco", "grand_age", "coronarien", "double_antiagregation", "fa_anticoagulee", "ra_serre", "irc_dialyse", "diabete", "iot_difficile"],
+    "identite": { "sexe": ["F"], "age": [25, 65], "poids": [48, 85] }
+  },
+  "constantes": { "FC": 132, "PAS": 128, "PAD": 76, "SpO2": 87, "FR": 34, "T": 37.4, "GCS": 15 },
+  "seuils": { "PAS": 50, "SpO2": 70 },
+  "resultats": {
+    "scope": "Tachycardie sinusale régulière.",
+    "ecg": "Tachycardie sinusale, axe normal, pas de trouble de la repolarisation.",
+    "gds": "Sous O2 : pH {7,35~7,39} · **PaCO2 {42~46} mmHg** · **PaO2 {54~60} mmHg** · HCO3⁻ 23 mmol/L. **Normocapnie chez une patiente polypnéique** : la fatigue s'installe.",
+    "lactates": "**Lactates {2,4~3,2} mmol/L** (salbutamol à forte dose).",
+    "iono": "Na 139 mmol/L · K⁺ {3,5~3,8} mmol/L · créatinine 62 µmol/L.",
+    "nfs": "**Leucocytes 13,2 G/L** · **éosinophiles 0,7 G/L** · Hb 13,4 g/dL · plaquettes 280 G/L.",
+    "glycemie": "Glycémie {1,1~1,4} g/L.",
+    "pct": "Procalcitonine 0,08 ng/mL.",
+    "troponine": "Troponine normale.",
+    "bnp": "NT-proBNP 90 pg/mL.",
+    "bhcg": "βHCG négatifs.",
+    "rp": "**Distension thoracique** (hyperclarté, coupoles aplaties). Pas de pneumothorax, pas de pneumomédiastin, pas de foyer.",
+    "echo_pleuro": "Glissement pleural présent des deux côtés, lignes A, pas de lignes B, pas d'épanchement : pas de pneumothorax.",
+    "ett": "VG non dilaté, hyperkinétique. VD non dilaté. Pas d'épanchement péricardique."
+  },
+  "schemas": {
+    "rp": { "type": "rp" },
+    "echo_pleuro": { "type": "echo_pleuro" },
+    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": false }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Accueil au déchocage",
+      "vignette": "Amenée par les pompiers pour une crise d'asthme qui ne cède pas depuis 6 heures malgré une vingtaine de bouffées de salbutamol. Asthme mal contrôlé, traitement de fond arrêté depuis des mois, une intubation en réanimation il y a 3 ans. Assise penchée en avant, parle par mots, tirage sus-sternal, sibilants diffus. Débit expiratoire de pointe non mesurable.",
+      "chrono": 120,
+      "pente": { "SpO2": -0.5, "FR": 0.2, "FC": 0.3, "GCS": -0.02 },
+      "diagnostic": ["dx_aag"],
+      "actions": {
+        "scope": { "note": "recommande", "why": "Surveillance continue de la SpO2, de la FC et de la conscience : l'AAG peut s'aggraver en quelques minutes." },
+        "o2_masque": { "note": "indispensable", "alt": "o2", "why": "Oxygène titré pour une SpO2 de 93 à 95 % chez l'adulte (GINA 2024). L'hypoxémie est la première cause de décès de l'AAG.", "effet": { "SpO2": 6 } },
+        "ohd": { "note": "debattu", "alt": "o2", "why": "Possible si le masque ne suffit pas, mais pas d'avantage démontré dans l'asthme ; la cible reste 93 à 95 % (GINA 2024).", "effet": { "SpO2": 6 } },
+        "vni": { "note": "debattu", "why": "Peu de preuves dans l'asthme (GINA 2024). Si on l'essaie : patient calme, jamais sédaté, surveillance rapprochée et intubation sans délai en cas d'échec.", "effet": { "SpO2": 2 } },
+        "salbutamol_neb": { "note": "indispensable", "why": "β2-mimétique de courte durée d'action inhalé, répété toutes les 20 minutes la première heure (GINA 2024). Nébulisé sous oxygène chez cette patiente hypoxémique.", "effet": { "SpO2": 3, "FR": -2, "FC": 4 } },
+        "ipratropium": { "note": "recommande", "why": "Ajouté au salbutamol dans l'exacerbation sévère : moins d'hospitalisations et meilleure fonction respiratoire (GINA 2024).", "effet": { "SpO2": 1 } },
+        "vvp": { "note": "recommande", "why": "Voie veineuse pour le corticoïde, le magnésium et une éventuelle intubation." },
+        "cortico_sys": { "note": "indispensable", "why": "Corticoïde systémique dans l'heure qui suit l'arrivée (GINA 2024) : prednisolone 1 mg/kg (40 à 50 mg) per os, ou équivalent IV si la patiente ne peut pas avaler. Effet après 4 à 6 heures." },
+        "mgso4": { "note": "recommande", "why": "Sulfate de magnésium 2 g IV en 20 minutes, en dose unique, si la réponse au traitement initial est insuffisante ou si l'hypoxémie persiste (GINA 2024). Pas en routine.", "effet": { "SpO2": 2, "FR": -2 } },
+        "salbutamol_iv": { "note": "debattu", "why": "Le salbutamol IV n'a pas fait mieux que la voie inhalée et donne plus d'effets indésirables : pas en routine (GINA 2024). Il se discute en réanimation dans l'AAG réfractaire.", "effet": { "SpO2": 2, "FC": 12 } },
+        "gds": { "note": "recommande", "why": "Gaz du sang dans l'exacerbation grave ou sans réponse au traitement (GINA 2024). Une PaCO2 normale ou haute chez un asthmatique polypnéique annonce l'épuisement." },
+        "iono": { "note": "debattu", "why": "Les β2-mimétiques à forte dose font baisser la kaliémie : la surveiller (RCP du salbutamol). Elle ne retarde pas les bronchodilatateurs." },
+        "rp": { "note": "debattu", "why": "Pas en routine (GINA 2024) ; à faire si un pneumothorax ou une complication est suspecté, ou en l'absence de réponse." },
+        "echo_pleuro": { "note": "debattu", "why": "Élimine vite un pneumothorax au lit (glissement pleural), sans retarder le traitement." },
+        "adre_titree": { "note": "inutile", "why": "L'adrénaline IM est indiquée dans l'asthme associé à une anaphylaxie ou un angiœdème, pas dans les autres exacerbations (GINA 2024)." },
+        "atb_c3g_amika": { "note": "inutile", "why": "Pas d'antibiotique dans l'exacerbation d'asthme sans signe franc d'infection pulmonaire (GINA 2024)." },
+        "midazolam": { "note": "contre_indique", "letal": "acr", "why": "La sédation est formellement à éviter pendant une exacerbation d'asthme (GINA 2024) : la benzodiazépine supprime l'hyperventilation compensatrice. Hypoventilation et arrêt hypoxique." },
+        "sedation_ivse": { "note": "contre_indique", "letal": "acr", "why": "Sédation d'une asthmatique non intubée (GINA 2024 : à proscrire) : hypoventilation, hypercapnie et arrêt hypoxique." },
+        "morphine_titr": { "note": "contre_indique", "why": "Morphinique chez une asthmatique non intubée : dépression respiratoire, et libération d'histamine. À proscrire (GINA 2024).", "effet": { "SpO2": -8, "FR": -8 } },
+        "betabloquant_iv": { "note": "contre_indique", "letal": "acr", "why": "Un bêtabloquant bloque les récepteurs β2 bronchiques et l'effet du salbutamol : bronchospasme majeur jusqu'à l'arrêt. Contre-indiqué dans l'AAG ; la tachycardie traduit la gravité et le salbutamol (GINA 2024)." },
+        "vm_asthme": { "note": "inutile", "why": "Réglage du respirateur : la patiente n'est pas intubée." },
+        "isr_ketamine": { "note": "inutile", "why": "Pas d'indication d'intubation à ce stade : patiente consciente qui parle, sans épuisement. Le traitement médical d'abord.", "effet": { "PAS": -8 } },
+        "isr_etomidate": { "note": "inutile", "why": "Pas d'indication d'intubation à ce stade : patiente consciente qui parle, sans épuisement.", "effet": { "PAS": -12 } },
+        "isr_propofol": { "note": "inutile", "why": "Pas d'indication d'intubation à ce stade, et le propofol expose au collapsus.", "effet": { "PAS": -25 } }
+      },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique de l'asthme (ERC 2021) : RCP, intubation et ventilation à basse fréquence ; rechercher un pneumothorax compressif ; déconnecter et comprimer le thorax si l'air reste piégé.", "apres_racs": { "FC": 128, "PAS": 96, "PAD": 54, "SpO2": 88 } },
+      "suite": [
+        { "si_manque": [["salbutamol_neb", "salbutamol_iv"], "cortico_sys"], "vers": "e1_aggrav" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Aggravation",
+      "vignette": "Vingt minutes plus tard, la patiente ne parle plus, sueurs profuses, balancement thoraco-abdominal. Les sibilants diminuent : le thorax devient silencieux.",
+      "chrono": 90,
+      "constantes": { "SpO2": 82, "FR": 38, "FC": 142, "GCS": 14 },
+      "pente": { "SpO2": -0.8, "FC": 0.4, "GCS": -0.05 },
+      "diagnostic": ["dx_aag"],
+      "actions": {
+        "o2_masque": { "note": "indispensable", "alt": "o2", "why": "SpO2 cible 93 à 95 % (GINA 2024).", "effet": { "SpO2": 6 } },
+        "salbutamol_neb": { "note": "indispensable", "refaire": true, "why": "Nébulisations de salbutamol répétées, voire continues, dans l'AAG qui ne répond pas (GINA 2024).", "effet": { "SpO2": 3, "FR": -2, "FC": 4 } },
+        "cortico_sys": { "note": "indispensable", "why": "Corticoïde systémique sans attendre : son effet est retardé de plusieurs heures (GINA 2024)." },
+        "mgso4": { "note": "indispensable", "why": "Absence de réponse au traitement initial et hypoxémie persistante : sulfate de magnésium 2 g IV en 20 minutes (GINA 2024).", "effet": { "SpO2": 3, "FR": -2 } },
+        "ipratropium": { "note": "recommande", "why": "Associé au salbutamol dans l'exacerbation sévère (GINA 2024).", "effet": { "SpO2": 1 } },
+        "renfort": { "note": "recommande", "why": "Signes de menace vitale (thorax silencieux, épuisement) : appeler le réanimateur pour préparer l'intubation." },
+        "salbutamol_iv": { "note": "debattu", "why": "Se discute en réanimation dans l'AAG réfractaire ; pas de supériorité sur la voie inhalée (GINA 2024).", "effet": { "SpO2": 2, "FC": 12 } },
+        "midazolam": { "note": "contre_indique", "letal": "acr", "why": "Sédation d'une asthmatique épuisée non intubée : arrêt hypoxique (GINA 2024)." },
+        "sedation_ivse": { "note": "contre_indique", "letal": "acr", "why": "Sédation d'une asthmatique non intubée : arrêt hypoxique (GINA 2024)." },
+        "betabloquant_iv": { "note": "contre_indique", "letal": "acr", "why": "Bêtabloquant dans l'AAG : bronchospasme majeur jusqu'à l'arrêt." }
+      },
+      "letal_si_manque": { "actions": [["salbutamol_neb", "salbutamol_iv"]], "etape": ["salbutamol_neb"], "issue": "acr", "why": "Thorax silencieux sans bronchodilatateur : hypoxémie jusqu'à l'arrêt." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique de l'asthme (ERC 2021) : RCP, intubation, ventilation à basse fréquence ; éliminer un pneumothorax compressif.", "apres_racs": { "FC": 128, "PAS": 96, "PAD": 54, "SpO2": 88 } },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Épuisement",
+      "vignette": "Une heure après l'arrivée, malgré le traitement, la patiente s'épuise : somnolente, elle ne répond plus que par des signes. Respiration superficielle à 12/min, thorax quasi silencieux, sueurs. Gaz du sang : pH 7,12, PaCO2 78 mmHg. L'infirmière demande ce qu'il faut préparer.",
+      "chrono": 90,
+      "constantes": { "SpO2": 86, "FR": 12, "FC": 138, "PAS": 116, "PAD": 68, "GCS": 11, "EtCO2": 62 },
+      "pente": { "SpO2": -0.45, "GCS": -0.1, "FR": -0.1, "PAS": -0.3 },
+      "diagnostic": ["dx_aag"],
+      "resultats": {
+        "gds": "**pH {7,10~7,15}** · **PaCO2 {74~82} mmHg** · **PaO2 {56~62} mmHg** sous O2 · HCO3⁻ 25 mmol/L. **Acidose respiratoire aiguë** : épuisement."
+      },
+      "actions": {
+        "renfort": { "note": "recommande", "why": "Intubation à haut risque de collapsus et de désaturation : opérateur expérimenté et deuxième médecin." },
+        "ind_preox": { "note": "recommande", "alt": "preox", "why": "Préoxygénation avant l'induction : la réserve en oxygène est minime.", "effet": { "SpO2": 4 } },
+        "ind_preox_vni": { "note": "recommande", "alt": "preox", "why": "Préoxygénation en VNI chez le patient hypoxémique (SFAR-SRLF 2017, intubation en réanimation), sur une durée courte, juste avant l'induction.", "effet": { "SpO2": 5 } },
+        "check_isr": { "note": "recommande", "why": "Aspiration, matériel d'intubation difficile et plan B prêts : l'intubation de l'asthmatique tolère mal un deuxième essai." },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Le passage en pression positive et l'air piégé effondrent le retour veineux : remplissage avant l'induction, vasopresseur prêt. En réanimation générale, le bolus systématique n'a pas prévenu le collapsus (PREPARE II, JAMA 2022).", "effet": { "PAS": 8 } },
+        "remp_nacl": { "note": "recommande", "alt": "remplissage", "why": "Remplissage avant l'induction : la ventilation en pression positive réduit le retour veineux.", "effet": { "PAS": 8 } },
+        "isr_ketamine": { "note": "indispensable", "alt": "iot", "why": "Épuisement (somnolence, bradypnée, hypercapnie) : intubation sans délai. Kétamine : bronchodilatatrice, préserve la pression artérielle ; sonde de gros calibre (SRLF-SFMU 2002).", "effet": { "PAS": -6, "SpO2": 8, "FC": -6 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "isr_ketamine_succi": { "note": "indispensable", "alt": "iot", "why": "Épuisement : intubation sans délai. Kétamine bronchodilatatrice, succinylcholine pour une intubation rapide.", "effet": { "PAS": -6, "SpO2": 8, "FC": -6 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "isr_etomidate": { "note": "indispensable", "alt": "iot", "why": "Épuisement : intubation sans délai. Étomidate : bonne tolérance hémodynamique, mais pas d'effet bronchodilatateur.", "effet": { "PAS": -10, "SpO2": 8, "FC": -8 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "isr_etomidate_rocu": { "note": "indispensable", "alt": "iot", "why": "Épuisement : intubation sans délai. Étomidate : bonne tolérance hémodynamique.", "effet": { "PAS": -10, "SpO2": 8, "FC": -8 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "isr_propofol": { "note": "debattu", "alt": "iot", "why": "Le propofol est bronchodilatateur, mais chez une patiente hypovolémique bientôt en pression positive il majore le collapsus d'induction. Kétamine ou étomidate préférés.", "effet": { "PAS": -30, "SpO2": 8, "FC": -8 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "isr_propofol_succi": { "note": "debattu", "alt": "iot", "why": "Propofol : risque de collapsus d'induction chez une patiente déshydratée qui passe en pression positive.", "effet": { "PAS": -30, "SpO2": 8, "FC": -8 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "ind_classique": { "note": "contre_indique", "why": "Patiente d'urgence hypoxémique et épuisée : séquence rapide, sans ventilation au masque prolongée. Propofol et morphinique majorent le collapsus.", "effet": { "PAS": -30, "SpO2": 4 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "iot_fibro_vigile": { "note": "inutile", "alt": "iot", "why": "Intubation vigile irréalisable chez une patiente somnolente et hypoxémique ; sans critère d'intubation difficile, séquence rapide.", "effet": { "SpO2": 4 }, "pente": { "SpO2": 0, "GCS": 0, "FR": 0 } },
+        "videolaryngoscope": { "note": "debattu", "why": "Vidéolaryngoscope possible en première intention (critères d'intubation difficile, obésité) ; il ne dispense pas de l'induction." },
+        "vm_asthme": { "note": "indispensable", "why": "Ventilation de l'asthme : FR basse (10 à 12/min), VT 6 à 8 mL/kg de poids idéal, débit inspiratoire élevé, expiration longue (I/E ≥ 1:3), pression de plateau < 30 cmH2O, hypercapnie permissive (SRLF-SFMU 2002). Sans cela, l'air s'accumule (auto-PEEP).", "effet": { "SpO2": 3, "PAS": 4 }, "pente": { "PAS": 0, "SpO2": 0.2 } },
+        "vm_protectrice": { "note": "debattu", "why": "Un VT de 6 mL/kg convient, mais sans baisser la FR ni allonger l'expiration, l'hyperinflation dynamique persiste." },
+        "hypervent": { "note": "contre_indique", "why": "Vouloir normaliser la PaCO2 en augmentant la fréquence raccourcit l'expiration : air piégé (auto-PEEP), barotraumatisme et collapsus. Hypercapnie permissive (SRLF-SFMU 2002).", "effet": { "PAS": -30, "SpO2": -4 } },
+        "vni": { "note": "contre_indique", "why": "Troubles de conscience et épuisement : la VNI retarde l'intubation. Elle n'a de place ici qu'en préoxygénation, juste avant l'induction." },
+        "sedation_ivse": { "note": "recommande", "why": "Une fois intubée : sédation profonde pour supprimer l'asynchronie avec le respirateur, qui aggrave l'air piégé." },
+        "kta": { "note": "recommande", "why": "PA invasive et gaz du sang répétés pendant une ventilation à haut risque de collapsus." },
+        "gds": { "note": "recommande", "refaire": true, "why": "Mesurer l'acidose respiratoire avant l'intubation pour suivre la réponse à la ventilation." },
+        "salbutamol_neb": { "note": "recommande", "why": "Poursuivre les bronchodilatateurs inhalés, y compris en ligne sur le circuit après l'intubation (GINA 2024).", "effet": { "SpO2": 1 } },
+        "mgso4": { "note": "recommande", "why": "Si le magnésium n'a pas encore été donné : 2 g IV en 20 minutes (GINA 2024).", "effet": { "SpO2": 2 } },
+        "noradre": { "note": "debattu", "why": "Vasopresseur si la pression baisse après l'induction ; il ne corrige pas une auto-PEEP, qui se traite en déconnectant.", "effet": { "PAS": 12 } },
+        "midazolam": { "note": "inutile", "why": "Le midazolam n'est pas un agent d'induction en séquence rapide : délai long et collapsus." },
+        "betabloquant_iv": { "note": "contre_indique", "letal": "acr", "why": "Bêtabloquant dans l'AAG : bronchospasme majeur jusqu'à l'arrêt." }
+      },
+      "letal_si_manque": { "actions": [["isr_ketamine", "isr_ketamine_succi", "isr_etomidate", "isr_etomidate_rocu", "isr_propofol", "isr_propofol_succi", "ind_classique", "iot_fibro_vigile", "cricothyro"]], "issue": "acr", "why": "Épuisement respiratoire sans intubation : arrêt hypoxique." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr", "ventil_acr"], "why": "Arrêt hypoxique de l'asthme (ERC 2021) : RCP, intubation, ventilation à 8 à 10/min ; éliminer un pneumothorax compressif.", "apres_racs": { "FC": 124, "PAS": 92, "PAD": 50, "SpO2": 86 } },
+      "suite": [
+        { "si_fait": ["hypervent"], "vers": "e3_collapsus" },
+        { "si_manque": ["vm_asthme"], "vers": "e3_collapsus" },
+        { "vers": "e3" }
+      ]
+    },
+    {
+      "id": "e3_collapsus",
+      "titre": "Collapsus après l'intubation",
+      "vignette": "Dix minutes après l'intubation, le respirateur tourne avec ses réglages standards (FR 20/min, I/E 1:2). La pression s'effondre, pression de crête à 55 cmH2O, capnogramme en aileron de requin qui ne revient pas à la ligne de base, thorax distendu, murmure vésiculaire très diminué des deux côtés.",
+      "chrono": 60,
+      "constantes": { "PAS": 64, "PAD": 36, "FC": 146, "SpO2": 86, "EtCO2": 48 },
+      "pente": { "PAS": -1.5, "SpO2": -0.6, "FC": 0.5 },
+      "diagnostic": ["dx_aag", "dx_choc_obstructif"],
+      "resultats": {
+        "rp": "Sonde bien placée. **Distension thoracique majeure**, coupoles aplaties. Pas de pneumothorax.",
+        "ett": "**Cavités cardiaques petites, peu remplies**, VG hyperkinétique ; fenêtres médiocres (distension). Pas d'épanchement péricardique."
+      },
+      "schemas": {
+        "rp": { "type": "rp" },
+        "ett": { "type": "ett", "vg": "petit", "vci": false }
+      },
+      "actions": {
+        "deconnexion": { "note": "indispensable", "why": "Hyperinflation dynamique (auto-PEEP) : déconnecter le respirateur et laisser l'air sortir, en comprimant le thorax si besoin. La pression remonte en quelques secondes : c'est le test et le traitement (ERC 2021).", "effet": { "PAS": 28, "PAD": 14, "FC": -10, "SpO2": -2 }, "pente": { "PAS": -0.5 } },
+        "vm_asthme": { "note": "indispensable", "why": "Reconnecter avec une FR basse et une expiration longue (I/E ≥ 1:3), hypercapnie permissive, pression de plateau < 30 cmH2O (SRLF-SFMU 2002) : sinon l'air piégé revient.", "effet": { "PAS": 8, "SpO2": 4 }, "pente": { "PAS": 0, "SpO2": 0.2 } },
+        "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Restaurer la précharge, effondrée par la pression intrathoracique.", "effet": { "PAS": 6 } },
+        "remp_nacl": { "note": "recommande", "alt": "remplissage", "why": "Restaurer la précharge.", "effet": { "PAS": 6 } },
+        "echo_pleuro": { "note": "recommande", "why": "Collapsus chez un asthmatique ventilé : éliminer un pneumothorax compressif (ERC 2021). Glissement présent des deux côtés : pas de pneumothorax, c'est l'air piégé." },
+        "sedation_ivse": { "note": "recommande", "why": "Une asynchronie aggrave l'air piégé : sédation profonde, curarisation si besoin." },
+        "rp": { "note": "debattu", "why": "Montre la distension et élimine un pneumothorax, mais prend du temps : déconnecter d'abord." },
+        "ett": { "note": "debattu", "why": "Des cavités petites et peu remplies orientent vers la baisse du retour veineux ; ne pas retarder la déconnexion." },
+        "noradre": { "note": "debattu", "why": "Un vasopresseur peut être nécessaire, mais il masque la cause : la pression intrathoracique se traite en déconnectant.", "effet": { "PAS": 12 } },
+        "salbutamol_neb": { "note": "recommande", "why": "Poursuivre les bronchodilatateurs en ligne sur le circuit (GINA 2024).", "effet": { "SpO2": 1 } },
+        "exsufflation": { "note": "contre_indique", "why": "Sans pneumothorax (glissement présent, distension bilatérale), la décompression à l'aiguille crée un pneumothorax. Elle ne se discute qu'en cas de pneumothorax compressif (ERC 2021).", "effet": { "SpO2": -5, "PAS": -8 } },
+        "drain_thorax": { "note": "contre_indique", "why": "Pas de pneumothorax : le drain blesse le poumon distendu.", "effet": { "SpO2": -5, "PAS": -8 } },
+        "hypervent": { "note": "contre_indique", "letal": "acr", "why": "Augmenter la fréquence aggrave l'air piégé : arrêt circulatoire par tamponnade gazeuse." }
+      },
+      "letal_si_manque": { "actions": [["deconnexion", "vm_asthme"]], "etape": ["deconnexion"], "issue": "acr", "why": "Auto-PEEP non levée : le retour veineux s'effondre jusqu'à l'arrêt circulatoire." },
+      "acr": { "rythme": "AESP", "requis": ["mce", "deconnexion", "adre_acr"], "why": "AESP de l'asthmatique ventilé (ERC 2021) : déconnecter le respirateur et comprimer le thorax pour vider l'air piégé, ventiler à basse fréquence ; rechercher un pneumothorax compressif et le décomprimer s'il existe.", "apres_racs": { "FC": 130, "PAS": 86, "PAD": 46, "SpO2": 88 } },
+      "suite": [ { "vers": "e3" } ]
+    },
+    {
+      "id": "e3",
+      "titre": "Ventilation et admission en réanimation",
+      "vignette": "Patiente intubée et sédatée, ventilée à FR 10/min, VT 6 à 8 mL/kg de poids idéal, I/E 1:4. Pression de plateau 27 cmH2O, PEP intrinsèque 7 cmH2O. Le réanimateur arrive pour l'admission et demande la surveillance prévue.",
+      "chrono": 90,
+      "pente": { "PAS": -0.2, "SpO2": -0.1 },
+      "diagnostic": ["dx_aag"],
+      "resultats": {
+        "gds": "Sous ventilation : **pH {7,20~7,26}** · **PaCO2 {62~70} mmHg** · PaO2 {95~120} mmHg (FiO2 50 %) · HCO3⁻ 27 mmol/L. Hypercapnie permissive : objectif atteint.",
+        "iono": "Na 140 mmol/L · **K⁺ {2,9~3,2} mmol/L** · créatinine 66 µmol/L. Hypokaliémie des β2-mimétiques et des corticoïdes.",
+        "rp": "Sonde 3 cm au-dessus de la carène. **Distension thoracique**, pas de pneumothorax, pas de pneumomédiastin."
+      },
+      "schemas": { "rp": { "type": "rp" } },
+      "actions": {
+        "gds": { "note": "indispensable", "refaire": true, "why": "Contrôler l'acidose sous ventilation : on tolère une hypercapnie tant que le pH reste au-dessus de 7,15 à 7,20 (SRLF-SFMU 2002)." },
+        "reanimation": { "note": "indispensable", "why": "AAG intubé : réanimation (ventilation, sédation profonde, surveillance de l'auto-PEEP et de la pression de plateau)." },
+        "sedation_ivse": { "note": "indispensable", "why": "Sédation profonde pour une ventilation synchrone à basse fréquence." },
+        "iono": { "note": "recommande", "why": "Hypokaliémie fréquente sous salbutamol et corticoïdes à forte dose : la surveiller (RCP du salbutamol)." },
+        "kcl_iv": { "note": "recommande", "why": "Corriger l'hypokaliémie (β2-mimétiques, corticoïdes), qui expose aux troubles du rythme." },
+        "rp": { "note": "recommande", "why": "Position de la sonde, pneumothorax, pneumomédiastin après l'intubation." },
+        "kta": { "note": "recommande", "why": "PA invasive et gaz du sang répétés sous ventilation." },
+        "salbutamol_neb": { "note": "recommande", "why": "Poursuivre les bronchodilatateurs en ligne (GINA 2024).", "effet": { "SpO2": 1 } },
+        "bicar_mol": { "note": "inutile", "why": "Acidose respiratoire : le bicarbonate produit du CO2 qu'une patiente déjà hypercapnique ne peut pas éliminer. Corriger par la ventilation, en tolérant l'hypercapnie." },
+        "bicar_iso": { "note": "inutile", "why": "Acidose respiratoire : le bicarbonate n'est pas indiqué." },
+        "hypervent": { "note": "contre_indique", "why": "Normaliser la PaCO2 en augmentant la fréquence recrée l'air piégé et le collapsus. Hypercapnie permissive (SRLF-SFMU 2002).", "effet": { "PAS": -30, "SpO2": -3 } }
+      },
+      "acr": { "rythme": "AESP", "requis": ["mce", "deconnexion", "adre_acr"], "why": "AESP de l'asthmatique ventilé (ERC 2021) : déconnecter et comprimer le thorax, éliminer un pneumothorax compressif.", "apres_racs": { "FC": 128, "PAS": 88, "PAD": 48, "SpO2": 90 } },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}

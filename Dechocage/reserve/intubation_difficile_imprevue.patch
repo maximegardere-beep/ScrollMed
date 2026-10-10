@@ -1,0 +1,125 @@
+diff --git a/Dechocage/actions.json b/Dechocage/actions.json
+index bf9c126..c5a4862 100644
+--- a/Dechocage/actions.json
++++ b/Dechocage/actions.json
+@@ -203,5 +203,8 @@
+   { "id": "dx_inhalation", "label": "Inhalation du contenu gastrique", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["Mendelson", "pneumopathie d'inhalation"] },
+   { "id": "dx_hematome_cervical", "label": "Hématome cervical compressif", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["hématome de loge", "hématome post-thyroïdectomie"] },
+   { "id": "dx_toxicite_al", "label": "Toxicité systémique des anesthésiques locaux", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["LAST", "intoxication aux AL", "ISAL"] },
+-  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] }
++  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] },
++  { "id": "idi_laryngoscopie_directe", "label": "Nouvelle laryngoscopie directe (lame Macintosh)", "path": ["Airway / ventilation", "Voies aériennes difficiles"], "duree": 1, "repetable": true, "classe": ["intubation"], "alias": ["Macintosh", "IOT", "intubation"] },
++  { "id": "idi_fibro_dsg", "label": "Intubation sous fibroscopie à travers le DSG", "path": ["Airway / ventilation", "Voies aériennes difficiles"], "duree": 8, "moniteur": ["CO2"], "alias": ["fibroscopie", "Aintree", "IOT"] },
++  { "id": "idi_courrier", "label": "Informer le patient, courrier d'intubation difficile", "path": ["Orientation"], "duree": 1, "alias": ["traçabilité", "carte d'intubation difficile"] }
+ ]
+diff --git a/Dechocage/terrains.json b/Dechocage/terrains.json
+index d4be30d..ad5f3c0 100644
+--- a/Dechocage/terrains.json
++++ b/Dechocage/terrains.json
+@@ -327,6 +327,16 @@
+             "SpO2": -4
+           },
+           "why": "SAOS : les morphiniques aggravent les apnées et l'hypoventilation. Analgésie multimodale d'épargne morphinique, PPC dès le réveil (ASA 2014)."
++        },
++        {
++          "id": "ventil_masque",
++          "dans": [
++            "intubation_difficile_imprevue"
++          ],
++          "effet": {
++            "SpO2": 0.6
++          },
++          "why": "SAOS : ventilation au masque difficile (ronflement, critère de Langeron 2000). Canule oropharyngée et deux opérateurs."
+         }
+       ],
+       "promeut": [
+@@ -336,6 +346,13 @@
+             "rea"
+           ],
+           "why": "SAOS appareillé : reprendre la PPC habituelle dès la salle de réveil (ASA 2014)."
++        },
++        {
++          "id": "vni",
++          "dans": [
++            "intubation_difficile_imprevue/e3_reveil"
++          ],
++          "why": "SAOS appareillé : PPC dès le retrait du dispositif supraglottique, chez un patient réveillé et décurarisé (ASA 2014)."
+         }
+       ],
+       "tags": [
+@@ -363,17 +380,54 @@
+             "SpO2": -4
+           },
+           "why": "Obésité : capacité résiduelle fonctionnelle réduite, désaturation rapide pendant l'apnée d'intubation."
++        },
++        {
++          "id": "videolaryngoscope",
++          "dans": [
++            "intubation_difficile_imprevue"
++          ],
++          "plus": {
++            "SpO2": -4
++          },
++          "why": "Obésité : capacité résiduelle fonctionnelle réduite, la SpO2 chute vite pendant l'apnée de la tentative. Réoxygéner au masque avant chaque tentative (DAS 2015)."
++        },
++        {
++          "id": "ventil_masque",
++          "dans": [
++            "intubation_difficile_imprevue"
++          ],
++          "effet": {
++            "SpO2": 0.6
++          },
++          "why": "Obésité : ventilation au masque difficile (IMC > 26, critère de Langeron 2000). Canule oropharyngée, ventilation à deux opérateurs, position en rampe."
+         }
+       ],
+       "promeut": [
+         {
+           "id": "ind_preox_vni",
+           "why": "Obésité : préoxygénation en VNI (ou OHD), en proclive (SFAR 2017)."
++        },
++        {
++          "id": "tete_30",
++          "dans": [
++            "intubation_difficile_imprevue"
++          ],
++          "why": "Obésité : position en rampe (proclive, conduit auditif externe au niveau du sternum) avant une nouvelle tentative : meilleure vue de la glotte et meilleure oxygénation (DAS 2015)."
+         }
+       ],
+       "tags": [
+         "obésité",
+         "préoxygénation"
++      ],
++      "omission": [
++        {
++          "id": "ventil_masque",
++          "dans": [
++            "intubation_difficile_imprevue/e1"
++          ],
++          "complication": "cico",
++          "why": "Obésité morbide : sans réoxygénation au masque entre les tentatives, la tentative suivante se fait en hypoxémie et est interrompue ; le masque n'arrive plus à ventiler : « ni intubation, ni oxygénation ». Chez l'obèse, réoxygéner avant chaque tentative (DAS 2015)."
++        }
+       ]
+     },
+     {
+@@ -494,6 +548,20 @@
+             "induction"
+           ],
+           "why": "Estomac plein : aspiration branchée et testée, plan B annoncé avant d'induire."
++        },
++        {
++          "id": "aspiration_pharyngee",
++          "dans": [
++            "intubation_difficile_imprevue"
++          ],
++          "why": "Estomac plein (hernie hiatale) : la ventilation au masque entre les tentatives insuffle l'estomac ; aspiration branchée, prête en cas de régurgitation (DAS 2015)."
++        },
++        {
++          "id": "sng",
++          "dans": [
++            "intubation_difficile_imprevue/e2"
++          ],
++          "why": "Estomac plein : passer une sonde gastrique par le canal de drainage du dispositif supraglottique de 2e génération pour vider l'estomac insufflé (DAS 2015)."
+         }
+       ],
+       "tags": [

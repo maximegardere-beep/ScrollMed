@@ -1,0 +1,178 @@
+{
+  "id": "toxicite_al",
+  "titre": "Toxicité systémique des anesthésiques locaux : convulsions puis cardiotoxicité",
+  "source": "ASRA 2020 (checklist de traitement de la toxicité systémique des AL) ; Neal et al., Reg Anesth Pain Med 2018 (3e practice advisory ASRA) ; AAGBI 2010 (toxicité grave des AL)",
+  "tags": ["anesthésie", "ALR", "toxicité", "ISAL", "Intralipide", "Toxicité AL"],
+  "patient": "Homme, 58 ans, 82 kg",
+  "terrains": {
+    "contexte": "perop",
+    "exclus": ["estomac_plein", "fa_anticoagulee", "double_antiagregation", "bpco", "myasthenie"],
+    "identite": { "sexe": ["F", "M"], "age": [25, 85], "poids": [55, 100] }
+  },
+  "voies": ["IV"],
+  "constantes": { "FC": 124, "PAS": 172, "PAD": 94, "SpO2": 90, "FR": 8, "T": 36.8, "GCS": 5 },
+  "resultats": {
+    "glycemie": "Glycémie 1,32 g/L.",
+    "tryptase": "Tryptase {4~8} µg/L : normale. Rien en faveur d'une anaphylaxie.",
+    "iono": "Na 139 mmol/L · K⁺ 4,0 mmol/L · créatinine 78 µmol/L.",
+    "tox_sang": "Ropivacaïne plasmatique : prélèvement envoyé, résultat dans plusieurs jours. Il ne guide pas la prise en charge immédiate.",
+    "ett": "**Hypokinésie globale du VG**, **FEVG {35~45} %**. VD de taille normale. VCI 16 mm. Pas d'épanchement péricardique.",
+    "ecg": "**Bradycardie sinusale**, **QRS élargis à {140~170} ms**, **PR allongé**, **extrasystoles ventriculaires polymorphes**."
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Goût métallique, puis convulsions",
+      "vignette": "Chirurgie programmée de la coiffe des rotateurs. Bloc interscalénique échoguidé en salle de préanesthésie : scope, VVP, sédation légère. Après 25 mL de ropivacaïne 0,75 % (aspirations négatives) : goût métallique, fourmillements autour de la bouche, acouphènes, logorrhée et agitation. Quelques secondes plus tard, perte de connaissance et crise tonico-clonique généralisée.",
+      "chrono": 60,
+      "pente": { "SpO2": -2.5, "FC": 1, "PAS": 0.3 },
+      "diagnostic": ["dx_toxicite_al"],
+      "resultats": {
+        "ecg": "Tachycardie sinusale, QRS fins à ce stade. Surveiller leur élargissement : premier signe de cardiotoxicité.",
+        "gds": "**pH {7,18~7,24}** · **PaCO2 {52~60} mmHg** · **PaO2 62 mmHg** · **lactates {4,0~6,0} mmol/L** (crise convulsive).",
+        "ett": "VG hyperkinétique, FEVG 70 %. VD normal. VCI 15 mm, compliante. Pas d'épanchement péricardique."
+      },
+      "schemas": {
+        "ett": { "type": "ett", "vg": "hyperkinetique" }
+      },
+      "actions": {
+        "arret_injection_al": { "note": "indispensable", "why": "Premier geste devant des prodromes (goût métallique, paresthésies péribuccales, acouphènes, agitation) : arrêter l'injection d'anesthésique local (ASRA 2020)." },
+        "renfort": { "note": "recommande", "why": "Appeler à l'aide et faire apporter le kit d'émulsion lipidique (ASRA 2020)." },
+        "o2_masque": { "note": "indispensable", "alt": "oxy", "why": "Oxygène pur sans attendre : l'hypoxie, l'hypercapnie et l'acidose de la crise majorent la toxicité des AL (ASRA 2020).", "effet": { "SpO2": 4 } },
+        "ventil_masque": { "note": "indispensable", "alt": "oxy", "why": "Ventiler en O2 pur si la respiration est inefficace, sans hyperventiler (ASRA 2020) ; dispositif avancé seulement si nécessaire.", "effet": { "SpO2": 6 } },
+        "clonazepam": { "note": "indispensable", "alt": "bzd", "why": "Convulsions : les benzodiazépines sont le traitement de première intention (ASRA 2020).", "effet": { "SpO2": 3, "FC": -10, "PAS": -10 }, "pente": { "SpO2": 0.3 } },
+        "midazolam": { "note": "indispensable", "alt": "bzd", "why": "Convulsions : benzodiazépine IV, traitement de première intention (ASRA 2020). Petites doses : elle reste un hypnotique.", "effet": { "SpO2": 3, "FC": -10, "PAS": -10 }, "pente": { "SpO2": 0.3 } },
+        "midazolam_im": { "note": "debattu", "why": "La voie IM est réservée à l'absence de voie veineuse ; ici, la VVP permet une benzodiazépine IV d'action plus rapide.", "effet": { "SpO2": 2 }, "pente": { "SpO2": 0 } },
+        "intralipide": { "note": "indispensable", "why": "Toxicité grave (convulsions) : émulsion lipidique 20 % dès les premiers signes (ASRA 2020). Bolus de 1,5 mL/kg de masse maigre en 2-3 min (100 mL au-delà de 70 kg), puis perfusion d'environ 0,25 mL/kg/min. Un traitement précoce peut éviter la cardiotoxicité (Neal 2018).", "pente": { "PAS": -0.8 } },
+        "ecg": { "note": "recommande", "why": "ECG : rythme, durée des QRS et du PR. L'élargissement des QRS annonce la cardiotoxicité." },
+        "glycemie": { "note": "recommande", "why": "Toute convulsion : glycémie capillaire, pour ne pas méconnaître une hypoglycémie." },
+        "gds": { "note": "recommande", "why": "Gaz du sang : l'acidose et l'hypercapnie de la crise augmentent la toxicité des AL. Les corriger par la ventilation." },
+        "isr_etomidate": { "note": "debattu", "why": "Intubation inutile si la crise cède et si la ventilation au masque est efficace. Si la crise persiste malgré les benzodiazépines, une petite dose de curare limite l'hypoxie et l'acidose (ASRA 2010). Le curare masque la crise sans traiter le cerveau.", "effet": { "SpO2": 6 } },
+        "isr_etomidate_rocu": { "note": "debattu", "why": "Intubation inutile si la crise cède et si la ventilation au masque est efficace. Si la crise persiste malgré les benzodiazépines, un curare limite l'hypoxie et l'acidose (ASRA 2010).", "effet": { "SpO2": 6 } },
+        "isr_ketamine": { "note": "debattu", "why": "Intubation inutile si la crise cède et si la ventilation au masque est efficace ; à discuter si la crise persiste.", "effet": { "SpO2": 6 } },
+        "isr_ketamine_succi": { "note": "debattu", "why": "Intubation inutile si la crise cède et si la ventilation au masque est efficace ; à discuter si la crise persiste.", "effet": { "SpO2": 6 } },
+        "isr_propofol": { "note": "debattu", "why": "Le propofol arrête la crise, mais ASRA 2020 demande d'éviter les fortes doses, surtout chez un patient instable : dépression myocardique. Il ne remplace pas l'émulsion lipidique (AAGBI 2010).", "effet": { "SpO2": 6, "PAS": -20 } },
+        "isr_propofol_succi": { "note": "debattu", "why": "Le propofol arrête la crise, mais ASRA 2020 demande d'éviter les fortes doses, surtout chez un patient instable : dépression myocardique. Il ne remplace pas l'émulsion lipidique (AAGBI 2010).", "effet": { "SpO2": 6, "PAS": -20 } },
+        "ind_classique": { "note": "debattu", "why": "Propofol à dose d'induction : à éviter à forte dose dans la toxicité des AL, surtout si le patient est instable (ASRA 2020). Les benzodiazépines sont préférées.", "effet": { "SpO2": 6, "PAS": -20 } },
+        "hypervent": { "note": "debattu", "why": "AAGBI 2010 proposait une hyperventilation modérée contre l'acidose ; la checklist ASRA 2020 demande de l'éviter. Viser la normocapnie." },
+        "tryptase": { "note": "inutile", "why": "Pas d'anaphylaxie : PA haute, ni érythème, ni bronchospasme. Prodromes neurologiques puis crise juste après l'injection d'AL : c'est une toxicité, pas une allergie." },
+        "adre_titree": { "note": "contre_indique", "why": "Pas d'anaphylaxie, PA déjà haute : l'adrénaline est sans indication et arythmogène sur un myocarde intoxiqué. Dans la toxicité des AL, elle ne sert qu'à petites doses (≤ 1 µg/kg), en cas d'hypotension ou d'arrêt (ASRA 2020).", "effet": { "PAS": 25, "FC": 20 } },
+        "betabloquant_iv": { "note": "contre_indique", "why": "Bêtabloquant contre l'HTA et la tachycardie de la crise : contre-indiqué dans la toxicité des AL, il aggrave la dépression myocardique (ASRA 2020). L'hypertension cède avec la crise.", "effet": { "PAS": -25, "FC": -25 } }
+      },
+      "acr": { "rythme": "Asystolie (hypoxie et toxicité des AL)", "ecg": "asystolie", "requis": ["mce", "ventil_acr", "intralipide"], "why": "Arrêt dans une toxicité des AL : RCP, ventilation en O2 pur, émulsion lipidique 20 % (bolus répétés, débit doublé). Adrénaline à doses réduites (≤ 1 µg/kg) ; ni vasopressine, ni inhibiteur calcique, ni bêtabloquant, ni anesthésique local. Réanimation prolongée, CEC / ECMO si réfractaire (ASRA 2020).", "apres_racs": { "FC": 72, "PAS": 90, "PAD": 50, "SpO2": 90 } },
+      "suite": [
+        { "si_manque": ["arret_injection_al", ["clonazepam", "midazolam", "midazolam_im", "isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"], ["o2_masque", "ventil_masque", "isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"]], "vers": "e1_aggrav" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Crise prolongée, hypoxie",
+      "vignette": "Cyanose, trismus, respiration inefficace : la crise se prolonge ou l'oxygénation n'est pas assurée. L'hypoxie, l'hypercapnie et l'acidose majorent la toxicité de l'anesthésique local.",
+      "chrono": 60,
+      "constantes": { "SpO2": 76, "FR": 6, "GCS": 3, "FC": 134 },
+      "pente": { "SpO2": -2.5, "FC": 0.5 },
+      "diagnostic": ["dx_toxicite_al"],
+      "resultats": {
+        "gds": "**pH 7,08** · **PaCO2 68 mmHg** · **PaO2 48 mmHg** · **lactates 7,2 mmol/L**.",
+        "ecg": "Tachycardie sinusale, **QRS qui s'élargissent (120 ms)**, **extrasystoles ventriculaires**.",
+        "ett": "VG hyperkinétique, FEVG 65 %. Pas d'épanchement péricardique."
+      },
+      "actions": {
+        "arret_injection_al": { "note": "indispensable", "why": "Si ce n'est pas fait : arrêter immédiatement l'injection d'anesthésique local (ASRA 2020)." },
+        "clonazepam": { "note": "indispensable", "alt": "bzd", "why": "Arrêter la crise : benzodiazépine IV (ASRA 2020).", "effet": { "SpO2": 4, "FC": -10, "PAS": -10 }, "pente": { "SpO2": 0.3 } },
+        "midazolam": { "note": "indispensable", "alt": "bzd", "why": "Arrêter la crise : benzodiazépine IV (ASRA 2020).", "effet": { "SpO2": 4, "FC": -10, "PAS": -10 }, "pente": { "SpO2": 0.3 } },
+        "midazolam_im": { "note": "debattu", "why": "Délai d'action trop long alors que la VVP est en place.", "effet": { "SpO2": 2 } },
+        "ventil_masque": { "note": "indispensable", "why": "Hypoventilation et cyanose : ventiler au masque en O2 pur, à deux opérateurs, sans hyperventiler (ASRA 2020).", "effet": { "SpO2": 8 } },
+        "o2_masque": { "note": "debattu", "why": "Insuffisant : la crise et l'hypoventilation imposent de ventiler au masque.", "effet": { "SpO2": 2 } },
+        "intralipide": { "note": "indispensable", "why": "Toxicité grave : émulsion lipidique 20 %, bolus de 1,5 mL/kg de masse maigre (100 mL au-delà de 70 kg) puis environ 0,25 mL/kg/min (ASRA 2020).", "pente": { "PAS": -0.8 } },
+        "renfort": { "note": "recommande", "why": "Appeler à l'aide (ASRA 2020)." },
+        "isr_etomidate": { "note": "debattu", "why": "Crise qui persiste malgré les benzodiazépines avec hypoxie : intubation, une petite dose de curare limitant l'hypoxie et l'acidose (ASRA 2010). L'étomidate a le moins d'effet hémodynamique.", "effet": { "SpO2": 12 } },
+        "isr_etomidate_rocu": { "note": "debattu", "why": "Crise qui persiste malgré les benzodiazépines avec hypoxie : intubation, le curare limitant l'hypoxie et l'acidose (ASRA 2010).", "effet": { "SpO2": 12 } },
+        "isr_ketamine": { "note": "debattu", "why": "Intubation si la crise et l'hypoxie persistent malgré les benzodiazépines et la ventilation au masque.", "effet": { "SpO2": 12 } },
+        "isr_ketamine_succi": { "note": "debattu", "why": "Intubation si la crise et l'hypoxie persistent malgré les benzodiazépines et la ventilation au masque.", "effet": { "SpO2": 12 } },
+        "isr_propofol": { "note": "debattu", "why": "Fortes doses de propofol à éviter dans la toxicité des AL, surtout si le patient devient instable (ASRA 2020).", "effet": { "SpO2": 12, "PAS": -25 } },
+        "isr_propofol_succi": { "note": "debattu", "why": "Fortes doses de propofol à éviter dans la toxicité des AL, surtout si le patient devient instable (ASRA 2020).", "effet": { "SpO2": 12, "PAS": -25 } },
+        "ind_classique": { "note": "debattu", "why": "Fortes doses de propofol à éviter dans la toxicité des AL (ASRA 2020) ; préférer les benzodiazépines.", "effet": { "SpO2": 12, "PAS": -25 } },
+        "gds": { "note": "recommande", "why": "Acidose mixte : la corriger par la ventilation, elle majore la toxicité." },
+        "adre_titree": { "note": "contre_indique", "why": "PA encore haute : pas d'indication à l'adrénaline, arythmogène sur un myocarde intoxiqué (ASRA 2020 : petites doses seulement, en cas d'hypotension ou d'arrêt).", "effet": { "PAS": 25, "FC": 20 } },
+        "betabloquant_iv": { "note": "contre_indique", "why": "Bêtabloquants à éviter dans la toxicité des AL (ASRA 2020) : dépression myocardique.", "effet": { "PAS": -25, "FC": -25 } }
+      },
+      "letal_si_manque": {
+        "actions": [
+          ["clonazepam", "midazolam", "midazolam_im", "isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"],
+          ["ventil_masque", "isr_etomidate", "isr_etomidate_rocu", "isr_ketamine", "isr_ketamine_succi", "isr_propofol", "isr_propofol_succi", "ind_classique"]
+        ],
+        "issue": "acr",
+        "why": "Crise non contrôlée et hypoventilation : hypoxie et acidose précipitent l'arrêt cardiaque."
+      },
+      "acr": { "rythme": "Asystolie (hypoxie et toxicité des AL)", "ecg": "asystolie", "requis": ["mce", "ventil_acr", "intralipide"], "why": "Arrêt hypoxique dans une toxicité des AL : RCP, ventilation en O2 pur, émulsion lipidique 20 % pendant la RCP ; adrénaline à doses réduites (≤ 1 µg/kg) ; RCP prolongée, CEC / ECMO si réfractaire (ASRA 2020).", "apres_racs": { "FC": 72, "PAS": 90, "PAD": 50, "SpO2": 88 } },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Cardiotoxicité",
+      "vignette": "La crise a cédé, le réveil est lent. Quelques minutes plus tard, le scope s'alarme : bradycardie, QRS qui s'élargissent, extrasystoles ventriculaires polymorphes et salves de TV non soutenue. La pression s'effondre.",
+      "chrono": 60,
+      "ecg": "qrs_larges",
+      "constantes": { "FC": 62, "PAS": 80, "PAD": 42, "GCS": 9, "FR": 12 },
+      "pente": { "PAS": -2.5, "FC": -1.5, "SpO2": -0.3 },
+      "diagnostic": ["dx_toxicite_al"],
+      "resultats": {
+        "ecg": "**Bradycardie sinusale**, **QRS élargis à {140~170} ms**, **PR allongé**, **extrasystoles ventriculaires polymorphes**, **salves de TV non soutenue**.",
+        "gds": "**pH 7,22** · PaCO2 44 mmHg · PaO2 180 mmHg (O2 pur) · **lactates 4,8 mmol/L** · K⁺ 4,1 mmol/L."
+      },
+      "actions": {
+        "intralipide": { "note": "indispensable", "refaire": true, "why": "Instabilité circulatoire : nouveau bolus d'émulsion lipidique (une à deux fois) et débit doublé à 0,5 mL/kg/min, sans dépasser environ 12 mL/kg au total (ASRA 2020).", "effet": { "PAS": 14, "FC": 10 }, "pente": { "PAS": 0.8, "FC": 0.5 } },
+        "adre_titree": { "note": "recommande", "why": "Hypotension : adrénaline en petits bolus (≤ 1 µg/kg). Les fortes doses favorisent les arythmies et réduisent l'efficacité des lipides (Neal 2018 ; ASRA 2020).", "effet": { "PAS": 10, "FC": 8 } },
+        "amiodarone": { "note": "recommande", "why": "Arythmies ventriculaires : l'amiodarone est l'antiarythmique de choix. Jamais d'anesthésique local (lidocaïne, procaïnamide) (Neal 2018)." },
+        "assistance_meca": { "note": "recommande", "why": "Cardiotoxicité : alerter l'équipe de CEC / ECMO la plus proche, la réanimation peut être longue (ASRA 2020)." },
+        "renfort": { "note": "recommande", "why": "Appeler à l'aide, faire apporter un second kit d'émulsion lipidique (ASRA 2020)." },
+        "kta": { "note": "recommande", "why": "PA invasive : suivi battement par battement, gaz du sang répétés." },
+        "ecg": { "note": "recommande", "refaire": true, "why": "ECG 12 dérivations : QRS larges, PR allongé, extrasystoles ventriculaires. C'est le blocage des canaux sodiques par l'AL." },
+        "gds": { "note": "recommande", "refaire": true, "why": "Contrôle : l'acidose majore la toxicité, elle se corrige par la ventilation et la restauration du débit." },
+        "atropine": { "note": "debattu", "why": "Bradycardie : traitement conventionnel possible (ASRA 2020), effet souvent faible tant que l'AL bloque le myocarde. L'émulsion lipidique reste le traitement.", "effet": { "FC": 6 } },
+        "noradre": { "note": "debattu", "why": "Vasopresseur en complément pour l'hypotension ; il ne remplace pas l'émulsion lipidique. Éviter la vasopressine (ASRA 2020).", "effet": { "PAS": 6 } },
+        "remp_cristal": { "note": "debattu", "why": "Remplissage modéré possible ; le traitement de la cardiotoxicité est l'émulsion lipidique.", "effet": { "PAS": 4 } },
+        "ett": { "note": "debattu", "why": "Montre la dépression myocardique globale et élimine une autre cause ; ne doit pas retarder l'émulsion lipidique." },
+        "isr_etomidate": { "note": "debattu", "why": "Intubation si la ventilation au masque ne suffit pas (ASRA 2020) ; l'étomidate a le moins d'effet hémodynamique.", "effet": { "PAS": -6 } },
+        "isr_etomidate_rocu": { "note": "debattu", "why": "Intubation si la ventilation au masque ne suffit pas (ASRA 2020) ; l'étomidate a le moins d'effet hémodynamique.", "effet": { "PAS": -6 } },
+        "isr_ketamine": { "note": "debattu", "why": "Intubation si la ventilation au masque ne suffit pas (ASRA 2020).", "effet": { "PAS": -6 } },
+        "isr_ketamine_succi": { "note": "debattu", "why": "Intubation si la ventilation au masque ne suffit pas (ASRA 2020).", "effet": { "PAS": -6 } },
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez un patient instable intoxiqué : collapsus (ASRA 2020). Le propofol ne remplace pas l'émulsion lipidique (AAGBI 2010)." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez un patient instable intoxiqué : collapsus (ASRA 2020). Le propofol ne remplace pas l'émulsion lipidique (AAGBI 2010)." },
+        "ind_classique": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez un patient instable intoxiqué : collapsus (ASRA 2020)." },
+        "lidocaine_iv": { "note": "contre_indique", "letal": "acr", "why": "Lidocaïne comme antiarythmique : c'est un anesthésique local de plus, qui aggrave la toxicité. À éviter (ASRA 2020 ; AAGBI 2010). L'antiarythmique de choix est l'amiodarone." },
+        "betabloquant_iv": { "note": "contre_indique", "letal": "acr", "why": "Bêtabloquant sur un myocarde intoxiqué, bradycarde et hypotendu : à éviter (ASRA 2020)." }
+      },
+      "letal_si_manque": { "actions": ["intralipide"], "etape": true, "issue": "acr", "why": "Cardiotoxicité sans nouveau bolus d'émulsion lipidique : TV sans pouls." },
+      "acr": { "rythme": "TV sans pouls", "ecg": "tv", "ecg_racs": "qrs_larges", "requis": ["mce", "choc_ext", "intralipide"], "why": "TV sans pouls par toxicité des AL : RCP, choc électrique, émulsion lipidique (bolus répétés, débit doublé). Adrénaline à doses réduites (≤ 1 µg/kg) ; amiodarone pour les arythmies ; ni vasopressine, ni inhibiteur calcique, ni bêtabloquant, ni anesthésique local. Réanimation prolongée, CEC / ECMO si réfractaire (ASRA 2020).", "apres_racs": { "FC": 72, "PAS": 86, "PAD": 46, "SpO2": 92 } },
+      "suite": [ { "vers": "e3" } ]
+    },
+    {
+      "id": "e3",
+      "titre": "Stabilisation",
+      "vignette": "Sous émulsion lipidique, les QRS s'affinent et la pression remonte. Réveil progressif, confusion. La chirurgie est reportée.",
+      "chrono": 60,
+      "ecg": "sinus",
+      "pente": { "PAS": 0.3, "FC": 0.5, "SpO2": 0.2, "GCS": 0.15 },
+      "resultats": {
+        "ecg": "Rythme sinusal, **QRS à 110 ms** (en voie de normalisation), plus d'extrasystoles.",
+        "gds": "pH 7,34 · PaCO2 40 mmHg · **lactates 2,4 mmol/L**.",
+        "bilan_hep": "Lipase normale. Sérum lactescent (émulsion lipidique) : certains dosages sont perturbés.",
+        "ett": "Contraction du VG en amélioration, FEVG 55 %. Pas d'épanchement péricardique."
+      },
+      "actions": {
+        "reanimation": { "note": "indispensable", "why": "Surveillance prolongée en réanimation : au moins 4 à 6 h après un événement cardiovasculaire, au moins 2 h après des signes neurologiques isolés. La cardiotoxicité peut récidiver (ASRA 2020)." },
+        "ecg": { "note": "recommande", "refaire": true, "why": "Contrôle : affinement des QRS, disparition des extrasystoles." },
+        "gds": { "note": "recommande", "refaire": true, "why": "Contrôle de l'acidose et des lactates." },
+        "bilan_hep": { "note": "debattu", "why": "Fortes doses d'émulsion lipidique : pancréatite et interférences avec les dosages biologiques sont rapportées. La lipase peut être surveillée." },
+        "tox_sang": { "note": "debattu", "why": "Le dosage plasmatique de l'AL documente l'accident, mais ne guide pas le traitement." },
+        "ett": { "note": "debattu", "why": "Suivi de la récupération de la fonction ventriculaire." },
+        "intralipide": { "note": "inutile", "why": "Hémodynamique stabilisée : pas de nouveau bolus. La perfusion en cours est poursuivie jusqu'à stabilité durable, sans dépasser environ 12 mL/kg au total (ASRA 2020)." },
+        "tdm_cerebral": { "note": "inutile", "why": "Crise expliquée par la toxicité des AL et réveil progressif : pas de scanner systématique. À discuter devant un déficit focal ou un réveil anormal." }
+      },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}

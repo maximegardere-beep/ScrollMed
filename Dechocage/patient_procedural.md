@@ -130,6 +130,22 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 
 - **D52** (2026-10-08) : les 4 scénarios restants deviennent des trames, sexe masculin fixé (vignettes genrées, cancer de la prostate dans l'EP). Exclusions : STEMI sans coronarien connu, stent récent ni RA serré ; EP sans FA anticoagulée ; hyperkaliémie sans HTA (ramipril déjà dans la vignette) ; hémorragie peropératoire sans FA anticoagulée (anticoagulant arrêté avant une chirurgie programmée). Le plafond de FC du bêtabloquant est levé en TV ou en FV. Sous AVK, le CCP + vitamine K est promu dans les trames hémorragiques (HAS 2008).
 
+### Nouvelles trames et terrains (2026-10-09/10)
+- **D53** (2026-10-09) : 11 trames choisies par QCM (asthme aigu grave, plaie thoracique, acidocétose, TC grave, EME, BAV complet, induction programmée, toxicité des AL, intubation difficile imprévue, hématome cervical, dépression morphinique). Livrées : plaie thoracique, acidocétose, EME, BAV complet, hématome cervical, dépression morphinique (14 trames au total). Les 5 autres sont en brouillon dans `Dechocage/reserve/` (D60).
+- **D54** (2026-10-09) : 4 terrains ajoutés : **estomac plein** (révise D47 : CI de l'induction classique en contexte `induction` → complication **inhalation**, qui révise D48), **IRC dialysée** (succinylcholine CI, morphine accumulée, OAP au 3e remplissage), **diabète** (gastroparésie : ISR étomidate / kétamine promues en induction), **cirrhose / éthylisme** (thiamine promue, coagulopathie, propranolol). Sans `identite.age` (le moteur tirerait trop jeunes les patients sans le terrain). `estomac_plein` exclu des trames hors induction.
+- **D55** (2026-10-09) : nouvelles actions `ind_classique` (classe `induction_classique`), `videolaryngoscope` (tentative d'intubation, pose la capno, sans classe `intubation`), `bougie`, `reveil_patient`, `aspiration_pharyngee`, `arret_injection_al`, `intralipide`, `ouverture_cicatrice`, `naloxone_ivse`, `ees_endocavitaire`, `bav_cardio_pacemaker`, `stimulation_eveil`, `naloxone_bolus`, et 5 diagnostics. Les ISR portent la classe `isr`.
+- **D56** (2026-10-09) : rythmes ECG `bav3` (P dissociées, échappement large) et `entraine` (spicule + QRS large), persistants après RACS.
+- **D57** (2026-10-09) : l'éthylisme de l'EME vient du terrain cirrhose (vignette neutre) ; l'acidocétose garde une DT1 de 28-50 ans et exclut le diabète de type 2 ; le BAV exclut tous les terrains qui peuvent tirer un bêtabloquant (D58).
+- **D60** (2026-10-10) : 5 trames mises en réserve à la demande de l'utilisateur (quota) : asthme aigu grave, TC grave, induction programmée, toxicité des AL, intubation difficile imprévue.
+
+## Écarts relevés le 2026-10-10 (à corriger)
+- [ ] **D58. Bêtabloquants cumulés** : coronarien + cirrhose tirent bisoprolol et propranolol, décalages de FC additionnés (−45/min). Le moteur devrait regrouper les traitements d'une même classe. L'hyperkaliémie (FC 42) n'exclut pas ces terrains : FC possible vers 17.
+- [ ] **D59. CI de terrain et `suite`** : une action attendue par la trame mais contre-indiquée par le terrain, non faite, déclenche quand même `suite.si_manque` (KCl chez la dialysée dans l'acidocétose).
+- [ ] Antécédents « bruit » sans âge (hystérectomie en 2005 chez une femme de 28 ans).
+- [ ] Un geste fait pendant une complication n'a que l'effet prévu par la complication (EES pendant une ischémie).
+- [ ] La promotion de la VNI chez le SAOS en contexte `rea` s'applique aussi à l'hématome cervical (VNI « recommandée » en pleine compression) : la limiter à `sspi_curarisation`.
+- [ ] Sources à vérifier par l'utilisateur, listées dans les rapports des trames (ADA 2024 seuil de K⁺, DAS 2022 grades, SRLF-SFMU 2018 choix de l'hypnotique, RCP Isuprel, andexanet ESC 2023…).
+
 ## Ordre de livraison
 - **D30** (2026-10-08) :
   1. ✅ **Moteur sur une trame existante** : `terrains.json`, clé `classe` sur les actions, tirage du patient, fiche + bandeau, notes et modulations par le terrain, complication injectée **anaphylaxie**, débriefing annoté. Testé sur `sc_choc_septique.json` (allergie aux bêtalactamines).

@@ -1,0 +1,89 @@
+diff --git a/Dechocage/terrains.json b/Dechocage/terrains.json
+index d4be30d..a22f16b 100644
+--- a/Dechocage/terrains.json
++++ b/Dechocage/terrains.json
+@@ -93,13 +93,15 @@
+         "bnp": "**NT-proBNP 4 800 pg/mL**.",
+         "stemi_choc_cardiogenique/ett": "**FEVG 20 %** (30 % connue), VG dilaté, **akinésie antérieure et apicale** nouvelle. VD de taille normale. Pas d'épanchement, pas de CIV, pas d'insuffisance mitrale significative. **VCI 22 mm, peu compliante**.",
+         "ep_haut_risque/ett": "VG dilaté, **FEVG 30 %** (connue). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. Pas d'épanchement péricardique. **VCI 24 mm, non compliante**.",
+-        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue)."
++        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue).",
++        "asthme_aigu_grave/e3_collapsus/ett": "VG dilaté, **FEVG 30 %** (connue), **cavités peu remplies** ; fenêtres médiocres (distension). Pas d'épanchement péricardique."
+       },
+       "schemas": {
+         "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
+         "stemi_choc_cardiogenique/ett": { "type": "ett", "vg": "dilate", "akinesie": "anterieure", "vci": "dilatee" },
+         "ep_haut_risque/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
+-        "ep_haut_risque/e2/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." }
++        "ep_haut_risque/e2/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." },
++        "asthme_aigu_grave/e3_collapsus/ett": { "type": "ett", "vg": "dilate", "vci": false }
+       },
+       "tags": [
+         "insuffisance cardiaque",
+@@ -421,6 +423,25 @@
+         {
+           "id": "neostigmine",
+           "why": "Myasthénie sous pyridostigmine : la néostigmine a un effet imprévisible (résistance ou crise cholinergique). Décurariser par sugammadex, sous monitorage quantitatif."
++        },
++        {
++          "id": "mgso4",
++          "dans": [
++            "asthme_aigu_grave"
++          ],
++          "why": "Myasthénie : le magnésium IV réduit la libération d'acétylcholine à la jonction neuromusculaire et peut déclencher une crise myasthénique. L'éviter ; poursuivre les bronchodilatateurs inhalés et l'ipratropium."
++        }
++      ],
++      "module": [
++        {
++          "id": "mgso4",
++          "dans": [
++            "asthme_aigu_grave"
++          ],
++          "plus": {
++            "SpO2": -4
++          },
++          "why": "Myasthénie : le magnésium affaiblit les muscles respiratoires d'une patiente déjà épuisée."
+         }
+       ],
+       "constantes": {
+@@ -819,6 +840,13 @@
+             "anaphylaxie"
+           ],
+           "why": "Patient sous bêtabloquant : l'anaphylaxie peut résister à l'adrénaline. Glucagon IV en cas de résistance (SFAR/SFA 2011)."
++        },
++        {
++          "id": "arret_ttt",
++          "dans": [
++            "asthme_aigu_grave"
++          ],
++          "why": "Propranolol contre-indiqué dans l'asthme (RCP) : l'arrêter. La prévention de la rupture de varices passe alors par la ligature endoscopique (Baveno VII, 2022)."
+         }
+       ],
+       "module": [
+@@ -831,6 +859,26 @@
+             "PAS": 0.5
+           },
+           "why": "Sous bêtabloquant, l'adrénaline est moins efficace : bolus répétés, et glucagon si la pression ne remonte pas."
++        },
++        {
++          "id": "salbutamol_neb",
++          "dans": [
++            "asthme_aigu_grave"
++          ],
++          "effet": {
++            "SpO2": 0.4
++          },
++          "why": "Propranolol, bêtabloquant non cardiosélectif : il bloque les récepteurs β2 bronchiques et réduit l'effet du salbutamol. Il est contre-indiqué chez l'asthmatique (RCP du propranolol) et a pu déclencher la crise."
++        },
++        {
++          "id": "salbutamol_iv",
++          "dans": [
++            "asthme_aigu_grave"
++          ],
++          "effet": {
++            "SpO2": 0.4
++          },
++          "why": "Propranolol, bêtabloquant non cardiosélectif : il bloque les récepteurs β2 et réduit l'effet du salbutamol, même IV."
+         }
+       ],
+       "tags": [

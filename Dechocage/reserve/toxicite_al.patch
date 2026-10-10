@@ -1,0 +1,68 @@
+diff --git a/Dechocage/actions.json b/Dechocage/actions.json
+index bf9c126..e86f2a8 100644
+--- a/Dechocage/actions.json
++++ b/Dechocage/actions.json
+@@ -203,5 +203,7 @@
+   { "id": "dx_inhalation", "label": "Inhalation du contenu gastrique", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["Mendelson", "pneumopathie d'inhalation"] },
+   { "id": "dx_hematome_cervical", "label": "Hématome cervical compressif", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["hématome de loge", "hématome post-thyroïdectomie"] },
+   { "id": "dx_toxicite_al", "label": "Toxicité systémique des anesthésiques locaux", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["LAST", "intoxication aux AL", "ISAL"] },
+-  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] }
++  { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] },
++
++  { "id": "lidocaine_iv", "label": "Lidocaïne IV (antiarythmique)", "path": ["Traitement", "Rythme & conduction"], "duree": 1, "requiert": "IV", "classe": ["anesthesique_local"], "alias": ["Xylocaïne", "Xylocard"] }
+ ]
+diff --git a/Dechocage/terrains.json b/Dechocage/terrains.json
+index d4be30d..d87f06a 100644
+--- a/Dechocage/terrains.json
++++ b/Dechocage/terrains.json
+@@ -93,14 +93,27 @@
+         "bnp": "**NT-proBNP 4 800 pg/mL**.",
+         "stemi_choc_cardiogenique/ett": "**FEVG 20 %** (30 % connue), VG dilaté, **akinésie antérieure et apicale** nouvelle. VD de taille normale. Pas d'épanchement, pas de CIV, pas d'insuffisance mitrale significative. **VCI 22 mm, peu compliante**.",
+         "ep_haut_risque/ett": "VG dilaté, **FEVG 30 %** (connue). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. Pas d'épanchement péricardique. **VCI 24 mm, non compliante**.",
+-        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue)."
++        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue).",
++        "toxicite_al/ett": "VG dilaté, **FEVG 20 %** (30 % connue) : **hypokinésie globale majorée** par la toxicité de l'anesthésique local. VD de taille normale. VCI 16 mm. Pas d'épanchement péricardique.",
++        "toxicite_al/e1/ett": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale, sans aggravation à ce stade. Pas d'épanchement péricardique.",
++        "toxicite_al/e3/ett": "VG dilaté, **FEVG 25 %** (30 % connue), contraction en amélioration. Pas d'épanchement péricardique."
+       },
+       "schemas": {
+         "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
+         "stemi_choc_cardiogenique/ett": { "type": "ett", "vg": "dilate", "akinesie": "anterieure", "vci": "dilatee" },
+         "ep_haut_risque/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
+-        "ep_haut_risque/e2/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." }
++        "ep_haut_risque/e2/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." },
++        "toxicite_al/ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
++        "toxicite_al/e1/ett": { "type": "ett", "vg": "dilate", "vci": false },
++        "toxicite_al/e3/ett": { "type": "ett", "vg": "dilate", "vci": false }
+       },
++      "promeut": [
++        {
++          "id": "assistance_meca",
++          "dans": ["toxicite_al"],
++          "why": "FEVG altérée : la cardiopathie, surtout à fraction d'éjection basse, est un facteur de risque de toxicité grave des AL (Neal 2018). Alerter dès les premiers signes l'équipe de CEC / ECMO, la réanimation peut être longue (ASRA 2020)."
++        }
++      ],
+       "tags": [
+         "insuffisance cardiaque",
+         "remplissage"
+@@ -257,12 +270,18 @@
+       "resultats": {
+         "ett": "**Rétrécissement aortique serré** : surface 0,7 cm², gradient moyen 50 mmHg. FEVG 60 %.",
+         "ep_haut_risque/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. VG petit, FEVG conservée. **VCI 24 mm, non compliante**.",
+-        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu."
++        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu.",
++        "toxicite_al/ett": "**Rétrécissement aortique serré** connu (0,7 cm²). **Hypokinésie globale du VG**, **FEVG {35~45} %** (60 % connue). Pas d'épanchement péricardique.",
++        "toxicite_al/e1/ett": "**Rétrécissement aortique serré** (0,7 cm², gradient moyen 50 mmHg). VG hyperkinétique, FEVG 70 %. Pas d'épanchement péricardique.",
++        "toxicite_al/e3/ett": "**Rétrécissement aortique serré** connu. Contraction du VG en amélioration, FEVG 55 %. Pas d'épanchement péricardique."
+       },
+       "schemas": {
+         "ett": { "type": "ett", "ra": true, "vci": false },
+         "ep_haut_risque/ett": { "type": "ett", "ra": true, "vg": "petit", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
+-        "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false }
++        "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false },
++        "toxicite_al/ett": { "type": "ett", "ra": true, "vci": false },
++        "toxicite_al/e1/ett": { "type": "ett", "ra": true, "vg": "hyperkinetique", "vci": false },
++        "toxicite_al/e3/ett": { "type": "ett", "ra": true, "vci": false }
+       },
+       "tags": [
+         "rétrécissement aortique",

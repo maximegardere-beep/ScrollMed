@@ -1,0 +1,112 @@
+diff --git a/Dechocage/terrains.json b/Dechocage/terrains.json
+index d4be30d..aaaa56c 100644
+--- a/Dechocage/terrains.json
++++ b/Dechocage/terrains.json
+@@ -151,6 +151,10 @@
+           "why": "Sujet âgé : réserve hémodynamique réduite, chute de pression plus forte avec les hypnotiques."
+         }
+       ],
++      "resultats": {
++        "tc_grave_engagement/tdm_cerebral": "**Hématome sous-dural aigu hémisphérique droit de 16 mm**, **déviation de la ligne médiane de 11 mm**, **engagement sous-falcoriel**, **citernes de la base comprimées**. Atrophie cortico-sous-corticale. Rachis cervical : arthrose, pas de fracture.",
++        "tc_grave_engagement/tdm_body": "Encéphale : **hématome sous-dural aigu hémisphérique droit de 16 mm**, **déviation de la ligne médiane de 11 mm**, **citernes de la base comprimées**, atrophie. Rachis : arthrose, pas de fracture. Thorax, abdomen, bassin : pas de lésion hémorragique."
++      },
+       "tags": [
+         "sujet âgé"
+       ]
+@@ -181,7 +185,9 @@
+         "stemi_choc_cardiogenique/scope": "**Fibrillation atriale rapide**. Sus-décalage du ST visible sur la dérivation du scope.",
+         "hyperkaliemie_menacante/ecg": "**Fibrillation atriale lente à 42/min**, **QRS larges à 160 ms**, **ondes T amples et pointues**.",
+         "hyperkaliemie_menacante/scope": "**Bradycardie irrégulière à complexes larges**.",
+-        "hyperkaliemie_menacante/e2/ecg": "Fibrillation atriale à 64/min, **QRS à 110 ms**, **ondes T encore amples**."
++        "hyperkaliemie_menacante/e2/ecg": "Fibrillation atriale à 64/min, **QRS à 110 ms**, **ondes T encore amples**.",
++        "tc_grave_engagement/scope": "**Fibrillation atriale**, réponse ventriculaire lente, irrégulière.",
++        "tc_grave_engagement/ecg": "**Fibrillation atriale** à réponse ventriculaire lente, QRS fins, pas de trouble de la repolarisation."
+       },
+       "tags": [
+         "FA",
+@@ -459,6 +465,9 @@
+           "why": "Hémorragie grave sous double antiagrégation : transfusion plaquettaire discutée, d'efficacité réduite sous ticagrélor circulant. Ne pas arrêter l'antiagrégation sans avis cardiologique."
+         }
+       ],
++      "resultats": {
++        "tc_grave_engagement/nfs": "Hb 13,1 g/dL · plaquettes 251 G/L : numération normale, mais fonction plaquettaire inhibée par l'aspirine et le ticagrélor."
++      },
+       "tags": [
+         "antiagrégants",
+         "stent"
+@@ -635,6 +644,20 @@
+         {
+           "id": "thiamine",
+           "why": "Éthylisme chronique : thiamine IV avant tout apport glucosé, pour prévenir l'encéphalopathie de Gayet-Wernicke (EFNS 2010)."
++        },
++        {
++          "id": "cp",
++          "dans": [
++            "tc_grave_engagement"
++          ],
++          "why": "Cirrhose, plaquettes < 100 G/L chez un TC grave qui va être opéré : transfusion plaquettaire pour dépasser 100 G/L (guideline européen 2023)."
++        },
++        {
++          "id": "fibrinogene",
++          "dans": [
++            "tc_grave_engagement"
++          ],
++          "why": "Fibrinogène < 1,5 g/L avec une hémorragie intracrânienne à opérer : concentré de fibrinogène (guideline européen 2023)."
+         }
+       ],
+       "resultats": {
+@@ -649,7 +672,9 @@
+         "hemorragie_perop/e2/tp_tca": "**TP 31 %** · **TCA 1,8** · **fibrinogène {0,6~0,9} g/L**.",
+         "choc_septique_pna/nfs": "**Leucocytes 21 G/L** · Hb 10,6 g/dL · **plaquettes 54 G/L**.",
+         "choc_septique_pna/tp_tca": "**TP 41 %** · **TCA 1,4** · fibrinogène 2,4 g/L.",
+-        "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**."
++        "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**.",
++        "tc_grave_engagement/tp_tca": "**TP {42~55} %** · **TCA 1,3** · **fibrinogène {1,1~1,4} g/L** (insuffisance hépatocellulaire).",
++        "tc_grave_engagement/alcoolemie": "**Alcoolémie {1,6~2,4} g/L**. Elle n'explique ni un GCS à 6 ni une mydriase unilatérale."
+       },
+       "tags": [
+         "cirrhose",
+@@ -729,14 +754,27 @@
+     },
+     {
+       "id": "apixaban",
+-      "fiche": "Apixaban 5 mg × 2/j"
++      "fiche": "Apixaban 5 mg × 2/j",
++      "resultats": {
++        "tc_grave_engagement/tp_tca": "**TP {56~68} %** · TCA 1,15 · fibrinogène 2,7 g/L. Apixaban pris ce matin : le TP et le TCA sous-estiment son effet, seule l'activité anti-Xa spécifique le mesure."
++      },
++      "promeut": [
++        {
++          "id": "ccp",
++          "dans": [
++            "tc_grave_engagement"
++          ],
++          "why": "Hémorragie intracrânienne sous apixaban : antidote spécifique (andexanet alfa) s'il est disponible, sinon CCP 50 UI/kg (EHRA 2021). La vitamine K ne sert à rien sous AOD."
++        }
++      ]
+     },
+     {
+       "id": "warfarine",
+       "fiche": "Warfarine (AVK), INR cible 2 à 3",
+       "resultats": {
+         "tp_tca": "**TP 21 %** · **INR 3,6** (AVK) · **TCA 1,4** · fibrinogène 5,0 g/L.",
+-        "choc_hemorragique_bassin/tp_tca": "**TP 18 %** · **INR 4,1** (AVK) · **TCA 1,6** · **fibrinogène 1,1 g/L**."
++        "choc_hemorragique_bassin/tp_tca": "**TP 18 %** · **INR 4,1** (AVK) · **TCA 1,6** · **fibrinogène 1,1 g/L**.",
++        "tc_grave_engagement/tp_tca": "**TP 19 %** · **INR 3,8** (AVK) · TCA 1,3 · fibrinogène 2,6 g/L."
+       },
+       "promeut": [
+         {
+@@ -746,6 +784,13 @@
+             "hemorragie_perop"
+           ],
+           "why": "Hémorragie grave sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008)."
++        },
++        {
++          "id": "ccp",
++          "dans": [
++            "tc_grave_engagement"
++          ],
++          "why": "Hémorragie intracrânienne sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR ni le scanner quand l'engagement est clinique. Objectif INR < 1,5 (HAS 2008)."
+         }
+       ]
+     },
