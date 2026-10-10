@@ -1,0 +1,944 @@
+{
+  "id": "hematome_cervical",
+  "titre": "Hématome cervical compressif après thyroïdectomie",
+  "source": "DAS/BAETS/ENT UK 2022 (Iliff et al., Anaesthesia 2022, hématome après chirurgie thyroïdienne) ; DAS 2015 (intubation difficile imprévue) ; DAS 2012 (extubation) ; SFAR 2017 (intubation difficile)",
+  "tags": [
+    "anesthésie",
+    "SSPI",
+    "thyroïdectomie",
+    "hématome cervical",
+    "voies aériennes",
+    "VAD",
+    "CICO",
+    "cricothyroïdotomie"
+  ],
+  "patient": "Femme, 54 ans, 72 kg",
+  "terrains": {
+    "contexte": "rea",
+    "exclus": [
+      "estomac_plein"
+    ],
+    "identite": {
+      "sexe": [
+        "F",
+        "M"
+      ],
+      "age": [
+        28,
+        80
+      ],
+      "poids": [
+        50,
+        100
+      ]
+    }
+  },
+  "voies": [
+    "IV"
+  ],
+  "constantes": {
+    "FC": 118,
+    "PAS": 172,
+    "PAD": 94,
+    "SpO2": 88,
+    "FR": 30,
+    "T": 36.4
+  },
+  "resultats": {
+    "gds": "**pH 7,31** · **PaCO2 {50~56} mmHg** · **PaO2 {56~64} mmHg** sous oxygène · lactates 1,6 mmol/L.",
+    "nfs": "Hb {11,6~12,6} g/dL · plaquettes 248 G/L.",
+    "hemocue": "Hb 12,1 g/dL.",
+    "tp_tca": "TP 94 % · TCA 1,0 · fibrinogène 3,4 g/L.",
+    "groupe_rai": "Groupe O RhD positif, RAI négatives.",
+    "iono": "Na 139 mmol/L · K⁺ 4,0 mmol/L · calcémie corrigée 2,24 mmol/L · créatinine 68 µmol/L.",
+    "glycemie": "Glycémie 1,32 g/L.",
+    "ecg": "Tachycardie sinusale, pas de trouble de la repolarisation.",
+    "rp": "**Trachée cervicale refoulée vers la droite**, parties molles cervicales épaissies. Poumons normaux, pas d'épanchement."
+  },
+  "schemas": {
+    "rp": {
+      "type": "rp"
+    }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "SSPI, H+2 : le cou gonfle",
+      "vignette": "Thyroïdectomie totale pour goitre multinodulaire, extubation sans incident, arrivée en salle de réveil il y a 2 heures. Sensation de serrement du cou, déglutition difficile, grande angoisse. Tuméfaction cervicale tendue sous le pansement, qui augmente à vue d'œil. Voix éteinte, stridor inspiratoire, tirage sus-sternal. Pas de drain.",
+      "chrono": 60,
+      "pente": {
+        "SpO2": -1.6,
+        "FC": 0.6,
+        "PAS": 0.4,
+        "FR": 0.3
+      },
+      "diagnostic": [
+        "dx_hematome_cervical"
+      ],
+      "actions": {
+        "renfort": {
+          "note": "indispensable",
+          "why": "Appeler à l'aide sans attendre : chirurgien senior et anesthésiste expérimenté, chariot d'intubation difficile et boîte « hématome post-thyroïdectomie » au lit (DAS/BAETS/ENT UK 2022)."
+        },
+        "o2_masque": {
+          "note": "indispensable",
+          "alt": "o2",
+          "why": "Hématome suspecté : oxygène d'emblée, à haute concentration (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 3
+          }
+        },
+        "ohd": {
+          "note": "recommande",
+          "alt": "o2",
+          "why": "Oxygène à haut débit nasal : alternative au masque haute concentration ; il ne lève pas l'obstacle.",
+          "effet": {
+            "SpO2": 4
+          }
+        },
+        "tete_30": {
+          "note": "recommande",
+          "why": "Patient assis, tête surélevée : améliore la ventilation et le retour veineux cervical (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 1
+          }
+        },
+        "ouverture_cicatrice": {
+          "note": "indispensable",
+          "why": "Gêne respiratoire sur hématome cervical : ouvrir la plaie au lit sans attendre le bloc, selon SCOOP (Skin exposure, Cut sutures, Open skin, Open muscles, Pack). C'est le geste qui décomprime la trachée, avant toute intubation (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 7,
+            "FR": -8,
+            "FC": -12,
+            "PAS": -18
+          }
+        },
+        "cortico_sys": {
+          "note": "debattu",
+          "why": "Dexaméthasone IV à envisager contre l'œdème des voies aériennes (DAS/BAETS/ENT UK 2022, grade C) : effet différé, elle ne doit pas retarder l'évacuation."
+        },
+        "exacyl": {
+          "note": "debattu",
+          "why": "Acide tranexamique IV à envisager pour limiter le saignement (DAS/BAETS/ENT UK 2022, grade C) : effet différé, l'hémostase reste chirurgicale."
+        },
+        "gds": {
+          "note": "debattu",
+          "why": "Le diagnostic et l'indication sont cliniques : le gaz du sang ne doit pas retarder l'ouverture de la plaie."
+        },
+        "midazolam": {
+          "note": "contre_indique",
+          "why": "L'angoisse est un signe d'obstruction des voies aériennes. Un sédatif diminue le tonus pharyngé et la commande ventilatoire : obstruction complète.",
+          "effet": {
+            "SpO2": -6
+          }
+        },
+        "morphine_titr": {
+          "note": "contre_indique",
+          "why": "Morphinique chez un patient qui s'obstrue : dépression ventilatoire, désaturation plus rapide.",
+          "effet": {
+            "SpO2": -4
+          }
+        },
+        "bloc": {
+          "note": "contre_indique",
+          "si_instable": "acr",
+          "why": "Avec une gêne respiratoire, on n'attend pas le bloc : l'obstruction peut devenir complète pendant le transfert. Ouvrir la plaie au lit d'abord ; la reprise au bloc vient ensuite (DAS/BAETS/ENT UK 2022)."
+        },
+        "iot_fibro_vigile": {
+          "note": "inutile",
+          "why": "Intubation vigile trop longue avec un stridor et une désaturation qui progressent : évacuer d'abord. Elle se discute après l'évacuation si l'obstruction persiste (DAS/BAETS/ENT UK 2022)."
+        },
+        "videolaryngoscope": {
+          "note": "inutile",
+          "why": "Pas de laryngoscopie chez un patient éveillé sous compression : l'évacuation passe d'abord."
+        },
+        "cricothyro": {
+          "note": "inutile",
+          "why": "L'abord trachéal est réservé à l'échec de l'oxygénation (CICO), après l'ouverture de la plaie (DAS 2015)."
+        },
+        "dsg": {
+          "note": "inutile",
+          "why": "Pas de dispositif supraglottique chez un patient éveillé ; il ne lève pas une compression trachéale."
+        },
+        "vni": {
+          "note": "inutile",
+          "why": "La VNI ne lève pas une compression extrinsèque de la trachée et retarde l'évacuation.",
+          "effet": {
+            "SpO2": 1
+          }
+        },
+        "calcium": {
+          "note": "inutile",
+          "why": "L'hypocalcémie après thyroïdectomie apparaît surtout après 24 heures. Stridor et tuméfaction qui grossit à H+2 : hématome jusqu'à preuve du contraire."
+        },
+        "salbutamol_neb": {
+          "note": "inutile",
+          "why": "Stridor inspiratoire par obstacle des voies aériennes supérieures, pas de bronchospasme."
+        },
+        "nitres_iv": {
+          "note": "inutile",
+          "why": "HTA réactionnelle à l'hypoxie et à l'angoisse : elle cède avec la levée de l'obstruction. Ne pas retarder l'évacuation."
+        },
+        "betabloquant_iv": {
+          "note": "inutile",
+          "why": "Tachycardie réactionnelle à l'hypoxie : traiter la cause."
+        },
+        "rp": {
+          "note": "inutile",
+          "why": "Diagnostic clinique : pas d'imagerie avant l'évacuation."
+        },
+        "isr_etomidate_rocu": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        },
+        "isr_etomidate": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        },
+        "isr_ketamine": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        },
+        "isr_propofol": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        },
+        "isr_ketamine_succi": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        },
+        "isr_propofol_succi": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        },
+        "ind_classique": {
+          "note": "contre_indique",
+          "why": "Pas d'induction tant que l'hématome comprime : la perte du tonus pharyngé ferme des voies aériennes déjà réduites, le larynx est dévié et œdématié, la ventilation au masque échoue (CICO). Ouvrir la cicatrice d'abord, puis réévaluer avant d'intuber (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": -12
+          }
+        }
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique par obstruction des voies aériennes : RCP, adrénaline, et oxygénation par la voie la plus sûre (plaie ouverte, abord trachéal si l'intubation échoue) (ERC 2021 ; DAS 2015).",
+        "apres_racs": {
+          "FC": 112,
+          "PAS": 118,
+          "PAD": 64,
+          "SpO2": 88
+        }
+      },
+      "suite": [
+        {
+          "si_fait": [
+            "isr_etomidate_rocu"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_fait": [
+            "isr_etomidate"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_fait": [
+            "isr_ketamine"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_fait": [
+            "isr_propofol"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_fait": [
+            "isr_ketamine_succi"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_fait": [
+            "isr_propofol_succi"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_fait": [
+            "ind_classique"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "si_manque": [
+            "ouverture_cicatrice"
+          ],
+          "vers": "e1_aggrav"
+        },
+        {
+          "vers": "e2"
+        }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Obstruction complète",
+      "vignette": "Le stridor s'est tu : tirage intense sans aucun flux d'air, cyanose. La SpO2 s'effondre, la fréquence cardiaque commence à ralentir.",
+      "chrono": 45,
+      "constantes": {
+        "SpO2": 74,
+        "FC": 134,
+        "FR": 36
+      },
+      "pente": {
+        "SpO2": -4,
+        "FC": -2
+      },
+      "diagnostic": [
+        "dx_hematome_cervical"
+      ],
+      "actions": {
+        "ouverture_cicatrice": {
+          "note": "indispensable",
+          "why": "Obstruction complète : ouvrir la plaie au lit immédiatement (SCOOP), même sans asepsie (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 6
+          }
+        },
+        "cricothyro": {
+          "note": "indispensable",
+          "alt": "fona",
+          "why": "Pas d'oxygénation malgré l'évacuation : abord trachéal sans délai, par la plaie déjà ouverte (technique scalpel-bougie-sonde, DAS 2015 ; DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 20
+          },
+          "pente": {
+            "SpO2": 0.5
+          }
+        },
+        "videolaryngoscope": {
+          "note": "recommande",
+          "alt": "fona",
+          "why": "Patient déjà endormi, plaie ouverte : une tentative au vidéolaryngoscope par l'opérateur le plus expérimenté ; échec → abord trachéal (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 14
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "renfort": {
+          "note": "recommande",
+          "why": "Annoncer la situation à voix haute et appeler le chirurgien et l'anesthésiste seniors (DAS 2015)."
+        },
+        "dsg": {
+          "note": "debattu",
+          "why": "Le dispositif supraglottique ne franchit pas une compression ni un œdème laryngé : il ne doit pas retarder l'abord trachéal.",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "ventil_masque": {
+          "note": "debattu",
+          "why": "Ventilation au masque à deux opérateurs en attendant l'abord trachéal ; souvent inefficace sur un obstacle cervical.",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "isr_etomidate_rocu": {
+          "note": "debattu",
+          "alt": "fona",
+          "why": "Après l'ouverture de la plaie, une seule tentative d'intubation par l'opérateur le plus expérimenté se discute si la SpO2 le permet ; sinon, abord trachéal (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_etomidate": {
+          "note": "debattu",
+          "alt": "fona",
+          "why": "Après l'ouverture de la plaie, une seule tentative d'intubation par l'opérateur le plus expérimenté se discute si la SpO2 le permet ; sinon, abord trachéal (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_ketamine": {
+          "note": "debattu",
+          "alt": "fona",
+          "why": "Après l'ouverture de la plaie, une seule tentative d'intubation par l'opérateur le plus expérimenté se discute si la SpO2 le permet ; sinon, abord trachéal (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_propofol": {
+          "note": "debattu",
+          "alt": "fona",
+          "why": "Après l'ouverture de la plaie, une seule tentative d'intubation par l'opérateur le plus expérimenté se discute si la SpO2 le permet ; sinon, abord trachéal (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_ketamine_succi": {
+          "note": "debattu",
+          "alt": "fona",
+          "why": "Après l'ouverture de la plaie, une seule tentative d'intubation par l'opérateur le plus expérimenté se discute si la SpO2 le permet ; sinon, abord trachéal (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_propofol_succi": {
+          "note": "debattu",
+          "alt": "fona",
+          "why": "Après l'ouverture de la plaie, une seule tentative d'intubation par l'opérateur le plus expérimenté se discute si la SpO2 le permet ; sinon, abord trachéal (DAS 2015).",
+          "effet": {
+            "SpO2": 12
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          "ouverture_cicatrice",
+          [
+            "cricothyro",
+            "videolaryngoscope",
+            "isr_etomidate_rocu",
+            "isr_etomidate",
+            "isr_ketamine",
+            "isr_propofol",
+            "isr_ketamine_succi",
+            "isr_propofol_succi"
+          ]
+        ],
+        "issue": "acr",
+        "why": "Voies aériennes jamais libérées : arrêt cardiaque hypoxique."
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique par obstruction des voies aériennes : RCP, adrénaline, et oxygénation par la voie la plus sûre (plaie ouverte, abord trachéal si l'intubation échoue) (ERC 2021 ; DAS 2015).",
+        "apres_racs": {
+          "FC": 112,
+          "PAS": 118,
+          "PAD": 64,
+          "SpO2": 88
+        }
+      },
+      "suite": [
+        {
+          "vers": "e2"
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "titre": "Hématome évacué : stridor persistant",
+      "vignette": "Plaie ouverte au lit, caillots évacués, compresse humide sur la plaie. La gêne diminue, mais la voix reste éteinte et un stridor persiste : œdème laryngé et pharyngé, par gêne au retour veineux et lymphatique. Saignement en nappe dans la plaie. Le chirurgien veut reprendre l'hémostase au bloc : il faut sécuriser les voies aériennes.",
+      "chrono": 90,
+      "pente": {
+        "SpO2": -0.5,
+        "FC": 0.3
+      },
+      "actions": {
+        "check_isr": {
+          "note": "indispensable",
+          "why": "Intubation prévue difficile : vidéolaryngoscope, bougie, sondes de petit calibre, aspiration ; plan d'abord trachéal annoncé, cou préparé, chirurgien au lit (DAS/BAETS/ENT UK 2022)."
+        },
+        "ind_preox": {
+          "note": "indispensable",
+          "alt": "preox",
+          "why": "Préoxygénation jusqu'à une FeO2 ≥ 90 % : la réserve en oxygène est faible (SFAR 2017).",
+          "effet": {
+            "SpO2": 3
+          }
+        },
+        "ind_preox_vni": {
+          "note": "debattu",
+          "alt": "preox",
+          "why": "Préoxygénation en VNI : à privilégier chez l'obèse ou l'hypoxémique (SFAR 2017) ; le masque facial suffit ici.",
+          "effet": {
+            "SpO2": 3
+          }
+        },
+        "videolaryngoscope": {
+          "note": "recommande",
+          "why": "Vidéolaryngoscope dès la première tentative, nombre de tentatives limité, par un anesthésiste entraîné (DAS/BAETS/ENT UK 2022, grade C)."
+        },
+        "bougie": {
+          "note": "debattu",
+          "why": "Long mandrin béquillé : adjuvant utile si la glotte est mal exposée par l'œdème."
+        },
+        "cortico_sys": {
+          "note": "recommande",
+          "why": "Œdème laryngé constitué : dexaméthasone IV à envisager (DAS/BAETS/ENT UK 2022, grade C)."
+        },
+        "exacyl": {
+          "note": "debattu",
+          "why": "Acide tranexamique IV à envisager (DAS/BAETS/ENT UK 2022, grade C) : réduit peut-être le saignement, sans effet immédiat ; l'hémostase reste chirurgicale."
+        },
+        "groupe_rai": {
+          "note": "recommande",
+          "why": "Reprise chirurgicale : groupe et RAI à jour."
+        },
+        "tp_tca": {
+          "note": "recommande",
+          "why": "Bilan d'hémostase avant la reprise : chercher un trouble acquis qui aurait favorisé l'hématome."
+        },
+        "nfs": {
+          "note": "debattu",
+          "why": "Un hématome cervical compressif est de petit volume : l'hémoglobine varie peu, ce n'est pas elle qui guide la prise en charge."
+        },
+        "nitres_iv": {
+          "note": "debattu",
+          "why": "HTA persistante après l'évacuation : un contrôle tensionnel titré limiterait le saignement, sans hypotension à l'induction.",
+          "effet": {
+            "PAS": -12
+          }
+        },
+        "midazolam": {
+          "note": "contre_indique",
+          "why": "Sédation sans contrôle des voies aériennes chez un patient au larynx œdématié : obstruction.",
+          "effet": {
+            "SpO2": -6
+          }
+        },
+        "reveil_patient": {
+          "note": "inutile",
+          "why": "Le patient n'est pas endormi : il faut sécuriser les voies aériennes avant la reprise."
+        },
+        "isr_etomidate_rocu": {
+          "note": "indispensable",
+          "alt": "intub",
+          "why": "Après l'évacuation, l'obstruction persiste : intubation par l'anesthésiste le plus entraîné, au vidéolaryngoscope (DAS/BAETS/ENT UK 2022). Séquence rapide pour ne pas ventiler longtemps au masque un larynx œdématié : étomidate, peu hypotenseur, et rocuronium 1,2 mg/kg, sugammadex prêt.",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -10
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_etomidate": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation après l'évacuation, au vidéolaryngoscope : séquence rapide acceptable, l'hypnotique adapté à l'hémodynamique (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -10
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_ketamine": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation après l'évacuation, au vidéolaryngoscope : séquence rapide acceptable, l'hypnotique adapté à l'hémodynamique (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -4
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_propofol": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Propofol et rocuronium : acceptable si l'hémodynamique est conservée, à dose réduite ; plus hypotenseur que l'étomidate chez le sujet âgé ou cardiaque.",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -22
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_ketamine_succi": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation après l'évacuation, au vidéolaryngoscope : séquence rapide acceptable, l'hypnotique adapté à l'hémodynamique (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -4
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_propofol_succi": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation après l'évacuation, au vidéolaryngoscope : séquence rapide acceptable, l'hypnotique adapté à l'hémodynamique (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -22
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "ind_classique": {
+          "note": "debattu",
+          "alt": "intub",
+          "why": "Induction avec ventilation au masque et curare d'installation lente : la ventilation au masque peut échouer sur un larynx œdématié. Préférer une séquence rapide.",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -24
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "iot_fibro_vigile": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation vigile à envisager par un opérateur entraîné (DAS 2020, intubation vigile ; DAS/BAETS/ENT UK 2022) ; le sang et l'œdème peuvent gêner la fibroscopie.",
+          "effet": {
+            "SpO2": 6
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "cricothyro": {
+          "note": "debattu",
+          "alt": "intub",
+          "why": "Abord trachéal : en cas d'échec de l'intubation et de l'oxygénation, sans retard (DAS 2015). Déjà fait à l'étape précédente, il sécurise les voies aériennes.",
+          "effet": {
+            "SpO2": 10
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        }
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique par obstruction des voies aériennes : RCP, adrénaline, et oxygénation par la voie la plus sûre (plaie ouverte, abord trachéal si l'intubation échoue) (ERC 2021 ; DAS 2015).",
+        "apres_racs": {
+          "FC": 112,
+          "PAS": 118,
+          "PAD": 64,
+          "SpO2": 88
+        }
+      },
+      "suite": [
+        {
+          "si_manque": [
+            [
+              "isr_etomidate_rocu",
+              "isr_etomidate",
+              "isr_ketamine",
+              "isr_propofol",
+              "isr_ketamine_succi",
+              "isr_propofol_succi",
+              "ind_classique",
+              "iot_fibro_vigile",
+              "cricothyro"
+            ]
+          ],
+          "vers": "e2_aggrav"
+        },
+        {
+          "vers": "e3"
+        }
+      ]
+    },
+    {
+      "id": "e2_aggrav",
+      "titre": "Œdème laryngé : stridor majeur",
+      "vignette": "L'œdème progresse : stridor aux deux temps, tirage, agitation. La SpO2 chute malgré l'oxygène.",
+      "chrono": 45,
+      "constantes": {
+        "SpO2": 80,
+        "FR": 34,
+        "FC": 130
+      },
+      "pente": {
+        "SpO2": -2.5,
+        "FC": 0.5
+      },
+      "actions": {
+        "renfort": {
+          "note": "recommande",
+          "why": "Anesthésiste le plus expérimenté et chirurgien au lit, abord trachéal préparé (DAS/BAETS/ENT UK 2022)."
+        },
+        "ind_preox": {
+          "note": "recommande",
+          "alt": "preox",
+          "why": "Préoxygénation brève, même imparfaite.",
+          "effet": {
+            "SpO2": 3
+          }
+        },
+        "videolaryngoscope": {
+          "note": "recommande",
+          "why": "Vidéolaryngoscope dès la première tentative (DAS/BAETS/ENT UK 2022, grade C)."
+        },
+        "cricothyro": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Échec de l'intubation ou désaturation critique : abord trachéal sans délai (DAS 2015).",
+          "effet": {
+            "SpO2": 16
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "iot_fibro_vigile": {
+          "note": "inutile",
+          "why": "Trop lente avec une SpO2 qui chute : intubation au vidéolaryngoscope ou abord trachéal.",
+          "effet": {
+            "SpO2": 6
+          }
+        },
+        "ind_classique": {
+          "note": "debattu",
+          "alt": "intub",
+          "why": "La ventilation au masque risque d'échouer sur ce larynx : préférer une séquence rapide.",
+          "effet": {
+            "SpO2": 10,
+            "PAS": -24
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_etomidate_rocu": {
+          "note": "indispensable",
+          "alt": "intub",
+          "why": "Intubation sans délai, au vidéolaryngoscope, par l'opérateur le plus entraîné ; abord trachéal si échec (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 12,
+            "PAS": -10
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_etomidate": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation sans délai, au vidéolaryngoscope, par l'opérateur le plus entraîné ; abord trachéal si échec (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 12,
+            "PAS": -10
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_ketamine": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation sans délai, au vidéolaryngoscope, par l'opérateur le plus entraîné ; abord trachéal si échec (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 12,
+            "PAS": -4
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_propofol": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation sans délai, au vidéolaryngoscope, par l'opérateur le plus entraîné ; abord trachéal si échec (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 12,
+            "PAS": -22
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_ketamine_succi": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation sans délai, au vidéolaryngoscope, par l'opérateur le plus entraîné ; abord trachéal si échec (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 12,
+            "PAS": -4
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        },
+        "isr_propofol_succi": {
+          "note": "recommande",
+          "alt": "intub",
+          "why": "Intubation sans délai, au vidéolaryngoscope, par l'opérateur le plus entraîné ; abord trachéal si échec (DAS/BAETS/ENT UK 2022).",
+          "effet": {
+            "SpO2": 12,
+            "PAS": -22
+          },
+          "pente": {
+            "SpO2": 0.3
+          }
+        }
+      },
+      "letal_si_manque": {
+        "actions": [
+          [
+            "isr_etomidate_rocu",
+            "isr_etomidate",
+            "isr_ketamine",
+            "isr_propofol",
+            "isr_ketamine_succi",
+            "isr_propofol_succi",
+            "ind_classique",
+            "iot_fibro_vigile",
+            "cricothyro"
+          ]
+        ],
+        "issue": "acr",
+        "why": "Œdème laryngé sans voie aérienne sécurisée : obstruction complète et arrêt hypoxique."
+      },
+      "acr": {
+        "rythme": "AESP",
+        "requis": [
+          "mce",
+          "adre_acr",
+          "ventil_acr"
+        ],
+        "why": "Arrêt hypoxique par obstruction des voies aériennes : RCP, adrénaline, et oxygénation par la voie la plus sûre (plaie ouverte, abord trachéal si l'intubation échoue) (ERC 2021 ; DAS 2015).",
+        "apres_racs": {
+          "FC": 112,
+          "PAS": 118,
+          "PAD": 64,
+          "SpO2": 88
+        }
+      },
+      "suite": [
+        {
+          "vers": "e3"
+        }
+      ]
+    },
+    {
+      "id": "e3",
+      "titre": "Reprise au bloc",
+      "vignette": "Voies aériennes sécurisées, capnographie présente. Saignement en nappe sous la compresse. Le chirurgien est prêt pour l'exploration et l'hémostase au bloc.",
+      "chrono": 60,
+      "pente": {
+        "PAS": -0.2
+      },
+      "actions": {
+        "bloc": {
+          "note": "indispensable",
+          "why": "Reprise chirurgicale : exploration, hémostase, lavage et fermeture au bloc opératoire (DAS/BAETS/ENT UK 2022)."
+        },
+        "entretien": {
+          "note": "recommande",
+          "why": "Relais de l'hypnotique d'induction, qui ne dure que quelques minutes : anesthésie entretenue pendant le transfert et la reprise.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "vm_protectrice": {
+          "note": "recommande",
+          "why": "Ventilation mécanique protectrice après l'intubation (VT 6 à 8 mL/kg de poids idéal, PEP).",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "reanimation": {
+          "note": "recommande",
+          "why": "Après la reprise : extubation différée et planifiée une fois l'œdème régressé, en réanimation ou en SSPI, matériel de réintubation prêt (DAS 2012, extubation ; DAS/BAETS/ENT UK 2022)."
+        },
+        "exacyl": {
+          "note": "debattu",
+          "why": "Acide tranexamique à envisager (grade C) ; l'hémostase chirurgicale reste le traitement."
+        },
+        "nitres_iv": {
+          "note": "debattu",
+          "why": "Contrôle tensionnel titré si l'HTA persiste au réveil ; éviter l'hypotension sous anesthésie.",
+          "effet": {
+            "PAS": -12
+          }
+        },
+        "reveil_patient": {
+          "note": "contre_indique",
+          "why": "Réveiller et extuber un larynx œdématié avant l'hémostase : récidive de l'hématome et réobstruction.",
+          "effet": {
+            "SpO2": -8
+          }
+        },
+        "sugammadex": {
+          "note": "inutile",
+          "why": "Pas d'antagonisation : le patient reste intubé pour la reprise."
+        },
+        "ccp": {
+          "note": "inutile",
+          "why": "Pas d'anticoagulant actif à antagoniser : le saignement est chirurgical."
+        },
+        "fibrinogene": {
+          "note": "inutile",
+          "why": "Fibrinogène normal : pas de supplémentation."
+        },
+        "cp": {
+          "note": "inutile",
+          "why": "Plaquettes normales, saignement localisé : pas de transfusion plaquettaire."
+        }
+      },
+      "suite": [
+        {
+          "vers": "fin"
+        }
+      ]
+    }
+  ]
+}
