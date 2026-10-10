@@ -22,6 +22,7 @@
       "pente": { "SpO2": -1.6, "FR": -0.15, "GCS": -0.08 },
       "diagnostic": ["dx_depression_opioides"],
       "actions": {
+        "sortie_sspi": { "note": "contre_indique", "why": "Patient non réveillable qui hypoventile : aucun critère de sortie de SSPI n'est réuni." },
         "stimulation_eveil": { "note": "recommande", "why": "Premier geste : stimuler, appeler le patient, lui demander de respirer. La sédation est le signe le plus précoce du surdosage, avant la bradypnée (SFAR 2008).", "effet": { "SpO2": 2, "FR": 3, "GCS": 1 } },
         "arret_ttt": { "note": "indispensable", "why": "Arrêter la PCA et tout autre sédatif : sinon le patient, réveillé par la naloxone et douloureux, se réinjecte de la morphine (SFAR 2008)." },
         "naloxone": { "note": "indispensable", "alt": "nalox", "why": "Naloxone titrée : bolus de 0,04 mg (ampoule de 0,4 mg diluée dans 10 mL) toutes les 2 à 3 min, jusqu'à FR ≥ 10/min et patient réveillable. La titration lève la dépression respiratoire en préservant une partie de l'analgésie (SFAR 2008).", "effet": { "SpO2": 6, "FR": 5, "GCS": 3, "PAS": 5, "FC": 5 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
@@ -61,6 +62,7 @@
       "constantes": { "FR": 3, "SpO2": 80, "GCS": 6, "FC": 64 },
       "pente": { "SpO2": -2.5, "FC": -1, "GCS": -0.1 },
       "actions": {
+        "sortie_sspi": { "note": "contre_indique", "why": "Patient non réveillable qui hypoventile : aucun critère de sortie de SSPI n'est réuni." },
         "ventil_masque": { "note": "indispensable", "why": "Apnée : ventiler au masque (O2 15 L/min, canule, deux mains) avant tout ; la naloxone met 1 à 2 min à agir.", "effet": { "SpO2": 8 }, "pente": { "SpO2": -0.5 } },
         "naloxone": { "note": "indispensable", "alt": "nalox", "why": "Naloxone titrée par bolus répétés sous ventilation au masque, jusqu'à reprise d'une ventilation efficace.", "effet": { "SpO2": 8, "FR": 8, "GCS": 5, "FC": 12, "PAS": 10 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
         "naloxone_bolus": { "note": "debattu", "alt": "nalox", "why": "En apnée, une dose plus forte se discute (ERC 2021 : naloxone dans l'arrêt respiratoire d'origine opioïde), au prix d'une levée brutale : douleur, HTA, œdème pulmonaire. En postopératoire, préférer la titration sous ventilation au masque.", "effet": { "SpO2": 12, "FR": 12, "GCS": 7, "PAS": 40, "FC": 35 }, "pente": { "SpO2": -0.4, "FR": -0.05, "GCS": -0.03 } },
@@ -92,7 +94,9 @@
       "resultats": { "gds": "Contrôle : pH 7,37 · PaCO2 44 mmHg · PaO2 96 mmHg sous 2 L/min d'O2." },
       "actions": {
         "naloxone_ivse": { "note": "indispensable", "why": "La demi-vie de la naloxone (environ 1 h) est plus courte que celle de la morphine : la sédation récidive quand son effet s'épuise. Relais IVSE, environ deux tiers de la dose de titration efficace par heure (Goldfrank 1986), adapté à la FR et à la sédation.", "pente": { "SpO2": 0.2, "FR": 0, "GCS": 0 } },
-        "reanimation": { "note": "recommande", "why": "Sous naloxone IVSE après une dépression respiratoire : surveillance continue (sédation, FR, SpO2) en SSPI prolongée ou en unité de surveillance continue, pas de retour en service standard (APSF 2011)." },
+        "surveillance_continue": { "note": "recommande", "why": "Sous naloxone IVSE après une dépression respiratoire : surveillance continue (sédation, FR, SpO2) en SSPI prolongée ou en unité de surveillance continue, pas de retour en service standard (APSF 2011)." },
+        "sortie_sspi": { "note": "contre_indique", "why": "Retour en service standard sous naloxone IVSE, juste après une dépression respiratoire : la sédation peut récidiver sans surveillance (APSF 2011)." },
+        "reanimation": { "note": "debattu", "why": "Patient réveillé qui ventile sous relais de naloxone : une surveillance continue suffit, la réanimation n'est pas nécessaire." },
         "ketamine_analg": { "note": "recommande", "why": "Analgésie multimodale d'épargne morphinique : kétamine à faible dose, avec paracétamol, AINS sans contre-indication et ALR (SFAR 2016)." },
         "gds": { "note": "recommande", "refaire": true, "why": "Contrôle : normalisation de la PaCO2 après l'antagonisation." },
         "o2_masque": { "note": "debattu", "why": "Oxygène si la SpO2 baisse ; il masque une hypoventilation sur l'oxymètre : surveiller la FR et la sédation (APSF 2011).", "effet": { "SpO2": 2 } },
@@ -129,7 +133,8 @@
         "stimulation_eveil": { "note": "recommande", "why": "Stimuler le patient en attendant l'effet de la naloxone.", "effet": { "SpO2": 2, "FR": 3, "GCS": 1 } },
         "o2_masque": { "note": "recommande", "why": "Corriger l'hypoxémie.", "effet": { "SpO2": 4 } },
         "ventil_masque": { "note": "recommande", "why": "Assister la ventilation au masque en attendant la naloxone.", "effet": { "SpO2": 6 } },
-        "reanimation": { "note": "recommande", "why": "Surveillance continue en SSPI prolongée ou en unité de surveillance continue tant que dure le relais (APSF 2011)." },
+        "surveillance_continue": { "note": "recommande", "why": "Surveillance continue en SSPI prolongée ou en unité de surveillance continue tant que dure le relais (APSF 2011)." },
+        "sortie_sspi": { "note": "contre_indique", "why": "Remorphinisation en cours : pas de retour en service standard, surveillance continue tant que dure le relais (APSF 2011)." },
         "naloxone_bolus": { "note": "contre_indique", "why": "Levée brutale : douleur, HTA, tachycardie, œdème pulmonaire décrit (RCP de la naloxone). Titrer.", "effet": { "SpO2": 10, "FR": 10, "GCS": 5, "PAS": 40, "FC": 30 }, "pente": { "SpO2": -0.2, "FR": 0, "GCS": 0 } },
         "morphine_titr": { "note": "contre_indique", "letal": "acr", "why": "Morphinique pendant une remorphinisation : apnée et arrêt hypoxique." },
         "midazolam": { "note": "contre_indique", "why": "Benzodiazépine chez un patient sédaté : dépression respiratoire additive.", "effet": { "SpO2": -5, "GCS": -2 } },

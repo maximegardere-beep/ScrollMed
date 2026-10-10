@@ -80,18 +80,24 @@
           { "si": { "fait": ["thrombolyse"] }, "texte": "Contrôle : **VD toujours dilaté**, septum un peu moins déplacé, **TAPSE 14 mm**. VG dilaté, **FEVG 30 %** (connue).", "schema": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." } },
           { "texte": "VG dilaté, **FEVG 30 %** (connue). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. Pas d'épanchement péricardique. **VCI 24 mm, non compliante**.", "schema": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" } }
         ],
-        "acidocetose_diabetique/ett": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale. **VCI de 9 mm, collabée** : hypovolémie malgré la cardiopathie. Remplir par petits bolus réévalués.",
+        "acidocetose_diabetique/ett": [
+          { "si": { "precharge": true }, "texte": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale. **VCI de 9 mm, collabée** : hypovolémie malgré la cardiopathie. Remplir par petits bolus réévalués.", "schema": { "type": "ett", "vg": "dilate", "vci": "collabee" } },
+          { "texte": "VG dilaté, **FEVG 30 %** (connue), hypokinésie globale. VCI de 18 mm, peu compliante : la volémie est restaurée, un bolus de plus n'augmentera pas le débit et rapproche de l'OAP.", "schema": { "type": "ett", "vg": "dilate", "vci": "normale" } }
+        ],
         "plaie_thoracique/ett": "VG dilaté, **FEVG 30 %** (connue). **Lame d'épanchement péricardique de 5 mm**, sans collapsus des cavités droites. **VCI dilatée**, peu compliante.",
-        "plaie_thoracique/e2/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**.",
-        "plaie_thoracique/e2_aggrav/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**."
+        "plaie_thoracique/e2/ett": [
+          { "si": { "fait": ["pericardiocentese"] }, "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. VG dilaté, **FEVG 30 %** (connue). La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.", "schema": { "type": "ett", "vg": "dilate", "pericarde": true } },
+          { "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**.", "schema": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" } }
+        ],
+        "plaie_thoracique/e2_aggrav/ett": [
+          { "si": { "fait": ["pericardiocentese"] }, "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. VG dilaté, **FEVG 30 %** (connue). La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.", "schema": { "type": "ett", "vg": "dilate", "pericarde": true } },
+          { "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**.", "schema": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" } }
+        ]
       },
       "schemas": {
         "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
         "stemi_choc_cardiogenique/ett": { "type": "ett", "vg": "dilate", "akinesie": "anterieure", "vci": "dilatee" },
-        "acidocetose_diabetique/ett": { "type": "ett", "vg": "dilate", "vci": "collabee" },
-        "plaie_thoracique/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" },
-        "plaie_thoracique/e2/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" },
-        "plaie_thoracique/e2_aggrav/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" }
+        "plaie_thoracique/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" }
       },
       "tags": ["insuffisance cardiaque", "remplissage"],
       "promeut": [
@@ -287,15 +293,19 @@
         ],
         "bav_complet_degeneratif/ett": "**Rétrécissement aortique serré** (surface 0,7 cm², gradient moyen 50 mmHg), valve très calcifiée, calcifications de l'anneau mitral. FEVG 60 %. VCI de 17 mm, compliante. La bradycardie est très mal tolérée sur ce débit fixe.",
         "plaie_thoracique/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²), FEVG 60 %. **Lame d'épanchement péricardique de 5 mm**, sans collapsus des cavités droites. **VCI dilatée**.",
-        "plaie_thoracique/e2/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. **Rétrécissement aortique serré** connu : débit fixe, très mauvaise tolérance de la tamponnade. **VCI dilatée (24 mm), sans variation respiratoire**.",
-        "plaie_thoracique/e2_aggrav/ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. **Rétrécissement aortique serré** connu : débit fixe, très mauvaise tolérance de la tamponnade. **VCI dilatée (24 mm), sans variation respiratoire**."
+        "plaie_thoracique/e2/ett": [
+          { "si": { "fait": ["pericardiocentese"] }, "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. **Rétrécissement aortique serré** connu. La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.", "schema": { "type": "ett", "ra": true, "pericarde": true } },
+          { "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. **Rétrécissement aortique serré** connu : débit fixe, très mauvaise tolérance de la tamponnade. **VCI dilatée (24 mm), sans variation respiratoire**.", "schema": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" } }
+        ],
+        "plaie_thoracique/e2_aggrav/ett": [
+          { "si": { "fait": ["pericardiocentese"] }, "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. **Rétrécissement aortique serré** connu. La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.", "schema": { "type": "ett", "ra": true, "pericarde": true } },
+          { "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. **Rétrécissement aortique serré** connu : débit fixe, très mauvaise tolérance de la tamponnade. **VCI dilatée (24 mm), sans variation respiratoire**.", "schema": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" } }
+        ]
       },
       "schemas": {
         "ett": { "type": "ett", "ra": true, "vci": false },
         "bav_complet_degeneratif/ett": { "type": "ett", "ra": true, "vci": "normale" },
-        "plaie_thoracique/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" },
-        "plaie_thoracique/e2/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" },
-        "plaie_thoracique/e2_aggrav/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" }
+        "plaie_thoracique/ett": { "type": "ett", "ra": true, "pericarde": true, "vci": "dilatee" }
       },
       "tags": ["rétrécissement aortique", "induction"]
     },
@@ -338,7 +348,7 @@
       "promeut": [
         {
           "id": "vni",
-          "dans": ["rea"],
+          "dans": ["sspi_curarisation", "depression_respiratoire_opioides/e2"],
           "why": "SAOS appareillé : reprendre la PPC habituelle dès la salle de réveil (ASA 2014)."
         },
         {
@@ -601,6 +611,7 @@
         "acidocetose_diabetique/e2_aggrav/glycemie": "**Glycémie 1,5 g/L**.",
         "acidocetose_diabetique/sonde_u": "Vessie vide : anurie connue (dialysée). Pas de diurèse osmotique."
       },
+      "exclut": ["allergie_curares"],
       "tags": ["insuffisance rénale", "dialyse", "hémodialyse", "hyperkaliémie", "succinylcholine"],
       "promeut": [
         {
@@ -719,7 +730,7 @@
   ],
   "traitements": [
     {
-      "id": "betabloquant",
+      "id": "betabloquant", "groupe": "betabloquant",
       "fiche": "Bisoprolol 5 mg/j",
       "constantes": { "FC": -25 },
       "bornes": { "FC": [null, 100] },
@@ -749,7 +760,7 @@
     { "id": "aspirine", "fiche": "Aspirine 75 mg/j" },
     { "id": "statine", "fiche": "Atorvastatine 40 mg/j" },
     {
-      "id": "sacubitril_valsartan",
+      "id": "sacubitril_valsartan", "groupe": "sraa",
       "fiche": "Sacubitril-valsartan 49/51 mg × 2/j",
       "promeut": [
         {
@@ -825,7 +836,7 @@
       ]
     },
     {
-      "id": "ramipril",
+      "id": "ramipril", "groupe": "sraa",
       "fiche": "Ramipril 5 mg/j (IEC), pris ce matin",
       "module": [
         {
@@ -860,7 +871,7 @@
       ]
     },
     {
-      "id": "propranolol",
+      "id": "propranolol", "groupe": "betabloquant",
       "fiche": "Propranolol 40 mg × 2/j (prévention de la rupture de varices œsophagiennes)",
       "constantes": { "FC": -20 },
       "bornes": { "FC": [null, 100] },
@@ -890,15 +901,15 @@
   ],
   "bruit": [
     { "fiche": "Appendicectomie dans l'enfance" },
-    { "fiche": "Cholécystectomie en 2012" },
+    { "fiche": "Cholécystectomie en 2012", "age_min": 32 },
     { "fiche": "Hypothyroïdie", "traitement": "Lévothyroxine 75 µg/j" },
-    { "fiche": "Cataracte opérée des deux yeux" },
-    { "fiche": "Gonarthrose bilatérale" },
+    { "fiche": "Cataracte opérée des deux yeux", "age_min": 55 },
+    { "fiche": "Gonarthrose bilatérale", "age_min": 50 },
     { "fiche": "Hernie inguinale opérée" },
-    { "fiche": "Glaucome chronique", "traitement": "Latanoprost collyre" },
+    { "fiche": "Glaucome chronique", "age_min": 40, "traitement": "Latanoprost collyre" },
     { "fiche": "Reflux gastro-œsophagien", "traitement": "Ésoméprazole 20 mg/j" },
     { "fiche": "Épisode dépressif ancien, stabilisé", "traitement": "Sertraline 50 mg/j" },
-    { "fiche": "Hypertrophie bénigne de la prostate", "traitement": "Tamsulosine 0,4 mg/j", "sexe": "M" },
-    { "fiche": "Hystérectomie pour fibrome en 2005", "sexe": "F" }
+    { "fiche": "Hypertrophie bénigne de la prostate", "age_min": 50, "traitement": "Tamsulosine 0,4 mg/j", "sexe": "M" },
+    { "fiche": "Hystérectomie pour fibrome en 2005", "age_min": 45, "sexe": "F" }
   ]
 }

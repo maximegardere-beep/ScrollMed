@@ -2,6 +2,14 @@
   "id": "ep_haut_risque",
   "titre": "Embolie pulmonaire à haut risque",
   "source": "ESC 2019, embolie pulmonaire aiguë ; ERC 2021, arrêt cardiaque en circonstances particulières",
+  "complications": {
+    "oap": {
+      "actions": {
+        "vni": {"note": "debattu", "alt": "oxy", "refaire": true, "why": "VD défaillant : la pression positive baisse le retour veineux et peut précipiter le collapsus (ESC 2019). Oxygène à haut débit d'abord.", "effet": {"SpO2": 4, "PAS": -6}},
+        "ohd": {"note": "indispensable", "alt": "oxy", "refaire": true, "why": "OAP sur dysfonction VD : oxygénothérapie à haut débit, sans pression positive délétère pour le VD (ESC 2019).", "effet": {"SpO2": 5}, "pente": {"SpO2": -0.3}}
+      }
+    }
+  },
   "tags": ["embolie pulmonaire", "choc obstructif", "thrombolyse", "ventricule droit"],
   "patient": "Homme, 64 ans, 92 kg",
   "terrains": {"contexte": "dechoc", "exclus": ["fa_anticoagulee", "estomac_plein", "cirrhose_ethylisme"], "identite": {"sexe": ["M"], "age": [45, 85], "poids": [60, 110]}},

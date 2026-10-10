@@ -780,12 +780,12 @@
       "vignette": "L'œdème progresse : stridor aux deux temps, tirage, agitation. La SpO2 chute malgré l'oxygène.",
       "chrono": 45,
       "constantes": {
-        "SpO2": 80,
+        "SpO2": 82,
         "FR": 34,
         "FC": 130
       },
       "pente": {
-        "SpO2": -2.5,
+        "SpO2": -1.5,
         "FC": 0.5
       },
       "actions": {
@@ -833,7 +833,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "isr_etomidate_rocu": {
           "note": "indispensable",
@@ -845,7 +846,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "isr_etomidate": {
           "note": "recommande",
@@ -857,7 +859,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "isr_ketamine": {
           "note": "recommande",
@@ -869,7 +872,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "isr_propofol": {
           "note": "recommande",
@@ -881,7 +885,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "isr_ketamine_succi": {
           "note": "recommande",
@@ -893,7 +898,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "isr_propofol_succi": {
           "note": "recommande",
@@ -905,7 +911,8 @@
           },
           "pente": {
             "SpO2": 0.3
-          }
+          },
+          "duree": 4
         },
         "entretien": {
           "note": "recommande",

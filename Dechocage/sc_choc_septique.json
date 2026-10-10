@@ -87,6 +87,7 @@
         "reanimation": { "note": "indispensable", "delai": 360, "why": "Choc septique sous vasopresseur : admission en réanimation, dans les 6 h (SSC 2021), une fois la source drainée." }
       },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage de qualité, adrénaline 1 mg dès que possible, puis correction des causes (hypovolémie, acidose)." },
+      "letal_si_manque": { "actions": ["uro_drainage"], "issue": "deces", "depart": true, "why": "Partie en réanimation sans drainage de l'obstacle : sans contrôle de la source, le choc devient réfractaire (SSC 2021)." },
       "suite": [
         { "si_manque": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "vers": "e1_aggrav" },
         { "si_manque": [["remp_cristal", "remp_nacl", "albumine"]], "vers": "e1_aggrav" },
@@ -119,7 +120,10 @@
         "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." },
         "reanimation": { "note": "indispensable", "delai": 360, "why": "Admission en réanimation dans les 6 h (SSC 2021), une fois la source drainée." }
       },
-      "letal_si_manque": { "actions": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "issue": "acr", "why": "Pas d'antibiotique malgré l'aggravation : le choc devient réfractaire." },
+      "letal_si_manque": [
+        { "actions": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "issue": "acr", "why": "Pas d'antibiotique malgré l'aggravation : le choc devient réfractaire." },
+        { "actions": ["uro_drainage"], "issue": "deces", "depart": true, "why": "Partie en réanimation sans drainage de l'obstacle : sans contrôle de la source, le choc devient réfractaire (SSC 2021)." }
+      ],
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage, adrénaline, et traitement de l'hypovolémie." },
       "suite": [
         { "si_manque": ["uro_drainage"], "vers": "e3_refractaire" },

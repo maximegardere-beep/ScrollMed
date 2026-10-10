@@ -26,6 +26,7 @@
       "pente": { "SpO2": -1.2, "FC": 0.5, "GCS": -0.05 },
       "diagnostic": ["dx_curarisation_residuelle"],
       "actions": {
+        "sortie_sspi": { "note": "contre_indique", "why": "SpO2 basse et curarisation résiduelle : aucun critère de sortie de SSPI n'est réuni (SFAR 2018)." },
         "o2_masque": { "note": "recommande", "why": "Oxygène au masque pour remonter la SpO2 pendant le diagnostic.", "effet": { "SpO2": 3 } },
         "tof": { "note": "indispensable", "why": "Signes de faiblesse musculaire après un curare non antagonisé : mesurer le rapport T4/T1 ; la curarisation résiduelle se définit par un rapport < 0,9 (SFAR 2018)." },
         "sugammadex": { "note": "indispensable", "alt": "decur", "why": "Bloc résiduel au rocuronium : sugammadex, efficace quelle que soit la profondeur du bloc (SFAR 2018).", "effet": { "SpO2": 6, "FR": -10, "PAS": -14, "FC": -10 }, "pente": { "SpO2": 0.4, "GCS": 0 } },
@@ -58,6 +59,7 @@
       "constantes": { "SpO2": 80, "FR": 10, "GCS": 10, "FC": 124 },
       "pente": { "SpO2": -2, "GCS": -0.1 },
       "actions": {
+        "sortie_sspi": { "note": "contre_indique", "why": "Épuisement respiratoire : aucun critère de sortie de SSPI n'est réuni (SFAR 2018)." },
         "sugammadex": { "note": "indispensable", "alt": "decur", "why": "Décurariser sans attendre : sugammadex.", "effet": { "SpO2": 8, "FR": 6, "GCS": 2 }, "pente": { "SpO2": 0.4, "GCS": 0.1 } },
         "neostigmine": { "note": "debattu", "alt": "decur", "why": "Délai d'action de plusieurs minutes et effet plafond : insuffisant en urgence.", "effet": { "SpO2": 4, "FR": 4 }, "pente": { "SpO2": 0, "GCS": 0 } },
         "ventil_masque": { "note": "recommande", "why": "Ventilation au masque en attendant l'effet de la décurarisation.", "effet": { "SpO2": 6 } },
@@ -85,7 +87,8 @@
         "morphine_titr": { "note": "debattu", "why": "Titration prudente possible une fois la ventilation normalisée, sous surveillance de la sédation et de la fréquence respiratoire." },
         "o2_masque": { "note": "recommande", "why": "Oxygène jusqu'à normalisation de la SpO2.", "effet": { "SpO2": 2 } },
         "vni": { "note": "debattu", "why": "Pas d'indication si la ventilation est redevenue efficace." },
-        "midazolam": { "note": "contre_indique", "why": "Pas de benzodiazépine chez un patient qui sort d'une hypoventilation.", "effet": { "SpO2": -4 } }
+        "midazolam": { "note": "contre_indique", "why": "Pas de benzodiazépine chez un patient qui sort d'une hypoventilation.", "effet": { "SpO2": -4 } },
+        "sortie_sspi": { "note": "recommande", "why": "Sortie de SSPI quand le patient est réveillé, ventile efficacement sans oxygène ou presque, et que le rapport T4/T1 est ≥ 0,9 (SFAR 2018)." }
       },
       "suite": [ { "vers": "fin" } ]
     }

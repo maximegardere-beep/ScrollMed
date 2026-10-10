@@ -126,7 +126,8 @@
         "ett": { "note": "debattu", "why": "Hypotension qui ne cède pas aux bolus ni au remplissage : ETT (ou ETO) peropératoire pour distinguer hypovolémie, vasoplégie et dysfonction cardiaque." },
         "sng": { "note": "recommande", "why": "Si elle n'a pas été posée : sonde gastrique après l'intubation, pour la chirurgie et le réveil." },
         "adrenaline_ivse": { "note": "inutile", "why": "Pas de choc réfractaire : les bolus de vasoconstricteur et le remplissage suffisent." },
-        "sugammadex": { "note": "inutile", "why": "La chirurgie commence : aucune raison d'antagoniser la curarisation." }
+        "sugammadex": { "note": "inutile", "why": "La chirurgie commence : aucune raison d'antagoniser la curarisation." },
+        "poursuite_intervention": { "note": "recommande", "why": "Patient intubé, oxygéné, hypnose entretenue et pression corrigée : le chirurgien peut commencer. L'anesthésie se poursuit sous surveillance." }
       },
       "suite": [ { "vers": "fin" } ]
     }

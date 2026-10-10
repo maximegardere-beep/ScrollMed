@@ -2057,17 +2057,23 @@ function dcGenPatient(sc, niveau, force){
     if(r[0] > age[0] && r[0] <= age[1]) age[1] = r[0] - 1;
     else if(r[1] < age[1] && r[1] >= age[0]) age[0] = r[1] + 1;
   });
-  // traitements habituels : une variante tirée par comorbidité, sans doublon
+  // traitements habituels : une variante tirée par comorbidité, sans doublon ni deux traitements
+  // du même "groupe" (bisoprolol du coronarien + propranolol du cirrhotique : un seul bêtabloquant)
   const trById = {};
   (cat.traitements || []).forEach(x => { trById[x.id] = x; });
   const traitements = [];
   items.forEach(t => {
     if(!t.traitements || !t.traitements.length) return;
-    dcPick(t.traitements).forEach(id => { if(trById[id] && !traitements.includes(trById[id])) traitements.push(trById[id]); });
+    dcPick(t.traitements).forEach(id => {
+      const x = trById[id];
+      if(x && !traitements.includes(x) && !(x.groupe && traitements.some(y => y.groupe === x.groupe))) traitements.push(x);
+    });
   });
-  const bruit = dcShuffle((cat.bruit || []).filter(b => !b.sexe || b.sexe === sexe)).slice(0, dcRandInt(0, 2));
+  // antécédents sans conséquence : compatibles avec le sexe et l'âge (pas de cataracte opérée à 30 ans)
+  const ageP = dcRandInt(age[0], age[1]);
+  const bruit = dcShuffle((cat.bruit || []).filter(b => (!b.sexe || b.sexe === sexe) && !(b.age_min > ageP))).slice(0, dcRandInt(0, 2));
   const P = {
-    niveau, sexe, age: dcRandInt(age[0], age[1]), poids: dcRandInt(poids[0], poids[1]),
+    niveau, sexe, age: ageP, poids: dcRandInt(poids[0], poids[1]),
     items, traitements, bruit,
     sources: [...items, ...traitements.map(x => Object.assign({ label: x.fiche }, x))]
   };
@@ -2169,7 +2175,7 @@ function dcCond(si){
   const v = G.vitals;
   for(const [k, c] of Object.entries(si)){
     if(k === 'fait'){ if(!c.every(e => dcDoneEntry(e))) return false; continue; }
-    if(k === 'manque'){ if(!c.some(e => !dcDoneEntry(e))) return false; continue; }
+    if(k === 'manque'){ if(!c.some(e => dcMissing(e, G.step.id))) return false; continue; }
     if(k === 'precharge'){ if(dcPrecharge() !== c) return false; continue; }
     const x = k === 'PAM' ? v.PAD + (v.PAS - v.PAD) / 3 : k === 'volume' ? G.vol : v[k];
     if(x == null) return false;
@@ -2235,6 +2241,11 @@ function dcVolOap(){
 function dcFinSpec(st, id){
   const s = (st.actions || {})[id];
   return s && s.fin != null ? !!s.fin : !!(dcIndex()[id] || {}).fin;
+}
+// durée d'un geste (min patient) : celle de l'action d'étape ("duree" : intubation de crise plus courte), sinon du catalogue
+function dcDuree(id){
+  const s = G && G.phase !== 'acr' && G.step ? (G.step.actions || {})[id] : null;
+  return s && s.duree != null ? s.duree : (dcIndex()[id] || {}).duree || 0;
 }
 function dcFinOf(id){
   if(!G || G.phase !== 'step' || !dcFinSpec(G.step, id)) return false;
@@ -2464,6 +2475,13 @@ function dcDoneEntry(e, until){
   const ids = Array.isArray(e) ? e : [e];
   return G.log.some(l => ids.includes(l.id) && !l.ci && (until == null || l.t <= until));
 }
+// geste encore dû et non fait (suite, déclencheur) : une entrée dont toutes les actions sont contre-indiquées
+// par le terrain n'est plus due (KCl chez le dialysé) ; une alternative non contre-indiquée reste due
+function dcMissing(e, stepId){
+  if(dcDoneEntry(e)) return false;
+  const ids = Array.isArray(e) ? e : [e];
+  return ids.some(id => !dcTerrainCi(id, stepId));
+}
 function dcAcrSpec(){ return Object.assign({}, DC_DEFAULT_ACR, G.step.acr || {}); }
 
 // ---------- transfert : le patient est-il assez stable pour quitter le déchoc ? ----------
@@ -2551,12 +2569,13 @@ function dcDoAction(id, confirmed){
     dcUnstableOutcome(siInstable, a.label);
     return;
   }
-  dcAdvance((a.duree || 0) * 60);
+  const dur = dcDuree(id);
+  dcAdvance(dur * 60);
   if(G.phase === 'over') return;
   const etape = G.phase === 'acr' ? 'acr' : G.step.id;
   // contre-indication du terrain : notée comme telle, et ne satisfait pas les attentes de la trame
   const ci = dcTerrainCi(id, G.step.id);
-  const entry = { t: G.t, id, etape, step: G.step.id, instable };
+  const entry = { t: G.t, id, etape, step: G.step.id, instable, dur };
   if(ci && !ci.compte) entry.ci = true;   // "compte": le geste reste fait (intubation réussie malgré l'allergie)
   G.log.push(entry);
   if(!dcIsRcp(a) && !(a.fin && !fin)) G.doneAll.add(id);
@@ -2596,8 +2615,10 @@ function dcDoAction(id, confirmed){
   }
   if(a.titration && !G.pumps[id]){ const d = dcTitration(id).debut; G.pumps[id] = { dose: d, peak: d, max: d, capped: false }; }
   const spec = (G.step.actions || {})[id];
-  // effet : celui de l'étape, sinon celui du catalogue (geste fait hors de son étape), modulé par le terrain
-  const mod = dcModEffet(id, G.step.id, (spec && spec.effet) || a.effet);
+  // effet : celui de l'étape, sinon (pendant une complication) celui de l'étape interrompue,
+  // sinon celui du catalogue (geste fait hors de son étape), modulé par le terrain
+  const retSpec = G.step._compl && G.compl ? (G.compl.ret.actions || {})[id] : null;
+  const mod = dcModEffet(id, G.step.id, (spec && spec.effet) || (retSpec && retSpec.effet) || a.effet);
   if(mod.mods.length) entry.mods = mod.mods.map(m => m.why).filter(Boolean);
   if(a.volume){
     // remplissage : effet hémodynamique réduit une fois la précharge-dépendance épuisée
@@ -2618,7 +2639,7 @@ function dcDoAction(id, confirmed){
   }
   if(fin && G.phase === 'step'){
     // orientation : fin de la prise en charge, puis bilan ; partir sans un geste vital de l'étape a la même issue que l'oublier
-    if(dcLetalSiManque(G.step, dcCurVisit())) return;
+    if(dcLetalSiManque(G.step, dcCurVisit(), true)) return;
     const visit = dcCurVisit();
     visit.t1 = G.t; visit.dx = G.dx.slice(); visit.fin = id;
     G.orientation = { id, t: G.t, instable };
@@ -2724,7 +2745,10 @@ function dcTerrainOmission(){
 function dcEnterCompl(cp, cause){
   dcSettle();   // temps fixé : l'évolution en attente s'applique d'abord
   if(G.phase !== 'step') return;
-  if(!dcStepById(cp.id)) G.sc.etapes.push(Object.assign({}, cp, { _compl: true }));
+  // le scénario peut adapter les gestes d'une complication ("complications": { "oap": { "actions": {…} } } :
+  // VNI débattue dans l'OAP d'une embolie pulmonaire, où la pression positive effondre le VD)
+  const ad = ((G.sc.complications || {})[cp.id] || {}).actions;
+  if(!dcStepById(cp.id)) G.sc.etapes.push(Object.assign({}, cp, { _compl: true }, ad ? { actions: Object.assign({}, cp.actions, ad) } : {}));
   G.compl = { ret: G.step, chrono: G.chrono, override: G.override, ecg: G.ecg, dx: G.dx.slice(), cause };
   G.override = {};
   G.dx = [];
@@ -2775,7 +2799,7 @@ function dcValidate(confirmed){
     return;
   }
   const rule = (st.suite || []).find(r =>
-    (r.si_manque ? r.si_manque.some(e => !dcDoneEntry(e)) : true) &&
+    (r.si_manque ? r.si_manque.some(e => dcMissing(e, st.id)) : true) &&
     (r.si_fait ? r.si_fait.every(e => dcDoneEntry(e)) : true)
   ) || { vers: 'fin' };
   if(rule.vers === 'fin'){
@@ -2791,19 +2815,23 @@ function dcValidate(confirmed){
 // omission létale de l'étape (à la validation, ou au départ par une orientation) : ACR ou décès ; true si elle a joué.
 // "etape": true : le geste doit avoir été fait pendant cette étape (une cardioversion antérieure ne réduit pas cette TV)
 // "etape": liste des gestes concernés (ou true pour tous)
-function dcLetalSiManque(st, visit){
-  const lsm = st.letal_si_manque;
-  if(!lsm) return false;
-  const lsmDone = e => {
-    const ids = Array.isArray(e) ? e : [e];
-    const inStep = lsm.etape === true || (Array.isArray(lsm.etape) && ids.some(x => lsm.etape.includes(x)));
-    return inStep ? G.log.some(l => ids.includes(l.id) && !l.ci && l.step === st.id && l.t >= visit.t0) : dcDoneEntry(e);
-  };
-  if(!(lsm.actions || []).some(e => !lsmDone(e))) return false;
-  if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return true; }
-  dcEnterAcr(lsm.why || 'omission létale');
-  dcRender();
-  return true;
+// "depart": true : vérifiée seulement au départ par une orientation (réa sans drainer l'obstacle : choc réfractaire).
+// Une étape peut en avoir plusieurs (liste) : la première qui joue l'emporte.
+function dcLetalSiManque(st, visit, depart){
+  for(const lsm of [].concat(st.letal_si_manque || [])){
+    if(lsm.depart && !depart) continue;
+    const lsmDone = e => {
+      const ids = Array.isArray(e) ? e : [e];
+      const inStep = lsm.etape === true || (Array.isArray(lsm.etape) && ids.some(x => lsm.etape.includes(x)));
+      return inStep ? G.log.some(l => ids.includes(l.id) && !l.ci && l.step === st.id && l.t >= visit.t0) : dcDoneEntry(e);
+    };
+    if(!(lsm.actions || []).some(e => !lsmDone(e))) continue;
+    if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return true; }
+    dcEnterAcr(lsm.why || 'omission létale');
+    dcRender();
+    return true;
+  }
+  return false;
 }
 
 // ---------- notation ----------
@@ -2854,7 +2882,7 @@ function dcScore(){
       if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
       pts += p;
       // délai : heure patient du début du geste, comparée à "delai" (min depuis l'arrivée)
-      const t0 = l.t - ((dcIndex()[l.id] || {}).duree || 0) * 60;
+      const t0 = l.t - (l.dur != null ? l.dur : (dcIndex()[l.id] || {}).duree || 0) * 60;
       const delai = spec && spec.delai && !l.ci ? { lim: spec.delai, ok: t0 <= spec.delai * 60 } : null;
       seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, instable: l.instable, pts: p, n: 1,
         terrain: spec && spec.terrain, orig: spec && spec.orig, adapte: spec && spec.adapte, compl: l.compl, mods: l.mods,
@@ -4230,7 +4258,7 @@ function dcTileHtml(it){
   const cls = isDx ? (G.dx.includes(a.id) ? 'on' : '') : (done ? 'done' : lock ? 'lock' : 'act');
   const mark = isDx ? (G.dx.includes(a.id) ? '☑' : '☐') : done ? '✓' : count ? `×${count}` : '';
   const info = isDx || done ? '' : lock ? `🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}`
-    : (dcFinOf(a.id) ? '🏁 fin · ' : '') + (a.duree ? `⏱ ${a.duree} min` : '⏱ immédiat');
+    : (dcFinOf(a.id) ? '🏁 fin · ' : '') + (dcDuree(a.id) ? `⏱ ${dcDuree(a.id)} min` : '⏱ immédiat');
   return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>${cls === 'act' ? DC_RING : ''}
     <span>${escapeHtml(a.label)}${mark ? ` <b>${mark}</b>` : ''}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${info ? `<span class="sub">${info}</span>` : ''}</span></button>`;
 }

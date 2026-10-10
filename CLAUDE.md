@@ -123,7 +123,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `type: "diagnostic"` : hypothèse diagnostique, sans durée ; un seul diagnostic actif à la fois.
 - `voie` : voies fournies par un geste (`vvp` et `io` → `["IV"]`, `ktc` → `["IV", "VVC"]`). `requiert` : voie nécessaire (`"IV"` pour tout médicament ou soluté intraveineux). Sans elle, la tuile est verrouillée (🔒) et l'action ne se lance pas.
 - `titration` : pousse-seringue titré automatiquement (noradrénaline). Une fois lancé, il tient la PAM à `cible_pam` : la dose monte quand la PA baisse (`gain` = mmHg de PAS par unité) et redescend vers `debut` quand la PA dépasse la cible. Elle est plafonnée par `max` selon la meilleure voie posée (ex. `{ "IV": 2, "VVC": 8 }` : plafond bas sur VVP, levé par la VVC). Au plafond, la PA rechute et le scope affiche « MAX ». Dose affichée dans le scope, dose maximale au débriefing.
-- `fin: true` : orientation qui **termine la prise en charge** (réa, bloc, radiologie interventionnelle…) : fenêtre de confirmation (avec stabilité si `transfert`), puis débriefing. Elle termine la partie dès qu'elle est faite, sauf contre-indication du terrain ou `"fin": false` sur l'action d'étape (« prévenir la réa » sans partir : geste ordinaire, sans fenêtre, refaisable plus tard pour partir). Partir sans un geste du `letal_si_manque` de l'étape a la même issue que valider sans lui (ACR ou décès). Au bilan : les indispensables de l'étape en cours, puis ceux des étapes du chemin par défaut de `suite` (dernière règle, sans les branches d'aggravation) non visitées, restent dus (« avant de partir ») ; les autres orientations de fin ne sont plus dues. La tuile affiche « 🏁 fin ».
+- `fin: true` : orientation qui **termine la prise en charge** (réa, bloc, radiologie interventionnelle…) : fenêtre de confirmation (avec stabilité si `transfert`), puis débriefing. Elle termine la partie dès qu'elle est faite, sauf contre-indication (trame ou terrain : −5, la partie continue) ou `"fin": false` sur l'action d'étape (« prévenir la réa » sans partir : geste ordinaire, sans fenêtre, refaisable plus tard pour partir). Partir sans un geste du `letal_si_manque` de l'étape a la même issue que valider sans lui (ACR ou décès). Au bilan : les indispensables de l'étape en cours, puis ceux des étapes du chemin par défaut de `suite` (dernière règle, sans les branches d'aggravation) non visitées, restent dus (« avant de partir ») ; les autres orientations de fin ne sont plus dues. La tuile affiche « 🏁 fin ».
 - `volume` (mL) : soluté ou produit sanguin, compté dans le bilan entrées (résumé du patient `💧 1,5 L perfusés`, débriefing). Avec `hemodynamique` sur le scénario, il porte la précharge-dépendance (voir Scénario).
 - `effet` : effet par défaut, appliqué quand l'étape ne précise pas le sien (geste fait hors de son étape).
 - `resultat` : résultat par défaut d'un examen (texte ou liste conditionnelle, voir `resultats`), après ceux du terrain, de l'étape et du scénario. Ex. `lever_jambes` (ΔVTI selon la précharge-dépendance) et `vti`.
@@ -168,6 +168,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - `why` est obligatoire : c'est le texte du débriefing. Il doit être exact et sourcé, comme une carte.
 - `alt` : actions interchangeables (plusieurs antibiotiques acceptables). Une seule suffit pour satisfaire l'indispensable, et seule la première faite rapporte des points.
 - `effet` : variation immédiate des constantes. `pente` sur une action : remplace la pente de l'étape pour ces constantes, jusqu'à la fin de la partie.
+- `duree` sur une action d'étape : remplace la durée du catalogue dans cette étape (intubation de crise en 4 min quand la préoxygénation est faite et que la SpO2 s'effondre).
 - `delai` (min depuis l'arrivée du patient) sur une action d'étape : objectif de délai (ATB ≤ 60 min…). Le débriefing compare l'heure patient du début du geste : « dans le délai » dans les points forts, « en retard » dans les axes. Sans effet sur la note.
 - `refaire: true` : l'action doit être refaite dans cette étape (contrôle), un passage antérieur ne compte pas. Sur une action non `repetable` déjà faite, la tuile est verrouillée : le passage antérieur compte. Un geste qu'une étape peut exiger de nouveau (cardioversion, appel à l'aide, arrêt du produit) doit donc être `repetable`.
 - `resultats` : texte révélé par un examen. Celui de l'étape l'emporte sur celui du scénario. Il peut être une **liste conditionnelle** `[{ "si": {…}, "texte": "…", "schema": {…} }]` : la première entrée dont la condition est vraie l'emporte (dernière entrée sans `si` = cas général) ; si aucune ne l'est, on passe au niveau suivant. Conditions (toutes vraies) : constante, `PAM` ou `volume` (mL perfusés) `{ "min", "max" }` bornes incluses, `fait` (toutes faites ; liste imbriquée = alternatives), `manque` (au moins une non faite), `precharge` (`true` / `false`). Le schéma d'une entrée se met dans l'entrée. Ex. ETT : VCI collabée avant remplissage, dilatée après 2 L. Entourer chaque valeur anormale de `**…**` : elle s'affiche en rouge (ex. `"**K⁺ 7,9 mmol/L** · Na 140 mmol/L"`).
@@ -179,12 +180,13 @@ Tableau d'actions, partagé par tous les scénarios :
   - `tdm` (coupe axiale, droite du patient à gauche) : `coupe` `thorax` (`thrombus` : `ap_d`, `ap_g` ; `vd_dilate`), `abdomen` (`hydronephrose`, `infiltration`, `calcul` : côtés), `bassin` (`fracture` : `true` ou `sacro_iliaque_d/g`, `aile_iliaque_d/g`, `sacrum` ; `extravasation`, `hematome` (bool), `cote`) ou `cerveau` ; `coupes: [{…}, {…}]` pour plusieurs coupes.
 - `hemodynamique` du scénario, optionnel : `{ "reserve_ml": 1500, "oap_ml": 3000, "why": "…" }`. Tant que le volume perfusé est sous `reserve_ml`, le patient est précharge-dépendant (`precharge` vrai, lever de jambes positif) et chaque remplissage a son plein effet ; au-delà, l'effet sur PAS, PAD, FC et EtCO2 décroît jusqu'à 10 % au seuil `oap_ml`, où survient la complication `oap` (une fois par partie, `why` au débriefing). Le terrain module les deux seuils (voir Patient procédural). Sans cette clé, `precharge` se déduit de l'étape (remplissage indispensable ou recommandé : vrai ; inutile ou contre-indiqué : faux).
 - `declencheur` sur une étape : **étape-tournant**, où l'on entre seul quand la condition est remplie (une fois par partie) : `{ "apres": 20, "si": { "PAS": { "max": 70 } }, "dans": ["e1"] }` (`apres` en minutes de partie, `si` comme les résultats conditionnels, `dans` : étapes d'où il peut partir), ou une liste (le premier qui correspond). Vérifié à chaque seconde, après chaque geste et à la validation (temps fixé). L'étape quittée reste ouverte : ses gestes dus peuvent encore être faits et comptent pour elle. Pas de `declencheur` sur une complication.
+- `complications` du scénario, optionnel : gestes d'une complication adaptés à la trame, fusionnés avec les siens : `{ "oap": { "actions": { "vni": { "note": "debattu", … } } } }` (OAP d'une embolie pulmonaire : VNI débattue, oxygène à haut débit indispensable).
 - `titration` du scénario, optionnel : surcharge des réglages d'un pousse-seringue du catalogue (ex. `{ "noradre": { "max": { "IV": 1, "VVC": 1 } } }` dans le choc hémorragique, où la noradrénaline ne doit pas masquer le saignement).
 - `constantes` d'une étape : valeurs imposées à l'entrée (utile pour une étape d'aggravation). Une constante absente du scénario (GCS d'un patient endormi) s'affiche « — ».
 - `moniteur` et `voies` du scénario : monitorage et voies déjà en place au début (patient au bloc : `"moniteur": ["CO2"]`, `"voies": ["IV"]`).
 - `si_instable` sur une action d'étape (`acr` ou `deces`) : conséquence d'un départ en `transfert` alors que le patient est instable (ex. TDM dans un choc hémorragique non contrôlé). Sans ce champ, partir instable n'a pas de conséquence (le geste est le traitement : embolisation, bloc, coronarographie). Le débriefing signale « parti instable ».
 - `transfert` sur une étape (même format que dans le catalogue, plus `si_instable`) : l'étape se termine par un départ ; le bouton de validation devient « 🚑 Partir … » et ouvre la fenêtre de stabilité. Avec `si_instable`, chaque départ instable relance la conséquence : le joueur doit stabiliser avant de repartir.
-- `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape. Par défaut, un geste fait plus tôt compte ; `"etape": ["cardioversion", "choc_ext"]` (ou `true`) exige que ces gestes soient faits pendant l'étape (une cardioversion antérieure ne réduit pas une nouvelle TV). Les gestes visés doivent alors être `repetable`.
+- `letal` sur une action : `acr` (phase RCP rattrapable) ou `deces` (fin immédiate). `letal_si_manque` : omission létale vérifiée à la validation de l'étape et au départ par une orientation ; une règle ou une liste de règles (la première qui joue l'emporte). `"depart": true` : vérifiée seulement au départ (partir en réa sans drainer l'obstacle d'une pyélonéphrite). Par défaut, un geste fait plus tôt compte ; `"etape": ["cardioversion", "choc_ext"]` (ou `true`) exige que ces gestes soient faits pendant l'étape (une cardioversion antérieure ne réduit pas une nouvelle TV). Les gestes visés doivent alors être `repetable`.
 - `acr.ecg_racs` : rythme affiché après le RACS (ex. `st_plus` après le choc d'une TV). Sans lui, le rythme d'avant l'ACR revient, sauf un rythme d'arrêt ou une TV (`tv`, `fv`, `asystolie`, `aesp`), remplacé par le rythme de l'étape ou du scénario.
 - `acr.requis` : actions à faire pendant la RCP (90 s réelles en temps réel) pour obtenir un RACS ; une liste imbriquée = alternatives. Chaque entrée doit être de la catégorie `RCP` ou `repetable`. Défaut : `["mce", "adre_acr"]`.
 - `suite` : la première règle qui correspond l'emporte. `si_manque` : au moins une entrée non faite. `si_fait` : toutes faites. La dernière règle est sans condition. `"vers": "fin"` termine la partie.
@@ -223,7 +225,7 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
 }
 ```
   - `rubrique` : `allergies`, `atcd` (défaut) ou `vie` (mode de vie).
-  - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`, sauf avec `"compte": true` (le geste a bien eu lieu : intubation réussie malgré l'anaphylaxie au curare). Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
+  - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`, sauf avec `"compte": true` (le geste a bien eu lieu : intubation réussie malgré l'anaphylaxie au curare). Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due (ni au barème, ni pour `suite.si_manque`, ni pour un `declencheur` `manque`) ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
   - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée ; sans effet sur une action que la trame note `contre_indique`. `dans` : limite la règle à une complication (`anaphylaxie`), à un contexte (`induction`, `perop`, `rea`, `dechoc`), à une trame (`isr_occlusion`) ou à une étape d'une trame (`isr_occlusion/e2`) ; aussi possible sur `ci` et `module`.
   - `module` : multiplie l'`effet` des actions visées (`effet`), ajoute un effet propre (`plus`). Avec `complication` et `apres` (nombre) : la complication survient à la N-ième action visée (OAP au 3e remplissage chez l'insuffisant cardiaque).
   - `hemodynamique` : `{ "reserve_ml": 0.5, "oap_ml": 0.6 }`, facteurs multiplicatifs des seuils du scénario (FEVG altérée, dialysé anurique : OAP plus tôt). Sans effet si la trame n'a pas `hemodynamique`.
@@ -233,10 +235,10 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
   - `constantes` : décalage des constantes de départ et des constantes imposées par une étape. `pente` : s'ajoute à celle de l'étape. `bornes` : `[min, max]` (`null` = pas de borne), ex. FC plafonnée sous bêtabloquant ; levées pendant une TV ou une FV.
   - `resultats` : l'emportent sur ceux de l'étape et du scénario. Clés `action`, `trame/action` ou `trame/étape/action` (la plus précise gagne) : un résultat générique ne doit pas effacer un signe diagnostique de la trame (ECG de l'EP, de l'hyperkaliémie, du STEMI) ; écrire alors un texte combiné propre à la trame. `ecg` : rythme de fond (remplace `sinus`).
   - `identite.age` : tranche d'âge du terrain ; un patient sans ce terrain est tiré hors de la tranche. `identite.poids` : remplace la fourchette de poids de la trame (obésité).
-  - `traitements` : variantes (listes d'id de `traitements`), une tirée. Un traitement a `id`, `fiche` et les mêmes clés d'effet (`ci`, `promeut`, `module`, `constantes`, `bornes`, `resultats`, `tags`) ; partagé entre comorbidités, il n'est appliqué qu'une fois.
-  - `bruit` : `{ "fiche", "traitement"?, "sexe"? }`, sans effet.
+  - `traitements` : variantes (listes d'id de `traitements`), une tirée. Un traitement a `id`, `fiche` et les mêmes clés d'effet (`ci`, `promeut`, `module`, `constantes`, `bornes`, `resultats`, `tags`) ; partagé entre comorbidités, il n'est appliqué qu'une fois. `groupe` : un seul traitement par groupe chez un patient (`betabloquant` : bisoprolol du coronarien ou propranolol du cirrhotique, pas les deux ; `sraa`).
+  - `bruit` : `{ "fiche", "traitement"?, "sexe"?, "age_min"? }`, sans effet (`age_min` : pas de cataracte opérée à 30 ans).
   - `tags` : cartes Recos proposées « Pour réviser » au débriefing (tags communs).
-- **`Dechocage/complications.json`** : tableau d'étapes au format habituel (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
+- **`Dechocage/complications.json`** : tableau d'étapes au format habituel (un geste absent de la complication garde l'effet prévu par l'étape interrompue, sinon celui du catalogue) (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
 - Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain sur l'accueil Déchoc, les plus mal gérés d'abord) ; elles ne comptent pas dans le record du scénario.
 
 ### Validation du mode Déchoc (à lancer avant chaque commit touchant `Dechocage/`)
@@ -318,6 +320,7 @@ def check_step(w, st, steps, compl=False):
         assert "si_instable" not in spec or "transfert" in A[aid], f"{w} : si_instable sur {aid}, qui n'a pas de transfert"
         assert spec.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu ({aid})"
         assert spec.get("fin") in (None, True, False) and (spec.get("delai") is None or spec["delai"] > 0), f"{w} : fin (booléen) / delai (min) ({aid})"
+        assert spec.get("duree") is None or spec["duree"] >= 0, f"{w} : duree (min) ({aid})"
         for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
             assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
     check_res(w, st.get("resultats", {}))
@@ -327,9 +330,8 @@ def check_step(w, st, steps, compl=False):
     tr = st.get("transfert")
     if tr:
         assert set(tr.get("min", {})) | set(tr.get("max", {})) <= VITALS | {"PAM"} and tr.get("si_instable") in (None, "acr", "deces"), f"{w} : transfert invalide"
-    lsm = st.get("letal_si_manque")
-    if lsm:
-        assert lsm.get("issue") in ("acr", "deces"), f"{w} : issue de letal_si_manque"
+    for lsm in ([st["letal_si_manque"]] if isinstance(st.get("letal_si_manque"), dict) else st.get("letal_si_manque", [])):
+        assert lsm.get("issue") in ("acr", "deces") and lsm.get("depart") in (None, True), f"{w} : issue / depart de letal_si_manque"
         assert lsm.get("etape") in (None, True) or set(lsm["etape"]) <= set(flat(lsm["actions"])), f"{w} : letal_si_manque.etape : true ou liste de gestes de la règle"
         etape = list(flat(lsm["actions"])) if lsm.get("etape") is True else lsm.get("etape") or []
         for aid in etape: assert A[aid].get("repetable") or A[aid]["path"][0] == "RCP", f"{w} : {aid} exigé dans l'étape (letal_si_manque.etape) doit être repetable"
@@ -404,10 +406,10 @@ if os.path.exists("Dechocage/terrains.json"):
             for x in var: assert x in TR, f"{w} : traitement inconnu {x}"
         check_src(w, t)
     for x in TR.values():
-        assert x.get("fiche"), f"terrains.json [{x['id']}] : fiche manquante"
+        assert x.get("fiche") and isinstance(x.get("groupe", ""), str), f"terrains.json [{x['id']}] : fiche manquante / groupe (texte)"
         check_src(f"terrains.json [{x['id']}]", x)
     for b in T.get("bruit", []):
-        assert b.get("fiche") and b.get("sexe") in (None, "F", "M"), f"terrains.json : antécédent « bruit » invalide {b}"
+        assert b.get("fiche") and b.get("sexe") in (None, "F", "M") and isinstance(b.get("age_min", 0), int), f"terrains.json : antécédent « bruit » invalide {b}"
 n = 0
 for f in sorted(glob.glob("Dechocage/sc_*.json")):
     sc = json.load(open(f, encoding="utf-8")); n += 1
@@ -430,6 +432,10 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     check_schemas(f, sc)
     steps = {e["id"] for e in sc["etapes"]}
     assert not steps & COMPL.keys(), f"{f} : une étape porte l'id d'une complication"
+    for cid, ad in sc.get("complications", {}).items():
+        # gestes d'une complication adaptés au scénario (VNI débattue dans l'OAP d'une EP)
+        assert cid in COMPL and set(ad) == {"actions"}, f"{f} : complications.{cid} : complication inconnue, ou autre clé que actions"
+        check_step(f"{f} [complications.{cid}]", dict(COMPL[cid], actions=dict(COMPL[cid].get("actions", {}), **ad["actions"])), set(), compl=True)
     for st in sc["etapes"]:
         check_step(f"{f} [{st['id']}]", st, steps)
 print(f"{len(acts)} actions, {n} scénarios, {len(TERR)} terrains, {len(COMPL)} complications : OK")
