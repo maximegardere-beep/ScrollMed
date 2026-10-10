@@ -18,37 +18,18 @@
           "why": "Allergie grave aux bêtalactamines : aztréonam + amikacine dans la pyélonéphrite grave (SPILF 2018). L'aztréonam (monobactame) n'a pas d'allergie croisée avec les pénicillines ni avec la ceftriaxone ; il partage seulement la chaîne latérale de la ceftazidime."
         }
       ],
-      "tags": [
-        "anaphylaxie",
-        "allergie",
-        "bêtalactamines",
-        "choc anaphylactique"
-      ]
+      "tags": ["anaphylaxie", "allergie", "bêtalactamines", "choc anaphylactique"]
     },
     {
       "id": "coronarien",
       "label": "Cardiopathie ischémique",
       "rubrique": "atcd",
       "fiche": "Infarctus antérieur en 2021, stent actif sur l'IVA. FEVG conservée à la dernière ETT.",
-      "traitements": [
-        [
-          "betabloquant",
-          "aspirine",
-          "statine"
-        ],
-        [
-          "aspirine",
-          "statine"
-        ]
-      ],
-      "tags": [
-        "infarctus"
-      ],
+      "traitements": [["betabloquant", "aspirine", "statine"], ["aspirine", "statine"]],
+      "tags": ["infarctus"],
       "seuil": [
         {
-          "PAS": {
-            "min": 70
-          },
+          "PAS": { "min": 70 },
           "complication": "ischemie",
           "why": "Coronarien : une hypotension prolongée (PAS < 70 mmHg) abaisse la perfusion coronaire et déclenche une ischémie myocardique. Restaurer vite la pression."
         }
@@ -56,13 +37,8 @@
       "module": [
         {
           "id": "naloxone_bolus",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "PAS": 1.3,
-            "FC": 1.3
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "PAS": 1.3, "FC": 1.3 },
           "why": "Coronarien : la poussée hypertensive et la tachycardie d'une levée brutale augmentent la consommation d'oxygène du myocarde. Naloxone à utiliser avec prudence chez le cardiaque (RCP) : titrer."
         }
       ]
@@ -72,45 +48,26 @@
       "label": "Insuffisance cardiaque à FEVG altérée",
       "rubrique": "atcd",
       "fiche": "Cardiomyopathie dilatée, FEVG 30 % (ETT 2025), dyspnée NYHA II.",
-      "traitements": [
-        [
-          "betabloquant",
-          "sacubitril_valsartan",
-          "furosemide_po",
-          "spironolactone"
-        ]
-      ],
+      "traitements": [["betabloquant", "sacubitril_valsartan", "furosemide_po", "spironolactone"]],
       "module": [
         {
           "classe": "remplissage",
-          "effet": {
-            "PAS": 0.5
-          },
-          "plus": {
-            "SpO2": -2
-          },
+          "effet": { "PAS": 0.5 },
+          "plus": { "SpO2": -2 },
           "why": "FEVG à 30 % : chaque bolus remonte peu la pression et dégrade l'oxygénation. Au 3e bolus, OAP de surcharge. Petits bolus réévalués, vasopresseur précoce.",
           "complication": "oap",
           "apres": 3
         },
         {
           "classe": "hypnotique",
-          "effet": {
-            "PAS": 1.5
-          },
+          "effet": { "PAS": 1.5 },
           "why": "FEVG altérée : la chute de pression à l'induction est plus profonde et plus durable. Hypnotique à faible retentissement, doses réduites, vasopresseur prêt."
         },
         {
           "id": "naloxone_bolus",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "PAS": 1.3
-          },
-          "plus": {
-            "SpO2": -6
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "PAS": 1.3 },
+          "plus": { "SpO2": -6 },
           "why": "FEVG à 30 % : la décharge adrénergique d'une levée brutale (post-charge brutalement élevée) peut déclencher un œdème pulmonaire (RCP de la naloxone). Titrer."
         }
       ],
@@ -125,54 +82,24 @@
         "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
         "stemi_choc_cardiogenique/ett": { "type": "ett", "vg": "dilate", "akinesie": "anterieure", "vci": "dilatee" },
         "ep_haut_risque/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
-        "ep_haut_risque/e2/ett": { "type": "ett", "vg": "dilate", "vd": "dilate", "septum": "paradoxal", "vci": false, "legende": "Septum un peu moins déplacé qu'à l'arrivée." }
+        "ep_haut_risque/e2/ett": {
+          "type": "ett",
+          "vg": "dilate",
+          "vd": "dilate",
+          "septum": "paradoxal",
+          "vci": false,
+          "legende": "Septum un peu moins déplacé qu'à l'arrivée."
+        }
       },
-      "tags": [
-        "insuffisance cardiaque",
-        "remplissage"
-      ]
+      "tags": ["insuffisance cardiaque", "remplissage"]
     },
     {
       "id": "bpco",
       "label": "BPCO sévère",
       "rubrique": "atcd",
       "fiche": "BPCO GOLD 3, tabagisme sevré (40 paquets-années). Une exacerbation hospitalisée en 2024. Pas d'oxygénothérapie au long cours.",
-      "traitements": [
-        [
-          "tiotropium_olodaterol"
-        ],
-        [
-          "tiotropium_olodaterol",
-          "salbutamol_pa"
-        ]
-      ],
-      "constantes": {
-        "SpO2": -5,
-        "FR": 2
-      },
-      "module": [
-        {
-          "id": "clonazepam",
-          "dans": ["etat_de_mal_epileptique"],
-          "plus": { "SpO2": -3 },
-          "why": "BPCO sévère : les benzodiazépines dépriment davantage la ventilation de l'insuffisant respiratoire chronique. Elles restent le traitement de l'EME : O2 titré, aspiration, ventilation prête."
-        },
-        {
-          "id": "midazolam_im",
-          "dans": ["etat_de_mal_epileptique"],
-          "plus": { "SpO2": -3 },
-          "why": "BPCO sévère : les benzodiazépines dépriment davantage la ventilation de l'insuffisant respiratoire chronique. Elles restent le traitement de l'EME : O2 titré, aspiration, ventilation prête."
-        },
-        {
-          "id": "phenobarbital",
-          "dans": ["etat_de_mal_epileptique"],
-          "plus": { "SpO2": -3 },
-          "why": "BPCO sévère : après les benzodiazépines, le phénobarbital majore la dépression respiratoire. Préférer une 2e ligne sans effet ventilatoire (lévétiracétam)."
-        }
-      ],
-      "tags": [
-        "BPCO"
-      ],
+      "traitements": [["tiotropium_olodaterol"], ["tiotropium_olodaterol", "salbutamol_pa"]],
+      "constantes": { "SpO2": -5, "FR": 2 },
       "module": [
         {
           "id": "clonazepam",
@@ -194,21 +121,16 @@
         },
         {
           "id": "o2_masque",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "plus": {
-            "GCS": -1
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "plus": { "GCS": -1 },
           "why": "BPCO hypercapnique : l'oxygène à haute concentration aggrave l'hypercapnie. Titrer l'O2 pour une SpO2 de 88 à 92 % (BTS 2017)."
         }
       ],
+      "tags": ["BPCO"],
       "promeut": [
         {
           "id": "vni",
-          "dans": [
-            "depression_respiratoire_opioides/e2"
-          ],
+          "dans": ["depression_respiratoire_opioides/e2"],
           "why": "BPCO avec acidose hypercapnique persistante (pH < 7,35) une fois le patient réveillé : VNI (ERS/ATS 2017)."
         }
       ],
@@ -223,21 +145,12 @@
       "label": "Grand âge",
       "rubrique": "vie",
       "fiche": "Vit seule à domicile, autonome pour les actes de la vie quotidienne.",
-      "identite": {
-        "age": [
-          80,
-          92
-        ]
-      },
-      "pente": {
-        "PAS": -0.2
-      },
+      "identite": { "age": [80, 92] },
+      "pente": { "PAS": -0.2 },
       "module": [
         {
           "classe": "hypnotique",
-          "effet": {
-            "PAS": 1.5
-          },
+          "effet": { "PAS": 1.5 },
           "why": "Sujet âgé : réserve hémodynamique réduite, chute de pression plus forte avec les hypnotiques."
         },
         {
@@ -248,19 +161,12 @@
         },
         {
           "classe": "morphinique",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "plus": {
-            "SpO2": -3,
-            "GCS": -1
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "plus": { "SpO2": -3, "GCS": -1 },
           "why": "Sujet âgé : sensibilité accrue aux morphiniques et élimination ralentie (fonction rénale réduite, accumulation de la M6G). Doses réduites, intervalles allongés."
         }
       ],
-      "tags": [
-        "sujet âgé"
-      ]
+      "tags": ["sujet âgé"]
     },
     {
       "id": "fa_anticoagulee",
@@ -268,19 +174,7 @@
       "rubrique": "atcd",
       "fiche": "Fibrillation atriale permanente, CHA2DS2-VASc 4.",
       "ecg": "fa",
-      "traitements": [
-        [
-          "betabloquant",
-          "apixaban"
-        ],
-        [
-          "betabloquant",
-          "warfarine"
-        ],
-        [
-          "apixaban"
-        ]
-      ],
+      "traitements": [["betabloquant", "apixaban"], ["betabloquant", "warfarine"], ["apixaban"]],
       "resultats": {
         "scope": "**Fibrillation atriale rapide**, irrégulière.",
         "ecg": "**Fibrillation atriale rapide**, QRS fins, pas de trouble de la repolarisation.",
@@ -291,16 +185,11 @@
         "hyperkaliemie_menacante/e2/ecg": "Fibrillation atriale à 64/min, **QRS à 110 ms**, **ondes T encore amples**.",
         "depression_respiratoire_opioides/ecg": "Fibrillation atriale à fréquence contrôlée, QRS fins, pas de trouble de la repolarisation."
       },
-      "tags": [
-        "FA",
-        "anticoagulants"
-      ],
+      "tags": ["FA", "anticoagulants"],
       "promeut": [
         {
           "id": "cardioversion",
-          "dans": [
-            "stemi_choc_cardiogenique/e1"
-          ],
+          "dans": ["stemi_choc_cardiogenique/e1"],
           "why": "FA rapide chez un patient en choc : cardioversion électrique en urgence si l'arythmie participe à l'instabilité (ESC 2024, FA). Sur une FA permanente, le retour durable en sinusal est peu probable : la reperfusion reste la priorité."
         }
       ]
@@ -318,11 +207,7 @@
           "compte": true
         }
       ],
-      "tags": [
-        "anaphylaxie",
-        "curares",
-        "allergie"
-      ]
+      "tags": ["anaphylaxie", "curares", "allergie"]
     },
     {
       "id": "iot_difficile",
@@ -342,11 +227,7 @@
           "why": "Intubation et ventilation au masque difficiles prévues : intubation vigile sous fibroscopie, en ventilation spontanée, avant toute induction (SFAR 2017)."
         }
       ],
-      "tags": [
-        "intubation difficile",
-        "VAD",
-        "CICO"
-      ]
+      "tags": ["intubation difficile", "VAD", "CICO"]
     },
     {
       "id": "ra_serre",
@@ -356,62 +237,39 @@
       "module": [
         {
           "classe": "hypnotique",
-          "effet": {
-            "PAS": 1.8
-          },
+          "effet": { "PAS": 1.8 },
           "why": "RA serré : débit cardiaque fixe, la vasodilatation de l'induction n'est pas compensée. Hypnotique à faible retentissement (étomidate), titration, et vasoconstricteur α pur prêt (phényléphrine, sans tachycardie)."
         }
       ],
       "resultats": {
         "ett": "**Rétrécissement aortique serré** : surface 0,7 cm², gradient moyen 50 mmHg. FEVG 60 %.",
         "ep_haut_risque/ett": "**Rétrécissement aortique serré** (surface 0,7 cm²). **VD dilaté (VD/VG > 1)**, **septum paradoxal**, **TAPSE 11 mm**. VG petit, FEVG conservée. **VCI 24 mm, non compliante**.",
-        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu."
+        "ep_haut_risque/e2/ett": "Contrôle : **VD toujours dilaté**, **TAPSE 14 mm**. **Rétrécissement aortique serré** connu.",
+        "bav_complet_degeneratif/ett": "**Rétrécissement aortique serré** (surface 0,7 cm², gradient moyen 50 mmHg), valve très calcifiée, calcifications de l'anneau mitral. FEVG 60 %. VCI de 17 mm, compliante. La bradycardie est très mal tolérée sur ce débit fixe."
       },
       "schemas": {
         "ett": { "type": "ett", "ra": true, "vci": false },
         "ep_haut_risque/ett": { "type": "ett", "ra": true, "vg": "petit", "vd": "dilate", "septum": "paradoxal", "vci": "dilatee" },
-        "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false }
+        "ep_haut_risque/e2/ett": { "type": "ett", "ra": true, "vd": "dilate", "vci": false },
+        "bav_complet_degeneratif/ett": { "type": "ett", "ra": true, "vci": "normale" }
       },
-      "tags": [
-        "rétrécissement aortique",
-        "induction"
-      ]
+      "tags": ["rétrécissement aortique", "induction"]
     },
     {
       "id": "hta",
       "label": "HTA",
       "rubrique": "atcd",
       "fiche": "HTA ancienne, bien équilibrée.",
-      "constantes": {
-        "PAS": 20,
-        "PAD": 10
-      },
-      "traitements": [
-        [
-          "amlodipine"
-        ],
-        [
-          "ramipril",
-          "amlodipine"
-        ],
-        [
-          "ramipril"
-        ]
-      ],
-      "tags": [
-        "HTA"
-      ]
+      "constantes": { "PAS": 20, "PAD": 10 },
+      "traitements": [["amlodipine"], ["ramipril", "amlodipine"], ["ramipril"]],
+      "tags": ["HTA"]
     },
     {
       "id": "asthme",
       "label": "Asthme",
       "rubrique": "atcd",
       "fiche": "Asthme allergique depuis l'enfance, contrôlé. Une hospitalisation en 2019.",
-      "traitements": [
-        [
-          "budesonide_formoterol"
-        ]
-      ],
+      "traitements": [["budesonide_formoterol"]],
       "ci": [
         {
           "id": "betabloquant_iv",
@@ -419,9 +277,7 @@
           "why": "Asthme : un bêtabloquant peut déclencher un bronchospasme grave. Les non cardiosélectifs sont contre-indiqués ; un cardiosélectif exige une indication forte et une surveillance étroite (GINA 2024)."
         }
       ],
-      "tags": [
-        "asthme"
-      ]
+      "tags": ["asthme"]
     },
     {
       "id": "saos",
@@ -431,31 +287,23 @@
       "module": [
         {
           "classe": "morphinique",
-          "plus": {
-            "SpO2": -4
-          },
+          "plus": { "SpO2": -4 },
           "why": "SAOS : les morphiniques aggravent les apnées et l'hypoventilation. Analgésie multimodale d'épargne morphinique, PPC dès le réveil (ASA 2014)."
         }
       ],
       "promeut": [
         {
           "id": "vni",
-          "dans": [
-            "rea"
-          ],
+          "dans": ["rea"],
           "why": "SAOS appareillé : reprendre la PPC habituelle dès la salle de réveil (ASA 2014)."
         },
         {
           "id": "tete_30",
-          "dans": [
-            "depression_respiratoire_opioides/e2"
-          ],
+          "dans": ["depression_respiratoire_opioides/e2"],
           "why": "SAOS : position non dorsale ou semi-assise pendant la surveillance postopératoire, en plus de la PPC habituelle (ASA 2014)."
         }
       ],
-      "tags": [
-        "SAOS"
-      ],
+      "tags": ["SAOS"],
       "ci": [
         {
           "id": "vni",
@@ -473,51 +321,30 @@
       "label": "Obésité morbide",
       "rubrique": "atcd",
       "fiche": "IMC 44 kg/m².",
-      "identite": {
-        "poids": [
-          110,
-          145
-        ]
-      },
-      "constantes": {
-        "SpO2": -2
-      },
+      "identite": { "poids": [110, 145] },
+      "constantes": { "SpO2": -2 },
       "module": [
         {
           "classe": "intubation",
-          "plus": {
-            "SpO2": -4
-          },
+          "plus": { "SpO2": -4 },
           "why": "Obésité : capacité résiduelle fonctionnelle réduite, désaturation rapide pendant l'apnée d'intubation."
         },
         {
           "id": "ventil_masque",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "SpO2": 0.6
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "SpO2": 0.6 },
           "why": "Obésité : ventilation au masque difficile (facteur de risque reconnu, SFAR 2017). Canule, ventilation à deux mains, deux opérateurs."
         }
       ],
       "promeut": [
-        {
-          "id": "ind_preox_vni",
-          "why": "Obésité : préoxygénation en VNI (ou OHD), en proclive (SFAR 2017)."
-        },
+        { "id": "ind_preox_vni", "why": "Obésité : préoxygénation en VNI (ou OHD), en proclive (SFAR 2017)." },
         {
           "id": "tete_30",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
+          "dans": ["depression_respiratoire_opioides"],
           "why": "Obésité : en décubitus, la capacité résiduelle fonctionnelle s'effondre. Position semi-assise (≥ 30°) pour la ventilation spontanée comme au masque."
         }
       ],
-      "tags": [
-        "obésité",
-        "préoxygénation"
-      ]
+      "tags": ["obésité", "préoxygénation"]
     },
     {
       "id": "allergie_latex",
@@ -533,51 +360,32 @@
       "omission": [
         {
           "id": "salle_sans_latex",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "complication": "anaphylaxie",
           "why": "Allergie au latex connue : sans environnement sans latex, l'exposition peropératoire (gants, matériel) déclenche l'anaphylaxie (SFAR/SFA 2011)."
         }
       ],
-      "tags": [
-        "anaphylaxie",
-        "allergie",
-        "latex"
-      ]
+      "tags": ["anaphylaxie", "allergie", "latex"]
     },
     {
       "id": "myasthenie",
       "label": "Myasthénie",
       "rubrique": "atcd",
       "fiche": "Myasthénie généralisée (anticorps anti-récepteurs de l'acétylcholine), stable.",
-      "traitements": [
-        [
-          "pyridostigmine"
-        ]
-      ],
-      "tags": [
-        "myasthénie",
-        "curares"
-      ],
+      "traitements": [["pyridostigmine"]],
+      "tags": ["myasthénie", "curares"],
       "ci": [
         {
           "id": "neostigmine",
           "why": "Myasthénie sous pyridostigmine : la néostigmine a un effet imprévisible (résistance ou crise cholinergique). Décurariser par sugammadex, sous monitorage quantitatif."
         }
       ],
-      "constantes": {
-        "SpO2": -2
-      },
+      "constantes": { "SpO2": -2 },
       "module": [
         {
           "classe": "morphinique",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "plus": {
-            "SpO2": -2
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "plus": { "SpO2": -2 },
           "why": "Myasthénie : réserve musculaire respiratoire réduite, la dépression morphinique est moins bien tolérée. Épargne morphinique."
         }
       ],
@@ -590,20 +398,11 @@
       "label": "Stent récent sous double antiagrégation",
       "rubrique": "atcd",
       "fiche": "Syndrome coronarien aigu il y a 3 mois, stent actif sur la circonflexe.",
-      "traitements": [
-        [
-          "aspirine",
-          "ticagrelor"
-        ]
-      ],
-      "exclut": [
-        "coronarien"
-      ],
+      "traitements": [["aspirine", "ticagrelor"]],
+      "exclut": ["coronarien"],
       "seuil": [
         {
-          "PAS": {
-            "min": 70
-          },
+          "PAS": { "min": 70 },
           "complication": "ischemie",
           "why": "Stent récent : une hypotension prolongée (PAS < 70 mmHg) déclenche une ischémie myocardique. Restaurer vite la pression."
         }
@@ -611,27 +410,24 @@
       "promeut": [
         {
           "id": "cp",
-          "dans": [
-            "perop"
-          ],
+          "dans": ["perop"],
           "why": "Hémorragie grave sous double antiagrégation : transfusion plaquettaire discutée, d'efficacité réduite sous ticagrélor circulant. Ne pas arrêter l'antiagrégation sans avis cardiologique."
         }
       ],
-      "tags": [
-        "antiagrégants",
-        "stent"
-      ],
+      "tags": ["antiagrégants", "stent"],
       "module": [
         {
           "id": "naloxone_bolus",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "PAS": 1.3,
-            "FC": 1.3
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "PAS": 1.3, "FC": 1.3 },
           "why": "Coronarien : la poussée hypertensive et la tachycardie d'une levée brutale augmentent la consommation d'oxygène du myocarde. Naloxone à utiliser avec prudence chez le cardiaque (RCP) : titrer."
+        }
+      ],
+      "ci": [
+        {
+          "id": "isoprenaline",
+          "dans": ["bav_complet_degeneratif"],
+          "why": "Coronarien avec stent récent : l'isoprénaline, bêta-agoniste pur, augmente la consommation d'oxygène du myocarde et l'arythmie ; elle est contre-indiquée dans l'insuffisance coronarienne (RCP Isuprel). Pont par adrénaline IVSE ou, mieux, entraînement électrosystolique (ERC 2021)."
         }
       ]
     },
@@ -643,9 +439,7 @@
       "ci": [
         {
           "classe": "induction_classique",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "complication": "inhalation",
           "compte": true,
           "why": "Hernie hiatale avec régurgitations : estomac plein malgré le jeûne, qui ne protège pas ces patients (ASA 2017). Ventilation au masque et curare d'installation lente exposent à la régurgitation et à l'inhalation : induction en séquence rapide."
@@ -654,42 +448,23 @@
       "promeut": [
         {
           "classe": "isr",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "why": "Estomac plein (hernie hiatale symptomatique) : induction en séquence rapide, intubation sans ventilation au masque préalable."
         },
         {
           "id": "check_isr",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "why": "Estomac plein : aspiration branchée et testée, plan B annoncé avant d'induire."
         }
       ],
-      "tags": [
-        "estomac plein",
-        "ISR",
-        "inhalation",
-        "jeûne"
-      ]
+      "tags": ["estomac plein", "ISR", "inhalation", "jeûne"]
     },
     {
       "id": "irc_dialyse",
       "label": "Insuffisance rénale chronique dialysée",
       "rubrique": "atcd",
       "fiche": "Néphroangiosclérose. Hémodialyse 3 fois par semaine sur fistule artérioveineuse du bras gauche, dernière séance avant-hier. Anurique.",
-      "traitements": [
-        [
-          "sevelamer",
-          "darbepoetine"
-        ],
-        [
-          "sevelamer",
-          "darbepoetine",
-          "amlodipine"
-        ]
-      ],
+      "traitements": [["sevelamer", "darbepoetine"], ["sevelamer", "darbepoetine", "amlodipine"]],
       "ci": [
         {
           "classe": "curare_depolarisant",
@@ -700,17 +475,12 @@
       "module": [
         {
           "classe": "morphinique",
-          "plus": {
-            "SpO2": -3,
-            "FR": -3
-          },
+          "plus": { "SpO2": -3, "FR": -3 },
           "why": "Insuffisance rénale : la morphine-6-glucuronide, métabolite actif, s'accumule. Sédation et dépression respiratoire retardées et prolongées : doses réduites, intervalles allongés, naloxone prête."
         },
         {
           "classe": "remplissage",
-          "plus": {
-            "SpO2": -1
-          },
+          "plus": { "SpO2": -1 },
           "complication": "oap",
           "apres": 3,
           "why": "Dialysé anurique : rien de ce qui est perfusé n'est éliminé. Au 3e bolus, OAP de surcharge. Petits bolus réévalués, vasopresseur précoce ; seule l'ultrafiltration retire l'excès."
@@ -722,14 +492,8 @@
         },
         {
           "id": "naloxone",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "SpO2": 0.6,
-            "FR": 0.6,
-            "GCS": 0.6
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "SpO2": 0.6, "FR": 0.6, "GCS": 0.6 },
           "why": "Dialysé : la morphine-6-glucuronide, métabolite actif éliminé par le rein, s'accumule. Elle explique la dépression et la rend tenace : plus de bolus de naloxone, récidive attendue. Relais IVSE et surveillance continue prolongée ; chez le dialysé, éviter la morphine."
         }
       ],
@@ -738,14 +502,21 @@
         "isr_occlusion/iono": "Na {132~137} · K⁺ {3,8~4,6} mmol/L (vomissements chez un dialysé) · **urée {24~34} mmol/L** · **créatinine {750~980} µmol/L**.",
         "depression_respiratoire_opioides/gds": "**pH {7,10~7,16}** · **PaCO2 {66~74} mmHg** · **PaO2 {52~58} mmHg** sous O2 · **HCO3⁻ {19~21} mmol/L** (acidose mixte du dialysé).",
         "depression_respiratoire_opioides/e2/gds": "Contrôle : **pH 7,32** · PaCO2 43 mmHg · PaO2 92 mmHg · **HCO3⁻ 21 mmol/L** (acidose métabolique du dialysé).",
-        "depression_respiratoire_opioides/e2_remorph/gds": "**pH 7,14** · **PaCO2 70 mmHg** · **PaO2 54 mmHg** · **HCO3⁻ 21 mmol/L**."
+        "depression_respiratoire_opioides/e2_remorph/gds": "**pH 7,14** · **PaCO2 70 mmHg** · **PaO2 54 mmHg** · **HCO3⁻ 21 mmol/L**.",
+        "bav_complet_degeneratif/iono": "Na 136 mmol/L · **K⁺ {6,0~6,4} mmol/L** · **urée {22~30} mmol/L** · **créatinine {700~900} µmol/L** (dialysé, dernière séance avant-hier)."
       },
-      "tags": [
-        "insuffisance rénale",
-        "dialyse",
-        "hémodialyse",
-        "hyperkaliémie",
-        "succinylcholine"
+      "tags": ["insuffisance rénale", "dialyse", "hémodialyse", "hyperkaliémie", "succinylcholine"],
+      "promeut": [
+        {
+          "id": "calcium",
+          "dans": ["bav_complet_degeneratif"],
+          "why": "Dialysé hyperkaliémique avec QRS larges et bradycardie : sel de calcium IV sans attendre, dès qu'il existe des modifications ECG (UK Kidney Association 2020 ; ERC 2021). Si le BAV persiste après le calcium, l'hyperkaliémie modérée n'en est pas la cause : entraîner."
+        },
+        {
+          "id": "epuration",
+          "dans": ["bav_complet_degeneratif"],
+          "why": "Hyperkaliémie chez un dialysé anurique : avancer la séance d'épuration extrarénale, seul moyen d'éliminer le potassium (UK Kidney Association 2020)."
+        }
       ]
     },
     {
@@ -753,42 +524,26 @@
       "label": "Diabète de type 2",
       "rubrique": "atcd",
       "fiche": "Diabète de type 2 depuis 15 ans, HbA1c 8,2 %. Neuropathie autonome avec gastroparésie : satiété précoce, nausées après les repas.",
-      "traitements": [
-        [
-          "metformine"
-        ],
-        [
-          "metformine",
-          "insuline_basale"
-        ]
-      ],
+      "traitements": [["metformine"], ["metformine", "insuline_basale"]],
       "promeut": [
         {
           "id": "isr_etomidate",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "why": "Gastroparésie diabétique : vidange gastrique ralentie, estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide."
         },
         {
           "id": "isr_etomidate_rocu",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "why": "Gastroparésie diabétique : vidange gastrique ralentie, estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide."
         },
         {
           "id": "isr_ketamine",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "why": "Gastroparésie diabétique : vidange gastrique ralentie, estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide."
         },
         {
           "id": "isr_ketamine_succi",
-          "dans": [
-            "induction"
-          ],
+          "dans": ["induction"],
           "why": "Gastroparésie diabétique : vidange gastrique ralentie, estomac plein malgré le jeûne (ASA 2017). Induction en séquence rapide."
         }
       ],
@@ -796,12 +551,7 @@
         "glycemie": "**Glycémie {1,9~2,7} g/L**.",
         "hyperkaliemie_menacante/e2/glycemie": "**Glycémie 0,64 g/L** : hypoglycémie après l'insuline, que le diabète n'empêche pas."
       },
-      "tags": [
-        "diabète",
-        "glycémie",
-        "insuline",
-        "estomac plein"
-      ]
+      "tags": ["diabète", "glycémie", "insuline", "estomac plein"]
     },
     {
       "id": "cirrhose_ethylisme",
@@ -809,18 +559,9 @@
       "rubrique": "atcd",
       "fiche": "Cirrhose alcoolique Child-Pugh B, varices œsophagiennes ligaturées en 2024, ascite contrôlée sous diurétiques. Consommation d'alcool poursuivie, environ 6 verres par jour.",
       "traitements": [
-        [
-          "propranolol",
-          "spironolactone"
-        ],
-        [
-          "propranolol",
-          "spironolactone",
-          "furosemide_po"
-        ],
-        [
-          "spironolactone"
-        ]
+        ["propranolol", "spironolactone"],
+        ["propranolol", "spironolactone", "furosemide_po"],
+        ["spironolactone"]
       ],
       "promeut": [
         {
@@ -850,96 +591,46 @@
           "why": "Cirrhose : le valproate est contre-indiqué en cas d'hépatopathie (RCP) : hépatotoxicité et encéphalopathie hyperammoniémique. Lévétiracétam, fosphénytoïne ou phénobarbital en 2e ligne (SRLF-SFMU 2018)."
         }
       ],
-      "tags": [
-        "cirrhose",
-        "alcool",
-        "thiamine",
-        "Gayet-Wernicke",
-        "sevrage alcoolique",
-        "coagulopathie"
-      ]
+      "tags": ["cirrhose", "alcool", "thiamine", "Gayet-Wernicke", "sevrage alcoolique", "coagulopathie"]
     }
   ],
   "traitements": [
     {
       "id": "betabloquant",
       "fiche": "Bisoprolol 5 mg/j",
-      "constantes": {
-        "FC": -25
-      },
-      "bornes": {
-        "FC": [
-          null,
-          100
-        ]
-      },
+      "constantes": { "FC": -25 },
+      "bornes": { "FC": [null, 100] },
       "promeut": [
         {
           "id": "glucagon",
-          "dans": [
-            "anaphylaxie"
-          ],
+          "dans": ["anaphylaxie"],
           "why": "Patient sous bêtabloquant : l'anaphylaxie peut résister à l'adrénaline. Glucagon IV en cas de résistance (SFAR/SFA 2011)."
         }
       ],
       "module": [
         {
           "classe": "adrenaline",
-          "dans": [
-            "anaphylaxie"
-          ],
-          "effet": {
-            "PAS": 0.5
-          },
+          "dans": ["anaphylaxie"],
+          "effet": { "PAS": 0.5 },
           "why": "Sous bêtabloquant, l'adrénaline est moins efficace : bolus répétés, et glucagon si la pression ne remonte pas."
         },
         {
           "id": "naloxone_bolus",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "PAS": 1.3
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "PAS": 1.3 },
           "why": "Sous bêtabloquant, la décharge adrénergique d'une levée brutale s'exprime surtout en hypertension (effet α non compensé), sans tachycardie d'alerte. Raison de plus pour titrer."
         }
       ],
-      "tags": [
-        "bêtabloquants"
-      ]
+      "tags": ["bêtabloquants"]
     },
-    {
-      "id": "aspirine",
-      "fiche": "Aspirine 75 mg/j"
-    },
-    {
-      "id": "statine",
-      "fiche": "Atorvastatine 40 mg/j"
-    },
-    {
-      "id": "sacubitril_valsartan",
-      "fiche": "Sacubitril-valsartan 49/51 mg × 2/j"
-    },
-    {
-      "id": "furosemide_po",
-      "fiche": "Furosémide 40 mg/j"
-    },
-    {
-      "id": "spironolactone",
-      "fiche": "Spironolactone 25 mg/j"
-    },
-    {
-      "id": "tiotropium_olodaterol",
-      "fiche": "Tiotropium + olodatérol inhalés"
-    },
-    {
-      "id": "salbutamol_pa",
-      "fiche": "Salbutamol inhalé à la demande"
-    },
-    {
-      "id": "apixaban",
-      "fiche": "Apixaban 5 mg × 2/j"
-    },
+    { "id": "aspirine", "fiche": "Aspirine 75 mg/j" },
+    { "id": "statine", "fiche": "Atorvastatine 40 mg/j" },
+    { "id": "sacubitril_valsartan", "fiche": "Sacubitril-valsartan 49/51 mg × 2/j" },
+    { "id": "furosemide_po", "fiche": "Furosémide 40 mg/j" },
+    { "id": "spironolactone", "fiche": "Spironolactone 25 mg/j" },
+    { "id": "tiotropium_olodaterol", "fiche": "Tiotropium + olodatérol inhalés" },
+    { "id": "salbutamol_pa", "fiche": "Salbutamol inhalé à la demande" },
+    { "id": "apixaban", "fiche": "Apixaban 5 mg × 2/j" },
     {
       "id": "warfarine",
       "fiche": "Warfarine (AVK), INR cible 2 à 3",
@@ -951,18 +642,12 @@
       "promeut": [
         {
           "id": "ccp",
-          "dans": [
-            "choc_hemorragique_bassin",
-            "hemorragie_perop"
-          ],
+          "dans": ["choc_hemorragique_bassin", "hemorragie_perop"],
           "why": "Hémorragie grave sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008)."
         },
         {
           "id": "ccp",
-          "dans": [
-            "etat_de_mal_epileptique/e3",
-            "etat_de_mal_epileptique/e3_aggrav"
-          ],
+          "dans": ["etat_de_mal_epileptique/e3", "etat_de_mal_epileptique/e3_aggrav"],
           "why": "Hématome intracrânien sous AVK : CCP 25 UI/kg et vitamine K 10 mg IV, sans attendre l'INR (HAS 2008). Avis neurochirurgical ; un hématome sous-dural < 10 mm sans déviation > 5 mm n'est pas opéré d'emblée (BTF 2006)."
         }
       ]
@@ -973,41 +658,18 @@
       "module": [
         {
           "classe": "hypnotique",
-          "effet": {
-            "PAS": 1.3
-          },
+          "effet": { "PAS": 1.3 },
           "why": "IEC pris le matin : hypotension d'induction plus fréquente et plus profonde (ESC 2022, chirurgie non cardiaque)."
         }
       ]
     },
-    {
-      "id": "amlodipine",
-      "fiche": "Amlodipine 5 mg/j"
-    },
-    {
-      "id": "budesonide_formoterol",
-      "fiche": "Budésonide + formotérol inhalés"
-    },
-    {
-      "id": "pyridostigmine",
-      "fiche": "Pyridostigmine 60 mg × 4/j"
-    },
-    {
-      "id": "ticagrelor",
-      "fiche": "Ticagrélor 90 mg × 2/j"
-    },
-    {
-      "id": "sevelamer",
-      "fiche": "Sévélamer 800 mg × 3/j (chélateur du phosphore)"
-    },
-    {
-      "id": "darbepoetine",
-      "fiche": "Darbépoétine alfa, 1 injection SC par semaine"
-    },
-    {
-      "id": "metformine",
-      "fiche": "Metformine 1 000 mg × 2/j"
-    },
+    { "id": "amlodipine", "fiche": "Amlodipine 5 mg/j" },
+    { "id": "budesonide_formoterol", "fiche": "Budésonide + formotérol inhalés" },
+    { "id": "pyridostigmine", "fiche": "Pyridostigmine 60 mg × 4/j" },
+    { "id": "ticagrelor", "fiche": "Ticagrélor 90 mg × 2/j" },
+    { "id": "sevelamer", "fiche": "Sévélamer 800 mg × 3/j (chélateur du phosphore)" },
+    { "id": "darbepoetine", "fiche": "Darbépoétine alfa, 1 injection SC par semaine" },
+    { "id": "metformine", "fiche": "Metformine 1 000 mg × 2/j" },
     {
       "id": "insuline_basale",
       "fiche": "Insuline glargine 24 UI le soir",
@@ -1021,91 +683,43 @@
     {
       "id": "propranolol",
       "fiche": "Propranolol 40 mg × 2/j (prévention de la rupture de varices œsophagiennes)",
-      "constantes": {
-        "FC": -20
-      },
-      "bornes": {
-        "FC": [
-          null,
-          100
-        ]
-      },
+      "constantes": { "FC": -20 },
+      "bornes": { "FC": [null, 100] },
       "promeut": [
         {
           "id": "glucagon",
-          "dans": [
-            "anaphylaxie"
-          ],
+          "dans": ["anaphylaxie"],
           "why": "Patient sous bêtabloquant : l'anaphylaxie peut résister à l'adrénaline. Glucagon IV en cas de résistance (SFAR/SFA 2011)."
         }
       ],
       "module": [
         {
           "classe": "adrenaline",
-          "dans": [
-            "anaphylaxie"
-          ],
-          "effet": {
-            "PAS": 0.5
-          },
+          "dans": ["anaphylaxie"],
+          "effet": { "PAS": 0.5 },
           "why": "Sous bêtabloquant, l'adrénaline est moins efficace : bolus répétés, et glucagon si la pression ne remonte pas."
         },
         {
           "id": "naloxone_bolus",
-          "dans": [
-            "depression_respiratoire_opioides"
-          ],
-          "effet": {
-            "PAS": 1.3
-          },
+          "dans": ["depression_respiratoire_opioides"],
+          "effet": { "PAS": 1.3 },
           "why": "Sous bêtabloquant, la décharge adrénergique d'une levée brutale s'exprime surtout en hypertension (effet α non compensé), sans tachycardie d'alerte. Raison de plus pour titrer."
         }
       ],
-      "tags": [
-        "bêtabloquants"
-      ]
+      "tags": ["bêtabloquants"]
     }
   ],
   "bruit": [
-    {
-      "fiche": "Appendicectomie dans l'enfance"
-    },
-    {
-      "fiche": "Cholécystectomie en 2012"
-    },
-    {
-      "fiche": "Hypothyroïdie",
-      "traitement": "Lévothyroxine 75 µg/j"
-    },
-    {
-      "fiche": "Cataracte opérée des deux yeux"
-    },
-    {
-      "fiche": "Gonarthrose bilatérale"
-    },
-    {
-      "fiche": "Hernie inguinale opérée"
-    },
-    {
-      "fiche": "Glaucome chronique",
-      "traitement": "Latanoprost collyre"
-    },
-    {
-      "fiche": "Reflux gastro-œsophagien",
-      "traitement": "Ésoméprazole 20 mg/j"
-    },
-    {
-      "fiche": "Épisode dépressif ancien, stabilisé",
-      "traitement": "Sertraline 50 mg/j"
-    },
-    {
-      "fiche": "Hypertrophie bénigne de la prostate",
-      "traitement": "Tamsulosine 0,4 mg/j",
-      "sexe": "M"
-    },
-    {
-      "fiche": "Hystérectomie pour fibrome en 2005",
-      "sexe": "F"
-    }
+    { "fiche": "Appendicectomie dans l'enfance" },
+    { "fiche": "Cholécystectomie en 2012" },
+    { "fiche": "Hypothyroïdie", "traitement": "Lévothyroxine 75 µg/j" },
+    { "fiche": "Cataracte opérée des deux yeux" },
+    { "fiche": "Gonarthrose bilatérale" },
+    { "fiche": "Hernie inguinale opérée" },
+    { "fiche": "Glaucome chronique", "traitement": "Latanoprost collyre" },
+    { "fiche": "Reflux gastro-œsophagien", "traitement": "Ésoméprazole 20 mg/j" },
+    { "fiche": "Épisode dépressif ancien, stabilisé", "traitement": "Sertraline 50 mg/j" },
+    { "fiche": "Hypertrophie bénigne de la prostate", "traitement": "Tamsulosine 0,4 mg/j", "sexe": "M" },
+    { "fiche": "Hystérectomie pour fibrome en 2005", "sexe": "F" }
   ]
 }

@@ -24,7 +24,6 @@
   { "id": "vm_asthme", "label": "Ventilation : FR basse, expiration longue (hypercapnie permissive)", "path": ["Airway / ventilation"], "duree": 2, "moniteur": ["CO2"], "alias": ["respirateur"] },
   { "id": "deconnexion", "label": "Déconnecter le respirateur, expiration manuelle", "path": ["Airway / ventilation"], "duree": 1, "repetable": true, "alias": ["déconnexion", "auto-PEEP", "PEP intrinsèque"] },
   { "id": "hypervent", "label": "Hyperventilation transitoire (PaCO2 30-35 mmHg)", "path": ["Airway / ventilation"], "duree": 1, "alias": ["hypocapnie"] },
-
   { "id": "scope", "label": "Scope : ECG, PNI, SpO2", "path": ["Voies & monitorage"], "duree": 1, "alias": ["monitorage", "scoper"] },
   { "id": "ecg", "label": "ECG 12 dérivations", "path": ["Voies & monitorage"], "duree": 2, "examen": true, "alias": ["électrocardiogramme"] },
   { "id": "vvp", "label": "2 VVP de bon calibre", "path": ["Voies & monitorage"], "duree": 2, "voie": ["IV"], "alias": ["voie veineuse périphérique", "cathéter périphérique", "cathlon"] },
@@ -34,7 +33,6 @@
   { "id": "sonde_u", "label": "Sonde urinaire, diurèse horaire", "path": ["Voies & monitorage"], "duree": 3, "alias": ["SU", "SAD", "sondage vésical"] },
   { "id": "sng", "label": "Sonde nasogastrique", "path": ["Voies & monitorage"], "duree": 3, "alias": ["SNG", "sonde gastrique"] },
   { "id": "tof", "label": "Monitorage quantitatif de la curarisation (TOF)", "path": ["Voies & monitorage"], "duree": 1, "examen": true, "alias": ["train de quatre", "curamètre"] },
-
   { "id": "gds", "label": "Gaz du sang artériel", "path": ["Bilan", "Gaz du sang"], "duree": 1, "examen": true, "alias": ["GDS", "gazométrie", "PaO2", "PaCO2"] },
   { "id": "lactates", "label": "Lactates", "path": ["Bilan", "Gaz du sang"], "duree": 0, "examen": true, "alias": ["lactatémie"] },
   { "id": "nfs", "label": "NFS, plaquettes", "path": ["Bilan", "Hémato-hémostase"], "duree": 0, "examen": true, "alias": ["hémogramme", "numération formule sanguine"] },
@@ -60,7 +58,6 @@
   { "id": "alcoolemie", "label": "Alcoolémie", "path": ["Bilan", "Toxiques"], "duree": 0, "examen": true, "alias": ["OH"] },
   { "id": "tox_sang", "label": "Dosages toxicologiques ciblés", "path": ["Bilan", "Toxiques"], "duree": 0, "examen": true, "alias": ["toxiques", "screening toxicologique"] },
   { "id": "eeg", "label": "EEG", "path": ["Bilan", "Neurophysiologie"], "duree": 20, "examen": true, "alias": ["électroencéphalogramme"] },
-
   { "id": "ett", "label": "Échocardiographie transthoracique", "path": ["Imagerie & écho"], "duree": 5, "examen": true, "alias": ["ETT", "écho cœur", "écho cardiaque"] },
   { "id": "efast", "label": "E-FAST", "path": ["Imagerie & écho"], "duree": 3, "examen": true, "alias": ["eFAST"] },
   { "id": "echo_veineuse", "label": "Échographie veineuse des membres inférieurs", "path": ["Imagerie & écho"], "duree": 3, "examen": true, "alias": ["écho veineuse", "doppler veineux"] },
@@ -72,7 +69,6 @@
   { "id": "tdm_ap", "label": "TDM abdominopelvien injecté", "path": ["Imagerie & écho"], "duree": 30, "examen": true, "transfert": { "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }, "alias": ["scanner", "TDM AP", "scanner abdominal"] },
   { "id": "angioscanner_thorax", "label": "Angioscanner thoracique", "path": ["Imagerie & écho"], "duree": 20, "examen": true, "transfert": { "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }, "alias": ["TDM", "angio-TDM", "TDM thoracique"] },
   { "id": "tdm_cerebral", "label": "TDM cérébral", "path": ["Imagerie & écho"], "duree": 15, "examen": true, "transfert": { "vers": "au scanner", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }, "alias": ["scanner", "scanner cérébral", "TDM cérébrale"] },
-
   { "id": "remp_cristal", "label": "Cristalloïde balancé, 500 mL", "path": ["Traitement", "Remplissage"], "duree": 5, "repetable": true, "requiert": "IV", "classe": ["remplissage"], "alias": ["remplissage", "RL", "Ringer lactate", "Plasma-Lyte", "Isofundine", "soluté balancé"] },
   { "id": "remp_nacl", "label": "NaCl 0,9 %, 500 mL", "path": ["Traitement", "Remplissage"], "duree": 5, "repetable": true, "requiert": "IV", "classe": ["remplissage"], "alias": ["remplissage", "cristalloïde", "sérum physiologique", "SSI", "sérum salé isotonique"] },
   { "id": "albumine", "label": "Albumine 20 %", "path": ["Traitement", "Remplissage"], "duree": 5, "requiert": "IV", "classe": ["remplissage"], "alias": ["remplissage", "colloïde"] },
@@ -149,7 +145,6 @@
   { "id": "naloxone", "label": "Naloxone titrée IV", "path": ["Traitement", "Sédation-analgésie"], "duree": 1, "repetable": true, "requiert": "IV", "alias": ["Narcan", "antagoniste des opioïdes"] },
   { "id": "sedation_ivse", "label": "Sédation IVSE (midazolam ou propofol)", "path": ["Traitement", "Sédation-analgésie"], "duree": 3, "requiert": "IV", "classe": ["hypnotique"], "alias": ["sédation continue"] },
   { "id": "entretien", "label": "Entretien de l'anesthésie (hypnotique + morphinique)", "path": ["Traitement", "Sédation-analgésie"], "duree": 2, "requiert": "IV", "classe": ["hypnotique"], "alias": ["AG", "anesthésie générale", "AIVOC", "halogéné", "sufentanil", "rémifentanil"] },
-
   { "id": "renfort", "label": "Appeler le senior / des renforts", "path": ["Orientation"], "duree": 1, "repetable": true, "alias": ["aide", "appel à l'aide"] },
   { "id": "coro", "label": "Alerter la salle de coronarographie (angioplastie primaire)", "path": ["Orientation"], "duree": 2, "alias": ["ICP", "cathlab", "salle de cathétérisme"] },
   { "id": "bloc", "label": "Bloc opératoire en urgence", "path": ["Orientation"], "duree": 5, "transfert": { "vers": "au bloc opératoire", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }, "alias": ["chirurgie", "BO"] },
@@ -159,7 +154,6 @@
   { "id": "uro_drainage", "label": "Drainage urinaire en urgence (sonde JJ / néphrostomie)", "path": ["Orientation"], "duree": 5, "transfert": { "vers": "au bloc ou en radiologie", "min": { "PAM": 65, "SpO2": 90, "GCS": 9 }, "max": { "FC": 140 } }, "alias": ["dérivation urinaire", "urologue"] },
   { "id": "epuration", "label": "Épuration extrarénale en urgence", "path": ["Orientation"], "duree": 5, "alias": ["EER", "dialyse", "hémodialyse", "hémofiltration"] },
   { "id": "reanimation", "label": "Admission en réanimation", "path": ["Orientation"], "duree": 2, "alias": ["soins intensifs"] },
-
   { "id": "dx_choc_septique", "label": "Choc septique", "path": ["Diagnostic", "États de choc"], "type": "diagnostic" },
   { "id": "dx_choc_hemorragique", "label": "Choc hémorragique", "path": ["Diagnostic", "États de choc"], "type": "diagnostic" },
   { "id": "dx_choc_cardiogenique", "label": "Choc cardiogénique", "path": ["Diagnostic", "États de choc"], "type": "diagnostic" },
@@ -180,14 +174,12 @@
   { "id": "dx_tamponnade", "label": "Tamponnade", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic" },
   { "id": "dx_tc_grave", "label": "Traumatisme crânien grave", "path": ["Diagnostic", "Neurologique"], "type": "diagnostic", "alias": ["TC", "TCG", "TC grave"] },
   { "id": "dx_eme", "label": "État de mal épileptique", "path": ["Diagnostic", "Neurologique"], "type": "diagnostic", "alias": ["EME"] },
-
   { "id": "mce", "label": "Massage cardiaque externe", "path": ["RCP"], "duree": 0, "moniteur": ["MCE"], "alias": ["MCE", "compressions thoraciques"] },
   { "id": "ventil_acr", "label": "Ventilation au BAVU / intubation", "path": ["RCP"], "duree": 1, "moniteur": ["CO2"], "alias": ["insufflations"] },
   { "id": "adre_acr", "label": "Adrénaline 1 mg IV", "path": ["RCP"], "duree": 0, "repetable": true, "requiert": "IV", "alias": ["épinéphrine"] },
   { "id": "choc_ext", "label": "Choc électrique externe", "path": ["RCP"], "duree": 0, "repetable": true, "alias": ["CEE", "défibrillation"] },
   { "id": "amiodarone_acr", "label": "Amiodarone 300 mg IV", "path": ["RCP"], "duree": 0, "requiert": "IV", "alias": ["Cordarone"] },
   { "id": "thoracotomie_sauvetage", "label": "Thoracotomie de ressuscitation", "path": ["RCP"], "duree": 2, "alias": ["thoracotomie de sauvetage", "clamshell"] },
-
   { "id": "ind_classique", "label": "Induction IV classique (propofol, morphinique, curare non dépolarisant, ventilation au masque)", "path": ["Airway / ventilation", "Intubation (ISR)"], "duree": 10, "moniteur": ["CO2"], "requiert": "IV", "classe": ["hypnotique", "propofol", "curare", "intubation", "induction_classique"], "alias": ["IOT", "intubation", "AG", "anesthésie générale", "Diprivan", "induction standard"] },
   { "id": "videolaryngoscope", "label": "Vidéolaryngoscope", "path": ["Airway / ventilation", "Voies aériennes difficiles"], "duree": 2, "repetable": true, "moniteur": ["CO2"], "alias": ["VL", "vidéolaryngoscopie", "IOT", "McGrath", "Airtraq", "Glidescope", "C-MAC"] },
   { "id": "bougie", "label": "Long mandrin béquillé (bougie)", "path": ["Airway / ventilation", "Voies aériennes difficiles"], "duree": 1, "repetable": true, "alias": ["Eschmann", "mandrin d'Eschmann", "Frova", "introducteur"] },
@@ -198,13 +190,12 @@
   { "id": "ouverture_cicatrice", "label": "Ouvrir la cicatrice et évacuer l'hématome au lit", "path": ["Traitement", "Gestes"], "duree": 2, "alias": ["SCOOP", "ouverture de la plaie", "décompression cervicale"] },
   { "id": "naloxone_ivse", "label": "Naloxone IVSE (relais)", "path": ["Traitement", "Sédation-analgésie"], "duree": 3, "requiert": "IV", "alias": ["Narcan", "PSE naloxone", "naloxone continue"] },
   { "id": "ees_endocavitaire", "label": "Entraînement électrosystolique endocavitaire (sonde temporaire)", "path": ["Traitement", "Rythme & conduction"], "duree": 20, "alias": ["EES endocavitaire", "sonde d'entraînement", "pacemaker temporaire", "stimulation endocavitaire"] },
-
   { "id": "dx_intubation_difficile", "label": "Intubation difficile", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["IOT difficile", "VAD", "voies aériennes difficiles"] },
   { "id": "dx_inhalation", "label": "Inhalation du contenu gastrique", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["Mendelson", "pneumopathie d'inhalation"] },
   { "id": "dx_hematome_cervical", "label": "Hématome cervical compressif", "path": ["Diagnostic", "Cardio-respiratoire"], "type": "diagnostic", "alias": ["hématome de loge", "hématome post-thyroïdectomie"] },
   { "id": "dx_toxicite_al", "label": "Toxicité systémique des anesthésiques locaux", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["LAST", "intoxication aux AL", "ISAL"] },
   { "id": "dx_depression_opioides", "label": "Dépression respiratoire aux morphiniques", "path": ["Diagnostic", "Métabolique & toxique"], "type": "diagnostic", "alias": ["surdosage morphinique", "intoxication aux opioïdes", "overdose"] },
-
   { "id": "stimulation_eveil", "label": "Stimuler le patient (appel, friction sternale), lui demander de respirer", "path": ["Airway / ventilation"], "duree": 1, "repetable": true, "alias": ["stimulation", "friction sternale", "stimulation nociceptive"] },
-  { "id": "naloxone_bolus", "label": "Naloxone 0,4 mg IV en bolus unique (ampoule entière)", "path": ["Traitement", "Sédation-analgésie"], "duree": 1, "repetable": true, "requiert": "IV", "alias": ["Narcan"] }
+  { "id": "naloxone_bolus", "label": "Naloxone 0,4 mg IV en bolus unique (ampoule entière)", "path": ["Traitement", "Sédation-analgésie"], "duree": 1, "repetable": true, "requiert": "IV", "alias": ["Narcan"] },
+  { "id": "bav_cardio_pacemaker", "label": "Avis cardiologique : stimulateur cardiaque définitif", "path": ["Orientation"], "duree": 2, "alias": ["pacemaker", "PM", "rythmologue", "cardiologue"] }
 ]

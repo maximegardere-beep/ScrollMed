@@ -1,0 +1,147 @@
+{
+  "id": "bav_complet_degeneratif",
+  "titre": "Syncopes d'Adams-Stokes sur BAV complet",
+  "source": "ESC 2021, stimulation cardiaque et resynchronisation ; ERC 2021, bradycardies (ALS) ; ESC 2022, arythmies ventriculaires",
+  "tags": ["BAV", "bradycardie", "entraînement électrosystolique", "stimulateur cardiaque", "syncope"],
+  "patient": "Femme, 83 ans, 60 kg",
+  "terrains": {
+    "contexte": "dechoc",
+    "exclus": ["estomac_plein", "coronarien", "ic_fevg_alteree", "fa_anticoagulee", "cirrhose_ethylisme"],
+    "identite": { "sexe": ["F"], "age": [72, 92], "poids": [48, 85] },
+    "gravite": { "facile": { "pente": 0.8, "constantes": { "PAS": 6 } }, "difficile": { "pente": 1.25, "constantes": { "PAS": -6, "FC": -2 } } }
+  },
+  "ecg": "bav3",
+  "constantes": { "FC": 34, "PAS": 84, "PAD": 38, "SpO2": 94, "FR": 20, "T": 36.4, "GCS": 14 },
+  "seuils": { "PAS": 55, "FC": 22, "SpO2": 70 },
+  "resultats": {
+    "scope": "**Bradycardie régulière à complexes larges**, ondes P plus rapides, sans relation avec les QRS.",
+    "ecg": "**BAV complet** : ondes P régulières vers 78/min, **dissociées** des QRS. **Échappement ventriculaire lent, vers 35/min**, **QRS larges à 150 ms** (aspect de retard gauche). Pas de sus-décalage du ST.",
+    "iono": "Na 138 mmol/L · K⁺ {4,1~4,7} mmol/L · calcémie normale · créatinine 92 µmol/L.",
+    "glycemie": "Glycémie 1,12 g/L.",
+    "troponine": "Troponine à la limite supérieure de la normale, sans argument pour un infarctus aigu.",
+    "lactates": "**Lactates {2,8~4,2} mmol/L**.",
+    "gds": "**pH 7,33** · PaCO2 35 mmHg · **HCO3⁻ 18 mmol/L** · PaO2 82 mmHg en air ambiant.",
+    "nfs": "Hb 12,4 g/dL · leucocytes 7,8 G/L · plaquettes 236 G/L.",
+    "ett": "VG non dilaté, FEVG 55 %. Valve aortique calcifiée, sans sténose serrée. Calcifications de l'anneau mitral. Pas d'épanchement péricardique. VCI de 17 mm, compliante.",
+    "rp": "Cardiomégalie modérée. Pas de surcharge pulmonaire."
+  },
+  "schemas": {
+    "ett": { "type": "ett", "vci": "normale" },
+    "rp": { "type": "rp" }
+  },
+  "etapes": [
+    {
+      "id": "e1",
+      "titre": "Accueil : bradycardie extrême",
+      "vignette": "Adressée par le SAMU : deux pertes de connaissance brutales ce matin, sans prodrome, avec reprise rapide et visage rouge au réveil. Pâle, ralentie, extrémités froides. Pas de bêtabloquant, de digoxine ni d'antiarythmique à l'ordonnance. Au scope : bradycardie à complexes larges.",
+      "chrono": 100,
+      "pente": { "FC": -0.35, "PAS": -0.6, "GCS": -0.05 },
+      "diagnostic": ["dx_bav_degeneratif"],
+      "actions": {
+        "scope": { "note": "indispensable", "why": "Monitorage continu par un moniteur-défibrillateur capable d'entraîner : un BAV complet à QRS larges expose à l'asystolie (ERC 2021)." },
+        "ecg": { "note": "indispensable", "why": "L'ECG 12 dérivations pose le diagnostic (P dissociées des QRS), situe le bloc (QRS larges : échappement ventriculaire, bloc infra-hissien instable) et élimine un infarctus inférieur, cause réversible de BAV (ESC 2021)." },
+        "vvp": { "note": "indispensable", "why": "Voie veineuse pour les chronotropes (isoprénaline, adrénaline) et l'analgésie de l'entraînement." },
+        "iono": { "note": "indispensable", "why": "Éliminer une cause réversible avant de conclure à un BAV dégénératif : hyperkaliémie en premier (ESC 2021)." },
+        "troponine": { "note": "recommande", "why": "Un infarctus, surtout inférieur, peut donner un BAV transitoire : il relève de la reperfusion, pas d'un stimulateur d'emblée (ESC 2021)." },
+        "glycemie": { "note": "recommande", "why": "Glycémie capillaire devant tout malaise avec trouble de la vigilance." },
+        "lactates": { "note": "recommande", "why": "Bas débit de la bradycardie extrême : les lactates mesurent l'hypoperfusion et son évolution après l'entraînement." },
+        "gds": { "note": "debattu", "why": "Acidose lactique modérée ; n'oriente pas le traitement. Les lactates et le ionogramme suffisent." },
+        "nfs": { "note": "debattu", "why": "Bilan d'entrée habituel, sans influence sur la prise en charge immédiate." },
+        "o2_masque": { "note": "debattu", "why": "SpO2 ≥ 94 % : pas d'oxygène systématique. Cible 94-98 % (ERC 2021)." },
+        "atropine": { "note": "debattu", "why": "L'atropine (0,5 mg IV, répétable jusqu'à 3 mg) reste le premier médicament de l'algorithme ERC 2021, mais elle agit sur le nœud AV : dans un BAV infra-hissien à QRS larges, elle est le plus souvent inefficace. Ne pas retarder les chronotropes ni l'entraînement.", "effet": { "FC": 2 } },
+        "isoprenaline": { "note": "recommande", "alt": "chrono", "why": "Bradycardie instable résistante à l'atropine : isoprénaline IVSE (5 µg/min) en attendant l'entraînement (ERC 2021). Accélère modestement un échappement ventriculaire.", "effet": { "FC": 10, "PAS": 8 }, "pente": { "FC": -0.15 } },
+        "adrenaline_ivse": { "note": "recommande", "alt": "chrono", "why": "Alternative à l'isoprénaline : adrénaline IVSE 2 à 10 µg/min, chronotrope et vasoconstricteur, en pont vers l'entraînement (ERC 2021).", "effet": { "FC": 9, "PAS": 12 }, "pente": { "FC": -0.15 } },
+        "dopamine": { "note": "debattu", "alt": "chrono", "why": "Chronotrope de deuxième ligne cité par l'ERC 2021, moins maniable que l'isoprénaline ou l'adrénaline.", "effet": { "FC": 6, "PAS": 6 }, "pente": { "FC": -0.2 } },
+        "ees": { "note": "indispensable", "alt": "pacing", "why": "BAV complet à QRS larges avec signes de gravité (syncopes, bas débit) : entraînement électrosystolique externe sans attendre l'échec des médicaments, en pont vers la sonde endocavitaire ou le stimulateur (ERC 2021). Vérifier la capture mécanique (pouls fémoral), pas seulement électrique.", "effet": { "FC": 34, "PAS": 26, "GCS": 1 }, "pente": { "FC": 0, "PAS": 0.3, "GCS": 0.1 }, "ecg": "entraine" },
+        "ees_endocavitaire": { "note": "recommande", "alt": "pacing", "why": "Sonde d'entraînement temporaire par voie veineuse si la bradycardie instable résiste aux chronotropes et que le stimulateur ne peut être implanté tout de suite (ESC 2021). Vingt minutes de pose : garder un pont (chronotrope ou EES) pendant ce temps.", "effet": { "FC": 34, "PAS": 26, "GCS": 1 }, "pente": { "FC": 0, "PAS": 0.3, "GCS": 0.1 }, "ecg": "entraine" },
+        "ketamine_analg": { "note": "recommande", "alt": "analgesie", "why": "L'entraînement externe est douloureux chez une patiente consciente : analgésie, voire sédation légère (ERC 2021). La kétamine préserve la pression artérielle." },
+        "morphine_titr": { "note": "recommande", "alt": "analgesie", "why": "Analgésie de l'entraînement externe (ERC 2021) : titration prudente par petits bolus chez une patiente âgée en bas débit." },
+        "midazolam": { "note": "debattu", "why": "Sédation légère possible pour tolérer l'entraînement, à petites doses : hypotension et dépression respiratoire chez le sujet âgé.", "effet": { "PAS": -6 } },
+        "renfort": { "note": "recommande", "why": "Appeler tôt le senior et le cardiologue de garde : entraînement endocavitaire et stimulateur relèvent de la cardiologie (ERC 2021)." },
+        "arret_ttt": { "note": "debattu", "why": "Toujours relire l'ordonnance (bêtabloquant, digoxine, vérapamil ou diltiazem, antiarythmique, ivabradine, anticholinestérasique). Ici, aucun ralentisseur à arrêter." },
+        "remp_cristal": { "note": "debattu", "why": "L'hypotension vient de la bradycardie, pas de la volémie. Un petit bolus se discute en l'absence de congestion ; il ne remplace pas l'accélération du cœur.", "effet": { "PAS": 4 } },
+        "noradre": { "note": "debattu", "why": "Vasoconstricteur sans effet chronotrope utile : il ne corrige pas la cause. En attendant l'entraînement, préférer un chronotrope (isoprénaline ou adrénaline).", "effet": { "PAS": 8 } },
+        "calcium": { "note": "inutile", "why": "Kaliémie normale : le calcium n'a pas d'indication dans un BAV dégénératif." },
+        "glucagon": { "note": "inutile", "why": "Réservé à la bradycardie de l'intoxication par bêtabloquant ou inhibiteur calcique (ERC 2021). Aucun de ces traitements ici." },
+        "ett": { "note": "debattu", "why": "Utile pour la cardiopathie sous-jacente, mais ne doit pas retarder l'entraînement." },
+        "coro": { "note": "inutile", "why": "Pas de sus-décalage du ST : pas d'indication de coronarographie urgente." },
+        "ktc": { "note": "debattu", "why": "Pas indispensable : la VVP suffit aux chronotropes. La sonde d'entraînement est posée par le cardiologue sur sa propre voie veineuse." },
+        "betabloquant_iv": { "note": "contre_indique", "letal": "acr", "why": "Un bêtabloquant déprime encore l'échappement ventriculaire : asystolie.", "effet": { "FC": -10 } },
+        "amiodarone": { "note": "contre_indique", "letal": "acr", "why": "L'amiodarone ralentit la conduction et supprime l'échappement ventriculaire : asystolie.", "effet": { "FC": -10 } },
+        "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol chez une patiente bradycarde en bas débit : vasoplégie et bradycardie, jusqu'à l'asystolie. Et aucune indication d'intubation." },
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol chez une patiente bradycarde en bas débit : vasoplégie et bradycardie, jusqu'à l'asystolie. La succinylcholine peut aussi aggraver la bradycardie." },
+        "isr_etomidate": { "note": "inutile", "why": "Patiente consciente, sans détresse respiratoire : l'intubation ne traite pas le BAV." },
+        "isr_etomidate_rocu": { "note": "inutile", "why": "Patiente consciente, sans détresse respiratoire : l'intubation ne traite pas le BAV." },
+        "isr_ketamine": { "note": "inutile", "why": "Patiente consciente, sans détresse respiratoire : l'intubation ne traite pas le BAV." },
+        "isr_ketamine_succi": { "note": "inutile", "why": "Patiente consciente, sans détresse respiratoire : l'intubation ne traite pas le BAV." }
+      },
+      "letal_si_manque": { "actions": [["ees", "ees_endocavitaire", "isoprenaline", "adrenaline_ivse", "dopamine"]], "issue": "acr", "why": "BAV complet à QRS larges mal toléré, sans chronotrope ni entraînement : pause ventriculaire prolongée, puis asystolie." },
+      "acr": { "rythme": "Asystolie (pause ventriculaire prolongée)", "ecg": "asystolie", "requis": ["mce", "adre_acr"], "why": "Asystolie : massage, adrénaline 1 mg dès que possible (ERC 2021). Dans une asystolie avec ondes P, l'entraînement électrosystolique peut être tenté. Puis entraîner la patiente dès le RACS.", "apres_racs": { "FC": 34, "PAS": 78, "PAD": 36, "SpO2": 92 } },
+      "suite": [
+        { "si_manque": [["ees", "ees_endocavitaire"]], "vers": "e1_aggrav" },
+        { "vers": "e2" }
+      ]
+    },
+    {
+      "id": "e1_aggrav",
+      "titre": "Pauses et torsades de pointes",
+      "vignette": "Malgré le traitement médicamenteux, l'échappement ralentit : pauses de 4 à 6 secondes, nouvelle perte de connaissance avec quelques secousses. À la reprise, le scope enregistre des salves de torsades de pointes.",
+      "chrono": 70,
+      "ecg": "bav3",
+      "constantes": { "FC": 28, "PAS": 76, "PAD": 34, "GCS": 11 },
+      "pente": { "FC": -0.6, "PAS": -1.2, "GCS": -0.1 },
+      "diagnostic": ["dx_bav_degeneratif"],
+      "resultats": {
+        "scope": "**Pauses de 4 à 6 s**, **salves de torsades de pointes** à la reprise de l'échappement.",
+        "ecg": "**BAV complet**, **échappement très lent**, **QT long (QTc 560 ms)**, **salves de torsades de pointes** après les pauses."
+      },
+      "actions": {
+        "ees": { "note": "indispensable", "alt": "pacing", "why": "Pauses et torsades bradycardie-dépendantes : l'entraînement électrosystolique, à fréquence assez rapide, supprime les pauses et les torsades (ERC 2021 ; ESC 2022).", "effet": { "FC": 40, "PAS": 30, "GCS": 2 }, "pente": { "FC": 0, "PAS": 0.3, "GCS": 0.1 }, "ecg": "entraine" },
+        "ees_endocavitaire": { "note": "debattu", "alt": "pacing", "why": "Solution plus fiable, mais vingt minutes de pose dans cet état : l'entraînement externe d'abord, la sonde ensuite.", "effet": { "FC": 40, "PAS": 30, "GCS": 2 }, "pente": { "FC": 0, "PAS": 0.3, "GCS": 0.1 }, "ecg": "entraine" },
+        "mgso4": { "note": "recommande", "why": "Torsades de pointes : sulfate de magnésium 2 g IV (ERC 2021), quelle que soit la magnésémie." },
+        "isoprenaline": { "note": "recommande", "alt": "chrono", "why": "Torsades sur bradycardie : accélérer le cœur par isoprénaline ou entraînement raccourcit le QT (ESC 2022).", "effet": { "FC": 8, "PAS": 6 }, "pente": { "FC": -0.15 } },
+        "adrenaline_ivse": { "note": "recommande", "alt": "chrono", "why": "Chronotrope en attendant l'entraînement (ERC 2021).", "effet": { "FC": 8, "PAS": 10 }, "pente": { "FC": -0.15 } },
+        "iono": { "note": "recommande", "why": "Kaliémie et magnésémie : une hypokaliémie favorise les torsades (ESC 2022)." },
+        "renfort": { "note": "recommande", "why": "Appeler à l'aide : défibrillateur prêt, cardiologue pour la sonde d'entraînement." },
+        "ketamine_analg": { "note": "recommande", "alt": "analgesie", "why": "Analgésie de l'entraînement externe chez une patiente qui reprend conscience (ERC 2021)." },
+        "morphine_titr": { "note": "recommande", "alt": "analgesie", "why": "Analgésie de l'entraînement externe, en titration prudente (ERC 2021)." },
+        "amiodarone": { "note": "contre_indique", "letal": "acr", "why": "Torsades sur bradycardie : l'amiodarone allonge encore le QT et supprime l'échappement (ESC 2022). Fibrillation ventriculaire ou asystolie.", "effet": { "FC": -10 } },
+        "betabloquant_iv": { "note": "contre_indique", "letal": "acr", "why": "Un bêtabloquant ralentit encore le cœur et entretient les torsades bradycardie-dépendantes : arrêt cardiaque.", "effet": { "FC": -10 } },
+        "cardioversion": { "note": "inutile", "why": "Les salves de torsades sont brèves et récidivent : le choc ne les prévient pas. Il faut supprimer les pauses (entraînement). Choc seulement si une torsade dégénère en FV." }
+      },
+      "letal_si_manque": { "actions": [["ees", "ees_endocavitaire"]], "issue": "acr", "why": "Pauses et torsades sans entraînement : la torsade dégénère en fibrillation ventriculaire." },
+      "acr": { "rythme": "FV (torsade de pointes dégénérée)", "ecg": "fv", "requis": ["mce", "choc_ext"], "why": "FV : choc électrique sans délai, massage, adrénaline et amiodarone selon l'algorithme (ERC 2021). Puis entraîner dès le RACS pour éviter la récidive.", "apres_racs": { "FC": 30, "PAS": 74, "PAD": 34, "SpO2": 92 } },
+      "suite": [ { "vers": "e2" } ]
+    },
+    {
+      "id": "e2",
+      "titre": "Entraînée : préparer le relais",
+      "vignette": "Entraînée à 70/min, la patiente reprend des couleurs et se plaint des contractions thoraciques à chaque impulsion. Le cardiologue de garde demande : « Cause réversible ? Stimulateur quand ? »",
+      "chrono": 90,
+      "diagnostic": ["dx_bav_degeneratif"],
+      "resultats": {
+        "scope": "Spicule suivi d'un QRS large à chaque impulsion : capture efficace.",
+        "ecg": "Rythme **électro-entraîné** à 70/min, capture sur chaque spicule. Activité atriale dissociée : **BAV complet** sous-jacent persistant.",
+        "lactates": "Contrôle : lactates 1,6 mmol/L.",
+        "troponine": "Contrôle : troponine stable, sans cinétique."
+      },
+      "actions": {
+        "bav_cardio_pacemaker": { "note": "indispensable", "why": "BAV complet acquis sans cause réversible : stimulateur définitif, quels que soient les symptômes (ESC 2021, classe I). L'implanter tôt raccourcit l'entraînement temporaire et ses complications." },
+        "ees_endocavitaire": { "note": "recommande", "why": "L'entraînement externe est douloureux et sa capture peut se perdre : relais par sonde temporaire endocavitaire si le stimulateur ne peut être posé rapidement, pour une durée aussi brève que possible (ESC 2021)." },
+        "ketamine_analg": { "note": "recommande", "alt": "analgesie", "why": "Entraînement externe douloureux : analgésie (ERC 2021)." },
+        "morphine_titr": { "note": "recommande", "alt": "analgesie", "why": "Entraînement externe douloureux : analgésie en titration prudente (ERC 2021)." },
+        "ett": { "note": "recommande", "why": "Cardiopathie sous-jacente (valvulopathie calcifiée, fonction VG) avant l'implantation du stimulateur (ESC 2021)." },
+        "reanimation": { "note": "recommande", "why": "Surveillance continue en USIC ou en réanimation, moniteur-défibrillateur branché, jusqu'à l'implantation." },
+        "lactates": { "note": "debattu", "refaire": true, "why": "Contrôle : la normalisation confirme l'efficacité hémodynamique de l'entraînement." },
+        "troponine": { "note": "debattu", "refaire": true, "why": "Cinétique utile si la première valeur était limite." },
+        "isoprenaline": { "note": "inutile", "why": "Entraînement efficace : arrêter l'isoprénaline, arythmogène et inutile." },
+        "atropine": { "note": "inutile", "why": "Patiente entraînée : aucune indication." },
+        "coro": { "note": "inutile", "why": "Pas d'argument pour un infarctus : pas de coronarographie urgente." },
+        "amiodarone": { "note": "contre_indique", "why": "Aucune indication, et risque d'asystolie si l'entraînement perd sa capture." },
+        "betabloquant_iv": { "note": "contre_indique", "why": "Aucune indication, et risque d'asystolie si l'entraînement perd sa capture." }
+      },
+      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "ecg_racs": "entraine", "why": "AESP : massage, adrénaline, recherche d'une perte de capture (ERC 2021).", "apres_racs": { "FC": 70, "PAS": 92, "PAD": 48, "SpO2": 94 } },
+      "suite": [ { "vers": "fin" } ]
+    }
+  ]
+}
