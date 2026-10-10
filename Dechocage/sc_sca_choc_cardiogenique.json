@@ -142,7 +142,7 @@
         "assistance_meca": { "note": "debattu", "why": "Choc qui s'aggrave : avis de l'équipe d'assistance circulatoire. ECLS-SHOCK (2023) : pas de bénéfice de l'ECMO VA systématique et plus de saignements. DanGer Shock (2024) : moins de décès à 6 mois avec l'Impella CP dans des chocs post-infarctus sélectionnés, au prix de plus de complications. ESC 2023 : à envisager dans le choc sévère ou réfractaire." },
         "biai": { "note": "inutile", "why": "Pas de bénéfice sur la mortalité (IABP-SHOCK II 2012), pas d'utilisation systématique (ESC 2023, classe III)." },
         "coro": { "note": "indispensable", "why": "Reperfusion en urgence. Dans le choc avec atteinte pluritronculaire, ne traiter que l'artère coupable en urgence (CULPRIT-SHOCK 2017)." },
-        "reanimation": { "note": "recommande", "why": "Après l'angioplastie : réanimation ou soins intensifs cardiologiques avec possibilité d'assistance circulatoire." },
+        "reanimation": { "note": "recommande", "fin": false, "why": "Après l'angioplastie : réanimation ou soins intensifs cardiologiques avec possibilité d'assistance circulatoire." },
         "furosemide": { "note": "debattu", "why": "Anurie et congestion : diurétique à discuter une fois la perfusion restaurée.", "effet": { "PAS": -3, "SpO2": 1 } },
         "remp_cristal": { "note": "contre_indique", "why": "Œdème pulmonaire massif : le remplissage aggrave l'hypoxémie.", "effet": { "PAS": 3, "SpO2": -4 } },
         "nitres_iv": { "note": "contre_indique", "why": "Contre-indiqués en choc.", "effet": { "PAS": -15 } },

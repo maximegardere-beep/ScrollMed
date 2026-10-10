@@ -275,6 +275,7 @@
         },
         "reanimation": {
           "note": "recommande",
+          "fin": false,
           "why": "Acidocétose sévère (bicarbonates < 10, cétonémie > 6, tachycardie > 100) : surveillance continue en réanimation ou soins intensifs (JBDS)."
         },
         "isr_etomidate": {
@@ -461,6 +462,7 @@
         },
         "reanimation": {
           "note": "recommande",
+          "fin": false,
           "why": "Acidocétose sévère avec collapsus et troubles de conscience : réanimation."
         },
         "isr_etomidate": {

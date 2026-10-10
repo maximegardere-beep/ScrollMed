@@ -854,6 +854,14 @@
   .dc-item .ic{ flex-shrink:0; width:20px; text-align:center; }
   .dc-item .w{ color: var(--muted); font-size:12.5px; margin-top:2px; }
   .dc-item .pts{ margin-left:auto; flex-shrink:0; font-size:12px; font-weight:700; color: var(--muted); }
+  .dc-forts{ border-color: var(--trace-dim); }
+  .dc-axes details summary, .dc-detail > summary, details.dc-step > summary{ cursor:pointer; color: var(--muted); font-size:13px; padding:6px 0; }
+  details.dc-step > summary{ color: var(--text); font-size:14.5px; padding:0 0 6px; }
+  .dc-detail{ margin-bottom:10px; }
+  .dc-detail > summary{ font-weight:700; padding:8px 2px; }
+  .dc-chr{ display:flex; gap:10px; font-size:13px; line-height:1.4; padding:3px 0; border-top:1px solid var(--line); }
+  .dc-chr span:first-child{ flex-shrink:0; width:48px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .dc-vol{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:10px; font-size:13px; color: var(--muted); line-height:1.45; }
 </style>
 </head>
 <body>
@@ -2129,17 +2137,130 @@ function dcModEffet(id, stepId, effet){
 }
 // résultat d'examen : celui du terrain (ETT de l'insuffisant cardiaque, INR sous AVK…), sinon de l'étape,
 // sinon du scénario. Le schéma vient du même niveau que le texte : jamais d'image qui contredit le texte.
+// Un résultat peut être une liste conditionnelle [{ "si": {…}, "texte", "schema" }] : la première qui
+// correspond l'emporte ; si aucune ne correspond, on passe au niveau suivant. Dernier recours : "resultat" du catalogue.
 function dcResult(id){
   const sc = G.sc.id, keys = [`${sc}/${G.step.id}/${id}`, `${sc}/${id}`, id];
   for(const k of keys){
     let r;
-    dcSources().forEach(s => { if(s.resultats && s.resultats[k] != null) r = { text: s.resultats[k], schema: (s.schemas || {})[k] }; });
+    dcSources().forEach(s => { if(s.resultats && s.resultats[k] != null) r = dcResPick(s.resultats[k], (s.schemas || {})[k]) || r; });
     if(r) return r;
   }
   for(const lv of [G.step, G.sc]){
-    if((lv.resultats || {})[id] != null) return { text: lv.resultats[id], schema: (lv.schemas || {})[id] };
+    const r = (lv.resultats || {})[id] != null && dcResPick(lv.resultats[id], (lv.schemas || {})[id]);
+    if(r) return r;
   }
-  return dcIndex()[id].examen ? { text: 'Pas d’anomalie notable.' } : null;
+  const a = dcIndex()[id];
+  const r = a.resultat != null && dcResPick(a.resultat);
+  if(r) return r;
+  return a.examen ? { text: 'Pas d’anomalie notable.' } : null;
+}
+function dcResPick(val, schema){
+  if(!Array.isArray(val)) return { text: val, schema };
+  const e = val.find(x => dcCond(x.si));
+  return e ? { text: e.texte, schema: e.schema } : null;
+}
+// condition (résultat conditionnel, déclencheur d'étape) : toutes doivent être vraies.
+// Constantes, "PAM" et "volume" (mL perfusés) : { "min", "max" }, bornes incluses ;
+// "fait" : toutes faites (liste imbriquée = alternatives) ; "manque" : au moins une non faite ;
+// "precharge" : true / false (patient encore précharge-dépendant, scénario avec "hemodynamique")
+function dcCond(si){
+  if(!si) return true;
+  const v = G.vitals;
+  for(const [k, c] of Object.entries(si)){
+    if(k === 'fait'){ if(!c.every(e => dcDoneEntry(e))) return false; continue; }
+    if(k === 'manque'){ if(!c.some(e => !dcDoneEntry(e))) return false; continue; }
+    if(k === 'precharge'){ if(dcPrecharge() !== c) return false; continue; }
+    const x = k === 'PAM' ? v.PAD + (v.PAS - v.PAD) / 3 : k === 'volume' ? G.vol : v[k];
+    if(x == null) return false;
+    if(c.min != null && x < c.min) return false;
+    if(c.max != null && x > c.max) return false;
+  }
+  return true;
+}
+
+// ---------- hémodynamique : bilan entrées, précharge-dépendance, surcharge ----------
+// scénario : "hemodynamique": { "reserve_ml": 1500, "oap_ml": 3000, "why": "…" } ;
+// terrain ou traitement : "hemodynamique": { "reserve_ml": 0.5, "oap_ml": 0.6 } (facteurs multiplicatifs)
+function dcHemo(){
+  const h = G.sc.hemodynamique;
+  if(!h) return null;
+  let reserve = h.reserve_ml != null ? h.reserve_ml : Infinity, oap = h.oap_ml != null ? h.oap_ml : Infinity;
+  dcSources().forEach(s => {
+    const m = s.hemodynamique || {};
+    if(m.reserve_ml != null) reserve *= m.reserve_ml;
+    if(m.oap_ml != null) oap *= m.oap_ml;
+  });
+  return { reserve, oap: Math.max(oap, reserve), why: h.why };
+}
+// encore précharge-dépendant ? Sans modèle hémodynamique, d'après l'étape : un remplissage attendu (indispensable,
+// recommandé) le suppose, un remplissage jugé inutile ou contre-indiqué l'exclut ; sinon inconnu (null)
+function dcPrecharge(){
+  const h = dcHemo();
+  if(h) return G.vol < h.reserve;
+  const notes = Object.keys(G.step.actions || {}).filter(id => ((dcIndex()[id] || {}).classe || []).includes('remplissage'))
+    .map(id => (dcNoteFor(id, G.step.id) || {}).note);
+  if(notes.some(n => n === 'indispensable' || n === 'recommande')) return true;
+  if(notes.some(n => n === 'inutile' || n === 'contre_indique')) return false;
+  return null;
+}
+// effet hémodynamique d'un remplissage de "ml" : entier tant que la réserve n'est pas consommée,
+// puis décroissant jusqu'à 10 % au seuil d'OAP (ou sur une réserve de plus sans seuil d'OAP)
+function dcVolFactor(ml){
+  const h = dcHemo();
+  const mid = G.vol + ml / 2;
+  if(!h || mid <= h.reserve) return 1;
+  const span = isFinite(h.oap) && h.oap > h.reserve ? h.oap - h.reserve : Math.max(h.reserve, 1000);
+  return Math.max(0.1, 1 - (mid - h.reserve) / span);
+}
+const DC_VOL_KEYS = ['PAS', 'PAD', 'FC', 'EtCO2'];   // constantes portées par la précharge
+function dcFmtVol(ml){ return ml >= 1000 ? `${(Math.round(ml / 100) / 10).toLocaleString('fr-FR')} L` : `${Math.round(ml)} mL`; }
+// surcharge : au-delà du seuil, complication "oap" (une fois par partie)
+function dcVolOap(){
+  const h = dcHemo();
+  if(!h || G.vol < h.oap || G.trig.has('volume:oap') || G.phase !== 'step' || G.step._compl) return false;
+  const cp = (DC_CONTENT.complications || []).find(c => c.id === 'oap');
+  if(!cp || G.visited.some(v => v.id === cp.id)) return false;
+  G.trig.add('volume:oap');
+  const label = `${dcFmtVol(G.vol)} perfusés`;
+  G.events.push({ t: G.t, step: G.step.id, kind: 'volume', label, compl: cp.id,
+    why: h.why || `Surcharge volémique : ${dcFmtVol(G.vol)} perfusés, au-delà de ce que tolère ce patient.` });
+  dcEnterCompl(cp, label);
+  return true;
+}
+
+// ---------- fin de prise en charge et étapes-tournants ----------
+// orientation qui termine la partie : "fin" au catalogue (ou sur l'action d'étape, qui l'emporte),
+// sauf si le terrain la contre-indique. Les orientations attendues plus loin restent dues (dcScore).
+function dcFinSpec(st, id){
+  const s = (st.actions || {})[id];
+  return s && s.fin != null ? !!s.fin : !!(dcIndex()[id] || {}).fin;
+}
+function dcFinOf(id){
+  if(!G || G.phase !== 'step' || !dcFinSpec(G.step, id)) return false;
+  const n = dcNoteFor(id, G.step.id);
+  return !(n && n.note === 'contre_indique');
+}
+// étape-tournant : "declencheur" { "apres": min de partie, "si": {…}, "dans": [étapes] }, ou liste (le premier qui correspond).
+// Entrée automatique, une fois par partie ; l'étape quittée reste ouverte : ses gestes dus peuvent être faits après.
+function dcDeclencheur(){
+  if(!G || G.phase !== 'step' || G.step._compl || G.modal) return false;
+  for(const st of G.sc.etapes){
+    if(!st.declencheur || st._compl || st === G.step || G.visited.some(v => v.id === st.id)) continue;
+    const ok = [].concat(st.declencheur).some(d => (d.apres == null || G.t >= d.apres * 60)
+      && (!d.dans || d.dans.includes(G.step.id)) && dcCond(d.si));
+    if(!ok) continue;
+    const visit = dcCurVisit();
+    visit.t1 = G.t; visit.dx = G.dx.slice(); visit.ouvert = true;
+    dcEnterStep(st.id);
+    dcNibp();
+    dcSample();
+    dcCheckThresholds();
+    showToast(`⚠️ ${st.titre || 'Évolution'}`);
+    if(navigator.vibrate) navigator.vibrate([120, 60, 120]);
+    return true;
+  }
+  return false;
 }
 // résultat variable : "{3,8~6,2}" devient une valeur tirée dans la plage, avec autant de décimales
 // que les bornes ; même tirage pour le même texte pendant toute la partie (médiane en mode fixe)
@@ -2203,7 +2324,7 @@ function dcStart(scId, mode, opts){
   dcStop();
   if(!DC_MODES[mode]) mode = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
   G = {
-    terrain, fiche: !!terrain, compl: null, trig: new Set(), events: [],
+    terrain, fiche: !!terrain, compl: null, trig: new Set(), events: [], vol: 0, volBy: {}, orientation: null,
     sc, mode, pending: 0, step: null, vitals: Object.assign({}, sc.constantes),
     override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
     phase: 'step', doneAll: new Set(), log: [], visited: [],
@@ -2331,7 +2452,7 @@ function dcTick(){
   } else {
     G.chrono -= 1;
     dcAdvance(dcMode().ratio);
-    if(dcTerrainSeuil()){ dcRender(); return; }
+    if(dcTerrainSeuil() || dcDeclencheur()){ dcRender(); return; }
   }
   if(G.phase === 'over') return;
   if(G.phase !== phase) dcRender(); else dcRenderScope();
@@ -2369,8 +2490,8 @@ function dcStability(crit){
 function dcAskTransfer(kind, id){
   dcSettle();   // temps fixé : l'évolution en attente s'applique avant d'évaluer le patient
   if(G.phase !== 'step'){ dcRender(); return; }
-  const crit = kind === 'step' ? G.step.transfert : dcIndex()[id].transfert;
-  G.modal = { kind, id, crit, stab: dcStability(crit) };
+  const crit = (kind === 'step' ? G.step.transfert : dcIndex()[id].transfert) || {};
+  G.modal = { kind, id, crit, stab: dcStability(crit), fin: kind === 'action' && dcFinOf(id) };
   dcRender();
 }
 function dcModalHtml(){
@@ -2378,13 +2499,14 @@ function dcModalHtml(){
   const what = m.kind === 'step' ? `Départ ${m.crit.vers || ''}` : `${dcLabel(m.id)}${m.crit.vers ? ' · ' + m.crit.vers : ''}`;
   const v = G.vitals, pa = dcPaShown();
   return `<div class="dc-pause dc-modal">
-    <div class="big">🚑</div><b>${escapeHtml(what)}</b>
+    <div class="big">${m.fin ? '🏁' : '🚑'}</div><b>${escapeHtml(what)}</b>
+    ${m.fin ? '<div class="hint">Fin de la prise en charge : la partie se termine et le débriefing s’ouvre.</div>' : ''}
     <div class="dc-stab ${m.stab.ok ? 'ok' : 'ko'}">${m.stab.ok
       ? '✅ Patient stable pour le transfert'
       : `⚠️ Patient instable<ul>${m.stab.probs.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`}</div>
     <div class="hint">FC ${Math.round(v.FC)} · PA ${pa.PAS}/${pa.PAD} · SpO2 ${Math.round(v.SpO2)} % · GCS ${v.GCS != null ? Math.round(v.GCS) : '—'}${G.mon.has('CO2') ? ' · intubé' : ''}</div>
     ${m.stab.ok ? '' : `<div class="hint">Si le geste est le traitement de l'instabilité (hémostase, drainage, reperfusion), le transfert reste justifié : accompagné, monitoré, médecin présent.</div>`}
-    <button class="btn" data-dc="tr-go" style="max-width:300px">🚑 Partir maintenant</button>
+    <button class="btn" data-dc="tr-go" style="max-width:300px">${m.fin ? '🏁 Terminer la prise en charge' : '🚑 Partir maintenant'}</button>
     <button class="btn secondary" data-dc="tr-wait" style="max-width:300px">⏳ Pas maintenant</button>
     <div class="hint" style="margin-top:4px">Le chrono est arrêté pendant la décision. « Pas maintenant » : tu pourras redemander plus tard.</div>
   </div>`;
@@ -2412,10 +2534,13 @@ function dcDoAction(id, confirmed){
   if(!dcRepeatable(a) && (dcIsRcp(a) ? (inAcr && G.acr.done.has(id)) : G.doneAll.has(id))) return;
   if(dcIsRcp(a) && !inAcr) return;
   if(dcLocked(a)){ showToast(`🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}`); return; }
-  if(a.transfert && inAcr){ showToast('Pas de transfert pendant un arrêt cardiaque'); return; }
-  if(a.transfert && !confirmed){ dcAskTransfer('action', id); return; }
+  // orientation de fin désactivée par l'étape ("fin": false : prévenir la réa sans partir) : geste ordinaire
+  const tr = a.fin && ((G.step.actions || {})[id] || {}).fin === false ? null : a.transfert;
+  if(tr && inAcr){ showToast('Pas de transfert pendant un arrêt cardiaque'); return; }
+  const fin = dcFinOf(id);
+  if((tr || fin) && !confirmed){ dcAskTransfer('action', id); return; }
   G.tab = 'gestes';
-  const instable = a.transfert ? !dcStability(a.transfert).ok : false;
+  const instable = tr ? !dcStability(tr).ok : false;
   const siInstable = instable && ((G.step.actions || {})[id] || {}).si_instable;
   if(siInstable){
     // l'arrêt survient pendant le transfert, avant la fin du geste
@@ -2469,22 +2594,39 @@ function dcDoAction(id, confirmed){
   }
   if(a.titration && !G.pumps[id]){ const d = dcTitration(id).debut; G.pumps[id] = { dose: d, peak: d, max: d, capped: false }; }
   const spec = (G.step.actions || {})[id];
-  const mod = dcModEffet(id, G.step.id, spec && spec.effet);
-  if(mod.mods.length){
-    entry.mods = mod.mods.map(m => m.why).filter(Boolean);
-    if(!spec) dcApply(mod.effet, 1);   // effet propre au terrain d'une action non prévue par l'étape
+  // effet : celui de l'étape, sinon celui du catalogue (geste fait hors de son étape), modulé par le terrain
+  const mod = dcModEffet(id, G.step.id, (spec && spec.effet) || a.effet);
+  if(mod.mods.length) entry.mods = mod.mods.map(m => m.why).filter(Boolean);
+  if(a.volume){
+    // remplissage : effet hémodynamique réduit une fois la précharge-dépendance épuisée
+    const f = dcVolFactor(a.volume);
+    if(f < 1){
+      entry.sature = true;
+      if(mod.effet) mod.effet = Object.fromEntries(Object.entries(mod.effet).map(([k, x]) => [k, DC_VOL_KEYS.includes(k) ? x * f : x]));
+    }
+    G.vol += a.volume;
+    G.volBy[id] = (G.volBy[id] || 0) + 1;
   }
+  dcApply(mod.effet, 1);
   if(spec){
-    dcApply(mod.effet, 1);
     if(spec.ecg) dcSetEcg(spec.ecg);
     if(spec.pente) Object.assign(G.override, spec.pente);
     if(spec.letal === 'deces'){ dcDie(`${a.label} : ${spec.why || 'erreur létale'}`); return; }
     if(spec.letal === 'acr'){ dcEnterAcr(a.label); dcRender(); return; }
   }
+  if(fin && G.phase === 'step'){
+    // orientation : fin de la prise en charge, puis bilan
+    const visit = dcCurVisit();
+    visit.t1 = G.t; visit.dx = G.dx.slice(); visit.fin = id;
+    G.orientation = { id, t: G.t, instable };
+    G.outcome = G.racs ? 'racs' : 'vivant';
+    dcFinish();
+    return;
+  }
   dcTitrate();
   dcSample();
   dcCheckThresholds();
-  if(G.phase === 'step') dcTerrainCumul(id) || dcTerrainSeuil();
+  if(G.phase === 'step') dcTerrainCumul(id) || dcTerrainSeuil() || dcVolOap() || dcDeclencheur();
   dcRender();
 }
 
@@ -2525,7 +2667,7 @@ function dcTrigger(rule, ev){
   const key = `${ev.kind}:${rule.complication}:${rule.src}`;
   if(!G.terrain || G.trig.has(key) || G.phase !== 'step' || G.step._compl) return false;
   const cp = (DC_CONTENT.complications || []).find(c => c.id === rule.complication);
-  if(!cp) return false;
+  if(!cp || G.visited.some(v => v.id === cp.id)) return false;   // une complication, une fois par partie
   G.trig.add(key);
   G.events.push(Object.assign({ t: G.t, step: G.step.id, why: rule.why, terrain: rule.src, compl: cp.id }, ev));
   dcEnterCompl(cp, ev.cause);
@@ -2612,6 +2754,7 @@ function dcValidate(confirmed){
   if(st.transfert && !confirmed){ dcAskTransfer('step'); return; }
   dcSettle();
   if(G.phase !== 'step'){ dcRender(); return; }   // l'évolution différée a mené à l'ACR
+  if(!st._compl && dcDeclencheur()){ dcRender(); return; }   // temps fixé : un tournant atteint passe avant la suite
   if(st.transfert && !dcStability(st.transfert).ok){
     dcCurVisit().instable = true;
     if(dcUnstableOutcome(st.transfert.si_instable, `Départ ${st.transfert.vers || ''}`.trim())) return;
@@ -2662,7 +2805,9 @@ function dcBaseNote(id, stepId){
   for(const st of G.sc.etapes){
     if(st._compl) continue;
     const s = (st.actions || {})[id];
-    if(s && ['indispensable', 'recommande', 'debattu'].includes(s.note)) return Object.assign({ anticipe: true }, s);
+    // attendue dans une étape quittée par un tournant (restée ouverte) : faite en retard, pas anticipée
+    const ouverte = G.visited.some(v => v.id === st.id && v.ouvert);
+    if(s && ['indispensable', 'recommande', 'debattu'].includes(s.note)) return Object.assign(ouverte ? {} : { anticipe: true }, s);
   }
   return null;
 }
@@ -2683,7 +2828,8 @@ function dcScore(){
   let pts = 0;
   const steps = G.visited.map((v, i) => {
     const st = dcStepById(v.id);
-    const t1 = v.t1 != null ? v.t1 : G.t;
+    // étape quittée par un tournant : ce qui était dû peut encore être fait jusqu'à la fin
+    const t1 = v.t1 != null && !v.ouvert ? v.t1 : G.t;
     const items = [];
     const seen = {};
     G.log.filter(l => l.etape === v.id && G.visited.indexOf(v) === dcVisitIndex(l)).forEach(l => {
@@ -2697,8 +2843,12 @@ function dcScore(){
       let p = 0;
       if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
       pts += p;
+      // délai : heure patient du début du geste, comparée à "delai" (min depuis l'arrivée)
+      const t0 = l.t - ((dcIndex()[l.id] || {}).duree || 0) * 60;
+      const delai = spec && spec.delai && !l.ci ? { lim: spec.delai, ok: t0 <= spec.delai * 60 } : null;
       seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, instable: l.instable, pts: p, n: 1,
-        terrain: spec && spec.terrain, orig: spec && spec.orig, adapte: spec && spec.adapte, compl: l.compl, mods: l.mods };
+        terrain: spec && spec.terrain, orig: spec && spec.orig, adapte: spec && spec.adapte, compl: l.compl, mods: l.mods,
+        t: t0, delai, sature: l.sature, fin: G.orientation && G.orientation.id === l.id };
       items.push(seen[l.id]);
     });
     const actions = st.actions || {};
@@ -2715,6 +2865,8 @@ function dcScore(){
     Object.keys(actions).forEach(id => {
       const s = actions[id];
       if(s.note !== 'indispensable' && s.note !== 'recommande') return;
+      // une seule orientation finale : les autres orientations de fin ne sont plus dues
+      if(G.orientation && id !== G.orientation.id && dcFinSpec(st, id)) return;
       if(!allowed(id)){
         // piège évité : l'action attendue par la trame, contre-indiquée chez ce patient, n'a pas été faite
         const ek = s.alt ? `alt:${s.alt}` : id;   // une seule ligne par groupe d'alternatives
@@ -2735,7 +2887,7 @@ function dcScore(){
       const why = pr ? pr.why : actions[tgt].why;
       if(s.note === 'indispensable'){
         pts -= DC_POINTS.indispensable;
-        items.push({ id: tgt, kind: 'oubli', why, pts: -DC_POINTS.indispensable });
+        items.push({ id: tgt, kind: 'oubli', why, pts: -DC_POINTS.indispensable, delai: s.delai ? { lim: s.delai, ok: false } : null });
       } else {
         items.push({ id: tgt, kind: 'nonfait', why, pts: 0 });
       }
@@ -2751,9 +2903,35 @@ function dcScore(){
     }
     // conséquences du terrain déclenchées pendant cette étape (omission, seuil, cumul)
     G.events.filter(e => e.step === v.id && !st._compl).forEach(e => items.push({ id: e.id, label: e.label, kind: e.kind === 'omission' ? 'oubli' : 'evenement',
-      why: e.why, terrain: e.terrain, compl: e.compl, pts: 0 }));
+      why: e.why, terrain: e.terrain, compl: e.compl, pts: 0, t: e.t }));
     return { id: v.id, titre: st.titre || v.id, items, dx, index: i };
   });
+  // départ par une orientation : les indispensables des étapes prévues ensuite (chemin par défaut de "suite",
+  // sans les branches d'aggravation) restaient dus avant de partir
+  if(G.orientation && steps.length){
+    const last = steps[steps.length - 1];
+    const vus = new Set(G.visited.map(v => v.id));
+    let cur = G.step && G.step._compl && G.compl ? G.compl.ret : G.step;
+    for(let n = 0; cur && n < 20; n++){
+      const r = (cur.suite || []).slice(-1)[0];
+      cur = r && r.vers !== 'fin' ? dcStepById(r.vers) : null;
+      if(!cur || vus.has(cur.id)) break;
+      vus.add(cur.id);
+      const acts = cur.actions || {};
+      const ok = k => !dcTerrainCi(k, cur.id) || !!dcTerrainCi(k, cur.id).compte;
+      Object.keys(acts).forEach(id => {
+        const s = acts[id];
+        if(s.note !== 'indispensable' || dcFinSpec(cur, id) || dcTerrainCi(id, cur.id)) return;
+        const key = s.alt ? `alt:${s.alt}` : id;
+        if(key in maxByKey) return;   // déjà dû ailleurs
+        maxByKey[key] = DC_POINTS.indispensable;
+        const done = dcDoneEntry(id) || (s.alt && Object.keys(acts).some(k => acts[k].alt === s.alt && ok(k) && dcDoneEntry(k)));
+        if(done) return;   // fait par avance : déjà noté
+        pts -= DC_POINTS.indispensable;
+        last.items.push({ id, kind: 'oubli', why: s.why, pts: -DC_POINTS.indispensable, avant: true });
+      });
+    }
+  }
   pts -= G.racs * DC_RACS_PENALTY;
   const max = Object.values(maxByKey).reduce((a, b) => a + b, 0) || 1;
   const note = G.outcome === 'deces' ? 0 : Math.max(0, Math.min(20, Math.round(pts / max * 20)));
@@ -2770,7 +2948,8 @@ function dcFinish(){
   dcStop();
   G.phase = 'over';
   const sc = dcScore();
-  DC_DEBRIEF = Object.assign({ sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps, terrain: G.terrain }, sc);
+  DC_DEBRIEF = Object.assign({ sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps, terrain: G.terrain,
+    orientation: G.orientation, vol: G.vol, volBy: G.volBy, hemo: dcHemo() }, sc);
   const d = STATE.dechoc;
   const run = { sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome, mode: G.mode };
   // patient procédural : niveau et terrains gardés pour l'historique par terrain
@@ -3343,7 +3522,8 @@ function dcPatientState(){
     intube, crico: G.doneAll.has('cricothyro'),
     vvp: G.doneAll.has('vvp') || scV.includes('IV') || (voieDone('IV') && !ktc && !io),
     io, ktc, kta: G.doneAll.has('kta') || G.mon.has('PA'),
-    pumps: Object.entries(G.pumps).map(([id, p]) => ({ nom: ((idx[id] || {}).titration || {}).nom || dcLabel(id), max: !!p.capped }))
+    pumps: Object.entries(G.pumps).map(([id, p]) => ({ nom: ((idx[id] || {}).titration || {}).nom || dcLabel(id), max: !!p.capped })),
+    vol: G.vol || 0
   };
 }
 // segments du résumé : { t: texte, l: 'a' (anormal) | 'd' (grave) | '' }
@@ -3357,6 +3537,7 @@ function dcPatientSegs(s){
   if(s.intube) add(s.crico ? 'canule de crico' : 'intubé');
   [['vvp', 'VVP'], ['io', 'IO'], ['ktc', 'KTC'], ['kta', 'KTA']].forEach(([k, l]) => { if(s[k]) add(l); });
   s.pumps.forEach(p => add('💉 ' + p.nom + (p.max ? ' MAX' : ''), p.max ? 'd' : ''));
+  if(s.vol) add('💧 ' + dcFmtVol(s.vol) + ' perfusés');
   return t.length ? t : [{ t: 'teint normal', l: '' }];
 }
 function dcPatientSummary(s){ return dcPatientSegs(s).map(x => x.t).join(' · '); }
@@ -4038,7 +4219,8 @@ function dcTileHtml(it){
   const lock = !isDx && !done && dcLocked(a);
   const cls = isDx ? (G.dx.includes(a.id) ? 'on' : '') : (done ? 'done' : lock ? 'lock' : 'act');
   const mark = isDx ? (G.dx.includes(a.id) ? '☑' : '☐') : done ? '✓' : count ? `×${count}` : '';
-  const info = isDx || done ? '' : lock ? `🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}` : a.duree ? `⏱ ${a.duree} min` : '⏱ immédiat';
+  const info = isDx || done ? '' : lock ? `🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}`
+    : (dcFinOf(a.id) ? '🏁 fin · ' : '') + (a.duree ? `⏱ ${a.duree} min` : '⏱ immédiat');
   return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>${cls === 'act' ? DC_RING : ''}
     <span>${escapeHtml(a.label)}${mark ? ` <b>${mark}</b>` : ''}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${info ? `<span class="sub">${info}</span>` : ''}</span></button>`;
 }
@@ -4148,6 +4330,12 @@ function dcChartSvg(d){
   <div class="legend"><span><i style="background:var(--danger)"></i>PAS</span><span><i style="background:var(--trace)"></i>FC</span><span><i style="background:#5aa9ff"></i>SpO2</span><span>| actions · <span style="color:var(--danger)">|</span> contre-indiquées</span></div>`;
 }
 
+// délai d'un geste ("delai" de l'étape, en min depuis l'arrivée du patient)
+function dcDelaiTxt(it){
+  if(!it.delai) return '';
+  if(it.kind === 'oubli') return ` · ⏱ objectif ≤ ${it.delai.lim} min`;
+  return it.delai.ok ? ` · ⏱ T+${dcFmtClock(it.t)}, dans le délai (≤ ${it.delai.lim} min)` : ` · ⏱ T+${dcFmtClock(it.t)}, au-delà de ${it.delai.lim} min`;
+}
 function dcRenderDebrief(){
   const d = DC_DEBRIEF;
   document.getElementById('dcTitle').textContent = 'Débriefing';
@@ -4160,7 +4348,14 @@ function dcRenderDebrief(){
     const t = dcIndex()[id].titration;
     return `${escapeHtml(t.nom || id)} : dose maximale ${dcFmtDose(p.peak)} ${escapeHtml(t.unite || '')}${p.capped ? ', plafond atteint' : ''}.`;
   }).join(' ');
+  // fin par une orientation : elle remplace « pris en charge jusqu'au bout »
+  if(d.orientation){
+    const o = `Orientation : ${dcLabel(d.orientation.id)} à T+${dcFmtClock(d.orientation.t)}${d.orientation.instable ? ', parti instable' : ''}.`;
+    out.s = d.outcome === 'racs' ? `${out.s} ${o}` : o;
+  }
   if(pumps) out.s += ' ' + pumps;
+  // bilan entrées : volume perfusé, par produit
+  const vol = d.vol ? `💧 Entrées : ${dcFmtVol(d.vol)} (${Object.entries(d.volBy || {}).map(([id, n]) => `${escapeHtml(dcLabel(id))}${n > 1 ? ' ×' + n : ''}`).join(', ')})${d.hemo && isFinite(d.hemo.reserve) ? ` · précharge-dépendance épuisée au-delà de ${dcFmtVol(d.hemo.reserve)}${isFinite(d.hemo.oap) ? `, OAP au-delà de ${dcFmtVol(d.hemo.oap)}` : ''} chez ce patient` : ''}` : '';
   const itemHtml = it => {
     const ui = it.kind === 'oubli' ? { ic: '⚠️', lb: 'Oublié' } : it.kind === 'nonfait' ? { ic: '○', lb: 'Non fait' }
       : it.kind === 'evite' ? { ic: '🛡️', lb: 'Piège évité' } : it.kind === 'evenement' ? { ic: '⚡', lb: 'Conséquence' } : DC_NOTE_UI[it.kind];
@@ -4171,10 +4366,52 @@ function dcRenderDebrief(){
       : '';
     const compl = it.compl ? ` · → ${escapeHtml((d.sc.etapes.find(e => e.id === it.compl) || {}).titre || it.compl)}` : '';
     const mods = (it.mods || []).map(m => `<div class="w">🧬 ${escapeHtml(m)}</div>`).join('');
+    const extra = (it.anticipe ? ' (anticipé)' : '') + (it.avant ? ' · avant de partir' : '') + (it.fin ? ' · 🏁 orientation finale' : '')
+      + (it.instable ? ' · ⚠️ parti instable' : '') + (it.sature ? ' · 💧 plus précharge-dépendant, effet réduit' : '');
     return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(it.label || dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
-      <div class="w">${ui.lb}${terr}${compl}${it.anticipe ? ' (anticipé)' : ''}${it.instable ? ' · ⚠️ parti instable' : ''}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div>${mods}</div><span class="pts">${pts}</span></div>`;
+      <div class="w">${ui.lb}${terr}${compl}${extra}${dcDelaiTxt(it)}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div>${mods}</div><span class="pts">${pts}</span></div>`;
   };
+  // ligne courte (points forts, axes, chronologie)
+  const line = (ic, b, w, cls) => `<div class="dc-item ${cls || ''}"><span class="ic">${ic}</span><div><b>${b}</b>${w ? `<div class="w">${w}</div>` : ''}</div></div>`;
+  const all = d.steps.flatMap(s => s.items.map(it => Object.assign({ etape: s }, it)));
+  const lb = it => escapeHtml(it.label || dcLabel(it.id));
+  const terrTxt = it => it.terrain ? ` (${escapeHtml(it.terrain)})` : '';
+
+  // 1. points forts : gestes indispensables faits (dans l'ordre), diagnostics justes, pièges évités, ACR récupérés
+  const forts = [];
+  all.filter(it => it.kind === 'indispensable' && it.pts > 0).sort((a, b) => a.t - b.t)
+    .forEach(it => forts.push(line('✅', lb(it), `T+${dcFmtClock(it.t)}${it.delai && it.delai.ok ? ` · ⏱ dans le délai (≤ ${it.delai.lim} min)` : ''}`)));
+  d.steps.filter(s => s.dx && s.dx.ok).forEach(s => forts.push(line('🩺', `Diagnostic juste : ${s.dx.given.filter(x => [].concat(s.dx.expected).includes(x)).map(x => escapeHtml(dcLabel(x))).join(', ')}`, escapeHtml(s.titre))));
+  all.filter(it => it.kind === 'evite').forEach(it => forts.push(line('🛡️', `Piège évité : ${lb(it)}`, escapeHtml(it.why || '') + terrTxt(it))));
+  d.acrEpisodes.filter(e => e.ok).forEach(e => forts.push(line('💓', 'ACR récupéré', escapeHtml(e.cause))));
+  const reco = [...new Set(all.filter(it => it.kind === 'recommande' && it.pts > 0).map(it => dcLabel(it.id)))];
+  if(reco.length) forts.push(line('👍', `${reco.length} geste${reco.length > 1 ? 's' : ''} recommandé${reco.length > 1 ? 's' : ''}`, reco.map(escapeHtml).join(' · ')));
+  if(d.orientation && !d.orientation.instable && d.outcome !== 'deces') forts.push(line('🏁', `Orientation : ${escapeHtml(dcLabel(d.orientation.id))}`, `Patient stable au départ, T+${dcFmtClock(d.orientation.t)}`));
+
+  // 2. axes d'amélioration, par priorité : décès, contre-indications, oublis, ACR, délais, conséquences, diagnostic
+  const axes = [];
+  if(d.outcome === 'deces') axes.push({ p: 0, h: line('🕯️', 'Décès', escapeHtml(d.cause), 'ko') });
+  all.filter(it => it.kind === 'contre_indique').forEach(it => axes.push({ p: 1, h: line('❌', `Contre-indiqué : ${lb(it)}`, escapeHtml(it.why || '') + terrTxt(it), 'ko') }));
+  all.filter(it => it.kind === 'oubli').forEach(it => axes.push({ p: 2, h: line('⚠️', `Oublié : ${lb(it)}`, (it.avant ? 'Avant de partir · ' : '') + escapeHtml(it.why || '') + terrTxt(it), 'ko') }));
+  d.acrEpisodes.forEach(e => axes.push({ p: 3, h: line('💔', `ACR ${e.ok ? 'récupéré' : 'non récupéré'}`, escapeHtml(e.cause), 'ko') }));
+  if(d.orientation && d.orientation.instable) axes.push({ p: 3, h: line('🚑', `Parti instable : ${escapeHtml(dcLabel(d.orientation.id))}`, 'Stabiliser avant le transfert, sauf si le transfert est le traitement.', 'ko') });
+  all.filter(it => it.delai && !it.delai.ok && it.kind !== 'oubli').forEach(it => axes.push({ p: 4, h: line('⏱', `En retard : ${lb(it)}`, `T+${dcFmtClock(it.t)} pour un objectif ≤ ${it.delai.lim} min${it.why ? ' · ' + escapeHtml(it.why) : ''}`, 'ko') }));
+  all.filter(it => it.kind === 'evenement').forEach(it => axes.push({ p: 5, h: line('⚡', lb(it), escapeHtml(it.why || '') + terrTxt(it) + (it.compl ? ` → ${escapeHtml((d.sc.etapes.find(e => e.id === it.compl) || {}).titre || it.compl)}` : ''), 'ko') }));
+  d.steps.filter(s => s.dx && !s.dx.ok).forEach(s => axes.push({ p: 6, h: line('🩺', `Diagnostic : ${s.titre ? escapeHtml(s.titre) : ''}`, `Attendu : ${[].concat(s.dx.expected).map(x => escapeHtml(dcLabel(x))).join(', ')}`) }));
+  axes.sort((a, b) => a.p - b.p);
+  const top = axes.slice(0, 3).map(a => a.h).join(''), rest = axes.slice(3).map(a => a.h).join('');
+
+  // 3. chronologie : étapes, gestes notés, ACR, orientation
+  const chrono = [];
+  d.visited.forEach((v, i) => { if(i) chrono.push({ t: v.t0, h: `<b>${(d.sc.etapes.find(e => e.id === v.id) || {})._compl ? '⚠️' : '▸'} ${escapeHtml((d.sc.etapes.find(e => e.id === v.id) || {}).titre || v.id)}</b>` }); });
+  all.filter(it => it.t != null && !it.fin && ['indispensable', 'recommande', 'contre_indique'].includes(it.kind))
+    .forEach(it => chrono.push({ t: it.t, h: `${it.kind === 'contre_indique' ? '❌' : '✓'} ${lb(it)}${it.delai ? (it.delai.ok ? ' ⏱✓' : ` ⏱ > ${it.delai.lim} min`) : ''}` }));
+  d.acrEpisodes.forEach(e => { chrono.push({ t: e.t, h: '💔 ACR' }); if(e.ok) chrono.push({ t: e.t1, h: '💓 RACS' }); });
+  if(d.orientation) chrono.push({ t: d.orientation.t, h: `🏁 ${escapeHtml(dcLabel(d.orientation.id))}` });
+  chrono.sort((a, b) => a.t - b.t);
+  const chronoHtml = chrono.map(c => `<div class="dc-chr"><span>T+${dcFmtClock(c.t)}</span><span>${c.h}</span></div>`).join('');
   const order = { contre_indique: 0, evenement: 1, oubli: 1, indispensable: 2, recommande: 3, evite: 4, debattu: 5, inutile: 6, nonfait: 7 };
+  const sortT = (a, b) => order[a.kind] - order[b.kind] || (a.t != null && b.t != null ? a.t - b.t : 0);
   const steps = d.steps.map(s => {
     const acr = d.acrEpisodes.filter(e => e.step === s.id);
     const acrHtml = acr.map(e => {
@@ -4189,7 +4426,7 @@ function dcRenderDebrief(){
     const dxs = s.dx ? [].concat(s.dx.given || []) : [];
     const dx = s.dx ? `<div class="dc-item"><span class="ic">${s.dx.ok ? '🩺' : '⚠️'}</span><div><b>Diagnostic : ${dxs.length ? dxs.map(x => escapeHtml(dcLabel(x)) + ([].concat(s.dx.expected).includes(x) ? ' ✓' : '')).join(' · ') : 'aucun'}</b>
       <div class="w">${s.dx.ok ? 'Juste' : 'Attendu'} · réponses acceptées : ${[].concat(s.dx.expected).map(x => escapeHtml(dcLabel(x))).join(', ')}</div></div><span class="pts">${s.dx.ok ? '+' + DC_DX_POINTS : ''}</span></div>` : '';
-    const items = s.items.slice().sort((a, b) => order[a.kind] - order[b.kind]).map(itemHtml).join('');
+    const items = s.items.slice().sort(sortT).map(itemHtml).join('');
     const compl = (d.sc.etapes.find(e => e.id === s.id) || {})._compl;
     return `<div class="dc-step"><h4>${compl ? '⚠️ Complication' : `Étape ${s.index + 1}`} · ${escapeHtml(s.titre)}</h4>${dx}${items || '<div class="hint">Aucune action.</div>'}${acrHtml}</div>`;
   }).join('');
@@ -4203,8 +4440,13 @@ function dcRenderDebrief(){
     <div class="dc-outcome ${out.cls}"><div class="t">${out.ic} ${out.t}</div><div class="s">${escapeHtml(out.s)}</div>
       <div class="s"><b style="color:var(--text)">${escapeHtml(d.sc.titre)}</b> · ${escapeHtml(d.sc.patient || '')}</div>${terrain}
       <div class="s">Note : <b style="color:var(--text)">${d.note}/20</b> (${d.pts} pts sur ${d.max} possibles) · ${(DC_MODES[d.mode] || DC_MODES.reel).ic} ${(DC_MODES[d.mode] || DC_MODES.reel).lb}</div></div>
+    ${vol ? `<div class="dc-vol">${vol}</div>` : ''}
+    <div class="dc-step dc-forts"><h4>💪 Points forts</h4>${forts.join('') || '<div class="hint">Aucun geste clé réalisé : commence par les axes ci-dessous.</div>'}</div>
+    <div class="dc-step dc-axes"><h4>🎯 À améliorer en priorité</h4>${top || '<div class="hint">Rien d’essentiel : prise en charge sans faute majeure.</div>'}
+      ${rest ? `<details><summary>Autres points (${axes.length - 3})</summary>${rest}</details>` : ''}</div>
+    ${chronoHtml ? `<details class="dc-step" open><summary><b>⏱ Chronologie</b></summary>${chronoHtml}</details>` : ''}
     <div class="dc-chart">${dcChartSvg(d)}</div>
-    ${steps}
+    <details class="dc-detail"><summary>📋 Détail action par action</summary>${steps}</details>
     <div class="hint">Source : ${escapeHtml([d.sc.source || '—', ...compSrc].join(' ; '))}</div>
     ${revHtml}
     ${d.terrain ? `<button class="btn" data-dc="proc">🎲 Autre patient aléatoire</button>` : ''}
