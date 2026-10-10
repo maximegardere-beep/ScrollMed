@@ -175,6 +175,24 @@
       ],
       "module": [
         {
+          "id": "clonazepam",
+          "dans": ["etat_de_mal_epileptique"],
+          "plus": { "SpO2": -3 },
+          "why": "BPCO sévère : les benzodiazépines dépriment davantage la ventilation de l'insuffisant respiratoire chronique. Elles restent le traitement de l'EME : O2 titré, aspiration, ventilation prête."
+        },
+        {
+          "id": "midazolam_im",
+          "dans": ["etat_de_mal_epileptique"],
+          "plus": { "SpO2": -3 },
+          "why": "BPCO sévère : les benzodiazépines dépriment davantage la ventilation de l'insuffisant respiratoire chronique. Elles restent le traitement de l'EME : O2 titré, aspiration, ventilation prête."
+        },
+        {
+          "id": "phenobarbital",
+          "dans": ["etat_de_mal_epileptique"],
+          "plus": { "SpO2": -3 },
+          "why": "BPCO sévère : après les benzodiazépines, le phénobarbital majore la dépression respiratoire. Préférer une 2e ligne sans effet ventilatoire (lévétiracétam)."
+        },
+        {
           "id": "o2_masque",
           "dans": [
             "depression_respiratoire_opioides"
