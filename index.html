@@ -2559,7 +2559,7 @@ function dcDoAction(id, confirmed){
   const entry = { t: G.t, id, etape, step: G.step.id, instable };
   if(ci && !ci.compte) entry.ci = true;   // "compte": le geste reste fait (intubation réussie malgré l'allergie)
   G.log.push(entry);
-  if(!dcIsRcp(a)) G.doneAll.add(id);
+  if(!dcIsRcp(a) && !(a.fin && !fin)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
   try { if(navigator.vibrate) navigator.vibrate(15); } catch(_){}   // seule vibration du geste (appui maintenu ou départ confirmé)
 
@@ -2617,7 +2617,8 @@ function dcDoAction(id, confirmed){
     if(spec.letal === 'acr'){ dcEnterAcr(a.label); dcRender(); return; }
   }
   if(fin && G.phase === 'step'){
-    // orientation : fin de la prise en charge, puis bilan
+    // orientation : fin de la prise en charge, puis bilan ; partir sans un geste vital de l'étape a la même issue que l'oublier
+    if(dcLetalSiManque(G.step, dcCurVisit())) return;
     const visit = dcCurVisit();
     visit.t1 = G.t; visit.dx = G.dx.slice(); visit.fin = id;
     G.orientation = { id, t: G.t, instable };
@@ -2764,20 +2765,7 @@ function dcValidate(confirmed){
   }
   const visit = dcCurVisit();
   visit.t1 = G.t; visit.dx = G.dx.slice();
-  const lsm = st.letal_si_manque;
-  // "etape": true : le geste doit avoir été fait pendant cette étape (une cardioversion antérieure ne réduit pas cette TV)
-  // "etape": liste des gestes concernés (ou true pour tous)
-  const lsmDone = e => {
-    const ids = Array.isArray(e) ? e : [e];
-    const inStep = lsm.etape === true || (Array.isArray(lsm.etape) && ids.some(x => lsm.etape.includes(x)));
-    return inStep ? G.log.some(l => ids.includes(l.id) && !l.ci && l.step === st.id && l.t >= visit.t0) : dcDoneEntry(e);
-  };
-  if(lsm && (lsm.actions || []).some(e => !lsmDone(e))){
-    if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return; }
-    dcEnterAcr(lsm.why || 'omission létale');
-    dcRender();
-    return;
-  }
+  if(dcLetalSiManque(st, visit)) return;
   // terrain : omission d'un geste ou constante hors limites → la complication passe avant la suite
   if(!st._compl && (dcTerrainOmission() || dcTerrainSeuil())){ dcRender(); return; }
   if(st._compl){
@@ -2798,6 +2786,24 @@ function dcValidate(confirmed){
   dcEnterStep(rule.vers);
   showToast(G.step.titre || 'Étape suivante');
   dcRender();
+}
+
+// omission létale de l'étape (à la validation, ou au départ par une orientation) : ACR ou décès ; true si elle a joué.
+// "etape": true : le geste doit avoir été fait pendant cette étape (une cardioversion antérieure ne réduit pas cette TV)
+// "etape": liste des gestes concernés (ou true pour tous)
+function dcLetalSiManque(st, visit){
+  const lsm = st.letal_si_manque;
+  if(!lsm) return false;
+  const lsmDone = e => {
+    const ids = Array.isArray(e) ? e : [e];
+    const inStep = lsm.etape === true || (Array.isArray(lsm.etape) && ids.some(x => lsm.etape.includes(x)));
+    return inStep ? G.log.some(l => ids.includes(l.id) && !l.ci && l.step === st.id && l.t >= visit.t0) : dcDoneEntry(e);
+  };
+  if(!(lsm.actions || []).some(e => !lsmDone(e))) return false;
+  if(lsm.issue === 'deces'){ dcDie(lsm.why || 'omission létale'); return true; }
+  dcEnterAcr(lsm.why || 'omission létale');
+  dcRender();
+  return true;
 }
 
 // ---------- notation ----------
@@ -4189,7 +4195,7 @@ function dcTileItems(){
   return out;
 }
 function dcTileCount(a){ return G.log.filter(l => l.id === a.id && (!dcIsRcp(a) || (G.acr && l.t >= G.acr.t))).length; }
-function dcTileDone(a, n){ return a.type !== 'diagnostic' && !dcRepeatable(a) && (n == null ? dcTileCount(a) : n) > 0; }
+function dcTileDone(a, n){ return a.type !== 'diagnostic' && !dcRepeatable(a) && !a.fin && (n == null ? dcTileCount(a) : n) > 0; }
 // catégories d'abord, gestes déjà faits (non répétables) en fin de niveau ; tri stable
 function dcTileSort(items){
   const rank = it => it.cat ? 0 : dcTileDone(it.leaf) ? 2 : 1;
