@@ -20,7 +20,8 @@
       "fa_anticoagulee",
       "bpco",
       "coronarien",
-      "double_antiagregation"
+      "double_antiagregation",
+      "iot_difficile"
     ],
     "identite": {
       "sexe": [
@@ -57,6 +58,11 @@
     "PAS": 50,
     "SpO2": 70
   },
+  "hemodynamique": {
+    "reserve_ml": 3000,
+    "oap_ml": 6000,
+    "why": "Déshydratation majeure de l'acidocétose (diurèse osmotique, vomissements : déficit souvent supérieur à 5 litres, consensus 2024) : la précharge-dépendance persiste après plusieurs litres. Au-delà, des bolus rapides non réévalués finissent par surcharger."
+  },
   "resultats": {
     "scope": "Tachycardie sinusale régulière.",
     "ecg": "Tachycardie sinusale à 126/min. **Ondes T amples et pointues** en précordiales, QRS fins, PR normal.",
@@ -72,15 +78,29 @@
     "hemoc": "Prélevées. Résultats dans 24 à 48 h.",
     "ecbu": "Bandelette : **glycosurie et cétonurie massives**, pas de leucocytes ni de nitrites.",
     "sonde_u": "**Polyurie** : 300 mL d'urines claires à la pose, **glycosurie et cétonurie massives**.",
-    "ett": "VG hyperkinétique, FEVG 70 %. **VCI de 8 mm, collabée** à l'inspiration.",
+    "ett": [
+      {
+        "si": {
+          "precharge": true
+        },
+        "texte": "VG hyperkinétique, FEVG 70 %. **VCI de 8 mm, collabée** à l'inspiration.",
+        "schema": {
+          "type": "ett",
+          "vg": "hyperkinetique",
+          "vci": "collabee"
+        }
+      },
+      {
+        "texte": "VG de cinétique normale, FEVG 65 %. VCI de 17 mm, compliante : la volémie est restaurée, un bolus de plus n'augmentera pas le débit cardiaque.",
+        "schema": {
+          "type": "ett",
+          "vci": "normale"
+        }
+      }
+    ],
     "rp": "Pas de foyer, pas d'épanchement."
   },
   "schemas": {
-    "ett": {
-      "type": "ett",
-      "vg": "hyperkinetique",
-      "vci": "collabee"
-    },
     "rp": {
       "type": "rp"
     }
@@ -219,6 +239,10 @@
           "note": "debattu",
           "why": "Peut confirmer l'hypovolémie (VCI collabée) ; utile surtout chez le cardiaque."
         },
+        "lever_jambes": {
+          "note": "debattu",
+          "why": "Hypovolémie évidente (vomissements, diurèse osmotique, muqueuses sèches) : le remplissage n'attend pas le test. Le lever de jambes sert ensuite à décider s'il faut poursuivre les bolus, surtout chez le cardiaque."
+        },
         "ktc": {
           "note": "debattu",
           "why": "Pas nécessaire d'emblée : les voies périphériques suffisent."
@@ -276,7 +300,7 @@
         "reanimation": {
           "note": "recommande",
           "fin": false,
-          "why": "Acidocétose sévère (bicarbonates < 10, cétonémie > 6, tachycardie > 100) : surveillance continue en réanimation ou soins intensifs (JBDS)."
+          "why": "Acidocétose sévère (bicarbonates < 10, cétonémie > 6, tachycardie > 100) : surveillance continue en réanimation ou soins intensifs (JBDS). Prévenir dès maintenant ; le transfert se fera une fois le traitement lancé et la kaliémie surveillée."
         },
         "isr_etomidate": {
           "note": "contre_indique",
@@ -359,13 +383,40 @@
           "vers": "e1_aggrav"
         },
         {
-          "vers": "e2"
+          "vers": "e2_aggrav"
         }
       ]
     },
     {
       "id": "e1_aggrav",
       "titre": "Collapsus",
+      "declencheur": [
+        {
+          "apres": 20,
+          "si": {
+            "manque": [
+              [
+                "remp_cristal",
+                "remp_nacl"
+              ]
+            ]
+          },
+          "dans": [
+            "e1"
+          ]
+        },
+        {
+          "apres": 8,
+          "si": {
+            "PAS": {
+              "max": 75
+            }
+          },
+          "dans": [
+            "e1"
+          ]
+        }
+      ],
       "vignette": "Vingt minutes plus tard : la patiente ne répond plus qu'à la douleur, marbrée, extrémités froides. La respiration reste ample et rapide. Elle vomit encore.",
       "chrono": 90,
       "constantes": {
@@ -542,43 +593,83 @@
       },
       "suite": [
         {
-          "vers": "e2"
+          "vers": "e2_aggrav"
         }
       ]
     },
     {
-      "id": "e2",
-      "titre": "Contrôle à H+2",
-      "vignette": "Deux heures plus tard. Deux litres de cristalloïde sont passés, l'insuline IVSE tourne à 0,1 UI/kg/h. La patiente est mieux réveillée, la respiration se calme. L'infirmière demande : « On continue pareil ? »",
+      "id": "e2_aggrav",
+      "titre": "Hypokaliémie sous insuline",
+      "declencheur": [
+        {
+          "apres": 30,
+          "si": {
+            "fait": [
+              "insuline_ivse",
+              [
+                "remp_cristal",
+                "remp_nacl"
+              ]
+            ],
+            "manque": [
+              "kcl_iv"
+            ]
+          },
+          "dans": [
+            "e1",
+            "e1_aggrav"
+          ]
+        }
+      ],
+      "vignette": "Une heure plus tard. Sous insuline et réhydratation, la patiente est mieux réveillée et respire plus calmement. Elle se plaint maintenant de crampes et d'une faiblesse des jambes ; le scope montre des extrasystoles ventriculaires en doublets. L'insuline passe toujours. L'infirmière demande : « On continue pareil ? »",
       "chrono": 90,
       "constantes": {
-        "FC": 104,
+        "FC": 122,
         "FR": 22,
         "GCS": 15
       },
       "pente": {
-        "FC": 0
+        "FC": 0.5
       },
       "diagnostic": [
         "dx_acidocetose"
       ],
       "resultats": {
-        "iono": "Na 138 mmol/L · K⁺ 3,8 mmol/L (sous insuline) · Cl⁻ 108 mmol/L · **HCO3⁻ 12 mmol/L** · **trou anionique 18 mmol/L** · créatinine 96 µmol/L.",
-        "gds": "**pH 7,25** · **PaCO2 28 mmHg** · **HCO3⁻ 12 mmol/L** · K⁺ 3,7 mmol/L.",
-        "glycemie": "**Glycémie 2,3 g/L** (12,8 mmol/L).",
-        "cetonemie": "**β-hydroxybutyrate 2,9 mmol/L**.",
-        "ecg": "Rythme sinusal à 104/min. **Ondes T aplaties**, QRS fins."
+        "iono": "**K⁺ 2,6 mmol/L** · **Mg 0,55 mmol/L** · **HCO3⁻ 14 mmol/L** · Na 139 mmol/L.",
+        "gds": "**pH 7,28** · **HCO3⁻ 14 mmol/L** · **K⁺ 2,5 mmol/L**.",
+        "glycemie": "**Glycémie 2,1 g/L**.",
+        "ecg": "Rythme sinusal à 122/min. **Ondes U**, **sous-décalage du ST**, **QT(U) allongé**, **extrasystoles ventriculaires polymorphes en doublets**.",
+        "scope": "**Extrasystoles ventriculaires en doublets**.",
+        "cetonemie": "**β-hydroxybutyrate 2,9 mmol/L**."
       },
       "actions": {
+        "kcl_iv": {
+          "note": "indispensable",
+          "refaire": true,
+          "why": "K⁺ 2,6 mmol/L avec extrasystoles : potassium IV sous scope, jusqu'à 20 mmol/h, plus vite en cas d'arythmie menaçante (ERC 2021). Sous insuline, la kaliémie chute vite : le potassium s'ajoute aux solutés dès qu'elle passe sous 5 mmol/L, pour la tenir entre 4 et 5 ; sous 3,5 mmol/L, l'insuline est suspendue jusqu'à la recharge (consensus 2024)."
+        },
+        "mgso4": {
+          "note": "recommande",
+          "why": "Magnésium IV : l'hypomagnésémie, fréquente dans l'acidocétose, entretient l'hypokaliémie et les arythmies (ERC 2021)."
+        },
         "iono": {
           "note": "indispensable",
           "refaire": true,
-          "why": "Kaliémie toutes les 1 à 2 h sous insuline : le potassium entre dans les cellules et le déficit, masqué à l'arrivée, apparaît."
+          "why": "Kaliémie toutes les 1 à 2 h sous insuline : le potassium entre dans les cellules et le déficit, masqué à l'arrivée, apparaît. Ici, hypokaliémie profonde et hypomagnésémie."
+        },
+        "ecg": {
+          "note": "recommande",
+          "refaire": true,
+          "why": "Ondes U, sous-décalage du ST, QT allongé, extrasystoles en doublets : hypokaliémie menaçante, risque de torsade de pointes."
         },
         "glycemie": {
           "note": "indispensable",
           "refaire": true,
           "why": "Glycémie horaire sous insuline : elle fixe le moment d'ajouter le glucosé."
+        },
+        "glucose_iv": {
+          "note": "indispensable",
+          "why": "Glycémie passée sous 2,5 g/L (13,9 mmol/L) : ajouter du glucosé à 5-10 % et poursuivre l'insuline jusqu'à la résolution de la cétose (consensus 2024). Arrêter l'insuline, c'est relancer l'acidocétose."
         },
         "cetonemie": {
           "note": "recommande",
@@ -588,20 +679,6 @@
         "gds": {
           "note": "debattu",
           "why": "Un pH veineux suffit au suivi."
-        },
-        "ecg": {
-          "note": "recommande",
-          "refaire": true,
-          "why": "Ondes T aplaties : premier signe ECG de l'hypokaliémie."
-        },
-        "kcl_iv": {
-          "note": "indispensable",
-          "refaire": true,
-          "why": "K⁺ 3,8 mmol/L sous insuline : potassium dans les solutés (20 à 30 mmol par litre) pour tenir la kaliémie entre 4 et 5 mmol/L (consensus 2024). Sous 3,5 mmol/L, potassium d'abord et insuline suspendue."
-        },
-        "glucose_iv": {
-          "note": "indispensable",
-          "why": "Glycémie < 2,5 g/L (13,9 mmol/L) : ajouter du glucosé à 5-10 % et poursuivre l'insuline jusqu'à la résolution de la cétose (consensus 2024). Arrêter l'insuline, c'est relancer l'acidocétose."
         },
         "remp_cristal": {
           "note": "recommande",
@@ -621,17 +698,25 @@
             "PAS": 4
           }
         },
+        "ktc": {
+          "note": "debattu",
+          "why": "Voie centrale pour un potassium concentré ; ne doit pas retarder la correction par voie périphérique."
+        },
         "reanimation": {
-          "note": "recommande",
-          "why": "Acidocétose sévère : surveillance continue en réanimation ou soins intensifs jusqu'à la résolution (JBDS)."
+          "note": "indispensable",
+          "why": "Acidocétose sévère (cétonémie > 6 mmol/L, tachycardie > 100/min) compliquée d'une hypokaliémie menaçante : réanimation ou soins intensifs, scope continu, kaliémie et glycémie toutes les 1 à 2 h jusqu'à la résolution de la cétose (JBDS ; consensus 2024)."
+        },
+        "amiodarone": {
+          "note": "inutile",
+          "why": "Les extrasystoles de l'hypokaliémie se traitent par le potassium et le magnésium ; l'amiodarone allonge encore le QT."
         },
         "bicar_mol": {
           "note": "inutile",
-          "why": "pH 7,25 : aucune indication, et le bicarbonate aggrave l'hypokaliémie."
+          "why": "pH 7,28 : aucune indication, et le bicarbonate aggrave l'hypokaliémie."
         },
         "bicar_iso": {
           "note": "inutile",
-          "why": "pH 7,25 : aucune indication, et le bicarbonate aggrave l'hypokaliémie."
+          "why": "pH 7,28 : aucune indication, et le bicarbonate aggrave l'hypokaliémie."
         },
         "furosemide": {
           "note": "contre_indique",
@@ -639,93 +724,6 @@
           "effet": {
             "PAS": -4
           }
-        },
-        "insuline_glucose": {
-          "note": "contre_indique",
-          "why": "Un bolus d'insuline ferait chuter une kaliémie déjà à 3,8 mmol/L."
-        }
-      },
-      "acr": {
-        "rythme": "FV",
-        "ecg": "fv",
-        "requis": [
-          "mce",
-          "choc_ext",
-          "kcl_iv"
-        ],
-        "why": "FV sur dyskaliémie : chocs électriques, RCP, et correction du potassium (ERC 2021).",
-        "apres_racs": {
-          "FC": 110,
-          "PAS": 100,
-          "PAD": 58,
-          "SpO2": 96
-        }
-      },
-      "suite": [
-        {
-          "si_manque": [
-            "kcl_iv"
-          ],
-          "vers": "e2_aggrav"
-        },
-        {
-          "vers": "fin"
-        }
-      ]
-    },
-    {
-      "id": "e2_aggrav",
-      "titre": "Hypokaliémie",
-      "vignette": "Quarante minutes plus tard, la patiente se plaint de crampes et d'une faiblesse des jambes. Le scope montre des extrasystoles ventriculaires en doublets. L'insuline et les solutés passent toujours, sans potassium.",
-      "chrono": 75,
-      "constantes": {
-        "FC": 122,
-        "FR": 22
-      },
-      "pente": {
-        "FC": 0.5
-      },
-      "diagnostic": [
-        "dx_acidocetose"
-      ],
-      "resultats": {
-        "iono": "**K⁺ 2,6 mmol/L** · **Mg 0,55 mmol/L** · **HCO3⁻ 14 mmol/L** · Na 139 mmol/L.",
-        "gds": "**pH 7,28** · **HCO3⁻ 14 mmol/L** · **K⁺ 2,5 mmol/L**.",
-        "glycemie": "**Glycémie 2,1 g/L**.",
-        "ecg": "Rythme sinusal à 122/min. **Ondes U**, **sous-décalage du ST**, **QT(U) allongé**, **extrasystoles ventriculaires polymorphes en doublets**.",
-        "scope": "**Extrasystoles ventriculaires en doublets**."
-      },
-      "actions": {
-        "kcl_iv": {
-          "note": "indispensable",
-          "refaire": true,
-          "why": "K⁺ 2,6 mmol/L avec extrasystoles : potassium IV sous scope, jusqu'à 20 mmol/h, plus vite en cas d'arythmie menaçante (ERC 2021). Insuline suspendue tant que K⁺ < 3,5 mmol/L (consensus 2024)."
-        },
-        "mgso4": {
-          "note": "recommande",
-          "why": "Magnésium IV : l'hypomagnésémie, fréquente dans l'acidocétose, entretient l'hypokaliémie et les arythmies (ERC 2021)."
-        },
-        "ecg": {
-          "note": "recommande",
-          "refaire": true,
-          "why": "Ondes U, sous-décalage du ST, QT allongé : risque de torsade de pointes."
-        },
-        "iono": {
-          "note": "recommande",
-          "refaire": true,
-          "why": "Contrôle rapproché de la kaliémie pendant la recharge."
-        },
-        "ktc": {
-          "note": "debattu",
-          "why": "Voie centrale pour un potassium concentré ; ne doit pas retarder la correction par voie périphérique."
-        },
-        "amiodarone": {
-          "note": "inutile",
-          "why": "Les extrasystoles de l'hypokaliémie se traitent par le potassium et le magnésium ; l'amiodarone allonge encore le QT."
-        },
-        "reanimation": {
-          "note": "recommande",
-          "why": "Hypokaliémie menaçante sous insuline : réanimation, scope continu."
         },
         "insuline_glucose": {
           "note": "contre_indique",

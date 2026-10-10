@@ -104,7 +104,7 @@
       "ci": [
         {
           "classe": "remplissage",
-          "dans": ["acidocetose_diabetique/e2"],
+          "dans": ["acidocetose_diabetique/e2_aggrav"],
           "compte": true,
           "why": "FEVG à 30 % : la volémie est restaurée après le premier litre. Plus de bolus : le minimum de soluté pour l'insuline, le glucosé et le potassium. Chaque bolus en plus rapproche de l'OAP."
         }
@@ -547,7 +547,7 @@
         },
         {
           "classe": "remplissage",
-          "dans": ["acidocetose_diabetique/e2"],
+          "dans": ["acidocetose_diabetique/e2_aggrav"],
           "compte": true,
           "why": "Dialysée anurique : sans diurèse osmotique, le déficit hydrique est moindre et rien n'est éliminé. Après le premier litre, plus de bolus : le minimum de soluté pour l'insuline, le glucosé et le potassium. Chaque bolus en plus rapproche de l'OAP."
         }
@@ -596,10 +596,8 @@
         "bav_complet_degeneratif/iono": "Na 136 mmol/L · **K⁺ {6,0~6,4} mmol/L** · **urée {22~30} mmol/L** · **créatinine {700~900} µmol/L** (dialysé, dernière séance avant-hier).",
         "acidocetose_diabetique/iono": "Na 126 mmol/L (natrémie corrigée 134) · **K⁺ 5,7 mmol/L** · Cl⁻ 93 mmol/L · **HCO3⁻ 5 mmol/L** · **trou anionique 28 mmol/L** · **urée {24~32} mmol/L** · **créatinine {780~950} µmol/L** (dialysée).",
         "acidocetose_diabetique/e1_aggrav/iono": "Na 124 mmol/L · **K⁺ 6,0 mmol/L** · Cl⁻ 91 mmol/L · **HCO3⁻ 3 mmol/L** · **trou anionique 30 mmol/L** · **créatinine {800~980} µmol/L** (dialysée).",
-        "acidocetose_diabetique/e2/iono": "Na 136 mmol/L · K⁺ 3,8 mmol/L (vomissements, diarrhée et transfert sous insuline) · Cl⁻ 106 mmol/L · **HCO3⁻ 12 mmol/L** · **trou anionique 18 mmol/L** · **urée {22~30} mmol/L** · **créatinine {760~920} µmol/L** (dialysée).",
         "acidocetose_diabetique/e2_aggrav/iono": "**K⁺ 2,6 mmol/L** · **Mg 0,55 mmol/L** · **HCO3⁻ 14 mmol/L** · **créatinine {760~920} µmol/L** (dialysée).",
         "acidocetose_diabetique/glycemie": "**Glycémie 6,2 g/L** (34 mmol/L) : sans glycosurie, l'anurique n'élimine pas le glucose.",
-        "acidocetose_diabetique/e2/glycemie": "**Glycémie 1,7 g/L** : baisse plus rapide, la clairance de l'insuline est réduite chez la dialysée.",
         "acidocetose_diabetique/e2_aggrav/glycemie": "**Glycémie 1,5 g/L**.",
         "acidocetose_diabetique/sonde_u": "Vessie vide : anurie connue (dialysée). Pas de diurèse osmotique."
       },
