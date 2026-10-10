@@ -195,6 +195,22 @@
           ],
           "why": "FA rapide chez un patient en choc : cardioversion électrique en urgence si l'arythmie participe à l'instabilité (ESC 2024, FA). Sur une FA permanente, le retour durable en sinusal est peu probable : la reperfusion reste la priorité."
         }
+      ],
+      "ci": [
+        {
+          "id": "cardioversion",
+          "dans": [
+            "hematome_cervical"
+          ],
+          "why": "FA permanente : la FA rapide est ici réactionnelle à l'hypoxie et ne se réduira pas durablement (ESC 2024, FA). Surtout, la sédation de la cardioversion supprime le tonus pharyngé sur des voies aériennes comprimées : obstruction complète. Traiter la cause : évacuer l'hématome."
+        },
+        {
+          "classe": "anticoagulant",
+          "dans": [
+            "hematome_cervical"
+          ],
+          "why": "Hématome cervical en cours d'hémostase : pas d'anticoagulation curative. Reprise décidée avec le chirurgien une fois l'hémostase assurée, en général 48 à 72 h après une chirurgie à haut risque hémorragique (EHRA 2021, anticoagulants oraux directs)."
+        }
       ]
     },
     {
@@ -226,6 +242,15 @@
           "classe": "intubation",
           "complication": "cico",
           "why": "Intubation et ventilation au masque difficiles connues : induire et curariser avant d'avoir sécurisé les voies aériennes expose à la situation « ni intubation, ni oxygénation ». Intubation vigile sous fibroscopie (SFAR 2017)."
+        },
+        {
+          "id": "iot_fibro_vigile",
+          "dans": [
+            "hematome_cervical/e1",
+            "hematome_cervical/e1_aggrav",
+            "hematome_cervical/e2_aggrav"
+          ],
+          "why": "Intubation difficile connue, mais la compression ou l'œdème progressent : une fibroscopie vigile prend trop de temps et l'hypoxie s'installe. Ouvrir la cicatrice d'abord, puis abord trachéal si l'oxygénation n'est pas rétablie (DAS/BAETS/ENT UK 2022 ; DAS 2015). La fibroscopie vigile se discute une fois l'hématome évacué."
         }
       ],
       "promeut": [
@@ -363,6 +388,16 @@
             "SpO2": -4
           },
           "why": "Obésité : capacité résiduelle fonctionnelle réduite, désaturation rapide pendant l'apnée d'intubation."
+        },
+        {
+          "id": "cricothyro",
+          "dans": [
+            "hematome_cervical"
+          ],
+          "effet": {
+            "SpO2": 0.6
+          },
+          "why": "Obésité : membrane cricothyroïdienne non palpable. Incision cutanée verticale, dissection au doigt, puis scalpel-bougie-sonde (DAS 2015) : le geste est plus long, l'oxygénation revient plus tard."
         }
       ],
       "promeut": [
@@ -457,6 +492,15 @@
             "perop"
           ],
           "why": "Hémorragie grave sous double antiagrégation : transfusion plaquettaire discutée, d'efficacité réduite sous ticagrélor circulant. Ne pas arrêter l'antiagrégation sans avis cardiologique."
+        }
+      ],
+      "ci": [
+        {
+          "id": "arret_ttt",
+          "dans": [
+            "hematome_cervical"
+          ],
+          "why": "Stent actif posé il y a 3 mois : arrêter les antiagrégants expose à la thrombose de stent, souvent fatale. L'hématome se traite par l'évacuation et l'hémostase chirurgicale ; l'aspirine est maintenue, et toute décision sur le ticagrélor est prise avec le cardiologue (ESC 2022, chirurgie non cardiaque)."
         }
       ],
       "tags": [
@@ -635,6 +679,13 @@
         {
           "id": "thiamine",
           "why": "Éthylisme chronique : thiamine IV avant tout apport glucosé, pour prévenir l'encéphalopathie de Gayet-Wernicke (EFNS 2010)."
+        },
+        {
+          "id": "fibrinogene",
+          "dans": [
+            "hematome_cervical"
+          ],
+          "why": "Cirrhose : fibrinogène < 1,5 g/L chez un patient qui saigne. Concentré de fibrinogène pour viser au moins 1,5 g/L, en complément de l'hémostase chirurgicale (ESAIC 2023, saignement périopératoire)."
         }
       ],
       "resultats": {
@@ -649,7 +700,8 @@
         "hemorragie_perop/e2/tp_tca": "**TP 31 %** · **TCA 1,8** · **fibrinogène {0,6~0,9} g/L**.",
         "choc_septique_pna/nfs": "**Leucocytes 21 G/L** · Hb 10,6 g/dL · **plaquettes 54 G/L**.",
         "choc_septique_pna/tp_tca": "**TP 41 %** · **TCA 1,4** · fibrinogène 2,4 g/L.",
-        "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**."
+        "isr_occlusion/nfs": "Hb 13,4 g/dL (hémoconcentration) · leucocytes 12 G/L · **plaquettes 70 G/L**.",
+        "hematome_cervical/tp_tca": "**TP {45~55} %** · TCA 1,2 · **fibrinogène {1,1~1,4} g/L** (insuffisance hépatocellulaire)."
       },
       "tags": [
         "cirrhose",
@@ -736,7 +788,8 @@
       "fiche": "Warfarine (AVK), INR cible 2 à 3",
       "resultats": {
         "tp_tca": "**TP 21 %** · **INR 3,6** (AVK) · **TCA 1,4** · fibrinogène 5,0 g/L.",
-        "choc_hemorragique_bassin/tp_tca": "**TP 18 %** · **INR 4,1** (AVK) · **TCA 1,6** · **fibrinogène 1,1 g/L**."
+        "choc_hemorragique_bassin/tp_tca": "**TP 18 %** · **INR 4,1** (AVK) · **TCA 1,6** · **fibrinogène 1,1 g/L**.",
+        "hematome_cervical/tp_tca": "TP {78~92} % · INR {1,0~1,2} (warfarine arrêtée 5 jours avant l'intervention) · TCA 1,0 · fibrinogène 3,6 g/L."
       },
       "promeut": [
         {
