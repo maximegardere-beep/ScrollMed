@@ -9,13 +9,18 @@
   "voies": ["IV"],
   "titration": { "noradre": { "max": { "IV": 1, "VVC": 1 } } },
   "constantes": { "FC": 116, "PAS": 86, "PAD": 50, "SpO2": 99, "FR": 14, "T": 36.1, "EtCO2": 30 },
+  "hemodynamique": { "reserve_ml": 3000, "oap_ml": 6000, "why": "Hypovolémie par saignement : précharge-dépendant tant que les pertes ne sont pas compensées. Au-delà, surcharge circulatoire (TACO), d'autant que les cristalloïdes diluent la coagulation (ESAIC 2022)." },
   "resultats": {
     "hemocue": "**Hémoglobine capillaire {7,6~8,6} g/dL**.",
     "nfs": "**Hb {7,6~8,6} g/dL** · plaquettes {150~190} G/L.",
     "tp_tca": "TP 72 % · TCA 1,1 · fibrinogène {2,0~2,6} g/L.",
     "gds": "**pH 7,31** · PaCO2 38 mmHg · **lactates 3,1 mmol/L** · **Ca²⁺ ionisé 1,02 mmol/L**.",
     "ttem": "Pas de coagulopathie à ce stade : EXTEM et FIBTEM normaux.",
-    "groupe_rai": "Groupe O RhD positif, RAI négatives (bilan préopératoire)."
+    "groupe_rai": "Groupe O RhD positif, RAI négatives (bilan préopératoire).",
+    "ett": [
+      { "si": { "precharge": true }, "texte": "Coupes limitées (décubitus latéral) : petites cavités hyperkinétiques, **VCI collabée**.", "schema": { "type": "ett", "vg": "petit", "vci": "collabee" } },
+      { "texte": "Coupes limitées (décubitus latéral) : cavités remplies, cinétique normale. VCI dilatée, peu compliante.", "schema": { "type": "ett", "vci": "dilatee" } }
+    ]
   },
   "etapes": [
     {
@@ -36,19 +41,28 @@
         "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Cristalloïdes en attendant les produits sanguins, sans excès ; préférer les solutés balancés.", "effet": { "PAS": 5 } },
         "noradre": { "note": "debattu", "why": "Vasopresseur pour passer un cap, sans masquer l'hypovolémie : la cible reste la volémie et l'hémostase." },
         "phenylephrine": { "note": "debattu", "why": "Bolus pour passer un cap pendant que les produits sanguins arrivent.", "effet": { "PAS": 8 } },
-        "kta": { "note": "recommande", "why": "PA invasive : suivi battement par battement et prélèvements répétés." },
         "hemocue": { "note": "recommande", "why": "Hémoglobine au lit, répétable : guide la transfusion." },
         "gds": { "note": "recommande", "why": "Gaz du sang : lactates, pH, calcium ionisé." },
         "rechauffement": { "note": "recommande", "why": "Maintenir la normothermie : l'hypothermie aggrave la coagulopathie (ESAIC 2022)." },
+        "kta": { "note": "recommande", "why": "PA invasive : suivi battement par battement et prélèvements répétés." },
         "ktc": { "note": "inutile", "why": "Pas le moment de poser un cathéter central : la VVP de bon calibre suffit pour transfuser." },
         "albumine": { "note": "inutile", "why": "Pas de place pour l'albumine dans l'hémorragie aiguë : produits sanguins." },
-        "hes": { "note": "contre_indique", "why": "Hydroxyéthylamidons : troubles de l'hémostase et néphrotoxicité." }
+        "hes": { "note": "contre_indique", "why": "Hydroxyéthylamidons : troubles de l'hémostase et néphrotoxicité." },
+        "ett": { "note": "debattu", "why": "Peu praticable en décubitus latéral, champ opératoire en place ; l'échocardiographie transœsophagienne est l'outil peropératoire. Elle ne doit pas retarder la transfusion." },
+        "lever_jambes": { "note": "inutile", "why": "Irréalisable pendant l'intervention, et inutile : la précharge-dépendance ne fait aucun doute pendant une hémorragie active." }
       },
-      "suite": [ { "si_manque": [["ptm", "cgr_od"]], "vers": "e1_aggrav" }, { "vers": "e2" } ]
+      "suite": [
+        { "si_manque": [["ptm", "cgr_od"]], "vers": "e1_aggrav" },
+        { "vers": "e2" }
+      ]
     },
     {
       "id": "e1_aggrav",
       "titre": "Désamorçage",
+      "declencheur": [
+        { "apres": 10, "si": { "manque": [["ptm", "cgr_od"]] }, "dans": ["e1"] },
+        { "apres": 3, "si": { "PAS": { "max": 60 } }, "dans": ["e1"] }
+      ],
       "vignette": "Les aspirations dépassent 2,5 L. EtCO2 à 18 mmHg, pouls filant, la PA est à peine mesurable.",
       "chrono": 60,
       "constantes": { "PAS": 58, "PAD": 32, "FC": 142, "EtCO2": 18 },
@@ -63,11 +77,14 @@
       },
       "letal_si_manque": { "actions": [["cgr_od", "ptm"]], "issue": "acr", "why": "Hémorragie massive non transfusée : arrêt par désamorçage." },
       "acr": { "rythme": "AESP (hypovolémie)", "requis": ["mce", "cgr_od"], "why": "Arrêt hypovolémique : massage, transfusion massive et hémostase chirurgicale ; l'adrénaline passe après (ERC 2021)." },
-      "suite": [ { "vers": "e2" } ]
+      "suite": [
+        { "vers": "e2" }
+      ]
     },
     {
       "id": "e2",
       "titre": "Coagulopathie",
+      "declencheur": { "apres": 20, "si": { "fait": ["compression_chir", ["ptm", "cgr_od"]] }, "dans": ["e1", "e1_aggrav"] },
       "vignette": "La veine cave est clampée et suturée. 3 L de pertes au total. Le chirurgien voit maintenant un saignement en nappe sur toute la loge.",
       "chrono": 90,
       "pente": { "PAS": -0.8, "FC": 0.4, "T": -0.03 },
@@ -89,9 +106,12 @@
         "rechauffement": { "note": "recommande", "why": "Hypothermie qui s'installe : réchauffer patient et produits sanguins." },
         "exacyl": { "note": "recommande", "why": "Si elle n'a pas été faite : acide tranexamique 1 g." },
         "gds": { "note": "recommande", "refaire": true, "why": "Contrôle : lactates, pH, calcium ionisé." },
-        "bicar_mol": { "note": "inutile", "why": "L'acidose se corrige avec la restauration de la perfusion, pas avec le bicarbonate." }
+        "bicar_mol": { "note": "inutile", "why": "L'acidose se corrige avec la restauration de la perfusion, pas avec le bicarbonate." },
+        "reanimation": { "note": "indispensable", "why": "Fin d'intervention après une hémorragie massive transfusée : surveillance en réanimation (reprise du saignement, coagulation, hypothermie, complications transfusionnelles)." }
       },
-      "suite": [ { "vers": "fin" } ]
+      "suite": [
+        { "vers": "fin" }
+      ]
     }
   ]
 }
