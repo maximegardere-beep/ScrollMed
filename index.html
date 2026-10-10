@@ -2826,7 +2826,8 @@ function dcNoteFor(id, stepId){
   const ci = dcTerrainCi(id, stepId);
   if(ci) return { note: 'contre_indique', why: ci.why, terrain: ci.src, orig: base ? base.note : null };
   const pr = dcRuleFind('promeut', id, stepId);
-  if(pr && !(base && ['indispensable', 'recommande'].includes(base.note)))
+  // une promotion ne relève pas une action que la trame juge contre-indiquée (fibroscopie vigile sur un patient qui désature…)
+  if(pr && !(base && ['indispensable', 'recommande', 'contre_indique'].includes(base.note)))
     return Object.assign({}, base || {}, { note: 'recommande', why: pr.why, terrain: pr.src, orig: base ? base.note : 'inutile', adapte: true });
   return base;
 }

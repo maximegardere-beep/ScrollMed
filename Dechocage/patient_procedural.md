@@ -145,12 +145,20 @@ Document tenu à jour au fil des QCM de conception. Chaque décision est datée 
 - **D64** : débriefing : points forts en tête (indispensables faits avec l'heure, diagnostics justes, pièges évités, ACR récupérés, gestes recommandés, orientation stable), puis au plus 3 axes par priorité, chronologie, bilan entrées ; détail action par action replié. `delai` sur l'action d'étape, sans effet sur la note.
 - **D65** : reste la conversion des 14 trames (unité 4) : supprimer les étapes « H+30 : et ensuite ? », passer les aggravations en `declencheur`, renseigner `hemodynamique`, ETT conditionnelles, `delai` (ATB, transfusion…), `effet` par défaut des remplissages ; puis `hemodynamique` des terrains FEVG altérée et IRC dialysée à la place de leur OAP au 3e bolus.
 
+- **D66** (unité 4, conversion des 14 trames) : étapes « H+30 / réévaluation / contrôle » fondues dans l'étape d'accueil (sepsis, choc hémorragique, EP, hyperkaliémie, BAV, acidocétose « Contrôle à H+2 », hématome « Reprise au bloc ») ; aggravations en `declencheur` (temps, constantes, geste manquant) dans les 14 trames ; `hemodynamique` des états de choc et des trames où le remplissage compte (EP réserve 0 / OAP 1,5 L, STEMI 0 / 1 L, sepsis 2 / 4,5 L, bassin 4 / 6 L…), ETT conditionnelles ; `delai` : ATB ≤ 60 min et réa ≤ 6 h (SSC 2021), acide tranexamique ≤ 3 h (CRASH-2), ECG ≤ 10 min (ESC 2023). Hyperkaliémie : terrains à bêtabloquant exclus (D58) ; STEMI : plus de `si_instable` sur le départ en salle (la salle est le traitement), fin par la validation « Partir en salle ». Moteur : un tournant applique d'abord l'évolution en attente (temps fixé) ; une orientation qui n'a pas terminé la partie reste refaisable ; partir sans un geste du `letal_si_manque` de l'étape a la même issue que valider sans lui ; une promotion de terrain ne relève plus une action que la trame juge contre-indiquée.
+
 ## Écarts relevés le 2026-10-10 (à corriger)
 - [ ] **D58. Bêtabloquants cumulés** : coronarien + cirrhose tirent bisoprolol et propranolol, décalages de FC additionnés (−45/min). Le moteur devrait regrouper les traitements d'une même classe. L'hyperkaliémie (FC 42) n'exclut pas ces terrains : FC possible vers 17.
 - [ ] **D59. CI de terrain et `suite`** : une action attendue par la trame mais contre-indiquée par le terrain, non faite, déclenche quand même `suite.si_manque` (KCl chez la dialysée dans l'acidocétose).
 - [ ] Antécédents « bruit » sans âge (hystérectomie en 2005 chez une femme de 28 ans).
 - [ ] Un geste fait pendant une complication n'a que l'effet prévu par la complication (EES pendant une ischémie).
 - [ ] La promotion de la VNI chez le SAOS en contexte `rea` s'applique aussi à l'hématome cervical (VNI « recommandée » en pleine compression) : la limiter à `sspi_curarisation`.
+- [ ] Choc septique : partir en réa sans drainage ne coûte qu'un oubli (−3) ; le décès du choc réfractaire n'est pas appliqué (ajouter `uro_drainage` à un `letal_si_manque` ?).
+- [ ] Complication `oap` : VNI indispensable, mal adaptée à l'EP (VNI débattue).
+- [ ] Les ETT fixes des terrains FEVG altérée et RA serré l'emportent sur les ETT conditionnelles (acidocétose, plaie thoracique après péricardiocentèse) : les écrire en listes conditionnelles.
+- [ ] Orientations manquantes au catalogue : « Poursuite de l'intervention » (ISR), « Sortie de SSPI », « Surveillance continue / SSPI prolongée » (dépression morphinique).
+- [ ] Hématome cervical, étape « Œdème laryngé » en temps réel : l'induction (10 min) ne se termine presque jamais avant l'ACR.
+- [ ] Sources à vérifier par l'utilisateur (conversion) : SFAR 2012 remplissage périopératoire (ISR), guideline européen 2023 (choc hémorragique), ESAIC 2022 (hémorragie peropératoire), UK Kidney Association 2020 (hyperkaliémie), seuil « bicarbonates < 10 » attribué à JBDS (critère ADA), chiffres ajoutés sans source (TAPSE 10 mm, VCI 25 mm, lactates 1,6, glycémie 1,10 g/L).
 - [ ] Sources à vérifier par l'utilisateur, listées dans les rapports des trames (ADA 2024 seuil de K⁺, DAS 2022 grades, SRLF-SFMU 2018 choix de l'hypnotique, RCP Isuprel, andexanet ESC 2023…).
 
 ## Ordre de livraison
