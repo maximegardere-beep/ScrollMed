@@ -7,11 +7,15 @@
   "terrains": { "contexte": "dechoc", "exclus": ["estomac_plein", "irc_dialyse"], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] } },
   "constantes": { "FC": 124, "PAS": 82, "PAD": 44, "SpO2": 94, "FR": 26, "T": 39.2, "GCS": 14 },
   "seuils": { "PAS": 50, "SpO2": 70 },
+  "hemodynamique": { "reserve_ml": 2000, "oap_ml": 4500, "why": "SSC 2021 : au moins 30 mL/kg de cristalloïdes dans les 3 premières heures, puis remplissage guidé par des indices dynamiques. Au-delà, la précharge-dépendance s'épuise et l'excès de remplissage aggrave le pronostic (œdème pulmonaire)." },
   "resultats": {
     "scope": "Tachycardie sinusale régulière.",
     "ecg": "Tachycardie sinusale à 124/min, pas de trouble de repolarisation.",
     "gds": "**pH 7,30** · **PaCO2 31 mmHg** · **HCO3⁻ 15 mmol/L** · **PaO2 76 mmHg** en air ambiant.",
-    "lactates": "**Lactates {3,8~5,4} mmol/L**.",
+    "lactates": [
+      { "si": { "fait": [["remp_cristal", "remp_nacl", "albumine"], ["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"], "noradre"] }, "texte": "Contrôle : **lactates {2,8~3,6} mmol/L**, en baisse." },
+      { "texte": "**Lactates {3,8~5,4} mmol/L**." }
+    ],
     "nfs": "**Leucocytes 21 G/L** · Hb 12,1 g/dL · **plaquettes 98 G/L**.",
     "tp_tca": "**TP 58 %** · **TCA 1,3** · **fibrinogène 5,2 g/L**.",
     "iono": "Na 136 · K 4,6 mmol/L · **créatinine 168 µmol/L**.",
@@ -20,114 +24,103 @@
     "hemoc": "Prélevées. Résultats attendus dans 24 à 48 h.",
     "ecbu": "**Leucocyturie massive**, **bacilles à Gram négatif** à l'examen direct.",
     "pct": "**Procalcitonine {12~60} ng/mL**.",
-    "ett": "VG hyperkinétique, FEVG 65 %. VCI de 8 mm, collabée à l'inspiration.",
+    "ett": [
+      { "si": { "precharge": true }, "texte": "VG hyperkinétique, FEVG 65 %. **VCI de 8 mm, collabée à l'inspiration** : précharge-dépendance probable.", "schema": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" } },
+      { "texte": "VG toujours hyperkinétique (vasoplégie), FEVG 65 %. VCI de 21 mm, peu compliante : plus d'argument pour remplir.", "schema": { "type": "ett", "vg": "hyperkinetique", "vci": "dilatee" } }
+    ],
     "echo_renale": "Dilatation pyélocalicielle droite. Calcul de 9 mm dans l'uretère proximal droit.",
     "tdm_ap": "Urétérohydronéphrose droite sur calcul de 9 mm, infiltration de la graisse périrénale.",
     "rp": "Pas de foyer pulmonaire.",
     "sonde_u": "Urines troubles, 20 mL à la pose."
   },
   "schemas": {
-    "ett": { "type": "ett", "vg": "hyperkinetique", "vci": "collabee" },
     "echo_renale": { "type": "echo_renale", "dilatation": "d", "calcul": "d" },
     "rp": { "type": "rp" },
-    "tdm_ap": {"type": "tdm", "coupe": "abdomen", "hydronephrose": "d", "calcul": "d", "infiltration": "d"}
+    "tdm_ap": { "type": "tdm", "coupe": "abdomen", "hydronephrose": "d", "calcul": "d", "infiltration": "d" }
   },
   "etapes": [
     {
       "id": "e1",
       "titre": "Accueil au déchocage",
-      "vignette": "Adressée par le SAMU pour fièvre et malaise. Douleur lombaire droite depuis 2 jours, antécédent de colique néphrétique. Marbrures des genoux, temps de recoloration 5 s, extrémités froides. Légère confusion.",
-      "chrono": 120,
+      "vignette": "Adressée par le SAMU pour fièvre et malaise. Douleur lombaire droite très intense depuis 2 jours, antécédent de colique néphrétique. Marbrures des genoux, temps de recoloration 5 s, extrémités froides, oligurie. Légère confusion.",
+      "chrono": 180,
       "pente": { "PAS": -1.2, "FC": 0.8, "SpO2": -0.1, "GCS": -0.03 },
       "diagnostic": ["dx_choc_septique"],
       "actions": {
         "scope": { "note": "recommande", "why": "Monitorage continu dès l'arrivée de tout patient en état de choc." },
         "vvp": { "note": "indispensable", "why": "Deux voies de bon calibre pour remplir et passer l'antibiotique sans délai." },
         "hemoc": { "note": "indispensable", "why": "Hémocultures avant l'antibiotique, à condition de ne pas le retarder (SSC 2021)." },
-        "lactates": { "note": "indispensable", "why": "Lactate > 2 mmol/L malgré le remplissage et sous vasopresseur : c'est la définition du choc septique (Sepsis-3). Il sert aussi au suivi." },
+        "lactates": { "note": "indispensable", "why": "Lactate > 2 mmol/L malgré le remplissage et sous vasopresseur : c'est la définition du choc septique (Sepsis-3). À recontrôler : SSC 2021 suggère de guider la réanimation sur sa décroissance." },
+        "atb_c3g_amika": { "note": "indispensable", "alt": "atb", "why": "Choc septique : antibiotique dans l'heure (SSC 2021). Pyélonéphrite grave sans facteur de risque de BLSE : C3G parentérale + amikacine (SPILF 2018).", "delai": 60 },
+        "atb_pipe_tazo": { "note": "debattu", "alt": "atb", "why": "Spectre inutilement large sans facteur de risque de Pseudomonas. L'association de référence est C3G + amikacine.", "delai": 60 },
+        "atb_carba": { "note": "debattu", "alt": "atb", "why": "Le carbapénème (+ amikacine) est réservé au choc septique avec facteur de risque de BLSE (SPILF 2018). Ici, aucun : épargne des carbapénèmes.", "delai": 60 },
+        "atb_aztreo_amika": { "note": "debattu", "alt": "atb", "why": "Réservé à l'allergie grave aux bêtalactamines (SPILF 2018). Sans allergie, la C3G + amikacine reste le premier choix.", "delai": 60 },
+        "remp_cristal": { "note": "indispensable", "alt": "remplissage", "why": "SSC 2021 suggère au moins 30 mL/kg de cristalloïdes dans les 3 premières heures, en préférant les solutés balancés, avec réévaluation après chaque bolus (indices dynamiques, lever de jambes passif).", "effet": { "PAS": 8, "FC": -6 } },
+        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Efficace, mais SSC 2021 suggère les solutés balancés plutôt que le NaCl 0,9 %. Les grands volumes de NaCl donnent une acidose hyperchlorémique.", "effet": { "PAS": 8, "FC": -6 } },
+        "albumine": { "note": "debattu", "alt": "remplissage", "why": "Suggérée seulement après de grands volumes de cristalloïdes, pas en première intention (SSC 2021).", "effet": { "PAS": 8 } },
+        "hes": { "note": "contre_indique", "why": "SSC 2021 recommande de ne pas utiliser d'hydroxyéthylamidons : plus d'insuffisance rénale et de mortalité (6S, CHEST).", "effet": { "PAS": 8 } },
+        "noradre": { "note": "recommande", "why": "PAM < 65 mmHg : la noradrénaline est le vasopresseur de première intention. SSC 2021 suggère de la débuter sur voie périphérique plutôt que d'attendre le cathéter central.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
+        "dopamine": { "note": "contre_indique", "why": "La noradrénaline est préférée. La dopamine provoque plus d'arythmies (SOAP II).", "effet": { "PAS": 10, "FC": 15 } },
         "ecbu": { "note": "recommande", "why": "Documenter l'infection urinaire avant l'antibiotique." },
         "nfs": { "note": "recommande", "why": "Bilan de gravité : thrombopénie, hyperleucocytose." },
         "tp_tca": { "note": "recommande", "why": "Rechercher une CIVD." },
         "iono": { "note": "recommande", "why": "Insuffisance rénale aiguë fréquente, utile pour adapter les posologies." },
         "gds": { "note": "recommande", "why": "Acidose métabolique et oxygénation." },
-        "remp_cristal": { "note": "indispensable", "alt": "remplissage", "why": "SSC 2021 suggère au moins 30 mL/kg de cristalloïdes dans les 3 premières heures, en préférant les solutés balancés, avec réévaluation après chaque bolus.", "effet": { "PAS": 8, "FC": -6 } },
-        "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Efficace, mais SSC 2021 suggère les solutés balancés plutôt que le NaCl 0,9 %. Les grands volumes de NaCl donnent une acidose hyperchlorémique.", "effet": { "PAS": 8, "FC": -6 } },
-        "albumine": { "note": "debattu", "alt": "remplissage", "why": "Suggérée seulement après de grands volumes de cristalloïdes, pas en première intention (SSC 2021).", "effet": { "PAS": 8 } },
-        "hes": { "note": "contre_indique", "why": "SSC 2021 recommande de ne pas utiliser d'hydroxyéthylamidons : plus d'insuffisance rénale et de mortalité (6S, CHEST).", "effet": { "PAS": 8 } },
-        "atb_c3g_amika": { "note": "indispensable", "alt": "atb", "why": "Choc septique : antibiotique dans l'heure (SSC 2021). Pyélonéphrite grave sans facteur de risque de BLSE : C3G parentérale + amikacine (SPILF 2018)." },
-        "atb_pipe_tazo": { "note": "debattu", "alt": "atb", "why": "Spectre inutilement large sans facteur de risque de Pseudomonas. L'association de référence est C3G + amikacine." },
-        "atb_carba": { "note": "debattu", "alt": "atb", "why": "Le carbapénème (+ amikacine) est réservé au choc septique avec facteur de risque de BLSE (SPILF 2018). Ici, aucun : épargne des carbapénèmes." },
-        "atb_aztreo_amika": { "note": "debattu", "alt": "atb", "why": "Réservé à l'allergie grave aux bêtalactamines (SPILF 2018). Sans allergie, la C3G + amikacine reste le premier choix." },
-        "noradre": { "note": "recommande", "why": "PAM < 65 mmHg : la noradrénaline est le vasopresseur de première intention. SSC 2021 suggère de la débuter sur voie périphérique plutôt que d'attendre le cathéter central.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
-        "dopamine": { "note": "contre_indique", "why": "La noradrénaline est préférée. La dopamine provoque plus d'arythmies (SOAP II).", "effet": { "PAS": 10, "FC": 15 } },
-        "ktc": { "note": "debattu", "why": "Utile pour poursuivre la noradrénaline, mais 15 minutes de pose : ne doit retarder ni l'antibiotique ni la noradrénaline sur VVP." },
-        "kta": { "note": "recommande", "why": "SSC 2021 suggère un cathéter artériel dès que possible chez le patient sous vasopresseur." },
-        "sonde_u": { "note": "recommande", "why": "Surveillance de la diurèse, marqueur de perfusion." },
+        "echo_renale": { "note": "indispensable", "why": "Pyélonéphrite avec choc : rechercher un obstacle en urgence. L'échographie au lit est une alternative à l'uroscanner (SPILF 2018) ; une pyélonéphrite obstructive se draine, l'antibiotique seul ne suffit pas." },
+        "uro_drainage": { "note": "indispensable", "why": "Contrôle de la source : obstacle + choc septique = drainage des urines en urgence, sonde JJ ou néphrostomie (SPILF 2018 ; SSC 2021)." },
         "ett": { "note": "recommande", "why": "Éliminer une dysfonction cardiaque et guider le remplissage." },
-        "echo_renale": { "note": "recommande", "why": "Pyélonéphrite avec choc : imagerie urgente à la recherche d'un obstacle. L'échographie au lit est une alternative à l'uroscanner (SPILF 2018)." },
+        "lever_jambes": { "note": "recommande", "why": "Au-delà du remplissage initial, SSC 2021 suggère des indices dynamiques pour décider d'un nouveau bolus : lever de jambes passif avec mesure du débit (VTI)." },
+        "vti": { "note": "debattu", "why": "Un VTI isolé renseigne sur le volume d'éjection ; c'est sa variation au lever de jambes passif qui prédit la réponse au remplissage." },
+        "kta": { "note": "recommande", "why": "SSC 2021 suggère un cathéter artériel dès que possible chez le patient sous vasopresseur." },
+        "ktc": { "note": "recommande", "why": "La noradrénaline va durer : voie centrale une fois l'antibiotique et la noradrénaline sur VVP lancés. 15 minutes de pose qui ne doivent retarder ni l'un ni l'autre." },
+        "sonde_u": { "note": "recommande", "why": "Surveillance de la diurèse, marqueur de perfusion." },
         "tdm_ap": { "note": "debattu", "why": "L'uroscanner est l'examen de référence, mais transporter une patiente non stabilisée est risqué. L'échographie au lit suffit à voir l'obstacle.", "si_instable": "acr" },
-        "hydrocortisone": { "note": "debattu", "why": "SSC 2021 suggère l'hydrocortisone quand la noradrénaline reste ≥ 0,25 µg/kg/min depuis au moins 4 h. C'est prématuré ici." },
+        "hydrocortisone": { "note": "debattu", "why": "SSC 2021 suggère l'hydrocortisone quand le besoin en vasopresseur persiste (seuil usuel : noradrénaline ≥ 0,25 µg/kg/min depuis au moins 4 h). C'est prématuré ici." },
+        "dobutamine": { "note": "inutile", "why": "Pas de dysfonction ventriculaire gauche : FEVG conservée." },
+        "bicar_iso": { "note": "inutile", "why": "pH > 7,20 : SSC 2021 suggère de ne pas donner de bicarbonate pour une acidose lactique d'hypoperfusion." },
         "isr_etomidate": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
         "isr_etomidate_rocu": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
         "isr_ketamine": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
         "isr_ketamine_succi": { "note": "inutile", "why": "Aucune indication d'intubation : GCS 14, pas de détresse respiratoire." },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez une patiente en choc non réanimé : collapsus. Et aucune indication d'intubation ici." },
-        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez une patiente en choc non réanimé : collapsus. Et aucune indication d'intubation ici." }
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Propofol à dose d'induction chez une patiente en choc non réanimé : collapsus. Et aucune indication d'intubation ici." },
+        "reanimation": { "note": "indispensable", "delai": 360, "why": "Choc septique sous vasopresseur : admission en réanimation, dans les 6 h (SSC 2021), une fois la source drainée." }
       },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage de qualité, adrénaline 1 mg dès que possible, puis correction des causes (hypovolémie, acidose)." },
       "suite": [
         { "si_manque": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "vers": "e1_aggrav" },
         { "si_manque": [["remp_cristal", "remp_nacl", "albumine"]], "vers": "e1_aggrav" },
-        { "vers": "e2" }
+        { "si_manque": ["uro_drainage"], "vers": "e3_refractaire" },
+        { "vers": "fin" }
       ]
     },
     {
       "id": "e1_aggrav",
       "titre": "Aggravation",
-      "vignette": "Vingt minutes plus tard, la patiente s'aggrave : marbrures jusqu'aux cuisses, confusion franche, polypnée. L'infirmière demande ce qu'il faut préparer.",
+      "declencheur": [
+        { "apres": 25, "si": { "manque": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]] }, "dans": ["e1"] },
+        { "apres": 5, "si": { "PAS": { "max": 65 } }, "dans": ["e1"] }
+      ],
+      "vignette": "La patiente s'aggrave : marbrures jusqu'aux cuisses, confusion franche, polypnée. L'infirmière demande ce qu'il faut préparer.",
       "chrono": 90,
       "constantes": { "PAS": 68, "PAD": 36, "FC": 138, "GCS": 12, "FR": 32 },
       "pente": { "PAS": -1.5, "FC": 1, "GCS": -0.05 },
       "diagnostic": ["dx_choc_septique"],
       "actions": {
-        "atb_c3g_amika": { "note": "indispensable", "alt": "atb", "why": "Chaque heure de retard à l'antibiotique augmente la mortalité du choc septique." },
-        "atb_pipe_tazo": { "note": "debattu", "alt": "atb", "why": "Spectre inutilement large ; C3G + amikacine suffit sans facteur de risque." },
-        "atb_carba": { "note": "debattu", "alt": "atb", "why": "Réservé aux facteurs de risque de BLSE." },
-        "atb_aztreo_amika": { "note": "debattu", "alt": "atb", "why": "Réservé à l'allergie grave aux bêtalactamines." },
+        "atb_c3g_amika": { "note": "indispensable", "alt": "atb", "why": "Chaque heure de retard à l'antibiotique augmente la mortalité du choc septique.", "delai": 60 },
+        "atb_pipe_tazo": { "note": "debattu", "alt": "atb", "why": "Spectre inutilement large ; C3G + amikacine suffit sans facteur de risque.", "delai": 60 },
+        "atb_carba": { "note": "debattu", "alt": "atb", "why": "Réservé aux facteurs de risque de BLSE.", "delai": 60 },
+        "atb_aztreo_amika": { "note": "debattu", "alt": "atb", "why": "Réservé à l'allergie grave aux bêtalactamines.", "delai": 60 },
         "remp_cristal": { "note": "indispensable", "alt": "remplissage", "why": "Remplissage initial non fait ou insuffisant.", "effet": { "PAS": 8, "FC": -6 } },
         "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer les solutés balancés.", "effet": { "PAS": 8, "FC": -6 } },
         "noradre": { "note": "indispensable", "why": "Hypotension profonde : la noradrénaline ne doit pas attendre la fin du remplissage.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
         "hes": { "note": "contre_indique", "why": "HEA contre-indiqués dans le sepsis.", "effet": { "PAS": 8 } },
         "isr_propofol": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." },
-        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." }
+        "isr_propofol_succi": { "note": "contre_indique", "letal": "acr", "why": "Induction au propofol en plein choc : collapsus." },
+        "reanimation": { "note": "indispensable", "delai": 360, "why": "Admission en réanimation dans les 6 h (SSC 2021), une fois la source drainée." }
       },
       "letal_si_manque": { "actions": [["atb_c3g_amika", "atb_pipe_tazo", "atb_carba", "atb_aztreo_amika"]], "issue": "acr", "why": "Pas d'antibiotique malgré l'aggravation : le choc devient réfractaire." },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage, adrénaline, et traitement de l'hypovolémie." },
-      "suite": [ { "vers": "e2" } ]
-    },
-    {
-      "id": "e2",
-      "titre": "Réévaluation à H1",
-      "vignette": "Une heure après l'arrivée. Marbrures persistantes, oligurie à 10 mL/h. Douleur lombaire droite très intense à la palpation. L'interne demande si l'antibiotique « suffira ».",
-      "chrono": 90,
-      "pente": { "PAS": -0.6, "FC": 0.4 },
-      "diagnostic": ["dx_choc_septique"],
-      "resultats": { "lactates": "**Lactates {2,8~3,6} mmol/L**." },
-      "actions": {
-        "echo_renale": { "note": "indispensable", "why": "Rechercher un obstacle : une pyélonéphrite obstructive se draine, l'antibiotique seul ne suffit pas." },
-        "uro_drainage": { "note": "indispensable", "why": "Contrôle de la source : obstacle + choc septique = drainage des urines en urgence (sonde JJ ou néphrostomie)." },
-        "noradre": { "note": "indispensable", "why": "PAM toujours < 65 mmHg après remplissage : noradrénaline.", "effet": { "PAS": 18, "PAD": 10 }, "pente": { "PAS": 0.2, "FC": -0.3, "SpO2": 0, "GCS": 0.02 } },
-        "remp_cristal": { "note": "debattu", "why": "Ne poursuivre le remplissage que si une précharge-dépendance est démontrée (lever de jambes passif, VTI). L'excès de remplissage aggrave le pronostic.", "effet": { "PAS": 4 } },
-        "lactates": { "refaire": true, "note": "recommande", "why": "SSC 2021 suggère de guider la réanimation sur la décroissance du lactate." },
-        "kta": { "note": "recommande", "why": "Cathéter artériel recommandé sous vasopresseur." },
-        "ktc": { "note": "recommande", "why": "La noradrénaline va durer : voie centrale maintenant que la priorité thérapeutique est assurée." },
-        "reanimation": { "note": "indispensable", "why": "Choc septique sous vasopresseur : admission en réanimation." },
-        "dobutamine": { "note": "inutile", "why": "Pas de dysfonction ventriculaire gauche : FEVG conservée." },
-        "bicar_iso": { "note": "inutile", "why": "pH > 7,20 : SSC 2021 suggère de ne pas donner de bicarbonate pour une acidose lactique d'hypoperfusion." },
-        "hydrocortisone": { "note": "debattu", "why": "À discuter si la noradrénaline reste ≥ 0,25 µg/kg/min depuis au moins 4 h (SSC 2021)." },
-        "tdm_ap": { "note": "debattu", "why": "Examen de référence, mais transport risqué ; l'échographie a déjà sa réponse.", "si_instable": "acr" }
-      },
-      "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage et adrénaline." },
       "suite": [
         { "si_manque": ["uro_drainage"], "vers": "e3_refractaire" },
         { "vers": "fin" }
@@ -135,21 +128,27 @@
     },
     {
       "id": "e3_refractaire",
-      "titre": "Choc réfractaire à H3",
-      "vignette": "H3. Noradrénaline à 0,8 µg/kg/min, anurie, lactates 6 mmol/L. Les urines ne sont toujours pas drainées.",
+      "titre": "Choc réfractaire",
+      "declencheur": { "apres": 75, "si": { "manque": ["uro_drainage"] }, "dans": ["e1", "e1_aggrav"] },
+      "vignette": "Plus d'une heure après l'arrivée. La noradrénaline ne cesse d'augmenter, anurie, lactates à 6 mmol/L. Les urines ne sont toujours pas drainées.",
       "chrono": 75,
       "constantes": { "PAS": 74, "PAD": 40, "FC": 136, "GCS": 11 },
       "pente": { "PAS": -1, "FC": 0.6, "GCS": -0.05 },
       "diagnostic": ["dx_choc_septique"],
       "actions": {
         "uro_drainage": { "note": "indispensable", "why": "Sans drainage, le choc ne se corrigera pas." },
-        "hydrocortisone": { "note": "recommande", "why": "Noradrénaline ≥ 0,25 µg/kg/min depuis plus de 4 h : SSC 2021 suggère l'hydrocortisone IV 200 mg/j.", "pente": { "PAS": -0.6 } },
+        "hydrocortisone": { "note": "debattu", "why": "SSC 2021 suggère l'hydrocortisone IV si le besoin en vasopresseur persiste (seuil usuel : noradrénaline ≥ 0,25 µg/kg/min depuis au moins 4 h). Elle ne remplace pas le drainage." },
         "adrenaline_ivse": { "note": "debattu", "why": "Option en choc réfractaire, mais aucun vasopresseur ne remplace le contrôle de la source." },
-        "reanimation": { "note": "indispensable", "why": "Admission en réanimation." }
+        "reanimation": { "note": "indispensable", "why": "Admission en réanimation, après le drainage." }
       },
       "letal_si_manque": { "actions": ["uro_drainage"], "issue": "deces", "why": "Pyélonéphrite obstructive jamais drainée : défaillance multiviscérale." },
       "acr": { "rythme": "AESP", "requis": ["mce", "adre_acr"], "why": "AESP : massage et adrénaline." },
-      "suite": [ { "vers": "fin" } ]
+      "suite": [
+        { "vers": "fin" }
+      ],
+      "resultats": {
+        "lactates": "**Lactates {5,6~6,6} mmol/L**, en hausse."
+      }
     }
   ]
 }
