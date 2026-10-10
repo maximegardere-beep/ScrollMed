@@ -49,6 +49,10 @@
     {
       "id": "e1_aggrav",
       "titre": "Épuisement respiratoire",
+      "declencheur": [
+        { "si": { "SpO2": { "max": 80 }, "manque": [["sugammadex", "neostigmine"]] }, "dans": ["e1"] },
+        { "apres": 10, "si": { "manque": [["sugammadex", "neostigmine"]] }, "dans": ["e1"] }
+      ],
       "vignette": "Respiration de plus en plus superficielle, somnolence, sueurs. SpO2 en chute malgré l'oxygène.",
       "chrono": 60,
       "constantes": { "SpO2": 80, "FR": 10, "GCS": 10, "FC": 124 },
@@ -69,6 +73,7 @@
     {
       "id": "e2",
       "titre": "Après la décurarisation",
+      "declencheur": { "si": { "fait": [["sugammadex", "neostigmine"]] }, "dans": ["e1", "e1_aggrav"] },
       "vignette": "Respiration ample, tête levée et tenue 5 secondes. Douleurs abdominales et scapulaires.",
       "chrono": 60,
       "constantes": { "FR": 18 },

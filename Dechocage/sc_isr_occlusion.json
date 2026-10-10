@@ -5,6 +5,7 @@
   "tags": ["anesthésie", "estomac plein", "ISR", "induction"],
   "patient": "Homme, 62 ans, 78 kg",
   "terrains": { "contexte": "induction", "exclus": ["estomac_plein"], "identite": { "sexe": ["F", "M"], "age": [35, 88], "poids": [55, 100] } },
+  "hemodynamique": { "reserve_ml": 1000, "oap_ml": 3000, "why": "Occlusion : déshydratation (vomissements, troisième secteur digestif) démasquée par la vasoplégie de l'induction. Au-delà de la correction de l'hypovolémie, le remplissage ne fait plus monter le débit et l'excès de soluté expose à l'œdème pulmonaire et digestif : remplissage guidé par le volume d'éjection (SFAR 2012, RFE remplissage vasculaire périopératoire)." },
   "constantes": { "FC": 104, "PAS": 108, "PAD": 64, "SpO2": 96, "FR": 22, "T": 37.6, "GCS": 15 },
   "resultats": {
     "scope": "Tachycardie sinusale régulière.",
@@ -15,10 +16,10 @@
     "nfs": "**Hb 15,8 g/dL** (hémoconcentration) · leucocytes 12 G/L · plaquettes 260 G/L.",
     "groupe_rai": "Groupe A RhD positif, RAI négatives.",
     "glycemie": "Glycémie 1,18 g/L.",
-    "ett": "Pas d'anomalie notable : FEVG 60 %, VCI de 10 mm, collabée à l'inspiration."
-  },
-  "schemas": {
-    "ett": { "type": "ett", "vci": "normale" }
+    "ett": [
+      { "si": { "precharge": true }, "texte": "FEVG 65 %, **VG de petite taille, hyperkinétique**, **VCI fine (8 mm), collabée** : hypovolémie, pas de dysfonction cardiaque.", "schema": { "type": "ett", "vg": "petit", "vci": "collabee" } },
+      { "texte": "FEVG 60 %, cavités de taille normale, VCI de calibre normal : hypovolémie corrigée, pas de dysfonction cardiaque.", "schema": { "type": "ett", "vci": "normale" } }
+    ]
   },
   "etapes": [
     {
@@ -62,6 +63,7 @@
     {
       "id": "e1_retard",
       "titre": "Vomissement sur la table",
+      "declencheur": { "apres": 25, "si": { "manque": [["isr_etomidate", "isr_etomidate_rocu", "isr_ketamine_succi", "isr_ketamine", "isr_propofol_succi", "isr_propofol", "iot_fibro_vigile", "cricothyro", "ind_classique"]] }, "dans": ["e1"] },
       "vignette": "Les voies aériennes ne sont toujours pas protégées. Vomissement abondant en décubitus, toux, la SpO2 baisse. Le chirurgien est habillé et attend.",
       "chrono": 60,
       "constantes": { "SpO2": 91, "FC": 118, "FR": 28 },
@@ -87,6 +89,10 @@
     {
       "id": "e2_desat",
       "titre": "Désaturation après l'intubation",
+      "declencheur": [
+        { "si": { "fait": ["ind_classique"] }, "dans": ["e1", "e1_retard"] },
+        { "si": { "fait": [["isr_etomidate", "isr_etomidate_rocu", "isr_ketamine_succi", "isr_ketamine", "isr_propofol_succi", "isr_propofol", "iot_fibro_vigile", "cricothyro", "ind_classique"]], "manque": [["ind_preox", "ind_preox_vni"]] }, "dans": ["e1", "e1_retard"] }
+      ],
       "vignette": "La sonde est en place, capnographie présente. La SpO2 continue de baisser : la réserve en oxygène était insuffisante, ou du liquide gastrique a été inhalé.",
       "chrono": 60,
       "constantes": { "SpO2": 84 },
@@ -115,6 +121,9 @@
         "remp_cristal": { "note": "recommande", "alt": "remplissage", "why": "Hypovolémie (vomissements, troisième secteur) : bolus de cristalloïdes réévalué.", "effet": { "PAS": 5, "FC": -3 } },
         "remp_nacl": { "note": "debattu", "alt": "remplissage", "why": "Préférer les solutés balancés.", "effet": { "PAS": 5, "FC": -3 } },
         "kta": { "note": "debattu", "why": "Cathéter artériel si l'instabilité persiste ou chez le patient fragile." },
+        "vti": { "note": "debattu", "why": "Remplissage guidé par le volume d'éjection (VTI en ETT, Doppler œsophagien) plutôt qu'à l'aveugle, surtout si l'hypotension persiste (SFAR 2012)." },
+        "lever_jambes": { "note": "debattu", "why": "Peu praticable sur la table d'opération, champs posés : on teste plutôt la réponse du volume d'éjection à un bolus de remplissage (SFAR 2012)." },
+        "ett": { "note": "debattu", "why": "Hypotension qui ne cède pas aux bolus ni au remplissage : ETT (ou ETO) peropératoire pour distinguer hypovolémie, vasoplégie et dysfonction cardiaque." },
         "sng": { "note": "recommande", "why": "Si elle n'a pas été posée : sonde gastrique après l'intubation, pour la chirurgie et le réveil." },
         "adrenaline_ivse": { "note": "inutile", "why": "Pas de choc réfractaire : les bolus de vasoconstricteur et le remplissage suffisent." },
         "sugammadex": { "note": "inutile", "why": "La chirurgie commence : aucune raison d'antagoniser la curarisation." }
