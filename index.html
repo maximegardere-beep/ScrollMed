@@ -2250,6 +2250,8 @@ function dcDeclencheur(){
     const ok = [].concat(st.declencheur).some(d => (d.apres == null || G.t >= d.apres * 60)
       && (!d.dans || d.dans.includes(G.step.id)) && dcCond(d.si));
     if(!ok) continue;
+    dcSettle();   // temps fixé : l'évolution en attente s'applique avec les pentes de l'étape quittée
+    if(G.phase !== 'step') return true;
     const visit = dcCurVisit();
     visit.t1 = G.t; visit.dx = G.dx.slice(); visit.ouvert = true;
     dcEnterStep(st.id);
