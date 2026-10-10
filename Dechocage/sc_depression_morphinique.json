@@ -52,6 +52,10 @@
     {
       "id": "e1_aggrav",
       "titre": "Apnée",
+      "declencheur": [
+        { "si": { "SpO2": { "max": 78 }, "manque": [["naloxone", "naloxone_bolus"]] }, "dans": ["e1"] },
+        { "apres": 8, "si": { "manque": [["naloxone", "naloxone_bolus"]] }, "dans": ["e1"] }
+      ],
       "vignette": "Le patient ne répond plus à la stimulation. Pauses respiratoires prolongées, 3 cycles/min, cyanose des lèvres. SpO2 en chute, la fréquence cardiaque ralentit.",
       "chrono": 60,
       "constantes": { "FR": 3, "SpO2": 80, "GCS": 6, "FC": 64 },
@@ -108,6 +112,11 @@
     {
       "id": "e2_remorph",
       "titre": "Remorphinisation",
+      "declencheur": [
+        { "si": { "fait": ["morphine_titr"] }, "dans": ["e2"] },
+        { "apres": 35, "si": { "manque": ["naloxone_ivse"] }, "dans": ["e2"] },
+        { "apres": 35, "si": { "manque": ["arret_ttt"] }, "dans": ["e2"] }
+      ],
       "vignette": "Une heure après la naloxone, l'infirmière vous rappelle : le patient s'est rendormi, respire à 6/min, myosis serré, SpO2 en baisse. L'effet de la naloxone s'est épuisé avant celui de la morphine.",
       "chrono": 60,
       "constantes": { "FR": 6, "SpO2": 80, "GCS": 9, "FC": 70, "PAS": 128, "PAD": 70 },
