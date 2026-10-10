@@ -2699,6 +2699,7 @@ function dcTerrainSeuil(){
 function dcTerrainCumul(id){
   for(const r of dcRulesOf('module')){
     if(!r.complication || !r.apres || !dcRuleHits(r, id, G.step.id)) continue;
+    if(r.complication === 'oap' && dcHemo()) continue;   // trame avec modèle hémodynamique : l'OAP vient du volume (seuils modulés par le terrain)
     const n = G.log.filter(l => !l.ci && dcRuleHits(Object.assign({}, r, { dans: null }), l.id, l.step)).length;
     if(n >= r.apres && dcTrigger(r, { kind: 'cumul', id, label: `${dcLabel(id)} (${n}e)`, cause: `${dcLabel(id)}, ${n}e fois` })) return true;
   }

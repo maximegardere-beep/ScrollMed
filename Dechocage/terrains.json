@@ -49,6 +49,7 @@
       "rubrique": "atcd",
       "fiche": "Cardiomyopathie dilatée, FEVG 30 % (ETT 2025), dyspnée NYHA II.",
       "traitements": [["betabloquant", "sacubitril_valsartan", "furosemide_po", "spironolactone"]],
+      "hemodynamique": { "reserve_ml": 0.5, "oap_ml": 0.5 },
       "module": [
         {
           "classe": "remplissage",
@@ -542,6 +543,7 @@
       "rubrique": "atcd",
       "fiche": "Néphroangiosclérose. Hémodialyse 3 fois par semaine sur fistule artérioveineuse du bras gauche, dernière séance avant-hier. Anurique.",
       "traitements": [["sevelamer", "darbepoetine"], ["sevelamer", "darbepoetine", "amlodipine"]],
+      "hemodynamique": { "oap_ml": 0.6 },
       "ci": [
         {
           "classe": "curare_depolarisant",
