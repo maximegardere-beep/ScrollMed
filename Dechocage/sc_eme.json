@@ -76,6 +76,7 @@
     {
       "id": "e1_aggrav",
       "titre": "La crise se prolonge",
+      "declencheur": [{ "apres": 10, "si": { "manque": [["midazolam_im", "clonazepam", "midazolam"]] }, "dans": ["e1"] }, { "apres": 4, "si": { "SpO2": { "max": 80 }, "manque": ["o2_masque"] }, "dans": ["e1"] }],
       "vignette": "Dix minutes plus tard, la crise continue : cyanose franche, gargouillis, sueurs. L'état de mal dure depuis 20 minutes et la SpO2 s'effondre.",
       "chrono": 60,
       "constantes": { "SpO2": 78, "FC": 146, "PAS": 186, "PAD": 102, "T": 38.3 },
@@ -144,6 +145,7 @@
     {
       "id": "e2_aggrav",
       "titre": "EME prolongé sans 2e ligne",
+      "declencheur": { "apres": 25, "si": { "manque": [["levetiracetam", "fosphenytoine", "valproate", "phenobarbital"]] }, "dans": ["e2"] },
       "vignette": "La crise dure depuis 35 minutes, sans antiépileptique de 2e ligne adapté. Hyperthermie, sueurs, tachycardie, encombrement : les complications systémiques de l'état de mal s'installent.",
       "chrono": 60,
       "constantes": { "FC": 150, "T": 39.0, "SpO2": 86, "PAS": 178 },
@@ -226,6 +228,7 @@
     {
       "id": "e3_aggrav",
       "titre": "EME non contrôlé",
+      "declencheur": { "si": { "T": { "min": 38.8 }, "manque": [["isr_propofol_succi", "isr_propofol", "isr_ketamine_succi", "isr_ketamine", "isr_etomidate", "isr_etomidate_rocu", "ind_classique"], "sedation_ivse"] }, "dans": ["e3"] },
       "vignette": "Vingt minutes plus tard, la crise n'est toujours pas contrôlée : clonies faciales, hyperthermie à 39,6 °C, sueurs, pression qui baisse. Les CPK montent.",
       "chrono": 60,
       "constantes": { "FC": 146, "PAS": 104, "PAD": 58, "T": 39.6 },

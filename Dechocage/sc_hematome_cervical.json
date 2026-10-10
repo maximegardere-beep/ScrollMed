@@ -255,43 +255,15 @@
       "suite": [
         {
           "si_fait": [
-            "isr_etomidate_rocu"
-          ],
-          "vers": "e1_aggrav"
-        },
-        {
-          "si_fait": [
-            "isr_etomidate"
-          ],
-          "vers": "e1_aggrav"
-        },
-        {
-          "si_fait": [
-            "isr_ketamine"
-          ],
-          "vers": "e1_aggrav"
-        },
-        {
-          "si_fait": [
-            "isr_propofol"
-          ],
-          "vers": "e1_aggrav"
-        },
-        {
-          "si_fait": [
-            "isr_ketamine_succi"
-          ],
-          "vers": "e1_aggrav"
-        },
-        {
-          "si_fait": [
-            "isr_propofol_succi"
-          ],
-          "vers": "e1_aggrav"
-        },
-        {
-          "si_fait": [
-            "ind_classique"
+            [
+              "isr_etomidate_rocu",
+              "isr_etomidate",
+              "isr_ketamine",
+              "isr_propofol",
+              "isr_ketamine_succi",
+              "isr_propofol_succi",
+              "ind_classique"
+            ]
           ],
           "vers": "e1_aggrav"
         },
@@ -309,6 +281,51 @@
     {
       "id": "e1_aggrav",
       "titre": "Obstruction complète",
+      "declencheur": [
+        {
+          "si": {
+            "fait": [
+              [
+                "isr_etomidate_rocu",
+                "isr_etomidate",
+                "isr_ketamine",
+                "isr_propofol",
+                "isr_ketamine_succi",
+                "isr_propofol_succi",
+                "ind_classique"
+              ]
+            ]
+          },
+          "dans": [
+            "e1"
+          ]
+        },
+        {
+          "apres": 5,
+          "si": {
+            "SpO2": {
+              "max": 80
+            },
+            "manque": [
+              "ouverture_cicatrice"
+            ]
+          },
+          "dans": [
+            "e1"
+          ]
+        },
+        {
+          "apres": 10,
+          "si": {
+            "manque": [
+              "ouverture_cicatrice"
+            ]
+          },
+          "dans": [
+            "e1"
+          ]
+        }
+      ],
       "vignette": "Le stridor s'est tu : tirage intense sans aucun flux d'air, cyanose. La SpO2 s'effondre, la fréquence cardiaque commence à ralentir.",
       "chrono": 45,
       "constantes": {
@@ -479,7 +496,7 @@
     {
       "id": "e2",
       "titre": "Hématome évacué : stridor persistant",
-      "vignette": "Plaie ouverte au lit, caillots évacués, compresse humide sur la plaie. La gêne diminue, mais la voix reste éteinte et un stridor persiste : œdème laryngé et pharyngé, par gêne au retour veineux et lymphatique. Saignement en nappe dans la plaie. Le chirurgien veut reprendre l'hémostase au bloc : il faut sécuriser les voies aériennes.",
+      "vignette": "Plaie ouverte au lit, caillots évacués, compresse humide sur la plaie. La gêne diminue, mais la voix reste éteinte et un stridor persiste : œdème laryngé et pharyngé, par gêne au retour veineux et lymphatique. Saignement en nappe dans la plaie. Le chirurgien veut reprendre l'hémostase au bloc : il faut d'abord sécuriser les voies aériennes, puis partir au bloc.",
       "chrono": 90,
       "pente": {
         "SpO2": -0.5,
@@ -547,10 +564,6 @@
           "effet": {
             "SpO2": -6
           }
-        },
-        "reveil_patient": {
-          "note": "inutile",
-          "why": "Le patient n'est pas endormi : il faut sécuriser les voies aériennes avant la reprise."
         },
         "isr_etomidate_rocu": {
           "note": "indispensable",
@@ -657,6 +670,48 @@
           "pente": {
             "SpO2": 0.3
           }
+        },
+        "entretien": {
+          "note": "recommande",
+          "why": "Relais de l'hypnotique d'induction, qui ne dure que quelques minutes : anesthésie entretenue pendant le transfert et la reprise.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "vm_protectrice": {
+          "note": "recommande",
+          "why": "Ventilation mécanique protectrice après l'intubation (VT 6 à 8 mL/kg de poids idéal, PEP).",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "bloc": {
+          "note": "indispensable",
+          "why": "Voies aériennes sécurisées : reprise chirurgicale au bloc opératoire, pour l'exploration, l'hémostase, le lavage et la fermeture (DAS/BAETS/ENT UK 2022). C'est l'orientation finale."
+        },
+        "reveil_patient": {
+          "note": "contre_indique",
+          "why": "Renoncer à l'intubation, ou réveiller et extuber un larynx œdématié avant l'hémostase : récidive de l'hématome et réobstruction. Les voies aériennes restent sécurisées jusqu'à la reprise."
+        },
+        "reanimation": {
+          "note": "inutile",
+          "why": "Le saignement continue : la reprise d'hémostase au bloc d'abord. La réanimation (ou la SSPI) vient après, pour une extubation différée et planifiée, matériel de réintubation prêt (DAS 2012, extubation ; DAS/BAETS/ENT UK 2022)."
+        },
+        "sugammadex": {
+          "note": "inutile",
+          "why": "Pas d'antagonisation : le patient reste intubé pour la reprise."
+        },
+        "ccp": {
+          "note": "inutile",
+          "why": "Pas d'anticoagulant actif à antagoniser : le saignement est chirurgical."
+        },
+        "fibrinogene": {
+          "note": "inutile",
+          "why": "Fibrinogène normal : pas de supplémentation."
+        },
+        "cp": {
+          "note": "inutile",
+          "why": "Plaquettes normales, saignement localisé : pas de transfusion plaquettaire."
         }
       },
       "acr": {
@@ -692,13 +747,36 @@
           "vers": "e2_aggrav"
         },
         {
-          "vers": "e3"
+          "vers": "fin"
         }
       ]
     },
     {
       "id": "e2_aggrav",
       "titre": "Œdème laryngé : stridor majeur",
+      "declencheur": [
+        {
+          "apres": 45,
+          "si": {
+            "manque": [
+              [
+                "isr_etomidate_rocu",
+                "isr_etomidate",
+                "isr_ketamine",
+                "isr_propofol",
+                "isr_ketamine_succi",
+                "isr_propofol_succi",
+                "ind_classique",
+                "iot_fibro_vigile",
+                "cricothyro"
+              ]
+            ]
+          },
+          "dans": [
+            "e2"
+          ]
+        }
+      ],
       "vignette": "L'œdème progresse : stridor aux deux temps, tirage, agitation. La SpO2 chute malgré l'oxygène.",
       "chrono": 45,
       "constantes": {
@@ -828,6 +906,48 @@
           "pente": {
             "SpO2": 0.3
           }
+        },
+        "entretien": {
+          "note": "recommande",
+          "why": "Relais de l'hypnotique d'induction, qui ne dure que quelques minutes : anesthésie entretenue pendant le transfert et la reprise.",
+          "effet": {
+            "PAS": -4
+          }
+        },
+        "vm_protectrice": {
+          "note": "recommande",
+          "why": "Ventilation mécanique protectrice après l'intubation (VT 6 à 8 mL/kg de poids idéal, PEP).",
+          "effet": {
+            "SpO2": 2
+          }
+        },
+        "bloc": {
+          "note": "indispensable",
+          "why": "Voies aériennes sécurisées : reprise chirurgicale au bloc pour l'hémostase (DAS/BAETS/ENT UK 2022). Pas avant : partir avec un larynx œdématié non intubé, c'est risquer l'obstruction complète pendant le transfert."
+        },
+        "reveil_patient": {
+          "note": "contre_indique",
+          "why": "Renoncer à l'intubation, ou réveiller et extuber un larynx œdématié avant l'hémostase : récidive de l'hématome et réobstruction. Les voies aériennes restent sécurisées jusqu'à la reprise."
+        },
+        "reanimation": {
+          "note": "inutile",
+          "why": "Le saignement continue : la reprise d'hémostase au bloc d'abord. La réanimation (ou la SSPI) vient après, pour une extubation différée et planifiée, matériel de réintubation prêt (DAS 2012, extubation ; DAS/BAETS/ENT UK 2022)."
+        },
+        "sugammadex": {
+          "note": "inutile",
+          "why": "Pas d'antagonisation : le patient reste intubé pour la reprise."
+        },
+        "ccp": {
+          "note": "inutile",
+          "why": "Pas d'anticoagulant actif à antagoniser : le saignement est chirurgical."
+        },
+        "fibrinogene": {
+          "note": "inutile",
+          "why": "Fibrinogène normal : pas de supplémentation."
+        },
+        "cp": {
+          "note": "inutile",
+          "why": "Plaquettes normales, saignement localisé : pas de transfusion plaquettaire."
         }
       },
       "letal_si_manque": {
@@ -860,78 +980,6 @@
           "PAS": 118,
           "PAD": 64,
           "SpO2": 88
-        }
-      },
-      "suite": [
-        {
-          "vers": "e3"
-        }
-      ]
-    },
-    {
-      "id": "e3",
-      "titre": "Reprise au bloc",
-      "vignette": "Voies aériennes sécurisées, capnographie présente. Saignement en nappe sous la compresse. Le chirurgien est prêt pour l'exploration et l'hémostase au bloc.",
-      "chrono": 60,
-      "pente": {
-        "PAS": -0.2
-      },
-      "actions": {
-        "bloc": {
-          "note": "indispensable",
-          "why": "Reprise chirurgicale : exploration, hémostase, lavage et fermeture au bloc opératoire (DAS/BAETS/ENT UK 2022)."
-        },
-        "entretien": {
-          "note": "recommande",
-          "why": "Relais de l'hypnotique d'induction, qui ne dure que quelques minutes : anesthésie entretenue pendant le transfert et la reprise.",
-          "effet": {
-            "PAS": -4
-          }
-        },
-        "vm_protectrice": {
-          "note": "recommande",
-          "why": "Ventilation mécanique protectrice après l'intubation (VT 6 à 8 mL/kg de poids idéal, PEP).",
-          "effet": {
-            "SpO2": 2
-          }
-        },
-        "reanimation": {
-          "note": "recommande",
-          "why": "Après la reprise : extubation différée et planifiée une fois l'œdème régressé, en réanimation ou en SSPI, matériel de réintubation prêt (DAS 2012, extubation ; DAS/BAETS/ENT UK 2022)."
-        },
-        "exacyl": {
-          "note": "debattu",
-          "why": "Acide tranexamique à envisager (grade C) ; l'hémostase chirurgicale reste le traitement."
-        },
-        "nitres_iv": {
-          "note": "debattu",
-          "why": "Contrôle tensionnel titré si l'HTA persiste au réveil ; éviter l'hypotension sous anesthésie.",
-          "effet": {
-            "PAS": -12
-          }
-        },
-        "reveil_patient": {
-          "note": "contre_indique",
-          "why": "Réveiller et extuber un larynx œdématié avant l'hémostase : récidive de l'hématome et réobstruction.",
-          "effet": {
-            "SpO2": -8
-          }
-        },
-        "sugammadex": {
-          "note": "inutile",
-          "why": "Pas d'antagonisation : le patient reste intubé pour la reprise."
-        },
-        "ccp": {
-          "note": "inutile",
-          "why": "Pas d'anticoagulant actif à antagoniser : le saignement est chirurgical."
-        },
-        "fibrinogene": {
-          "note": "inutile",
-          "why": "Fibrinogène normal : pas de supplémentation."
-        },
-        "cp": {
-          "note": "inutile",
-          "why": "Plaquettes normales, saignement localisé : pas de transfusion plaquettaire."
         }
       },
       "suite": [

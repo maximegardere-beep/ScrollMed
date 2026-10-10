@@ -45,6 +45,11 @@
     "PAS": 50,
     "SpO2": 70
   },
+  "hemodynamique": {
+    "reserve_ml": 1000,
+    "oap_ml": 3500,
+    "why": "Plaie thoracique avec tamponnade : remplissage limité, 1 L de cristalloïde au plus avant les produits sanguins, en visant une PAS de 80 à 90 mmHg (ATLS 2018 ; guideline européen 2023). Au-delà, les cristalloïdes diluent la coagulation et inondent le poumon sans lever l'obstacle."
+  },
   "resultats": {
     "ecg": "Tachycardie sinusale, QRS fins, pas de trouble de la repolarisation.",
     "gds": "Sous O2 : **pH 7,28** · **PaO2 56 mmHg** · **PaCO2 49 mmHg** · HCO3⁻ 22 mmol/L.",
@@ -160,7 +165,8 @@
         },
         "exacyl": {
           "note": "recommande",
-          "why": "Traumatisé qui saigne ou risque de saigner : acide tranexamique 1 g en 10 min puis 1 g sur 8 h, dans les 3 premières heures (CRASH-2 2010 ; guideline européen 2023)."
+          "why": "Traumatisé qui saigne ou risque de saigner : acide tranexamique 1 g en 10 min puis 1 g sur 8 h, dans les 3 heures qui suivent le traumatisme (CRASH-2 2010 ; guideline européen 2023). Blessure 20 min avant l'arrivée : au plus tard 2 h 40 après l'arrivée, le plus tôt étant le mieux.",
+          "delai": 160
         },
         "remp_cristal": {
           "note": "recommande",
@@ -362,6 +368,22 @@
     {
       "id": "e1_aggrav",
       "titre": "Récidive du pneumothorax compressif",
+      "declencheur": [
+        {
+          "apres": 12,
+          "si": {
+            "fait": [
+              "exsufflation"
+            ],
+            "manque": [
+              "drain_thorax"
+            ]
+          },
+          "dans": [
+            "e1"
+          ]
+        }
+      ],
       "vignette": "Quelques minutes après l'exsufflation, nouvelle désaturation : le cathéter s'est coudé, l'hémithorax gauche se distend de nouveau. Aucun drain n'est en place. Le patient s'épuise.",
       "chrono": 90,
       "constantes": {
@@ -505,6 +527,20 @@
     {
       "id": "e2",
       "titre": "Choc persistant après le drainage",
+      "declencheur": [
+        {
+          "apres": 30,
+          "si": {
+            "fait": [
+              "drain_thorax"
+            ]
+          },
+          "dans": [
+            "e1",
+            "e1_aggrav"
+          ]
+        }
+      ],
       "vignette": "Le poumon gauche est réexpansé et la SpO2 remonte, mais le choc s'aggrave : pression artérielle pincée, jugulaires toujours turgescentes, bruits du cœur assourdis. Le drain a ramené 250 mL de sang, puis plus rien.",
       "chrono": 90,
       "constantes": {
@@ -515,7 +551,7 @@
         "GCS": 13
       },
       "pente": {
-        "PAS": -2.2,
+        "PAS": -1.8,
         "FC": 0.6,
         "GCS": -0.05
       },
@@ -584,6 +620,9 @@
             "PAS": 12,
             "PAD": 4,
             "FC": -8
+          },
+          "pente": {
+            "PAS": -0.8
           }
         },
         "ptm": {
@@ -683,11 +722,38 @@
           "note": "contre_indique",
           "letal": "acr",
           "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "lever_jambes": {
+          "note": "inutile",
+          "why": "Tamponnade sur plaie cardiaque : le diagnostic est posé, le traitement est chirurgical. Un test de précharge ne change rien et retarde le bloc ; un remplissage limité suffit à soutenir la pression d'ici là."
         }
       },
       "resultats": {
         "efast": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'oreillette et du ventricule droits**. Poumon gauche à la paroi, drain en place. Pas d'épanchement péritonéal.",
-        "ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG petit, hyperkinétique. **VCI dilatée (24 mm), sans variation respiratoire**.",
+        "ett": [
+          {
+            "si": {
+              "fait": [
+                "pericardiocentese"
+              ]
+            },
+            "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. VG hyperkinétique. La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.",
+            "schema": {
+              "type": "ett",
+              "vg": "hyperkinetique",
+              "pericarde": true
+            }
+          },
+          {
+            "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG petit, hyperkinétique. **VCI dilatée (24 mm), sans variation respiratoire**.",
+            "schema": {
+              "type": "ett",
+              "vg": "hyperkinetique",
+              "pericarde": true,
+              "vci": "dilatee"
+            }
+          }
+        ],
         "echo_pleuro": "Glissement pleural retrouvé à gauche, drain en place. Pas d'épanchement pleural significatif.",
         "rp": "Poumon gauche réexpansé, drain en place. Silhouette cardiaque normale : un épanchement aigu de faible volume suffit à comprimer le cœur.",
         "gds": "Sous O2 : **pH 7,24** · PaO2 92 mmHg · PaCO2 36 mmHg · **HCO3⁻ 15 mmol/L** · **déficit de base −10**.",
@@ -702,12 +768,6 @@
           "epanchement": [
             "pericarde"
           ]
-        },
-        "ett": {
-          "type": "ett",
-          "vg": "hyperkinetique",
-          "pericarde": true,
-          "vci": "dilatee"
         },
         "echo_pleuro": {
           "type": "echo_pleuro"
@@ -748,6 +808,19 @@
     {
       "id": "e2_aggrav",
       "titre": "Tamponnade décompensée",
+      "declencheur": [
+        {
+          "apres": 20,
+          "si": {
+            "PAS": {
+              "max": 68
+            }
+          },
+          "dans": [
+            "e2"
+          ]
+        }
+      ],
       "vignette": "Le patient devient gris et somnolent. Pouls radial imperceptible, jugulaires distendues. L'arrêt est imminent.",
       "chrono": 60,
       "constantes": {
@@ -757,7 +830,7 @@
         "GCS": 10
       },
       "pente": {
-        "PAS": -1.8,
+        "PAS": -1.5,
         "FC": 0.5,
         "GCS": -0.1
       },
@@ -782,6 +855,9 @@
             "PAS": 14,
             "PAD": 6,
             "FC": -8
+          },
+          "pente": {
+            "PAS": -0.8
           }
         },
         "cgr_od": {
@@ -852,11 +928,38 @@
           "note": "contre_indique",
           "letal": "acr",
           "why": "Tamponnade : le cœur ne se remplit que grâce à une pression veineuse élevée. L'induction (vasodilatation) et la pression positive (retour veineux effondré) provoquent un collapsus jusqu'à l'arrêt. L'induction se fait au bloc, patient installé et champé, chirurgien prêt à inciser."
+        },
+        "lever_jambes": {
+          "note": "inutile",
+          "why": "Tamponnade sur plaie cardiaque : le diagnostic est posé, le traitement est chirurgical. Un test de précharge ne change rien et retarde le bloc ; un remplissage limité suffit à soutenir la pression d'ici là."
         }
       },
       "resultats": {
         "efast": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'oreillette et du ventricule droits**. Poumon gauche à la paroi, drain en place. Pas d'épanchement péritonéal.",
-        "ett": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG petit, hyperkinétique. **VCI dilatée (24 mm), sans variation respiratoire**.",
+        "ett": [
+          {
+            "si": {
+              "fait": [
+                "pericardiocentese"
+              ]
+            },
+            "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. VG hyperkinétique. La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.",
+            "schema": {
+              "type": "ett",
+              "vg": "hyperkinetique",
+              "pericarde": true
+            }
+          },
+          {
+            "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG petit, hyperkinétique. **VCI dilatée (24 mm), sans variation respiratoire**.",
+            "schema": {
+              "type": "ett",
+              "vg": "hyperkinetique",
+              "pericarde": true,
+              "vci": "dilatee"
+            }
+          }
+        ],
         "echo_pleuro": "Glissement pleural retrouvé à gauche, drain en place. Pas d'épanchement pleural significatif.",
         "rp": "Poumon gauche réexpansé, drain en place. Silhouette cardiaque normale : un épanchement aigu de faible volume suffit à comprimer le cœur.",
         "gds": "Sous O2 : **pH 7,24** · PaO2 92 mmHg · PaCO2 36 mmHg · **HCO3⁻ 15 mmol/L** · **déficit de base −10**.",
@@ -871,12 +974,6 @@
           "epanchement": [
             "pericarde"
           ]
-        },
-        "ett": {
-          "type": "ett",
-          "vg": "hyperkinetique",
-          "pericarde": true,
-          "vci": "dilatee"
         },
         "echo_pleuro": {
           "type": "echo_pleuro"
