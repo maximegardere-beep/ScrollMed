@@ -3394,6 +3394,22 @@ function dcSfx(id){
 
 // ===== SFX choc : début =====
 // choc électrique externe et cardioversion
+// charge (sifflement 600 → 3000 Hz, 2 s), bip « prêt » 1 kHz (0,6 s), puis choc : coup sourd + 60 Hz décroissant
+function dcSfxChoc(t0){
+  const V = DC_SFX_VOL;
+  dcSweep(600, 3000, t0, 2, V * 0.3, 'triangle');
+  // bip prêt : 4 impulsions de 100 ms toutes les 150 ms
+  for(let i = 0; i < 4; i++) dcTone(1000, t0 + 2.05 + i * 0.15, 0.1, V * 0.4, 'sine');
+  // choc : bruit passe-bas bref, et sinus grave qui retombe en exponentielle
+  const tc = t0 + 2.7;
+  dcNoise(tc, 0.12, V * 0.8, { type: 'lowpass', freq: 400, freqEnd: 120, attack: 0.003, release: 0.1 });
+  const g = dcSweep(60, 40, tc, 0.2, V, 'sine');
+  g.gain.cancelScheduledValues(tc);
+  g.gain.setValueAtTime(0, tc);
+  g.gain.linearRampToValueAtTime(V, tc + 0.005);
+  g.gain.exponentialRampToValueAtTime(0.001, tc + 0.2);
+}
+DC_SFX.choc_ext = DC_SFX.cardioversion = dcSfxChoc;
 // ===== SFX choc : fin =====
 
 // (séparateur : ne pas modifier)
