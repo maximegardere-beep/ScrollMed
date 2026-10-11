@@ -3427,6 +3427,33 @@ function dcSfxMetro(){}
 
 // ===== SFX ecg : début =====
 // impression de l'ECG 12 dérivations
+// imprimante thermique 2 s (dent de scie 300 Hz filtrée, hachée à 25 Hz par un LFO carré, souffle du papier),
+// puis le papier qu'on déchire (bruit aigu bref)
+function dcSfxEcg(t0){
+  const ctx = DC_AUDIO.ctx, D = 2;
+  const o = ctx.createOscillator(), f = ctx.createBiquadFilter(), hache = ctx.createGain(), env = ctx.createGain();
+  const lfo = ctx.createOscillator(), prof = ctx.createGain();
+  o.type = 'sawtooth'; o.frequency.value = 300;
+  f.type = 'lowpass'; f.frequency.value = 1600; f.Q.value = 0.7;
+  // gain haché entre 0 et 1 : 0,5 ± 0,5 (LFO carré à 25 Hz)
+  hache.gain.value = 0.5;
+  lfo.type = 'square'; lfo.frequency.value = 25;
+  prof.gain.value = 0.5;
+  lfo.connect(prof); prof.connect(hache.gain);
+  const vol = DC_SFX_VOL * 0.6;
+  env.gain.setValueAtTime(0, t0);
+  env.gain.linearRampToValueAtTime(vol, t0 + 0.02);
+  env.gain.setValueAtTime(vol, t0 + D - 0.04);
+  env.gain.linearRampToValueAtTime(0, t0 + D);
+  o.connect(f); f.connect(hache); hache.connect(env); env.connect(ctx.destination);
+  o.start(t0); lfo.start(t0);
+  o.stop(t0 + D + 0.02); lfo.stop(t0 + D + 0.02);
+  // souffle du papier qui avance
+  dcNoise(t0, D, DC_SFX_VOL * 0.12, { type: 'bandpass', freq: 3000, q: 0.8, attack: 0.05, release: 0.1 });
+  // déchirure : bruit aigu bref, attaque rapide (gain réduit : les crêtes du bruit dépassent le volume nominal)
+  dcNoise(t0 + D + 0.12, 0.2, DC_SFX_VOL * 0.55, { type: 'highpass', freq: 2500, freqEnd: 5000, q: 0.9, attack: 0.004, release: 0.14 });
+}
+DC_SFX.ecg = dcSfxEcg;
 // ===== SFX ecg : fin =====
 
 // (séparateur : ne pas modifier)
