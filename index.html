@@ -3419,6 +3419,69 @@ function dcSfxMetro(){}
 
 // ===== SFX scanner : début =====
 // TDM et angioscanner
+// ≈ 4,2 s : montée en régime de l'anneau (1,1 s), acquisition (2 s), ralentissement (1,1 s) ; clics de la table
+function dcSfxScanner(t0){
+  const ctx = DC_AUDIO.ctx, V = DC_SFX_VOL;
+  // bruit filtré local : gain à 0 dès sa création (sinon un échantillon à pleine amplitude si `at` tombe entre deux échantillons)
+  const noise = (at, dur, vol, o) => {
+    const n = Math.ceil(ctx.sampleRate * dur), buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+    for(let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    src.buffer = buf; f.type = o.type; f.Q.value = o.q || 1; g.gain.value = 0;
+    f.frequency.setValueAtTime(o.freq, at);
+    if(o.freqEnd) f.frequency.exponentialRampToValueAtTime(o.freqEnd, at + dur);
+    g.gain.setValueAtTime(0, at);
+    g.gain.linearRampToValueAtTime(vol, at + o.attack);
+    g.gain.setValueAtTime(vol, at + dur - o.release);
+    g.gain.linearRampToValueAtTime(0, at + dur);
+    src.connect(f); f.connect(g); g.connect(ctx.destination);
+    src.start(at); src.stop(at + dur + 0.02);
+    return g;
+  };
+  const up = 1.1, hold = 2, down = 1.1, t1 = t0 + up, t2 = t1 + hold, t3 = t2 + down;
+  // ronflement : deux dents de scie désaccordées, filtrées ; hauteur et filtre suivent les trois phases
+  const f = ctx.createBiquadFilter(), g = ctx.createGain();
+  f.type = 'lowpass'; f.Q.value = 0.8;
+  f.frequency.setValueAtTime(180, t0);
+  f.frequency.exponentialRampToValueAtTime(520, t1);
+  f.frequency.setValueAtTime(520, t2);
+  f.frequency.exponentialRampToValueAtTime(150, t3);
+  g.gain.value = 0; g.gain.setValueAtTime(0, t0);
+  g.gain.linearRampToValueAtTime(V * 0.4, t1);
+  g.gain.setValueAtTime(V * 0.4, t2);
+  g.gain.linearRampToValueAtTime(0, t3);
+  f.connect(g); g.connect(ctx.destination);
+  [1, 1.012].forEach(k => {
+    const o = ctx.createOscillator(), og = ctx.createGain();
+    o.type = 'sawtooth'; og.gain.value = 0.5;
+    o.frequency.setValueAtTime(38 * k, t0);
+    o.frequency.exponentialRampToValueAtTime(105 * k, t1);
+    o.frequency.setValueAtTime(105 * k, t2);
+    o.frequency.exponentialRampToValueAtTime(32 * k, t3);
+    o.connect(og); og.connect(f);
+    o.start(t0); o.stop(t3 + 0.02);
+  });
+  // souffle de rotation : bruit en bande, modulé pendant l'acquisition (≈ 2 tours/s)
+  noise(t0, up, V * 0.25, { type: 'bandpass', freq: 250, freqEnd: 800, q: 1.2, attack: up * 0.8, release: 0.02 });
+  const w = noise(t1, hold, V * 0.25, { type: 'bandpass', freq: 800, q: 1.2, attack: 0.02, release: 0.02 });
+  const lfo = ctx.createOscillator(), lg = ctx.createGain();
+  lfo.frequency.value = 2; lg.gain.value = V * 0.08;
+  lfo.connect(lg); lg.connect(w.gain);
+  lfo.start(t1); lfo.stop(t2);
+  noise(t2, down, V * 0.25, { type: 'bandpass', freq: 800, freqEnd: 200, q: 1.2, attack: 0.02, release: down * 0.8 });
+  // clics de la table qui avance : au démarrage puis pendant l'acquisition
+  [0.12, 0.42, 1.35, 1.85, 2.35, 2.85].forEach(d => {
+    noise(t0 + d, 0.025, V * 0.15, { type: 'highpass', freq: 2200, attack: 0.002, release: 0.02 });
+    const o = ctx.createOscillator(), og = ctx.createGain();
+    o.type = 'triangle'; o.frequency.value = 160; og.gain.value = 0;
+    og.gain.setValueAtTime(0, t0 + d);
+    og.gain.linearRampToValueAtTime(V * 0.08, t0 + d + 0.003);
+    og.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.04);
+    o.connect(og); og.connect(ctx.destination);
+    o.start(t0 + d); o.stop(t0 + d + 0.05);
+  });
+}
+DC_SFX.tdm_body = DC_SFX.tdm_ap = DC_SFX.angioscanner_thorax = DC_SFX.tdm_cerebral = dcSfxScanner;
 // ===== SFX scanner : fin =====
 
 // (séparateur : ne pas modifier)
