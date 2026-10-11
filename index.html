@@ -803,7 +803,15 @@
     display:flex; align-items:center; gap:8px;
   }
   .dc-tile .ic{ font-size:20px; }
-  .dc-tile.cat{ background: var(--surface-2); }
+  .dc-tile[style*="--hue"]{ border-left: 3px solid var(--hue); }
+  .dc-tile.cat{ background: var(--surface-2); border-color: color-mix(in srgb, var(--hue, var(--line)) 35%, var(--line)); border-left-width:1px;
+    flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:6px; padding:10px 12px; }
+  .dc-tile.cat .ic{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; font-size:19px; background: color-mix(in srgb, var(--hue, var(--trace)) 18%, transparent); }
+  .dc-tile.cat > span:nth-child(2){ width:100%; overflow-wrap:break-word; hyphens:auto; -webkit-hyphens:auto; }
+  .dc-tile.cat .chev{ position:absolute; top:8px; right:12px; color: var(--hue, var(--muted)); font-size:20px; font-weight:800; }
+  .dc-crumb .ic{ width:30px; height:30px; border-radius:9px; display:grid; place-items:center; font-size:17px; background: color-mix(in srgb, var(--hue) 18%, transparent); }
+  .dc-crumb{ color: var(--text); font-size:15px; }
+  .dc-crumb .up{ display:block; font-size:10.5px; color: var(--muted); font-weight:700; }
   .dc-tile.rcp{ border-color: var(--danger); }
   .dc-tile.done{ opacity:.45; }
   .dc-tile.on{ border-color: var(--trace); color: var(--trace); }
@@ -1856,6 +1864,23 @@ const DC_LIMITS = { FC:[0,220], PAS:[0,250], PAD:[0,160], SpO2:[0,100], FR:[0,60
 // couleur du scope : [normal min, normal max, alerte min, alerte max]
 const DC_RANGES = { FC:[50,100,40,130], PAM:[65,110,55,125], SpO2:[94,100,90,100], FR:[10,22,8,30], T:[36,38,35,39.5], GCS:[15,15,13,15] };
 const DC_TILE_ICONS = { 'Airway / ventilation':'🫁', 'Voies & monitorage':'💉', 'Bilan':'🧪', 'Imagerie & écho':'🔊', 'Traitement':'💊', 'Orientation':'📞', 'Diagnostic':'🩺', 'RCP':'❤️' };
+// icône des sous-catégories (path[1], path[2]…) ; une sous-catégorie absente de la table prend l'icône de sa racine
+const DC_CAT_ICONS = {
+  'Oxygène':'😮‍💨', "Préparer l'intubation":'📋', 'Induction (ISR)':'💉', 'Autres techniques':'🔦', "Échec d'intubation":'🆘', 'Respirateur':'⚙️', 'Plèvre':'📍', 'Décurarisation':'🔄',
+  'Voies veineuses':'🩸', 'Monitorage':'📈', 'Sondes':'🧷',
+  'Au lit':'⚡', 'Biochimie':'⚗️', 'Cœur & thrombose':'❤️', 'Hémostase & groupe':'🅾️', 'Infectieux':'🦠', 'Toxiques & allergie':'☠️', 'Neuro':'🧠',
+  'Écho cardiaque':'💓', 'Écho au lit':'🔊', 'Radios au lit':'🦴', 'Scanner':'🌀',
+  'Sang & remplissage':'💧', 'Remplissage':'💧', 'Transfusion':'🩸', 'Hémostase':'🧲', 'Arrêter le saignement':'🩹',
+  'Cœur & circulation':'🫀', 'Vasopresseurs':'⬆️', 'Inotropes & assistance':'🫀', 'Bradycardie':'🐢', 'Tachycardie':'⚡', 'Antithrombotiques':'🧬', 'OAP':'🌊',
+  'Respiratoire':'🫁', 'Neuro & sédation':'🧠', 'Benzodiazépines':'💤', 'Antiépileptiques':'🌩️', 'Sédation & analgésie':'😴', 'Protéger le cerveau':'🛡️',
+  'Métabolique & antidotes':'⚗️', 'Hyperkaliémie':'🔋', 'Glycémie & électrolytes':'🍬', 'Antidotes':'🧯', 'Anti-infectieux':'🦠',
+  'Gestes & mesures':'✋', 'Gestes':'✂️', 'Supprimer la cause':'⛔',
+  'Appeler':'📞', 'Bloc & interventionnel':'🔪', 'Admission & suite':'🛏️',
+  'États de choc':'📉', 'Cœur':'❤️', 'Anesthésie':'😷', 'Métabolique & toxique':'⚗️', 'Neurologique':'🧠'
+};
+// couleur de chaque catégorie racine : pastille des dossiers et liseré des gestes (repère visuel d'où l'on est)
+const DC_CAT_HUES = { 'Airway / ventilation':'#4fb3ff', 'Voies & monitorage':'#9b8cff', 'Bilan':'#f2c94c', 'Imagerie & écho':'#56d4c9', 'Traitement':'#35d999', 'Orientation':'#f2a83e', 'Diagnostic':'#ff7fb4', 'RCP':'#e2575a' };
+function dcCatIcon(path){ return DC_CAT_ICONS[path[path.length - 1]] || DC_TILE_ICONS[path[path.length - 1]] || DC_TILE_ICONS[path[0]] || '›'; }
 // colonne d'icônes (paysage) : libellé court ; une catégorie inconnue garde son nom tronqué
 const DC_RAIL_LABELS = { 'Airway / ventilation':'Airway', 'Voies & monitorage':'Voies', 'Bilan':'Bilan', 'Imagerie & écho':'Imagerie', 'Traitement':'Trait.', 'Orientation':'Orient.', 'Diagnostic':'Diag.', 'RCP':'RCP' };
 // téléphone en paysage, partie en cours (même requête que le CSS)
@@ -1955,7 +1980,7 @@ function dcSearch(pool, q){
     let best = rl < 0 ? 9 : rl, via = null;
     s.alias.forEach(([k, raw]) => { const r = dcMatchRank(k, q); if(r >= 0 && r < best){ best = r; if(rl < 0) via = raw; } });
     if(best === 9) return;
-    const path = a.path.join(' › ');
+    const path = (a.path.length > 2 ? a.path.slice(1) : a.path).join(' › ');
     hits.push({ r: best, n, it: { leaf: a, sub: via ? `≈ ${via} · ${path}` : path } });
   });
   return hits.sort((x, y) => x.r - y.r || x.n - y.n).map(h => h.it);
@@ -4216,7 +4241,8 @@ function dcTileItems(){
     if(!nav.every((p, i) => a.path[i] === p)) return;
     if(a.path.length > depth){
       const c = a.path[depth];
-      if(!cats.has(c)){ cats.add(c); out.push({ cat: c }); }
+      if(!cats.has(c)){ cats.add(c); out.push({ cat: c, path: [...nav, c], n: 0, faits: 0 }); }
+      const f = out.find(x => x.cat === c); f.n++; if(dcTileCount(a)) f.faits++;
     } else out.push({ leaf: a });
   });
   // pendant un ACR, la catégorie RCP passe en premier
@@ -4247,8 +4273,9 @@ function dcRecentHtml(){
 const DC_RING = '<svg class="dc-ring" aria-hidden="true"><rect width="100%" height="100%" rx="14"/></svg>';
 function dcTileHtml(it){
   if(it.cat){
-    const ic = G.nav.length === 0 && !DC_LAND.matches ? (DC_TILE_ICONS[it.cat] || '•') : '›';
-    return `<button class="dc-tile cat ${it.cat === DC_RCP_ROOT ? 'rcp' : ''}" data-cat="${escapeHtml(it.cat)}"><span class="ic">${ic}</span><span>${escapeHtml(it.cat)}</span></button>`;
+    const path = it.path || [it.cat], hue = DC_CAT_HUES[path[0]] || 'var(--trace)';
+    const n = it.n ? `${it.n} geste${it.n > 1 ? 's' : ''}${it.faits ? ` · ${it.faits} fait${it.faits > 1 ? 's' : ''}` : ''}` : '';
+    return `<button class="dc-tile cat ${it.cat === DC_RCP_ROOT ? 'rcp' : ''}" data-cat="${escapeHtml(it.cat)}" style="--hue:${hue}"><span class="ic">${dcCatIcon(path)}</span><span>${escapeHtml(it.cat)}${n ? `<span class="sub">${n}</span>` : ''}</span><span class="chev">›</span></button>`;
   }
   const a = it.leaf;
   const isDx = a.type === 'diagnostic';
@@ -4259,7 +4286,7 @@ function dcTileHtml(it){
   const mark = isDx ? (G.dx.includes(a.id) ? '☑' : '☐') : done ? '✓' : count ? `×${count}` : '';
   const info = isDx || done ? '' : lock ? `🔒 ${DC_VOIE_TXT[a.requiert] || a.requiert + ' requis'}`
     : (dcFinOf(a.id) ? '🏁 fin · ' : '') + (dcDuree(a.id) ? `⏱ ${dcDuree(a.id)} min` : '⏱ immédiat');
-  return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" ${done ? 'disabled' : ''}>${cls === 'act' ? DC_RING : ''}
+  return `<button class="dc-tile ${cls}" data-act="${escapeHtml(a.id)}" style="--hue:${DC_CAT_HUES[a.path[0]] || 'var(--line)'}" ${done ? 'disabled' : ''}>${cls === 'act' ? DC_RING : ''}
     <span>${escapeHtml(a.label)}${mark ? ` <b>${mark}</b>` : ''}${it.sub ? `<span class="sub">${escapeHtml(it.sub)}</span>` : ''}${info ? `<span class="sub">${info}</span>` : ''}</span></button>`;
 }
 
@@ -4337,7 +4364,7 @@ function dcRenderGame(){
 function dcTilesHtml(){
   // en paysage, le premier niveau est porté par la colonne d'icônes : ← seulement dans une sous-catégorie
   const nav = dcNav(), searching = dcNorm(G.search.trim()).length >= 2, top = nav.length <= (DC_LAND.matches ? 1 : 0);
-  const crumb = !searching && !top ? `<div class="dc-crumb"><button data-dc="back">←</button>${escapeHtml(nav.join(' › '))}</div>` : '';
+  const crumb = !searching && !top ? `<div class="dc-crumb" style="--hue:${DC_CAT_HUES[nav[0]] || 'var(--trace)'}"><button data-dc="back" aria-label="Retour">←</button><span class="ic">${dcCatIcon(nav)}</span><span><span class="up">${escapeHtml(nav.slice(0, -1).join(' › '))}</span>${escapeHtml(nav[nav.length - 1])}</span></div>` : '';
   const items = dcTileSort(dcTileItems());
   // Récents : à la racine (portrait) ou en tête de chaque catégorie de la colonne d'icônes (paysage)
   const recent = top && !searching ? dcRecentHtml() : '';
