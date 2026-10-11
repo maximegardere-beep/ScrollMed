@@ -3411,6 +3411,23 @@ function dcSfxMetro(){}
 
 // ===== SFX transfert : début =====
 // départ du patient (réa, bloc, radiologie interventionnelle…) : DC_SFX._transfert
+// brancard qui s'éloigne (grondement + cliquetis de roues, ≈ 2 s), puis double claquement des portes battantes
+DC_SFX._transfert = (t0) => {
+  const V = DC_SFX_VOL, R = 2, now = DC_AUDIO.ctx.currentTime;
+  // gain tenu à 0 jusqu'au départ : sinon le gain par défaut (1) laisse passer un échantillon à pleine échelle
+  const n = (...a) => dcNoise(...a).gain.setValueAtTime(0, now);
+  // grondement grave : passe-bas qui se ferme, volume décroissant tout du long
+  n(t0, R, V, { type: 'lowpass', freq: 300, freqEnd: 80, q: 0.8, attack: 0.15, release: R - 0.15 });
+  // cliquetis réguliers des roues, de plus en plus faibles et espacés
+  for(let t = 0.08, k = 0; t < R - 0.1; t += 0.13 + k * 0.006, k++){
+    n(t0 + t, 0.018, V * 0.3 * (1 - t / R), { type: 'highpass', freq: 3200 - 600 * t, q: 1.5, attack: 0.002, release: 0.012 });
+  }
+  // portes battantes : deux coups sourds à 0,15 s d'écart (le second plus faible)
+  [[R + 0.12, 1], [R + 0.27, 0.65]].forEach(([t, k]) => {
+    n(t0 + t, 0.14, V * 0.8 * k, { type: 'lowpass', freq: 380, freqEnd: 90, q: 1, attack: 0.004, release: 0.12 });
+    dcSweep(130, 48, t0 + t, 0.16, V * 0.6 * k, 'sine').gain.setValueAtTime(0, now);
+  });
+};
 // ===== SFX transfert : fin =====
 
 // (séparateur : ne pas modifier)
