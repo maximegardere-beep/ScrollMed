@@ -2606,6 +2606,7 @@ function dcDoAction(id, confirmed){
   if(!dcIsRcp(a) && !(a.fin && !fin)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
   try { if(navigator.vibrate) navigator.vibrate(15); } catch(_){}   // seule vibration du geste (appui maintenu ou départ confirmé)
+  dcSfx(id);
 
   // résultat d'examen : celui du terrain, sinon de l'étape, sinon du scénario
   const res = dcResult(id);
@@ -3341,6 +3342,101 @@ function dcTone(freq, at, dur, vol, type){
   o.start(at); o.stop(at + dur + 0.02);
 }
 function dcSoundOn(){ return DC_PREFS.son && DC_AUDIO.ctx; }
+
+// --- bruitages des gestes (Web Audio, coupés avec le son, toujours sous les alarmes) ---
+const DC_SFX_VOL = 0.1;   // volume maximal d'un bruitage (alarmes : 0,09 à 0,14 en impulsions)
+// bruit blanc filtré avec enveloppe (attaque 10 ms, extinction sur la fin) ;
+// o : { type: 'lowpass' | 'highpass' | 'bandpass', freq, freqEnd (glissement), q, attack, release }
+function dcNoise(at, dur, vol, o){
+  o = o || {};
+  const ctx = DC_AUDIO.ctx, n = Math.max(1, Math.ceil(ctx.sampleRate * dur));
+  const buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+  src.buffer = buf;
+  f.type = o.type || 'lowpass';
+  f.frequency.setValueAtTime(o.freq || 1000, at);
+  if(o.freqEnd) f.frequency.exponentialRampToValueAtTime(o.freqEnd, at + dur);
+  f.Q.value = o.q || 1;
+  const atk = o.attack != null ? o.attack : 0.01, rel = o.release != null ? o.release : Math.min(0.1, dur / 2);
+  g.gain.setValueAtTime(0, at);
+  g.gain.linearRampToValueAtTime(vol, at + atk);
+  g.gain.setValueAtTime(vol, Math.max(at + atk, at + dur - rel));
+  g.gain.linearRampToValueAtTime(0, at + dur);
+  src.connect(f); f.connect(g); g.connect(ctx.destination);
+  src.start(at); src.stop(at + dur + 0.02);
+  return g;
+}
+// oscillateur dont la fréquence glisse de f0 à f1 (exponentiel), avec enveloppe
+function dcSweep(f0, f1, at, dur, vol, type){
+  const ctx = DC_AUDIO.ctx, o = ctx.createOscillator(), g = ctx.createGain();
+  o.type = type || 'sine';
+  o.frequency.setValueAtTime(f0, at);
+  o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), at + dur);
+  g.gain.setValueAtTime(0, at);
+  g.gain.linearRampToValueAtTime(vol, at + 0.01);
+  g.gain.setValueAtTime(vol, at + Math.max(0.01, dur - 0.05));
+  g.gain.linearRampToValueAtTime(0, at + dur);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(at); o.stop(at + dur + 0.02);
+  return g;
+}
+// registre : DC_SFX[id] = (t0) => …, joué au lancement du geste ; DC_SFX._transfert : repli pour toute action à transfert
+const DC_SFX = {};
+function dcSfx(id){
+  if(!dcSoundOn()) return;
+  const a = dcIndex()[id];
+  const fn = DC_SFX[id] || (a && a.transfert && DC_SFX._transfert);
+  if(!fn) return;
+  try { fn(DC_AUDIO.ctx.currentTime + 0.02); } catch(e){ console.warn('bruitage', id, e); }
+}
+// chaque bloc ci-dessous ne contient qu'un bruitage : le modifier sans toucher aux autres
+
+// ===== SFX choc : début =====
+// choc électrique externe et cardioversion
+// ===== SFX choc : fin =====
+
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+
+// ===== SFX massage : début =====
+// compressions et insufflations, à chaque tic du métronome de RCP
+function dcSfxMetro(){}
+// ===== SFX massage : fin =====
+
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+
+// ===== SFX transfert : début =====
+// départ du patient (réa, bloc, radiologie interventionnelle…) : DC_SFX._transfert
+// ===== SFX transfert : fin =====
+
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+
+// ===== SFX scanner : début =====
+// TDM et angioscanner
+// ===== SFX scanner : fin =====
+
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+
+// ===== SFX ecg : début =====
+// impression de l'ECG 12 dérivations
+// ===== SFX ecg : fin =====
+
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+// (séparateur : ne pas modifier)
+
+// ===== SFX doppler : début =====
+// Doppler de l'ETT (ett, vti, lever_jambes)
+// ===== SFX doppler : fin =====
+
 // bip de pouls : plus grave quand la SpO2 baisse (un demi-ton par point)
 function dcBeep(delay){
   if(!dcSoundOn()) return;
@@ -3405,7 +3501,7 @@ function dcMonLoop(ts){
     while(DC_MON.metroNext <= t1){
       DC_MON.metroNext += 60 / DC_METRO_RATE;
       DC_MONSTAT.metro++;
-      if(dcSoundOn()) dcTone(1250, DC_AUDIO.ctx.currentTime + 0.02, 0.035, 0.14, 'square');
+      if(dcSoundOn()){ dcTone(1250, DC_AUDIO.ctx.currentTime + 0.02, 0.035, 0.14, 'square'); try { dcSfxMetro(); } catch(e){} }
       const m = document.getElementById('dcMetro');
       if(m){ m.classList.add('beat'); clearTimeout(m._t); m._t = setTimeout(() => m.classList.remove('beat'), 120); }
     }
