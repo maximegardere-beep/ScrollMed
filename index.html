@@ -3358,6 +3358,7 @@ function dcNoise(at, dur, vol, o){
   f.frequency.setValueAtTime(o.freq || 1000, at);
   if(o.freqEnd) f.frequency.exponentialRampToValueAtTime(o.freqEnd, at + dur);
   f.Q.value = o.q || 1;
+  g.gain.value = 0;   // à 0 dès la création : sinon un échantillon passe à plein volume avant l'attaque (clic)
   const atk = o.attack != null ? o.attack : 0.01, rel = o.release != null ? o.release : Math.min(0.1, dur / 2);
   g.gain.setValueAtTime(0, at);
   g.gain.linearRampToValueAtTime(vol, at + atk);
@@ -3373,6 +3374,7 @@ function dcSweep(f0, f1, at, dur, vol, type){
   o.type = type || 'sine';
   o.frequency.setValueAtTime(f0, at);
   o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), at + dur);
+  g.gain.value = 0;
   g.gain.setValueAtTime(0, at);
   g.gain.linearRampToValueAtTime(vol, at + 0.01);
   g.gain.setValueAtTime(vol, at + Math.max(0.01, dur - 0.05));
@@ -3429,7 +3431,7 @@ function dcSfxMetro(t0){
   dcSweep(110, 55, t0, 0.06, DC_SFX_VOL * 0.7);   // le bruit filtré ne sort qu'à quelques % : le corps du choc vient du sinus
   if(++DC_MON.sfxComp % 30 || G.mon.has('CO2')) return;
   for(const dt of [0.35, 1.35])   // souffle qui monte puis retombe
-    dcNoise(t0 + dt, 0.8, DC_SFX_VOL * 0.8, { type: 'bandpass', freq: 650, freqEnd: 1100, q: 0.5, attack: 0.35, release: 0.4 });
+    dcNoise(t0 + dt, 0.8, DC_SFX_VOL * 0.6, { type: 'bandpass', freq: 650, freqEnd: 1100, q: 0.5, attack: 0.35, release: 0.4 });
   DC_MON.sfxPause = t0 + 2.2;
 }
 // ===== SFX massage : fin =====
