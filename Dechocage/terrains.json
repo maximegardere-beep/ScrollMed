@@ -92,12 +92,14 @@
         "plaie_thoracique/e2_aggrav/ett": [
           { "si": { "fait": ["pericardiocentese"] }, "texte": "Après la ponction : **épanchement péricardique résiduel de 6 mm**, cavités droites de nouveau remplies. VG dilaté, **FEVG 30 %** (connue). La plaie cardiaque saigne toujours : récidive attendue, le bloc reste urgent.", "schema": { "type": "ett", "vg": "dilate", "pericarde": true } },
           { "texte": "**Épanchement péricardique circonférentiel de 15 mm**, **collapsus diastolique de l'OD et du VD**. VG dilaté, **FEVG 30 %** (connue) : la tamponnade est encore plus mal tolérée. **VCI dilatée (24 mm), sans variation respiratoire**.", "schema": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" } }
-        ]
+        ],
+        "asthme_aigu_grave/e3_collapsus/ett": "VG dilaté, **FEVG 30 %** (connue), **cavités peu remplies** ; fenêtres médiocres (distension). Pas d'épanchement péricardique."
       },
       "schemas": {
         "ett": { "type": "ett", "vg": "dilate", "vci": "normale" },
         "stemi_choc_cardiogenique/ett": { "type": "ett", "vg": "dilate", "akinesie": "anterieure", "vci": "dilatee" },
-        "plaie_thoracique/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" }
+        "plaie_thoracique/ett": { "type": "ett", "vg": "dilate", "pericarde": true, "vci": "dilatee" },
+        "asthme_aigu_grave/e3_collapsus/ett": { "type": "ett", "vg": "dilate", "vci": false }
       },
       "tags": ["insuffisance cardiaque", "remplissage"],
       "promeut": [
@@ -451,6 +453,11 @@
         {
           "id": "neostigmine",
           "why": "Myasthénie sous pyridostigmine : la néostigmine a un effet imprévisible (résistance ou crise cholinergique). Décurariser par sugammadex, sous monitorage quantitatif."
+        },
+        {
+          "id": "mgso4",
+          "dans": ["asthme_aigu_grave"],
+          "why": "Myasthénie : le magnésium IV réduit la libération d'acétylcholine à la jonction neuromusculaire et peut déclencher une crise myasthénique. L'éviter ; poursuivre les bronchodilatateurs inhalés et l'ipratropium."
         }
       ],
       "constantes": { "SpO2": -2 },
@@ -460,6 +467,12 @@
           "dans": ["depression_respiratoire_opioides"],
           "plus": { "SpO2": -2 },
           "why": "Myasthénie : réserve musculaire respiratoire réduite, la dépression morphinique est moins bien tolérée. Épargne morphinique."
+        },
+        {
+          "id": "mgso4",
+          "dans": ["asthme_aigu_grave"],
+          "plus": { "SpO2": -4 },
+          "why": "Myasthénie : le magnésium affaiblit les muscles respiratoires d'une patiente déjà épuisée."
         }
       ],
       "resultats": {
@@ -880,6 +893,11 @@
           "id": "glucagon",
           "dans": ["anaphylaxie"],
           "why": "Patient sous bêtabloquant : l'anaphylaxie peut résister à l'adrénaline. Glucagon IV en cas de résistance (SFAR/SFA 2011)."
+        },
+        {
+          "id": "arret_ttt",
+          "dans": ["asthme_aigu_grave"],
+          "why": "Propranolol contre-indiqué dans l'asthme (RCP) : l'arrêter. La prévention de la rupture de varices passe alors par la ligature endoscopique (Baveno VII, 2022)."
         }
       ],
       "module": [
@@ -894,6 +912,18 @@
           "dans": ["depression_respiratoire_opioides"],
           "effet": { "PAS": 1.3 },
           "why": "Sous bêtabloquant, la décharge adrénergique d'une levée brutale s'exprime surtout en hypertension (effet α non compensé), sans tachycardie d'alerte. Raison de plus pour titrer."
+        },
+        {
+          "id": "salbutamol_neb",
+          "dans": ["asthme_aigu_grave"],
+          "effet": { "SpO2": 0.4 },
+          "why": "Propranolol, bêtabloquant non cardiosélectif : il bloque les récepteurs β2 bronchiques et réduit l'effet du salbutamol. Il est contre-indiqué chez l'asthmatique (RCP du propranolol) et a pu déclencher la crise."
+        },
+        {
+          "id": "salbutamol_iv",
+          "dans": ["asthme_aigu_grave"],
+          "effet": { "SpO2": 0.4 },
+          "why": "Propranolol, bêtabloquant non cardiosélectif : il bloque les récepteurs β2 et réduit l'effet du salbutamol, même IV."
         }
       ],
       "tags": ["bêtabloquants"]

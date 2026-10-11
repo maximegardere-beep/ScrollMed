@@ -11,6 +11,7 @@
   },
   "constantes": { "FC": 132, "PAS": 128, "PAD": 76, "SpO2": 87, "FR": 34, "T": 37.4, "GCS": 15 },
   "seuils": { "PAS": 50, "SpO2": 70 },
+  "hemodynamique": { "reserve_ml": 1000, "oap_ml": 4000, "why": "Patiente jeune, déshydratée par 6 heures de polypnée : une précharge-dépendance modérée, démasquée par la pression positive après l'intubation. Au-delà de 1 L, le remplissage ne corrige plus un collapsus dû à l'air piégé : il faut déconnecter." },
   "resultats": {
     "scope": "Tachycardie sinusale régulière.",
     "ecg": "Tachycardie sinusale, axe normal, pas de trouble de la repolarisation.",
@@ -48,7 +49,7 @@
         "salbutamol_neb": { "note": "indispensable", "why": "β2-mimétique de courte durée d'action inhalé, répété toutes les 20 minutes la première heure (GINA 2024). Nébulisé sous oxygène chez cette patiente hypoxémique.", "effet": { "SpO2": 3, "FR": -2, "FC": 4 } },
         "ipratropium": { "note": "recommande", "why": "Ajouté au salbutamol dans l'exacerbation sévère : moins d'hospitalisations et meilleure fonction respiratoire (GINA 2024).", "effet": { "SpO2": 1 } },
         "vvp": { "note": "recommande", "why": "Voie veineuse pour le corticoïde, le magnésium et une éventuelle intubation." },
-        "cortico_sys": { "note": "indispensable", "why": "Corticoïde systémique dans l'heure qui suit l'arrivée (GINA 2024) : prednisolone 1 mg/kg (40 à 50 mg) per os, ou équivalent IV si la patiente ne peut pas avaler. Effet après 4 à 6 heures." },
+        "cortico_sys": { "note": "indispensable", "delai": 60, "why": "Corticoïde systémique dans l'heure qui suit l'arrivée (GINA 2024) : prednisolone 1 mg/kg (50 mg au plus) per os, aussi efficace, ou méthylprednisolone IV chez une patiente qui parle par mots et ne peut pas avaler. Effet après 4 à 6 heures." },
         "mgso4": { "note": "recommande", "why": "Sulfate de magnésium 2 g IV en 20 minutes, en dose unique, si la réponse au traitement initial est insuffisante ou si l'hypoxémie persiste (GINA 2024). Pas en routine.", "effet": { "SpO2": 2, "FR": -2 } },
         "salbutamol_iv": { "note": "debattu", "why": "Le salbutamol IV n'a pas fait mieux que la voie inhalée et donne plus d'effets indésirables : pas en routine (GINA 2024). Il se discute en réanimation dans l'AAG réfractaire.", "effet": { "SpO2": 2, "FC": 12 } },
         "gds": { "note": "recommande", "why": "Gaz du sang dans l'exacerbation grave ou sans réponse au traitement (GINA 2024). Une PaCO2 normale ou haute chez un asthmatique polypnéique annonce l'épuisement." },
@@ -75,15 +76,20 @@
     {
       "id": "e1_aggrav",
       "titre": "Aggravation",
-      "vignette": "Vingt minutes plus tard, la patiente ne parle plus, sueurs profuses, balancement thoraco-abdominal. Les sibilants diminuent : le thorax devient silencieux.",
+      "declencheur": [
+        { "apres": 15, "si": { "manque": [["salbutamol_neb", "salbutamol_iv"]] }, "dans": ["e1"] },
+        { "apres": 30, "si": { "manque": ["cortico_sys"] }, "dans": ["e1"] },
+        { "si": { "SpO2": { "max": 80 } }, "dans": ["e1"] }
+      ],
+      "vignette": "La patiente ne parle plus, sueurs profuses, balancement thoraco-abdominal. Les sibilants diminuent : le thorax devient silencieux.",
       "chrono": 90,
       "constantes": { "SpO2": 82, "FR": 38, "FC": 142, "GCS": 14 },
-      "pente": { "SpO2": -0.8, "FC": 0.4, "GCS": -0.05 },
+      "pente": { "SpO2": -1, "FC": 0.4, "GCS": -0.05 },
       "diagnostic": ["dx_aag"],
       "actions": {
         "o2_masque": { "note": "indispensable", "alt": "o2", "why": "SpO2 cible 93 à 95 % (GINA 2024).", "effet": { "SpO2": 6 } },
         "salbutamol_neb": { "note": "indispensable", "refaire": true, "why": "Nébulisations de salbutamol répétées, voire continues, dans l'AAG qui ne répond pas (GINA 2024).", "effet": { "SpO2": 3, "FR": -2, "FC": 4 } },
-        "cortico_sys": { "note": "indispensable", "why": "Corticoïde systémique sans attendre : son effet est retardé de plusieurs heures (GINA 2024)." },
+        "cortico_sys": { "note": "indispensable", "delai": 60, "why": "Corticoïde systémique sans attendre, dans l'heure qui suit l'arrivée : son effet est retardé de plusieurs heures (GINA 2024)." },
         "mgso4": { "note": "indispensable", "why": "Absence de réponse au traitement initial et hypoxémie persistante : sulfate de magnésium 2 g IV en 20 minutes (GINA 2024).", "effet": { "SpO2": 3, "FR": -2 } },
         "ipratropium": { "note": "recommande", "why": "Associé au salbutamol dans l'exacerbation sévère (GINA 2024).", "effet": { "SpO2": 1 } },
         "renfort": { "note": "recommande", "why": "Signes de menace vitale (thorax silencieux, épuisement) : appeler le réanimateur pour préparer l'intubation." },
@@ -102,7 +108,7 @@
       "vignette": "Une heure après l'arrivée, malgré le traitement, la patiente s'épuise : somnolente, elle ne répond plus que par des signes. Respiration superficielle à 12/min, thorax quasi silencieux, sueurs. Gaz du sang : pH 7,12, PaCO2 78 mmHg. L'infirmière demande ce qu'il faut préparer.",
       "chrono": 90,
       "constantes": { "SpO2": 86, "FR": 12, "FC": 138, "PAS": 116, "PAD": 68, "GCS": 11, "EtCO2": 62 },
-      "pente": { "SpO2": -0.45, "GCS": -0.1, "FR": -0.1, "PAS": -0.3 },
+      "pente": { "SpO2": -0.6, "GCS": -0.1, "FR": -0.1, "PAS": -0.3 },
       "diagnostic": ["dx_aag"],
       "resultats": {
         "gds": "**pH {7,10~7,15}** · **PaCO2 {74~82} mmHg** · **PaO2 {56~62} mmHg** sous O2 · HCO3⁻ 25 mmol/L. **Acidose respiratoire aiguë** : épuisement."
@@ -147,7 +153,8 @@
     {
       "id": "e3_collapsus",
       "titre": "Collapsus après l'intubation",
-      "vignette": "Dix minutes après l'intubation, le respirateur tourne avec ses réglages standards (FR 20/min, I/E 1:2). La pression s'effondre, pression de crête à 55 cmH2O, capnogramme en aileron de requin qui ne revient pas à la ligne de base, thorax distendu, murmure vésiculaire très diminué des deux côtés.",
+      "declencheur": { "si": { "fait": ["hypervent", ["isr_ketamine", "isr_ketamine_succi", "isr_etomidate", "isr_etomidate_rocu", "isr_propofol", "isr_propofol_succi", "ind_classique", "iot_fibro_vigile", "cricothyro"]] }, "dans": ["e2"] },
+      "vignette": "Peu après l'intubation, le respirateur tourne à fréquence élevée (FR 20/min ou plus, I/E 1:2). La pression s'effondre, pression de crête à 55 cmH2O, capnogramme en aileron de requin qui ne revient pas à la ligne de base, thorax distendu, murmure vésiculaire très diminué des deux côtés.",
       "chrono": 60,
       "constantes": { "PAS": 64, "PAD": 36, "FC": 146, "SpO2": 86, "EtCO2": 48 },
       "pente": { "PAS": -1.5, "SpO2": -0.6, "FC": 0.5 },

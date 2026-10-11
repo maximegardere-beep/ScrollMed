@@ -6,7 +6,7 @@ Avant de pousser : validation de `CLAUDE.md` et simulation d'une prise en charge
 
 - [x] **A. Embolie pulmonaire à haut risque** (`sc_ep_grave.json`, fait)
 
-- [ ] **B. Asthme aigu grave** (GINA 2024 ; ERC 2021, asthme) — *brouillon en réserve : `Dechocage/reserve/`*
+- [x] **B. Asthme aigu grave** (GINA 2024 ; ERC 2021, asthme) (`sc_asthme_aigu_grave.json`, fait, trame du patient aléatoire)
   - Femme, 26 ans, 58 kg, asthme mal contrôlé. FC 132, PA 128/76, SpO2 87 %, FR 34, GCS 15.
   - e1 Accueil : O2 (cible 93-95 %), salbutamol nébulisé répété, corticoïde systémique dans l'heure (indispensables) ; ipratropium, MgSO4 2 g IV si non-réponse (recommandés) ; salbutamol IV débattu ; sédatifs (midazolam, morphine) et bêtabloquant contre-indiqués ; intubation inutile à ce stade. Si bronchodilatateur ou corticoïde manquant → `e1_aggrav`.
   - e2 Épuisement (somnolence, thorax silencieux, bradypnée, PaCO2 78) : intubation indispensable (kétamine ou étomidate ; propofol débattu, hypotension), `vm_asthme` (FR basse, expiration longue, hypercapnie permissive) indispensable, remplissage avant l'induction. Si `vm_asthme` manquant → `e3_collapsus`.
@@ -54,4 +54,5 @@ Avant de pousser : validation de `CLAUDE.md` et simulation d'une prise en charge
 - [ ] **Induction programmée** (réserve : `sc_induction_programmee.json`, `induction_programmee.patch`)
 - [ ] **Toxicité systémique des anesthésiques locaux** (réserve : `sc_toxicite_al.json`, `toxicite_al.patch`)
 - [ ] **Intubation difficile imprévue** (réserve : `sc_intubation_difficile_imprevue.json`, `intubation_difficile_imprevue.patch`)
-- [ ] **Asthme aigu grave** (réserve, entrée B) et **TC grave** (réserve, entrée I)
+- [x] **Asthme aigu grave** (`sc_asthme_aigu_grave.json`, entrée B)
+- [ ] **TC grave** (réserve, entrée I)
