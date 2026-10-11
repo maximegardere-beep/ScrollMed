@@ -3402,7 +3402,20 @@ function dcSfx(id){
 
 // ===== SFX massage : début =====
 // compressions et insufflations, à chaque tic du métronome de RCP
-function dcSfxMetro(){}
+// choc mat à chaque compression (si le MCE est lancé dans cet ACR) ; 30:2 : après 30 compressions,
+// 2 insufflations au ballon et pause du massage, sauf patient intubé (ventilation continue, sans pause)
+function dcSfxMetro(t0){
+  if(!DC_AUDIO.ctx || !G.acr || !G.acr.done.has('mce')) return;
+  if(t0 == null) t0 = DC_AUDIO.ctx.currentTime + 0.02;
+  if(DC_MON.sfxAcr !== G.acr){ DC_MON.sfxAcr = G.acr; DC_MON.sfxComp = 0; DC_MON.sfxPause = 0; }   // nouvel ACR
+  if(t0 < DC_MON.sfxPause) return;   // insufflations en cours : mains levées
+  dcNoise(t0, 0.06, DC_SFX_VOL, { type: 'lowpass', freq: 180, freqEnd: 90, q: 0.7, attack: 0.004, release: 0.045 });
+  dcSweep(110, 55, t0, 0.06, DC_SFX_VOL * 0.7);   // le bruit filtré ne sort qu'à quelques % : le corps du choc vient du sinus
+  if(++DC_MON.sfxComp % 30 || G.mon.has('CO2')) return;
+  for(const dt of [0.35, 1.35])   // souffle qui monte puis retombe
+    dcNoise(t0 + dt, 0.8, DC_SFX_VOL * 0.8, { type: 'bandpass', freq: 650, freqEnd: 1100, q: 0.5, attack: 0.35, release: 0.4 });
+  DC_MON.sfxPause = t0 + 2.2;
+}
 // ===== SFX massage : fin =====
 
 // (séparateur : ne pas modifier)
