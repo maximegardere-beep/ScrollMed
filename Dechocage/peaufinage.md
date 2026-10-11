@@ -22,7 +22,7 @@ Pistes choisies par QCM le 2026-10-08. **Statut : en attente, à lancer plus tar
   - tests Playwright versés dans le dépôt (`tests/`) ;
   - ECG 12 dérivations dessiné à partir du code de rythme ;
   - images d'examens réelles sous licence libre ;
-  - rejouer le même patient depuis le débriefing ; frise des actions sur la courbe.
+  - rejouer le même patient depuis le débriefing.
 
 ## Ordre de livraison proposé
 
@@ -32,3 +32,4 @@ Pistes choisies par QCM le 2026-10-08. **Statut : en attente, à lancer plus tar
 - [ ] **L3** Résultats différés.
 - [ ] **L4** Équipe qui parle : moteur, puis messages ajoutés aux 8 trames et aux 5 complications.
 - [x] **L5** Schémas d'examens SVG, branchés sur les scénarios existants (avec TDM et angioscanner).
+- [ ] **L6** Frise comparée au chemin expert (retenue le 2026-10-11) : au débriefing, la chronologie du joueur face au chemin idéal (gestes `indispensable` de chaque étape du chemin par défaut, objectifs `delai`) sur une même échelle de temps patient ; repères des gestes posés sur la courbe des constantes (toucher un repère = son `why`) ; écarts en couleur (fait à temps, en retard, oublié, contre-indiqué). Calculé par le moteur depuis les scénarios, rien à écrire dans le contenu.
