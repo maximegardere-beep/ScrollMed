@@ -3435,6 +3435,38 @@ function dcSfxMetro(){}
 
 // ===== SFX doppler : début =====
 // Doppler de l'ETT (ett, vti, lever_jambes)
+// 3 « whoush » pulsés sous-aortiques au rythme de la FC ; la PAS règle hauteur, durée et force (bas débit : grave, court, faible)
+function dcSfxDoppler(t0){
+  const fc = +G.vitals.FC, pas = +G.vitals.PAS;
+  if(G.phase === 'acr' || !(fc > 0)) return;
+  const ctx = DC_AUDIO.ctx, cyc = 60 / Math.min(160, Math.max(40, fc));
+  const x = Math.min(1, Math.max(0, ((isFinite(pas) ? pas : 90) - 70) / 40));   // 0 : PAS ≤ 70, 1 : PAS ≥ 110
+  const fMax = 600 + 750 * x, vol = DC_SFX_VOL * (0.45 + 0.55 * x);
+  // un souffle : bruit passe-bande dont le centre monte de f0 à fPic puis redescend
+  const souffle = (at, dur, v, f0, fPic, q) => {
+    const n = Math.ceil(ctx.sampleRate * (dur + 0.02)), buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+    for(let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * 2.5;   // ×2,5 : compense la perte du passe-bande étroit (pic final ≈ DC_SFX_VOL)
+    const src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(), pic = at + dur * 0.35;
+    src.buffer = buf; f.type = 'bandpass'; f.Q.value = q;
+    f.frequency.setValueAtTime(f0, at);
+    f.frequency.exponentialRampToValueAtTime(fPic, pic);
+    f.frequency.exponentialRampToValueAtTime(f0, at + dur);
+    g.gain.setValueAtTime(0, at);
+    g.gain.linearRampToValueAtTime(v, pic);
+    g.gain.linearRampToValueAtTime(v * 0.4, at + dur * 0.75);
+    g.gain.linearRampToValueAtTime(0, at + dur);
+    src.connect(f); f.connect(g); g.connect(ctx.destination);
+    src.start(at); src.stop(at + dur + 0.02);
+  };
+  const sys = cyc * (0.24 + 0.1 * x);   // éjection ≈ 1/3 du cycle à bon débit
+  for(let k = 0; k < 3; k++){
+    const at = t0 + k * cyc;
+    souffle(at, sys, vol, 250, fMax, 2.5);
+    // écho diastolique, plus grave et plus faible
+    souffle(at + sys + cyc * 0.08, Math.min(cyc * 0.2, 0.25), vol * 0.3, 200, fMax * 0.45, 2);
+  }
+}
+DC_SFX.ett = DC_SFX.vti = DC_SFX.lever_jambes = dcSfxDoppler;
 // ===== SFX doppler : fin =====
 
 // bip de pouls : plus grave quand la SpO2 baisse (un demi-ton par point)
