@@ -1,0 +1,566 @@
+[
+  {
+    "id": "ventilation_sdra_grippe",
+    "module": "Ventilation & oxygénation",
+    "titre": "SDRA sévère sur pneumonie grippale",
+    "source": "RFE SRLF/SFAR 2019 (SDRA) ; PROSEVA, NEJM 2013 ; EOLIA, NEJM 2018",
+    "reco": "SDRA : volume courant de 6 mL/kg de poids prédit, pression de plateau < 30 cmH₂O, PEP élevée si modéré à sévère, décubitus ventral ≥ 16 h si P/F < 150 mmHg, curares ≤ 48 h à discuter, ECMO veino-veineuse en centre expert si l'hypoxémie reste réfractaire.",
+    "tags": [
+      "SDRA",
+      "Ventilation",
+      "Décubitus ventral",
+      "ECMO"
+    ],
+    "cas": "Femme de 52 ans, **1,65 m, 90 kg**, grippe A confirmée. Intubée pour hypoxémie réfractaire.\nVentilation : **VT 500 mL**, PEP 5 cmH₂O, FiO₂ 100 %. Gaz du sang : **PaO₂ 68 mmHg**, PaCO₂ 52 mmHg, pH 7,29. Radiographie : opacités alvéolaires bilatérales. Échocardiographie : pas de dysfonction ventriculaire gauche.",
+    "items": [
+      {
+        "id": "definition",
+        "question": "Concernant la définition de Berlin du SDRA, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Cette patiente remplit les critères de SDRA.",
+            "vrai": true,
+            "why": "Moins de 7 jours, opacités bilatérales, origine non cardiaque, P/F ≤ 300 sous PEP ≥ 5."
+          },
+          {
+            "texte": "Avec un rapport PaO₂/FiO₂ de 68 mmHg, le SDRA est sévère.",
+            "vrai": true,
+            "why": "Sévère : P/F ≤ 100 mmHg."
+          },
+          {
+            "texte": "Un SDRA est sévère dès que le P/F est < 200 mmHg.",
+            "vrai": false,
+            "why": "Entre 100 et 200 : modéré. Sévère : P/F ≤ 100 mmHg."
+          },
+          {
+            "texte": "Une pression artérielle pulmonaire d'occlusion > 18 mmHg est nécessaire au diagnostic.",
+            "vrai": false,
+            "why": "Critère de l'ancienne définition AECC (et c'était une PAPO ≤ 18), supprimé en 2012."
+          },
+          {
+            "texte": "Le diagnostic exige une confirmation par scanner.",
+            "vrai": false,
+            "why": "Radiographie ou scanner : l'un ou l'autre suffit."
+          }
+        ],
+        "explication": "Berlin : léger (200-300), modéré (100-200), sévère (≤ 100), sous PEP ≥ 5 cmH₂O.",
+        "source": "Définition de Berlin, JAMA 2012"
+      },
+      {
+        "id": "volume_courant",
+        "question": "Concernant le réglage du volume courant, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Le volume courant se calcule sur le poids prédit par la taille.",
+            "vrai": true,
+            "why": "Les poumons ne grossissent pas avec le poids."
+          },
+          {
+            "texte": "Son poids prédit est d'environ 57 kg, soit un VT d'environ 340 mL à 6 mL/kg.",
+            "vrai": true,
+            "why": "Femme : 45,5 + 0,91 × (165 − 152,4) ≈ 57 kg."
+          },
+          {
+            "texte": "Un VT de 500 mL est adapté (5,5 mL/kg de poids réel).",
+            "vrai": false,
+            "why": "500 mL = 8,8 mL/kg de poids prédit : trop."
+          },
+          {
+            "texte": "La pression de plateau doit rester < 30 cmH₂O.",
+            "vrai": true,
+            "why": "RFE 2019."
+          },
+          {
+            "texte": "La pression motrice (plateau − PEP) est associée à la mortalité.",
+            "vrai": true,
+            "why": "Amato, NEJM 2015 : viser < 15 cmH₂O."
+          }
+        ],
+        "explication": "6 mL/kg de poids prédit, plateau < 30 cmH₂O, pression motrice la plus basse possible.",
+        "source": "RFE SRLF/SFAR 2019 ; Amato et al., NEJM 2015"
+      },
+      {
+        "id": "pep",
+        "question": "Concernant la PEP et le recrutement, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une PEP élevée est suggérée dans le SDRA modéré à sévère.",
+            "vrai": true,
+            "why": "RFE 2019 : PEP > 12 cmH₂O probablement."
+          },
+          {
+            "texte": "Dans ART, les manœuvres de recrutement prolongées en escalier augmentaient la mortalité.",
+            "vrai": true,
+            "why": "ART (JAMA 2017) : recrutement + PEP titrée délétère."
+          },
+          {
+            "texte": "La table PEP/FiO₂ « haute » est une méthode de réglage possible.",
+            "vrai": true,
+            "why": "Méthode simple utilisée dans les essais."
+          },
+          {
+            "texte": "Une PEP élevée n'a pas d'effet hémodynamique.",
+            "vrai": false,
+            "why": "Elle réduit le retour veineux et peut gêner le ventricule droit."
+          },
+          {
+            "texte": "Les manœuvres de recrutement doivent être systématiques.",
+            "vrai": false,
+            "why": "Les RFE recommandent de ne pas les faire de façon systématique."
+          }
+        ],
+        "explication": "PEP élevée chez les SDRA modérés à sévères, sans manœuvre de recrutement systématique.",
+        "source": "RFE SRLF/SFAR 2019 ; ART, JAMA 2017"
+      },
+      {
+        "id": "decubitus_ventral",
+        "complement": "Après 12 h : **P/F 95 mmHg** sous PEP 14 cmH₂O, FiO₂ 80 %.",
+        "question": "Concernant le décubitus ventral, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il est indiqué car le P/F est < 150 mmHg.",
+            "vrai": true,
+            "why": "Indication de PROSEVA, recommandation forte."
+          },
+          {
+            "texte": "Les séances durent au moins 16 h.",
+            "vrai": true,
+            "why": "Durée moyenne de 17 h dans PROSEVA."
+          },
+          {
+            "texte": "PROSEVA a montré une baisse de la mortalité à J28.",
+            "vrai": true,
+            "why": "16 % vs 32,8 %."
+          },
+          {
+            "texte": "L'obésité contre-indique le décubitus ventral.",
+            "vrai": false,
+            "why": "Ce n'est pas une contre-indication ; le bénéfice sur l'oxygénation est souvent marqué."
+          },
+          {
+            "texte": "On arrête le décubitus ventral dès la première séance efficace.",
+            "vrai": false,
+            "why": "On répète les séances jusqu'à P/F ≥ 150 avec PEP ≤ 10 et FiO₂ ≤ 60 % en décubitus dorsal."
+          }
+        ],
+        "explication": "Le décubitus ventral est l'un des rares traitements du SDRA à réduire la mortalité.",
+        "source": "PROSEVA, NEJM 2013"
+      },
+      {
+        "id": "curares",
+        "question": "Concernant les curares, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une curarisation se discute en début de SDRA avec P/F < 150 mmHg.",
+            "vrai": true,
+            "why": "RFE 2019 : à envisager, pour faciliter la ventilation protectrice."
+          },
+          {
+            "texte": "ROSE a montré un bénéfice de survie de la curarisation systématique.",
+            "vrai": false,
+            "why": "ROSE (NEJM 2019) : pas de différence face à une sédation légère."
+          },
+          {
+            "texte": "La durée de curarisation ne dépasse pas 48 h.",
+            "vrai": true,
+            "why": "Durée évaluée dans ACURASYS et ROSE."
+          },
+          {
+            "texte": "Le rocuronium est le curare évalué dans ACURASYS et ROSE.",
+            "vrai": false,
+            "why": "C'est le cisatracurium, en perfusion continue."
+          },
+          {
+            "texte": "La curarisation impose une sédation profonde.",
+            "vrai": true,
+            "why": "Pour éviter la mémorisation."
+          }
+        ],
+        "explication": "Curares de courte durée en cas d'asynchronies ou d'hypoxémie sévère, pas en routine.",
+        "source": "RFE SRLF/SFAR 2019 ; ROSE, NEJM 2019"
+      },
+      {
+        "id": "ecmo",
+        "complement": "Malgré décubitus ventral, curares et PEP optimisée : **P/F 58 mmHg depuis 4 h**, pH 7,20, PaCO₂ 68 mmHg sous FR 35/min.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une ECMO veino-veineuse doit être discutée.",
+            "vrai": true,
+            "why": "Critères d'EOLIA : P/F < 50 pendant 3 h, < 80 pendant 6 h, ou pH < 7,25 avec PaCO₂ ≥ 60 pendant 6 h."
+          },
+          {
+            "texte": "Dans EOLIA, l'ECMO réduisait significativement la mortalité à J60.",
+            "vrai": false,
+            "why": "35 % vs 46 %, différence non significative (essai arrêté précocement) ; les analyses bayésiennes suggèrent un bénéfice."
+          },
+          {
+            "texte": "La grippe contre-indique l'ECMO.",
+            "vrai": false,
+            "why": "La grippe A H1N1 a été une indication majeure de l'ECMO."
+          },
+          {
+            "texte": "L'ECMO veino-artérielle est la technique de référence du SDRA.",
+            "vrai": false,
+            "why": "Veino-veineuse : la fonction cardiaque est conservée."
+          },
+          {
+            "texte": "Il faut contacter un centre expert en ECMO.",
+            "vrai": true,
+            "why": "Les résultats dépendent de l'expérience du centre."
+          }
+        ],
+        "explication": "ECMO veino-veineuse en centre expert quand l'hypoxémie résiste au décubitus ventral.",
+        "source": "EOLIA, NEJM 2018 ; RFE SRLF/SFAR 2019"
+      },
+      {
+        "id": "grippe",
+        "question": "Concernant la grippe grave, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'oseltamivir est indiqué même au-delà de 48 h chez le patient grave.",
+            "vrai": true,
+            "why": "IDSA 2018 : quel que soit le délai depuis les symptômes."
+          },
+          {
+            "texte": "Il faut rechercher une surinfection bactérienne (pneumocoque, S. aureus).",
+            "vrai": true,
+            "why": "Fréquente et grave."
+          },
+          {
+            "texte": "Les corticoïdes à forte dose sont recommandés dans la grippe grave.",
+            "vrai": false,
+            "why": "Associés à plus de mortalité et de surinfections : déconseillés hors autre indication."
+          },
+          {
+            "texte": "Une aspergillose invasive associée à la grippe doit être recherchée.",
+            "vrai": true,
+            "why": "Jusqu'à 1 patient de réanimation sur 5 dans certaines séries."
+          },
+          {
+            "texte": "Le patient doit être isolé (précautions gouttelettes).",
+            "vrai": true,
+            "why": "Transmission par gouttelettes."
+          }
+        ],
+        "explication": "Oseltamivir sans attendre, recherche de co-infections bactériennes et aspergillaires.",
+        "source": "IDSA 2018 (grippe saisonnière)"
+      },
+      {
+        "id": "suite",
+        "question": "Une fois la phase aiguë passée, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une stratégie de remplissage restrictive augmente le nombre de jours sans ventilation.",
+            "vrai": true,
+            "why": "FACTT (NEJM 2006)."
+          },
+          {
+            "texte": "Une épreuve de ventilation spontanée est faite chaque jour dès que les critères sont réunis.",
+            "vrai": true,
+            "why": "Dépistage quotidien de la capacité au sevrage."
+          },
+          {
+            "texte": "Une trachéotomie précoce (avant J4) réduit la mortalité.",
+            "vrai": false,
+            "why": "TracMan (JAMA 2013) : pas de différence."
+          },
+          {
+            "texte": "La sédation est allégée dès que possible.",
+            "vrai": true,
+            "why": "Moins de durée de ventilation et de séjour."
+          },
+          {
+            "texte": "Le NO inhalé améliore la survie.",
+            "vrai": false,
+            "why": "Il améliore transitoirement l'oxygénation, sans effet sur la survie."
+          }
+        ],
+        "explication": "Bilan hydrique négatif, sédation légère et sevrage précoce raccourcissent la ventilation.",
+        "source": "FACTT, NEJM 2006 ; TracMan, JAMA 2013"
+      }
+    ]
+  },
+  {
+    "id": "ventilation_bpco_hypercapnie",
+    "module": "Ventilation & oxygénation",
+    "titre": "Exacerbation de BPCO avec acidose hypercapnique",
+    "source": "ERS/ATS 2017 (VNI) ; BTS 2017 (oxygénothérapie) ; GOLD 2024",
+    "reco": "Exacerbation de BPCO avec acidose respiratoire (pH < 7,35 et PaCO₂ > 45 mmHg) : VNI en première intention, oxygène titré pour une SpO₂ de 88 à 92 %, bronchodilatateurs de courte durée, corticoïdes systémiques 5 jours, antibiotiques si expectoration purulente.",
+    "tags": [
+      "BPCO",
+      "VNI",
+      "Hypercapnie",
+      "Oxygénothérapie"
+    ],
+    "cas": "Homme de 71 ans, BPCO sévère (VEMS 35 %), tabagisme 50 paquets-années. Dyspnée croissante et expectoration purulente depuis 3 jours.\nFR 30/min, tirage, **SpO₂ 82 % en air**, PA 150/85 mmHg, FC 110/min, somnolent mais réveillable. Gaz en air : **pH 7,26**, **PaCO₂ 72 mmHg**, PaO₂ 48 mmHg, HCO₃⁻ 32 mmol/L.",
+    "items": [
+      {
+        "id": "oxygene",
+        "question": "Concernant l'oxygénothérapie, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La SpO₂ cible est de 88 à 92 %.",
+            "vrai": true,
+            "why": "BTS 2017, patient à risque d'hypercapnie."
+          },
+          {
+            "texte": "On administre de l'oxygène à haut débit au masque sans contrôle.",
+            "vrai": false,
+            "why": "L'hyperoxie aggrave l'hypercapnie et l'acidose."
+          },
+          {
+            "texte": "L'hyperoxie peut aggraver l'hypercapnie.",
+            "vrai": true,
+            "why": "Levée de la vasoconstriction pulmonaire hypoxique (effet espace mort) et effet Haldane."
+          },
+          {
+            "texte": "Il faut éviter toute oxygénation par crainte de l'hypercapnie.",
+            "vrai": false,
+            "why": "L'hypoxémie tue : on titre, on ne prive pas."
+          },
+          {
+            "texte": "Un gaz du sang de contrôle est nécessaire après la mise en route de l'oxygène.",
+            "vrai": true,
+            "why": "Vérifie le pH et la PaCO₂ (30 à 60 min après)."
+          }
+        ],
+        "explication": "Oxygène titré, ni trop ni trop peu : SpO₂ 88-92 % chez l'hypercapnique.",
+        "source": "BTS 2017 (oxygénothérapie en urgence)"
+      },
+      {
+        "id": "gaz_du_sang",
+        "question": "Concernant ce gaz du sang, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il s'agit d'une acidose respiratoire décompensée.",
+            "vrai": true,
+            "why": "pH 7,26 avec PaCO₂ 72 mmHg."
+          },
+          {
+            "texte": "Les bicarbonates à 32 mmol/L évoquent une hypercapnie chronique sous-jacente.",
+            "vrai": true,
+            "why": "Compensation rénale, qui demande plusieurs jours."
+          },
+          {
+            "texte": "Il existe une acidose métabolique associée.",
+            "vrai": false,
+            "why": "Les bicarbonates sont élevés, pas abaissés."
+          },
+          {
+            "texte": "pH < 7,35 avec PaCO₂ > 45 mmHg fait poser l'indication de VNI.",
+            "vrai": true,
+            "why": "ERS/ATS 2017, recommandation forte."
+          },
+          {
+            "texte": "Un pH < 7,30 contre-indique la VNI.",
+            "vrai": false,
+            "why": "Plus l'acidose est marquée, plus le risque d'échec est élevé, mais la VNI reste tentée, en réanimation, prête à intuber."
+          }
+        ],
+        "explication": "Acidose hypercapnique aiguë sur chronique : l'indication de VNI est posée.",
+        "source": "ERS/ATS 2017 (ventilation non invasive)"
+      },
+      {
+        "id": "vni",
+        "question": "Concernant la VNI, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Elle est indiquée en première intention.",
+            "vrai": true,
+            "why": "ERS/ATS 2017, forte."
+          },
+          {
+            "texte": "Elle réduit le recours à l'intubation et la mortalité.",
+            "vrai": true,
+            "why": "Effet démontré dans l'exacerbation hypercapnique."
+          },
+          {
+            "texte": "La somnolence réveillable contre-indique la VNI.",
+            "vrai": false,
+            "why": "L'encéphalopathie hypercapnique s'améliore souvent sous VNI ; surveillance rapprochée."
+          },
+          {
+            "texte": "Le masque nasal est préféré en phase aiguë.",
+            "vrai": false,
+            "why": "Le masque facial (bucco-nasal) limite les fuites buccales en phase aiguë."
+          },
+          {
+            "texte": "On règle une aide inspiratoire seule, sans PEP.",
+            "vrai": false,
+            "why": "Une PEP de 4 à 8 cmH₂O contrebalance la PEP intrinsèque et réduit le travail inspiratoire."
+          }
+        ],
+        "explication": "VNI d'emblée, au masque facial, aide inspiratoire + PEP.",
+        "source": "ERS/ATS 2017 (ventilation non invasive)"
+      },
+      {
+        "id": "reglages",
+        "complement": "VNI : aide inspiratoire 8 cmH₂O, PEP 4 cmH₂O, FiO₂ 40 %. À H1 : FR 32/min, **pH 7,24**, PaCO₂ 78 mmHg, **VT 280 mL**, fuites importantes.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il faut augmenter l'aide inspiratoire pour viser un VT de 6 à 8 mL/kg.",
+            "vrai": true,
+            "why": "VT insuffisant : on monte l'aide par paliers, selon la tolérance."
+          },
+          {
+            "texte": "Il faut réajuster le masque pour limiter les fuites.",
+            "vrai": true,
+            "why": "Les fuites réduisent le VT et gênent la synchronisation."
+          },
+          {
+            "texte": "L'absence d'amélioration à H1-H2 fait discuter l'intubation.",
+            "vrai": true,
+            "why": "Un échec précoce de VNI ne doit pas retarder l'intubation."
+          },
+          {
+            "texte": "Monter la FiO₂ à 100 % corrige l'hypercapnie.",
+            "vrai": false,
+            "why": "L'oxygène ne corrige pas l'hypoventilation, il peut l'aggraver."
+          },
+          {
+            "texte": "L'oxygénothérapie nasale à haut débit est supérieure à la VNI dans cette situation.",
+            "vrai": false,
+            "why": "La VNI reste la référence de l'acidose hypercapnique."
+          }
+        ],
+        "explication": "Une VNI qui échoue se règle (aide, fuites) puis, faute d'amélioration rapide, on intube.",
+        "source": "ERS/ATS 2017 (ventilation non invasive)"
+      },
+      {
+        "id": "traitement",
+        "question": "Concernant le traitement médical, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Bronchodilatateurs de courte durée d'action (β2-agonistes ± anticholinergiques) nébulisés.",
+            "vrai": true,
+            "why": "Traitement de base de l'exacerbation."
+          },
+          {
+            "texte": "Corticoïdes systémiques, environ 40 mg/j d'équivalent prednisone pendant 5 jours.",
+            "vrai": true,
+            "why": "GOLD : améliore la fonction respiratoire et raccourcit l'hospitalisation."
+          },
+          {
+            "texte": "Antibiothérapie devant une expectoration purulente.",
+            "vrai": true,
+            "why": "GOLD : purulence + dyspnée ou volume, ou ventilation."
+          },
+          {
+            "texte": "Les méthylxanthines (théophylline) sont recommandées.",
+            "vrai": false,
+            "why": "Effets indésirables, pas de bénéfice démontré."
+          },
+          {
+            "texte": "Le salbutamol IV est le bronchodilatateur de première intention.",
+            "vrai": false,
+            "why": "La voie inhalée est la référence."
+          }
+        ],
+        "explication": "Bronchodilatateurs inhalés, corticoïdes courts, antibiotiques si purulence.",
+        "source": "GOLD 2024"
+      },
+      {
+        "id": "intubation",
+        "question": "Quels éléments font discuter l'intubation ?",
+        "propositions": [
+          {
+            "texte": "Une aggravation neurologique ou un coma.",
+            "vrai": true,
+            "why": "Échec de la VNI."
+          },
+          {
+            "texte": "Des pauses respiratoires ou un arrêt respiratoire.",
+            "vrai": true,
+            "why": "Indication immédiate."
+          },
+          {
+            "texte": "Une instabilité hémodynamique sévère.",
+            "vrai": true,
+            "why": "Contre-indication de la VNI."
+          },
+          {
+            "texte": "Une PaCO₂ > 60 mmHg isolée, avec un pH qui s'améliore.",
+            "vrai": false,
+            "why": "C'est le pH et sa tendance qui comptent, pas la PaCO₂ seule."
+          },
+          {
+            "texte": "Une intolérance de la VNI malgré les adaptations.",
+            "vrai": true,
+            "why": "Échec de la VNI."
+          }
+        ],
+        "explication": "On intube sur l'échec clinique ou gazométrique de la VNI, pas sur un chiffre de PaCO₂.",
+        "source": "ERS/ATS 2017 ; GOLD 2024"
+      },
+      {
+        "id": "hyperinflation",
+        "complement": "Patient intubé. VT 450 mL, FR 20/min, I/E 1/2. **Pression de pointe 45 cmH₂O, plateau 22 cmH₂O**. PA **80/50 mmHg** après l'intubation.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une hyperinflation dynamique (PEP intrinsèque) est à suspecter.",
+            "vrai": true,
+            "why": "Expiration incomplète : pression intrathoracique élevée, retour veineux réduit."
+          },
+          {
+            "texte": "Il faut baisser la FR et allonger le temps expiratoire.",
+            "vrai": true,
+            "why": "Laisse le temps d'expirer."
+          },
+          {
+            "texte": "Il faut augmenter la FR pour corriger plus vite la PaCO₂.",
+            "vrai": false,
+            "why": "Aggrave l'hyperinflation : on tolère l'hypercapnie."
+          },
+          {
+            "texte": "Débrancher brièvement le circuit peut lever l'hyperinflation.",
+            "vrai": true,
+            "why": "Test diagnostique et thérapeutique : la PA remonte."
+          },
+          {
+            "texte": "Une différence pointe-plateau élevée traduit des résistances élevées.",
+            "vrai": true,
+            "why": "Bronchospasme, sécrétions ou sonde coudée."
+          }
+        ],
+        "explication": "Hypotension après intubation d'un obstructif : penser hyperinflation, débrancher, ralentir.",
+        "source": "GOLD 2024 ; ERS/ATS 2017"
+      },
+      {
+        "id": "sevrage",
+        "question": "Concernant le sevrage et la suite, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une VNI préventive après extubation est suggérée chez l'hypercapnique à haut risque.",
+            "vrai": true,
+            "why": "ERS/ATS 2017 : réduit l'échec d'extubation."
+          },
+          {
+            "texte": "L'extubation précoce relayée par VNI peut raccourcir la ventilation invasive.",
+            "vrai": true,
+            "why": "ERS/ATS 2017, suggestion chez l'hypercapnique."
+          },
+          {
+            "texte": "L'oxygénothérapie nasale à haut débit est supérieure à la VNI chez tous les BPCO après extubation.",
+            "vrai": false,
+            "why": "Chez l'hypercapnique, la VNI reste la référence."
+          },
+          {
+            "texte": "Une VNI à domicile se discute si l'hypercapnie persiste après l'exacerbation.",
+            "vrai": true,
+            "why": "HOT-HMV (JAMA 2017) : moins de réadmissions ou de décès."
+          },
+          {
+            "texte": "La cible de SpO₂ après extubation est de 96 à 98 %.",
+            "vrai": false,
+            "why": "La cible reste 88 à 92 %."
+          }
+        ],
+        "explication": "Chez le BPCO hypercapnique, la VNI accompagne le sevrage et parfois le retour au domicile.",
+        "source": "ERS/ATS 2017 ; HOT-HMV, JAMA 2017"
+      }
+    ]
+  }
+]

@@ -1,0 +1,570 @@
+[
+  {
+    "id": "sepsis_pneumonie_choc",
+    "module": "Sepsis & infectiologie",
+    "titre": "Choc septique sur pneumonie communautaire",
+    "source": "Surviving Sepsis Campaign 2021",
+    "reco": "Choc septique : antibiothérapie dans l'heure après hémocultures, 30 mL/kg de cristalloïdes (balancés de préférence) dans les 3 premières heures, noradrénaline pour une PAM de 65 mmHg, vasopressine si la noradrénaline grimpe, hydrocortisone 200 mg/j dès 0,25 µg/kg/min de noradrénaline pendant au moins 4 h.",
+    "tags": [
+      "Sepsis",
+      "Choc septique",
+      "Pneumonie",
+      "Vasopresseurs"
+    ],
+    "cas": "Homme de 58 ans, 85 kg, sans antécédent, consulte aux urgences pour fièvre et toux depuis 3 jours.\nT 39,6 °C, FC 122/min, **PA 78/40 mmHg (PAM 53)**, FR 32/min, SpO₂ 89 % en air, **marbrures des genoux**, confus. Crépitants de la base droite. **Lactates 4,8 mmol/L**.",
+    "items": [
+      {
+        "id": "definition",
+        "question": "Concernant les définitions Sepsis-3, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Le sepsis est une dysfonction d'organe menaçant la vie, causée par une réponse inappropriée de l'hôte à une infection.",
+            "vrai": true,
+            "why": "Définition Sepsis-3 (2016), dysfonction = hausse du SOFA ≥ 2 points."
+          },
+          {
+            "texte": "Le qSOFA de ce patient est de 2.",
+            "vrai": false,
+            "why": "Il est de 3 : FR ≥ 22/min, PAS ≤ 100 mmHg et confusion."
+          },
+          {
+            "texte": "Le choc septique associe vasopresseur pour une PAM ≥ 65 mmHg et lactates > 2 mmol/L malgré un remplissage adéquat.",
+            "vrai": true,
+            "why": "Définition Sepsis-3 du choc septique."
+          },
+          {
+            "texte": "Deux critères de SIRS suffisent à définir le sepsis.",
+            "vrai": false,
+            "why": "Le SIRS a été abandonné par Sepsis-3 : trop peu spécifique."
+          },
+          {
+            "texte": "Le qSOFA est recommandé comme seul outil de dépistage du sepsis.",
+            "vrai": false,
+            "why": "SSC 2021 recommande de ne pas l'utiliser seul (moins sensible que SIRS, NEWS ou MEWS)."
+          }
+        ],
+        "explication": "Le qSOFA repère les patients à risque de mauvaise évolution, mais ne doit pas servir seul au dépistage.",
+        "source": "Sepsis-3, JAMA 2016 ; SSC 2021"
+      },
+      {
+        "id": "premiere_heure",
+        "question": "Dans la première heure, quelles mesures sont recommandées ?",
+        "propositions": [
+          {
+            "texte": "Hémocultures avant l'antibiothérapie, si elles ne la retardent pas.",
+            "vrai": true,
+            "why": "Au moins 2 paires, sans retarder les antibiotiques."
+          },
+          {
+            "texte": "Antibiothérapie dans l'heure.",
+            "vrai": true,
+            "why": "Choc septique ou sepsis probable : dans l'heure (SSC 2021, forte)."
+          },
+          {
+            "texte": "30 mL/kg de cristalloïdes dans les 3 premières heures.",
+            "vrai": true,
+            "why": "Suggestion SSC 2021 en cas d'hypoperfusion ou de choc."
+          },
+          {
+            "texte": "Attendre la radiographie thoracique avant de débuter les antibiotiques.",
+            "vrai": false,
+            "why": "Aucun examen ne doit retarder l'antibiothérapie du choc."
+          },
+          {
+            "texte": "Albumine 20 % en première intention.",
+            "vrai": false,
+            "why": "Cristalloïdes d'abord ; l'albumine se discute après de grands volumes."
+          }
+        ],
+        "explication": "Hémocultures, antibiotiques, remplissage, vasopresseur : tout se fait en parallèle dans la première heure.",
+        "source": "Surviving Sepsis Campaign 2021"
+      },
+      {
+        "id": "remplissage",
+        "question": "Concernant le remplissage vasculaire, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Les cristalloïdes balancés sont suggérés plutôt que le sérum salé isotonique.",
+            "vrai": true,
+            "why": "SSC 2021, suggestion (moins d'acidose hyperchlorémique)."
+          },
+          {
+            "texte": "Les hydroxyéthylamidons sont proscrits.",
+            "vrai": true,
+            "why": "Plus d'EER et de mortalité (6S, CHEST) : recommandation forte contre."
+          },
+          {
+            "texte": "L'albumine est le soluté de première intention.",
+            "vrai": false,
+            "why": "Cristalloïdes d'abord ; l'albumine se discute après de grands volumes."
+          },
+          {
+            "texte": "La PVC seule suffit à guider le remplissage.",
+            "vrai": false,
+            "why": "Mauvais prédicteur de la réponse au remplissage : préférer les indices dynamiques."
+          },
+          {
+            "texte": "Le lever de jambes passif permet d'évaluer la précharge-dépendance.",
+            "vrai": true,
+            "why": "Hausse du débit cardiaque ≥ 10 % = répondeur, sans apport de volume."
+          }
+        ],
+        "explication": "Après le remplissage initial, chaque bolus se décide sur un test dynamique.",
+        "source": "Surviving Sepsis Campaign 2021"
+      },
+      {
+        "id": "noradrenaline",
+        "complement": "Après 2 L de cristalloïdes, **PAM 58 mmHg**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La noradrénaline est le vasopresseur de première intention.",
+            "vrai": true,
+            "why": "SSC 2021, forte."
+          },
+          {
+            "texte": "La cible initiale de PAM est de 75 mmHg.",
+            "vrai": false,
+            "why": "65 mmHg ; viser plus haut n'améliore pas la survie (SEPSISPAM, 65 trial)."
+          },
+          {
+            "texte": "La noradrénaline peut être débutée sur une voie veineuse périphérique en attendant la voie centrale.",
+            "vrai": true,
+            "why": "SSC 2021, suggestion : ne pas retarder le vasopresseur."
+          },
+          {
+            "texte": "La dopamine est une alternative équivalente.",
+            "vrai": false,
+            "why": "Plus d'arythmies (SOAP II) : non recommandée."
+          },
+          {
+            "texte": "Il faut terminer tout le remplissage avant de débuter la noradrénaline.",
+            "vrai": false,
+            "why": "En cas d'hypotension profonde, la noradrénaline se débute pendant le remplissage."
+          }
+        ],
+        "explication": "Noradrénaline précoce, éventuellement sur VVP, pour une PAM de 65 mmHg.",
+        "source": "Surviving Sepsis Campaign 2021"
+      },
+      {
+        "id": "antibiotiques",
+        "complement": "Pas d'allergie, pas d'hospitalisation ni d'antibiothérapie récentes, pas de facteur de risque de Pseudomonas. Antigénurie légionelle en cours.",
+        "question": "Concernant l'antibiothérapie probabiliste de cette pneumonie communautaire grave, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une C3G (céfotaxime ou ceftriaxone) associée à un macrolide est adaptée.",
+            "vrai": true,
+            "why": "Association bêtalactamine + macrolide (ou fluoroquinolone antipneumococcique) de la pneumonie grave."
+          },
+          {
+            "texte": "L'amoxicilline seule est suffisante.",
+            "vrai": false,
+            "why": "Pneumonie grave : couverture élargie et intracellulaires."
+          },
+          {
+            "texte": "La couverture du Pseudomonas est systématique.",
+            "vrai": false,
+            "why": "Uniquement en présence de facteurs de risque."
+          },
+          {
+            "texte": "La couverture des germes intracellulaires (légionelle) est justifiée.",
+            "vrai": true,
+            "why": "Systématique dans la pneumonie communautaire grave."
+          },
+          {
+            "texte": "L'antibiothérapie doit être réévaluée à 48-72 h.",
+            "vrai": true,
+            "why": "Désescalade selon la documentation microbiologique."
+          }
+        ],
+        "explication": "Pneumonie communautaire grave : bêtalactamine + macrolide, réévaluée à 48-72 h.",
+        "source": "ATS/IDSA 2019 (pneumonie communautaire) ; SSC 2021"
+      },
+      {
+        "id": "hydrocortisone",
+        "complement": "À H6, **noradrénaline 0,4 µg/kg/min** depuis 4 h.",
+        "question": "Concernant la corticothérapie, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'hydrocortisone 200 mg/j IV est suggérée.",
+            "vrai": true,
+            "why": "SSC 2021 : dès 0,25 µg/kg/min de noradrénaline pendant au moins 4 h."
+          },
+          {
+            "texte": "Un test au Synacthène est nécessaire avant de la débuter.",
+            "vrai": false,
+            "why": "Aucun test n'est requis."
+          },
+          {
+            "texte": "L'association à la fludrocortisone a été évaluée dans APROCCHSS.",
+            "vrai": true,
+            "why": "APROCCHSS (NEJM 2018) : baisse de la mortalité à J90 avec hydrocortisone + fludrocortisone."
+          },
+          {
+            "texte": "Les corticoïdes raccourcissent la durée du choc.",
+            "vrai": true,
+            "why": "Constant dans ADRENAL et APROCCHSS."
+          },
+          {
+            "texte": "Dans la pneumonie communautaire grave, l'hydrocortisone a réduit la mortalité dans CAPE COD.",
+            "vrai": true,
+            "why": "CAPE COD (NEJM 2023) : mortalité J28 6,2 % vs 11,9 %, mais les patients en choc septique étaient exclus."
+          }
+        ],
+        "explication": "Hydrocortisone 200 mg/j quand la noradrénaline dépasse 0,25 µg/kg/min de façon prolongée.",
+        "source": "SSC 2021 ; APROCCHSS, NEJM 2018 ; CAPE COD, NEJM 2023"
+      },
+      {
+        "id": "vasopressine",
+        "complement": "À H12, **noradrénaline 0,6 µg/kg/min**, PAM 62 mmHg, lactates 5,2 mmol/L.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'ajout de vasopressine est suggéré.",
+            "vrai": true,
+            "why": "SSC 2021 : en pratique dès 0,25 à 0,5 µg/kg/min de noradrénaline."
+          },
+          {
+            "texte": "La vasopressine s'utilise à dose fixe de 0,03 UI/min.",
+            "vrai": true,
+            "why": "Sans titration."
+          },
+          {
+            "texte": "La dobutamine se discute en cas de dysfonction cardiaque avec hypoperfusion persistante.",
+            "vrai": true,
+            "why": "SSC 2021, ou passage à l'adrénaline."
+          },
+          {
+            "texte": "VASST a montré une baisse de la mortalité globale avec la vasopressine.",
+            "vrai": false,
+            "why": "Pas de différence globale ; l'objectif est l'épargne en catécholamines."
+          },
+          {
+            "texte": "Le bleu de méthylène est recommandé en première intention.",
+            "vrai": false,
+            "why": "Traitement de sauvetage, non recommandé en routine."
+          }
+        ],
+        "explication": "Choc qui s'aggrave : ajouter la vasopressine et chercher une dysfonction cardiaque à l'échographie.",
+        "source": "Surviving Sepsis Campaign 2021 ; VASST, NEJM 2008"
+      },
+      {
+        "id": "monitorage",
+        "question": "Pour guider la réanimation, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il est suggéré de guider la réanimation sur la baisse des lactates.",
+            "vrai": true,
+            "why": "SSC 2021, suggestion."
+          },
+          {
+            "texte": "Le temps de recoloration cutanée peut guider la réanimation en complément.",
+            "vrai": true,
+            "why": "SSC 2021, d'après ANDROMEDA-SHOCK."
+          },
+          {
+            "texte": "Une SvcO₂ > 70 % est un objectif obligatoire.",
+            "vrai": false,
+            "why": "L'EGDT n'a pas fait mieux que les soins usuels (ProCESS, ARISE, ProMISe)."
+          },
+          {
+            "texte": "Dans ANDROMEDA-SHOCK, la stratégie guidée par le temps de recoloration ne faisait pas moins bien que celle guidée par les lactates.",
+            "vrai": true,
+            "why": "Mortalité J28 34,9 % vs 43,4 %, différence non significative en faveur du temps de recoloration."
+          },
+          {
+            "texte": "Une PAM cible de 80-85 mmHg améliore la survie de tous les patients.",
+            "vrai": false,
+            "why": "SEPSISPAM : pas de bénéfice de survie ; moins d'EER seulement chez les hypertendus chroniques."
+          }
+        ],
+        "explication": "Lactates et temps de recoloration sont deux cibles complémentaires et simples.",
+        "source": "SSC 2021 ; ANDROMEDA-SHOCK, JAMA 2019"
+      }
+    ]
+  },
+  {
+    "id": "sepsis_pna_obstructive",
+    "module": "Sepsis & infectiologie",
+    "titre": "Pyélonéphrite obstructive en choc septique",
+    "source": "SPILF 2015, actualisation 2018 (infections urinaires) ; SSC 2021",
+    "reco": "Pyélonéphrite grave : C3G + amikacine ; carbapénème + amikacine en cas de choc septique avec un facteur de risque de BLSE. Un obstacle sur les voies urinaires impose un drainage en urgence, partie intégrante du contrôle de la source.",
+    "tags": [
+      "Sepsis",
+      "Pyélonéphrite",
+      "Infection urinaire",
+      "Choc septique"
+    ],
+    "cas": "Femme de 45 ans, 60 kg, admise pour fièvre à 40 °C, frissons et douleur lombaire droite depuis 48 h. Antécédent de lithiase urinaire. Elle a reçu de l'**amoxicilline-acide clavulanique il y a 2 mois** pour une sinusite.\n**PA 80/42 mmHg**, FC 128/min, FR 26/min, marbrures. Leucocytes 22 G/L, CRP 280 mg/L, créatinine 160 µmol/L, **lactates 4,8 mmol/L**.",
+    "items": [
+      {
+        "id": "explorations",
+        "question": "Quelles explorations sont indiquées en urgence ?",
+        "propositions": [
+          {
+            "texte": "Un ECBU avant l'antibiothérapie.",
+            "vrai": true,
+            "why": "Indispensable pour adapter le traitement."
+          },
+          {
+            "texte": "Des hémocultures.",
+            "vrai": true,
+            "why": "Systématiques dans le sepsis."
+          },
+          {
+            "texte": "Une imagerie en urgence pour rechercher un obstacle.",
+            "vrai": true,
+            "why": "Pyélonéphrite grave : uroscanner (ou échographie si contre-indication) en urgence."
+          },
+          {
+            "texte": "Attendre le scanner pour débuter les antibiotiques.",
+            "vrai": false,
+            "why": "Choc septique : antibiotiques dans l'heure."
+          },
+          {
+            "texte": "L'injection de produit de contraste est contre-indiquée devant une créatinine à 160 µmol/L.",
+            "vrai": false,
+            "why": "Le bénéfice diagnostique l'emporte : le risque de néphropathie au contraste est surestimé."
+          }
+        ],
+        "explication": "Toute pyélonéphrite grave impose une imagerie en urgence à la recherche d'un obstacle.",
+        "source": "SPILF 2015, actualisation 2018"
+      },
+      {
+        "id": "antibiotiques",
+        "complement": "Le scanner montre une **dilatation des cavités pyélocalicielles droites** sur un calcul urétéral de 8 mm.",
+        "question": "Concernant l'antibiothérapie probabiliste, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Un carbapénème associé à l'amikacine est indiqué.",
+            "vrai": true,
+            "why": "Choc septique + facteur de risque de BLSE (pénicilline + inhibiteur dans les 6 mois)."
+          },
+          {
+            "texte": "Une C3G seule est suffisante.",
+            "vrai": false,
+            "why": "Choc septique : association avec l'amikacine, et couverture des BLSE ici."
+          },
+          {
+            "texte": "L'amikacine s'administre en trois injections par jour.",
+            "vrai": false,
+            "why": "Une injection quotidienne : effet concentration-dépendant, toxicité liée à la résiduelle."
+          },
+          {
+            "texte": "Les fluoroquinolones sont recommandées en probabiliste dans ce contexte.",
+            "vrai": false,
+            "why": "Exposition récente aux antibiotiques et résistances fréquentes : pas en probabiliste dans une forme grave."
+          },
+          {
+            "texte": "L'antibiothérapie sera adaptée à l'antibiogramme.",
+            "vrai": true,
+            "why": "Désescalade pour épargner les carbapénèmes."
+          }
+        ],
+        "explication": "Facteurs de risque de BLSE : BLSE < 6 mois, pénicilline + inhibiteur, C2G-C3G ou fluoroquinolone < 6 mois, voyage en zone d'endémie, hospitalisation < 3 mois, vie en institution.",
+        "source": "SPILF 2015, actualisation 2018"
+      },
+      {
+        "id": "drainage",
+        "question": "Concernant l'obstacle urinaire, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Les urines doivent être drainées en urgence.",
+            "vrai": true,
+            "why": "Pyélonéphrite obstructive : urgence médico-chirurgicale."
+          },
+          {
+            "texte": "Le calcul doit être traité (lithotritie, urétéroscopie) dans le même temps.",
+            "vrai": false,
+            "why": "On draine d'abord ; le calcul est traité à distance, sur urines stériles."
+          },
+          {
+            "texte": "L'antibiothérapie seule suffit si la patiente se stabilise.",
+            "vrai": false,
+            "why": "Sans drainage, l'infection n'est pas contrôlée."
+          },
+          {
+            "texte": "Le drainage fait partie du contrôle de la source, à réaliser le plus tôt possible.",
+            "vrai": true,
+            "why": "SSC 2021."
+          },
+          {
+            "texte": "Sonde JJ et néphrostomie percutanée sont deux options de drainage.",
+            "vrai": true,
+            "why": "Choix selon l'équipe et la situation."
+          }
+        ],
+        "explication": "Pas de contrôle de l'infection sans drainage de l'obstacle.",
+        "source": "SPILF 2015 ; SSC 2021"
+      },
+      {
+        "id": "amikacine",
+        "question": "Concernant l'amikacine, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La dose est de 25 à 30 mg/kg en une injection.",
+            "vrai": true,
+            "why": "Dose recommandée chez le patient grave (ANSM 2011)."
+          },
+          {
+            "texte": "La première dose doit être réduite en raison de l'insuffisance rénale.",
+            "vrai": false,
+            "why": "La dose de charge dépend du volume de distribution : on espace les injections, on ne réduit pas la dose."
+          },
+          {
+            "texte": "Le dosage du pic est utile chez le patient de réanimation.",
+            "vrai": true,
+            "why": "Vérifie que la dose donne une concentration efficace."
+          },
+          {
+            "texte": "La durée de l'aminoside est habituellement de 1 à 3 jours.",
+            "vrai": true,
+            "why": "Au-delà, la toxicité augmente sans bénéfice."
+          },
+          {
+            "texte": "La concentration résiduelle sert à surveiller le risque de toxicité.",
+            "vrai": true,
+            "why": "Une résiduelle élevée expose à la néphro- et à l'ototoxicité."
+          }
+        ],
+        "explication": "Aminoside : forte dose, une fois, sur une courte durée.",
+        "source": "ANSM 2011 (aminosides) ; SPILF 2015"
+      },
+      {
+        "id": "precharge",
+        "complement": "Après 1 500 mL de Ringer lactate : PAM 60 mmHg. Lever de jambes passif : **VTI sous-aortique +18 %**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La patiente est précharge-dépendante.",
+            "vrai": true,
+            "why": "Hausse du VTI ≥ 10 %."
+          },
+          {
+            "texte": "Un nouveau remplissage peut être proposé.",
+            "vrai": true,
+            "why": "Elle reste répondeuse et hypotendue."
+          },
+          {
+            "texte": "La noradrénaline ne doit pas être débutée tant qu'elle reste précharge-dépendante.",
+            "vrai": false,
+            "why": "PAM < 65 mmHg après 1,5 L : la noradrénaline se débute en parallèle."
+          },
+          {
+            "texte": "Le lever de jambes passif est un test réversible, sans apport de volume.",
+            "vrai": true,
+            "why": "Il mobilise environ 300 mL de sang veineux des membres inférieurs."
+          },
+          {
+            "texte": "Une hausse de 5 % du VTI suffit à prédire une réponse au remplissage.",
+            "vrai": false,
+            "why": "Le seuil validé est de 10 %."
+          }
+        ],
+        "explication": "Précharge-dépendance et vasopresseur ne s'excluent pas : on remplit et on soutient la pression.",
+        "source": "Monnet et al., Intensive Care Med 2016 ; SSC 2021"
+      },
+      {
+        "id": "documentation",
+        "complement": "À H48 : apyrétique, noradrénaline sevrée. ECBU et hémocultures : **E. coli producteur de BLSE**, sensible aux carbapénèmes, à l'amikacine, à la témocilline, au cotrimoxazole et aux fluoroquinolones.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'amikacine peut être arrêtée.",
+            "vrai": true,
+            "why": "1 à 3 jours suffisent."
+          },
+          {
+            "texte": "Un relais oral par fluoroquinolone ou cotrimoxazole est possible quand l'état le permet.",
+            "vrai": true,
+            "why": "Selon l'antibiogramme, après stabilisation."
+          },
+          {
+            "texte": "Le carbapénème doit être maintenu toute la durée du traitement.",
+            "vrai": false,
+            "why": "Il faut épargner les carbapénèmes dès que l'antibiogramme le permet."
+          },
+          {
+            "texte": "La témocilline est une option d'épargne des carbapénèmes.",
+            "vrai": true,
+            "why": "Active sur la plupart des E. coli BLSE urinaires."
+          },
+          {
+            "texte": "Trois jours d'antibiotiques suffisent pour une pyélonéphrite grave.",
+            "vrai": false,
+            "why": "Durée habituelle de 10 à 14 jours (7 jours possibles selon la molécule et l'évolution)."
+          }
+        ],
+        "explication": "La documentation permet la désescalade : moins de pression de sélection sur les carbapénèmes.",
+        "source": "SPILF 2015, actualisation 2018"
+      },
+      {
+        "id": "transfusion",
+        "complement": "À H24 : **hémoglobine 8,2 g/dL**, sans saignement, choc en cours de résolution.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Le seuil transfusionnel recommandé est de 7 g/dL.",
+            "vrai": true,
+            "why": "SSC 2021, forte."
+          },
+          {
+            "texte": "Transfuser pour viser 10 g/dL améliore la survie.",
+            "vrai": false,
+            "why": "Aucun bénéfice de la stratégie libérale."
+          },
+          {
+            "texte": "TRISS a montré une baisse de la mortalité avec un seuil de 9 g/dL.",
+            "vrai": false,
+            "why": "Pas de différence de mortalité entre les seuils de 7 et 9 g/dL (TRISS, NEJM 2014)."
+          },
+          {
+            "texte": "L'érythropoïétine est recommandée pour traiter l'anémie du sepsis.",
+            "vrai": false,
+            "why": "Pas d'indication."
+          },
+          {
+            "texte": "Un seuil plus élevé peut se discuter en cas d'ischémie myocardique.",
+            "vrai": true,
+            "why": "Situations particulières hors des essais."
+          }
+        ],
+        "explication": "Transfusion restrictive : 7 g/dL, sauf ischémie myocardique ou hémorragie active.",
+        "source": "SSC 2021 ; TRISS, NEJM 2014"
+      },
+      {
+        "id": "mesures_associees",
+        "question": "Concernant les mesures associées, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une prévention de la maladie thromboembolique par HBPM est recommandée, sauf contre-indication.",
+            "vrai": true,
+            "why": "SSC 2021, forte."
+          },
+          {
+            "texte": "La dose d'HBPM tient compte de la fonction rénale.",
+            "vrai": true,
+            "why": "Risque d'accumulation : HNF si clairance très basse."
+          },
+          {
+            "texte": "Un IPP est indiqué chez tous les patients septiques.",
+            "vrai": false,
+            "why": "Seulement en présence de facteurs de risque de saignement digestif."
+          },
+          {
+            "texte": "L'insuline est débutée si la glycémie dépasse 1,8 g/L.",
+            "vrai": true,
+            "why": "SSC 2021 : cible 1,4 à 1,8 g/L."
+          },
+          {
+            "texte": "La cible glycémique est de 0,8 à 1,1 g/L.",
+            "vrai": false,
+            "why": "NICE-SUGAR : le contrôle strict augmente la mortalité (hypoglycémies)."
+          }
+        ],
+        "explication": "Prévention thromboembolique, glycémie entre 1,4 et 1,8 g/L, IPP seulement si risque hémorragique.",
+        "source": "Surviving Sepsis Campaign 2021 ; NICE-SUGAR, NEJM 2009"
+      }
+    ]
+  }
+]

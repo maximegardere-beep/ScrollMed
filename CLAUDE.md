@@ -8,6 +8,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
 - `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
 - `Dechocage/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json`.
+- `QCM/` : cas cliniques du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
 - `Dechocage/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Dechocage/peaufinage.md` : plan de peaufinage du mode Déchoc (interface, réalisme, illustrations), en attente.
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR
@@ -443,7 +444,83 @@ print(f"{len(acts)} actions, {n} scénarios, {len(TERR)} terrains, {len(COMPL)} 
 EOF
 ```
 
+## Mode QCM
+
+Dossiers progressifs façon EDN : un cas clinique, 5 items tirés parmi ceux du cas, 5 propositions par item, une ou plusieurs justes. Le moteur (`index.html`, fonctions `qcm*`) ne contient aucune donnée médicale : tout est dans `QCM/*.json`, synchronisé depuis GitHub comme `Recos/`. Publication : règle n°1 (push direct sur `main`, pas de PR).
+
+- **Barème** (`QCM_BAREME`) : par item, une erreur = une proposition juste non cochée ou une fausse cochée ; 0 erreur = 1 point, 1 = 0,5, 2 = 0,2, au-delà 0. Note du QCM ramenée sur 20.
+- **Tirage** (toujours aléatoire) : thème (= `module`) tiré au hasard, pondéré vers les thèmes faibles ou peu joués, en évitant de reprendre le thème précédent ; dans le thème, le cas le moins récemment joué ; dans le cas, les 5 items prioritaires (jamais vus, puis ratés au dernier passage, puis réussis depuis longtemps ; chaque réussite parfaite d'affilée espace le retour), jamais deux fois la même série, remis dans l'ordre du fichier.
+- **Correction** après chaque item (bonnes réponses, `why` sous chaque proposition, `explication`, `source`), puis note, rappel de la reco du cas (`reco`) et cartes Recos « Pour réviser » (tags communs).
+- **Suivi** (`STATE.qcm`, inclus dans la sauvegarde) : chaque QCM terminé (un QCM abandonné n'est pas noté). Accueil QCM : moyenne de la session (QCM espacés de moins de 30 min) et sur 7 jours, sessions récentes. Onglet Progrès (qui accueille aussi les Favoris) : radar des notes par thème (10 derniers QCM du thème ; pointillés : 7 derniers jours).
+
+### Format : `QCM/<thème>.json`
+
+Un fichier = un tableau de cas (ou un cas seul). Regrouper les cas d'un même module dans un fichier.
+
+```json
+{
+  "id": "eer_ira_choc_septique",
+  "module": "Réanimation médicale",
+  "titre": "IRA oligurique au cours d'un choc septique",
+  "source": "RFE SRLF/SFAR 2018 ; KDIGO 2012",
+  "reco": "La recommandation que le cas illustre, en 2 à 4 phrases (affichée à la fin).",
+  "tags": ["EER", "Dialyse"],
+  "cas": "Vignette commune, **valeurs anormales en gras**, \n pour un retour à la ligne.",
+  "items": [{
+    "id": "timing",
+    "complement": "Optionnel : donnée nouvelle affichée avec cet item (« À H48, le ionogramme revient… »).",
+    "question": "… quelles propositions sont exactes ?",
+    "propositions": [
+      { "texte": "…", "vrai": true, "why": "Pourquoi c'est juste, sourcé." },
+      { "texte": "…", "vrai": false, "why": "Pourquoi c'est faux." }
+    ],
+    "explication": "Message à retenir de l'item.",
+    "source": "Étude ou recommandation + année"
+  }]
+}
+```
+
+- `module` : un module existant des cartes, recopié à l'identique (il porte le thème, le radar et les cartes « Pour réviser »).
+- Au moins 8 items par cas (le tirage en prend 5 : deux tirages successifs diffèrent), **5 propositions** par item, au moins une juste. Varier le nombre de bonnes réponses (1 à 5) d'un item à l'autre : un nombre toujours identique se devine.
+- Items dans l'ordre chronologique du dossier, mais **chacun autonome** : un `complement` ne doit pas supposer qu'un autre item a été tiré. Une évolution (« À H48… ») doit rester compatible avec les items précédents.
+- `why` obligatoire sur chaque proposition, exact et sourcé comme une carte ; ne jamais inventer de source, de chiffre ni d'année.
+- Ne jamais renommer un `id` de cas ou d'item (l'historique des joueurs s'y réfère) ; un item retiré disparaît simplement du tirage.
+
+### Validation du mode QCM (à lancer avant chaque commit touchant `QCM/`)
+
+```bash
+python3 - <<'EOF'
+import json, glob
+MODULES = {"Posologies", "Échographie", "Hémostase & transfusion", "Sepsis & infectiologie", "Réanimation médicale", "Soins quotidiens en réa", "Culture & histoire", "Hémodynamique & cardiologie", "Ventilation & oxygénation", "Anesthésie peropératoire", "Urgences & déchocage", "Grandes études", "Idées reçues", "Physiologie", "Éthique & droit", "Voies aériennes", "Neuro-réanimation", "Arrêt cardiaque", "ALR & douleur", "Obstétrique", "Évaluation préopératoire", "Pédiatrie"}
+ids, n = set(), 0
+for f in sorted(glob.glob("QCM/*.json")):
+    data = json.load(open(f, encoding="utf-8"))
+    for c in (data if isinstance(data, list) else [data]):
+        w = f"{f} [{c.get('id')}]"
+        for k in ("id", "module", "titre", "source", "reco", "cas", "tags", "items"):
+            assert c.get(k), f"{w} : champ {k} manquant"
+        assert c["id"] not in ids, f"{w} : id de cas en double"
+        ids.add(c["id"])
+        assert c["module"] in MODULES, f"{w} : module inconnu {c['module']}"
+        assert isinstance(c["tags"], list) and len(c["items"]) >= 8, f"{w} : tags (liste) / au moins 8 items"
+        iids = [it.get("id") for it in c["items"]]
+        assert all(iids) and len(iids) == len(set(iids)), f"{w} : id d'item manquant ou en double"
+        for it in c["items"]:
+            wi = f"{w} [{it['id']}]"
+            assert it.get("question") and it.get("explication"), f"{wi} : question / explication"
+            P = it.get("propositions", [])
+            assert len(P) == 5, f"{wi} : 5 propositions attendues"
+            for p in P:
+                assert p.get("texte") and isinstance(p.get("vrai"), bool) and p.get("why"), f"{wi} : proposition texte / vrai (booléen) / why"
+            assert any(p["vrai"] for p in P), f"{wi} : au moins une proposition juste"
+            for t in [c["cas"], it.get("complement", ""), it["question"]] + [p["texte"] for p in P]:
+                assert t.count("**") % 2 == 0, f"{wi} : ** non fermé"
+            n += 1
+print(f"{len(ids)} cas, {n} items : OK")
+EOF
+```
+
 ## Commits
 
-- Messages en français, préfixés par la zone : `Recos : lot14, 12 cartes sur …`, `Déchoc : scénario …` ou `ScrollMed : …` pour l'app.
+- Messages en français, préfixés par la zone : `Recos : lot14, 12 cartes sur …`, `Déchoc : scénario …`, `QCM : …` ou `ScrollMed : …` pour l'app.
 - Résumer dans le corps du message ce que contient le lot (thème, nombre de cartes, format).

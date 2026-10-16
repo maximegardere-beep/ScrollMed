@@ -1,0 +1,570 @@
+[
+  {
+    "id": "eer_ira_choc_septique",
+    "module": "Réanimation médicale",
+    "titre": "IRA oligurique au cours d'un choc septique",
+    "source": "RFE SRLF/SFAR 2018 (épuration extrarénale) ; KDIGO 2012",
+    "reco": "En IRA sévère sans urgence vitale, attendre un critère avant de démarrer l'EER : démarrer tôt n'améliore pas la survie. Continue ou intermittente donnent la même survie ; la continue est suggérée si le patient est instable. Dose de 20 à 25 mL/kg/h d'effluent délivré, anticoagulation régionale au citrate en première intention.",
+    "tags": [
+      "EER",
+      "Dialyse",
+      "Insuffisance rénale aiguë",
+      "Citrate"
+    ],
+    "cas": "Homme de 66 ans, 80 kg, en réanimation depuis 36 h pour un **choc septique** à point de départ urinaire (pyélonéphrite sur lithiase, drainée par sonde JJ à H6). Intubé, ventilé, sous **noradrénaline 0,4 µg/kg/min**.\nDiurèse : **150 mL sur les 12 dernières heures** malgré une volémie jugée optimisée. Créatinine **342 µmol/L** (90 µmol/L de base), urée 24 mmol/L, K⁺ 5,1 mmol/L, pH 7,31.",
+    "items": [
+      {
+        "id": "stade",
+        "question": "Concernant cette insuffisance rénale aiguë (classification KDIGO), quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il s'agit d'une IRA de stade 3.",
+            "vrai": true,
+            "why": "La créatinine est à 3,8 fois sa valeur de base (≥ 3 fois = stade 3)."
+          },
+          {
+            "texte": "Une diurèse < 0,5 mL/kg/h pendant 6 h définit le stade 3.",
+            "vrai": false,
+            "why": "C'est le stade 1. Stade 3 : < 0,3 mL/kg/h pendant ≥ 24 h, ou anurie ≥ 12 h."
+          },
+          {
+            "texte": "Le stade 3 impose de débuter l'épuration extrarénale.",
+            "vrai": false,
+            "why": "Le stade KDIGO n'est pas une indication d'EER : sans urgence, on attend (AKIKI, STARRT-AKI)."
+          },
+          {
+            "texte": "Une créatinine ≥ 354 µmol/L est un critère de stade 3.",
+            "vrai": true,
+            "why": "Seuil de 4,0 mg/dL (353,6 µmol/L)."
+          },
+          {
+            "texte": "Le furosémide est recommandé pour faire reprendre la diurèse.",
+            "vrai": false,
+            "why": "Les diurétiques ne traitent pas l'IRA ; ils ne se discutent qu'en cas de surcharge (KDIGO, grade 1B)."
+          }
+        ],
+        "explication": "Le stade KDIGO retient le plus grave des deux critères (créatinine, diurèse). Il classe la gravité mais ne décide pas de l'EER.",
+        "source": "KDIGO 2012 (insuffisance rénale aiguë)"
+      },
+      {
+        "id": "timing",
+        "question": "Le patient n'a ni hyperkaliémie, ni acidose sévère, ni surcharge. Concernant le moment de débuter l'EER, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une stratégie d'attente vigilante est recommandée en l'absence de critère d'urgence.",
+            "vrai": true,
+            "why": "RFE 2018, confortée par AKIKI, IDEAL-ICU et STARRT-AKI."
+          },
+          {
+            "texte": "Démarrer l'EER dans les 12 h améliore la survie à J90.",
+            "vrai": false,
+            "why": "STARRT-AKI (3 019 patients) : mortalité à J90 identique (43,9 % vs 43,7 %)."
+          },
+          {
+            "texte": "Une stratégie précoce expose à plus de dépendance à la dialyse à J90.",
+            "vrai": true,
+            "why": "STARRT-AKI : 10,4 % vs 6,0 %."
+          },
+          {
+            "texte": "Une part importante des patients en attente vigilante ne sera jamais dialysée.",
+            "vrai": true,
+            "why": "Environ 4 patients sur 10 dans AKIKI et STARRT-AKI."
+          },
+          {
+            "texte": "Une oligurie de plus de 72 h ou une urée > 40 mmol/L font discuter le démarrage.",
+            "vrai": true,
+            "why": "AKIKI 2 : prolonger l'attente au-delà de ces seuils n'apporte rien et pourrait nuire."
+          }
+        ],
+        "explication": "Sans urgence vitale, on attend un critère : beaucoup de patients récupèrent sans dialyse, sans perte de chance.",
+        "source": "STARRT-AKI, NEJM 2020 ; AKIKI 2, Lancet 2021"
+      },
+      {
+        "id": "urgence",
+        "complement": "À H48, le ionogramme de contrôle revient : **K⁺ 6,9 mmol/L**, **pH 7,12**, HCO₃⁻ 11 mmol/L. L'ECG montre des **ondes T amples et pointues**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il existe une indication d'EER en urgence.",
+            "vrai": true,
+            "why": "Hyperkaliémie menaçante et acidose sévère : deux indications urgentes."
+          },
+          {
+            "texte": "Le gluconate de calcium IV est indiqué sans attendre.",
+            "vrai": true,
+            "why": "Il stabilise la membrane myocardique en quelques minutes devant des signes ECG."
+          },
+          {
+            "texte": "L'insuline-glucose fait baisser le stock total de potassium de l'organisme.",
+            "vrai": false,
+            "why": "Elle fait entrer le potassium dans les cellules : effet transitoire, rebond possible."
+          },
+          {
+            "texte": "L'hémodialyse intermittente fait baisser la kaliémie plus vite que l'EER continue.",
+            "vrai": true,
+            "why": "Débits de dialysat bien plus élevés : clairance plus rapide."
+          },
+          {
+            "texte": "Le bicarbonate de sodium est contre-indiqué dans ce contexte.",
+            "vrai": false,
+            "why": "BICAR-ICU : chez les patients en IRA avec pH ≤ 7,20, il améliorait la survie et réduisait le recours à l'EER."
+          }
+        ],
+        "explication": "Calcium d'abord en cas de signes ECG, puis transfert (insuline-glucose, salbutamol), puis épuration : seule l'EER (ou la diurèse) élimine le potassium.",
+        "source": "RFE SRLF/SFAR 2018 ; BICAR-ICU, Lancet 2018"
+      },
+      {
+        "id": "modalite",
+        "complement": "Le patient reste sous **noradrénaline 0,5 µg/kg/min**.",
+        "question": "Concernant le choix de la modalité d'EER, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "À dose adéquate, la survie est identique entre EER continue et intermittente.",
+            "vrai": true,
+            "why": "Hemodiafe (Lancet 2006) et méta-analyses : pas de différence."
+          },
+          {
+            "texte": "L'EER continue est suggérée chez le patient hémodynamiquement instable.",
+            "vrai": true,
+            "why": "KDIGO, grade 2B."
+          },
+          {
+            "texte": "L'hémodialyse intermittente est contre-indiquée sous noradrénaline.",
+            "vrai": false,
+            "why": "Bien conduite, elle est tolérée par la plupart des patients sous amines (Hemodiafe)."
+          },
+          {
+            "texte": "Un dialysat à sodium ≥ 145 mmol/L améliore la tolérance de l'intermittente.",
+            "vrai": true,
+            "why": "Une des mesures de Schortgen (2000), avec le dialysat refroidi et le branchement isovolémique."
+          },
+          {
+            "texte": "La dialyse péritonéale est la technique de référence en réanimation adulte.",
+            "vrai": false,
+            "why": "Épuration lente et peu prévisible : elle n'est pas utilisée en première intention chez l'adulte."
+          }
+        ],
+        "explication": "Continue et intermittente sont complémentaires : on choisit selon la tolérance, l'équipe et la disponibilité.",
+        "source": "KDIGO 2012 ; Hemodiafe, Lancet 2006"
+      },
+      {
+        "id": "catheter",
+        "question": "Pour poser le cathéter de dialyse, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Le site jugulaire interne droit est le premier choix.",
+            "vrai": true,
+            "why": "Trajet rectiligne, meilleurs débits (KDIGO)."
+          },
+          {
+            "texte": "Le site sous-clavier est à privilégier pour son moindre risque infectieux.",
+            "vrai": false,
+            "why": "Dernier choix : il expose à la sténose veineuse, qui compromet une future fistule."
+          },
+          {
+            "texte": "Sous noradrénaline, la pose peut se faire sur repères anatomiques pour gagner du temps.",
+            "vrai": false,
+            "why": "L'échoguidage est recommandé (KDIGO, grade 1A) : moins d'échecs et de complications."
+          },
+          {
+            "texte": "Le site fémoral expose à plus d'infections que le jugulaire chez tous les patients.",
+            "vrai": false,
+            "why": "Cathedia : pas de différence globale ; seul l'IMC élevé (> 28) défavorise le fémoral."
+          },
+          {
+            "texte": "En fémoral, un cathéter court (15 cm) limite la recirculation.",
+            "vrai": false,
+            "why": "C'est l'inverse : en fémoral, un cathéter long (≥ 20 cm) limite la recirculation."
+          }
+        ],
+        "explication": "Ordre : jugulaire droite, fémorale, jugulaire gauche, sous-clavière. Toujours sous échographie.",
+        "source": "KDIGO 2012 ; Cathedia, JAMA 2008"
+      },
+      {
+        "id": "dose",
+        "question": "Vous prescrivez une hémodiafiltration veino-veineuse continue chez ce patient de 80 kg. Concernant la dose, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La dose recommandée est de 20 à 25 mL/kg/h d'effluent délivré.",
+            "vrai": true,
+            "why": "KDIGO, grade 1A."
+          },
+          {
+            "texte": "Une dose de 40 mL/kg/h réduit la mortalité.",
+            "vrai": false,
+            "why": "RENAL et ATN : aucun bénéfice des doses élevées."
+          },
+          {
+            "texte": "Prescrire 20 mL/kg/h garantit une dose délivrée de 20 mL/kg/h.",
+            "vrai": false,
+            "why": "Les interruptions (filtre, examens, alarmes) font toujours délivrer moins : prescrire 25 à 30 mL/kg/h."
+          },
+          {
+            "texte": "Pour 80 kg, 2 000 mL/h d'effluent délivré correspondent à 25 mL/kg/h.",
+            "vrai": true,
+            "why": "2 000 / 80 = 25 mL/kg/h."
+          },
+          {
+            "texte": "La dose se calcule à partir du débit sanguin de la machine.",
+            "vrai": false,
+            "why": "La dose est le débit d'effluent (dialysat + réinjection + ultrafiltration nette), rapporté au poids."
+          }
+        ],
+        "explication": "Ce qui compte est la dose réellement délivrée : la surveiller et ajuster la prescription.",
+        "source": "KDIGO 2012 ; RENAL, NEJM 2009"
+      },
+      {
+        "id": "anticoag",
+        "complement": "Plaquettes 85 G/L, pas de saignement actif, TP 62 %, **lactates 2,1 mmol/L**, bilirubine normale.",
+        "question": "Concernant l'anticoagulation du circuit d'EER continue, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'anticoagulation régionale au citrate est l'option préférée.",
+            "vrai": true,
+            "why": "KDIGO, grade 2B : filtres plus durables, moins de saignements (RICH)."
+          },
+          {
+            "texte": "Le citrate anticoagule en chélatant le calcium ionisé du circuit.",
+            "vrai": true,
+            "why": "Le calcium est restitué au patient par une perfusion séparée."
+          },
+          {
+            "texte": "Une thrombopénie à 85 G/L contre-indique le citrate.",
+            "vrai": false,
+            "why": "Au contraire, le citrate n'anticoagule pas le patient : il convient au patient à risque hémorragique."
+          },
+          {
+            "texte": "Il faut surveiller le calcium ionisé systémique et post-filtre.",
+            "vrai": true,
+            "why": "Cibles usuelles : 1,0 à 1,2 mmol/L systémique, 0,25 à 0,35 mmol/L post-filtre."
+          },
+          {
+            "texte": "Un rapport calcium total / calcium ionisé > 2,5 évoque une accumulation de citrate.",
+            "vrai": true,
+            "why": "Le citrate non métabolisé fixe le calcium : le calcium total monte, l'ionisé baisse."
+          }
+        ],
+        "explication": "Citrate en première intention sauf insuffisance hépatique sévère ou hyperlactatémie importante (métabolisme altéré).",
+        "source": "KDIGO 2012 ; RICH, JAMA 2020"
+      },
+      {
+        "id": "evolution",
+        "complement": "À J5 sous EER continue au citrate : **pH 7,52**, **HCO₃⁻ 34 mmol/L**, **phosphore 0,45 mmol/L**, température 35,8 °C. Diurèse spontanée **600 mL/24 h** sans diurétique.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'alcalose métabolique évoque un apport excessif de citrate.",
+            "vrai": true,
+            "why": "Le citrate métabolisé par le foie donne du bicarbonate : baisser le citrate ou augmenter le dialysat."
+          },
+          {
+            "texte": "L'hypophosphatémie est rare sous EER continue.",
+            "vrai": false,
+            "why": "Elle est fréquente : épuration continue du phosphore, à doser chaque jour et à supplémenter."
+          },
+          {
+            "texte": "Une température normale-basse élimine une infection en cours.",
+            "vrai": false,
+            "why": "Le circuit refroidit le patient et masque la fièvre."
+          },
+          {
+            "texte": "Une diurèse spontanée > 400 à 500 mL/24 h est un bon indicateur de succès du sevrage.",
+            "vrai": true,
+            "why": "Meilleur prédicteur dans BEST Kidney (Uchino, 2009)."
+          },
+          {
+            "texte": "Le furosémide est recommandé pour accélérer la récupération rénale.",
+            "vrai": false,
+            "why": "KDIGO, grade 2B : ne pas utiliser les diurétiques pour accélérer la récupération ou raccourcir l'EER."
+          }
+        ],
+        "explication": "Sous citrate, l'alcalose signe un excès d'apport et l'acidose une accumulation. Tester l'arrêt de l'EER dès que la diurèse spontanée reprend.",
+        "source": "KDIGO 2012 ; BEST Kidney, Crit Care Med 2009"
+      }
+    ]
+  },
+  {
+    "id": "eer_metformine",
+    "module": "Réanimation médicale",
+    "titre": "Acidose lactique sous metformine",
+    "source": "EXTRIP, Crit Care Med 2015 (metformine)",
+    "reco": "Intoxication à la metformine : épuration extrarénale recommandée si lactates > 20 mmol/L, pH ≤ 7,0, choc, troubles de conscience ou échec du traitement standard. Hémodialyse intermittente en première intention, jusqu'à lactates < 3 mmol/L et pH > 7,35.",
+    "tags": [
+      "EER",
+      "Intoxication",
+      "Metformine",
+      "Acidose lactique"
+    ],
+    "cas": "Femme de 72 ans, 65 kg, diabétique de type 2 sous **metformine 1 000 mg × 3/j**, admise pour vomissements et diarrhée depuis 4 jours. Confuse. PA 85/45 mmHg, FC 115/min, FR 30/min.\nGaz du sang : **pH 6,92**, HCO₃⁻ 5 mmol/L, PaCO₂ 25 mmHg. **Lactates 18 mmol/L**. Créatinine **480 µmol/L**, K⁺ 5,8 mmol/L.",
+    "items": [
+      {
+        "id": "diagnostic",
+        "question": "Concernant ce tableau, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il s'agit d'une acidose métabolique à trou anionique élevé.",
+            "vrai": true,
+            "why": "Acidose lactique : le lactate est l'anion indosé."
+          },
+          {
+            "texte": "L'insuffisance rénale aiguë favorise l'accumulation de la metformine.",
+            "vrai": true,
+            "why": "La metformine est éliminée par le rein : la déshydratation déclenche l'accumulation."
+          },
+          {
+            "texte": "La metformine ne provoque d'acidose lactique qu'en cas d'intoxication volontaire.",
+            "vrai": false,
+            "why": "L'accumulation lors d'une IRA est la forme la plus fréquente."
+          },
+          {
+            "texte": "La PaCO₂ est plus haute que la compensation attendue (formule de Winter).",
+            "vrai": true,
+            "why": "Attendue : 1,5 × 5 + 8 ± 2, soit 14 à 18 mmHg. À 25 mmHg, la compensation est insuffisante : fatigue respiratoire à surveiller."
+          },
+          {
+            "texte": "Un dosage plasmatique de metformine est indispensable avant de décider d'une épuration.",
+            "vrai": false,
+            "why": "La décision repose sur la clinique, le pH et les lactates ; le dosage, souvent différé, ne doit pas la retarder."
+          }
+        ],
+        "explication": "Une acidose lactique sévère chez un patient sous metformine en IRA impose d'évaluer immédiatement l'indication d'épuration.",
+        "source": "EXTRIP, Crit Care Med 2015"
+      },
+      {
+        "id": "indication",
+        "question": "Concernant l'épuration extrarénale chez cette patiente, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Elle est recommandée car le pH est ≤ 7,0.",
+            "vrai": true,
+            "why": "Critère EXTRIP de recommandation forte."
+          },
+          {
+            "texte": "Elle n'est indiquée que si les lactates dépassent 20 mmol/L.",
+            "vrai": false,
+            "why": "pH ≤ 7,0, choc, troubles de conscience et échec du traitement standard sont aussi des critères."
+          },
+          {
+            "texte": "L'état de choc et la confusion sont des arguments supplémentaires.",
+            "vrai": true,
+            "why": "Ils font partie des critères EXTRIP."
+          },
+          {
+            "texte": "Elle épure la metformine et le lactate, et corrige l'acidose.",
+            "vrai": true,
+            "why": "La metformine est une petite molécule hydrosoluble, peu liée aux protéines : bien dialysable."
+          },
+          {
+            "texte": "Il faut attendre 24 h de traitement symptomatique avant de la discuter.",
+            "vrai": false,
+            "why": "L'indication est immédiate devant ces critères de gravité."
+          }
+        ],
+        "explication": "EXTRIP recommande l'épuration si lactates > 20 mmol/L, pH ≤ 7,0, choc, coma ou échec du traitement standard ; elle est suggérée dès lactates 15 à 20 mmol/L ou pH 7,0 à 7,1.",
+        "source": "EXTRIP, Crit Care Med 2015"
+      },
+      {
+        "id": "modalite",
+        "question": "Concernant la modalité d'épuration, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'hémodialyse intermittente est la modalité de première intention.",
+            "vrai": true,
+            "why": "Clairance la plus élevée (EXTRIP)."
+          },
+          {
+            "texte": "L'EER continue est la modalité de première intention, plus efficace que l'intermittente.",
+            "vrai": false,
+            "why": "Clairance plus faible : alternative seulement si l'intermittente est indisponible ou mal tolérée."
+          },
+          {
+            "texte": "L'hémoperfusion sur charbon est la technique de référence.",
+            "vrai": false,
+            "why": "Non recommandée : elle ne corrige pas l'acidose."
+          },
+          {
+            "texte": "L'épuration est poursuivie jusqu'à lactates < 3 mmol/L et pH > 7,35.",
+            "vrai": true,
+            "why": "Critères d'arrêt EXTRIP."
+          },
+          {
+            "texte": "Un rebond des lactates après l'arrêt de l'épuration est impossible.",
+            "vrai": false,
+            "why": "La redistribution de la metformine depuis les tissus peut entraîner un rebond : surveiller."
+          }
+        ],
+        "explication": "Comme pour la plupart des toxiques dialysables, l'hémodialyse intermittente épure le plus vite.",
+        "source": "EXTRIP, Crit Care Med 2015"
+      },
+      {
+        "id": "bicarbonate",
+        "complement": "En attendant la dialyse, l'interne propose de perfuser **250 mL de bicarbonate de sodium 8,4 %**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Dans BICAR-ICU, le bicarbonate améliorait la survie des patients en IRA avec pH ≤ 7,20.",
+            "vrai": true,
+            "why": "Bénéfice dans le sous-groupe prédéfini des patients en IRA (stade AKIN 2-3)."
+          },
+          {
+            "texte": "Le bicarbonate apporte une charge sodée et peut aggraver une surcharge.",
+            "vrai": true,
+            "why": "250 mL à 8,4 % = 250 mmol de sodium."
+          },
+          {
+            "texte": "Le bicarbonate peut faire baisser le calcium ionisé.",
+            "vrai": true,
+            "why": "L'alcalinisation augmente la fixation du calcium aux protéines."
+          },
+          {
+            "texte": "Le CO₂ produit doit pouvoir être éliminé par la ventilation.",
+            "vrai": true,
+            "why": "Sinon, acidose intracellulaire paradoxale : prudence chez le patient qui s'épuise."
+          },
+          {
+            "texte": "Le bicarbonate permet de se passer de l'épuration extrarénale.",
+            "vrai": false,
+            "why": "Il n'épure ni la metformine ni le lactate : c'est un traitement d'attente."
+          }
+        ],
+        "explication": "Le bicarbonate peut aider en attendant l'épuration, sans la remplacer.",
+        "source": "BICAR-ICU, Lancet 2018"
+      },
+      {
+        "id": "tolerance",
+        "complement": "Au branchement de l'hémodialyse intermittente, PA **82/44 mmHg** sous noradrénaline 0,3 µg/kg/min.",
+        "question": "Quelles mesures améliorent la tolérance hémodynamique de la séance ?",
+        "propositions": [
+          {
+            "texte": "Un dialysat à sodium ≥ 145 mmol/L.",
+            "vrai": true,
+            "why": "Limite la baisse d'osmolalité et préserve le volume plasmatique."
+          },
+          {
+            "texte": "Un dialysat réchauffé à 39 °C.",
+            "vrai": false,
+            "why": "C'est l'inverse : un dialysat refroidi (≤ 37 °C) favorise la vasoconstriction."
+          },
+          {
+            "texte": "Un branchement isovolémique, en gardant la purge du circuit.",
+            "vrai": true,
+            "why": "Évite la soustraction brutale de volume au branchement."
+          },
+          {
+            "texte": "Une ultrafiltration élevée d'emblée pour corriger la surcharge.",
+            "vrai": false,
+            "why": "Ultrafiltration nulle ou modérée chez le patient instable."
+          },
+          {
+            "texte": "Une séance longue avec un débit sang initial modéré.",
+            "vrai": true,
+            "why": "Échanges plus progressifs, mieux tolérés."
+          }
+        ],
+        "explication": "Les mesures de Schortgen ont rendu l'hémodialyse intermittente tolérable chez la plupart des patients en choc.",
+        "source": "Schortgen et al., Am J Respir Crit Care Med 2000"
+      },
+      {
+        "id": "anticoag_hdi",
+        "complement": "Pas de saignement, plaquettes 210 G/L.",
+        "question": "Pour anticoaguler le circuit d'hémodialyse intermittente, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'HNF ou une HBPM sont recommandées en première intention.",
+            "vrai": true,
+            "why": "KDIGO, grade 1C."
+          },
+          {
+            "texte": "Une thrombopénie induite par l'héparine impose l'arrêt de toute héparine.",
+            "vrai": true,
+            "why": "Y compris les purges et les verrous de cathéter."
+          },
+          {
+            "texte": "En cas de thrombopénie induite par l'héparine, l'argatroban est une option.",
+            "vrai": true,
+            "why": "Inhibiteur direct de la thrombine, à élimination hépatique (KDIGO 2C)."
+          },
+          {
+            "texte": "Les verrous de cathéter héparinés restent autorisés en cas de thrombopénie induite par l'héparine.",
+            "vrai": false,
+            "why": "Toute exposition à l'héparine est proscrite."
+          },
+          {
+            "texte": "Le citrate traite la thrombopénie induite par l'héparine.",
+            "vrai": false,
+            "why": "Il n'anticoagule que le circuit : la TIH impose une anticoagulation systémique non héparinique."
+          }
+        ],
+        "explication": "Héparine en intermittente, citrate en continue ; en cas de TIH, plus aucune héparine.",
+        "source": "KDIGO 2012 (insuffisance rénale aiguë)"
+      },
+      {
+        "id": "toxiques",
+        "question": "Parmi ces intoxications, lesquelles peuvent relever d'une épuration extrarénale ?",
+        "propositions": [
+          {
+            "texte": "Lithium",
+            "vrai": true,
+            "why": "Petite molécule non liée aux protéines : hémodialyse si troubles neurologiques ou lithémie élevée avec IR."
+          },
+          {
+            "texte": "Méthanol",
+            "vrai": true,
+            "why": "Épure le méthanol et le formate, corrige l'acidose."
+          },
+          {
+            "texte": "Digoxine",
+            "vrai": false,
+            "why": "Volume de distribution très large : non dialysable. Traitement : anticorps antidigoxine."
+          },
+          {
+            "texte": "Salicylés",
+            "vrai": true,
+            "why": "Indication devant des troubles neurologiques, une acidose sévère ou un taux très élevé."
+          },
+          {
+            "texte": "Antidépresseurs tricycliques",
+            "vrai": false,
+            "why": "Fortement liés aux protéines, grand volume de distribution : EXTRIP recommande de ne pas épurer."
+          }
+        ],
+        "explication": "Un toxique est dialysable s'il est de petite taille, peu lié aux protéines et à faible volume de distribution.",
+        "source": "Recommandations EXTRIP 2015-2016"
+      },
+      {
+        "id": "suite",
+        "complement": "Après 6 h d'hémodialyse : pH 7,38, lactates 2,6 mmol/L. Le lendemain, créatinine 390 µmol/L, diurèse 300 mL/24 h.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La metformine pourra être reprise dès la sortie de réanimation.",
+            "vrai": false,
+            "why": "Pas tant que la fonction rénale n'est pas récupérée et réévaluée."
+          },
+          {
+            "texte": "La metformine est contre-indiquée si le DFG est < 30 mL/min/1,73 m².",
+            "vrai": true,
+            "why": "Contre-indication du résumé des caractéristiques du produit."
+          },
+          {
+            "texte": "Les lactates doivent être surveillés après l'arrêt de l'épuration.",
+            "vrai": true,
+            "why": "Risque de rebond par redistribution."
+          },
+          {
+            "texte": "Une diurèse de 300 mL/24 h suffit pour affirmer le sevrage définitif de l'EER.",
+            "vrai": false,
+            "why": "Diurèse encore faible : surveiller la kaliémie, l'acidose et la volémie."
+          },
+          {
+            "texte": "La metformine doit être suspendue en cas de déshydratation aiguë (vomissements, diarrhée).",
+            "vrai": true,
+            "why": "Règle « jours de maladie » à enseigner au patient."
+          }
+        ],
+        "explication": "La prévention passe par l'éducation : suspendre la metformine dès qu'une déshydratation menace la fonction rénale.",
+        "source": "EXTRIP, Crit Care Med 2015"
+      }
+    ]
+  }
+]

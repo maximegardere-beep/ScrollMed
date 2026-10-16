@@ -1,0 +1,569 @@
+[
+  {
+    "id": "acr_fv_urgences",
+    "module": "Arrêt cardiaque",
+    "titre": "Fibrillation ventriculaire en salle d'attente",
+    "source": "ERC 2021 ; ERC-ESICM 2021 (soins post-réanimation)",
+    "reco": "FV : choc immédiat, 2 min de RCP entre deux analyses, adrénaline 1 mg et amiodarone 300 mg après le 3e choc. Après le RACS : coronarographie urgente si sus-décalage du ST, SpO₂ 94-98 %, PAM > 65 mmHg, prévention de la fièvre, évaluation pronostique multimodale à partir de 72 h.",
+    "tags": [
+      "ACR",
+      "RCP",
+      "Défibrillation",
+      "Post-arrêt"
+    ],
+    "cas": "Homme de 61 ans, s'effondre dans la salle d'attente des urgences. Il ne répond pas, respiration **agonique (gasps)**, pas de pouls carotidien.",
+    "items": [
+      {
+        "id": "rcp_base",
+        "question": "Concernant les premiers gestes, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il faut débuter immédiatement les compressions thoraciques.",
+            "vrai": true,
+            "why": "Toute minute sans massage réduit la survie."
+          },
+          {
+            "texte": "Des gasps doivent être considérés comme un arrêt cardiaque.",
+            "vrai": true,
+            "why": "Respiration anormale = ACR jusqu'à preuve du contraire."
+          },
+          {
+            "texte": "On recherche le pouls pendant 30 s avant de débuter.",
+            "vrai": false,
+            "why": "10 s au plus, et seulement par un soignant entraîné."
+          },
+          {
+            "texte": "Les compressions se font à 100-120/min, sur 5 à 6 cm.",
+            "vrai": true,
+            "why": "Relâchement complet, interruptions minimales."
+          },
+          {
+            "texte": "Le rapport est de 30 compressions pour 2 insufflations sans voie aérienne avancée.",
+            "vrai": true,
+            "why": "ERC 2021."
+          }
+        ],
+        "explication": "Inconscient + respiration anormale = arrêt cardiaque : massage sans délai.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "choc",
+        "complement": "Le défibrillateur montre une **fibrillation ventriculaire**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Un choc électrique est délivré immédiatement.",
+            "vrai": true,
+            "why": "Chaque minute de retard réduit la survie."
+          },
+          {
+            "texte": "Le massage reprend aussitôt après le choc, sans vérifier le pouls.",
+            "vrai": true,
+            "why": "Le cœur est rarement efficace juste après le choc."
+          },
+          {
+            "texte": "Le rythme est analysé toutes les 2 min.",
+            "vrai": true,
+            "why": "Cycles de 2 min de RCP."
+          },
+          {
+            "texte": "L'adrénaline est donnée avant le premier choc.",
+            "vrai": false,
+            "why": "En rythme choquable : après le 3e choc."
+          },
+          {
+            "texte": "Les chocs suivants se font toujours à énergie plus faible que le premier.",
+            "vrai": false,
+            "why": "Premier choc biphasique ≥ 150 J, puis même énergie ou plus."
+          }
+        ],
+        "explication": "FV : choc, massage 2 min, analyse, et ainsi de suite.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "drogues",
+        "complement": "FV persistante après **3 chocs**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Adrénaline 1 mg IV après le 3e choc, puis toutes les 3 à 5 min.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Amiodarone 300 mg IV après le 3e choc.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Une deuxième dose d'amiodarone de 150 mg après le 5e choc.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Le bicarbonate de sodium est systématique après 10 min de RCP.",
+            "vrai": false,
+            "why": "Pas d'usage systématique ; réservé à l'hyperkaliémie ou à certaines intoxications."
+          },
+          {
+            "texte": "L'adrénaline se donne toutes les 10 min.",
+            "vrai": false,
+            "why": "Toutes les 3 à 5 min."
+          }
+        ],
+        "explication": "Rythme choquable : adrénaline et amiodarone après le 3e choc.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "voies_aeriennes",
+        "question": "Concernant les voies aériennes pendant la RCP, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "L'intubation est réservée à un opérateur expérimenté, avec une pause du massage < 5 s.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "La capnographie confirme la position de la sonde.",
+            "vrai": true,
+            "why": "Une courbe de capnographie persistante confirme la position trachéale."
+          },
+          {
+            "texte": "Une fois intubé, massage continu et environ 10 insufflations par minute.",
+            "vrai": true,
+            "why": "Sans pause pour les insufflations."
+          },
+          {
+            "texte": "Le dispositif supraglottique est contre-indiqué pendant la RCP.",
+            "vrai": false,
+            "why": "C'est une alternative à l'intubation si l'opérateur n'est pas expert."
+          },
+          {
+            "texte": "L'intubation doit précéder le premier choc.",
+            "vrai": false,
+            "why": "Le choc et le massage passent avant."
+          }
+        ],
+        "explication": "La voie aérienne avancée n'est jamais prioritaire sur le massage et le choc.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "causes",
+        "question": "Concernant les causes réversibles (4 H et 4 T), quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Les 4 H : hypoxie, hypovolémie, hypo/hyperkaliémie (et troubles métaboliques), hypothermie.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Les 4 T : thrombose (coronaire ou pulmonaire), tamponnade, pneumothorax suffocant, toxiques.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Une échographie justifie d'allonger la pause d'analyse au-delà de 10 s.",
+            "vrai": false,
+            "why": "Elle se fait sans allonger les pauses, par un opérateur entraîné."
+          },
+          {
+            "texte": "Après une thrombolyse pour embolie pulmonaire, poursuivre la RCP 60 à 90 min.",
+            "vrai": true,
+            "why": "Délai d'action du thrombolytique."
+          },
+          {
+            "texte": "L'hyperglycémie fait partie des 4 H.",
+            "vrai": false,
+            "why": "Ce n'est pas une cause réversible d'ACR retenue."
+          }
+        ],
+        "explication": "Chercher et traiter une cause réversible à chaque cycle.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "fv_refractaire",
+        "complement": "FV persistante après **5 chocs**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "On peut changer la position des électrodes (antéro-postérieure).",
+            "vrai": true,
+            "why": "DOSE-VF (NEJM 2022) : meilleure survie que la position standard."
+          },
+          {
+            "texte": "Dans DOSE-VF, la double défibrillation séquentielle réduisait la survie.",
+            "vrai": false,
+            "why": "Elle l'améliorait, comme le changement de position des électrodes."
+          },
+          {
+            "texte": "Une ECMO (ECPR) se discute chez un patient sélectionné.",
+            "vrai": true,
+            "why": "Arrêt devant témoin, cause réversible, centre disponible."
+          },
+          {
+            "texte": "On augmente l'adrénaline à 5 mg par bolus.",
+            "vrai": false,
+            "why": "Les fortes doses n'améliorent pas la survie."
+          },
+          {
+            "texte": "On arrête la réanimation après 3 chocs inefficaces.",
+            "vrai": false,
+            "why": "La FV est un rythme de bon pronostic relatif : on poursuit."
+          }
+        ],
+        "explication": "FV réfractaire : changer de vecteur de choc, discuter l'ECMO.",
+        "source": "DOSE-VF, NEJM 2022 ; ERC 2021"
+      },
+      {
+        "id": "post_racs",
+        "complement": "RACS après 18 min. Patient comateux. ECG : **sus-décalage du ST antérieur**.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une coronarographie en urgence est indiquée.",
+            "vrai": true,
+            "why": "Sus-décalage du ST après RACS : coronarographie immédiate."
+          },
+          {
+            "texte": "La SpO₂ cible est de 94 à 98 %.",
+            "vrai": true,
+            "why": "Éviter hypoxie et hyperoxie."
+          },
+          {
+            "texte": "La PAM cible est > 65 mmHg.",
+            "vrai": true,
+            "why": "ERC-ESICM 2021."
+          },
+          {
+            "texte": "Il faut hyperventiler pour une PaCO₂ de 25 à 30 mmHg.",
+            "vrai": false,
+            "why": "Normocapnie : l'hypocapnie réduit le débit sanguin cérébral."
+          },
+          {
+            "texte": "Une hypothermie à 33 °C est obligatoire plutôt que la seule prévention de la fièvre.",
+            "vrai": false,
+            "why": "TTM2 (NEJM 2021) : 33 °C ne fait pas mieux que la normothermie ; prévenir la fièvre (> 37,7 °C) pendant 72 h."
+          }
+        ],
+        "explication": "Après RACS : coronarographie si STEMI, normoxie, normocapnie, PAM > 65 mmHg, pas de fièvre.",
+        "source": "ERC-ESICM 2021 ; TTM2, NEJM 2021"
+      },
+      {
+        "id": "pronostic",
+        "question": "Concernant l'évaluation du pronostic neurologique, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Elle ne se fait pas avant 72 h après le RACS.",
+            "vrai": true,
+            "why": "Et après élimination des sédations résiduelles."
+          },
+          {
+            "texte": "Elle repose sur une approche multimodale.",
+            "vrai": true,
+            "why": "Clinique, électrophysiologie, biomarqueurs, imagerie."
+          },
+          {
+            "texte": "L'absence bilatérale de réflexes pupillaires à 72 h oriente vers un mauvais pronostic.",
+            "vrai": true,
+            "why": "Un des critères de l'algorithme ERC-ESICM."
+          },
+          {
+            "texte": "Une NSE élevée isolée suffit à conclure à un mauvais pronostic.",
+            "vrai": false,
+            "why": "Il faut au moins deux critères concordants (approche multimodale)."
+          },
+          {
+            "texte": "Un seul examen clinique à H24 suffit pour décider une limitation des traitements.",
+            "vrai": false,
+            "why": "Trop précoce et non multimodal : risque de prophétie autoréalisatrice."
+          }
+        ],
+        "explication": "Au moins deux critères concordants, à partir de 72 h, sans sédation résiduelle.",
+        "source": "ERC-ESICM 2021 (soins post-réanimation)"
+      }
+    ]
+  },
+  {
+    "id": "acr_hyperkaliemie_dialyse",
+    "module": "Arrêt cardiaque",
+    "titre": "Arrêt cardiaque chez un hémodialysé",
+    "source": "ERC 2021 (circonstances particulières)",
+    "reco": "Hyperkaliémie avec ACR : calcium IV, insuline rapide 10 UI + 25 g de glucose IV, bicarbonate 50 mmol si acidose sévère ou insuffisance rénale ; discuter la dialyse pendant la RCP si l'arrêt est réfractaire.",
+    "tags": [
+      "ACR",
+      "Hyperkaliémie",
+      "Dialyse",
+      "RCP"
+    ],
+    "cas": "Homme de 68 ans, **hémodialysé chronique** (lundi, mercredi, vendredi), admis un lundi matin pour faiblesse musculaire. Il a **manqué sa séance du vendredi**.\nIl perd connaissance à l'arrivée. Pas de pouls. Scope : rythme lent à **QRS très larges, aspect sinusoïdal**.",
+    "items": [
+      {
+        "id": "rythme",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Il s'agit d'une activité électrique sans pouls, rythme non choquable.",
+            "vrai": true,
+            "why": "Activité électrique organisée sans pouls."
+          },
+          {
+            "texte": "L'adrénaline 1 mg IV est donnée dès que possible.",
+            "vrai": true,
+            "why": "Rythme non choquable : adrénaline immédiate."
+          },
+          {
+            "texte": "Un choc électrique est délivré immédiatement.",
+            "vrai": false,
+            "why": "Pas de choc sur une AESP."
+          },
+          {
+            "texte": "L'hyperkaliémie est la cause la plus probable.",
+            "vrai": true,
+            "why": "Dialysé, séance manquée, long intervalle du week-end, QRS sinusoïdaux."
+          },
+          {
+            "texte": "L'atropine est recommandée.",
+            "vrai": false,
+            "why": "Retirée des algorithmes d'ACR depuis 2010."
+          }
+        ],
+        "explication": "AESP : massage, adrénaline, et traitement de la cause.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "traitement_hyperk",
+        "question": "Concernant le traitement de l'hyperkaliémie pendant la RCP, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Calcium IV (chlorure de calcium 10 %, 10 mL).",
+            "vrai": true,
+            "why": "Stabilise la membrane myocardique."
+          },
+          {
+            "texte": "Insuline rapide 10 UI + 25 g de glucose IV.",
+            "vrai": true,
+            "why": "Fait entrer le potassium dans les cellules."
+          },
+          {
+            "texte": "Bicarbonate de sodium 50 mmol IV en cas d'acidose sévère ou d'insuffisance rénale.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Résine échangeuse d'ions par sonde gastrique comme traitement d'urgence.",
+            "vrai": false,
+            "why": "Délai d'action de plusieurs heures : inutile en urgence."
+          },
+          {
+            "texte": "Une dialyse pendant la RCP se discute si l'arrêt est réfractaire.",
+            "vrai": true,
+            "why": "ERC 2021 : seule façon d'éliminer rapidement le potassium."
+          }
+        ],
+        "explication": "Calcium, insuline-glucose, bicarbonate, puis épuration.",
+        "source": "ERC 2021 (circonstances particulières)"
+      },
+      {
+        "id": "qualite_rcp",
+        "question": "Concernant la qualité de la RCP, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Les pauses du massage sont réduites au minimum.",
+            "vrai": true,
+            "why": "Moins de 10 s, idéalement moins de 5 s pour un geste."
+          },
+          {
+            "texte": "Le masseur est relayé toutes les 10 min.",
+            "vrai": false,
+            "why": "Toutes les 2 min : la fatigue dégrade la qualité en 1 à 2 min."
+          },
+          {
+            "texte": "Une EtCO₂ basse après 20 min de RCP est associée à un mauvais pronostic, mais ne doit pas décider seule de l'arrêt.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "Une hausse brutale de l'EtCO₂ peut signer un RACS.",
+            "vrai": true,
+            "why": "Reprise du débit cardiaque."
+          },
+          {
+            "texte": "Le pouls est vérifié toutes les 30 s.",
+            "vrai": false,
+            "why": "Seulement à l'analyse du rythme, toutes les 2 min, si le rythme est organisé."
+          }
+        ],
+        "explication": "La capnographie guide la RCP : qualité du massage et signe de RACS.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "abord",
+        "complement": "Fistule artérioveineuse au bras gauche. Pas de voie veineuse posée.",
+        "question": "Concernant l'abord vasculaire, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "La voie intraosseuse est une alternative si la voie veineuse périphérique échoue.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "L'adrénaline intratrachéale est recommandée.",
+            "vrai": false,
+            "why": "Absorption imprévisible : abandonnée."
+          },
+          {
+            "texte": "Hors urgence vitale, on évite de ponctionner ou de serrer le bras de la fistule.",
+            "vrai": true,
+            "why": "Préserver l'abord de dialyse."
+          },
+          {
+            "texte": "Une voie veineuse centrale est indispensable avant tout médicament.",
+            "vrai": false,
+            "why": "VVP ou intraosseuse suffisent ; la pose d'une VVC interromprait le massage."
+          },
+          {
+            "texte": "Chaque médicament est suivi d'un rinçage d'environ 20 mL.",
+            "vrai": true,
+            "why": "Pour qu'il atteigne la circulation centrale."
+          }
+        ],
+        "explication": "VVP, sinon intraosseuse ; rincer après chaque injection.",
+        "source": "ERC 2021"
+      },
+      {
+        "id": "ecg",
+        "complement": "L'ECG enregistré à l'accueil, avant l'arrêt, est retrouvé.",
+        "question": "Quels signes ECG évoquent une hyperkaliémie ?",
+        "propositions": [
+          {
+            "texte": "Ondes T amples, pointues et symétriques.",
+            "vrai": true,
+            "why": "Premier signe."
+          },
+          {
+            "texte": "Aplatissement puis disparition des ondes P.",
+            "vrai": true,
+            "why": "Atteinte de la conduction auriculaire."
+          },
+          {
+            "texte": "Élargissement des QRS.",
+            "vrai": true,
+            "why": "Signe de gravité."
+          },
+          {
+            "texte": "Ondes U proéminentes.",
+            "vrai": false,
+            "why": "Signe d'hypokaliémie."
+          },
+          {
+            "texte": "Bradycardie, blocs, puis aspect sinusoïdal pré-terminal.",
+            "vrai": true,
+            "why": "Évolution vers l'arrêt."
+          }
+        ],
+        "explication": "T pointues, P effacées, QRS larges, puis sinusoïde : urgence vitale.",
+        "source": "ERC 2021 ; UK Kidney Association 2020"
+      },
+      {
+        "id": "apres_racs",
+        "complement": "RACS après 12 min : **K⁺ 8,4 mmol/L**, pH 7,10, PA 95/50 mmHg. Patient anurique.",
+        "question": "Quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une dialyse est indiquée en urgence.",
+            "vrai": true,
+            "why": "Seule façon d'éliminer le potassium chez l'anurique."
+          },
+          {
+            "texte": "Les traitements de transfert sont transitoires et exposent à un rebond.",
+            "vrai": true,
+            "why": "Effet de 4 à 6 h pour l'insuline."
+          },
+          {
+            "texte": "Le calcium fait baisser la kaliémie.",
+            "vrai": false,
+            "why": "Il protège le cœur sans changer la kaliémie."
+          },
+          {
+            "texte": "Le salbutamol nébulisé (10 à 20 mg) peut être ajouté.",
+            "vrai": true,
+            "why": "Effet additif à l'insuline."
+          },
+          {
+            "texte": "Le furosémide est le traitement de choix chez ce patient.",
+            "vrai": false,
+            "why": "Inefficace chez l'anurique."
+          }
+        ],
+        "explication": "Calcium pour protéger, transfert pour gagner du temps, dialyse pour éliminer.",
+        "source": "UK Kidney Association 2020 ; ERC 2021"
+      },
+      {
+        "id": "arret_rcp",
+        "question": "Concernant la décision d'arrêter la RCP, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Une asystolie persistante plus de 20 min, sans cause réversible et sans projet d'ECPR, fait discuter l'arrêt.",
+            "vrai": true,
+            "why": "ERC 2021 (éthique)."
+          },
+          {
+            "texte": "Les directives anticipées et les souhaits connus du patient sont pris en compte.",
+            "vrai": true,
+            "why": "ERC 2021."
+          },
+          {
+            "texte": "La décision revient au plus jeune médecin présent, seul.",
+            "vrai": false,
+            "why": "Décision du responsable de la réanimation, partagée avec l'équipe."
+          },
+          {
+            "texte": "On arrête après 5 min d'AESP.",
+            "vrai": false,
+            "why": "Bien trop tôt, surtout avec une cause réversible."
+          },
+          {
+            "texte": "La RCP se prolonge en cas d'hyperkaliémie ou d'hypothermie.",
+            "vrai": true,
+            "why": "Causes réversibles : bon pronostic si elles sont corrigées."
+          }
+        ],
+        "explication": "Une cause réversible justifie une RCP prolongée.",
+        "source": "ERC 2021 (éthique)"
+      },
+      {
+        "id": "prevention",
+        "question": "Chez l'hémodialysé chronique, quelles propositions sont exactes ?",
+        "propositions": [
+          {
+            "texte": "Le long intervalle interdialytique du week-end est associé à plus d'arrêts cardiaques et de décès.",
+            "vrai": true,
+            "why": "Foley et al., NEJM 2011."
+          },
+          {
+            "texte": "Le régime pauvre en potassium fait partie de la prévention.",
+            "vrai": true,
+            "why": "Avec l'éducation thérapeutique."
+          },
+          {
+            "texte": "Les chélateurs du potassium (patiromer, cyclosilicate de zirconium) peuvent être utilisés au long cours.",
+            "vrai": true,
+            "why": "Ils réduisent les hyperkaliémies interdialytiques."
+          },
+          {
+            "texte": "Le dialysat doit toujours être sans potassium.",
+            "vrai": false,
+            "why": "Une chute trop rapide de la kaliémie est arythmogène."
+          },
+          {
+            "texte": "Les IEC et ARA2 n'ont aucun effet sur la kaliémie.",
+            "vrai": false,
+            "why": "Ils l'augmentent."
+          }
+        ],
+        "explication": "La prévention de l'hyperkaliémie du dialysé passe par l'assiduité aux séances, le régime et les chélateurs.",
+        "source": "Foley et al., NEJM 2011"
+      }
+    ]
+  }
+]
