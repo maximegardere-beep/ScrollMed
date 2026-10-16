@@ -57,9 +57,9 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Oxygénothérapie hyperbare, durée, critères
 
 ### Insuffisance rénale aiguë
-- [ ] **Épuration extrarénale : modalités techniques**
+- [x] **Épuration extrarénale : modalités techniques**
   - HDFV vs HD : avantages, inconvénients, réglages
-- [ ] **Indications urgentes de dialyse**
+- [x] **Indications urgentes de dialyse**
   - Hyperkaliémie, acidose, urémie, surcharge
 - [x] **Dose de dialyse en réanimation**
   - KV, durée, fréquence : comment adapter ?

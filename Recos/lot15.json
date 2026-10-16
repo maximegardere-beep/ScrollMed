@@ -1,0 +1,339 @@
+[
+  {
+    "module": "Réanimation médicale",
+    "hook": "EER en urgence : les 5 indications vitales",
+    "body": "On démarre sans attendre devant : hyperkaliémie menaçante, acidose métabolique sévère, OAP réfractaire aux diurétiques, complication urémique (péricardite, encéphalopathie, saignement) ou intoxication par un toxique dialysable.",
+    "detail": "Repères usuels : K⁺ > 6 mmol/L avec signes ECG ou malgré le traitement, pH < 7,15. En dehors de ces urgences, l'attente vigilante est la règle. Hyperkaliémie et intoxication : l'hémodialyse intermittente épure plus vite que la continue.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë) ; RFE SRLF/SFAR 2018 (épuration extrarénale)",
+    "tags": [
+      "EER",
+      "Dialyse",
+      "Insuffisance rénale aiguë",
+      "Hyperkaliémie"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "STARRT-AKI : dialyser tôt ne sauve pas, et rend plus dépendant",
+    "body": "Chez 3 019 patients en IRA sévère sans urgence, démarrer l'EER dans les 12 h ne baisse pas la mortalité à J90 (43,9 % vs 43,7 %) par rapport à une attente sur critères.",
+    "detail": "Le bras précoce avait plus de dépendance à la dialyse à J90 (10,4 % vs 6,0 %) et plus d'effets indésirables (hypotension, hypophosphatémie). Dans le bras standard, près de 4 patients sur 10 n'ont jamais été dialysés. Cohérent avec AKIKI et IDEAL-ICU ; ELAIN (monocentrique, chirurgie cardiaque) restait isolée.",
+    "source": "STARRT-AKI, NEJM 2020",
+    "grade": "ECR multicentrique",
+    "tags": [
+      "EER",
+      "Dialyse",
+      "Insuffisance rénale aiguë",
+      "STARRT-AKI"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« L'EER continue améliore la survie par rapport à l'hémodialyse intermittente »",
+    "body": "Faux : à dose adéquate, continue et intermittente donnent la même survie et la même récupération rénale.",
+    "detail": "Les deux sont complémentaires. La continue est suggérée chez le patient hémodynamiquement instable (KDIGO 2B), mais une intermittente bien conduite (sodium élevé, dialysat refroidi, branchement isovolémique) est tolérée chez la plupart des patients sous amines (Hemodiafe, Lancet 2006).",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë) ; Hemodiafe, Lancet 2006",
+    "tags": [
+      "EER",
+      "Dialyse",
+      "HDFVVC",
+      "Hémodialyse intermittente"
+    ]
+  },
+  {
+    "module": "Neuro-réanimation",
+    "hook": "HTIC ou œdème cérébral : EER continue, pas intermittente",
+    "body": "Chez le cérébrolésé, préférer l'EER continue : l'hémodialyse intermittente baisse vite l'osmolalité plasmatique et peut aggraver l'œdème cérébral.",
+    "detail": "Mécanisme : syndrome de déséquilibre. L'urée sort plus vite du plasma que du cerveau, l'eau entre dans le tissu cérébral. Concerne aussi l'insuffisance hépatique aiguë avec encéphalopathie. Garder une natrémie haute (dialysat ou réinjection enrichis en sodium si besoin).",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 2B",
+    "tags": [
+      "EER",
+      "HTIC",
+      "Œdème cérébral",
+      "Dialyse"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Hémodialyse intermittente en réa : 4 réglages pour qu'elle passe",
+    "body": "Dialysat à sodium ≥ 145 mmol/L, dialysat refroidi (≤ 37 °C), branchement isovolémique (purge conservée), ultrafiltration modérée. Ces mesures réduisent nettement les hypotensions en séance.",
+    "detail": "Compléter par des séances plus longues (≥ 4 h) avec un débit sang de départ modéré, et l'arrêt des vasodilatateurs. Ce protocole a permis, dans Hemodiafe, une tolérance de l'intermittente comparable à celle de la continue.",
+    "source": "Schortgen et al., Am J Respir Crit Care Med 2000",
+    "tags": [
+      "EER",
+      "Hémodialyse intermittente",
+      "Hypotension",
+      "Dialyse"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Hémodialyse intermittente : Kt/V de 3,9 par semaine",
+    "body": "En hémodialyse intermittente ou prolongée pour IRA, viser un Kt/V hebdomadaire de 3,9, soit environ 1,3 par séance, trois fois par semaine au minimum.",
+    "detail": "Le Kt/V délivré en réa est souvent inférieur au prescrit (débit de cathéter, recirculation, séances écourtées) : allonger ou rapprocher les séances si besoin. Dans ATN (NEJM 2008), 6 séances par semaine ne faisaient pas mieux que 3 séances bien dosées.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 1A",
+    "tags": [
+      "EER",
+      "Hémodialyse intermittente",
+      "Dose de dialyse",
+      "Kt/V"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Dialyse prolongée (SLED) : le compromis entre continue et intermittente",
+    "body": "La dialyse intermittente prolongée (6 à 12 h, débits réduits) combine la tolérance hémodynamique de la continue et la simplicité de l'intermittente : moins d'anticoagulation, machine libérée, patient mobilisable.",
+    "detail": "Elle suit la même cible de dose que l'intermittente (Kt/V 3,9 par semaine). Pas de différence de mortalité démontrée par rapport à l'EER continue. Penser à adapter les antibiotiques : la clairance est forte pendant la séance, nulle entre deux.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "tags": [
+      "EER",
+      "SLED",
+      "Dialyse",
+      "Hémodialyse intermittente"
+    ]
+  },
+  {
+    "module": "Soins quotidiens en réa",
+    "hook": "Cathéter de dialyse : jugulaire droite d'abord, sous-clavière en dernier",
+    "body": "Ordre de préférence : jugulaire interne droite, puis fémorale, puis jugulaire gauche, puis sous-clavière (côté dominant en dernier). Pose sous échoguidage.",
+    "detail": "La sous-clavière expose à la sténose veineuse, qui compromet une future fistule artérioveineuse. La jugulaire droite, rectiligne, donne les meilleurs débits. En fémoral, un cathéter long (≥ 20 cm) limite la recirculation. Échoguidage : grade 1A ; radiographie avant la 1re utilisation d'un cathéter jugulaire ou sous-clavier : grade 1B.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 1A (échoguidage)",
+    "tags": [
+      "EER",
+      "Cathéter",
+      "Dialyse",
+      "Échoguidage"
+    ]
+  },
+  {
+    "module": "Grandes études",
+    "hook": "Cathedia : le cathéter fémoral n'est pas plus infecté que le jugulaire",
+    "body": "Chez 750 patients de réanimation, la colonisation des cathéters de dialyse ne différait pas entre fémoral et jugulaire. Le site fémoral reste un choix valable quand la jugulaire droite n'est pas disponible.",
+    "detail": "Exception : chez les patients à IMC élevé (tiers supérieur, > 28,4 kg/m²), le fémoral était plus colonisé. Dans l'analyse de dysfonction (Crit Care Med 2010), la jugulaire gauche faisait moins bien que la droite.",
+    "source": "Cathedia, Parienti et al., JAMA 2008",
+    "grade": "ECR multicentrique",
+    "tags": [
+      "EER",
+      "Cathéter",
+      "Infection",
+      "Cathedia"
+    ]
+  },
+  {
+    "module": "Physiologie",
+    "hook": "Diffusion pour les petites molécules, convection pour les moyennes",
+    "body": "La diffusion (dialyse) suit un gradient de concentration : très efficace pour l'urée et le potassium. La convection (hémofiltration) entraîne les solutés avec l'eau : elle épure mieux les moyennes molécules.",
+    "detail": "L'hémodiafiltration combine les deux. Aucune modalité (HFVVC, HDVVC, HDFVVC) n'a montré de bénéfice clinique sur les autres : la dose d'effluent compte plus que le mode. La convection colmate davantage le filtre (hémoconcentration).",
+    "source": "Neri et al., Crit Care 2016 (nomenclature de l'EER, ADQI)",
+    "tags": [
+      "EER",
+      "Hémofiltration",
+      "Physiologie",
+      "Dialyse"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Postdilution : fraction de filtration sous 20-25 %",
+    "body": "En hémofiltration postdilution, garder la fraction de filtration (débit d'ultrafiltration / débit plasmatique) sous 20 à 25 %, sinon le sang s'hémoconcentre et le filtre coagule.",
+    "detail": "Débit plasmatique = débit sang × (1 − hématocrite). Ex. : 200 mL/min et Ht 30 % → 140 mL/min, soit 8,4 L/h ; 20 % = 1,7 L/h de réinjection postdilution au plus. Pour monter plus haut : augmenter le débit sang ou passer une partie en prédilution, qui protège le filtre mais réduit la clairance d'environ 15 à 20 %.",
+    "source": "Neri et al., Crit Care 2016 (nomenclature de l'EER, ADQI)",
+    "tags": [
+      "EER",
+      "Hémofiltration",
+      "Fraction de filtration",
+      "HDFVVC"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "EER : tampon bicarbonate plutôt que lactate",
+    "body": "Utiliser un dialysat et une solution de réinjection tamponnés au bicarbonate, et non au lactate, surtout en cas de choc.",
+    "detail": "Le lactate doit être métabolisé par le foie pour donner du bicarbonate : en choc ou en insuffisance hépatique, il s'accumule et aggrave l'acidose. Grade 1B en état de choc, 2B en insuffisance hépatique ou hyperlactatémie, 2C chez les autres patients.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 1B (choc)",
+    "tags": [
+      "EER",
+      "Bicarbonate",
+      "Acidose",
+      "Dialyse"
+    ]
+  },
+  {
+    "module": "Hémostase & transfusion",
+    "hook": "EER et risque hémorragique : citrate plutôt que circuit sans anticoagulation",
+    "body": "Chez le patient qui saigne ou à haut risque hémorragique, l'anticoagulation régionale au citrate est suggérée plutôt qu'une EER continue sans anticoagulation.",
+    "detail": "Le citrate n'anticoagule que le circuit : le calcium est restitué au patient. Sans anticoagulation, les filtres coagulent vite, la dose délivrée chute et le sang perdu s'ajoute. Éviter l'héparinisation régionale (héparine neutralisée par protamine) dans cette situation (grade 2C).",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 2C",
+    "tags": [
+      "EER",
+      "Citrate",
+      "Anticoagulation",
+      "Hémorragie"
+    ]
+  },
+  {
+    "module": "Hémostase & transfusion",
+    "hook": "TIH sous EER : arrêter toute héparine, argatroban",
+    "body": "En cas de thrombopénie induite par l'héparine, arrêter toute héparine (y compris les purges et verrous de cathéter) et anticoaguler par un inhibiteur direct de la thrombine ou un anti-Xa non héparinique.",
+    "detail": "Pour l'EER, l'argatroban est suggéré en l'absence d'insuffisance hépatique sévère (élimination hépatique, grade 2C). Le citrate anticoagule le circuit mais ne traite pas la TIH, qui impose une anticoagulation systémique.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 1A",
+    "tags": [
+      "EER",
+      "TIH",
+      "Anticoagulation",
+      "Argatroban"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Citrate : alcalose = trop apporté, acidose = mal métabolisé",
+    "body": "Sous citrate, une alcalose métabolique signe un apport excessif (le citrate devient bicarbonate) ; une acidose à trou anionique élevé avec hypocalcémie ionisée signe une accumulation (foie qui ne le métabolise plus).",
+    "detail": "Alcalose : baisser le débit de citrate ou augmenter le dialysat. Accumulation (Ca total / Ca ionisé > 2,5) : réduire ou arrêter le citrate. Cibles usuelles : Ca ionisé post-filtre 0,25 à 0,35 mmol/L, systémique 1,0 à 1,2 mmol/L.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "tags": [
+      "EER",
+      "Citrate",
+      "Alcalose",
+      "Calcium"
+    ]
+  },
+  {
+    "module": "Soins quotidiens en réa",
+    "hook": "EER continue : l'hypophosphatémie arrive vite",
+    "body": "L'EER continue épure le phosphore en continu : l'hypophosphatémie est fréquente dès les premiers jours. Doser le phosphore chaque jour et supplémenter, ou utiliser une solution qui en contient.",
+    "detail": "L'hypophosphatémie expose à une faiblesse musculaire, un sevrage ventilatoire difficile et des troubles du rythme. Elle était plus fréquente dans le bras intensif de RENAL et dans le bras précoce de STARRT-AKI. Penser aussi au magnésium.",
+    "source": "RENAL, NEJM 2009 ; STARRT-AKI, NEJM 2020",
+    "tags": [
+      "EER",
+      "Phosphore",
+      "Électrolytes",
+      "HDFVVC"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "hook": "Antibiotiques sous EER : dose de charge pleine, puis dosages",
+    "body": "Ne jamais réduire la première dose d'antibiotique chez le patient dialysé : la dose de charge dépend du volume de distribution, pas de la fonction rénale. Ajuster ensuite sur les dosages plasmatiques.",
+    "detail": "L'EER continue épure beaucoup les bêtalactamines et les glycopeptides : le sous-dosage est plus fréquent que le surdosage. Les tables de posologie « insuffisance rénale » sous-estiment souvent la clairance de l'EER.",
+    "source": "RFE SFAR/SRLF 2019 (optimisation des bêtalactamines)",
+    "tags": [
+      "EER",
+      "Antibiotiques",
+      "Pharmacocinétique",
+      "Sepsis"
+    ]
+  },
+  {
+    "module": "Hémostase & transfusion",
+    "hook": "Hémodialyse intermittente : HNF ou HBPM pour le circuit",
+    "body": "Sans risque hémorragique ni TIH, anticoaguler le circuit d'hémodialyse intermittente par héparine non fractionnée ou HBPM plutôt que par un autre anticoagulant.",
+    "detail": "Le citrate, préféré en EER continue, est surtout utile en intermittente chez le patient qui saigne. Sous HBPM, attention à l'accumulation chez l'insuffisant rénal : surveiller l'anti-Xa si les séances se répètent.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 1C",
+    "tags": [
+      "EER",
+      "Hémodialyse intermittente",
+      "Anticoagulation",
+      "Héparine"
+    ]
+  },
+  {
+    "module": "Soins quotidiens en réa",
+    "hook": "Sous EER continue, compenser la perte d'acides aminés",
+    "body": "L'EER continue fait perdre environ 10 à 15 g d'acides aminés par jour. KDIGO suggère jusqu'à 1,7 g/kg/j de protéines chez le patient hypercatabolique sous EER continue, et de ne pas restreindre les protéines pour retarder la dialyse.",
+    "detail": "Prudence : EFFORT Protein (Lancet 2023) a montré un signal défavorable des apports très élevés (≥ 2,2 g/kg/j) chez les patients en IRA. Viser l'apport usuel en y ajoutant les pertes, sans surenchère.",
+    "source": "KDIGO 2012 (insuffisance rénale aiguë)",
+    "grade": "Grade 2D",
+    "tags": [
+      "EER",
+      "Nutrition",
+      "Protéines",
+      "HDFVVC"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Sevrage de l'EER : la diurèse spontanée guide",
+    "body": "Une diurèse spontanée (sans diurétique) supérieure à environ 400 à 500 mL/24 h est le meilleur indicateur de succès du sevrage de l'EER. Tester l'arrêt dès qu'elle réapparaît.",
+    "detail": "Ne pas utiliser les diurétiques pour accélérer la récupération rénale ou raccourcir l'EER (KDIGO, grade 2B) : ils augmentent la diurèse sans améliorer la fonction rénale. La créatinine est peu interprétable sous EER.",
+    "source": "BEST Kidney, Uchino et al., Crit Care Med 2009 ; KDIGO 2012",
+    "tags": [
+      "EER",
+      "Sevrage",
+      "Diurèse",
+      "Insuffisance rénale aiguë"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Intoxication au lithium : dialyser selon la clinique, pas seulement le taux",
+    "body": "L'épuration est recommandée si la lithémie dépasse 4 mEq/L avec une fonction rénale altérée, ou d'emblée devant des troubles de conscience, des convulsions ou des troubles du rythme graves, quel que soit le taux.",
+    "detail": "Suggérée si lithémie > 5 mEq/L, confusion, ou si le retour sous 1 mEq/L prendrait plus de 36 h. Modalité : hémodialyse intermittente en première intention (clairance la plus élevée). Recontrôler la lithémie après la séance : rebond par redistribution.",
+    "source": "EXTRIP, Clin J Am Soc Nephrol 2015",
+    "tags": [
+      "EER",
+      "Intoxication",
+      "Lithium",
+      "Hémodialyse intermittente"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Acidose lactique à la metformine : dialyser si lactates > 20 ou pH ≤ 7,0",
+    "body": "L'épuration extrarénale est recommandée dans l'intoxication à la metformine si les lactates dépassent 20 mmol/L, si le pH est ≤ 7,0, en cas de choc, de troubles de conscience ou d'échec du traitement standard.",
+    "detail": "Hémodialyse intermittente de préférence : elle épure la metformine et corrige l'acidose. Poursuivre jusqu'à lactates < 3 mmol/L et pH > 7,35. Suggérée dès 15 à 20 mmol/L ou pH entre 7,0 et 7,1.",
+    "source": "EXTRIP, Crit Care Med 2015",
+    "tags": [
+      "EER",
+      "Intoxication",
+      "Metformine",
+      "Acidose lactique"
+    ]
+  },
+  {
+    "module": "Idées reçues",
+    "quiz": true,
+    "hook": "« Une hémofiltration à haut volume épure le sepsis »",
+    "body": "Faux : 70 mL/kg/h d'hémofiltration ne font pas mieux que 35 mL/kg/h dans le choc septique avec IRA.",
+    "detail": "Dans IVOIRE (137 patients), la mortalité à J28 ne différait pas entre les deux doses. Le haut volume épure aussi antibiotiques, phosphore et micronutriments, et refroidit le patient. L'idée d'épurer les cytokines n'a pas tenu ses promesses.",
+    "source": "IVOIRE, Intensive Care Med 2013",
+    "tags": [
+      "EER",
+      "Sepsis",
+      "Hémofiltration",
+      "IVOIRE"
+    ]
+  },
+  {
+    "module": "Culture & histoire",
+    "hook": "Kolff, 1945 : un rein artificiel en boyaux de saucisse",
+    "body": "Pendant l'occupation des Pays-Bas, Willem Kolff construit un rein artificiel à tambour rotatif, avec une membrane en cellophane de boyau de saucisse. En 1945, une patiente de 67 ans en IRA est la première à survivre grâce à lui.",
+    "detail": "Les 15 premiers patients étaient morts. Kolff donna ensuite ses machines à d'autres équipes. L'hémofiltration continue n'apparaît qu'en 1977 (Kramer, artério-veineuse, sans pompe).",
+    "source": "Kolff, 1943-1945 (Kampen, Pays-Bas)",
+    "tags": [
+      "EER",
+      "Histoire",
+      "Dialyse",
+      "Kolff"
+    ]
+  },
+  {
+    "module": "Réanimation médicale",
+    "hook": "Ultrafiltration nette : pas plus de 1,75 mL/kg/h",
+    "body": "Un débit d'ultrafiltration nette supérieur à 1,75 mL/kg/h (environ 120 mL/h pour 70 kg) est associé à une surmortalité. Pour désaturer un patient surchargé, viser un bilan négatif progressif.",
+    "detail": "Analyse secondaire de RENAL, observationnelle. Un retrait trop rapide dépasse le remplissage vasculaire depuis l'interstitium : hypotension, hypoperfusion rénale, retard de récupération. Réévaluer la tolérance (PAM, lactates, précharge) plusieurs fois par jour.",
+    "source": "Murugan et al., JAMA Netw Open 2019 (analyse secondaire de RENAL)",
+    "tags": [
+      "EER",
+      "Ultrafiltration",
+      "Surcharge hydrique",
+      "HDFVVC"
+    ]
+  }
+]
