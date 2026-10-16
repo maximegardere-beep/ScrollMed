@@ -1,0 +1,119 @@
+[
+ {
+  "id": "iso_hpp",
+  "module": "Obstétrique",
+  "question": "Hémorragie du post-partum : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Elle se définit par une perte sanguine ≥ 500 mL dans les 24 h suivant l'accouchement.",
+    "vrai": true,
+    "why": "CNGOF 2014 ; sévère si ≥ 1 000 mL."
+   },
+   {
+    "texte": "L'oxytocine (5 à 10 UI IV lente) est le 1er utérotonique.",
+    "vrai": true,
+    "why": "CNGOF 2014, puis perfusion d'entretien."
+   },
+   {
+    "texte": "En cas d'échec de l'oxytocine, la sulprostone est débutée dans les 30 minutes.",
+    "vrai": true,
+    "why": "CNGOF 2014."
+   },
+   {
+    "texte": "L'acide tranexamique 1 g IV est administré précocement.",
+    "vrai": true,
+    "why": "WOMAN 2017 : dans les 3 heures."
+   },
+   {
+    "texte": "La méthylergométrine IV est le traitement de 1re intention.",
+    "vrai": false,
+    "why": "Pas en 1re intention (vasoconstriction, HTA) : l'oxytocine d'abord."
+   }
+  ],
+  "explication": "HPP : oxytocine, gestes endo-utérins, sulprostone avant 30 min, acide tranexamique, puis embolisation ou chirurgie.",
+  "source": "CNGOF/SFAR, RPC HPP 2014 ; WOMAN 2017",
+  "tags": [
+   "HPP",
+   "obstétrique",
+   "hémorragie"
+  ]
+ },
+ {
+  "id": "iso_preeclampsie",
+  "module": "Obstétrique",
+  "question": "Prééclampsie sévère : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le sulfate de magnésium prévient l'éclampsie (4 g IV en 15-20 min, puis 1 g/h).",
+    "vrai": true,
+    "why": "RFE SFAR/CNGOF 2020 ; MAGPIE 2002."
+   },
+   {
+    "texte": "Le sulfate de magnésium est un antihypertenseur de 1re ligne.",
+    "vrai": false,
+    "why": "Il prévient les convulsions ; l'HTA se traite par nicardipine ou labétalol."
+   },
+   {
+    "texte": "Le gluconate de calcium est l'antidote d'un surdosage en magnésium.",
+    "vrai": true,
+    "why": "Surveillance des réflexes ostéotendineux, de la FR et de la diurèse."
+   },
+   {
+    "texte": "Toute prééclampsie impose le sulfate de magnésium.",
+    "vrai": false,
+    "why": "Réservé aux formes sévères, surtout avec signes neurologiques."
+   },
+   {
+    "texte": "Le seul traitement curatif est la naissance (extraction fœtoplacentaire).",
+    "vrai": true,
+    "why": "Les autres traitements sont symptomatiques."
+   }
+  ],
+  "explication": "Prééclampsie sévère : antihypertenseur (nicardipine, labétalol), MgSO₄ si signes neurologiques, naissance.",
+  "source": "RFE SFAR/CNGOF prééclampsie 2020 ; MAGPIE 2002",
+  "tags": [
+   "prééclampsie",
+   "magnésium",
+   "obstétrique"
+  ]
+ },
+ {
+  "id": "iso_cesar_rachi",
+  "module": "Obstétrique",
+  "question": "Hypotension de la rachianesthésie pour césarienne : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La phényléphrine en perfusion prophylactique est recommandée.",
+    "vrai": true,
+    "why": "Consensus international 2018 : moins d'acidose fœtale qu'avec l'éphédrine."
+   },
+   {
+    "texte": "Le déplacement utérin vers la gauche limite la compression aortocave.",
+    "vrai": true,
+    "why": "Décubitus latéral gauche ou cale sous la fesse droite."
+   },
+   {
+    "texte": "L'éphédrine est le vasopresseur de 1re intention.",
+    "vrai": false,
+    "why": "Elle traverse le placenta : acidose fœtale."
+   },
+   {
+    "texte": "Un préremplissage de 2 L de cristalloïdes est obligatoire avant la ponction.",
+    "vrai": false,
+    "why": "Le co-remplissage (pendant et après la ponction) est préféré ; il ne suffit pas sans vasopresseur."
+   },
+   {
+    "texte": "L'anesthésie générale est préférable pour éviter l'hypotension.",
+    "vrai": false,
+    "why": "L'anesthésie périmédullaire reste la règle (risques de l'intubation chez la femme enceinte)."
+   }
+  ],
+  "explication": "Rachianesthésie et césarienne : phényléphrine prophylactique, déplacement utérin à gauche, co-remplissage.",
+  "source": "Kinsella et al., consensus international, Anaesthesia 2018",
+  "tags": [
+   "césarienne",
+   "rachianesthésie",
+   "phényléphrine"
+  ]
+ }
+]

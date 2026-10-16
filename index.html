@@ -584,10 +584,14 @@
   /* ---------- mode QCM ---------- */
   .qcm-top{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--muted); font-weight:700; margin-bottom:8px; }
   .qcm-top .chip{ background:var(--surface-2); border:1px solid var(--line); color:var(--text); border-radius:100px; padding:3px 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:60%; }
+  .qcm-top > span:not(.chip){ white-space:nowrap; }
   .qcm-dots{ margin-left:auto; display:flex; gap:4px; }
   .qcm-dots i{ width:9px; height:9px; border-radius:50%; background:var(--line); }
   .qcm-dots i.cur{ background:var(--muted); }
   .qcm-dots i.p1{ background:var(--trace); } .qcm-dots i.p05{ background:#9fd36a; } .qcm-dots i.p02{ background:var(--alert); } .qcm-dots i.p0{ background:var(--danger); }
+  .qcm-mode{ margin:4px 0 8px; } .qcm-mode button{ flex:1; font-size:13px; padding:8px 6px; }
+  .qcm-sel{ width:100%; font:inherit; font-size:13.5px; color:var(--text); background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:10px; }
+  .qcm-enonce{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:10px; }
   .qcm-title{ font-size:17px; font-weight:800; margin:0 0 10px; line-height:1.3; }
   details.qcm-cas{ background:var(--surface); border:1px solid var(--line); border-radius:14px; margin-bottom:10px; }
   details.qcm-cas summary{ list-style:none; cursor:pointer; padding:10px 14px; font-size:13px; font-weight:700; color:var(--muted); }
@@ -1097,9 +1101,11 @@ function normalizeState(s){
   s = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, level:{}, views:{}, history:{} }, s);
   // dechoc : parties du mode Déchoc (historique + meilleure note par scénario)
   s.dechoc = Object.assign({ runs: [], best: {}, last: null }, s.dechoc);
-  // qcm : QCM terminés ({ t, cas, module, note /20, items: { id: points } }) et suivi par item
+  // qcm : QCM terminés (dossier : { t, cas, module, note /20, items: { id: points } } ; série isolée :
+  // { t, iso: true, note, mods: { thème: note }, items }) et suivi par item (clé « cas/item » ou id du QCM isolé)
   // ({ n, last, pts, ok } : passages, date, points du dernier passage, réussites parfaites d'affilée)
-  s.qcm = Object.assign({ runs: [], items: {} }, s.qcm);
+  // mode : format choisi à l'accueil ('iso' : QCM isolés, 'dossier' : dossier progressif) ; theme : '' = tous
+  s.qcm = Object.assign({ runs: [], items: {}, mode: 'iso', theme: '' }, s.qcm);
   // migration : une fiche "comprise" avant l'introduction des niveaux démarre au niveau 1
   Object.keys(s.mastered).forEach(id => { if(s.mastered[id] && !s.level[id]) s.level[id] = 1; });
   return s;
@@ -1289,7 +1295,7 @@ async function syncFromGithub(silent){
     if(dc && dc.count) summary += ` Déchoc : ${dc.count} scénario(s).`;
     if(dc && dc.errors.length) summary += ` Déchoc, problème sur : ${dc.errors.join(', ')}.`;
     const qc = await qcmSync;
-    if(qc && qc.count) summary += ` QCM : ${qc.count} cas.`;
+    if(qc && (qc.count || qc.iso)) summary += ` QCM : ${qc.count} cas, ${qc.iso || 0} QCM isolés.`;
     if(qc && qc.errors.length) summary += ` QCM, problème sur : ${qc.errors.join(', ')}.`;
     if(msgEl) msgEl.textContent = summary;
     if(!silent || changed) showToast('Synchronisation GitHub terminée');
@@ -5004,29 +5010,44 @@ window.DECHOC = { start: dcStart, act: dcDoAction, validate: dcValidate, gen: dc
   monitor: { stat: DC_MONSTAT, ecg: () => G && dcEcgCode(), lanes: () => G && dcLanes(), bands: () => G && dcBands(), alarm: () => G && G.alarm, canvas: DC_MON.canvas } };
 
 // =========================================================
-// Mode QCM — dossiers progressifs façon EDN
-// Un cas clinique (QCM/*.json, synchronisé depuis GitHub comme les cartes),
-// 5 items tirés parmi ceux du cas, 5 propositions par item, une ou plusieurs justes.
-// Le moteur ne contient aucune donnée médicale. Format décrit dans CLAUDE.md.
+// Mode QCM — deux formats, choisis à l'accueil du mode :
+// - QCM isolés : une série de questions indépendantes, tirées dans tous les thèmes ;
+// - dossier progressif façon EDN : un cas clinique, 5 items tirés parmi ceux du cas.
+// 5 propositions par question, une ou plusieurs justes. Contenu dans QCM/*.json
+// (synchronisé depuis GitHub comme les cartes) ; le moteur ne contient aucune donnée
+// médicale. Format décrit dans CLAUDE.md.
 // =========================================================
 const QCM_CONTENT_KEY = "scrollmed_qcm_v1";
-const QCM_ITEMS = 5;                        // items par QCM
+const QCM_ITEMS = 5;                        // items par dossier progressif
+const QCM_ISO_N = 10;                       // questions par série de QCM isolés
 const QCM_BAREME = [1, 0.5, 0.2];           // points d'un item selon le nombre d'erreurs (au-delà : 0)
 const QCM_SESSION_GAP = 30 * 60000;         // 30 min sans QCM terminé : la session suivante commence
 const QCM_RUNS_MAX = 2000;
 const QCM_LETTERS = 'ABCDEFGH';
-let QCM_CASES = loadQcmContent();
+let QCM_CASES = [], QCM_ISO = [];
+qcmSetContent(loadQcmContent());
 let QCM_SYNC_INFO = '';
-let Q = null;   // QCM en cours : { cas, idx: [indices d'items], i, picks: [Set], res: [{ err, pts }], over }
+// QCM en cours : { kind: 'dossier' | 'iso', cas (dossier), items, keys (suivi par item), i,
+// picks: [Set], res: [{ err, pts }], over }
+let Q = null;
 
 function loadQcmContent(){
   try { const c = JSON.parse(localStorage.getItem(QCM_CONTENT_KEY) || 'null'); if(Array.isArray(c)) return c; } catch(e){}
   return [];
 }
+// un même fichier peut mêler dossiers (items) et QCM isolés (question)
+function qcmIsDossier(c){ return Array.isArray(c.items); }
+function qcmSetContent(all){
+  QCM_CASES = all.filter(qcmIsDossier);
+  QCM_ISO = all.filter(c => !qcmIsDossier(c));
+}
+function qcmItemOk(it){
+  return it && it.question && Array.isArray(it.propositions) && it.propositions.length >= 2 && it.propositions.some(p => p.vrai === true);
+}
 function qcmCaseOk(c){
-  return c && c.id && c.module && c.titre && c.cas && Array.isArray(c.items) && c.items.length >= QCM_ITEMS
-    && c.items.every(it => it && it.id && it.question && Array.isArray(it.propositions) && it.propositions.length >= 2
-      && it.propositions.some(p => p.vrai === true));
+  if(!c || !c.id || !c.module) return false;
+  if(!qcmIsDossier(c)) return qcmItemOk(c);
+  return c.titre && c.cas && c.items.length >= QCM_ITEMS && c.items.every(it => it && it.id && qcmItemOk(it));
 }
 async function syncQcmFromGithub(cfg, headers){
   const list = await ghListDir(cfg, headers, 'QCM');
@@ -5036,21 +5057,21 @@ async function syncQcmFromGithub(cfg, headers){
     return { count: 0, errors: [] };
   }
   QCM_SYNC_INFO = '';
-  const cases = [], errors = [], seen = new Set();
+  const all = [], errors = [], seen = new Set();
   for(const { file, data, error } of await ghFetchJson(cfg, list.files)){
     if(error){ errors.push(`${file.name} (${error})`); continue; }
-    // un fichier = un cas ou un tableau de cas ; un cas invalide n'empêche pas les autres
+    // un fichier = un cas, un QCM isolé ou un tableau ; une entrée invalide n'empêche pas les autres
     (Array.isArray(data) ? data : [data]).forEach((c, i) => {
-      if(!qcmCaseOk(c)){ errors.push(`${file.name} [${(c && c.id) || i}] (cas invalide)`); return; }
+      if(!qcmCaseOk(c)){ errors.push(`${file.name} [${(c && c.id) || i}] (${c && qcmIsDossier(c) ? 'cas' : 'QCM'} invalide)`); return; }
       if(seen.has(c.id)) return;
       seen.add(c.id);
-      cases.push(c);
+      all.push(c);
     });
   }
-  QCM_CASES = cases;
-  localStorage.setItem(QCM_CONTENT_KEY, JSON.stringify(cases));
+  qcmSetContent(all);
+  localStorage.setItem(QCM_CONTENT_KEY, JSON.stringify(all));
   qcmRefresh();
-  return { count: cases.length, errors };
+  return { count: QCM_CASES.length, iso: QCM_ISO.length, errors };
 }
 function qcmRefresh(){
   if(!Q && document.getElementById('panelQcm').classList.contains('open')) qcmRender();
@@ -5084,16 +5105,27 @@ function qcmCurrentSession(){
   const s = qcmSessions().pop();
   return s && Date.now() - s.end <= QCM_SESSION_GAP ? s : null;
 }
+// notes par thème d'un QCM terminé : le dossier a un thème ; une série isolée,
+// une sous-note par thème rencontré (mods)
+function qcmRunParts(r){
+  return r.mods ? Object.entries(r.mods).map(([module, note]) => ({ module, note, t: r.t })) : [{ module: r.module, note: r.note, t: r.t }];
+}
 function qcmModules(){
-  const set = new Set(QCM_CASES.map(c => c.module));
-  STATE.qcm.runs.forEach(r => set.add(r.module));
+  const set = new Set(QCM_CASES.concat(QCM_ISO).map(c => c.module));
+  STATE.qcm.runs.forEach(r => qcmRunParts(r).forEach(p => set.add(p.module)));
   return [...set];
 }
-// note d'un thème : moyenne de ses 10 derniers QCM
+// note d'un thème : moyenne de ses 10 dernières notes (dossiers et séries isolées)
 function qcmModuleStat(m){
-  const all = STATE.qcm.runs.filter(r => r.module === m);
-  const week = all.filter(r => r.t >= Date.now() - 7 * 86400000);
+  const all = STATE.qcm.runs.flatMap(qcmRunParts).filter(p => p.module === m);
+  const week = all.filter(p => p.t >= Date.now() - 7 * 86400000);
   return { n: all.length, avg: qcmAvg(all.slice(-10)), week: qcmAvg(week), nWeek: week.length };
+}
+// faiblesse d'un thème (0 à 2) : note basse ou thème peu pratiqué
+function qcmWeakness(m){
+  const st = qcmModuleStat(m);
+  const avg = st.avg === null ? 10 : st.avg;
+  return 1.5 * (20 - avg) / 20 + (st.n < 3 ? 0.5 : 0);
 }
 
 // ---------- tirage ----------
@@ -5103,20 +5135,19 @@ function qcmWeighted(list, w){
   for(let i = 0; i < list.length; i++){ x -= ws[i]; if(x <= 0) return list[i]; }
   return list[list.length - 1];
 }
-// thème au hasard, plus souvent quand il est faible ou peu pratiqué ; puis le cas du thème
-// le moins récemment joué (sans rejouer le même cas deux fois de suite si possible)
-function qcmPickCase(){
-  if(!QCM_CASES.length) return null;
-  const runs = STATE.qcm.runs, last = runs[runs.length - 1];
-  const mods = [...new Set(QCM_CASES.map(c => c.module))];
+// thème choisi, sinon au hasard, plus souvent quand il est faible ou peu pratiqué ; puis le cas
+// du thème le moins récemment joué (sans rejouer le même cas deux fois de suite si possible)
+function qcmPickCase(theme){
+  const cases = theme && QCM_CASES.some(c => c.module === theme) ? QCM_CASES.filter(c => c.module === theme) : QCM_CASES;
+  if(!cases.length) return null;
+  const runs = STATE.qcm.runs.filter(r => r.cas), last = runs[runs.length - 1];
+  const mods = [...new Set(cases.map(c => c.module))];
   const m = qcmWeighted(mods, m => {
-    const st = qcmModuleStat(m);
-    const avg = st.avg === null ? 10 : st.avg;
-    let w = 0.5 + 1.5 * (20 - avg) / 20 + (st.n < 3 ? 0.5 : 0);
+    let w = 0.5 + qcmWeakness(m);
     if(last && last.module === m && mods.length > 1) w *= 0.35;
     return w;
   });
-  let pool = QCM_CASES.filter(c => c.module === m);
+  let pool = cases.filter(c => c.module === m);
   if(pool.length > 1 && last) pool = pool.filter(c => c.id !== last.cas);
   const lastT = c => { for(let i = runs.length - 1; i >= 0; i--) if(runs[i].cas === c.id) return runs[i].t; return 0; };
   const minT = Math.min(...pool.map(lastT));
@@ -5145,16 +5176,41 @@ function qcmPickItems(c){
   }
   return pick.sort((a, b) => a - b);   // ordre chronologique du dossier
 }
+// série de QCM isolés : les questions prioritaires (même suivi que les items), plus souvent
+// dans les thèmes faibles, en variant les thèmes (chaque question d'un thème déjà tiré le pénalise)
+function qcmPickIso(theme){
+  let pool = theme ? QCM_ISO.filter(q => q.module === theme) : QCM_ISO;
+  if(!pool.length) pool = QCM_ISO;
+  const weak = {};
+  const scored = pool.map(q => ({ q, p: qcmItemPriority(q.id) + (theme ? 0 : (weak[q.module] ??= qcmWeakness(q.module))) }));
+  const out = [], count = {};
+  while(out.length < QCM_ISO_N && scored.length){
+    let best = 0;
+    scored.forEach((x, k) => { if(x.p - (count[x.q.module] || 0) > scored[best].p - (count[scored[best].q.module] || 0)) best = k; });
+    const { q } = scored.splice(best, 1)[0];
+    count[q.module] = (count[q.module] || 0) + 1;
+    out.push(q);
+  }
+  return out;
+}
 
 function qcmStart(caseId){
-  const c = caseId ? QCM_CASES.find(x => x.id === caseId) : qcmPickCase();
-  if(!c) return;
-  const idx = qcmPickItems(c);
-  Q = { cas: c, idx, i: 0, picks: idx.map(() => new Set()), res: idx.map(() => null), over: false, casOpen: true };
+  const mode = STATE.qcm.mode, theme = STATE.qcm.theme;
+  if(caseId || mode === 'dossier'){
+    const c = caseId ? QCM_CASES.find(x => x.id === caseId) : qcmPickCase(theme);
+    if(!c) return;
+    const items = qcmPickItems(c).map(k => c.items[k]);
+    Q = { kind: 'dossier', cas: c, items, keys: items.map(it => qcmKey(c, it)), casOpen: true };
+  } else {
+    const items = qcmPickIso(theme);
+    if(!items.length) return;
+    Q = { kind: 'iso', items, keys: items.map(q => q.id) };
+  }
+  Object.assign(Q, { i: 0, picks: Q.items.map(() => new Set()), res: Q.items.map(() => null), over: false });
   qcmRender(true);
 }
 function qcmValidate(){
-  const it = Q.cas.items[Q.idx[Q.i]];
+  const it = Q.items[Q.i];
   const picks = Q.picks[Q.i];
   if(!picks.size){ showToast('Coche au moins une proposition'); return; }
   const err = qcmErrors(it, picks);
@@ -5162,28 +5218,36 @@ function qcmValidate(){
   qcmRender();
 }
 function qcmNext(){
-  if(Q.i < Q.idx.length - 1){ Q.i++; Q.casOpen = false; qcmRender(true); return; }
+  if(Q.i < Q.items.length - 1){ Q.i++; Q.casOpen = false; qcmRender(true); return; }
   qcmFinish();
 }
 function qcmFinish(){
-  const c = Q.cas, now = Date.now();
+  const now = Date.now(), n = Q.items.length;
   const total = Q.res.reduce((t, r) => t + r.pts, 0);
-  const note = Math.round(total / Q.idx.length * 20 * 10) / 10;
+  const note = Math.round(total / n * 20 * 10) / 10;
   const items = {};
-  Q.idx.forEach((k, j) => {
-    const key = qcmKey(c, c.items[k]), pts = Q.res[j].pts;
-    items[c.items[k].id] = pts;
-    const s = STATE.qcm.items[key] || { n: 0, ok: 0 };
-    STATE.qcm.items[key] = { n: s.n + 1, last: now, pts, ok: pts >= 1 ? (s.ok || 0) + 1 : 0 };
+  Q.items.forEach((it, j) => {
+    const pts = Q.res[j].pts;
+    items[it.id] = pts;
+    const s = STATE.qcm.items[Q.keys[j]] || { n: 0, ok: 0 };
+    STATE.qcm.items[Q.keys[j]] = { n: s.n + 1, last: now, pts, ok: pts >= 1 ? (s.ok || 0) + 1 : 0 };
   });
-  STATE.qcm.runs.push({ t: now, cas: c.id, module: c.module, note, items });
+  if(Q.kind === 'dossier'){
+    STATE.qcm.runs.push({ t: now, cas: Q.cas.id, module: Q.cas.module, note, items });
+  } else {
+    // sous-note par thème, pour le radar
+    const by = {};
+    Q.items.forEach((it, j) => (by[it.module] ||= []).push(Q.res[j].pts));
+    const mods = Object.fromEntries(Object.entries(by).map(([m, l]) => [m, Math.round(l.reduce((a, b) => a + b, 0) / l.length * 200) / 10]));
+    STATE.qcm.runs.push({ t: now, iso: true, note, mods, items });
+  }
   if(STATE.qcm.runs.length > QCM_RUNS_MAX) STATE.qcm.runs.splice(0, STATE.qcm.runs.length - QCM_RUNS_MAX);
   saveState(STATE);
   Q.over = true;
   Q.note = note;
   qcmRender(true);
 }
-// cartes Recos du même module partageant des tags avec le cas
+// cartes Recos partageant des tags avec le cas (ou avec les questions ratées d'une série)
 function qcmRevisionCards(c){
   const tags = new Set((c.tags || []).map(dcNorm));
   if(!tags.size) return [];
@@ -5194,16 +5258,21 @@ function qcmRevisionCards(c){
 // ---------- affichage ----------
 const qcmBody = document.getElementById('qcmBody');
 function qcmDots(){
-  return `<span class="qcm-dots">${Q.idx.map((_, j) => `<i class="${Q.res[j] ? qcmPtsCls(Q.res[j].pts) : j === Q.i ? 'cur' : ''}"></i>`).join('')}</span>`;
+  return `<span class="qcm-dots">${Q.items.map((_, j) => `<i class="${Q.res[j] ? qcmPtsCls(Q.res[j].pts) : j === Q.i ? 'cur' : ''}"></i>`).join('')}</span>`;
 }
 function qcmAvgTxt(runs){ const a = qcmAvg(runs); return a === null ? '—' : qcmFmt(a); }
 function qcmHomeHtml(){
   const sess = qcmCurrentSession(), week = qcmSince(7);
   const sessions = qcmSessions().slice(-8).reverse();
+  const iso = STATE.qcm.mode !== 'dossier';
+  const content = iso ? QCM_ISO : QCM_CASES;
+  const themes = [...new Set(content.map(c => c.module))].sort((a, b) => (RADAR_ORDER.indexOf(a) + 1 || 500) - (RADAR_ORDER.indexOf(b) + 1 || 500) || a.localeCompare(b, 'fr'));
+  const theme = themes.includes(STATE.qcm.theme) ? STATE.qcm.theme : '';
+  const nTheme = m => content.filter(c => !m || c.module === m).length;
   const nCases = QCM_CASES.length, nItems = QCM_CASES.reduce((t, c) => t + c.items.length, 0);
-  const empty = !nCases ? `<div class="hint">${escapeHtml(QCM_SYNC_INFO) || (loadGhConfig()
-      ? 'Aucun cas clinique pour l’instant : ils arrivent avec la synchronisation GitHub (dossier QCM).'
-      : 'Configure la synchronisation GitHub dans Réglages pour charger les cas cliniques (dossier QCM).')}</div>` : '';
+  const empty = !QCM_CASES.length && !QCM_ISO.length ? `<div class="hint">${escapeHtml(QCM_SYNC_INFO) || (loadGhConfig()
+      ? 'Aucun QCM pour l’instant : ils arrivent avec la synchronisation GitHub (dossier QCM).'
+      : 'Configure la synchronisation GitHub dans Réglages pour charger les QCM (dossier QCM).')}</div>` : '';
   const fmtD = t => new Date(t).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) + ' ' + new Date(t).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
   return `
     <div class="statgrid">
@@ -5211,13 +5280,24 @@ function qcmHomeHtml(){
       <div class="statbox"><div class="num">${qcmAvgTxt(week)}<small style="font-size:14px;color:var(--muted)">/20</small></div><div class="lbl">moyenne sur 7 jours · ${week.length} QCM</div></div>
     </div>
     ${empty}
-    <button class="btn" data-q="start" ${nCases ? '' : 'disabled'}>🎲 Nouveau QCM</button>
-    <div class="hint" style="margin-top:10px">Un cas clinique, ${QCM_ITEMS} items tirés au hasard (les items ratés reviennent plus souvent), thème au hasard (plus souvent tes thèmes faibles). Une ou plusieurs réponses justes par item. Barème : 0 erreur = 1 point, 1 erreur = 0,5, 2 erreurs = 0,2, au-delà 0. ${nCases ? `${nCases} cas · ${nItems} items.` : ''}</div>
+    <div class="seg qcm-mode">
+      <button data-qmode="iso" class="${iso ? 'on' : ''}">⚡ QCM isolés</button>
+      <button data-qmode="dossier" class="${iso ? '' : 'on'}">📋 Dossier progressif</button>
+    </div>
+    <select class="qcm-sel" data-qtheme>
+      <option value="">Tous les thèmes (priorité aux plus faibles) · ${nTheme('')}</option>
+      ${themes.map(m => `<option value="${escapeHtml(m)}"${m === theme ? ' selected' : ''}>${escapeHtml(m)} · ${nTheme(m)}</option>`).join('')}
+    </select>
+    <button class="btn" data-q="start" ${content.length ? '' : 'disabled'}>🎲 ${iso ? `Série de ${Math.min(QCM_ISO_N, nTheme(theme))} QCM isolés` : 'Nouveau dossier progressif'}</button>
+    <div class="hint" style="margin-top:10px">${iso
+      ? `${QCM_ISO_N} questions indépendantes, chacune avec sa correction. Les questions ratées reviennent plus souvent. ${QCM_ISO.length ? `${QCM_ISO.length} QCM isolés.` : 'Aucun QCM isolé pour l’instant.'}`
+      : `Un cas clinique, ${QCM_ITEMS} items tirés au hasard (les items ratés reviennent plus souvent). ${nCases ? `${nCases} cas · ${nItems} items.` : 'Aucun dossier pour l’instant.'}`}
+      Une ou plusieurs réponses justes par question. Barème : 0 erreur = 1 point, 1 erreur = 0,5, 2 erreurs = 0,2, au-delà 0.</div>
     ${sessions.length ? `<div class="sectiontitle">Sessions récentes</div>` + sessions.map(s => `<div class="qcm-row"><span>${fmtD(s.start)}<div class="muted">${s.runs.length} QCM</div></span><b>${qcmAvgTxt(s.runs)}/20</b></div>`).join('') : ''}
     <div class="hint">Notes par thème : radar QCM dans l'onglet Progrès.</div>`;
 }
 function qcmItemHtml(){
-  const c = Q.cas, it = c.items[Q.idx[Q.i]], picks = Q.picks[Q.i], res = Q.res[Q.i];
+  const it = Q.items[Q.i], picks = Q.picks[Q.i], res = Q.res[Q.i], dossier = Q.kind === 'dossier';
   const props = it.propositions.map((p, k) => {
     const on = picks.has(k);
     let cls = on ? 'on' : '', mark = '';
@@ -5233,36 +5313,43 @@ function qcmItemHtml(){
       <div class="qcm-txt">${qcmTxt(it.explication || `Réponse${nTrue > 1 ? 's' : ''} juste${nTrue > 1 ? 's' : ''} : ${it.propositions.map((p, k) => p.vrai ? QCM_LETTERS[k] : '').join('')}.`)}</div>
       ${it.source ? `<div class="source src">${escapeHtml(it.source)}</div>` : ''}
     </div>` : '';
-  const last = Q.i === Q.idx.length - 1;
+  const last = Q.i === Q.items.length - 1;
+  const head = dossier ? `
+    <h3 class="qcm-title">${escapeHtml(Q.cas.titre)}</h3>
+    <details class="qcm-cas" data-cas${Q.casOpen ? ' open' : ''}><summary>📋 Cas clinique</summary><div class="qcm-txt">${qcmTxt(Q.cas.cas)}</div></details>
+    ${it.complement ? `<div class="qcm-compl qcm-txt">${qcmTxt(it.complement)}</div>` : ''}`
+    : it.enonce ? `<div class="qcm-enonce qcm-txt">${qcmTxt(it.enonce)}</div>` : '';
   return `
-    <div class="qcm-top"><span class="chip">${escapeHtml(c.module)}</span><span>Item ${Q.i + 1}/${Q.idx.length}</span>${qcmDots()}</div>
-    <h3 class="qcm-title">${escapeHtml(c.titre)}</h3>
-    <details class="qcm-cas" data-cas${Q.casOpen ? ' open' : ''}><summary>📋 Cas clinique</summary><div class="qcm-txt">${qcmTxt(c.cas)}</div></details>
-    ${it.complement ? `<div class="qcm-compl qcm-txt">${qcmTxt(it.complement)}</div>` : ''}
+    <div class="qcm-top"><span class="chip">${escapeHtml(dossier ? Q.cas.module : it.module)}</span><span>${dossier ? 'Item' : 'Question'} ${Q.i + 1}/${Q.items.length}</span>${qcmDots()}</div>
+    ${head}
     <div class="qcm-q">${qcmTxt(it.question)}<small>Une ou plusieurs réponses justes</small></div>
     <div class="qcm-props">${props}</div>
     ${corr}
-    ${res ? `<button class="btn" data-q="next">${last ? 'Voir ma note' : 'Item suivant →'}</button>`
+    ${res ? `<button class="btn" data-q="next">${last ? 'Voir ma note' : (dossier ? 'Item suivant →' : 'Question suivante →')}</button>`
           : `<button class="btn" data-q="validate" ${picks.size ? '' : 'disabled'}>Valider</button>`}
-    <button class="btn secondary" data-q="quit" style="margin-top:8px">Abandonner ce QCM</button>`;
+    <button class="btn secondary" data-q="quit" style="margin-top:8px">Abandonner ${dossier ? 'ce QCM' : 'cette série'}</button>`;
 }
 function qcmResultHtml(){
-  const c = Q.cas, note = Q.note;
+  const note = Q.note, dossier = Q.kind === 'dossier', c = Q.cas;
   const sess = qcmCurrentSession(), week = qcmSince(7);
   const col = note >= 14 ? 'trace' : note >= 10 ? 'alert' : 'danger';
-  const rows = Q.idx.map((k, j) => {
-    const it = c.items[k], r = Q.res[j];
-    return `<div class="qcm-row"><span>Item ${j + 1} · ${escapeHtml(it.question.length > 90 ? it.question.slice(0, 88) + '…' : it.question)}<div class="muted">${r.err ? r.err + ' erreur' + (r.err > 1 ? 's' : '') : 'sans faute'}</div></span><b style="color:var(--${r.pts >= 1 ? 'trace' : r.pts > 0 ? 'alert' : 'danger'})">${qcmFmt(r.pts)}</b></div>`;
+  const rows = Q.items.map((it, j) => {
+    const r = Q.res[j];
+    return `<div class="qcm-row"><span>${dossier ? 'Item ' : 'Q'}${j + 1} · ${escapeHtml(it.question.length > 90 ? it.question.slice(0, 88) + '…' : it.question)}<div class="muted">${dossier ? '' : escapeHtml(it.module) + ' · '}${r.err ? r.err + ' erreur' + (r.err > 1 ? 's' : '') : 'sans faute'}</div></span><b style="color:var(--${r.pts >= 1 ? 'trace' : r.pts > 0 ? 'alert' : 'danger'})">${qcmFmt(r.pts)}</b></div>`;
   }).join('');
-  const revs = qcmRevisionCards(c);
+  // série isolée : réviser d'après les questions ratées (toutes si sans faute)
+  const missed = Q.items.filter((_, j) => Q.res[j].pts < 1);
+  const revs = qcmRevisionCards(dossier ? c : { tags: (missed.length ? missed : Q.items).flatMap(q => q.tags || []) });
+  const nMods = new Set(Q.items.map(q => q.module)).size;
   return `
     <div class="qcm-big"><div class="n" style="color:var(--${col})">${qcmFmt(note)}<small>/20</small></div>
-      <div class="s"><b style="color:var(--text)">${escapeHtml(c.titre)}</b> · ${escapeHtml(c.module)}</div>
+      <div class="s">${dossier ? `<b style="color:var(--text)">${escapeHtml(c.titre)}</b> · ${escapeHtml(c.module)}`
+        : `<b style="color:var(--text)">${Q.items.length} QCM isolés</b> · ${nMods > 1 ? nMods + ' thèmes' : escapeHtml(Q.items[0].module)}`}</div>
       <div class="s">Session : ${qcmAvgTxt(sess ? sess.runs : [])}/20 sur ${sess ? sess.runs.length : 0} QCM · 7 jours : ${qcmAvgTxt(week)}/20</div></div>
     ${rows}
-    ${c.reco ? `<div class="sectiontitle">📖 La reco du cas</div><div class="savedcard"><div class="bd">${qcmTxt(c.reco)}</div>${c.source ? `<div class="source src">${escapeHtml(c.source)}</div>` : ''}</div>` : ''}
+    ${dossier && c.reco ? `<div class="sectiontitle">📖 La reco du cas</div><div class="savedcard"><div class="bd">${qcmTxt(c.reco)}</div>${c.source ? `<div class="source src">${escapeHtml(c.source)}</div>` : ''}</div>` : ''}
     ${revs.length ? `<div class="sectiontitle">📚 Pour réviser</div>` + revs.map(p => `<div class="savedcard"><div class="hk">${escapeHtml(p.hook)}</div><div class="bd">${escapeHtml(p.body)}</div><div class="source src">${escapeHtml(p.module)} · ${escapeHtml(p.source || '')}</div></div>`).join('') : ''}
-    <button class="btn" data-q="start">🎲 Nouveau QCM</button>
+    <button class="btn" data-q="start">🎲 ${dossier ? 'Nouveau dossier' : 'Nouvelle série'}</button>
     <button class="btn secondary" data-q="home" style="margin-top:8px">Accueil QCM</button>`;
 }
 function qcmRender(top){
@@ -5279,21 +5366,27 @@ qcmBody.addEventListener('click', e => {
     if(v) v.disabled = !picks.size;
     return;
   }
+  const mode = e.target.closest('[data-qmode]');
+  if(mode){ STATE.qcm.mode = mode.dataset.qmode; saveState(STATE); qcmRender(); return; }
   const b = e.target.closest('[data-q]');
   if(!b || b.disabled) return;
   const a = b.dataset.q;
-  if(a === 'start') qcmStart();
+  // « Nouveau dossier » / « Nouvelle série » depuis le résultat : même format que le QCM terminé
+  if(a === 'start'){ if(Q) STATE.qcm.mode = Q.kind; qcmStart(); }
   else if(a === 'validate') qcmValidate();
   else if(a === 'next') qcmNext();
-  else if(a === 'quit'){ if(confirm('Abandonner ce QCM ? Il ne sera pas noté.')){ Q = null; qcmRender(true); } }
+  else if(a === 'quit'){ if(confirm('Abandonner ? Ce QCM ne sera pas noté.')){ Q = null; qcmRender(true); } }
   else if(a === 'home'){ Q = null; qcmRender(true); }
 });
+qcmBody.addEventListener('change', e => {
+  if(e.target.matches('[data-qtheme]')){ STATE.qcm.theme = e.target.value; saveState(STATE); qcmRender(); }
+});
 qcmBody.addEventListener('toggle', e => { if(Q && e.target.dataset && 'cas' in e.target.dataset) Q.casOpen = e.target.open; }, true);
-window.QCM = { start: qcmStart, pick: qcmPickCase, get state(){ return Q; }, get cases(){ return QCM_CASES; } };
+window.QCM = { start: qcmStart, pick: qcmPickCase, pickIso: qcmPickIso, get state(){ return Q; }, get cases(){ return QCM_CASES; }, get iso(){ return QCM_ISO; } };
 
 // ---------- Progrès : radar des notes de QCM par thème ----------
 function qcmStatsHtml(){
-  const mods = qcmModules().filter(m => qcmModuleStat(m).n || QCM_CASES.some(c => c.module === m));
+  const mods = qcmModules().filter(m => qcmModuleStat(m).n || QCM_CASES.concat(QCM_ISO).some(c => c.module === m));
   if(!mods.length) return '';
   const keys = mods.sort((a, b) => (RADAR_ORDER.indexOf(a) + 1 || 500) - (RADAR_ORDER.indexOf(b) + 1 || 500) || a.localeCompare(b, 'fr'));
   const st = Object.fromEntries(keys.map(m => [m, qcmModuleStat(m)]));

@@ -1,0 +1,119 @@
+[
+ {
+  "id": "iso_jeune",
+  "module": "Évaluation préopératoire",
+  "question": "Jeûne préopératoire d'une chirurgie programmée : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Les liquides clairs sont autorisés jusqu'à 2 heures avant l'anesthésie chez l'adulte.",
+    "vrai": true,
+    "why": "ASA 2017 ; SFAR."
+   },
+   {
+    "texte": "Un repas léger est autorisé jusqu'à 6 heures avant.",
+    "vrai": true,
+    "why": "ASA 2017."
+   },
+   {
+    "texte": "Chez l'enfant, les liquides clairs sont autorisés jusqu'à 1 heure avant.",
+    "vrai": true,
+    "why": "ESAIC 2022 (pédiatrie)."
+   },
+   {
+    "texte": "Un chewing-gum mâché le matin impose de reporter l'intervention.",
+    "vrai": false,
+    "why": "Il ne modifie pas significativement le volume gastrique : pas de report."
+   },
+   {
+    "texte": "Une boisson sucrée claire 2 heures avant est autorisée.",
+    "vrai": true,
+    "why": "Liquide clair ; utilisée en RAAC."
+   }
+  ],
+  "explication": "Adulte : liquides clairs H-2, solides H-6. Enfant : liquides clairs H-1 (ESAIC 2022).",
+  "source": "ASA 2017 ; ESAIC pédiatrie 2022",
+  "tags": [
+   "jeûne",
+   "préopératoire",
+   "inhalation"
+  ]
+ },
+ {
+  "id": "iso_aod_arret",
+  "module": "Évaluation préopératoire",
+  "question": "AOD et chirurgie programmée à haut risque hémorragique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Pour un anti-Xa (rivaroxaban, apixaban, édoxaban), la dernière prise a lieu à J-3.",
+    "vrai": true,
+    "why": "GIHP 2017, fonction rénale normale."
+   },
+   {
+    "texte": "Pour le dabigatran, l'arrêt est plus précoce si la clairance de la créatinine est de 30 à 50 mL/min.",
+    "vrai": true,
+    "why": "Élimination rénale à 80 %."
+   },
+   {
+    "texte": "Un relais préopératoire par héparine (bridging) est recommandé.",
+    "vrai": false,
+    "why": "Non : plus de saignements sans bénéfice."
+   },
+   {
+    "texte": "Un dosage de l'AOD est systématique avant toute chirurgie programmée.",
+    "vrai": false,
+    "why": "Inutile si l'arrêt est conforme ; utile en urgence."
+   },
+   {
+    "texte": "La reprise à dose curative a lieu 24 à 72 h après selon le risque hémorragique.",
+    "vrai": true,
+    "why": "GIHP 2017, avec thromboprophylaxie entre-temps si besoin."
+   }
+  ],
+  "explication": "Anti-Xa : dernière prise J-3 (haut risque), dabigatran selon la clairance, pas de relais héparine.",
+  "source": "GIHP, Albaladejo et al. 2017",
+  "tags": [
+   "AOD",
+   "préopératoire",
+   "anticoagulant"
+  ]
+ },
+ {
+  "id": "iso_traitements_chroniques",
+  "module": "Évaluation préopératoire",
+  "question": "Traitements chroniques avant une chirurgie non cardiaque : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Un bêtabloquant pris au long cours est poursuivi.",
+    "vrai": true,
+    "why": "ESC 2022 : l'arrêt brutal expose au rebond."
+   },
+   {
+    "texte": "Débuter un bêtabloquant à forte dose la veille réduit la mortalité.",
+    "vrai": false,
+    "why": "POISE 2008 : plus d'AVC et de décès."
+   },
+   {
+    "texte": "L'aspirine en prévention secondaire est poursuivie dans la plupart des chirurgies.",
+    "vrai": true,
+    "why": "Sauf chirurgie à très haut risque hémorragique (neurochirurgie…)."
+   },
+   {
+    "texte": "Les statines sont arrêtées 48 heures avant.",
+    "vrai": false,
+    "why": "ESC 2022 : poursuivies."
+   },
+   {
+    "texte": "Les inhibiteurs de SGLT2 sont arrêtés au moins 3 jours avant.",
+    "vrai": true,
+    "why": "ESC 2022 : risque d'acidocétose euglycémique."
+   }
+  ],
+  "explication": "Poursuivre bêtabloquant, statine, aspirine de prévention secondaire ; arrêter les iSGLT2 3 jours avant.",
+  "source": "ESC, chirurgie non cardiaque 2022 ; POISE 2008",
+  "tags": [
+   "préopératoire",
+   "bêtabloquant",
+   "iSGLT2"
+  ]
+ }
+]

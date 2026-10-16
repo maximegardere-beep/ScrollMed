@@ -1,0 +1,197 @@
+[
+ {
+  "id": "iso_adrenaline_acr",
+  "module": "Posologies",
+  "question": "Adrénaline au cours d'un arrêt cardiaque de l'adulte : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La dose est de 1 mg IV ou IO, renouvelée toutes les 3 à 5 minutes.",
+    "vrai": true,
+    "why": "ERC 2021 : 1 mg tous les 3 à 5 min (un cycle de RCP sur deux)."
+   },
+   {
+    "texte": "En rythme choquable, la première dose est injectée après le 3e choc.",
+    "vrai": true,
+    "why": "ERC 2021 : adrénaline et amiodarone après le 3e choc inefficace."
+   },
+   {
+    "texte": "En rythme non choquable, elle est injectée dès que l'abord vasculaire est obtenu.",
+    "vrai": true,
+    "why": "Asystolie ou AESP : adrénaline le plus tôt possible."
+   },
+   {
+    "texte": "Chez l'adulte, la dose est de 0,1 mg/kg.",
+    "vrai": false,
+    "why": "Dose adulte fixe : 1 mg. Les fortes doses n'améliorent pas le pronostic. 0,01 mg/kg est la dose pédiatrique."
+   },
+   {
+    "texte": "La voie intratrachéale est l'alternative recommandée si la voie IV est impossible.",
+    "vrai": false,
+    "why": "Abandonnée : la voie intra-osseuse est l'alternative à la voie IV."
+   }
+  ],
+  "explication": "Adrénaline 1 mg / 3-5 min : après le 3e choc si choquable, d'emblée si non choquable. Pas d'IV : IO.",
+  "source": "ERC 2021, réanimation de l'adulte",
+  "tags": [
+   "ACR",
+   "adrénaline",
+   "RCP"
+  ]
+ },
+ {
+  "id": "iso_amiodarone_fv",
+  "module": "Posologies",
+  "question": "FV réfractaire aux chocs chez l'adulte : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "L'amiodarone est injectée à 300 mg IV après le 3e choc.",
+    "vrai": true,
+    "why": "ERC 2021 : 300 mg après 3 chocs."
+   },
+   {
+    "texte": "Une seconde dose de 150 mg est envisagée après le 5e choc.",
+    "vrai": true,
+    "why": "ERC 2021 : 150 mg après 5 chocs."
+   },
+   {
+    "texte": "La lidocaïne 1 mg/kg est une alternative si l'amiodarone n'est pas disponible.",
+    "vrai": true,
+    "why": "ERC 2021 : lidocaïne 1 mg/kg en alternative."
+   },
+   {
+    "texte": "Le sulfate de magnésium est recommandé dans toute FV réfractaire.",
+    "vrai": false,
+    "why": "Réservé aux torsades de pointes (ou à une hypomagnésémie)."
+   },
+   {
+    "texte": "L'amiodarone se dilue de préférence dans du NaCl 0,9 %.",
+    "vrai": false,
+    "why": "Elle se dilue dans du glucosé 5 % (instable dans le NaCl), mais le bolus de l'ACR peut être injecté pur."
+   }
+  ],
+  "explication": "FV / TV sans pouls : amiodarone 300 mg après 3 chocs, 150 mg après 5 ; lidocaïne en alternative.",
+  "source": "ERC 2021, réanimation de l'adulte",
+  "tags": [
+   "ACR",
+   "amiodarone",
+   "FV"
+  ]
+ },
+ {
+  "id": "iso_sugammadex",
+  "module": "Posologies",
+  "question": "Sugammadex (cyclodextrine qui encapsule le curare) : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "2 mg/kg antagonisent un bloc modéré (au moins 2 réponses au TOF).",
+    "vrai": true,
+    "why": "RCP du produit : 2 mg/kg si réapparition de T2."
+   },
+   {
+    "texte": "4 mg/kg antagonisent un bloc profond (1 à 2 réponses au compte post-tétanique).",
+    "vrai": true,
+    "why": "RCP du produit : 4 mg/kg si PTC 1-2."
+   },
+   {
+    "texte": "16 mg/kg permettent une antagonisation immédiate juste après 1,2 mg/kg de rocuronium.",
+    "vrai": true,
+    "why": "Dose de sauvetage (« cannot intubate »), 3 min après le rocuronium."
+   },
+   {
+    "texte": "Il antagonise le cisatracurium.",
+    "vrai": false,
+    "why": "Il encapsule les stéroïdiens (rocuronium, vécuronium). Sans effet sur les benzylisoquinolines."
+   },
+   {
+    "texte": "Il antagonise aussi le vécuronium.",
+    "vrai": true,
+    "why": "Curare stéroïdien, encapsulé avec une affinité moindre que le rocuronium."
+   }
+  ],
+  "explication": "Sugammadex : 2 (T2), 4 (PTC 1-2), 16 mg/kg (immédiat). Stéroïdiens seulement.",
+  "source": "RCP Bridion ; SFAR, RFE curarisation et décurarisation 2018",
+  "tags": [
+   "curares",
+   "sugammadex",
+   "rocuronium"
+  ]
+ },
+ {
+  "id": "iso_succinylcholine",
+  "module": "Posologies",
+  "question": "Succinylcholine (suxaméthonium) : quelles sont les contre-indications ?",
+  "propositions": [
+   {
+    "texte": "Antécédent personnel ou familial d'hyperthermie maligne.",
+    "vrai": true,
+    "why": "Agent déclenchant de l'hyperthermie maligne."
+   },
+   {
+    "texte": "Hyperkaliémie connue.",
+    "vrai": true,
+    "why": "Elle élève la kaliémie d'environ 0,5 mmol/L, beaucoup plus en cas d'hyperexpression des récepteurs."
+   },
+   {
+    "texte": "Estomac plein.",
+    "vrai": false,
+    "why": "C'est au contraire l'indication de l'induction en séquence rapide (alternative : rocuronium 1,2 mg/kg)."
+   },
+   {
+    "texte": "Brûlure étendue survenue il y a 4 heures.",
+    "vrai": false,
+    "why": "Le risque d'hyperkaliémie apparaît après 24 à 48 h (prolifération des récepteurs extrajonctionnels)."
+   },
+   {
+    "texte": "Myopathie de Duchenne.",
+    "vrai": true,
+    "why": "Risque de rhabdomyolyse et d'hyperkaliémie fatale."
+   }
+  ],
+  "explication": "Succinylcholine 1 mg/kg : CI = HM, hyperkaliémie, myopathies, dénervation, brûlure ou immobilisation au-delà de 48 h.",
+  "source": "SFAR, RFE intubation en séquence rapide / curarisation 2018",
+  "tags": [
+   "curares",
+   "succinylcholine",
+   "ISR"
+  ]
+ },
+ {
+  "id": "iso_acide_tranexamique",
+  "module": "Posologies",
+  "question": "Acide tranexamique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Traumatisé qui saigne : 1 g IV en 10 min, puis 1 g sur 8 h.",
+    "vrai": true,
+    "why": "Schéma CRASH-2."
+   },
+   {
+    "texte": "Il doit être débuté dans les 3 heures suivant le traumatisme.",
+    "vrai": true,
+    "why": "CRASH-2 : bénéfice dans les 3 h, effet délétère au-delà."
+   },
+   {
+    "texte": "Débuté à la 5e heure du traumatisme, il garde le même bénéfice.",
+    "vrai": false,
+    "why": "Au-delà de 3 h, augmentation des décès par hémorragie dans CRASH-2."
+   },
+   {
+    "texte": "Hémorragie du post-partum : 1 g IV dès le diagnostic, dans les 3 heures.",
+    "vrai": true,
+    "why": "WOMAN 2017 : baisse des décès par hémorragie si administré tôt."
+   },
+   {
+    "texte": "Il est contre-indiqué en cas de traumatisme crânien associé.",
+    "vrai": false,
+    "why": "CRASH-3 (2019) : sûr, bénéfice dans les TC légers à modérés traités dans les 3 h."
+   }
+  ],
+  "explication": "Acide tranexamique : 1 g en 10 min, dans les 3 h (trauma, HPP), puis 1 g sur 8 h en traumatologie.",
+  "source": "CRASH-2 2010 ; WOMAN 2017 ; CRASH-3 2019",
+  "tags": [
+   "acide tranexamique",
+   "hémorragie",
+   "trauma"
+  ]
+ }
+]

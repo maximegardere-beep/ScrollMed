@@ -1,0 +1,237 @@
+[
+ {
+  "id": "iso_driving_pressure",
+  "module": "Ventilation & oxygénation",
+  "enonce": "Patient sédaté en VAC, Vt 420 mL. **Pression de plateau 28 cmH₂O**, PEP 8 cmH₂O, pression de crête 36 cmH₂O.",
+  "question": "Quelle est la pression motrice (driving pressure) ?",
+  "propositions": [
+   {
+    "texte": "20 cmH₂O.",
+    "vrai": true,
+    "why": "Pression de plateau − PEP = 28 − 8 = 20 cmH₂O."
+   },
+   {
+    "texte": "28 cmH₂O.",
+    "vrai": false,
+    "why": "C'est la pression de plateau."
+   },
+   {
+    "texte": "36 cmH₂O.",
+    "vrai": false,
+    "why": "Somme plateau + PEP : sans signification."
+   },
+   {
+    "texte": "12 cmH₂O.",
+    "vrai": false,
+    "why": "Erreur de calcul (plateau − Vt ?)."
+   },
+   {
+    "texte": "Elle ne peut pas être calculée sans la pression de crête.",
+    "vrai": false,
+    "why": "La crête intègre les résistances ; la pression motrice utilise le plateau."
+   }
+  ],
+  "explication": "ΔP = Pplat − PEP ; viser < 15 cmH₂O (Amato 2015, association avec la survie).",
+  "source": "Amato et al., NEJM 2015",
+  "tags": [
+   "SDRA",
+   "ventilation",
+   "driving pressure"
+  ]
+ },
+ {
+  "id": "iso_sdra_protectrice",
+  "module": "Ventilation & oxygénation",
+  "question": "Ventilation du SDRA modéré à sévère : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Volume courant de 6 mL/kg de poids prédit.",
+    "vrai": true,
+    "why": "ARMA 2000 : baisse de la mortalité par rapport à 12 mL/kg."
+   },
+   {
+    "texte": "Pression de plateau ≤ 30 cmH₂O.",
+    "vrai": true,
+    "why": "RFE SRLF 2019."
+   },
+   {
+    "texte": "Décubitus ventral d'au moins 16 h par jour si PaO₂/FiO₂ < 150 mmHg.",
+    "vrai": true,
+    "why": "PROSEVA 2013."
+   },
+   {
+    "texte": "Manœuvres de recrutement prolongées avec titration de PEP à haute pression.",
+    "vrai": false,
+    "why": "ART 2017 : surmortalité ; RFE SRLF 2019 : pas en routine."
+   },
+   {
+    "texte": "Le volume courant se calcule sur le poids réel.",
+    "vrai": false,
+    "why": "Sur le poids prédit (taille, sexe)."
+   }
+  ],
+  "explication": "SDRA : Vt 6 mL/kg de poids prédit, Pplat ≤ 30, DV ≥ 16 h si P/F < 150.",
+  "source": "RFE SRLF 2019 ; ARMA 2000 ; PROSEVA 2013 ; ART 2017",
+  "tags": [
+   "SDRA",
+   "ventilation",
+   "décubitus ventral"
+  ]
+ },
+ {
+  "id": "iso_poids_predit",
+  "module": "Ventilation & oxygénation",
+  "question": "Poids prédit (formule ARDSNet) : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Homme : 50 + 0,91 × (taille en cm − 152,4).",
+    "vrai": true,
+    "why": "Formule ARDSNet."
+   },
+   {
+    "texte": "Femme : 45,5 + 0,91 × (taille en cm − 152,4).",
+    "vrai": true,
+    "why": "Formule ARDSNet."
+   },
+   {
+    "texte": "Un homme de 180 cm a un poids prédit d'environ 75 kg.",
+    "vrai": true,
+    "why": "50 + 0,91 × 27,6 ≈ 75 kg : Vt de 6 mL/kg ≈ 450 mL."
+   },
+   {
+    "texte": "Un patient obèse de 130 kg pour 170 cm a un poids prédit plus élevé qu'un patient de 70 kg de même taille et de même sexe.",
+    "vrai": false,
+    "why": "Il ne dépend que du sexe et de la taille."
+   },
+   {
+    "texte": "Une femme de 160 cm a un poids prédit d'environ 52 kg.",
+    "vrai": true,
+    "why": "45,5 + 0,91 × 7,6 ≈ 52 kg : Vt de 6 mL/kg ≈ 310 mL."
+   }
+  ],
+  "explication": "Le poids prédit dépend de la taille et du sexe : mesurer la taille avant de régler le Vt.",
+  "source": "ARDSNet, NEJM 2000",
+  "tags": [
+   "ventilation",
+   "poids prédit",
+   "SDRA"
+  ]
+ },
+ {
+  "id": "iso_oht",
+  "module": "Ventilation & oxygénation",
+  "question": "Oxygénothérapie nasale à haut débit (OHD) dans l'insuffisance respiratoire aiguë hypoxémique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Dans FLORALI, elle réduisait la mortalité à J90 par rapport à l'oxygène standard et à la VNI.",
+    "vrai": true,
+    "why": "FLORALI 2015 (critère secondaire), intubation moins fréquente si P/F ≤ 200."
+   },
+   {
+    "texte": "L'indice ROX aide à prédire l'échec.",
+    "vrai": true,
+    "why": "ROX = (SpO₂/FiO₂)/FR ; < 3,85 à H12 fait craindre l'échec."
+   },
+   {
+    "texte": "La VNI est le support de 1re intention dans l'IRA hypoxémique de novo.",
+    "vrai": false,
+    "why": "ERS 2022 : l'OHD est préférée à la VNI et à l'oxygène standard."
+   },
+   {
+    "texte": "Elle délivre une PEP d'environ 10 cmH₂O, comparable à la VNI.",
+    "vrai": false,
+    "why": "Quelques cmH₂O seulement, bouche fermée, et variables."
+   },
+   {
+    "texte": "Retarder l'intubation en cas d'échec est sans conséquence.",
+    "vrai": false,
+    "why": "Kang 2015 : intubation tardive (> 48 h) associée à une surmortalité."
+   }
+  ],
+  "explication": "IRA hypoxémique : OHD en 1re intention, surveiller le ROX, ne pas retarder l'intubation.",
+  "source": "FLORALI, NEJM 2015 ; ERS 2022",
+  "tags": [
+   "OHD",
+   "hypoxémie",
+   "oxygénothérapie"
+  ]
+ },
+ {
+  "id": "iso_vni_bpco",
+  "module": "Ventilation & oxygénation",
+  "question": "VNI dans l'exacerbation de BPCO : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Elle est indiquée en cas d'acidose respiratoire (pH < 7,35 et PaCO₂ > 45 mmHg).",
+    "vrai": true,
+    "why": "ERS/ATS 2017."
+   },
+   {
+    "texte": "Une exacerbation sans acidose est une bonne indication.",
+    "vrai": false,
+    "why": "ERS/ATS 2017 : pas de VNI sans acidose respiratoire."
+   },
+   {
+    "texte": "L'objectif de SpO₂ est de 88 à 92 %.",
+    "vrai": true,
+    "why": "Éviter l'hyperoxie qui aggrave l'hypercapnie."
+   },
+   {
+    "texte": "Un pH à 7,22 contre-indique l'essai de VNI.",
+    "vrai": false,
+    "why": "Indication forte en réanimation, avec intubation prête en cas d'échec."
+   },
+   {
+    "texte": "L'échec se juge sur l'évolution du pH et de la clinique dans les 1 à 2 premières heures.",
+    "vrai": true,
+    "why": "Absence d'amélioration à 1-2 h : envisager l'intubation."
+   }
+  ],
+  "explication": "BPCO + acidose respiratoire : VNI, SpO₂ 88-92 %, réévaluation à 1-2 h.",
+  "source": "ERS/ATS, VNI dans l'IRA 2017",
+  "tags": [
+   "VNI",
+   "BPCO",
+   "hypercapnie"
+  ]
+ },
+ {
+  "id": "iso_extubation",
+  "module": "Ventilation & oxygénation",
+  "question": "Sevrage de la ventilation : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Une épreuve en aide inspiratoire basse (7 à 8 cmH₂O) sans PEP est acceptable.",
+    "vrai": true,
+    "why": "RFE SRLF/SFAR 2019 : aide inspiratoire basse ou pièce en T."
+   },
+   {
+    "texte": "L'épreuve dure de 30 minutes à 2 heures.",
+    "vrai": true,
+    "why": "30 min suffisent souvent ; prolonger chez les patients à risque."
+   },
+   {
+    "texte": "Chez le patient à haut risque, la VNI en relais immédiat réduit la réintubation.",
+    "vrai": true,
+    "why": "HIGH-WEAN 2019 : VNI alternée avec l'OHD."
+   },
+   {
+    "texte": "Un test de fuite est envisagé en cas de risque d'œdème laryngé.",
+    "vrai": true,
+    "why": "Intubation prolongée, difficile, femme… ; corticoïdes avant l'extubation s'il est négatif."
+   },
+   {
+    "texte": "L'extubation sans épreuve de ventilation spontanée est la règle.",
+    "vrai": false,
+    "why": "L'épreuve est recommandée avant toute extubation programmée."
+   }
+  ],
+  "explication": "Épreuve de VS (AI basse ou pièce en T), test de fuite si risque, VNI préventive chez le patient à haut risque.",
+  "source": "RFE SRLF/SFAR, extubation en réanimation 2019 ; HIGH-WEAN, JAMA 2019",
+  "tags": [
+   "sevrage",
+   "extubation",
+   "ventilation"
+  ]
+ }
+]

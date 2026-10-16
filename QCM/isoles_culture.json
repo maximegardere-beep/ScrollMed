@@ -1,0 +1,80 @@
+[
+ {
+  "id": "iso_ether_1846",
+  "module": "Culture & histoire",
+  "question": "Qui a réalisé la première démonstration publique d'une anesthésie à l'éther, le 16 octobre 1846 à Boston ?",
+  "propositions": [
+   {
+    "texte": "William T. G. Morton.",
+    "vrai": true,
+    "why": "Massachusetts General Hospital, opération de Gilbert Abbott par John Collins Warren."
+   },
+   {
+    "texte": "Crawford Long.",
+    "vrai": false,
+    "why": "Il utilisa l'éther dès 1842, mais sans le publier avant 1849."
+   },
+   {
+    "texte": "Horace Wells.",
+    "vrai": false,
+    "why": "Démonstration ratée du protoxyde d'azote en 1845."
+   },
+   {
+    "texte": "John Snow.",
+    "vrai": false,
+    "why": "Il administra le chloroforme à la reine Victoria en 1853."
+   },
+   {
+    "texte": "Joseph Lister.",
+    "vrai": false,
+    "why": "Le père de l'antisepsie."
+   }
+  ],
+  "explication": "16 octobre 1846, « Ether Day » : Morton, au Massachusetts General Hospital.",
+  "source": "Massachusetts General Hospital, Ether Dome, 1846",
+  "tags": [
+   "histoire",
+   "anesthésie",
+   "éther"
+  ]
+ },
+ {
+  "id": "iso_curares_histoire",
+  "module": "Culture & histoire",
+  "question": "Histoire des agents de l'anesthésie : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Harold Griffith utilise le curare en anesthésie en 1942, à Montréal.",
+    "vrai": true,
+    "why": "Intocostrin, 1942."
+   },
+   {
+    "texte": "La succinylcholine entre en clinique au début des années 1950.",
+    "vrai": true,
+    "why": "1951-1952."
+   },
+   {
+    "texte": "Le sugammadex a été commercialisé avant le rocuronium.",
+    "vrai": false,
+    "why": "Rocuronium dans les années 1990, sugammadex en 2008."
+   },
+   {
+    "texte": "L'halothane est introduit en clinique dans les années 1930.",
+    "vrai": false,
+    "why": "En 1956 (Johnstone, Manchester)."
+   },
+   {
+    "texte": "Le propofol est introduit en clinique dans les années 1960.",
+    "vrai": false,
+    "why": "Premiers essais en 1977, commercialisé dans les années 1980."
+   }
+  ],
+  "explication": "Curare 1942, succinylcholine 1951, halothane 1956, propofol années 1980, sugammadex 2008.",
+  "source": "Griffith & Johnson, Anesthesiology 1942",
+  "tags": [
+   "histoire",
+   "curares",
+   "anesthésie"
+  ]
+ }
+]

@@ -1,0 +1,80 @@
+[
+ {
+  "id": "iso_claeys_leonetti",
+  "module": "Éthique & droit",
+  "question": "Loi Claeys-Leonetti (2016) : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Les directives anticipées s'imposent au médecin, sauf urgence vitale le temps de l'évaluation ou si elles sont manifestement inappropriées.",
+    "vrai": true,
+    "why": "Article L1111-11 du Code de la santé publique."
+   },
+   {
+    "texte": "Une décision de limitation ou d'arrêt des traitements d'un patient hors d'état de s'exprimer suit une procédure collégiale.",
+    "vrai": true,
+    "why": "Article R4127-37-2 du CSP."
+   },
+   {
+    "texte": "Elle a créé un droit à la sédation profonde et continue maintenue jusqu'au décès, sous conditions.",
+    "vrai": true,
+    "why": "Article L1110-5-2 du CSP."
+   },
+   {
+    "texte": "Le témoignage de la personne de confiance prévaut sur celui des autres proches.",
+    "vrai": true,
+    "why": "Article L1111-6 du CSP."
+   },
+   {
+    "texte": "La famille prend la décision d'arrêt des traitements quand le patient ne peut pas s'exprimer.",
+    "vrai": false,
+    "why": "La décision est médicale, après procédure collégiale et recueil de la volonté du patient."
+   }
+  ],
+  "explication": "Directives anticipées opposables, procédure collégiale, personne de confiance, SPCMD : la décision reste médicale.",
+  "source": "Loi n° 2016-87 du 2 février 2016 (Claeys-Leonetti)",
+  "tags": [
+   "éthique",
+   "LAT",
+   "fin de vie"
+  ]
+ },
+ {
+  "id": "iso_don_organes",
+  "module": "Éthique & droit",
+  "question": "Prélèvement d'organes en France : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le consentement au don est présumé.",
+    "vrai": true,
+    "why": "Loi Caillavet, réaffirmée en 2016 (article L1232-1 du CSP)."
+   },
+   {
+    "texte": "Le refus peut être inscrit sur le registre national des refus.",
+    "vrai": true,
+    "why": "Géré par l'Agence de la biomédecine."
+   },
+   {
+    "texte": "Le refus doit être exprimé par écrit, sinon il n'est pas pris en compte.",
+    "vrai": false,
+    "why": "Il peut aussi être exprimé oralement à un proche, qui en témoigne par écrit."
+   },
+   {
+    "texte": "Après l'arrêt circulatoire (Maastricht III), un délai d'observation sans intervention (« no touch ») de 5 minutes est respecté.",
+    "vrai": true,
+    "why": "Protocole de l'Agence de la biomédecine."
+   },
+   {
+    "texte": "En Maastricht III, la même équipe décide de l'arrêt des traitements et du prélèvement.",
+    "vrai": false,
+    "why": "Indépendance stricte : la décision de LAT précède et ne dépend pas du don."
+   }
+  ],
+  "explication": "Consentement présumé, refus par registre, écrit ou oral ; Maastricht III : LAT indépendante du projet de don.",
+  "source": "Code de la santé publique, L1232-1 ; Agence de la biomédecine, protocole Maastricht III",
+  "tags": [
+   "don d'organes",
+   "éthique",
+   "Maastricht"
+  ]
+ }
+]

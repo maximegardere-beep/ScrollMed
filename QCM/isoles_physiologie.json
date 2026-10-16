@@ -1,0 +1,159 @@
+[
+ {
+  "id": "iso_transport_o2",
+  "module": "Physiologie",
+  "question": "Transport artériel de l'oxygène : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Transport d'O₂ = débit cardiaque × contenu artériel en O₂.",
+    "vrai": true,
+    "why": "TaO₂ = DC × CaO₂."
+   },
+   {
+    "texte": "CaO₂ = 1,34 × Hb × SaO₂ + 0,003 × PaO₂.",
+    "vrai": true,
+    "why": "Hb en g/dL, PaO₂ en mmHg : résultat en mL/dL."
+   },
+   {
+    "texte": "L'O₂ dissous représente une part faible du contenu artériel.",
+    "vrai": true,
+    "why": "≈ 0,3 mL/dL sur ≈ 20 mL/dL en air ambiant."
+   },
+   {
+    "texte": "L'acidose déplace la courbe de dissociation de l'hémoglobine vers la droite.",
+    "vrai": true,
+    "why": "Effet Bohr : libération facilitée de l'O₂."
+   },
+   {
+    "texte": "L'hypothermie déplace la courbe vers la droite.",
+    "vrai": false,
+    "why": "Vers la gauche (affinité accrue) ; l'hyperthermie la déplace à droite."
+   }
+  ],
+  "explication": "TaO₂ = DC × (1,34 × Hb × SaO₂ + 0,003 × PaO₂). Droite : acidose, hypercapnie, fièvre, 2,3-DPG.",
+  "source": "Physiologie respiratoire (West)",
+  "tags": [
+   "physiologie",
+   "oxygène",
+   "hémoglobine"
+  ]
+ },
+ {
+  "id": "iso_hypoxemies",
+  "module": "Physiologie",
+  "question": "Mécanismes d'hypoxémie : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "L'hypoxémie par shunt vrai se corrige mal sous oxygène.",
+    "vrai": true,
+    "why": "Le sang shunté ne voit pas l'O₂ alvéolaire."
+   },
+   {
+    "texte": "Une hypoventilation pure s'accompagne d'un gradient alvéolo-artériel normal.",
+    "vrai": true,
+    "why": "La baisse de PAO₂ suit la hausse de PACO₂."
+   },
+   {
+    "texte": "Le gradient alvéolo-artériel est augmenté dans l'hypoventilation pure.",
+    "vrai": false,
+    "why": "Il est normal (la PAO₂ baisse autant que la PaO₂)."
+   },
+   {
+    "texte": "Une hypoxémie par anomalies du rapport V/Q ne répond pas à l'oxygène.",
+    "vrai": false,
+    "why": "Elle se corrige bien sous O₂, contrairement au shunt."
+   },
+   {
+    "texte": "Une hausse de l'espace mort tend à élever la PaCO₂ à ventilation minute constante.",
+    "vrai": true,
+    "why": "Moins de ventilation alvéolaire efficace."
+   }
+  ],
+  "explication": "Shunt : réfractaire à l'O₂. V/Q : corrigé par l'O₂. Hypoventilation : gradient A-a normal.",
+  "source": "Physiologie respiratoire (West)",
+  "tags": [
+   "physiologie",
+   "hypoxémie",
+   "shunt"
+  ]
+ },
+ {
+  "id": "iso_trou_anionique",
+  "module": "Physiologie",
+  "question": "Trou anionique plasmatique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Trou anionique = Na⁺ − (Cl⁻ + HCO₃⁻).",
+    "vrai": true,
+    "why": "Sans le K⁺ : normal ≈ 12 ± 4 mmol/L."
+   },
+   {
+    "texte": "Il est augmenté dans l'acidocétose.",
+    "vrai": true,
+    "why": "Corps cétoniques non mesurés."
+   },
+   {
+    "texte": "Il est normal dans l'acidose d'une diarrhée.",
+    "vrai": true,
+    "why": "Perte de bicarbonate compensée par le chlore (acidose hyperchlorémique)."
+   },
+   {
+    "texte": "Sa valeur normale est d'environ 30 mmol/L.",
+    "vrai": false,
+    "why": "≈ 12 mmol/L (8 à 16 selon les laboratoires)."
+   },
+   {
+    "texte": "Il est normal dans l'acidose lactique.",
+    "vrai": false,
+    "why": "Augmenté : le lactate est un anion non mesuré."
+   }
+  ],
+  "explication": "TA élevé : lactate, cétose, insuffisance rénale, toxiques. Normal : diarrhée, acidose tubulaire, NaCl. Corriger par l'albumine.",
+  "source": "Kraut & Madias, Clin J Am Soc Nephrol 2007",
+  "tags": [
+   "physiologie",
+   "acide-base",
+   "trou anionique"
+  ]
+ },
+ {
+  "id": "iso_osmolarite",
+  "module": "Physiologie",
+  "enonce": "**Na⁺ 140 mmol/L**, glucose 10 mmol/L, urée 10 mmol/L.",
+  "question": "Quelle est l'osmolarité plasmatique calculée ?",
+  "propositions": [
+   {
+    "texte": "300 mOsm/L.",
+    "vrai": true,
+    "why": "2 × Na + glucose + urée = 280 + 10 + 10 = 300."
+   },
+   {
+    "texte": "290 mOsm/L.",
+    "vrai": false,
+    "why": "Oubli de l'urée ou du glucose."
+   },
+   {
+    "texte": "160 mOsm/L.",
+    "vrai": false,
+    "why": "Sodium non multiplié par 2."
+   },
+   {
+    "texte": "320 mOsm/L.",
+    "vrai": false,
+    "why": "Erreur de calcul."
+   },
+   {
+    "texte": "280 mOsm/L.",
+    "vrai": false,
+    "why": "Glucose et urée oubliés."
+   }
+  ],
+  "explication": "Osmolarité calculée = 2 × Na + glucose + urée (mmol/L). Trou osmolaire = mesurée − calculée : > 10, penser aux alcools toxiques.",
+  "source": "Physiologie (formule usuelle)",
+  "tags": [
+   "physiologie",
+   "osmolarité",
+   "sodium"
+  ]
+ }
+]

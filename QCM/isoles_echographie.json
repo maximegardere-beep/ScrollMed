@@ -1,0 +1,159 @@
+[
+ {
+  "id": "iso_pneumothorax",
+  "module": "Échographie",
+  "question": "Échographie pleurale et pneumothorax : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "L'absence de glissement pleural suffit à affirmer un pneumothorax.",
+    "vrai": false,
+    "why": "Peu spécifique : intubation sélective, adhérences, apnée…"
+   },
+   {
+    "texte": "Le point poumon est spécifique du pneumothorax.",
+    "vrai": true,
+    "why": "Spécificité ≈ 100 %."
+   },
+   {
+    "texte": "La présence de lignes B élimine le pneumothorax à l'endroit examiné.",
+    "vrai": true,
+    "why": "Elles naissent de la plèvre viscérale."
+   },
+   {
+    "texte": "Le pouls pulmonaire élimine le pneumothorax à l'endroit examiné.",
+    "vrai": true,
+    "why": "Plèvres au contact."
+   },
+   {
+    "texte": "En mode TM, l'aspect en « code-barre » évoque un pneumothorax.",
+    "vrai": true,
+    "why": "Signe de la stratosphère (pas de « plage »)."
+   }
+  ],
+  "explication": "Glissement, lignes B ou pouls pulmonaire présents : pas de PNX à cet endroit. Point poumon : PNX certain.",
+  "source": "Lichtenstein ; conférence internationale échographie pulmonaire 2012",
+  "tags": [
+   "échographie",
+   "pneumothorax",
+   "plèvre"
+  ]
+ },
+ {
+  "id": "iso_tamponnade",
+  "module": "Échographie",
+  "question": "Tamponnade à l'échocardiographie : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le collapsus télédiastolique de l'OD, prolongé, est un signe précoce et sensible.",
+    "vrai": true,
+    "why": "OD à basse pression."
+   },
+   {
+    "texte": "La VCI est dilatée, sans variation respiratoire.",
+    "vrai": true,
+    "why": "Sensible, peu spécifique."
+   },
+   {
+    "texte": "Les variations respiratoires du flux mitral dépassent 25 %.",
+    "vrai": true,
+    "why": "Équivalent échographique du pouls paradoxal."
+   },
+   {
+    "texte": "Un épanchement abondant suffit à porter le diagnostic.",
+    "vrai": false,
+    "why": "La tamponnade dépend de la vitesse d'installation, pas du volume."
+   },
+   {
+    "texte": "Le collapsus diastolique du VG est le signe le plus précoce.",
+    "vrai": false,
+    "why": "Ce sont les cavités droites, à basse pression."
+   }
+  ],
+  "explication": "Tamponnade : diagnostic clinique et hémodynamique ; collapsus OD/VD, VCI pléthorique, variations des flux.",
+  "source": "ESC, maladies du péricarde 2015 ; ASE 2013",
+  "tags": [
+   "échographie",
+   "tamponnade",
+   "péricarde"
+  ]
+ },
+ {
+  "id": "iso_efast",
+  "module": "Échographie",
+  "question": "eFAST du traumatisé : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Elle explore l'espace de Morison (hépatorénal).",
+    "vrai": true,
+    "why": "Fenêtre de déclivité droite."
+   },
+   {
+    "texte": "Elle explore l'espace splénorénal.",
+    "vrai": true,
+    "why": "Fenêtre de déclivité gauche."
+   },
+   {
+    "texte": "Elle visualise bien le rétropéritoine.",
+    "vrai": false,
+    "why": "Mal exploré : un hématome rétropéritonéal passe souvent inaperçu."
+   },
+   {
+    "texte": "Une eFAST négative élimine une lésion d'organe plein.",
+    "vrai": false,
+    "why": "Sensibilité imparfaite : le scanner reste nécessaire chez le patient stable."
+   },
+   {
+    "texte": "Elle recherche un pneumothorax sur les fenêtres antérieures.",
+    "vrai": true,
+    "why": "Le « e » de extended : thorax."
+   }
+  ],
+  "explication": "eFAST : épanchement péritonéal, péricardique, pleural, pneumothorax. Négative ≠ pas de lésion.",
+  "source": "ATLS 10e édition 2018",
+  "tags": [
+   "échographie",
+   "eFAST",
+   "trauma"
+  ]
+ },
+ {
+  "id": "iso_debit_vti",
+  "module": "Échographie",
+  "enonce": "ETT : **VTI sous-aortique 20 cm**, diamètre de la chambre de chasse du VG 2 cm, FC 80/min.",
+  "question": "Quel est le débit cardiaque ?",
+  "propositions": [
+   {
+    "texte": "Environ 5 L/min.",
+    "vrai": true,
+    "why": "Surface = π × (2/2)² ≈ 3,14 cm² ; VES ≈ 20 × 3,14 ≈ 63 mL ; × 80 ≈ 5,0 L/min."
+   },
+   {
+    "texte": "Environ 2,5 L/min.",
+    "vrai": false,
+    "why": "Moitié du bon résultat : erreur de calcul."
+   },
+   {
+    "texte": "Environ 10 L/min.",
+    "vrai": false,
+    "why": "Surface surestimée."
+   },
+   {
+    "texte": "Environ 3,2 L/min.",
+    "vrai": false,
+    "why": "Erreur de calcul."
+   },
+   {
+    "texte": "Impossible à calculer sans la PVC.",
+    "vrai": false,
+    "why": "La PVC n'intervient pas."
+   }
+  ],
+  "explication": "DC = VTI × π (D/2)² × FC. Le diamètre est élevé au carré : une erreur de 1 mm pèse lourd, d'où l'intérêt de suivre le VTI seul.",
+  "source": "ASE/EACVI 2016",
+  "tags": [
+   "échographie",
+   "VTI",
+   "débit cardiaque"
+  ]
+ }
+]

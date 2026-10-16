@@ -1,0 +1,119 @@
+[
+ {
+  "id": "iso_proseva",
+  "module": "Grandes études",
+  "question": "Quelle étude a montré une baisse de mortalité avec le décubitus ventral dans le SDRA sévère ?",
+  "propositions": [
+   {
+    "texte": "PROSEVA.",
+    "vrai": true,
+    "why": "Guérin 2013 : 16 % contre 33 % à J28 (P/F < 150, séances de 16 h)."
+   },
+   {
+    "texte": "ARMA.",
+    "vrai": false,
+    "why": "ARDSNet 2000 : volume courant de 6 contre 12 mL/kg."
+   },
+   {
+    "texte": "FLORALI.",
+    "vrai": false,
+    "why": "Frat 2015 : OHD dans l'IRA hypoxémique."
+   },
+   {
+    "texte": "ACURASYS.",
+    "vrai": false,
+    "why": "Papazian 2010 : cisatracurium 48 h dans le SDRA sévère."
+   },
+   {
+    "texte": "ART.",
+    "vrai": false,
+    "why": "2017 : recrutement alvéolaire, surmortalité."
+   }
+  ],
+  "explication": "PROSEVA : décubitus ventral précoce (P/F < 150), séances ≥ 16 h, mortalité divisée par deux.",
+  "source": "Guérin et al., NEJM 2013",
+  "tags": [
+   "SDRA",
+   "décubitus ventral",
+   "études"
+  ]
+ },
+ {
+  "id": "iso_glycemie_transfusion",
+  "module": "Grandes études",
+  "question": "Quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "NICE-SUGAR : un contrôle glycémique strict (4,5-6 mmol/L) augmentait la mortalité.",
+    "vrai": true,
+    "why": "NICE-SUGAR 2009 : surmortalité, plus d'hypoglycémies sévères."
+   },
+   {
+    "texte": "Van den Berghe 2001 : l'insulinothérapie intensive réduisait la mortalité en réanimation chirurgicale.",
+    "vrai": true,
+    "why": "Résultat monocentrique non reproduit ensuite."
+   },
+   {
+    "texte": "TRICC : un seuil transfusionnel de 10 g/dL réduisait la mortalité.",
+    "vrai": false,
+    "why": "TRICC 1999 : le seuil restrictif (7 g/dL) n'était pas inférieur."
+   },
+   {
+    "texte": "CRASH-2 : l'acide tranexamique a été évalué dans le traumatisme crânien isolé.",
+    "vrai": false,
+    "why": "CRASH-2 : traumatisés qui saignent. Le TC, c'est CRASH-3."
+   },
+   {
+    "texte": "SAFE : l'albumine réduisait la mortalité par rapport au sérum salé.",
+    "vrai": false,
+    "why": "SAFE 2004 : pas de différence ; surmortalité dans le sous-groupe TC."
+   }
+  ],
+  "explication": "NICE-SUGAR : pas de contrôle strict. TRICC : restrictif. SAFE : albumine = salé (pas dans le TC).",
+  "source": "NICE-SUGAR 2009 ; TRICC 1999 ; SAFE 2004 ; CRASH-2 2010",
+  "tags": [
+   "études",
+   "glycémie",
+   "transfusion"
+  ]
+ },
+ {
+  "id": "iso_neutres",
+  "module": "Grandes études",
+  "question": "Quelles études n'ont pas montré de baisse de la mortalité sur leur critère principal ?",
+  "propositions": [
+   {
+    "texte": "ProCESS, ARISE et ProMISe (EGDT).",
+    "vrai": true,
+    "why": "2014-2015 : la réanimation protocolisée de Rivers n'apporte rien."
+   },
+   {
+    "texte": "ADRENAL (hydrocortisone dans le choc septique).",
+    "vrai": true,
+    "why": "2018 : mortalité à J90 identique, choc résolu plus vite."
+   },
+   {
+    "texte": "SAFE (albumine contre sérum salé).",
+    "vrai": true,
+    "why": "2004 : mortalité à J28 identique."
+   },
+   {
+    "texte": "PROSEVA (décubitus ventral).",
+    "vrai": false,
+    "why": "Baisse nette de la mortalité à J28."
+   },
+   {
+    "texte": "CRASH-2 (acide tranexamique dans le trauma).",
+    "vrai": false,
+    "why": "Baisse de la mortalité toutes causes."
+   }
+  ],
+  "explication": "Neutres : EGDT, ADRENAL, SAFE. Positives : PROSEVA, CRASH-2.",
+  "source": "ProCESS 2014 ; ARISE 2014 ; ProMISe 2015 ; ADRENAL 2018 ; SAFE 2004",
+  "tags": [
+   "études",
+   "sepsis",
+   "mortalité"
+  ]
+ }
+]

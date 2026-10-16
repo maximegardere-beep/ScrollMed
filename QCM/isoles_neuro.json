@@ -1,0 +1,158 @@
+[
+ {
+  "id": "iso_tc_grave",
+  "module": "Neuro-réanimation",
+  "question": "Traumatisé crânien grave : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "L'hypotension est à éviter : objectif de PAS > 110 mmHg (ou PAM ≥ 80).",
+    "vrai": true,
+    "why": "RFE SFAR 2016."
+   },
+   {
+    "texte": "L'hyperventilation prophylactique (PaCO₂ 30 mmHg) est recommandée.",
+    "vrai": false,
+    "why": "Vasoconstriction, ischémie : réservée à l'engagement en attendant un traitement."
+   },
+   {
+    "texte": "Les corticoïdes réduisent la mortalité.",
+    "vrai": false,
+    "why": "CRASH 2004 : surmortalité."
+   },
+   {
+    "texte": "L'osmothérapie (mannitol ou sérum salé hypertonique) traite l'HTIC.",
+    "vrai": true,
+    "why": "RFE SFAR 2016."
+   },
+   {
+    "texte": "Une PIC soutenue > 20-22 mmHg doit être traitée.",
+    "vrai": true,
+    "why": "BTF 2016 : seuil de 22 mmHg."
+   }
+  ],
+  "explication": "TC grave : PAS > 110, PaCO₂ 35-40, osmothérapie, traiter la PIC > 20-22.",
+  "source": "SFAR, RFE TC grave 2016 ; Brain Trauma Foundation 2016",
+  "tags": [
+   "traumatisme crânien",
+   "HTIC",
+   "neuro"
+  ]
+ },
+ {
+  "id": "iso_etat_de_mal",
+  "module": "Neuro-réanimation",
+  "question": "État de mal épileptique tonico-clonique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Une benzodiazépine est injectée dès 5 minutes de crise.",
+    "vrai": true,
+    "why": "SRLF/SFMU 2018 : clonazépam IV, ou midazolam IM sans voie."
+   },
+   {
+    "texte": "Une seule dose de benzodiazépine est répétée au maximum, avant la 2e ligne.",
+    "vrai": true,
+    "why": "Deux doses au total ; au-delà, dépression respiratoire."
+   },
+   {
+    "texte": "En 2e ligne, lévétiracétam, valproate et fosphénytoïne sont d'efficacité comparable.",
+    "vrai": true,
+    "why": "ESETT 2019."
+   },
+   {
+    "texte": "Le propofol est le traitement de 1re ligne.",
+    "vrai": false,
+    "why": "Réservé à l'état de mal réfractaire (3e ligne)."
+   },
+   {
+    "texte": "L'EEG est requis avant tout traitement.",
+    "vrai": false,
+    "why": "Le traitement ne doit pas attendre."
+   }
+  ],
+  "explication": "EME : benzodiazépine à 5 min (×2 max), puis 2e ligne à 30 min, puis anesthésie générale si réfractaire.",
+  "source": "RFE SRLF/SFMU 2018 ; ESETT, NEJM 2019",
+  "tags": [
+   "état de mal",
+   "épilepsie",
+   "benzodiazépine"
+  ]
+ },
+ {
+  "id": "iso_avc_thrombolyse",
+  "module": "Neuro-réanimation",
+  "question": "AVC ischémique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La thrombolyse IV est possible jusqu'à 4 h 30 après le début des symptômes.",
+    "vrai": true,
+    "why": "ESO 2021."
+   },
+   {
+    "texte": "La PA doit être < 185/110 mmHg avant la thrombolyse.",
+    "vrai": true,
+    "why": "Puis < 180/105 pendant 24 h."
+   },
+   {
+    "texte": "La thrombectomie peut être réalisée jusqu'à 24 h sur des critères d'imagerie.",
+    "vrai": true,
+    "why": "DAWN, DEFUSE-3 2018."
+   },
+   {
+    "texte": "La ténectéplase (0,25 mg/kg) est une alternative à l'altéplase.",
+    "vrai": true,
+    "why": "ESO 2023."
+   },
+   {
+    "texte": "Une prise d'apixaban il y a 2 heures n'empêche pas la thrombolyse.",
+    "vrai": false,
+    "why": "Prise < 48 h : contre-indication en général (sauf dosage indétectable)."
+   }
+  ],
+  "explication": "AVC : thrombolyse ≤ 4 h 30 (PA < 185/110), thrombectomie jusqu'à 24 h si l'imagerie le permet.",
+  "source": "ESO 2021 et 2023 ; DAWN, DEFUSE-3 2018",
+  "tags": [
+   "AVC",
+   "thrombolyse",
+   "thrombectomie"
+  ]
+ },
+ {
+  "id": "iso_hsa",
+  "module": "Neuro-réanimation",
+  "question": "Hémorragie sous-arachnoïdienne anévrismale : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Nimodipine par voie orale, 60 mg toutes les 4 heures pendant 21 jours.",
+    "vrai": true,
+    "why": "Seul traitement préventif validé du pronostic (vasospasme)."
+   },
+   {
+    "texte": "Le vasospasme survient surtout entre J4 et J14.",
+    "vrai": true,
+    "why": "Pic vers J7."
+   },
+   {
+    "texte": "La triple H (hypertension, hypervolémie, hémodilution) est recommandée en prévention.",
+    "vrai": false,
+    "why": "Abandonnée : normovolémie."
+   },
+   {
+    "texte": "L'anévrisme est exclu (embolisation ou clip) le plus tôt possible.",
+    "vrai": true,
+    "why": "AHA 2023 : réduire le resaignement."
+   },
+   {
+    "texte": "L'hyponatrémie se traite par restriction hydrique.",
+    "vrai": false,
+    "why": "Souvent perte de sel cérébrale : la restriction expose à l'hypovolémie et au vasospasme."
+   }
+  ],
+  "explication": "HSA : sécurisation précoce, nimodipine orale, normovolémie, Na⁺ surveillé sans restriction hydrique.",
+  "source": "AHA/ASA, HSA anévrismale 2023",
+  "tags": [
+   "HSA",
+   "vasospasme",
+   "anévrisme"
+  ]
+ }
+]

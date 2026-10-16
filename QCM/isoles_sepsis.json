@@ -1,0 +1,197 @@
+[
+ {
+  "id": "iso_qsofa",
+  "module": "Sepsis & infectiologie",
+  "question": "Définitions Sepsis-3 : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le sepsis est une dysfonction d'organe (SOFA ≥ 2 points) liée à une infection.",
+    "vrai": true,
+    "why": "Sepsis-3, 2016."
+   },
+   {
+    "texte": "Une fréquence respiratoire ≥ 22/min est un critère du qSOFA.",
+    "vrai": true,
+    "why": "qSOFA : FR ≥ 22, PAS ≤ 100 mmHg, altération de la conscience."
+   },
+   {
+    "texte": "Une PAS ≤ 100 mmHg est un critère du qSOFA.",
+    "vrai": true,
+    "why": "Idem."
+   },
+   {
+    "texte": "Le qSOFA seul est recommandé pour le dépistage du sepsis.",
+    "vrai": false,
+    "why": "SSC 2021 : recommandation contre le qSOFA seul (peu sensible)."
+   },
+   {
+    "texte": "Le choc septique associe vasopresseur pour une PAM ≥ 65 et lactate > 2 mmol/L malgré le remplissage.",
+    "vrai": true,
+    "why": "Définition Sepsis-3 du choc septique."
+   }
+  ],
+  "explication": "Sepsis = infection + SOFA ≥ 2. Choc = vasopresseur pour PAM ≥ 65 + lactate > 2 malgré remplissage.",
+  "source": "Sepsis-3, JAMA 2016 ; SSC 2021",
+  "tags": [
+   "sepsis",
+   "qSOFA",
+   "définition"
+  ]
+ },
+ {
+  "id": "iso_hydrocortisone",
+  "module": "Sepsis & infectiologie",
+  "question": "Corticoïdes dans le choc septique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Hydrocortisone 200 mg/j si le besoin en vasopresseur persiste.",
+    "vrai": true,
+    "why": "SSC 2021 : noradrénaline ≥ 0,25 µg/kg/min depuis au moins 4 h."
+   },
+   {
+    "texte": "Un test au Synacthène est nécessaire avant de débuter.",
+    "vrai": false,
+    "why": "Non recommandé : il ne guide pas l'indication."
+   },
+   {
+    "texte": "ADRENAL a montré une baisse de la mortalité à J90.",
+    "vrai": false,
+    "why": "ADRENAL 2018 : pas de différence de mortalité, mais sevrage plus rapide du choc."
+   },
+   {
+    "texte": "APROCCHSS associait fludrocortisone et hydrocortisone.",
+    "vrai": true,
+    "why": "APROCCHSS 2018 : baisse de la mortalité à J90."
+   },
+   {
+    "texte": "La dexaméthasone est la molécule recommandée.",
+    "vrai": false,
+    "why": "C'est l'hydrocortisone (activité minéralocorticoïde)."
+   }
+  ],
+  "explication": "Hydrocortisone 200 mg/j si le choc persiste sous vasopresseur, sans test au Synacthène.",
+  "source": "SSC 2021 ; ADRENAL 2018 ; APROCCHSS 2018",
+  "tags": [
+   "sepsis",
+   "hydrocortisone",
+   "choc septique"
+  ]
+ },
+ {
+  "id": "iso_bundle",
+  "module": "Sepsis & infectiologie",
+  "question": "Prise en charge initiale d'un choc septique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Antibiothérapie dans l'heure.",
+    "vrai": true,
+    "why": "SSC 2021 : dans l'heure en cas de choc ou de sepsis probable."
+   },
+   {
+    "texte": "Remplissage par cristalloïdes d'au moins 30 mL/kg dans les 3 premières heures.",
+    "vrai": true,
+    "why": "SSC 2021 (suggestion, faible niveau de preuve)."
+   },
+   {
+    "texte": "La noradrénaline est le vasopresseur de 1re intention.",
+    "vrai": true,
+    "why": "SSC 2021 ; la vasopressine s'ajoute ensuite."
+   },
+   {
+    "texte": "Objectif initial de PAM : 65 mmHg.",
+    "vrai": true,
+    "why": "SSC 2021 ; SEPSISPAM : pas de bénéfice global à 80-85."
+   },
+   {
+    "texte": "Les hydroxyéthylamidons sont une alternative aux cristalloïdes.",
+    "vrai": false,
+    "why": "Contre-indiqués : plus d'insuffisance rénale et d'EER (6S, CHEST)."
+   }
+  ],
+  "explication": "ATB < 1 h, 30 mL/kg de cristalloïdes, noradrénaline, PAM 65. Jamais d'HEA.",
+  "source": "SSC 2021",
+  "tags": [
+   "sepsis",
+   "choc septique",
+   "remplissage"
+  ]
+ },
+ {
+  "id": "iso_lactates",
+  "module": "Sepsis & infectiologie",
+  "question": "Lactate dans le sepsis : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Une lactatémie normale exclut une hypoperfusion tissulaire.",
+    "vrai": false,
+    "why": "L'hypoperfusion peut exister avec un lactate normal : il faut l'examen clinique (temps de recoloration, marbrures)."
+   },
+   {
+    "texte": "La metformine peut élever le lactate indépendamment de l'hypoperfusion.",
+    "vrai": true,
+    "why": "Acidose lactique de type B."
+   },
+   {
+    "texte": "ANDROMEDA-SHOCK a comparé une réanimation guidée par le temps de recoloration cutanée à une réanimation guidée par le lactate.",
+    "vrai": true,
+    "why": "ANDROMEDA-SHOCK 2019 : pas de surmortalité (tendance favorable) avec le temps de recoloration."
+   },
+   {
+    "texte": "Un lactate élevé doit être recontrôlé dans les 2 à 4 heures.",
+    "vrai": true,
+    "why": "SSC 2021 : guider la réanimation sur sa décroissance."
+   },
+   {
+    "texte": "Le lactate veineux est utilisable pour le dépistage et le suivi.",
+    "vrai": true,
+    "why": "Bien corrélé à l'artériel ; un lactate veineux normal est rassurant."
+   }
+  ],
+  "explication": "Lactate : marqueur de gravité, à recontrôler ; le temps de recoloration est une cible équivalente.",
+  "source": "SSC 2021 ; ANDROMEDA-SHOCK, JAMA 2019",
+  "tags": [
+   "sepsis",
+   "lactate",
+   "perfusion"
+  ]
+ },
+ {
+  "id": "iso_duree_atb",
+  "module": "Sepsis & infectiologie",
+  "question": "Durée et désescalade de l'antibiothérapie en réanimation : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Une pneumonie acquise sous ventilation mécanique se traite en général 7 jours.",
+    "vrai": true,
+    "why": "IDSA/ATS 2016, ERS/ESICM 2017 : 7 jours."
+   },
+   {
+    "texte": "La procalcitonine suffit seule à décider de l'arrêt.",
+    "vrai": false,
+    "why": "SSC 2021 : elle aide à raccourcir la durée, mais toujours avec l'évaluation clinique."
+   },
+   {
+    "texte": "Une bithérapie probabiliste doit être poursuivie 14 jours.",
+    "vrai": false,
+    "why": "Désescalade vers une monothérapie dès l'antibiogramme."
+   },
+   {
+    "texte": "Une couverture anti-SARM probabiliste est systématique dans tout choc septique.",
+    "vrai": false,
+    "why": "SSC 2021 : seulement en cas de risque élevé de SARM."
+   },
+   {
+    "texte": "La désescalade est réévaluée chaque jour.",
+    "vrai": true,
+    "why": "SSC 2021 : réévaluation quotidienne."
+   }
+  ],
+  "explication": "PAVM : 7 jours. Désescalade dès la documentation, réévaluée chaque jour, aidée par la PCT.",
+  "source": "SSC 2021 ; IDSA/ATS 2016",
+  "tags": [
+   "antibiotiques",
+   "PAVM",
+   "désescalade"
+  ]
+ }
+]

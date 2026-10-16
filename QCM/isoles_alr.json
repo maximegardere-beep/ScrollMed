@@ -1,0 +1,119 @@
+[
+ {
+  "id": "iso_prevention_last",
+  "module": "ALR & douleur",
+  "question": "Prévenir la toxicité systémique des anesthésiques locaux : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La ropivacaïne est moins cardiotoxique que la bupivacaïne.",
+    "vrai": true,
+    "why": "Énantiomère S pur, moins liposoluble."
+   },
+   {
+    "texte": "L'échoguidage réduit le risque de toxicité systémique.",
+    "vrai": true,
+    "why": "ASRA 2018 : moins d'injections intravasculaires, volumes plus faibles."
+   },
+   {
+    "texte": "Une aspiration négative exclut une injection intravasculaire.",
+    "vrai": false,
+    "why": "Faux négatifs fréquents : injection fractionnée."
+   },
+   {
+    "texte": "L'adrénaline ajoutée sert de marqueur d'injection intravasculaire.",
+    "vrai": true,
+    "why": "Tachycardie à l'injection test."
+   },
+   {
+    "texte": "L'émulsion lipidique doit être disponible là où l'on pratique l'ALR.",
+    "vrai": true,
+    "why": "ASRA 2020."
+   }
+  ],
+  "explication": "Prévention de la LAST : dose minimale, échoguidage, injection fractionnée, marqueur, lipides à disposition.",
+  "source": "ASRA, practice advisory 2018 ; checklist LAST 2020",
+  "tags": [
+   "ALR",
+   "anesthésiques locaux",
+   "LAST"
+  ]
+ },
+ {
+  "id": "iso_anticoag_perimedullaire",
+  "module": "ALR & douleur",
+  "question": "Anesthésie périmédullaire et anticoagulants : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "HBPM à dose préventive : ponction au moins 12 h après la dernière injection.",
+    "vrai": true,
+    "why": "ESAIC/ESRA 2022 ; ASRA 2018."
+   },
+   {
+    "texte": "HBPM à dose curative : ponction au moins 24 h après.",
+    "vrai": true,
+    "why": "ESAIC/ESRA 2022 ; ASRA 2018."
+   },
+   {
+    "texte": "L'aspirine seule ne contre-indique pas une rachianesthésie.",
+    "vrai": true,
+    "why": "ESAIC/ESRA 2022."
+   },
+   {
+    "texte": "Rivaroxaban à dose curative : une dernière prise 24 h avant suffit.",
+    "vrai": false,
+    "why": "Délai de 72 h environ (ESAIC/ESRA 2022, ASRA 2018)."
+   },
+   {
+    "texte": "Sous AVK, un INR à 1,8 autorise la ponction.",
+    "vrai": false,
+    "why": "INR ≤ 1,4 (ESAIC/ESRA 2022) ou < 1,5 (ASRA)."
+   }
+  ],
+  "explication": "HBPM : 12 h (préventive), 24 h (curative) ; anti-Xa curatif : 72 h ; aspirine seule : pas de délai.",
+  "source": "ESAIC/ESRA 2022 ; ASRA 2018",
+  "tags": [
+   "ALR",
+   "anticoagulant",
+   "hématome périmédullaire"
+  ]
+ },
+ {
+  "id": "iso_titration_morphine",
+  "module": "ALR & douleur",
+  "question": "Analgésie postopératoire par morphine : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Titration IV : 2 à 3 mg toutes les 5 minutes jusqu'au soulagement.",
+    "vrai": true,
+    "why": "SFAR 2008 : 2 mg < 60 kg, 3 mg ≥ 60 kg."
+   },
+   {
+    "texte": "La sédation précède habituellement la dépression respiratoire.",
+    "vrai": true,
+    "why": "Surveiller le score de sédation, pas seulement la FR."
+   },
+   {
+    "texte": "La naloxone se titre par bolus d'environ 0,04 mg.",
+    "vrai": true,
+    "why": "Lever la dépression respiratoire sans lever l'analgésie."
+   },
+   {
+    "texte": "Un débit continu est systématique en PCA chez l'adulte.",
+    "vrai": false,
+    "why": "Plus de dépressions respiratoires sans gain d'analgésie."
+   },
+   {
+    "texte": "L'association au paracétamol permet une épargne morphinique.",
+    "vrai": true,
+    "why": "Environ 20 à 30 % (analgésie multimodale)."
+   }
+  ],
+  "explication": "Titration IV, PCA sans débit continu, surveillance de la sédation, multimodal.",
+  "source": "SFAR, RFE douleur postopératoire 2008 (actualisation 2016)",
+  "tags": [
+   "morphine",
+   "PCA",
+   "douleur postopératoire"
+  ]
+ }
+]

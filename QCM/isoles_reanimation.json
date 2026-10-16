@@ -1,0 +1,198 @@
+[
+ {
+  "id": "iso_hyperkaliemie",
+  "module": "Réanimation médicale",
+  "enonce": "Homme de 70 ans, insuffisant rénal. **K⁺ 7,6 mmol/L**, ondes T amples et pointues, QRS à 130 ms.",
+  "question": "Quels traitements sont adaptés en urgence ?",
+  "propositions": [
+   {
+    "texte": "Chlorure ou gluconate de calcium IV.",
+    "vrai": true,
+    "why": "Stabilise la membrane devant des signes ECG ; sans effet sur la kaliémie."
+   },
+   {
+    "texte": "Insuline rapide 10 UI IV avec 25 g de glucose.",
+    "vrai": true,
+    "why": "ERC 2021 : fait entrer le K⁺ dans la cellule en 15 à 30 min."
+   },
+   {
+    "texte": "Salbutamol nébulisé 10 à 20 mg.",
+    "vrai": true,
+    "why": "ERC 2021 : effet additif à l'insuline."
+   },
+   {
+    "texte": "Kayexalate, d'action immédiate.",
+    "vrai": false,
+    "why": "Action en plusieurs heures : inutile dans l'urgence immédiate."
+   },
+   {
+    "texte": "Bicarbonate de sodium systématique, même sans acidose.",
+    "vrai": false,
+    "why": "Effet faible et inconstant sans acidose métabolique."
+   }
+  ],
+  "explication": "Hyperkaliémie menaçante : calcium (membrane), insuline-glucose + salbutamol (transfert), puis épuration (EER si besoin).",
+  "source": "ERC 2021, situations particulières",
+  "tags": [
+   "hyperkaliémie",
+   "potassium",
+   "ECG"
+  ]
+ },
+ {
+  "id": "iso_hyponatremie",
+  "module": "Réanimation médicale",
+  "question": "Hyponatrémie à 112 mmol/L avec convulsions : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Bolus de 150 mL de NaCl 3 % en 20 minutes, renouvelable.",
+    "vrai": true,
+    "why": "Guide européen 2014 : jusqu'à 2 à 3 fois, pour +5 mmol/L."
+   },
+   {
+    "texte": "La correction ne doit pas dépasser 10 mmol/L dans les 24 premières heures.",
+    "vrai": true,
+    "why": "Guide européen 2014 : limite de 10 mmol/L à J1, 8 ensuite."
+   },
+   {
+    "texte": "Le risque d'une correction trop rapide est la myélinolyse osmotique.",
+    "vrai": true,
+    "why": "Démyélinisation osmotique, surtout si hyponatrémie chronique."
+   },
+   {
+    "texte": "Une fois les symptômes contrôlés, la correction peut atteindre 20 mmol/L par 24 h.",
+    "vrai": false,
+    "why": "La limite de 10 mmol/L/24 h s'applique tout au long."
+   },
+   {
+    "texte": "La restriction hydrique est le traitement de 1re intention ici.",
+    "vrai": false,
+    "why": "Trop lente dans une forme sévère symptomatique : NaCl hypertonique."
+   }
+  ],
+  "explication": "Hyponatrémie sévère symptomatique : NaCl 3 % en bolus de 150 mL, sans dépasser +10 mmol/L par 24 h.",
+  "source": "Spasovski et al., guide européen 2014",
+  "tags": [
+   "hyponatrémie",
+   "sodium",
+   "myélinolyse"
+  ]
+ },
+ {
+  "id": "iso_acidocetose",
+  "module": "Réanimation médicale",
+  "question": "Acidocétose diabétique sévère de l'adulte : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Insuline IV à débit fixe de 0,1 UI/kg/h.",
+    "vrai": true,
+    "why": "Consensus ADA/EASD 2024."
+   },
+   {
+    "texte": "Si la kaliémie est inférieure à 3,5 mmol/L, l'insuline est différée et le potassium supplémenté.",
+    "vrai": true,
+    "why": "Consensus 2024 : K⁺ < 3,5 avant l'insuline. Risque d'hypokaliémie grave."
+   },
+   {
+    "texte": "Le bicarbonate est indiqué dès que le pH est inférieur à 7,20.",
+    "vrai": false,
+    "why": "Seulement si pH < 7,0 selon le consensus 2024."
+   },
+   {
+    "texte": "L'insuline IV est arrêtée dès que la glycémie se normalise.",
+    "vrai": false,
+    "why": "Elle est poursuivie jusqu'à la résolution de l'acidose, avec du glucosé."
+   },
+   {
+    "texte": "Les solutés glucosés débutent quand la glycémie passe sous 250 mg/dL (13,9 mmol/L).",
+    "vrai": true,
+    "why": "Pour poursuivre l'insuline sans hypoglycémie."
+   }
+  ],
+  "explication": "Acidocétose : remplissage, insuline 0,1 UI/kg/h après K⁺ ≥ 3,5, glucosé sous 250 mg/dL, jusqu'à résolution de l'acidose.",
+  "source": "Consensus ADA/EASD/JBDS crises hyperglycémiques 2024",
+  "tags": [
+   "acidocétose",
+   "insuline",
+   "diabète"
+  ]
+ },
+ {
+  "id": "iso_sedation",
+  "module": "Réanimation médicale",
+  "question": "Sédation-analgésie du patient ventilé : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Une sédation légère est privilégiée.",
+    "vrai": true,
+    "why": "PADIS 2018."
+   },
+   {
+    "texte": "Le propofol ou la dexmédétomidine sont préférés aux benzodiazépines.",
+    "vrai": true,
+    "why": "PADIS 2018 : moins de durée de ventilation."
+   },
+   {
+    "texte": "Le RASS est une échelle validée pour évaluer la sédation.",
+    "vrai": true,
+    "why": "PADIS 2018 : RASS ou SAS ; le BIS se discute chez le patient curarisé."
+   },
+   {
+    "texte": "L'analgésie est la priorité (analgosédation).",
+    "vrai": true,
+    "why": "« Analgesia first » : traiter d'abord la douleur."
+   },
+   {
+    "texte": "La perfusion continue de midazolam est le choix de 1re intention.",
+    "vrai": false,
+    "why": "Plus de délire et de durée de ventilation."
+   }
+  ],
+  "explication": "Analgésie d'abord, sédation légère évaluée par RASS, sans benzodiazépine.",
+  "source": "PADIS, SCCM 2018",
+  "tags": [
+   "sédation",
+   "délire",
+   "ventilation"
+  ]
+ },
+ {
+  "id": "iso_nutrition",
+  "module": "Réanimation médicale",
+  "question": "Nutrition en réanimation : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La voie entérale est débutée précocement, dans les 48 h, si possible.",
+    "vrai": true,
+    "why": "ESPEN 2019."
+   },
+   {
+    "texte": "La nutrition parentérale exclusive est la voie de 1re intention chez tous les patients ventilés.",
+    "vrai": false,
+    "why": "Entérale de préférence ; parentérale si entérale impossible ou insuffisante."
+   },
+   {
+    "texte": "Les apports de la 1re semaine visent les besoins complets dès J1.",
+    "vrai": false,
+    "why": "ESPEN 2019 : apports hypocaloriques (≤ 70 % des besoins) les premiers jours, puis progression."
+   },
+   {
+    "texte": "Le choc non contrôlé fait différer la nutrition entérale.",
+    "vrai": true,
+    "why": "ESPEN 2019 : pas d'entérale en cas de choc non contrôlé."
+   },
+   {
+    "texte": "La glutamine IV est recommandée chez tous les patients.",
+    "vrai": false,
+    "why": "REDOXS 2013 : surmortalité chez les défaillants multiviscéraux."
+   }
+  ],
+  "explication": "Entérale précoce, progressive, différée si choc non contrôlé. Pas de glutamine systématique.",
+  "source": "ESPEN, nutrition en réanimation 2019",
+  "tags": [
+   "nutrition",
+   "entérale",
+   "réanimation"
+  ]
+ }
+]

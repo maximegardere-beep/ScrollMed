@@ -8,7 +8,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
 - `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
 - `Dechocage/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json`.
-- `QCM/` : cas cliniques du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
+- `QCM/` : QCM isolés (`isoles_<thème>.json`) et dossiers progressifs du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
 - `Dechocage/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Dechocage/peaufinage.md` : plan de peaufinage du mode Déchoc (interface, réalisme, illustrations), en attente.
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR
@@ -446,14 +446,44 @@ EOF
 
 ## Mode QCM
 
-Dossiers progressifs façon EDN : un cas clinique, 5 items tirés parmi ceux du cas, 5 propositions par item, une ou plusieurs justes. Le moteur (`index.html`, fonctions `qcm*`) ne contient aucune donnée médicale : tout est dans `QCM/*.json`, synchronisé depuis GitHub comme `Recos/`. Publication : règle n°1 (push direct sur `main`, pas de PR).
+Deux formats, choisis à l'accueil du mode (sélecteur « ⚡ QCM isolés » / « 📋 Dossier progressif », avec un filtre de thème ; choix mémorisés dans `STATE.qcm.mode` et `STATE.qcm.theme`) :
+
+- **QCM isolés** : série de 10 questions indépendantes (`QCM_ISO_N`), tirées dans tous les thèmes ou dans le thème choisi ;
+- **dossier progressif** façon EDN : un cas clinique, 5 items tirés parmi ceux du cas.
+
+5 propositions par question, une ou plusieurs justes. Le moteur (`index.html`, fonctions `qcm*`) ne contient aucune donnée médicale : tout est dans `QCM/*.json`, synchronisé depuis GitHub comme `Recos/`. Publication : règle n°1 (push direct sur `main`, pas de PR).
 
 - **Barème** (`QCM_BAREME`) : par item, une erreur = une proposition juste non cochée ou une fausse cochée ; 0 erreur = 1 point, 1 = 0,5, 2 = 0,2, au-delà 0. Note du QCM ramenée sur 20.
-- **Tirage** (toujours aléatoire) : thème (= `module`) tiré au hasard, pondéré vers les thèmes faibles ou peu joués, en évitant de reprendre le thème précédent ; dans le thème, le cas le moins récemment joué ; dans le cas, les 5 items prioritaires (jamais vus, puis ratés au dernier passage, puis réussis depuis longtemps ; chaque réussite parfaite d'affilée espace le retour), jamais deux fois la même série, remis dans l'ordre du fichier.
-- **Correction** après chaque item (bonnes réponses, `why` sous chaque proposition, `explication`, `source`), puis note, rappel de la reco du cas (`reco`) et cartes Recos « Pour réviser » (tags communs).
-- **Suivi** (`STATE.qcm`, inclus dans la sauvegarde) : chaque QCM terminé (un QCM abandonné n'est pas noté). Accueil QCM : moyenne de la session (QCM espacés de moins de 30 min) et sur 7 jours, sessions récentes. Onglet Progrès (qui accueille aussi les Favoris) : radar des notes par thème (10 derniers QCM du thème ; pointillés : 7 derniers jours).
+- **Tirage des QCM isolés** : les questions prioritaires (même suivi que les items de dossier : jamais vues, ratées, réussies depuis longtemps), plus souvent dans les thèmes faibles, en variant les thèmes (chaque question d'un thème déjà tiré le pénalise).
+- **Tirage des dossiers** (toujours aléatoire) : thème (= `module`) choisi, ou tiré au hasard pondéré vers les thèmes faibles ou peu joués, en évitant de reprendre le thème précédent ; dans le thème, le cas le moins récemment joué ; dans le cas, les 5 items prioritaires (jamais vus, puis ratés au dernier passage, puis réussis depuis longtemps ; chaque réussite parfaite d'affilée espace le retour), jamais deux fois la même série, remis dans l'ordre du fichier.
+- **Correction** après chaque item (bonnes réponses, `why` sous chaque proposition, `explication`, `source`), puis note, rappel de la reco du cas (`reco`, dossier) et cartes Recos « Pour réviser » (tags communs ; série isolée : tags des questions ratées).
+- **Suivi** (`STATE.qcm`, inclus dans la sauvegarde) : chaque QCM terminé (un QCM abandonné n'est pas noté). Accueil QCM : moyenne de la session (QCM espacés de moins de 30 min) et sur 7 jours, sessions récentes. Onglet Progrès (qui accueille aussi les Favoris) : radar des notes par thème (10 dernières notes du thème ; une série isolée donne une sous-note par thème rencontré, `mods` ; pointillés : 7 derniers jours).
 
-### Format : `QCM/<thème>.json`
+### Format d'un QCM isolé : `QCM/isoles_<thème>.json`
+
+Un tableau de questions, sans `items` (c'est ce qui les distingue d'un dossier). Un fichier par module.
+
+```json
+{
+  "id": "iso_hyperkaliemie",
+  "module": "Réanimation médicale",
+  "enonce": "Optionnel : courte vignette, **valeurs anormales en gras**.",
+  "question": "Quels traitements sont adaptés en urgence ?",
+  "propositions": [
+    { "texte": "…", "vrai": true, "why": "Pourquoi c'est juste, sourcé." },
+    { "texte": "…", "vrai": false, "why": "Pourquoi c'est faux." }
+  ],
+  "explication": "Message à retenir.",
+  "source": "ERC 2021",
+  "tags": ["hyperkaliémie"]
+}
+```
+
+- `id` préfixé `iso_`, unique parmi tous les QCM (isolés et dossiers) ; ne jamais le renommer.
+- Mêmes règles que les items de dossier : **5 propositions**, au moins une juste, `why` sur chacune, nombre de bonnes réponses varié (1 à 5) d'une question à l'autre ; question autonome (tout ce qu'il faut savoir est dans `enonce` et `question`). Les questions à réponse unique (calcul, dose, étude) sont bienvenues.
+- Pas de doublon de fond avec une autre question isolée ; un recouvrement avec un item de dossier est admis (format différent).
+
+### Format d'un dossier progressif : `QCM/<thème>.json`
 
 Un fichier = un tableau de cas (ou un cas seul). Regrouper les cas d'un même module dans un fichier.
 
@@ -492,11 +522,24 @@ Un fichier = un tableau de cas (ou un cas seul). Regrouper les cas d'un même mo
 python3 - <<'EOF'
 import json, glob
 MODULES = {"Posologies", "Échographie", "Hémostase & transfusion", "Sepsis & infectiologie", "Réanimation médicale", "Soins quotidiens en réa", "Culture & histoire", "Hémodynamique & cardiologie", "Ventilation & oxygénation", "Anesthésie peropératoire", "Urgences & déchocage", "Grandes études", "Idées reçues", "Physiologie", "Éthique & droit", "Voies aériennes", "Neuro-réanimation", "Arrêt cardiaque", "ALR & douleur", "Obstétrique", "Évaluation préopératoire", "Pédiatrie"}
-ids, n = set(), 0
+ids, n, niso = set(), 0, 0
 for f in sorted(glob.glob("QCM/*.json")):
     data = json.load(open(f, encoding="utf-8"))
     for c in (data if isinstance(data, list) else [data]):
         w = f"{f} [{c.get('id')}]"
+        if "items" not in c:
+            # QCM isolé
+            for k in ("id", "module", "question", "explication", "source", "tags"):
+                assert c.get(k), f"{w} : champ {k} manquant (QCM isolé)"
+            assert c["id"] not in ids, f"{w} : id en double"
+            ids.add(c["id"]); niso += 1
+            assert c["module"] in MODULES and isinstance(c["tags"], list), f"{w} : module inconnu / tags (liste)"
+            P = c.get("propositions", [])
+            assert len(P) == 5 and all(p.get("texte") and isinstance(p.get("vrai"), bool) and p.get("why") for p in P), f"{w} : 5 propositions texte / vrai / why"
+            assert any(p["vrai"] for p in P), f"{w} : au moins une proposition juste"
+            for t in [c.get("enonce", ""), c["question"]] + [p["texte"] for p in P]:
+                assert t.count("**") % 2 == 0, f"{w} : ** non fermé"
+            continue
         for k in ("id", "module", "titre", "source", "reco", "cas", "tags", "items"):
             assert c.get(k), f"{w} : champ {k} manquant"
         assert c["id"] not in ids, f"{w} : id de cas en double"
@@ -516,7 +559,7 @@ for f in sorted(glob.glob("QCM/*.json")):
             for t in [c["cas"], it.get("complement", ""), it["question"]] + [p["texte"] for p in P]:
                 assert t.count("**") % 2 == 0, f"{wi} : ** non fermé"
             n += 1
-print(f"{len(ids)} cas, {n} items : OK")
+print(f"{len(ids) - niso} cas, {n} items, {niso} QCM isolés : OK")
 EOF
 ```
 

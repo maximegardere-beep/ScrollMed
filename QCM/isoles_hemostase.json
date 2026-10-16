@@ -1,0 +1,197 @@
+[
+ {
+  "id": "iso_seuils_transfusion",
+  "module": "Hémostase & transfusion",
+  "question": "Seuils transfusionnels en réanimation : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Sans comorbidité, un seuil d'hémoglobine de 7 g/dL est recommandé.",
+    "vrai": true,
+    "why": "TRICC 1999 : stratégie restrictive (7 g/dL) non inférieure."
+   },
+   {
+    "texte": "Dans le choc septique, un seuil de 9 g/dL réduit la mortalité par rapport à 7 g/dL.",
+    "vrai": false,
+    "why": "TRISS 2014 : pas de différence de mortalité, moitié moins de CGR avec 7 g/dL."
+   },
+   {
+    "texte": "Dans l'hémorragie digestive haute, la stratégie restrictive (7 g/dL) améliore la survie.",
+    "vrai": true,
+    "why": "Villanueva 2013 : moins de décès et de récidives hémorragiques."
+   },
+   {
+    "texte": "Chez un adulte de 70 kg, un CGR élève l'hémoglobine d'environ 3 g/dL.",
+    "vrai": false,
+    "why": "Environ 1 g/dL, en l'absence de saignement actif."
+   },
+   {
+    "texte": "Le seuil est le même pour un patient en hémorragie massive active.",
+    "vrai": false,
+    "why": "En hémorragie active, on transfuse sur la clinique et le débit du saignement, pas sur un seuil."
+   }
+  ],
+  "explication": "Restrictif par défaut : 7 g/dL (TRICC, TRISS, hémorragie digestive). Pas de seuil dans l'hémorragie active.",
+  "source": "TRICC 1999 ; Villanueva 2013 ; TRISS 2014",
+  "tags": [
+   "transfusion",
+   "CGR",
+   "anémie"
+  ]
+ },
+ {
+  "id": "iso_avk_reversal",
+  "module": "Hémostase & transfusion",
+  "question": "Hémorragie grave sous AVK (INR 4,2) : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Concentré de complexe prothrombinique (CCP) 25 UI/kg.",
+    "vrai": true,
+    "why": "HAS 2008 : CCP 25 UI/kg (ou dose adaptée à l'INR)."
+   },
+   {
+    "texte": "Vitamine K 10 mg en association.",
+    "vrai": true,
+    "why": "Elle prend le relais du CCP, dont l'effet est bref."
+   },
+   {
+    "texte": "Le plasma frais congelé n'est utilisé qu'en l'absence de CCP.",
+    "vrai": true,
+    "why": "Moins efficace, volume important : seulement si le CCP est indisponible."
+   },
+   {
+    "texte": "Il faut attendre le résultat de l'INR pour administrer le CCP.",
+    "vrai": false,
+    "why": "En cas d'hémorragie grave, on n'attend pas l'INR si le patient est sous AVK."
+   },
+   {
+    "texte": "On contrôle l'INR 30 minutes après le CCP, objectif < 1,5.",
+    "vrai": true,
+    "why": "HAS 2008 : contrôle à 30 min, objectif INR < 1,5."
+   }
+  ],
+  "explication": "Hémorragie grave sous AVK : CCP 25 UI/kg + vitamine K 10 mg, sans attendre l'INR ; contrôle à 30 min.",
+  "source": "HAS, recommandations surdosage en AVK 2008",
+  "tags": [
+   "AVK",
+   "CCP",
+   "hémorragie"
+  ]
+ },
+ {
+  "id": "iso_aod_reversal",
+  "module": "Hémostase & transfusion",
+  "question": "Hémorragie grave sous anticoagulant oral direct : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Sous dabigatran, l'antidote spécifique est l'idarucizumab, 5 g IV.",
+    "vrai": true,
+    "why": "RE-VERSE AD : réversion immédiate."
+   },
+   {
+    "texte": "Le dabigatran est partiellement épurable par hémodialyse.",
+    "vrai": true,
+    "why": "Faible liaison protéique : dialysable, contrairement aux anti-Xa."
+   },
+   {
+    "texte": "L'apixaban est éliminé efficacement par hémodialyse.",
+    "vrai": false,
+    "why": "Forte liaison protéique : non dialysable."
+   },
+   {
+    "texte": "Sous anti-Xa, le CCP (environ 50 UI/kg) est une option en l'absence d'antidote.",
+    "vrai": true,
+    "why": "GIHP : CCP 50 UI/kg si l'andexanet alfa n'est pas disponible."
+   },
+   {
+    "texte": "Le dosage spécifique de l'AOD n'a aucun intérêt dans cette situation.",
+    "vrai": false,
+    "why": "GIHP : il guide la réversion (souvent seuil de 50 ng/mL pour une hémorragie grave)."
+   }
+  ],
+  "explication": "Dabigatran : idarucizumab (dialysable). Anti-Xa : andexanet ou CCP 50 UI/kg. Doser l'AOD.",
+  "source": "GIHP, propositions 2016 ; RE-VERSE AD 2017",
+  "tags": [
+   "AOD",
+   "anticoagulant",
+   "hémorragie"
+  ]
+ },
+ {
+  "id": "iso_tih",
+  "module": "Hémostase & transfusion",
+  "question": "Thrombopénie induite par l'héparine (TIH) de type II : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Elle survient typiquement entre le 5e et le 10e jour d'héparine.",
+    "vrai": true,
+    "why": "Délai typique (plus tôt en cas d'exposition récente)."
+   },
+   {
+    "texte": "Le score 4T estime la probabilité clinique.",
+    "vrai": true,
+    "why": "Thrombopénie, Timing, Thromboses, autres causes."
+   },
+   {
+    "texte": "Le risque principal est hémorragique.",
+    "vrai": false,
+    "why": "Le risque est thrombotique (artériel et veineux), malgré la thrombopénie."
+   },
+   {
+    "texte": "Une transfusion de plaquettes systématique est recommandée.",
+    "vrai": false,
+    "why": "Elle peut aggraver les thromboses : réservée à un saignement grave."
+   },
+   {
+    "texte": "Le relais par AVK est débuté dès le diagnostic.",
+    "vrai": false,
+    "why": "Risque de nécrose cutanée : attendre une remontée des plaquettes (> 150 G/L)."
+   }
+  ],
+  "explication": "TIH : thrombotique. Arrêter toute héparine, anticoagulant non hépariné (argatroban, danaparoïde…), AVK seulement après correction.",
+  "source": "ASH 2018 ; GFHT 2019",
+  "tags": [
+   "TIH",
+   "héparine",
+   "thrombopénie"
+  ]
+ },
+ {
+  "id": "iso_trauma_hemorragie",
+  "module": "Hémostase & transfusion",
+  "question": "Choc hémorragique traumatique sans traumatisme crânien : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Objectif de PAS de 80 à 90 mmHg tant que le saignement n'est pas contrôlé.",
+    "vrai": true,
+    "why": "Hypotension permissive (guide européen 2023)."
+   },
+   {
+    "texte": "Fibrinogène si la fibrinogénémie est inférieure à 1,5 g/L.",
+    "vrai": true,
+    "why": "Guide européen 2023 : seuil 1,5 g/L (ou signes viscoélastiques)."
+   },
+   {
+    "texte": "Un ratio PFC/CGR d'au moins 1/2 est recommandé.",
+    "vrai": true,
+    "why": "Guide européen 2023 : PFC/CGR ≥ 1:2 dans la transfusion massive."
+   },
+   {
+    "texte": "L'hypocalcémie ionisée n'a pas de conséquence et n'est pas surveillée.",
+    "vrai": false,
+    "why": "Elle aggrave la coagulopathie et l'hémodynamique : surveiller et corriger."
+   },
+   {
+    "texte": "La noradrénaline est contre-indiquée.",
+    "vrai": false,
+    "why": "Elle peut compléter le remplissage pour tenir l'objectif tensionnel."
+   }
+  ],
+  "explication": "Hypotension permissive (PAS 80-90 sans TC), PFC/CGR ≥ 1:2, fibrinogène < 1,5 g/L, calcium, acide tranexamique.",
+  "source": "Rossaint et al., guide européen du traumatisé qui saigne 2023",
+  "tags": [
+   "trauma",
+   "transfusion massive",
+   "fibrinogène"
+  ]
+ }
+]

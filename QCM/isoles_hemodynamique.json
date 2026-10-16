@@ -1,0 +1,198 @@
+[
+ {
+  "id": "iso_precharge",
+  "module": "Hémodynamique & cardiologie",
+  "question": "Évaluer la précharge-dépendance : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le lever de jambes passif est fiable en ventilation spontanée comme en rythme irrégulier.",
+    "vrai": true,
+    "why": "Il ne dépend ni de la ventilation ni du rythme (mesure d'un débit en temps réel)."
+   },
+   {
+    "texte": "La variation de pression pulsée exige ventilation contrôlée, rythme sinusal et Vt d'au moins 8 mL/kg.",
+    "vrai": true,
+    "why": "Conditions de validité de la VPP."
+   },
+   {
+    "texte": "Une PVC basse prédit une réponse au remplissage.",
+    "vrai": false,
+    "why": "La PVC ne prédit pas la réponse au remplissage."
+   },
+   {
+    "texte": "Une VPP de 15 % est fiable chez un patient qui déclenche son respirateur.",
+    "vrai": false,
+    "why": "La respiration spontanée l'invalide."
+   },
+   {
+    "texte": "Le test d'occlusion télé-expiratoire est une alternative chez le patient ventilé.",
+    "vrai": true,
+    "why": "Hausse du débit ≥ 5 % après 15 s d'occlusion."
+   }
+  ],
+  "explication": "Lever de jambes : toujours utilisable. VPP : ventilation contrôlée, sinusal, Vt ≥ 8 mL/kg. PVC : non.",
+  "source": "Monnet & Teboul, Ann Intensive Care 2016 ; SSC 2021",
+  "tags": [
+   "remplissage",
+   "précharge",
+   "hémodynamique"
+  ]
+ },
+ {
+  "id": "iso_vti",
+  "module": "Hémodynamique & cardiologie",
+  "question": "VTI sous-aortique à l'échocardiographie : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Il se mesure en Doppler pulsé, en coupe apicale 5 cavités, dans la chambre de chasse du VG.",
+    "vrai": true,
+    "why": "Échantillon juste sous la valve aortique."
+   },
+   {
+    "texte": "Débit cardiaque = VTI × surface de la chambre de chasse × FC.",
+    "vrai": true,
+    "why": "VES = VTI × π (D/2)²."
+   },
+   {
+    "texte": "Une hausse du VTI d'au moins 10 % au lever de jambes signe la précharge-dépendance.",
+    "vrai": true,
+    "why": "Seuil usuel : 10 à 15 %."
+   },
+   {
+    "texte": "Il se mesure en Doppler continu sur la valve mitrale.",
+    "vrai": false,
+    "why": "Ce serait le flux transmitral (remplissage), pas l'éjection."
+   },
+   {
+    "texte": "Un VTI de 8 cm est normal.",
+    "vrai": false,
+    "why": "Normal ≈ 18 à 22 cm ; < 10-12 cm évoque un bas débit."
+   }
+  ],
+  "explication": "VTI sous-aortique : Doppler pulsé apicale 5 cavités, normal ≈ 20 cm, suivi du débit au lit.",
+  "source": "ASE/EACVI 2016 ; Monnet 2016",
+  "tags": [
+   "échographie",
+   "VTI",
+   "débit cardiaque"
+  ]
+ },
+ {
+  "id": "iso_choc_cardio",
+  "module": "Hémodynamique & cardiologie",
+  "question": "Choc cardiogénique compliquant un infarctus : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La coronarographie avec revascularisation de l'artère coupable est urgente.",
+    "vrai": true,
+    "why": "SHOCK 1999 ; ESC 2023."
+   },
+   {
+    "texte": "La revascularisation de toutes les lésions coronaires d'emblée est recommandée.",
+    "vrai": false,
+    "why": "CULPRIT-SHOCK 2017 : l'artère coupable seule fait mieux."
+   },
+   {
+    "texte": "L'ECMO veino-artérielle systématique réduit la mortalité.",
+    "vrai": false,
+    "why": "ECLS-SHOCK 2023 : pas de bénéfice, plus de complications."
+   },
+   {
+    "texte": "Le ballon de contre-pulsion intra-aortique en routine est recommandé.",
+    "vrai": false,
+    "why": "IABP-SHOCK II 2012 : pas de bénéfice."
+   },
+   {
+    "texte": "L'Impella CP a réduit la mortalité à 6 mois dans le choc d'un STEMI (DanGer Shock).",
+    "vrai": true,
+    "why": "DanGer Shock 2024, au prix de plus de complications (saignements, ischémie de membre)."
+   }
+  ],
+  "explication": "Choc d'un STEMI : artère coupable seule ; pas d'ECMO ni de ballon systématiques.",
+  "source": "CULPRIT-SHOCK 2017 ; ECLS-SHOCK 2023 ; DanGer Shock 2024 ; ESC 2023",
+  "tags": [
+   "choc cardiogénique",
+   "SCA",
+   "assistance"
+  ]
+ },
+ {
+  "id": "iso_fa_instable",
+  "module": "Hémodynamique & cardiologie",
+  "enonce": "Femme de 75 ans, **FA à 170/min**, **PAS 72 mmHg**, marbrures, confuse.",
+  "question": "Quelle conduite est adaptée en premier ?",
+  "propositions": [
+   {
+    "texte": "Cardioversion électrique synchronisée sous brève anesthésie.",
+    "vrai": true,
+    "why": "ESC 2024 : FA mal tolérée hémodynamiquement."
+   },
+   {
+    "texte": "Cardioversion non synchronisée.",
+    "vrai": false,
+    "why": "Le choc doit être synchronisé sur l'onde R (risque de FV)."
+   },
+   {
+    "texte": "Anticoagulation avant le choc, si elle ne le retarde pas.",
+    "vrai": true,
+    "why": "ESC 2024 : héparine dès que possible, sans retarder la cardioversion urgente."
+   },
+   {
+    "texte": "Bêtabloquant IV à forte dose en première intention.",
+    "vrai": false,
+    "why": "Instabilité : choc électrique d'abord ; les bêtabloquants aggravent une défaillance cardiaque."
+   },
+   {
+    "texte": "Échographie transœsophagienne obligatoire avant tout choc.",
+    "vrai": false,
+    "why": "Pas dans l'urgence vitale."
+   }
+  ],
+  "explication": "Tachyarythmie instable : choc synchronisé sans attendre, anticoagulation sans retard.",
+  "source": "ESC, fibrillation atriale 2024",
+  "tags": [
+   "FA",
+   "cardioversion",
+   "arythmie"
+  ]
+ },
+ {
+  "id": "iso_embolie_pulmonaire",
+  "module": "Hémodynamique & cardiologie",
+  "question": "Embolie pulmonaire : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La thrombolyse est indiquée dans l'EP à haut risque (choc ou hypotension).",
+    "vrai": true,
+    "why": "ESC 2019, classe I."
+   },
+   {
+    "texte": "Dans l'EP à risque intermédiaire-élevé, la thrombolyse d'emblée est systématique.",
+    "vrai": false,
+    "why": "PEITHO 2014 : moins de décompensations, plus d'hémorragies graves. Thrombolyse de sauvetage seulement."
+   },
+   {
+    "texte": "L'héparine non fractionnée est préférée si une thrombolyse ou une reperfusion est envisagée.",
+    "vrai": true,
+    "why": "Demi-vie courte, antagonisable."
+   },
+   {
+    "texte": "Le remplissage massif est le traitement de la défaillance du VD.",
+    "vrai": false,
+    "why": "Prudent (≤ 500 mL) : il dilate le VD et comprime le VG."
+   },
+   {
+    "texte": "Le score de Wells sert à stratifier le pronostic.",
+    "vrai": false,
+    "why": "Il estime la probabilité clinique d'EP. Le pronostic : sPESI, dysfonction VD, troponine."
+   }
+  ],
+  "explication": "EP grave : thrombolyse si haut risque, HNF si reperfusion possible, remplissage prudent.",
+  "source": "ESC, embolie pulmonaire 2019 ; PEITHO 2014",
+  "tags": [
+   "embolie pulmonaire",
+   "thrombolyse",
+   "VD"
+  ]
+ }
+]

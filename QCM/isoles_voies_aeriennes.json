@@ -1,0 +1,158 @@
+[
+ {
+  "id": "iso_preoxygenation",
+  "module": "Voies aériennes",
+  "question": "Préoxygénation : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "L'objectif est une fraction expirée d'O₂ ≥ 90 %.",
+    "vrai": true,
+    "why": "RFE SFAR 2017 : FeO₂ ≥ 0,9."
+   },
+   {
+    "texte": "3 minutes en ventilation courante ou 8 inspirations profondes en 1 minute.",
+    "vrai": true,
+    "why": "Deux méthodes validées."
+   },
+   {
+    "texte": "La VNI améliore la préoxygénation chez le patient hypoxémique.",
+    "vrai": true,
+    "why": "Baillard 2006 ; PREOXI 2024 : moins d'hypoxémie à l'intubation."
+   },
+   {
+    "texte": "La position proclive allonge le temps d'apnée sans désaturation, surtout chez l'obèse.",
+    "vrai": true,
+    "why": "Augmente la CRF."
+   },
+   {
+    "texte": "L'O₂ nasal pendant l'apnée (oxygénation apnéique) prolonge le délai de désaturation.",
+    "vrai": true,
+    "why": "Oxygénation apnéique : utile, surtout en cas d'intubation difficile prévue."
+   }
+  ],
+  "explication": "Préoxygénation : FeO₂ ≥ 0,9, proclive, VNI si hypoxémique, O₂ nasal pendant l'apnée.",
+  "source": "SFAR, RFE intubation difficile 2017 ; PREOXI, NEJM 2024",
+  "tags": [
+   "préoxygénation",
+   "intubation",
+   "hypoxémie"
+  ]
+ },
+ {
+  "id": "iso_cico",
+  "module": "Voies aériennes",
+  "question": "Situation « ni intubable, ni ventilable » (CICO) : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La cricothyroïdotomie chirurgicale scalpel-bougie-sonde est la technique recommandée.",
+    "vrai": true,
+    "why": "DAS 2015, plan D."
+   },
+   {
+    "texte": "Il faut attendre la bradycardie pour déclarer la situation CICO.",
+    "vrai": false,
+    "why": "La décision se prend sur l'échec des plans A à C, avant l'ACR hypoxique."
+   },
+   {
+    "texte": "Un dispositif supraglottique de 2e génération est le plan B après l'échec d'intubation.",
+    "vrai": true,
+    "why": "DAS 2015 : 3 essais maximum."
+   },
+   {
+    "texte": "La jet-ventilation à l'aiguille fine est la technique de 1re intention.",
+    "vrai": false,
+    "why": "Taux d'échec et barotraumatisme élevés."
+   },
+   {
+    "texte": "Appeler à l'aide dès le premier échec d'intubation.",
+    "vrai": true,
+    "why": "Dès le premier échec."
+   }
+  ],
+  "explication": "CICO : déclarer, curariser complètement, cricothyroïdotomie scalpel-bougie-sonde.",
+  "source": "Difficult Airway Society 2015 ; SFAR 2017",
+  "tags": [
+   "intubation difficile",
+   "CICO",
+   "cricothyroïdotomie"
+  ]
+ },
+ {
+  "id": "iso_ventilation_masque",
+  "module": "Voies aériennes",
+  "question": "Quels facteurs prédisent une ventilation au masque difficile ?",
+  "propositions": [
+   {
+    "texte": "Barbe.",
+    "vrai": true,
+    "why": "Facteur de Langeron."
+   },
+   {
+    "texte": "IMC > 26 kg/m².",
+    "vrai": true,
+    "why": "Facteur de Langeron."
+   },
+   {
+    "texte": "Absence de dents.",
+    "vrai": true,
+    "why": "Facteur de Langeron."
+   },
+   {
+    "texte": "Ronflement ou SAOS.",
+    "vrai": true,
+    "why": "Facteur de Langeron."
+   },
+   {
+    "texte": "Mallampati I.",
+    "vrai": false,
+    "why": "Un Mallampati élevé (III-IV) est un facteur de risque ; I est rassurant."
+   }
+  ],
+  "explication": "Ventilation au masque difficile : barbe, IMC > 26, édentation, âge > 55 ans, ronflement (≥ 2 critères).",
+  "source": "Langeron, Anesthesiology 2000 ; SFAR 2017",
+  "tags": [
+   "intubation difficile",
+   "masque facial",
+   "évaluation"
+  ]
+ },
+ {
+  "id": "iso_capnographie_iot",
+  "module": "Voies aériennes",
+  "question": "Confirmer la position de la sonde d'intubation : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La capnographie (6 cycles d'EtCO₂ stables) est la méthode de référence.",
+    "vrai": true,
+    "why": "SFAR 2017 ; « no trace = wrong place »."
+   },
+   {
+    "texte": "Pendant un arrêt cardiaque, un tracé de capnographie présent confirme la position trachéale.",
+    "vrai": true,
+    "why": "Même en bas débit, le tracé existe pendant la RCP."
+   },
+   {
+    "texte": "L'auscultation seule suffit à confirmer l'intubation trachéale.",
+    "vrai": false,
+    "why": "Peu fiable."
+   },
+   {
+    "texte": "La désaturation est un signe précoce d'intubation œsophagienne.",
+    "vrai": false,
+    "why": "Signe tardif, surtout après préoxygénation."
+   },
+   {
+    "texte": "La radiographie thoracique confirme que la sonde n'est pas dans l'œsophage.",
+    "vrai": false,
+    "why": "Elle vérifie la hauteur de la sonde, pas son entrée dans la trachée."
+   }
+  ],
+  "explication": "Pas de courbe de capnographie = sonde œsophagienne jusqu'à preuve du contraire.",
+  "source": "SFAR, RFE intubation difficile 2017 ; ERC 2021",
+  "tags": [
+   "capnographie",
+   "intubation",
+   "sécurité"
+  ]
+ }
+]

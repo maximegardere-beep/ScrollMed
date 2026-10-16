@@ -1,0 +1,80 @@
+[
+ {
+  "id": "iso_pavm",
+  "module": "Soins quotidiens en réa",
+  "question": "Prévention de la pneumonie acquise sous ventilation mécanique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Position semi-assise (tête surélevée de 30 à 45°).",
+    "vrai": true,
+    "why": "SFAR/SRLF 2017."
+   },
+   {
+    "texte": "Pression du ballonnet entre 20 et 30 cmH₂O.",
+    "vrai": true,
+    "why": "Fuites sous 20, lésions trachéales au-dessus de 30."
+   },
+   {
+    "texte": "L'aspiration des sécrétions sous-glottiques diminue les PAVM.",
+    "vrai": true,
+    "why": "Sondes à aspiration sous-glottique (SFAR/SRLF 2017)."
+   },
+   {
+    "texte": "Le changement systématique des circuits du respirateur réduit les PAVM.",
+    "vrai": false,
+    "why": "Seulement s'ils sont souillés ou défectueux."
+   },
+   {
+    "texte": "Une sédation profonde systématique prévient les PAVM.",
+    "vrai": false,
+    "why": "Elle prolonge la ventilation : sédation minimale et sevrage précoce."
+   }
+  ],
+  "explication": "PAVM : proclive, ballonnet 20-30, aspiration sous-glottique, sédation minimale, sevrage précoce.",
+  "source": "RFE SFAR/SRLF, pneumonies associées aux soins de réanimation 2017",
+  "tags": [
+   "PAVM",
+   "prévention",
+   "ventilation"
+  ]
+ },
+ {
+  "id": "iso_ktc",
+  "module": "Soins quotidiens en réa",
+  "question": "Prévention des infections sur cathéter veineux central : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le site sous-clavier est associé à moins d'infections que les sites jugulaire et fémoral.",
+    "vrai": true,
+    "why": "3SITE 2015 (plus de pneumothorax)."
+   },
+   {
+    "texte": "L'antisepsie par chlorhexidine alcoolique 2 % est supérieure à la povidone iodée alcoolique.",
+    "vrai": true,
+    "why": "CLEAN 2015."
+   },
+   {
+    "texte": "Un pansement imprégné de chlorhexidine réduit les infections.",
+    "vrai": true,
+    "why": "Timsit 2009, 2012."
+   },
+   {
+    "texte": "Le cathéter est changé systématiquement tous les 7 jours.",
+    "vrai": false,
+    "why": "Pas de changement systématique."
+   },
+   {
+    "texte": "Le site jugulaire interne est recommandé pour réduire le risque infectieux.",
+    "vrai": false,
+    "why": "Le sous-clavier fait mieux ; l'échoguidage limite les complications mécaniques."
+   }
+  ],
+  "explication": "KTC : sous-clavier, chlorhexidine alcoolique, pansement à la chlorhexidine, pas de changement systématique.",
+  "source": "3SITE 2015 ; CLEAN 2015 ; SF2H 2019",
+  "tags": [
+   "KTC",
+   "infection",
+   "cathéter"
+  ]
+ }
+]

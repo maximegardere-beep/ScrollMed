@@ -1,0 +1,119 @@
+[
+ {
+  "id": "iso_rcp_qualite",
+  "module": "Arrêt cardiaque",
+  "question": "RCP de qualité chez l'adulte : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Compressions de 5 à 6 cm de profondeur.",
+    "vrai": true,
+    "why": "ERC 2021."
+   },
+   {
+    "texte": "Fréquence de 100 à 120 compressions par minute.",
+    "vrai": true,
+    "why": "ERC 2021."
+   },
+   {
+    "texte": "Relâchement complet du thorax entre deux compressions.",
+    "vrai": true,
+    "why": "Pour le remplissage cardiaque."
+   },
+   {
+    "texte": "Rapport 30 compressions pour 2 insufflations avant l'intubation.",
+    "vrai": true,
+    "why": "Puis compressions continues à 100-120/min et 10 insufflations/min une fois intubé."
+   },
+   {
+    "texte": "Interruptions les plus brèves possible, moins de 10 secondes pour l'analyse du rythme.",
+    "vrai": true,
+    "why": "Pause préchoc < 5 s si possible ; relais du masseur toutes les 2 min."
+   }
+  ],
+  "explication": "RCP : 5-6 cm, 100-120/min, relâchement complet, 30:2, interruptions minimales.",
+  "source": "ERC 2021, réanimation de l'adulte",
+  "tags": [
+   "RCP",
+   "ACR",
+   "compressions"
+  ]
+ },
+ {
+  "id": "iso_causes_reversibles",
+  "module": "Arrêt cardiaque",
+  "question": "Parmi les causes réversibles d'arrêt cardiaque (4H, 4T), lesquelles font partie des « 4T » ?",
+  "propositions": [
+   {
+    "texte": "Tamponnade.",
+    "vrai": true,
+    "why": "4T : thrombose (coronaire ou pulmonaire), pneumothorax suffocant (tension), tamponnade, toxiques."
+   },
+   {
+    "texte": "Toxiques.",
+    "vrai": true,
+    "why": "Idem."
+   },
+   {
+    "texte": "Thrombose coronaire ou pulmonaire.",
+    "vrai": true,
+    "why": "Idem."
+   },
+   {
+    "texte": "Tachycardie sinusale.",
+    "vrai": false,
+    "why": "Ce n'est pas une cause d'arrêt."
+   },
+   {
+    "texte": "Pneumothorax suffocant (sous tension).",
+    "vrai": true,
+    "why": "Le « T » de tension. Les 4H : hypoxie, hypovolémie, hypo/hyperkaliémie et troubles métaboliques, hypo/hyperthermie."
+   }
+  ],
+  "explication": "4H : hypoxie, hypovolémie, hypo/hyperkaliémie-métabolique, hypothermie. 4T : thrombose, tension (pneumothorax), tamponnade, toxiques.",
+  "source": "ERC 2021, réanimation de l'adulte",
+  "tags": [
+   "ACR",
+   "causes réversibles",
+   "4H4T"
+  ]
+ },
+ {
+  "id": "iso_post_racs",
+  "module": "Arrêt cardiaque",
+  "question": "Après un retour à une circulation spontanée : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Prévenir la fièvre (> 37,7 °C) pendant au moins 72 heures.",
+    "vrai": true,
+    "why": "ERC-ESICM 2021, après TTM2."
+   },
+   {
+    "texte": "Une hypothermie à 33 °C est obligatoire chez tout patient comateux.",
+    "vrai": false,
+    "why": "TTM2 2021 : pas de différence entre 33 °C et la prévention de la fièvre."
+   },
+   {
+    "texte": "Une PAM supérieure à 65 mmHg est visée.",
+    "vrai": true,
+    "why": "ERC-ESICM 2021."
+   },
+   {
+    "texte": "Une coronarographie immédiate est indiquée chez tout patient sans sus-décalage du ST.",
+    "vrai": false,
+    "why": "COACT 2019, TOMAHAWK 2021 : pas de bénéfice de la stratégie immédiate."
+   },
+   {
+    "texte": "Le pronostic neurologique est établi dès la 24e heure.",
+    "vrai": false,
+    "why": "Pas avant 72 h, de façon multimodale, sédation levée."
+   }
+  ],
+  "explication": "Post-ACR : éviter la fièvre 72 h, PAM > 65, SpO₂ 94-98 %, coronarographie immédiate si sus-ST, pronostic à 72 h ou plus.",
+  "source": "ERC-ESICM 2021 ; TTM2 2021 ; TOMAHAWK 2021",
+  "tags": [
+   "post-ACR",
+   "température",
+   "pronostic"
+  ]
+ }
+]

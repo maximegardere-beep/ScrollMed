@@ -1,0 +1,236 @@
+[
+ {
+  "id": "iso_hyperthermie_maligne",
+  "module": "Anesthésie peropératoire",
+  "question": "Hyperthermie maligne : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "L'élévation inexpliquée de l'EtCO₂ est un signe précoce.",
+    "vrai": true,
+    "why": "Hypermétabolisme : premier signe souvent, avant la fièvre."
+   },
+   {
+    "texte": "Dantrolène 2,5 mg/kg IV, renouvelé jusqu'au contrôle.",
+    "vrai": true,
+    "why": "EMHG / SFAR."
+   },
+   {
+    "texte": "Les halogénés sont arrêtés et le circuit purgé (ou filtres à charbon).",
+    "vrai": true,
+    "why": "Arrêt du déclencheur."
+   },
+   {
+    "texte": "Le protoxyde d'azote est un agent déclenchant.",
+    "vrai": false,
+    "why": "Seuls les halogénés et la succinylcholine sont déclenchants."
+   },
+   {
+    "texte": "La fièvre est le premier signe.",
+    "vrai": false,
+    "why": "Signe tardif : tachycardie et hypercapnie précèdent."
+   }
+  ],
+  "explication": "HM : EtCO₂ qui monte → arrêt des halogénés, dantrolène 2,5 mg/kg, refroidissement, traitement de l'hyperkaliémie.",
+  "source": "EMHG, Glahn et al. BJA 2010 ; SFAR",
+  "tags": [
+   "hyperthermie maligne",
+   "dantrolène",
+   "halogénés"
+  ]
+ },
+ {
+  "id": "iso_last",
+  "module": "Anesthésie peropératoire",
+  "question": "Toxicité systémique des anesthésiques locaux : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Émulsion lipidique 20 % : bolus de 1,5 mL/kg puis perfusion.",
+    "vrai": true,
+    "why": "ASRA 2020 / SFAR."
+   },
+   {
+    "texte": "Le propofol peut remplacer l'émulsion lipidique.",
+    "vrai": false,
+    "why": "Trop peu de lipides, effet cardiodépresseur."
+   },
+   {
+    "texte": "En cas d'ACR, les doses d'adrénaline sont réduites (≤ 1 µg/kg).",
+    "vrai": true,
+    "why": "ASRA 2020 : fortes doses délétères."
+   },
+   {
+    "texte": "La RCP peut devoir être prolongée longtemps.",
+    "vrai": true,
+    "why": "ACR souvent récupérable mais lent ; ECMO si réfractaire."
+   },
+   {
+    "texte": "L'amiodarone est contre-indiquée et la lidocaïne recommandée pour les arythmies.",
+    "vrai": false,
+    "why": "Pas de lidocaïne (autre anesthésique local) ; l'amiodarone est l'antiarythmique utilisable."
+   }
+  ],
+  "explication": "LAST : lipides 20 % 1,5 mL/kg, adrénaline ≤ 1 µg/kg, pas de lidocaïne, RCP prolongée, ECMO.",
+  "source": "ASRA, checklist LAST 2020 ; SFAR",
+  "tags": [
+   "anesthésiques locaux",
+   "LAST",
+   "intralipide"
+  ]
+ },
+ {
+  "id": "iso_apfel",
+  "module": "Anesthésie peropératoire",
+  "question": "Quels sont les facteurs de risque du score d'Apfel (nausées-vomissements postopératoires) ?",
+  "propositions": [
+   {
+    "texte": "Sexe féminin.",
+    "vrai": true,
+    "why": "Un des 4 facteurs."
+   },
+   {
+    "texte": "Non-fumeur.",
+    "vrai": true,
+    "why": "Un des 4 facteurs."
+   },
+   {
+    "texte": "Antécédent de NVPO ou de mal des transports.",
+    "vrai": true,
+    "why": "Un des 4 facteurs."
+   },
+   {
+    "texte": "Morphiniques postopératoires.",
+    "vrai": true,
+    "why": "Un des 4 facteurs."
+   },
+   {
+    "texte": "Âge > 50 ans.",
+    "vrai": false,
+    "why": "L'âge jeune est un facteur de risque, mais ne fait pas partie du score d'Apfel."
+   }
+  ],
+  "explication": "Apfel : femme, non-fumeur, ATCD NVPO / mal des transports, morphiniques postopératoires (risque ≈ 10, 20, 40, 60, 80 %).",
+  "source": "Apfel 1999 ; consensus NVPO (Gan) 2020",
+  "tags": [
+   "NVPO",
+   "score d'Apfel",
+   "prévention"
+  ]
+ },
+ {
+  "id": "iso_curarisation_residuelle",
+  "module": "Anesthésie peropératoire",
+  "question": "Curarisation résiduelle : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Un rapport T4/T1 ≥ 0,9 à l'adducteur du pouce est requis avant l'extubation.",
+    "vrai": true,
+    "why": "RFE SFAR 2018."
+   },
+   {
+    "texte": "Les signes cliniques (lever de tête 5 s) suffisent à l'exclure.",
+    "vrai": false,
+    "why": "Peu sensibles : un TOF < 0,9 passe inaperçu."
+   },
+   {
+    "texte": "Le monitorage au sourcilier surestime la récupération.",
+    "vrai": true,
+    "why": "Muscle plus résistant : il récupère plus vite que l'adducteur du pouce."
+   },
+   {
+    "texte": "La néostigmine est inefficace sur un bloc profond.",
+    "vrai": true,
+    "why": "Effet plafond : utilisable seulement avec 4 réponses au TOF."
+   },
+   {
+    "texte": "Le monitorage quantitatif est recommandé dès qu'un curare est injecté.",
+    "vrai": true,
+    "why": "RFE SFAR 2018."
+   }
+  ],
+  "explication": "Monitorage quantitatif à l'adducteur du pouce, T4/T1 ≥ 0,9 avant l'extubation.",
+  "source": "SFAR, RFE curarisation et décurarisation 2018",
+  "tags": [
+   "curares",
+   "monitorage",
+   "TOF"
+  ]
+ },
+ {
+  "id": "iso_anaphylaxie",
+  "module": "Anesthésie peropératoire",
+  "question": "Anaphylaxie peranesthésique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Grade III : adrénaline IV en bolus de 100 à 200 µg, renouvelés.",
+    "vrai": true,
+    "why": "SFAR/SFA 2011."
+   },
+   {
+    "texte": "Grade II : bolus de 10 à 20 µg.",
+    "vrai": true,
+    "why": "SFAR/SFA 2011."
+   },
+   {
+    "texte": "Un dosage de la tryptase est prélevé précocement (30 min à 2 h), puis à distance.",
+    "vrai": true,
+    "why": "Prélèvement précoce + dosage de base à plus de 24 h."
+   },
+   {
+    "texte": "Les curares sont la 1re cause d'anaphylaxie peranesthésique en France.",
+    "vrai": true,
+    "why": "GERAP : curares, antibiotiques, latex, colorants."
+   },
+   {
+    "texte": "Un antihistaminique H1 IV suffit en cas de collapsus.",
+    "vrai": false,
+    "why": "L'adrénaline est le seul traitement de 1re ligne."
+   }
+  ],
+  "explication": "Anaphylaxie : adrénaline titrée selon le grade, remplissage, tryptase, bilan allergologique à 4-6 semaines.",
+  "source": "SFAR/SFA, RFE réactions d'hypersensibilité 2011",
+  "tags": [
+   "anaphylaxie",
+   "adrénaline",
+   "allergie"
+  ]
+ },
+ {
+  "id": "iso_cam",
+  "module": "Anesthésie peropératoire",
+  "question": "Concentration alvéolaire minimale (CAM) : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La CAM du sévoflurane chez l'adulte de 40 ans est d'environ 2 %.",
+    "vrai": true,
+    "why": "≈ 2,0 à 2,1 % ; desflurane ≈ 6 %, isoflurane ≈ 1,15 %."
+   },
+   {
+    "texte": "La CAM augmente avec l'âge.",
+    "vrai": false,
+    "why": "Elle baisse d'environ 6 % par décennie."
+   },
+   {
+    "texte": "Le protoxyde d'azote diminue la CAM des halogénés.",
+    "vrai": true,
+    "why": "Effets additifs."
+   },
+   {
+    "texte": "L'hypothermie augmente la CAM.",
+    "vrai": false,
+    "why": "Elle la diminue."
+   },
+   {
+    "texte": "La CAM du desflurane est d'environ 1,2 %.",
+    "vrai": false,
+    "why": "≈ 6 % : faible liposolubilité, faible puissance."
+   }
+  ],
+  "explication": "CAM : sévoflurane ≈ 2 %, desflurane ≈ 6 %, isoflurane ≈ 1,15 % ; baisse avec l'âge, l'hypothermie, le N₂O, les morphiniques.",
+  "source": "Mapleson 1996 ; Nickalls 2003",
+  "tags": [
+   "halogénés",
+   "CAM",
+   "anesthésie"
+  ]
+ }
+]

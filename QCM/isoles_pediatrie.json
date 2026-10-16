@@ -1,0 +1,159 @@
+[
+ {
+  "id": "iso_formules",
+  "module": "Pédiatrie",
+  "question": "Formules de réanimation pédiatrique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "Le poids estimé d'un enfant de 1 à 10 ans est (âge + 4) × 2 kg.",
+    "vrai": true,
+    "why": "Formule APLS classique."
+   },
+   {
+    "texte": "Le diamètre interne d'une sonde sans ballonnet est âge/4 + 4 mm.",
+    "vrai": true,
+    "why": "Formule de Cole."
+   },
+   {
+    "texte": "Le diamètre interne d'une sonde à ballonnet est âge/4 + 5 mm.",
+    "vrai": false,
+    "why": "Âge/4 + 3,5 mm (un demi-numéro de moins que sans ballonnet)."
+   },
+   {
+    "texte": "La dose d'adrénaline en ACR est de 10 µg/kg IV ou IO.",
+    "vrai": true,
+    "why": "ERC 2021, maximum 1 mg."
+   },
+   {
+    "texte": "L'énergie d'un choc électrique externe sur une FV est de 4 J/kg.",
+    "vrai": true,
+    "why": "ERC 2021, maximum 120-150 J (énergie adulte)."
+   }
+  ],
+  "explication": "Enfant : poids (âge + 4) × 2, sonde âge/4 + 4 (+ 3,5 si ballonnet), adrénaline 10 µg/kg, choc 4 J/kg.",
+  "source": "ERC 2021, réanimation pédiatrique ; APLS",
+  "tags": [
+   "pédiatrie",
+   "ACR",
+   "intubation"
+  ]
+ },
+ {
+  "id": "iso_bronchiolite",
+  "module": "Pédiatrie",
+  "question": "Bronchiolite aiguë du nourrisson : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La désobstruction rhinopharyngée est recommandée.",
+    "vrai": true,
+    "why": "HAS 2019."
+   },
+   {
+    "texte": "Une oxygénothérapie est indiquée si la SpO₂ est inférieure à 92 %.",
+    "vrai": true,
+    "why": "HAS 2019 : seuil d'hospitalisation et d'oxygène."
+   },
+   {
+    "texte": "Le salbutamol est recommandé.",
+    "vrai": false,
+    "why": "HAS 2019 : non recommandé."
+   },
+   {
+    "texte": "La kinésithérapie respiratoire de désencombrement est recommandée chez le nourrisson hospitalisé.",
+    "vrai": false,
+    "why": "HAS 2019 : pas de bénéfice, non recommandée."
+   },
+   {
+    "texte": "Les corticoïdes réduisent la durée d'hospitalisation.",
+    "vrai": false,
+    "why": "HAS 2019 : non recommandés."
+   }
+  ],
+  "explication": "Bronchiolite : DRP, fractionnement, O₂ si SpO₂ < 92 %, pas de bronchodilatateur, de corticoïde ni de kinésithérapie systématique.",
+  "source": "HAS, bronchiolite 2019",
+  "tags": [
+   "bronchiolite",
+   "nourrisson",
+   "oxygénothérapie"
+  ]
+ },
+ {
+  "id": "iso_laryngite",
+  "module": "Pédiatrie",
+  "question": "Laryngite aiguë sous-glottique : quelles propositions sont exactes ?",
+  "propositions": [
+   {
+    "texte": "La dexaméthasone (0,15 à 0,6 mg/kg per os) est le traitement de base.",
+    "vrai": true,
+    "why": "Toutes formes, même légères."
+   },
+   {
+    "texte": "L'adrénaline nébulisée est indiquée dans les formes sévères.",
+    "vrai": true,
+    "why": "Effet rapide mais transitoire : surveillance de 2 à 4 h."
+   },
+   {
+    "texte": "Une antibiothérapie est systématique.",
+    "vrai": false,
+    "why": "Origine virale."
+   },
+   {
+    "texte": "En cas d'intubation, une sonde d'un demi-numéro inférieur est prévue.",
+    "vrai": true,
+    "why": "Œdème sous-glottique."
+   },
+   {
+    "texte": "Une radiographie cervicale est systématique.",
+    "vrai": false,
+    "why": "Diagnostic clinique."
+   }
+  ],
+  "explication": "Laryngite : dexaméthasone pour tous, adrénaline nébulisée si sévère, intubation avec une sonde plus petite.",
+  "source": "Cochrane (Gates) 2018 ; SFP",
+  "tags": [
+   "laryngite",
+   "pédiatrie",
+   "voies aériennes"
+  ]
+ },
+ {
+  "id": "iso_adrenaline_20kg",
+  "module": "Pédiatrie",
+  "enonce": "Enfant de 6 ans, **20 kg**, en asystolie. Voie intra-osseuse posée.",
+  "question": "Quelle dose d'adrénaline injecter ?",
+  "propositions": [
+   {
+    "texte": "200 µg (0,2 mg).",
+    "vrai": true,
+    "why": "10 µg/kg × 20 kg (ERC 2021)."
+   },
+   {
+    "texte": "20 µg.",
+    "vrai": false,
+    "why": "C'est 1 µg/kg : dose des bolus de l'hypotension, pas de l'ACR."
+   },
+   {
+    "texte": "1 mg.",
+    "vrai": false,
+    "why": "Dose adulte (maximum pédiatrique), soit 50 µg/kg ici."
+   },
+   {
+    "texte": "2 mg.",
+    "vrai": false,
+    "why": "Dix fois la dose."
+   },
+   {
+    "texte": "100 µg.",
+    "vrai": false,
+    "why": "5 µg/kg : sous-dosage."
+   }
+  ],
+  "explication": "ACR de l'enfant : adrénaline 10 µg/kg IV/IO (maximum 1 mg), toutes les 3 à 5 min.",
+  "source": "ERC 2021, réanimation pédiatrique",
+  "tags": [
+   "pédiatrie",
+   "ACR",
+   "adrénaline"
+  ]
+ }
+]
