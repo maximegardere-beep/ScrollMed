@@ -1,0 +1,44 @@
+[
+ {
+  "id": "pod_preoxygenation_shunt",
+  "module": "Physiologie",
+  "titre": "Préoxygénation : pourquoi le masque ne suffit pas au patient hypoxémique",
+  "resume": "Intuber une patiente obèse en pneumonie grave : réserves d'oxygène, courbe de dissociation, effet shunt et VNI de préoxygénation.",
+  "source": "RFE SFAR 2017 (intubation difficile) ; RFE SFAR/SRLF 2019 (intubation en réanimation) ; Benumof 1997 (Anesthesiology) ; PREOXI 2024 (Gibbs, NEJM)",
+  "tags": [
+   "préoxygénation",
+   "intubation",
+   "shunt",
+   "VNI",
+   "obésité"
+  ],
+  "parties": [
+   {
+    "titre": "Le cas",
+    "texte": "Réanimation, quatorze heures. Madame Girard, cinquante ans, 1 mètre 60, 115 kilos, a une pneumonie grave. Sous masque à haute concentration à 15 litres par minute, sa saturation plafonne à 91 %. Elle s'épuise, il faut l'intuber. L'interne propose trois minutes de masque facial en oxygène pur, puis l'induction. Vous l'arrêtez. Pour comprendre pourquoi, il faut parler des réserves d'oxygène."
+   },
+   {
+    "titre": "Le réservoir",
+    "texte": "Pendant l'apnée, l'organisme vit sur ses stocks. Le principal réservoir utile, c'est la capacité résiduelle fonctionnelle, le gaz qui reste dans les poumons en fin d'expiration. Chez un adulte, environ 2,5 litres.\n\nEn air ambiant, le gaz alvéolaire ne contient qu'environ 14 % d'oxygène. Le stock ne dépasse pas quelques centaines de millilitres. Avec une consommation d'environ 250 millilitres par minute, il tient à peine une à deux minutes. La préoxygénation remplace l'azote par de l'oxygène. Avec une fraction expirée d'oxygène à 90 %, le stock est multiplié par six environ.\n\nC'est pourquoi la cible est une fraction expirée d'oxygène d'au moins 90 %, lue sur le moniteur, et non une durée. Dans le modèle classique de Benumof, un adulte sain bien préoxygéné met environ huit minutes à désaturer sous 90 %. Un obèse morbide, moins de trois."
+   },
+   {
+    "titre": "La courbe qui plonge",
+    "texte": "Deuxième notion : la courbe de dissociation de l'hémoglobine. Elle a une forme de S. Au-dessus de 90 %, la saturation baisse lentement, car on descend le long du plateau. Sous 90 %, on bascule dans la pente. La saturation peut alors perdre plusieurs points en quelques secondes. Et l'oxymètre de pouls, au doigt, affiche avec un retard qui peut dépasser trente secondes. Quand le chiffre commence à chuter, l'hypoxémie réelle est déjà plus profonde.\n\nMadame Girard part à 91 %. Elle est déjà au bord de la pente. Elle n'a aucune marge."
+   },
+   {
+    "titre": "L'effet shunt",
+    "texte": "Troisième notion, la plus importante en réanimation : l'effet shunt. Dans sa pneumonie, une partie des alvéoles est remplie de liquide. Le sang qui les traverse ne rencontre jamais l'oxygène, quelle que soit la fraction inspirée. Augmenter l'oxygène n'agit que sur les alvéoles encore ventilées. Chez elle, le masque à 15 litres ne fait déjà presque plus rien.\n\nCe qui manque, c'est de la pression. Une pression expiratoire positive rouvre des alvéoles, réduit le shunt, et augmente la capacité résiduelle fonctionnelle, donc le réservoir. L'obésité aggrave tout : couchée à plat, l'abdomen repousse le diaphragme, et la capacité résiduelle fonctionnelle s'effondre.\n\nD'où la préoxygénation en ventilation non invasive. Dans l'essai PREOXI, publié en 2024 chez des adultes intubés aux urgences ou en réanimation, elle a réduit de moitié l'hypoxémie à l'intubation par rapport au masque : 9 % contre 18 %. Les recommandations françaises sur l'intubation en réanimation la proposaient déjà chez le patient hypoxémique."
+   },
+   {
+    "titre": "Le plan",
+    "texte": "Vous installez Madame Girard le buste relevé, à 25 ou 30 degrés. Ventilation non invasive en oxygène pur, avec une [PEP|pèpe] de 5 à 10, et une aide inspiratoire réglée pour un volume courant de 6 à 8 millilitres par kilo de poids prédit, pendant trois à cinq minutes. La saturation monte à 98 %, la fraction expirée d'oxygène à 88 %. L'induction se fait en séquence rapide, par un opérateur expérimenté, avec un vidéolaryngoscope. La saturation descend à 93 % au moment de l'intubation, pas plus bas.\n\nUn mot sur l'oxygénation apnéique. Même sans mouvement respiratoire, le sang prélève dans les alvéoles beaucoup plus d'oxygène qu'il n'y rejette de [CO2|CO deux]. Cette différence aspire le gaz des voies aériennes vers les alvéoles. Des lunettes à haut débit laissées en place pendant la laryngoscopie peuvent ainsi prolonger l'apnée. Mais elles ne remplacent pas une bonne préoxygénation."
+   }
+  ],
+  "retenir": [
+   "La préoxygénation vise une fraction expirée d'oxygène d'au moins 90 %, pas une durée.",
+   "Sous 90 % de saturation, on entre dans la pente de la courbe : la chute s'accélère, et l'oxymètre est en retard.",
+   "L'effet shunt rend l'oxygène seul inefficace. Il faut de la pression expiratoire positive.",
+   "Patient hypoxémique ou obèse : préoxygénation en ventilation non invasive, buste relevé."
+  ]
+ }
+]

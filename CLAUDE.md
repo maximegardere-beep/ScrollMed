@@ -8,6 +8,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
 - `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
 - `Dechocage/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json`.
+- `Podcast/` : épisodes du **mode Podcast** (onglet ♫ de la barre du bas), cours de quelques minutes lus par la synthèse vocale, synchronisés comme `Recos/`. Voir la section « Mode Podcast ». `Podcast/episodes_a_creer.md` : sujets restant à traiter.
 - `QCM/` : QCM isolés (`isoles_<thème>.json`) et dossiers progressifs du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
 - `Dechocage/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Dechocage/peaufinage.md` : plan de peaufinage du mode Déchoc (interface, réalisme, illustrations), en attente.
 
@@ -563,7 +564,83 @@ print(f"{len(ids) - niso} cas, {n} items, {niso} QCM isolés : OK")
 EOF
 ```
 
+## Mode Podcast
+
+Cours audio de 4 à 6 minutes, racontés autour d'un cas clinique, pour un interne en phase d'approfondissement. La voix est la synthèse vocale de l'appareil (`speechSynthesis`, voix française choisie dans le lecteur, mémorisée dans `STATE.podcast`) : gratuite et hors ligne, mais elle s'arrête quand l'app passe en arrière-plan ou que l'écran se verrouille (l'écran est maintenu allumé pendant la lecture, et la lecture reprend à la même phrase). Le moteur (`index.html`, fonctions `pod*`) ne contient aucune donnée médicale. Publication : règle n°1 (push direct sur `main`, pas de PR).
+
+- Lecture **phrase par phrase** (Safari coupe les textes longs) : la phrase sert d'unité pour la pause, ⏮ / ⏭, le saut à une partie ou à une phrase touchée dans le texte, et la reprise (`STATE.podcast.pos`, indice de phrase). Silences de 0,65 s entre paragraphes et 1,5 s entre parties. Vitesse ×0,9 à ×1,3.
+- Le texte s'affiche pendant la lecture, phrase en cours surlignée. Après la source, les cartes Recos « Pour réviser » (tags communs).
+- La lecture continue si l'on quitte l'onglet (icône ♫ qui pulse dans la barre du bas) ; elle se met en pause à l'ouverture du mode Déchoc.
+
+### Format d'un épisode : `Podcast/<thème>.json`
+
+Un tableau d'épisodes, un fichier par module.
+
+```json
+{
+  "id": "pod_sdra_reglages",
+  "module": "Ventilation & oxygénation",
+  "titre": "SDRA : régler le respirateur sur le poids prédit, puis retourner le patient",
+  "resume": "Une phrase affichée dans la liste des épisodes.",
+  "source": "RFE SRLF/SFAR 2019 ; PROSEVA 2013",
+  "tags": ["SDRA", "décubitus ventral"],
+  "parties": [
+    { "titre": "Le cas", "texte": "Premier paragraphe.\n\nDeuxième paragraphe, avec un [PaO2/FiO2|P sur F]." }
+  ],
+  "retenir": ["Message clé lu en dernière partie, « À retenir »."]
+}
+```
+
+- `id` préfixé `pod_`, unique ; ne jamais le renommer (la position de lecture s'y réfère).
+- `parties` : 4 à 6, dans l'ordre du récit (le cas, le raisonnement, la prise en charge, le débriefing…), titrées : les titres servent de sommaire. `\n\n` sépare deux paragraphes (silence plus long). `retenir` : 3 à 5 phrases, lues en dernière partie.
+- **Longueur** : 600 à 900 mots en tout (≈ 150 mots par minute), `retenir` compris.
+- **Écrire pour l'oreille** :
+  - phrases courtes (une idée par phrase), pas de listes, de parenthèses ni de barres obliques ; énumérer dans une phrase ;
+  - unités et symboles **en toutes lettres** : « 2 milligrammes par kilo », « 34 centimètres d'eau », « au moins 90 % » (le `%` est bien lu) ; nombres en chiffres, décimales à la française (« 0,9 ») ;
+  - `[affiché|prononcé]` quand l'écrit et l'oral diffèrent : sigle épelé ou prononcé autrement (`[PEP|pèpe]`, `[ECMO|ecmo]`, `[RYR1|R Y R 1]`), formule (`[CO2 expiré|CO deux expiré]`), nom propre étranger (`[Hughes|Hiouz]`). Un sigle qui s'épelle naturellement (SDRA, CPK) reste tel quel ;
+  - annoncer, répéter : la question du cas au début, le message clé à la fin ; transitions parlées (« Premier geste… », « Deuxième piège… »).
+- **Fond** : un cas clinique raconté (un patient, des chiffres cohérents d'une partie à l'autre), niveau approfondissement (physiopathologie, pièges, grandes études avec leurs chiffres). Mêmes exigences d'exactitude que les cartes : uniquement des recommandations, doses et résultats d'études vérifiables, jamais de source, de chiffre ni d'année inventés.
+- Cocher le sujet dans `Podcast/episodes_a_creer.md`.
+
+### Validation du mode Podcast (à lancer avant chaque commit touchant `Podcast/`)
+
+```bash
+python3 - <<'EOF'
+import json, glob, re
+MODULES = {"Posologies", "Échographie", "Hémostase & transfusion", "Sepsis & infectiologie", "Réanimation médicale", "Soins quotidiens en réa", "Culture & histoire", "Hémodynamique & cardiologie", "Ventilation & oxygénation", "Anesthésie peropératoire", "Urgences & déchocage", "Grandes études", "Idées reçues", "Physiologie", "Éthique & droit", "Voies aériennes", "Neuro-réanimation", "Arrêt cardiaque", "ALR & douleur", "Obstétrique", "Évaluation préopératoire", "Pédiatrie"}
+ALT = re.compile(r"\[([^|\]]*)\|([^\]]*)\]")
+UNIT = re.compile(r"\d\s*(mg|µg|mcg|kg|mL|ml|L|mmHg|cmH2O|mmol|mEq|UI|min|h)\b")
+ids, n = set(), 0
+for f in sorted(glob.glob("Podcast/*.json")):
+    data = json.load(open(f, encoding="utf-8"))
+    for e in (data if isinstance(data, list) else [data]):
+        w = f"{f} [{e.get('id')}]"
+        for k in ("id", "module", "titre", "source", "tags", "parties"):
+            assert e.get(k), f"{w} : champ {k} manquant"
+        assert e["id"].startswith("pod_") and e["id"] not in ids, f"{w} : id préfixé pod_ et unique"
+        ids.add(e["id"]); n += 1
+        assert e["module"] in MODULES and isinstance(e["tags"], list), f"{w} : module inconnu / tags (liste)"
+        textes = [p.get("texte", "") for p in e["parties"]] + list(e.get("retenir", []))
+        assert all(isinstance(t, str) and t.strip() for t in textes), f"{w} : partie sans texte"
+        mots = 0
+        for t in textes:
+            assert t.count("**") % 2 == 0, f"{w} : ** non fermé"
+            say = ALT.sub(r"\2", t).replace("**", "")
+            # ce que dit la voix : ni symbole ni abréviation d'unité (les écrire en toutes lettres,
+            # ou [affiché|prononcé])
+            bad = set(re.findall(r"[/()<>≥≤±→×=~\[\]|]", say))
+            assert not bad, f"{w} : symbole(s) {''.join(sorted(bad))} dans le texte lu : « {say[:80]}… »"
+            m = UNIT.search(say)
+            assert not m, f"{w} : unité abrégée « {m.group(0)} » dans le texte lu"
+            mots += len(say.split())
+        # environ 150 mots par minute : 4 à 6 minutes
+        assert 550 <= mots <= 1000, f"{w} : {mots} mots (viser 600 à 900)"
+        print(f"  {e['id']} : {mots} mots ≈ {mots / 150:.1f} min")
+print(f"{n} épisodes : OK")
+EOF
+```
+
 ## Commits
 
-- Messages en français, préfixés par la zone : `Recos : lot14, 12 cartes sur …`, `Déchoc : scénario …`, `QCM : …` ou `ScrollMed : …` pour l'app.
+- Messages en français, préfixés par la zone : `Recos : lot14, 12 cartes sur …`, `Déchoc : scénario …`, `QCM : …`, `Podcast : …` ou `ScrollMed : …` pour l'app.
 - Résumer dans le corps du message ce que contient le lot (thème, nombre de cartes, format).

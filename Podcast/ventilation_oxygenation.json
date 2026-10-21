@@ -1,0 +1,44 @@
+[
+ {
+  "id": "pod_sdra_reglages",
+  "module": "Ventilation & oxygénation",
+  "titre": "SDRA : régler le respirateur sur le poids prédit, puis retourner le patient",
+  "resume": "Pneumonie grave chez un patient obèse ventilé à 8,5 mL/kg : volume courant, pression motrice, PEP, décubitus ventral et ECMO.",
+  "source": "RFE SRLF/SFAR 2019 (SDRA) ; ARDS Network 2000 ; PROSEVA 2013 ; Amato 2015 ; ART 2017 ; EOLIA 2018",
+  "tags": [
+   "SDRA",
+   "ventilation protectrice",
+   "décubitus ventral",
+   "pression motrice",
+   "ECMO"
+  ],
+  "parties": [
+   {
+    "titre": "Le cas",
+    "texte": "Réanimation, trois heures du matin. Monsieur Moreau, cinquante-huit ans, 1 mètre 75, 110 kilos, a été intubé aux urgences pour une pneumonie à pneumocoque. À son arrivée, le respirateur est réglé à 600 millilitres de volume courant, avec une [PEP|pèpe] de 5 et une [FiO2 à 80 %|fraction inspirée d'oxygène à 80 %]. Le rapport [PaO2/FiO2|P sur F] est à 110. La radio montre des opacités bilatérales. La pression de plateau est à 34 centimètres d'eau."
+   },
+   {
+    "titre": "Le volume courant",
+    "texte": "C'est un syndrome de détresse respiratoire aiguë, un SDRA, de gravité modérée. Hypoxémie avec un rapport [PaO2/FiO2|P sur F] entre 100 et 200 sous une [PEP|pèpe] d'au moins 5. Opacités bilatérales. Installation en moins d'une semaine. Le tout non expliqué par une insuffisance cardiaque.\n\nPremier réflexe : le volume courant se calcule sur le poids prédit, pas sur le poids réel. Le poids prédit dépend de la taille et du sexe. Pour un homme, c'est [50 + 0,91 × (taille en cm − 152,4)|50, plus 0,91 fois la taille en centimètres moins 152,4]. Pour Monsieur Moreau, environ 71 kilos. Ses poumons ont la taille de ceux d'un homme de 71 kilos, quel que soit son poids. Avec 600 millilitres, il reçoit donc 8,5 millilitres par kilo de poids prédit.\n\nLa cible est de 6 millilitres par kilo, soit environ 425 millilitres. Dans l'essai de l'[ARDS Network|A R D S Network] en 2000, ce réglage a réduit la mortalité de 40 à 31 %, comparé à 12 millilitres par kilo. On accepte l'hypercapnie qui en découle, en augmentant la fréquence respiratoire, et en tolérant un pH un peu bas."
+   },
+   {
+    "titre": "Le poumon de bébé",
+    "texte": "Dans le SDRA, une grande partie du poumon est consolidée ou collabée. Le volume aéré restant est petit : c'est le concept de poumon de bébé. Le volume courant se distribue dans ce petit poumon, et la compliance mesurée reflète surtout sa taille.\n\nD'où l'intérêt de la pression motrice, la différence entre la pression de plateau et la [PEP|pèpe]. C'est en quelque sorte le volume courant rapporté au poumon réellement aéré. Dans l'analyse d'Amato, publiée en 2015, c'est la variable la plus liée à la survie. On vise une pression de plateau d'au plus 30, et une pression motrice sous 15 environ.\n\nAvec 425 millilitres et une [PEP|pèpe] à 10, la pression de plateau de Monsieur Moreau est à 27. Sa pression motrice est donc de 17. C'est encore trop."
+   },
+   {
+    "titre": "La PEP et le ventre",
+    "texte": "Pour la [PEP|pèpe], les recommandations françaises de 2019 proposent un niveau élevé dans les SDRA modérés à sévères. Mais une [PEP|pèpe] élevée n'aide que si le poumon est recrutable. Si la pression motrice baisse quand on monte la [PEP|pèpe], on recrute. Si la pression de plateau monte d'autant, on distend. Les manœuvres de recrutement systématiques ne sont pas recommandées : dans l'essai [ART|A R T], en 2017, elles augmentaient la mortalité.\n\nLe geste qui change le pronostic, c'est le décubitus ventral. Dans l'essai PROSEVA, en 2013, chez des patients avec un rapport [PaO2/FiO2|P sur F] inférieur à 150, des séances d'au moins seize heures ont abaissé la mortalité à vingt-huit jours de 33 à 16 %. Le ventre ne fait pas que rouvrir le poumon dorsal. Il rend la ventilation plus homogène, et réduit les zones surdistendues.\n\nÀ six heures du matin, malgré les réglages, le rapport [PaO2/FiO2|P sur F] de Monsieur Moreau reste à 120. Il est retourné sur le ventre. À la fin de la séance, il remonte à 190."
+   },
+   {
+    "titre": "Si cela ne suffit pas",
+    "texte": "Les curares, sur quarante-huit heures au plus, se discutent en cas d'asynchronies ou d'hypoxémie profonde. L'essai ACURASYS, en 2010, leur était favorable. L'essai ROSE, en 2019, ne l'a pas confirmé, avec une sédation plus légère dans le groupe contrôle.\n\nAu-delà, on discute l'[ECMO|ecmo] veino-veineuse. Les critères de l'essai EOLIA sont à connaître. Un rapport [PaO2/FiO2|P sur F] sous 50 pendant trois heures, ou sous 80 pendant six heures. Ou bien un pH sous 7,25 avec une [PaCO2|pression artérielle en CO deux] d'au moins 60 pendant six heures, malgré l'optimisation du respirateur. Dans EOLIA, la mortalité à soixante jours était de 35 % contre 46 %. La différence n'était pas significative, mais beaucoup de patients du groupe contrôle avaient reçu une [ECMO|ecmo] de sauvetage."
+   }
+  ],
+  "retenir": [
+   "Le volume courant se règle sur le poids prédit, calculé à partir de la taille : 6 millilitres par kilo.",
+   "Pression de plateau au plus 30, pression motrice sous 15 environ.",
+   "Rapport [PaO2/FiO2|P sur F] inférieur à 150 : décubitus ventral, en séances d'au moins seize heures.",
+   "Pas de manœuvres de recrutement systématiques. L'[ECMO|ecmo] se discute selon les critères d'EOLIA."
+  ]
+ }
+]

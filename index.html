@@ -629,6 +629,38 @@
   .qcm-row > b{ white-space:nowrap; }
   .qcm-row .muted{ color:var(--muted); font-size:12px; }
 
+  /* ---------- mode Podcast ---------- */
+  nav button.pod-live{ color: var(--trace); }
+  nav button.pod-live .navic{ animation: podPulse 1.4s ease-in-out infinite; }
+  @keyframes podPulse{ 50%{ opacity:.35; } }
+  .pod-ep{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; font:inherit; color:var(--text);
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:8px; cursor:pointer; }
+  .pod-ep > i{ font-style:normal; flex-shrink:0; width:38px; height:38px; border-radius:50%; background:var(--surface-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:15px; color:var(--trace); }
+  .pod-ep.done > i{ color:var(--muted); }
+  .pod-ep > span{ flex:1; min-width:0; }
+  .pod-ep b{ display:block; font-size:14.5px; line-height:1.3; }
+  .pod-ep small{ display:block; color:var(--muted); font-size:12px; margin-top:3px; line-height:1.35; }
+  .pod-ep .bar{ margin-top:6px; }
+  .pod-player{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:12px 14px 14px; margin-bottom:12px; position:sticky; top:-16px; z-index:2; box-shadow:0 -1px 0 1px var(--bg); }
+  .pod-player .bar{ margin-top:0; height:6px; cursor:pointer; }
+  .pod-time{ display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); font-variant-numeric:tabular-nums; margin-top:5px; }
+  .pod-ctrl{ display:flex; align-items:center; justify-content:center; gap:18px; margin:8px 0 10px; }
+  .pod-ctrl button{ font:inherit; background:var(--surface-2); color:var(--text); border:1px solid var(--line); border-radius:50%; width:44px; height:44px; font-size:16px; cursor:pointer; }
+  .pod-ctrl button.main{ width:60px; height:60px; font-size:22px; background:var(--trace); color:#06110c; border:none; }
+  .pod-opts{ display:flex; gap:8px; align-items:center; }
+  .pod-opts .seg{ flex-shrink:0; }
+  .pod-opts .seg button{ padding:6px 7px; }
+  .pod-opts select{ flex:1; min-width:0; font:inherit; font-size:12.5px; color:var(--text); background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:7px 8px; }
+  .pod-parts{ display:flex; gap:6px; overflow-x:auto; margin:0 0 10px; padding-bottom:2px; scrollbar-width:none; }
+  .pod-parts button{ flex-shrink:0; font:inherit; font-size:12px; font-weight:700; color:var(--muted); background:var(--surface); border:1px solid var(--line); border-radius:100px; padding:5px 11px; cursor:pointer; }
+  .pod-parts button.on{ color:var(--text); border-color:var(--trace); }
+  .pod-txt h4{ font-size:13px; color:var(--muted); font-weight:800; margin:16px 0 6px; text-transform:uppercase; letter-spacing:.04em; }
+  .pod-txt p{ font-size:15px; line-height:1.6; color:#c2ced8; margin:0 0 10px; }
+  .pod-txt p span{ cursor:pointer; border-radius:4px; }
+  .pod-txt p span.cur{ background:rgba(53,217,153,.16); color:var(--text); }
+  .pod-txt b{ color:var(--text); }
+
   .sectiontitle{
     font-size: 12.5px;
     color: var(--muted);
@@ -948,6 +980,7 @@
     <button class="active" data-tab="feed"><span class="navic">◎</span>Feed</button>
     <button data-tab="qcm"><span class="navic">☑︎</span>QCM</button>
     <button data-tab="dechoc"><span class="navic">✚</span>Déchoc</button>
+    <button data-tab="podcast"><span class="navic">♫︎</span>Podcast</button>
     <button data-tab="stats"><span class="navic">▤</span>Progrès</button>
     <button data-tab="settings"><span class="navic">⚙︎</span>Réglages</button>
   </nav>
@@ -968,6 +1001,15 @@
       <h2>QCM</h2>
     </div>
     <div class="panel-body" id="qcmBody"></div>
+  </div>
+
+  <!-- PODCAST PANEL -->
+  <div class="panel" id="panelPodcast">
+    <div class="panel-head">
+      <button class="iconbtn" onclick="closePanel('panelPodcast')">←</button>
+      <h2>Podcast</h2>
+    </div>
+    <div class="panel-body" id="podBody"></div>
   </div>
 
   <!-- DÉCHOC PANEL -->
@@ -1106,6 +1148,9 @@ function normalizeState(s){
   // ({ n, last, pts, ok } : passages, date, points du dernier passage, réussites parfaites d'affilée)
   // mode : format choisi à l'accueil ('iso' : QCM isolés, 'dossier' : dossier progressif) ; theme : '' = tous
   s.qcm = Object.assign({ runs: [], items: {}, mode: 'iso', theme: '' }, s.qcm);
+  // podcast : position de lecture par épisode (indice de phrase), épisodes écoutés jusqu'au bout (date),
+  // dernier épisode ouvert, vitesse et voix choisies, thème filtré ('' = tous)
+  s.podcast = Object.assign({ pos: {}, done: {}, last: null, rate: 1, voice: '', theme: '' }, s.podcast);
   // migration : une fiche "comprise" avant l'introduction des niveaux démarre au niveau 1
   Object.keys(s.mastered).forEach(id => { if(s.mastered[id] && !s.level[id]) s.level[id] = 1; });
   return s;
@@ -1210,6 +1255,7 @@ async function syncFromGithub(silent){
     // les scénarios du mode Déchoc se synchronisent en parallèle, sans bloquer les cartes
     const dechocSync = syncDechocFromGithub(cfg, headers).catch(err => ({ count: 0, errors: [err.message] }));
     const qcmSync = syncQcmFromGithub(cfg, headers).catch(err => ({ count: 0, errors: [err.message] }));
+    const podSync = syncPodFromGithub(cfg, headers).catch(err => ({ count: 0, errors: [err.message] }));
     const list = await ghListDir(cfg, headers, 'Recos');
     if(list.status === 404){
       throw new Error(`Dossier 'Recos' introuvable à cette adresse : ${list.url} — vérifie la casse du nom de dossier, le nom de la branche (main vs master), et que le dépôt est public.`);
@@ -1297,6 +1343,9 @@ async function syncFromGithub(silent){
     const qc = await qcmSync;
     if(qc && (qc.count || qc.iso)) summary += ` QCM : ${qc.count} cas, ${qc.iso || 0} QCM isolés.`;
     if(qc && qc.errors.length) summary += ` QCM, problème sur : ${qc.errors.join(', ')}.`;
+    const po = await podSync;
+    if(po && po.count) summary += ` Podcast : ${po.count} épisode(s).`;
+    if(po && po.errors.length) summary += ` Podcast, problème sur : ${po.errors.join(', ')}.`;
     if(msgEl) msgEl.textContent = summary;
     if(!silent || changed) showToast('Synchronisation GitHub terminée');
   }catch(err){
@@ -5414,6 +5463,341 @@ function series7Legend(keys, st){
   return keys.some(k => st[k].nWeek) ? `<span><i style="background:rgba(242,168,62,0.8)"></i>7 derniers jours</span>` : '';
 }
 
+// =========================================================
+// Mode Podcast — cours audio de quelques minutes, racontés autour d'un cas clinique.
+// Lecture par la synthèse vocale de l'appareil (speechSynthesis, voix française), phrase
+// par phrase : Safari coupe les textes longs, et la phrase sert d'unité pour reprendre,
+// avancer ou surligner. Contenu dans Podcast/*.json (synchronisé depuis GitHub comme les
+// cartes) ; le moteur ne contient aucune donnée médicale. Format décrit dans CLAUDE.md.
+// =========================================================
+const POD_CONTENT_KEY = "scrollmed_podcast_v1";
+const POD_WPM = 150;                          // débit de la voix à la vitesse 1 (mots par minute)
+const POD_PAUSE = { para: 650, part: 1500 };  // silences entre paragraphes et entre parties (ms, à la vitesse 1)
+const POD_RATES = [0.9, 1, 1.15, 1.3];
+const POD_SYNTH = window.speechSynthesis || null;
+let PODS = [];
+podSetContent(loadPodContent());
+let POD_SYNC_INFO = '';
+// épisode ouvert : { ep, ph: [{ part, para, show, say, words }], i, playing }
+let PD = null;
+let POD_TOKEN = 0, POD_TIMER = null, POD_UTT = null, POD_LOCK = null;
+
+function loadPodContent(){
+  try { const c = JSON.parse(localStorage.getItem(POD_CONTENT_KEY) || 'null'); if(Array.isArray(c)) return c; } catch(e){}
+  return [];
+}
+function podEpOk(e){
+  return e && e.id && e.module && e.titre && Array.isArray(e.parties) && e.parties.length && e.parties.every(p => p && typeof p.texte === 'string' && p.texte.trim());
+}
+function podSetContent(all){ PODS = all; }
+async function syncPodFromGithub(cfg, headers){
+  const list = await ghListDir(cfg, headers, 'Podcast');
+  if(list.status === 404){
+    POD_SYNC_INFO = `Dossier Podcast introuvable sur la branche « ${cfg.branch || 'main'} ».`;
+    podRefresh();
+    return { count: 0, errors: [] };
+  }
+  POD_SYNC_INFO = '';
+  const all = [], errors = [], seen = new Set();
+  for(const { file, data, error } of await ghFetchJson(cfg, list.files)){
+    if(error){ errors.push(`${file.name} (${error})`); continue; }
+    (Array.isArray(data) ? data : [data]).forEach((e, i) => {
+      if(!podEpOk(e)){ errors.push(`${file.name} [${(e && e.id) || i}] (épisode invalide)`); return; }
+      if(seen.has(e.id)) return;
+      seen.add(e.id);
+      all.push(e);
+    });
+  }
+  podSetContent(all);
+  localStorage.setItem(POD_CONTENT_KEY, JSON.stringify(all));
+  podRefresh();
+  return { count: PODS.length, errors };
+}
+function podRefresh(){
+  if(!PD && document.getElementById('panelPodcast').classList.contains('open')) podRender();
+}
+
+// ---------- texte ----------
+// [affiché|prononcé] : ce qu'on lit à l'écran et ce que dit la voix (sigle, formule, unité)
+const POD_ALT = /\[([^|\]]*)\|([^\]]*)\]/g;
+// parties de l'épisode, plus « À retenir » (lu aussi) en dernière partie
+function podParts(ep){
+  const parts = ep.parties.map(p => ({ titre: p.titre || '', texte: p.texte }));
+  if(Array.isArray(ep.retenir) && ep.retenir.length) parts.push({ titre: 'À retenir', texte: ep.retenir.join('\n\n') });
+  return parts;
+}
+// découpe en phrases : après . ! ? … suivi d'un espace et d'une majuscule, d'un chiffre ou d'un guillemet
+function podSplit(par){
+  return par.replace(/([.!?…]+[»"]?)\s+(?=[A-ZÀ-ÖØ-Þ«"\d])/g, '$1\u0001').split('\u0001').map(x => x.trim()).filter(Boolean);
+}
+function podPhrases(ep){
+  const out = [];
+  podParts(ep).forEach((p, part) => p.texte.split(/\n\s*\n/).forEach((par, para) => podSplit(par.replace(/\s*\n\s*/g, ' ')).forEach(s => {
+    const say = s.replace(POD_ALT, '$2').replace(/\*\*/g, '');
+    out.push({ part, para, show: s.replace(POD_ALT, '$1'), say, words: say.split(/\s+/).length });
+  })));
+  return out;
+}
+// durée estimée (s) des phrases [0, n), pauses comprises, à la vitesse choisie
+function podSecs(ph, n){
+  let t = 0;
+  for(let k = 0; k < Math.min(n, ph.length); k++){
+    t += ph[k].words * 60 / POD_WPM;
+    const nx = ph[k + 1];
+    if(nx) t += (nx.part !== ph[k].part ? POD_PAUSE.part : nx.para !== ph[k].para ? POD_PAUSE.para : 0) / 1000;
+  }
+  return t / STATE.podcast.rate;
+}
+function podFmtT(s){ s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+function podMinutes(ep){ return Math.max(1, Math.round(podSecs(podPhrases(ep), Infinity) * STATE.podcast.rate / 60)); }
+
+// ---------- voix ----------
+function podVoices(){
+  return POD_SYNTH ? POD_SYNTH.getVoices().filter(v => /^fr\b/i.test(v.lang)) : [];
+}
+// voix choisie, sinon une voix française de France, de préférence améliorée
+function podVoice(){
+  const vs = podVoices();
+  return vs.find(v => v.name === STATE.podcast.voice)
+    || vs.find(v => /fr[-_]FR/i.test(v.lang) && /premium|enhanced|amélior|natural|neural/i.test(v.name))
+    || vs.find(v => /fr[-_]FR/i.test(v.lang)) || vs[0] || null;
+}
+if(POD_SYNTH && 'onvoiceschanged' in POD_SYNTH) POD_SYNTH.addEventListener('voiceschanged', () => { if(document.getElementById('panelPodcast').classList.contains('open')) podRender(); });
+
+// ---------- lecture ----------
+function podOpen(id){
+  const ep = PODS.find(e => e.id === id);
+  if(!ep) return;
+  if(PD && PD.ep.id === id) return podRender(true);
+  podPause();
+  const ph = podPhrases(ep);
+  const i = Math.min(STATE.podcast.pos[id] || 0, ph.length - 1);
+  PD = { ep, ph, i: i < 0 ? 0 : i, playing: false };
+  STATE.podcast.last = id;
+  saveState(STATE);
+  podRender(true);
+}
+function podSavePos(){
+  STATE.podcast.pos[PD.ep.id] = PD.i;
+  saveState(STATE);
+}
+function podLive(on){
+  document.querySelector('nav button[data-tab="podcast"]').classList.toggle('pod-live', on);
+  // écran maintenu allumé pendant la lecture : la synthèse vocale s'arrête quand l'écran se verrouille
+  if(on && !POD_LOCK && navigator.wakeLock) navigator.wakeLock.request('screen').then(l => { POD_LOCK = l; l.addEventListener('release', () => { if(POD_LOCK === l) POD_LOCK = null; }); }).catch(() => {});
+  if(!on && POD_LOCK){ POD_LOCK.release().catch(() => {}); POD_LOCK = null; }
+}
+function podPlay(){
+  if(!PD || !POD_SYNTH) return;
+  if(PD.i >= PD.ph.length) PD.i = 0;   // épisode terminé : on reprend au début
+  PD.playing = true;
+  podLive(true);
+  POD_SYNTH.cancel();
+  podSpeak();   // appelé dans le geste de l'utilisateur : iOS l'exige pour la première phrase
+  podUpdate();
+}
+// pause = arrêt de la phrase en cours (pause/resume sont peu fiables sur iOS) ; la reprise la relit
+function podPause(){
+  if(!PD || !PD.playing) return;
+  PD.playing = false;
+  POD_TOKEN++;
+  clearTimeout(POD_TIMER);
+  if(POD_SYNTH) POD_SYNTH.cancel();
+  podLive(false);
+  podSavePos();
+  podUpdate();
+}
+function podSpeak(){
+  if(!PD || !PD.playing) return;
+  if(PD.i >= PD.ph.length) return podFinish();
+  const cur = PD.ph[PD.i], tok = ++POD_TOKEN, rate = STATE.podcast.rate;
+  const u = new SpeechSynthesisUtterance(cur.say);
+  u.lang = 'fr-FR';
+  u.rate = rate;
+  const v = podVoice();
+  if(v){ u.voice = v; u.lang = v.lang; }
+  u.onend = () => {
+    if(tok !== POD_TOKEN) return;
+    const nx = PD.ph[PD.i + 1];
+    PD.i++;
+    podSavePos();
+    podUpdate();
+    const gap = !nx ? 0 : nx.part !== cur.part ? POD_PAUSE.part : nx.para !== cur.para ? POD_PAUSE.para : 0;
+    POD_TIMER = setTimeout(podSpeak, gap / rate);
+  };
+  u.onerror = e => {
+    if(tok !== POD_TOKEN || e.error === 'interrupted' || e.error === 'canceled') return;
+    podPause();
+    showToast('Lecture interrompue');
+  };
+  POD_UTT = u;   // référence gardée : sans elle, Chrome perd parfois la fin de phrase (onend)
+  POD_SYNTH.resume();
+  POD_SYNTH.speak(u);
+}
+function podFinish(){
+  PD.playing = false;
+  podLive(false);
+  STATE.podcast.done[PD.ep.id] = Date.now();
+  STATE.podcast.pos[PD.ep.id] = 0;
+  saveState(STATE);
+  PD.i = PD.ph.length;
+  podUpdate();
+  showToast('Épisode terminé');
+}
+// saut à une phrase ; la lecture continue si elle était en cours
+function podSeek(i){
+  if(!PD) return;
+  PD.i = Math.max(0, Math.min(i, PD.ph.length - 1));
+  podSavePos();
+  if(PD.playing){ clearTimeout(POD_TIMER); POD_SYNTH.cancel(); podSpeak(); }
+  podUpdate(true);
+}
+document.addEventListener('visibilitychange', () => { if(document.hidden) podPause(); });
+
+// ---------- affichage ----------
+const podBody = document.getElementById('podBody');
+function podTxt(t){ return escapeHtml(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+function podHomeHtml(){
+  const themes = [...new Set(PODS.map(e => e.module))].sort((a, b) => (RADAR_ORDER.indexOf(a) + 1 || 500) - (RADAR_ORDER.indexOf(b) + 1 || 500) || a.localeCompare(b, 'fr'));
+  const theme = themes.includes(STATE.podcast.theme) ? STATE.podcast.theme : '';
+  const list = PODS.filter(e => !theme || e.module === theme);
+  // épisodes commencés d'abord, puis jamais écoutés, puis écoutés
+  const rank = e => STATE.podcast.pos[e.id] ? 0 : STATE.podcast.done[e.id] ? 2 : 1;
+  const rows = list.map((e, k) => ({ e, k })).sort((a, b) => rank(a.e) - rank(b.e) || a.k - b.k).map(({ e }) => {
+    const pos = STATE.podcast.pos[e.id] || 0, done = STATE.podcast.done[e.id], n = podPhrases(e).length;
+    const playing = PD && PD.ep.id === e.id && PD.playing;
+    return `<button class="pod-ep${done && !pos ? ' done' : ''}" data-pod="${escapeHtml(e.id)}"><i>${playing ? '♫' : done && !pos ? '✓' : '▶'}</i><span>
+      <b>${escapeHtml(e.titre)}</b>
+      <small>${escapeHtml(e.module)} · ${podMinutes(e)} min${pos ? ` · reprise à ${Math.round(pos / n * 100)} %` : done ? ' · écouté' : ''}</small>
+      ${e.resume ? `<small>${escapeHtml(e.resume)}</small>` : ''}
+      ${pos ? `<div class="bar"><i class="mast" style="width:${Math.round(pos / n * 100)}%"></i></div>` : ''}</span></button>`;
+  }).join('');
+  const empty = !PODS.length ? `<div class="hint">${escapeHtml(POD_SYNC_INFO) || (loadGhConfig()
+      ? 'Aucun épisode pour l’instant : ils arrivent avec la synchronisation GitHub (dossier Podcast).'
+      : 'Configure la synchronisation GitHub dans Réglages pour charger les épisodes (dossier Podcast).')}</div>` : '';
+  return `
+    ${!POD_SYNTH ? '<div class="hint">Ce navigateur ne propose pas de synthèse vocale : les épisodes restent lisibles en texte.</div>' : ''}
+    ${empty}
+    ${themes.length > 1 ? `<select class="qcm-sel" data-podtheme>
+      <option value="">Tous les thèmes · ${PODS.length}</option>
+      ${themes.map(m => `<option value="${escapeHtml(m)}"${m === theme ? ' selected' : ''}>${escapeHtml(m)} · ${PODS.filter(e => e.module === m).length}</option>`).join('')}
+    </select>` : ''}
+    ${rows}
+    ${PODS.length ? `<div class="hint">Un cas clinique raconté, lu par la voix française de ton appareil. L’écran reste allumé pendant la lecture : la voix s’arrête si l’app passe en arrière-plan ou si l’écran se verrouille, et reprend à la même phrase.</div>` : ''}`;
+}
+function podPlayerHtml(){
+  const ep = PD.ep, ph = PD.ph, parts = podParts(ep);
+  const vs = podVoices(), v = podVoice();
+  const cur = Math.min(PD.i, ph.length - 1), curPart = PD.i >= ph.length ? -1 : ph[cur].part;
+  let html = '', lastPart = -1, lastPara = -1;
+  ph.forEach((x, k) => {
+    if(x.part !== lastPart){
+      if(lastPart >= 0) html += '</p>';
+      html += `${parts[x.part].titre ? `<h4 data-part="${x.part}">${escapeHtml(parts[x.part].titre)}</h4>` : ''}<p>`;
+      lastPart = x.part; lastPara = x.para;
+    } else if(x.para !== lastPara){ html += '</p><p>'; lastPara = x.para; }
+    html += `<span data-ph="${k}"${k === PD.i ? ' class="cur"' : ''}>${podTxt(x.show)}</span> `;
+  });
+  html += '</p>';
+  const revs = qcmRevisionCards(ep);
+  return `
+    <div class="qcm-top"><span class="chip">${escapeHtml(ep.module)}</span><span>${podMinutes(ep)} min</span></div>
+    <h3 class="qcm-title">${escapeHtml(ep.titre)}</h3>
+    <div class="pod-player">
+      <div class="bar" data-podbar><i class="mast" style="width:0%"></i></div>
+      <div class="pod-time"><span data-podt></span><span data-podtot></span></div>
+      <div class="pod-ctrl">
+        <button data-podc="prev" aria-label="Phrase précédente">⏮︎</button>
+        <button class="main" data-podc="play" aria-label="Lecture" ${POD_SYNTH ? '' : 'disabled'}></button>
+        <button data-podc="next" aria-label="Phrase suivante">⏭︎</button>
+      </div>
+      <div class="pod-opts">
+        <div class="seg">${POD_RATES.map(r => `<button data-podrate="${r}" class="${r === STATE.podcast.rate ? 'on' : ''}">×${String(r).replace('.', ',')}</button>`).join('')}</div>
+        ${vs.length > 1 ? `<select data-podvoice>${vs.map(x => `<option value="${escapeHtml(x.name)}"${v && x.name === v.name ? ' selected' : ''}>${escapeHtml(x.name)}</option>`).join('')}</select>` : ''}
+      </div>
+    </div>
+    ${parts.length > 1 ? `<div class="pod-parts">${parts.map((p, k) => `<button data-podpart="${k}" class="${k === curPart ? 'on' : ''}">${escapeHtml(p.titre || 'Partie ' + (k + 1))}</button>`).join('')}</div>` : ''}
+    <div class="pod-txt">${html}</div>
+    ${ep.source ? `<div class="source src">${escapeHtml(ep.source)}</div>` : ''}
+    ${revs.length ? `<div class="sectiontitle">📚 Pour réviser</div>` + revs.map(p => `<div class="savedcard"><div class="hk">${escapeHtml(p.hook)}</div><div class="bd">${escapeHtml(p.body)}</div><div class="source src">${escapeHtml(p.module)} · ${escapeHtml(p.source || '')}</div></div>`).join('') : ''}
+    <button class="btn secondary" data-podc="home" style="margin-top:14px">← Tous les épisodes</button>`;
+}
+function podRender(top){
+  podBody.innerHTML = PD ? podPlayerHtml() : podHomeHtml();
+  if(top) podBody.scrollTop = 0;
+  if(PD) podUpdate(!top);
+}
+// mise à jour légère pendant la lecture : phrase surlignée, barre, temps, bouton, partie
+function podUpdate(scroll){
+  if(!PD || !document.getElementById('panelPodcast').classList.contains('open') || !podBody.querySelector('.pod-player')) return;
+  const n = PD.ph.length, tot = podSecs(PD.ph, n), el = podSecs(PD.ph, Math.min(PD.i, n));
+  podBody.querySelector('[data-podbar] i').style.width = Math.round(el / tot * 100) + '%';
+  podBody.querySelector('[data-podt]').textContent = podFmtT(el);
+  podBody.querySelector('[data-podtot]').textContent = podFmtT(tot);
+  const play = podBody.querySelector('[data-podc="play"]');
+  play.textContent = PD.playing ? '⏸︎' : PD.i >= n ? '↺' : '▶︎';
+  play.setAttribute('aria-label', PD.playing ? 'Pause' : 'Lecture');
+  podBody.querySelectorAll('.pod-txt span.cur').forEach(s => s.classList.remove('cur'));
+  const span = podBody.querySelector(`.pod-txt span[data-ph="${PD.i}"]`);
+  if(span){
+    span.classList.add('cur');
+    if(PD.playing || scroll){
+      // phrase lue gardée visible sous le lecteur collant
+      const box = podBody.getBoundingClientRect(), r = span.getBoundingClientRect(), head = podBody.querySelector('.pod-player').getBoundingClientRect().bottom;
+      if(r.top < head + 8 || r.bottom > box.bottom - 40) podBody.scrollBy({ top: r.top - (head + box.bottom) / 2 + 40, behavior: 'smooth' });
+    }
+  }
+  const part = PD.i < n ? PD.ph[PD.i].part : -1;
+  podBody.querySelectorAll('[data-podpart]').forEach(b => {
+    const on = Number(b.dataset.podpart) === part;
+    // partie en cours gardée visible dans la rangée défilante
+    if(on && !b.classList.contains('on')) b.parentNode.scrollLeft = b.offsetLeft - b.parentNode.offsetLeft - 16;
+    b.classList.toggle('on', on);
+  });
+}
+podBody.addEventListener('click', e => {
+  const ep = e.target.closest('[data-pod]');
+  if(ep) return podOpen(ep.dataset.pod);
+  const c = e.target.closest('[data-podc]');
+  if(c){
+    const a = c.dataset.podc;
+    if(a === 'play') PD.playing ? podPause() : podPlay();
+    else if(a === 'prev') podSeek(PD.i - 1);
+    else if(a === 'next') podSeek(PD.i + 1);
+    else if(a === 'home'){ podPause(); PD = null; podRender(true); }
+    return;
+  }
+  const r = e.target.closest('[data-podrate]');
+  if(r){
+    STATE.podcast.rate = Number(r.dataset.podrate);
+    saveState(STATE);
+    podBody.querySelectorAll('[data-podrate]').forEach(b => b.classList.toggle('on', b === r));
+    if(PD && PD.playing) podSeek(PD.i);   // la nouvelle vitesse s'applique dès la phrase en cours
+    else podUpdate();
+    return;
+  }
+  const pt = e.target.closest('[data-podpart]');
+  if(pt) return podSeek(PD.ph.findIndex(x => x.part === Number(pt.dataset.podpart)));
+  const bar = e.target.closest('[data-podbar]');
+  if(bar){
+    const f = (e.clientX - bar.getBoundingClientRect().left) / bar.offsetWidth, tot = podSecs(PD.ph, PD.ph.length);
+    let k = 0;
+    while(k < PD.ph.length - 1 && podSecs(PD.ph, k + 1) <= f * tot) k++;
+    return podSeek(k);
+  }
+  const s = e.target.closest('.pod-txt span[data-ph]');
+  if(s) podSeek(Number(s.dataset.ph));
+});
+podBody.addEventListener('change', e => {
+  if(e.target.matches('[data-podtheme]')){ STATE.podcast.theme = e.target.value; saveState(STATE); podRender(); }
+  if(e.target.matches('[data-podvoice]')){
+    STATE.podcast.voice = e.target.value;
+    saveState(STATE);
+    if(PD && PD.playing) podSeek(PD.i);
+  }
+});
+window.PODCAST = { open: podOpen, play: podPlay, pause: podPause, seek: podSeek, phrases: podPhrases, get state(){ return PD; }, get episodes(){ return PODS; } };
+
 // ---------- tabs / panels ----------
 const tabs = document.querySelectorAll('nav button');
 tabs.forEach(btn=>{
@@ -5422,7 +5806,8 @@ tabs.forEach(btn=>{
     tabs.forEach(b=>b.classList.toggle('active', b===btn));
     if(tab === 'feed'){ closeAllPanels(); }
     if(tab === 'qcm'){ openPanel('panelQcm'); qcmRender(); }
-    if(tab === 'dechoc'){ openPanel('panelDechoc'); dcRender(); }
+    if(tab === 'dechoc'){ podPause(); openPanel('panelDechoc'); dcRender(); }
+    if(tab === 'podcast'){ openPanel('panelPodcast'); podRender(); }
     if(tab === 'stats'){ renderStats(); openPanel('panelStats'); }
     if(tab === 'settings'){ openPanel('panelSettings'); }
   });

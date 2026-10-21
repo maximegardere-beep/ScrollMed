@@ -1,0 +1,43 @@
+[
+ {
+  "id": "pod_hyponatremie_severe",
+  "module": "Réanimation médicale",
+  "titre": "Hyponatrémie sévère : remonter de 5, puis savoir freiner",
+  "resume": "Convulsions à 112 mmol/L : bolus de salé hypertonique, limites de correction et rattrapage d'une surcorrection.",
+  "source": "Recommandations européennes 2014 (Spasovski, Eur J Endocrinol) ; Verbalis 2013 (Am J Med)",
+  "tags": [
+   "hyponatrémie",
+   "SIADH",
+   "démyélinisation osmotique",
+   "sérum salé hypertonique"
+  ],
+  "parties": [
+   {
+    "titre": "Le cas",
+    "texte": "Urgences, dix-sept heures. Madame Petit, soixante-quatorze ans, cinquante kilos, est amenée après une crise convulsive généralisée. Depuis trois jours, elle vomit. Elle prend de l'indapamide pour sa tension, et de la sertraline depuis un mois. À l'arrivée, elle est confuse et somnolente. La natrémie est à 112 millimoles par litre, la kaliémie à 2,9."
+   },
+   {
+    "titre": "D'abord, le cerveau",
+    "texte": "Une hyponatrémie avec des signes graves, convulsions, troubles de conscience ou vomissements, se traite d'abord, avant même d'en chercher la cause. Le cerveau est œdémateux. Il faut lui retirer un peu d'eau, vite.\n\nLes recommandations européennes de 2014 proposent un bolus de 150 millilitres de sérum salé hypertonique à 3 %, en vingt minutes. On contrôle la natrémie, et l'on répète le bolus, jusqu'à deux fois de plus si besoin. L'objectif est modeste : faire monter la natrémie de 5 millimoles par litre. Ce gain suffit en général à réduire l'œdème cérébral et les symptômes.\n\nAprès deux bolus, Madame Petit est plus réveillée. La natrémie est à 117. Le traitement hypertonique s'arrête là."
+   },
+   {
+    "titre": "Le vrai danger",
+    "texte": "Pourquoi ne pas continuer ? Parce qu'en quelques jours d'hyponatrémie, le cerveau s'est adapté. Ses cellules ont expulsé des osmoles organiques pour ne pas gonfler. Si la natrémie remonte trop vite, elles se déshydratent brutalement. C'est le syndrome de démyélinisation osmotique. Il survient deux à six jours plus tard, avec une dysarthrie, des troubles de la déglutition, une tétraparésie, parfois un syndrome d'enfermement.\n\nLa limite est de 10 millimoles par litre sur les premières vingt-quatre heures, puis de 8 par période de vingt-quatre heures. Chez les patients à haut risque, alcool, dénutrition, hypokaliémie ou maladie du foie, on vise 8 dès le premier jour. Madame Petit est dénutrie et hypokaliémique. Sa limite est donc de 8.\n\nLe piège, c'est que la correction ne vient pas seulement du sérum salé. Dès que le stimulus de l'hormone antidiurétique disparaît, le rein se met à éliminer de l'eau libre. Ici, plusieurs stimuli disparaissent en même temps. L'hypovolémie des vomissements est corrigée par le soluté. Le diurétique thiazidique et la sertraline sont arrêtés. Les nausées sont calmées. Et le potassium apporté pour corriger l'hypokaliémie fait, lui aussi, monter la natrémie."
+   },
+   {
+    "titre": "Huit heures plus tard",
+    "texte": "À la huitième heure, la diurèse est à 300 millilitres par heure, avec des urines très diluées. La natrémie est à 121. Neuf millimoles en huit heures : la limite du jour est déjà franchie.\n\nIl faut freiner, et même revenir en arrière. On injecte de la desmopressine, 2 microgrammes par voie intraveineuse, pas plus souvent que toutes les huit heures, pour stopper la diurèse aqueuse. Et l'on perfuse de l'eau sans électrolytes, du glucosé à 5 %, environ 10 millilitres par kilo en une heure, pour ramener la natrémie sous la limite. La natrémie est ensuite contrôlée toutes les deux heures.\n\nCe rattrapage est prévu par le texte européen. Certaines équipes vont plus loin, et donnent la desmopressine d'emblée, avec le sérum salé, pour garder la main sur la vitesse de correction."
+   },
+   {
+    "titre": "La cause",
+    "texte": "Une fois la patiente sécurisée, on cherche la cause. L'osmolalité plasmatique basse confirme une hyponatrémie hypotonique. Une osmolalité urinaire supérieure à 100 montre que l'hormone antidiurétique agit. Le sodium urinaire et l'examen de la volémie orientent ensuite.\n\nIci, trois mécanismes s'additionnent : les vomissements, le thiazidique, et l'antidépresseur sérotoninergique, connu pour entraîner une sécrétion inappropriée d'hormone antidiurétique. Les thiazidiques seront désormais évités chez elle."
+   }
+  ],
+  "retenir": [
+   "Hyponatrémie avec signes graves : 150 millilitres de salé à 3 % en vingt minutes, à répéter jusqu'à trois fois, pour gagner 5 millimoles par litre.",
+   "Ne pas dépasser 10 millimoles par litre le premier jour, et 8 chez le patient à haut risque.",
+   "La surcorrection vient surtout de la diurèse aqueuse, quand le stimulus de l'hormone antidiurétique disparaît.",
+   "Rattrapage : desmopressine et glucosé à 5 % pour faire redescendre la natrémie."
+  ]
+ }
+]

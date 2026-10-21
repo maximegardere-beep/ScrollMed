@@ -1,0 +1,119 @@
+[
+ {
+  "id": "pod_curarisation_residuelle",
+  "module": "Anesthésie peropératoire",
+  "titre": "Curarisation résiduelle : le piège du pouce qui semble normal",
+  "resume": "Une patiente désature en salle de réveil après une extubation « à l'œil » : train-de-quatre, sugammadex et néostigmine.",
+  "source": "RFE SFAR 2018 sur la curarisation en anesthésie ; ESAIC 2023 (Fuchs-Buder, Eur J Anaesthesiol)",
+  "tags": [
+   "curares",
+   "sugammadex",
+   "néostigmine",
+   "monitorage neuromusculaire",
+   "SSPI"
+  ],
+  "parties": [
+   {
+    "titre": "Le cas",
+    "texte": "Salle de réveil, onze heures. Madame Laurent, soixante-deux ans, sort d'une colectomie par cœlioscopie de trois heures. Elle a reçu du rocuronium à l'induction, puis une réinjection de dix milligrammes quarante minutes avant la fin, pour fermer la paroi. En fin d'intervention, l'interne a regardé le pouce au neurostimulateur. Quatre réponses au train-de-quatre, pas d'épuisement visible. Elle a été extubée sans antagonisation.\n\nVingt minutes plus tard, l'infirmière vous appelle. La patiente est agitée, elle respire vite et superficiellement. La saturation est à 89 % sous trois litres d'oxygène. Elle parle par phrases courtes et avale mal sa salive. Pourtant, elle soulève la tête quelques secondes quand on le lui demande.\n\nVous posez un capteur d'accélérométrie sur le pouce. Le rapport du train-de-quatre est à 0,6. Elle est encore curarisée."
+   },
+   {
+    "titre": "Pourquoi l'œil se trompe",
+    "texte": "La curarisation résiduelle se définit par un rapport du train-de-quatre inférieur à 0,9, mesuré à l'adducteur du pouce. C'est le rapport entre l'amplitude de la quatrième réponse et celle de la première.\n\nLe problème, c'est que nos sens ne voient pas cet épuisement. À l'œil ou au toucher, on ne perçoit plus de différence entre la première et la quatrième réponse dès que le rapport dépasse environ 0,4. Entre 0,4 et 0,9, le pouce semble normal alors que le patient est encore curarisé. Compter quatre réponses ne dit donc rien d'une décurarisation complète.\n\nLes signes cliniques ne font pas mieux. Un patient peut tenir la tête levée cinq secondes avec un rapport autour de 0,5. Or, en dessous de 0,9, les muscles du pharynx fonctionnent mal. La déglutition est désorganisée, le risque d'inhalation augmente, et les voies aériennes supérieures se collabent. C'est exactement ce que fait votre patiente.\n\nDernier piège, le site de mesure. Le muscle sourcilier, autour de l'œil, récupère plus vite que l'adducteur du pouce. Si on le regarde en fin d'intervention, on surestime la récupération. Il est utile pour suivre l'installation du bloc, mais la décision d'extuber se prend au pouce."
+   },
+   {
+    "titre": "Antagoniser, et avec quoi",
+    "texte": "Les recommandations européennes de 2023 demandent un monitorage quantitatif chaque fois qu'un curare est administré, et un rapport d'au moins 0,9 avant l'extubation. La SFAR retient le même seuil, mesuré à l'adducteur du pouce.\n\nPour le rocuronium, le choix de l'antagoniste dépend de la profondeur du bloc. Le sugammadex encapsule la molécule de curare. Il se dose à 2 milligrammes par kilo quand deux réponses au train-de-quatre sont réapparues. Il faut 4 milligrammes par kilo pour un bloc profond, quand seul le compte post-tétanique répond. Et 16 milligrammes par kilo en urgence, juste après une dose d'intubation, si l'on ne peut ni intuber ni ventiler.\n\nLa néostigmine, elle, inhibe l'acétylcholinestérase. Son effet est plafonné, et lent : il faut souvent une dizaine de minutes pour atteindre son maximum. Elle ne peut donc pas lever un bloc profond. Les recommandations européennes la réservent au bloc minime, quand le rapport du train-de-quatre dépasse déjà 0,2. Elle se donne autour de 40 microgrammes par kilo, toujours associée à de l'atropine ou du glycopyrrolate. Donnée à un patient déjà décurarisé, elle peut même aggraver la faiblesse musculaire.\n\nChez votre patiente, le rapport est à 0,6. Vous injectez 2 milligrammes par kilo de sugammadex. Trois minutes plus tard, le rapport atteint 0,95. La saturation remonte à 97 %, la voix redevient normale, et elle avale sans difficulté."
+   },
+   {
+    "titre": "Le débriefing",
+    "texte": "Qu'est-ce qui a manqué ? La réinjection tardive a rendu le bloc imprévisible en fin d'intervention. Le contrôle visuel a donné une fausse assurance. Et l'absence de mesure chiffrée a privé l'équipe du seul critère fiable.\n\nLa bonne séquence tient en trois temps. Mesurer au pouce, avec un appareil quantitatif. Antagoniser selon la profondeur du bloc. Puis vérifier un rapport d'au moins 0,9 avant de retirer la sonde."
+   }
+  ],
+  "retenir": [
+   "Curarisation résiduelle : rapport du train-de-quatre inférieur à 0,9 à l'adducteur du pouce.",
+   "L'œil et le doigt ne voient plus l'épuisement au-delà de 0,4. Seule une mesure quantitative permet d'extuber en sécurité.",
+   "Sugammadex : 2 milligrammes par kilo si deux réponses, 4 pour un bloc profond, 16 en urgence après l'intubation.",
+   "Néostigmine : effet plafonné et lent, réservée au bloc minime, toujours avec un anticholinergique."
+  ]
+ },
+ {
+  "id": "pod_hyperthermie_maligne",
+  "module": "Anesthésie peropératoire",
+  "titre": "Hyperthermie maligne : le CO2 qui monte avant la fièvre",
+  "resume": "Hypercapnie réfractaire sous cœlioscopie chez un homme jeune : reconnaître la crise tôt et organiser le dantrolène.",
+  "source": "EMHG 2020 (Glahn, Br J Anaesth) : prise en charge de la crise d'hyperthermie maligne",
+  "tags": [
+   "hyperthermie maligne",
+   "dantrolène",
+   "succinylcholine",
+   "halogénés"
+  ],
+  "parties": [
+   {
+    "titre": "Le cas",
+    "texte": "Bloc des urgences, vingt-trois heures. Thomas, vingt-deux ans, quatre-vingts kilos, est opéré d'une appendicite par cœlioscopie. Induction en séquence rapide avec propofol et succinylcholine, entretien au sévoflurane. À l'intubation, la mâchoire vous a paru un peu dure. Vous n'y avez pas prêté attention.\n\nQuarante minutes après l'induction, le [CO2 expiré|CO deux expiré] monte. Il était à 38 millimètres de mercure, il est à 55. Vous augmentez la ventilation minute, il continue de monter. La fréquence cardiaque passe de 80 à 130. La chaux sodée est chaude au toucher. La température, elle, n'est qu'à 37,8 degrés."
+   },
+   {
+    "titre": "Le raisonnement",
+    "texte": "Sous cœlioscopie, le premier réflexe est d'accuser le [CO2|CO deux] insufflé. Mais son absorption péritonéale s'installe au début de l'insufflation, et elle se corrige quand on augmente la ventilation. Ici, l'hypercapnie résiste à l'hyperventilation. Elle s'accompagne d'une tachycardie, après une contracture des masséters à la succinylcholine. Le tableau évoque une hyperthermie maligne.\n\nC'est une maladie pharmacogénétique du muscle strié, le plus souvent liée à une mutation du récepteur de la ryanodine, [RYR1|R Y R 1]. Chez ces patients, les halogénés et la succinylcholine déclenchent une libération incontrôlée de calcium dans la cellule musculaire. Le muscle se contracte et consomme de l'oxygène sans arrêt. D'où l'hypercapnie, l'épuisement de la chaux, la tachycardie. Viennent ensuite l'acidose mixte, la rigidité, la rhabdomyolyse et l'hyperkaliémie.\n\nRetenez l'ordre d'apparition. L'hypercapnie inexpliquée et la tachycardie sont précoces. La fièvre est souvent tardive. Attendre la température, c'est perdre un temps précieux.\n\nLes autres diagnostics à évoquer sont une ventilation insuffisante, un sepsis, une crise thyréotoxique ou un phéochromocytome. Aucun n'explique bien une rigidité musculaire."
+   },
+   {
+    "titre": "La prise en charge",
+    "texte": "Vous annoncez la crise et appelez à l'aide. Il faut des bras.\n\nPremier geste : arrêter le sévoflurane. Vous passez en anesthésie intraveineuse au propofol, et vous ventilez en oxygène pur, à haut débit de gaz frais, au moins dix litres par minute. Si vous en disposez, des filtres à charbon actif sur le circuit éliminent rapidement les halogénés. Ne perdez pas de temps à changer de machine en pleine crise.\n\nDeuxième geste : le dantrolène, 2,5 milligrammes par kilo, en bolus intraveineux. Il bloque la libération du calcium par le récepteur de la ryanodine. On répète les bolus tant que le [CO2 expiré|CO deux expiré] et la fréquence cardiaque ne sont pas contrôlés. Pour Thomas, la première dose fait 200 milligrammes. Avec la forme classique, en flacons de 20 milligrammes à dissoudre chacun dans 60 millilitres d'eau stérile, c'est dix flacons à préparer. Une seule personne n'y suffit pas.\n\nTroisième geste : traiter les conséquences. Refroidir le patient, et arrêter le refroidissement vers 38,5 degrés. Corriger l'hyperkaliémie par insuline et glucose, avec du calcium si elle menace le cœur. Éviter les inhibiteurs calciques, dangereux associés au dantrolène. Surveiller la diurèse, les CPK et la coagulation.\n\nLe chirurgien termine au plus vite. Après le premier bolus, le [CO2 expiré|CO deux expiré] redescend et la fréquence cardiaque ralentit en quelques minutes. Thomas part en réanimation, car une recrudescence reste possible pendant les vingt-quatre premières heures."
+   },
+   {
+    "titre": "Après la crise",
+    "texte": "Le diagnostic doit ensuite être confirmé. Le patient est adressé à un centre de référence, qui réalise un test de contracture in vitro sur biopsie musculaire, et une recherche génétique. La transmission est autosomique dominante : la famille au premier degré doit être informée et dépistée.\n\nEn attendant, le dossier porte une mention claire : pas d'halogénés, pas de succinylcholine. Une anesthésie intraveineuse, sur une machine débarrassée des halogénés, permet alors de l'endormir en sécurité."
+   }
+  ],
+  "retenir": [
+   "Hyperthermie maligne : hypercapnie inexpliquée et tachycardie d'abord. La fièvre vient tard.",
+   "Déclencheurs : halogénés et succinylcholine. Le propofol est sûr.",
+   "Arrêter l'halogéné, oxygène pur à haut débit, dantrolène 2,5 milligrammes par kilo, à répéter jusqu'au contrôle.",
+   "Après la crise : réanimation pendant vingt-quatre heures, puis test de contracture et dépistage familial."
+  ]
+ },
+ {
+  "id": "pod_demi_vie_contextuelle",
+  "module": "Anesthésie peropératoire",
+  "titre": "Il ne se réveille pas : demi-vie contextuelle et modèles d'AIVOC",
+  "resume": "Réveil retardé après sept heures de chirurgie chez un patient obèse : redistribution, accumulation et choix du modèle pharmacocinétique.",
+  "source": "Hughes 1992 (Anesthesiology) ; Absalom 2009 et Eleveld 2018 (Br J Anaesth)",
+  "tags": [
+   "pharmacocinétique",
+   "AIVOC",
+   "propofol",
+   "rémifentanil",
+   "obésité"
+  ],
+  "parties": [
+   {
+    "titre": "Le cas",
+    "texte": "Bloc de chirurgie du rachis, dix-neuf heures. Monsieur Bernard, soixante-huit ans, 1 mètre 70, 120 kilos, termine une arthrodèse lombaire de sept heures. Anesthésie intraveineuse à objectif de concentration : propofol, avec le modèle de Marsh réglé sur le poids réel, et sufentanil en réinjections toutes les trente à quarante minutes.\n\nFin de la fermeture, tout est arrêté. Quarante minutes plus tard, il ne se réveille toujours pas. Il respire lentement, huit fois par minute, avec des pupilles en myosis."
+   },
+   {
+    "titre": "Une perfusion ne s'arrête pas comme un bolus",
+    "texte": "Après un bolus de propofol, le patient se réveille en quelques minutes. Ce n'est pas l'élimination qui l'a réveillé. C'est la redistribution : le médicament quitte le sang et le cerveau pour gagner les muscles, puis la graisse. Le modèle à trois compartiments le décrit. Un compartiment central, un compartiment rapide, les muscles, et un compartiment lent, la graisse.\n\nPendant une perfusion longue, ces compartiments se remplissent. À l'arrêt, ils ne captent plus le médicament. Pire, ils le restituent au sang. Le temps de décroissance dépend donc de la durée de la perfusion.\n\nC'est la notion de demi-vie contextuelle, décrite par [Hughes|Hiouz] en 1992. C'est le temps nécessaire pour que la concentration plasmatique baisse de moitié après l'arrêt d'une perfusion de durée donnée. Elle n'a rien à voir avec la demi-vie d'élimination."
+   },
+   {
+    "titre": "Les molécules ne se valent pas",
+    "texte": "Pour le fentanyl, la demi-vie contextuelle s'allonge fortement avec la durée de perfusion, jusqu'à plusieurs heures. Le sufentanil fait mieux sur des perfusions de quelques heures, mais s'allonge aussi. Le propofol reste raisonnable, même après des heures, grâce à sa clairance très élevée.\n\nLe rémifentanil est à part. Il est hydrolysé par des estérases non spécifiques, dans le sang et les tissus. Sa demi-vie contextuelle reste autour de trois à quatre minutes, quelle que soit la durée.\n\nAttention à une subtilité. Une baisse de moitié ne suffit pas toujours au réveil. S'il faut une baisse de 80 %, le délai peut être bien plus long que la demi-vie contextuelle. Et chez Monsieur Bernard, les réinjections répétées ont empilé du sufentanil dans un compartiment lent très vaste, celui d'un patient obèse."
+   },
+   {
+    "titre": "Le piège des modèles",
+    "texte": "Deuxième erreur, le modèle de Marsh réglé sur le poids réel. Ce modèle ne connaît que le poids. Il calcule les volumes et les clairances en proportion directe. Pour 120 kilos, il prévoit un compartiment central énorme, et il administre une dose en proportion. Or la graisse n'augmente pas le volume central dans les mêmes proportions. Le patient reçoit trop de propofol.\n\nLe modèle de Schnider utilise l'âge, la taille, le poids et la masse maigre. Mais la formule de masse maigre de James devient aberrante chez l'obèse sévère : au-delà d'un certain indice de masse corporelle, elle diminue quand le poids augmente. Les pompes limitent donc son usage. Le modèle d'Eleveld, publié en 2018, a été construit sur une population beaucoup plus large, obèses compris.\n\nChez l'obèse, on s'aide aussi d'un monitorage de la profondeur d'anesthésie par l'électroencéphalogramme, pour éviter le surdosage."
+   },
+   {
+    "titre": "Le réveil",
+    "texte": "Chez Monsieur Bernard, la bradypnée et le myosis signent la part morphinique. Vous titrez la naloxone par petits bolus de 40 microgrammes, en surveillant la douleur. Il ouvre les yeux et respire à seize par minute. Il reste en salle de réveil sous surveillance prolongée : la naloxone agit moins longtemps que le sufentanil accumulé, et la dépression respiratoire peut revenir.\n\nPour la prochaine fois : sur une chirurgie longue, préférer des molécules à demi-vie contextuelle courte, comme le propofol et le rémifentanil. Choisir un modèle adapté au poids. Surveiller l'électroencéphalogramme. Et organiser l'analgésie postopératoire avant d'arrêter le rémifentanil, dont l'effet disparaît en quelques minutes."
+   }
+  ],
+  "retenir": [
+   "La demi-vie contextuelle est le temps de baisse de moitié après une perfusion de durée donnée. Pour la plupart des agents, elle s'allonge avec la durée.",
+   "Rémifentanil : trois à quatre minutes, quelle que soit la durée, grâce aux estérases.",
+   "Le modèle de Marsh sur le poids réel surdose l'obèse. Schnider est limité par la formule de masse maigre. Eleveld couvre une population plus large.",
+   "Naloxone : titrer par petits bolus et surveiller, car son effet est plus court que celui d'un morphinique accumulé."
+  ]
+ }
+]
