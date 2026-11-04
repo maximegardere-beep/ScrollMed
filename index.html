@@ -467,6 +467,10 @@
     transition: left .15s ease;
   }
   .switch.on .knob{ left:21px; background:var(--trace); }
+  .dom-pick{ margin-bottom:16px; }
+  .dom-pick .dom-lb{ font-weight:700; font-size:14.5px; margin-bottom:8px; }
+  .dom-pick .seg button{ flex:1; padding:9px 6px; font-size:13px; }
+  .modrow.hors-dom{ opacity:.4; }
 
   .savedcard{
     background: var(--surface);
@@ -1140,7 +1144,8 @@ const MAX_LEVEL = 4;
 function normalizeState(s){
   // views[id] : nombre de passages de la carte à l'écran ; history[jour] : instantané
   // quotidien de la progression par thème (radar). Les deux partent dans la sauvegarde.
-  s = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, level:{}, views:{}, history:{} }, s);
+  s = Object.assign({ bookmarks:{}, mastered:{}, review:{}, moduleOff:{}, level:{}, views:{}, history:{}, domaine:'tous' }, s);
+  if(!['tous', 'anesth', 'rea'].includes(s.domaine)) s.domaine = 'tous';
   // dechoc : parties du mode Déchoc (historique + meilleure note par scénario)
   s.dechoc = Object.assign({ runs: [], best: {}, last: null }, s.dechoc);
   // qcm : QCM terminés (dossier : { t, cas, module, note /20, items: { id: points } } ; série isolée :
@@ -1361,13 +1366,28 @@ function activeModules(){
 }
 function isModuleOn(m){ return !STATE.moduleOff[m]; }
 
+// ---------- domaine : anesthésie, réanimation ou les deux ----------
+// Les modules mixtes (posologies, écho, transfusion, culture…) restent dans les deux.
+// Une carte peut forcer son domaine avec "domaine": "anesth" | "rea".
+const DOMAINES = [['anesth', '💉 Anesthésie'], ['rea', '🫁 Réanimation'], ['tous', 'Les deux']];
+const MODULE_DOMAINE = {
+  'Anesthésie peropératoire': 'anesth', 'Voies aériennes': 'anesth', 'ALR & douleur': 'anesth',
+  'Obstétrique': 'anesth', 'Évaluation préopératoire': 'anesth', 'Pédiatrie': 'anesth',
+  'Réanimation médicale': 'rea', 'Soins quotidiens en réa': 'rea', 'Sepsis & infectiologie': 'rea',
+  'Ventilation & oxygénation': 'rea', 'Neuro-réanimation': 'rea', 'Arrêt cardiaque': 'rea',
+  'Urgences & déchocage': 'rea', 'Hémodynamique & cardiologie': 'rea'
+};
+function postDomaine(p){ return p.domaine || MODULE_DOMAINE[p.module] || 'tous'; }
+function inDomaine(d){ return STATE.domaine === 'tous' || d === 'tous' || d === STATE.domaine; }
+function isPostOn(p){ return isModuleOn(p.module) && inDomaine(postDomaine(p)); }
+
 function buildFeedOrder(){
   // tri pondéré à passage unique : les fiches "à revoir" ont plus de chances
   // d'apparaître tôt, les "comprises" plus tard — mais chaque fiche ne génère
   // qu'UNE seule carte (l'ancienne version dupliquait chaque fiche 3 à 5 fois
   // en cartes DOM séparées, ce qui ralentissait fortement l'app à mesure que
   // la bibliothèque grossissait).
-  let pool = POSTS.filter(p => isModuleOn(p.module));
+  let pool = POSTS.filter(isPostOn);
   const scored = pool.map(p=>({ p, score: Math.random() / feedWeight(p.id) }));
   scored.sort((a,b) => a.score - b.score);
   return scored.map(s => s.p);
@@ -1723,10 +1743,16 @@ feedEl.addEventListener('click', (e)=>{
 function renderLibrary(){
   const list = document.getElementById('moduleList');
   const mods = activeModules();
-  list.innerHTML = mods.map(m=>{
+  const nOn = POSTS.filter(isPostOn).length;
+  list.innerHTML = `<div class="dom-pick">
+      <div class="dom-lb">Je veux des cartes de…</div>
+      <div class="seg">${DOMAINES.map(([k, lb]) => `<button data-domaine="${k}" class="${STATE.domaine === k ? 'on' : ''}">${lb}</button>`).join('')}</div>
+      <div class="hint">${nOn} carte${nOn > 1 ? 's' : ''} dans le feed. Les thèmes communs (posologies, écho, transfusion…) restent dans les deux.</div>
+    </div>` + mods.map(m=>{
     const count = POSTS.filter(p=>p.module===m).length;
     const on = isModuleOn(m);
-    return `<div class="modrow">
+    const horsDom = !POSTS.some(p => p.module === m && inDomaine(postDomaine(p)));
+    return `<div class="modrow${horsDom ? ' hors-dom' : ''}">
       <div>
         <div class="mname">${escapeHtml(m)}</div>
         <div class="mcount">${count} post${count>1?'s':''}</div>
@@ -1736,6 +1762,15 @@ function renderLibrary(){
   }).join('');
 }
 document.getElementById('moduleList').addEventListener('click', (e)=>{
+  const dom = e.target.closest('[data-domaine]');
+  if(dom){
+    STATE.domaine = dom.dataset.domaine;
+    saveState(STATE);
+    renderLibrary();
+    FEED_ORDER = buildFeedOrder();
+    renderFeed();
+    return;
+  }
   const sw = e.target.closest('.switch');
   if(!sw) return;
   const m = sw.dataset.module;

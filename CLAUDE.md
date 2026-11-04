@@ -49,6 +49,8 @@ Chaque fichier `Recos/lotN.json` est un **tableau JSON** de cartes :
 
 Posologies · Échographie · Hémostase & transfusion · Sepsis & infectiologie · Réanimation médicale · Soins quotidiens en réa · Culture & histoire · Hémodynamique & cardiologie · Ventilation & oxygénation · Anesthésie peropératoire · Urgences & déchocage · Grandes études · Idées reçues · Physiologie · Éthique & droit · Voies aériennes · Neuro-réanimation · Arrêt cardiaque · ALR & douleur · Obstétrique · Évaluation préopératoire · Pédiatrie
 
+Domaine (sélecteur « Anesthésie / Réanimation / Les deux » en haut du panneau ☰ Modules, `STATE.domaine`) : chaque module est rangé en anesthésie, en réanimation ou commun (`MODULE_DOMAINE`, `index.html` ; un module absent de la table est commun et apparaît dans les deux). Un nouveau module spécifique doit y être ajouté. Une carte d'un module commun peut forcer son domaine avec `"domaine": "anesth"` ou `"rea"` (optionnel).
+
 Le nom du module doit être recopié **à l'identique** (accents, `&`) : c'est lui qui regroupe les cartes, colore le fond et alimente le radar de compétences. Un nouveau module apparaît seul sur le radar dès 4 cartes (sinon il tombe dans « Autres ») ; lui donner un libellé court dans `RADAR_LABELS` (`index.html`).
 
 ## Process de génération d'un lot
