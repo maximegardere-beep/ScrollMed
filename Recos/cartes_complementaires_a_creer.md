@@ -7,7 +7,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
 ### Sepsis et choc septique
 - [x] **Procalcitonine (PCT) : interprétation et limites**
   - Seuils, cinétique, pièges (faux positifs : traumatisme, chirurgie, brûlures)
-- [ ] **Antibiothérapie probabiliste en réanimation : choix par situation**
+- [x] **Antibiothérapie probabiliste en réanimation : choix par situation**
   - Méningite, pneumonie nosocomiale, péritonite, choc septique à BGN
 - [x] **Vasopresseurs : quand et comment les associer**
   - Noradrénaline + vasopressine, adrénaline en 2ème intention, phényléphrine
@@ -210,7 +210,7 @@ Ce fichier recense les sujets spécifiques qui méritent une carte dédiée, car
   - Noradrénaline, adrénaline, vasopressine, phényléphrine
 - [ ] **Inotropes : dobutamine, milrinone, lévosimendan**
 - [ ] **Anticoagulants en réanimation : HNF, HBPM, AOD**
-- [ ] **Antibiotiques : posologies en réanimation**
+- [x] **Antibiotiques : posologies en réanimation**
   - Adaptation rénale/hépatique, doses de charge
 - [ ] **Immunoglobulines IV : indications en réanimation**
 - [ ] **Plasmaphérèse : indications et modalités**

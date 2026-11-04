@@ -1,0 +1,434 @@
+[
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Méningite bactérienne, examen direct négatif, aucun argument pour Listeria : quel traitement ?",
+    "body": "Céfotaxime 300 mg/kg/j IV ou ceftriaxone 100 mg/kg/j IV, plus dexaméthasone 10 mg IV juste avant ou avec la 1re dose d'antibiotique, puis toutes les 6 h pendant 4 jours.",
+    "detail": "Critère de choix : tant que le germe est inconnu, dose maximale pour couvrir un pneumocoque de sensibilité diminuée. Méningocoque identifié : céfotaxime 200 mg/kg/j ou ceftriaxone 75 mg/kg/j. Antibiotique dans l'heure. Scanner avant la PL seulement si signe de localisation, crises ou Glasgow ≤ 11 : on traite alors avant l'imagerie.",
+    "source": "SPILF, actualisation 2018 de la conférence de consensus (méningites bactériennes)",
+    "tags": [
+      "Méningite",
+      "Antibiothérapie",
+      "Céphalosporines",
+      "Neuro-infectiologie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Méningite chez un patient immunodéprimé, début progressif, atteinte des nerfs crâniens : que rajouter à la C3G ?",
+    "body": "Amoxicilline 200 mg/kg/j IV, associée à la gentamicine 5 mg/kg/j les premiers jours : il faut couvrir Listeria, naturellement résistante aux céphalosporines.",
+    "detail": "Arguments pour Listeria : terrain (immunodépression, grossesse, âge avancé, alcoolisme), installation progressive, rhombencéphalite (nerfs crâniens, syndrome cérébelleux). L'examen direct est souvent négatif. Listériose confirmée : amoxicilline 21 jours et arrêt de la dexaméthasone.",
+    "source": "SPILF, actualisation 2018 de la conférence de consensus (méningites bactériennes)",
+    "tags": [
+      "Méningite",
+      "Listeria",
+      "Antibiothérapie",
+      "Neuro-infectiologie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Fièvre et purpura qui s'étend, avec un élément nécrotique de plus de 3 mm : quel geste avant tout ?",
+    "body": "Ceftriaxone immédiatement, avant tout examen : 1 à 2 g IV chez l'adulte (IM si pas de voie veineuse), 50 à 100 mg/kg sans dépasser 1 g chez l'enfant.",
+    "detail": "C'est un purpura fulminans jusqu'à preuve du contraire. Céfotaxime en alternative. Puis remplissage, appel du SAMU et transfert en réanimation. Pas de PL tant que l'hémodynamique est instable. Déclaration obligatoire à l'ARS et antibioprophylaxie des sujets contacts.",
+    "source": "DGS 2018 (infections invasives à méningocoque) ; RCP ceftriaxone",
+    "tags": [
+      "Purpura fulminans",
+      "Méningocoque",
+      "Antibiothérapie",
+      "Sepsis"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Fièvre et LCR trouble chez un patient porteur d'une dérivation ventriculaire externe : quelle antibiothérapie probabiliste ?",
+    "body": "Vancomycine plus une bêtalactamine anti-Pseudomonas : céfépime, ceftazidime ou méropénème.",
+    "detail": "Germes : staphylocoques (souvent résistants à la méticilline), Cutibacterium, BGN dont Pseudomonas et Acinetobacter. Méropénème si BGN multirésistant suspecté. Retirer ou changer le dispositif infecté. Doses méningées : la diffusion dans le LCR est faible.",
+    "source": "IDSA 2017 (ventriculites et méningites associées aux soins)",
+    "tags": [
+      "Méningite nosocomiale",
+      "Ventriculite",
+      "DVE",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Pyélonéphrite avec choc septique, sans facteur de risque de BLSE : quelle antibiothérapie ?",
+    "body": "C3G IV (céfotaxime ou ceftriaxone) plus amikacine en dose unique, et drainage en urgence de tout obstacle urinaire.",
+    "detail": "Imagerie rénale (échographie ou scanner) en urgence pour chercher un obstacle : une pyélonéphrite obstructive non drainée ne guérit pas. Durée totale : 7 jours de bêtalactamine. Relais per os selon l'antibiogramme.",
+    "source": "SPILF (infections urinaires communautaires, mise à jour 2018)",
+    "tags": [
+      "Pyélonéphrite",
+      "Infection urinaire",
+      "Choc septique",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Pyélonéphrite avec choc septique, E. coli BLSE dans les urines il y a 4 mois : quelle antibiothérapie ?",
+    "body": "Carbapénème (imipénème ou méropénème) plus amikacine : en cas de choc, une colonisation ou une infection urinaire à BLSE dans les 6 mois suffit à le justifier.",
+    "detail": "Sans choc, un antécédent de BLSE ne justifie pas d'emblée un carbapénème : on le réserve à une BLSE urinaire de moins de 3 mois, résistante à la pipéracilline-tazobactam. Désescalade dès l'antibiogramme : pipéracilline-tazobactam si CMI ≤ 4 et évolution favorable. Allergie : aztréonam + amikacine.",
+    "source": "SPILF/SRLF/HAS 2019 (bon usage des carbapénèmes) ; SPILF (infections urinaires, mise à jour 2018)",
+    "tags": [
+      "Pyélonéphrite",
+      "BLSE",
+      "Carbapénèmes",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Péritonite communautaire opérée, sans signe de gravité : quelle antibiothérapie ?",
+    "body": "Amoxicilline-acide clavulanique + gentamicine, ou C3G (céfotaxime, ceftriaxone) + métronidazole.",
+    "detail": "Cibles : entérobactéries et anaérobies. Pas d'antifongique. Allergie aux bêtalactamines : lévofloxacine + gentamicine + métronidazole. Durée courte : environ 48 h si péritonite localisée, 5 jours si généralisée.",
+    "source": "RFE SFAR/SPILF 2014 (infections intra-abdominales)",
+    "tags": [
+      "Péritonite",
+      "Infection intra-abdominale",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Péritonite communautaire en choc septique : quelle antibiothérapie ?",
+    "body": "Pipéracilline-tazobactam + gentamicine en dose unique, et contrôle chirurgical de la source au plus vite.",
+    "detail": "La gravité, et non l'origine, fait élargir le spectre. Pas d'antifongique d'emblée dans une péritonite communautaire, sauf facteur de risque : on ajoute alors une échinocandine.",
+    "source": "RFE SFAR/SPILF 2014 (infections intra-abdominales)",
+    "tags": [
+      "Péritonite",
+      "Choc septique",
+      "Infection intra-abdominale",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Péritonite postopératoire avec choc : antibiotiques, et quand ajouter un antifongique ?",
+    "body": "Pipéracilline-tazobactam + amikacine, ou carbapénème + amikacine si facteur de risque de BLSE. Échinocandine si au moins 3 des 4 critères de Dupont.",
+    "detail": "Critères de Dupont : défaillance hémodynamique, sexe féminin, chirurgie sus-mésocolique, antibiothérapie depuis plus de 48 h. Ce sont des infections à germes hospitaliers : la colonisation connue du patient guide le choix. Reprise chirurgicale indispensable.",
+    "source": "RFE SFAR/SPILF 2014 (infections intra-abdominales) ; Dupont, Crit Care Med 2003",
+    "tags": [
+      "Péritonite postopératoire",
+      "Candida",
+      "Antifongiques",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Infection intra-abdominale compliquée, source contrôlée : combien de jours d'antibiotiques ?",
+    "body": "Environ 4 jours. Dans STOP-IT (n = 518), 4 jours fixes font aussi bien qu'un traitement poursuivi 2 jours après la disparition des signes (environ 8 jours).",
+    "detail": "Critère d'infection ou de décès : 21,8 % contre 22,3 %. La condition est un contrôle de source réel (chirurgie ou drainage). Sans amélioration à J4-J5, chercher un foyer non drainé plutôt que prolonger les antibiotiques.",
+    "source": "STOP-IT, NEJM 2015",
+    "tags": [
+      "Infection intra-abdominale",
+      "Durée d'antibiothérapie",
+      "Péritonite"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "PAVM à J3 de ventilation, sans choc ni facteur de risque de BMR : quelle antibiothérapie ?",
+    "body": "Une monothérapie à spectre étroit : C3G non anti-Pseudomonas (céfotaxime, ceftriaxone), ou lévofloxacine.",
+    "detail": "Facteurs qui font élargir : choc septique, antibiothérapie récente, hospitalisation prolongée, colonisation connue à BMR. Prélèvement respiratoire avant l'antibiotique, réévaluation à 48-72 h sur les cultures. Durée : 7 jours.",
+    "source": "RFE SFAR/SRLF 2017 (pneumonies associées aux soins de réanimation)",
+    "tags": [
+      "PAVM",
+      "Pneumonie nosocomiale",
+      "Antibiothérapie",
+      "Ventilation mécanique"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "PAVM à J10, choc septique, colonisation connue à Pseudomonas : quelle antibiothérapie ?",
+    "body": "Bêtalactamine anti-Pseudomonas (pipéracilline-tazobactam, céfépime, ceftazidime, ou méropénème si BLSE connue) plus amikacine.",
+    "detail": "La colonisation connue, quel que soit le site, oriente le choix. L'amikacine s'arrête après 1 à 3 jours. Anti-SARM (vancomycine, linézolide) seulement si portage connu ou écologie locale, rare en France. Désescalade sur l'antibiogramme.",
+    "source": "RFE SFAR/SRLF 2017 (pneumonies associées aux soins de réanimation) ; RFE SFAR/SRLF 2014 (antibiothérapie en réanimation)",
+    "tags": [
+      "PAVM",
+      "Pseudomonas",
+      "Antibiothérapie",
+      "Ventilation mécanique"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Pneumonie communautaire grave chez un patient porteur de bronchectasies : quelle bêtalactamine ?",
+    "body": "Une bêtalactamine anti-Pseudomonas (pipéracilline-tazobactam ou céfépime), associée à un macrolide ou à la lévofloxacine.",
+    "detail": "Sans facteur de risque de Pseudomonas : céfotaxime ou ceftriaxone + macrolide (spiramycine) ou lévofloxacine. Facteurs de risque : bronchectasies, mucoviscidose, colonisation ou infection antérieure à Pseudomonas, BPCO très sévère. Antigénurie légionelle systématique.",
+    "source": "ATS/IDSA 2019 (PAC) ; ERS/ESICM/ESCMID/ALAT 2023 (PAC grave)",
+    "tags": [
+      "Pneumonie",
+      "PAC",
+      "Pseudomonas",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Choc septique : quand ajouter un 2e anti-BGN ou un anti-SARM ?",
+    "body": "Seulement si le risque de bactérie multirésistante, ou de SARM, est élevé. Sinon, une bêtalactamine seule suffit.",
+    "detail": "Risque élevé : colonisation ou infection récente à BMR, antibiothérapie ou hospitalisation récentes, écologie locale. La double couverture anti-BGN ne se poursuit pas une fois l'antibiogramme connu.",
+    "source": "Surviving Sepsis Campaign 2021",
+    "tags": [
+      "Choc septique",
+      "Antibiothérapie",
+      "BMR",
+      "SARM"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Neutropénie fébrile avec choc septique : quelle antibiothérapie ?",
+    "body": "Carbapénème (méropénème ou imipénème) + amikacine, plus vancomycine en cas d'instabilité hémodynamique ou d'infection cutanée, pulmonaire ou de cathéter.",
+    "detail": "On élargit d'emblée en cas de choc, de colonisation à BMR connue ou de forte prévalence locale de résistances. Désescalade dès la documentation. Antifongique probabiliste si la fièvre persiste après 4 à 7 jours.",
+    "source": "ECIL-4 2013 (neutropénie fébrile)",
+    "tags": [
+      "Neutropénie fébrile",
+      "Immunodépression",
+      "Choc septique",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Bactériémie à S. aureus sensible à la méticilline : vancomycine ou bêtalactamine ?",
+    "body": "Une bêtalactamine anti-staphylococcique : céfazoline ou (cl)oxacilline. Sur le SAMS, la vancomycine est moins efficace.",
+    "detail": "Retrait du cathéter, hémocultures de contrôle à 48-72 h, échographie cardiaque systématique. Durée : au moins 14 jours si non compliquée, 4 à 6 semaines si endocardite ou foyer profond.",
+    "source": "ESC 2023 (endocardites) ; IDSA 2011 (SARM)",
+    "tags": [
+      "Staphylococcus aureus",
+      "Bactériémie",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Bactériémie à staphylocoque à coagulase négative sur cathéter, retiré : combien de jours ?",
+    "body": "5 à 7 jours après le retrait du cathéter.",
+    "detail": "Après retrait : BGN 7 à 14 jours, S. aureus au moins 14 jours, Candida 14 jours après la 1re hémoculture négative. Garder le cathéter ne s'envisage que pour un staphylocoque à coagulase négative, avec un verrou ; jamais pour S. aureus, Pseudomonas ou Candida.",
+    "source": "IDSA 2009 (infections sur cathéter)",
+    "tags": [
+      "Infection de cathéter",
+      "Bactériémie",
+      "Durée d'antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Candidémie chez un patient de réanimation : quel antifongique en 1re intention ?",
+    "body": "Une échinocandine (caspofungine, micafungine, anidulafungine), avec retrait du cathéter veineux central.",
+    "detail": "Relais par fluconazole après 5 à 7 jours si patient stable, souche sensible et hémocultures négatives. Fond d'œil, hémocultures de contrôle. Durée : 14 jours après la 1re hémoculture négative, en l'absence de localisation secondaire.",
+    "source": "IDSA 2016 (candidoses) ; ESCMID 2012",
+    "tags": [
+      "Candidémie",
+      "Antifongiques",
+      "Candida"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Colite à C. difficile sévère en réanimation : quel traitement ?",
+    "body": "Fidaxomicine 200 mg 2 fois par jour, ou vancomycine orale 125 mg 4 fois par jour, pendant 10 jours. Le métronidazole n'est plus un traitement de 1re intention.",
+    "detail": "Forme fulminante (choc, iléus, mégacôlon) : vancomycine 500 mg 4 fois par jour par la bouche ou la sonde, en lavement si iléus, plus métronidazole IV 500 mg toutes les 8 h, et avis chirurgical précoce. Arrêter si possible l'antibiotique en cause.",
+    "source": "ESCMID 2021 ; IDSA/SHEA 2017, mise à jour 2021",
+    "tags": [
+      "Clostridioides difficile",
+      "Colite",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Fasciite nécrosante d'un membre : quels antibiotiques, en plus de la chirurgie ?",
+    "body": "Débridement chirurgical en urgence, avec pipéracilline-tazobactam (ou un carbapénème) et clindamycine, plus un anti-SARM selon le risque.",
+    "detail": "La clindamycine bloque la synthèse des toxines du streptocoque A et des clostridies : c'est un effet anti-toxinique, en plus de l'activité antibactérienne. Les antibiotiques seuls ne suffisent pas : chaque retard chirurgical aggrave le pronostic.",
+    "source": "IDSA 2014 (infections de la peau et des tissus mous)",
+    "tags": [
+      "Fasciite nécrosante",
+      "Dermohypodermite",
+      "Clindamycine",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Endocardite à S. aureus sensible sur valve native : faut-il ajouter la gentamicine ?",
+    "body": "Non. La gentamicine n'apporte aucun bénéfice et augmente la toxicité rénale. Céfazoline ou (cl)oxacilline seule, pendant 4 à 6 semaines.",
+    "detail": "Doses de l'ESC : cloxacilline 12 g/j en 4 à 6 injections, ou céfazoline 6 g/j en 3 injections. Décision médico-chirurgicale en « Endocarditis Team ». Rechercher et drainer les localisations secondaires.",
+    "source": "ESC 2023 (endocardites)",
+    "tags": [
+      "Endocardite",
+      "Staphylococcus aureus",
+      "Aminosides",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Inhalation à l'induction, sans fièvre ni image radiologique : faut-il des antibiotiques ?",
+    "body": "Non. La pneumopathie chimique initiale n'est pas une infection : on aspire, on surveille et on traite l'hypoxémie.",
+    "detail": "Antibiotique seulement si une pneumonie apparaît (fièvre, foyer, signes persistants après 48 h) : amoxicilline-acide clavulanique ou C3G. Pas de couverture anti-anaérobie systématique, sauf abcès ou empyème.",
+    "source": "ATS/IDSA 2019 (PAC) ; Mandell et Niederman, NEJM 2019",
+    "tags": [
+      "Inhalation",
+      "Pneumonie",
+      "Antibiothérapie",
+      "Anesthésie"
+    ]
+  },
+  {
+    "module": "Sepsis & infectiologie",
+    "quiz": true,
+    "hook": "Angiocholite aiguë avec choc : quel antibiotique, et quel geste ?",
+    "body": "Pipéracilline-tazobactam (ou céfépime + métronidazole), et drainage biliaire en urgence, le plus souvent par CPRE.",
+    "detail": "Carbapénème si BLSE suspectée. Dans les formes graves, Tokyo recommande aussi de couvrir l'entérocoque (vancomycine). Après drainage de la voie biliaire, 4 à 7 jours d'antibiotiques suffisent.",
+    "source": "Tokyo Guidelines 2018",
+    "tags": [
+      "Angiocholite",
+      "Infection intra-abdominale",
+      "Choc septique",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Amikacine (Choc septique, bithérapie probabiliste)",
+    "body": "25 à 30 mg/kg IV en 30 min, en une injection par 24 h, pendant 1 à 3 jours.",
+    "detail": "Dose calculée sur le poids total (poids ajusté chez l'obèse). Objectifs : pic de 60 à 80 mg/L, résiduelle sous 2,5 mg/L. En insuffisance rénale ou sous EER, ne pas réduire la dose : espacer les injections selon la résiduelle.",
+    "source": "ANSM 2011 (bon usage des aminosides)",
+    "tags": [
+      "Aminosides",
+      "Antibiothérapie",
+      "Choc septique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Gentamicine (Infection grave, en association)",
+    "body": "5 à 8 mg/kg IV en 30 min, en une injection par 24 h, pendant 1 à 3 jours.",
+    "detail": "Objectifs : pic de 30 à 40 mg/L, résiduelle sous 0,5 mg/L. Une seule injection suffit souvent. Plus de 5 jours seulement dans de rares indications (endocardite à entérocoque ou streptocoque).",
+    "source": "ANSM 2011 (bon usage des aminosides)",
+    "tags": [
+      "Aminosides",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Vancomycine (Perfusion continue en réanimation)",
+    "body": "Dose de charge de 20 à 35 mg/kg, puis perfusion continue d'environ 30 à 40 mg/kg/24 h, ajustée à la fonction rénale.",
+    "detail": "Cible : concentration à l'équilibre de 20 à 25 mg/L, qui correspond à une AUC de 400 à 600. Dosage dès 24 h. Toxicité rénale majorée avec la pipéracilline-tazobactam et les aminosides.",
+    "source": "ASHP/IDSA/PIDS/SIDP 2020 (vancomycine)",
+    "tags": [
+      "Vancomycine",
+      "SARM",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Pipéracilline-tazobactam (Choc septique)",
+    "body": "Dose de charge de 4 g en 30 min, puis 4 g toutes les 6 h en perfusion prolongée de 3 à 4 h, ou 16 g/24 h en continu.",
+    "detail": "La dose de charge n'est jamais réduite, même en insuffisance rénale. Objectif : une concentration au-dessus de 4 fois la CMI en permanence. Dosage plasmatique pour ajuster, surtout sous EER ou en hyperclairance.",
+    "source": "RFE SFPT/SFAR 2019 (optimisation des bêtalactamines)",
+    "tags": [
+      "Bêtalactamines",
+      "Pharmacocinétique",
+      "Choc septique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Méropénème (Choc septique, BLSE)",
+    "body": "Dose de charge de 1 à 2 g en 30 min, puis 1 à 2 g toutes les 8 h en perfusion prolongée de 3 h.",
+    "detail": "2 g toutes les 8 h pour une méningite ou un germe peu sensible. Stabilité limitée une fois reconstitué : la perfusion prolongée est plus simple que la continue sur 24 h. Carbapénème à réserver aux BLSE et aux formes graves.",
+    "source": "RFE SFPT/SFAR 2019 (optimisation des bêtalactamines) ; RCP méropénème",
+    "tags": [
+      "Carbapénèmes",
+      "BLSE",
+      "Pharmacocinétique"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Caspofungine (Candidémie en réanimation)",
+    "body": "70 mg IV à J1, puis 50 mg/j (70 mg/j si poids > 80 kg).",
+    "detail": "Pas d'adaptation à la fonction rénale ni sous EER. 35 mg/j en insuffisance hépatique modérée (Child-Pugh B). Inactive sur Cryptococcus.",
+    "source": "RCP caspofungine ; IDSA 2016 (candidoses)",
+    "tags": [
+      "Antifongiques",
+      "Candidémie",
+      "Échinocandines"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Linézolide (Pneumonie ou infection à SARM)",
+    "body": "600 mg toutes les 12 h, IV ou per os : la biodisponibilité orale est proche de 100 %.",
+    "detail": "Thrombopénie surtout au-delà de 10 à 14 jours : surveiller la NFS. Risque de syndrome sérotoninergique avec les antidépresseurs sérotoninergiques. Pas d'adaptation rénale. Bonne diffusion pulmonaire.",
+    "source": "RCP linézolide ; IDSA/ATS 2016 (pneumonies nosocomiales)",
+    "tags": [
+      "SARM",
+      "PAVM",
+      "Antibiothérapie"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Clindamycine (Antibioprophylaxie, allergie aux bêtalactamines)",
+    "body": "900 mg IV en 30 min, dans l'heure qui précède l'incision.",
+    "detail": "Dose relevée de 600 à 900 mg à l'actualisation SFAR. Réinjection si l'intervention dépasse 2 demi-vies du produit. Alternative à la céfazoline quand l'allergie est grave.",
+    "source": "SFAR 2018 (antibioprophylaxie en chirurgie et médecine interventionnelle)",
+    "tags": [
+      "Antibioprophylaxie",
+      "Allergie",
+      "Clindamycine"
+    ]
+  },
+  {
+    "module": "Posologies",
+    "quiz": true,
+    "hook": "Vancomycine (Antibioprophylaxie : allergie ou portage de SARM)",
+    "body": "30 mg/kg IV en perfusion lente (environ 2 h), débutée dans les 2 h avant l'incision.",
+    "detail": "La perfusion lente évite le red man syndrome : érythème et hypotension par libération d'histamine. Il faut donc l'anticiper avant l'arrivée au bloc. Dose relevée à 30 mg/kg à l'actualisation SFAR.",
+    "source": "SFAR 2018 (antibioprophylaxie en chirurgie et médecine interventionnelle)",
+    "tags": [
+      "Antibioprophylaxie",
+      "Vancomycine",
+      "SARM"
+    ]
+  }
+]
