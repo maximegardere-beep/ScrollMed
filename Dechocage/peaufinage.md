@@ -40,3 +40,101 @@ Pistes choisies par QCM le 2026-10-08. **Statut : en attente, à lancer plus tar
 - [ ] **L11** Capnographie signifiante (retenue le 2026-10-11) : forme du tracé selon l'état : aileron de requin du bronchospasme, plateau normal, chute brutale (embolie, ACR, extubation accidentelle), remontée franche au RACS ; en RCP, EtCO2 selon la qualité du massage.
 - [ ] **L12** Diurèse horaire (retenue le 2026-10-11) : constante affichée après pose d'une sonde urinaire, effondrée dans le choc, qui remonte avec la réanimation ; alerte en cas de rhabdomyolyse ou après produit de contraste.
 - [ ] **L13** Ionogramme et glycémie dynamiques (retenus le 2026-10-11, prolongent L8) : kaliémie, glycémie et natrémie évoluent avec les traitements et leur délai : l'insuline fait baisser la kaliémie (acidocétose : hypokaliémie et troubles du rythme sans supplémentation), calcium, salbutamol et insuline-glucose dans l'hyperkaliémie.
+
+---
+
+# Plan v2 : Simu, équipe, physiologie dynamique, polytraumatisé (2026-11-05)
+
+Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par lot, dans l'ordre ci-dessous. Retenus : L7 (respirateur, réglable sur ordinateur seulement), L8 et L13 (gaz du sang et ionogramme dynamiques), L11 (capnographie). Les autres pistes de L1 à L13 restent en attente.
+
+## Décisions
+
+- **V1 Renommage** : le mode s'appelle **« Simu »** dans toute l'interface (onglet ✚, titres, toasts, accueil, réglages), et le dossier `Dechocage/` devient `Simu/` (CLAUDE.md, validateurs, `scenarios_a_creer.md`, `reserve/`). Les clés internes ne changent pas (`STATE.dechoc`, préfixes `dc*`, `id` de scénarios, d'actions, de terrains), pour garder l'historique des joueurs.
+- **V2 Univers** : la page de lancement s'ouvre sur 3 univers, **🚑 Déchocage**, **💉 Anesthésie** et **🛏️ Réa**, qui filtrent à la fois le patient aléatoire et la liste des scénarios fixes.
+  - Anesthésie = induction + peropératoire + **SSPI**.
+  - Réa : vide pour l'instant (« bientôt »), à remplir par de nouvelles trames (V7).
+  - Univers présélectionné d'après le domaine du feed (`STATE.domaine`), puis mémorisé (`DC_PREFS.univers`).
+- **V3 L'équipe pose des questions** sur un oubli, avec une probabilité qui dépend du niveau :
+  - gestes visés : un **socle** propre à chaque univers (au déchoc : scope, VVP, O2, glycémie ; au bloc : monitorage, check-list…), plus les **indispensables** de l'étape ;
+  - un geste fait après une question de l'équipe vaut **0 point**, ni bonus ni malus ; une question ignorée laisse l'oubli compter normalement ;
+  - au débriefing : « fait sur rappel de l'IDE ».
+- **V4 Capnographie signifiante** (L11).
+- **V5 Gaz du sang et ionogramme dynamiques** (L8 + L13). Le scénario fixe les valeurs de départ, puis le moteur les fait évoluer. Les textes fixes actuels restent en repli.
+- **V6 Respirateur réglable** (L7), sur **navigateur d'ordinateur seulement**. Le téléphone garde les tuiles actuelles, qui deviennent des préréglages.
+- **V7 Polytraumatisé procédural** :
+  - architecture : **lésions combinables** (catalogue de lésions composées par le moteur) ;
+  - prise en charge préhospitalière **tirée sans erreur** : des gestes déjà faits ou non, jamais mal faits ;
+  - après la stabilisation, une **décision qui termine la partie** : TDM corps entier (étape jouée, puis orientation), bloc de damage control ou radiologie interventionnelle (fin).
+
+## Lots
+
+- [ ] **S0 Simu et univers** (V1, V2)
+  - `git mv Dechocage Simu`. Le code lit `Simu/` et se replie sur `Dechocage/` s'il est absent, le temps que les apps en cache se mettent à jour. CLAUDE.md, validateurs et textes d'aide passent à « Simu ».
+  - Contextes : la valeur `rea` actuelle (2 trames de SSPI) devient `sspi`, et `rea` est libéré pour la vraie réanimation. Aucune règle `dans` de `terrains.json` ne vise `rea` aujourd'hui, donc pas de migration de contenu au-delà des 2 trames.
+  - `DC_UNIVERS = { dechoc: [dechoc], anesth: [induction, perop, sspi], rea: [rea] }`. Le sous-filtre par contexte est retiré.
+  - Les scénarios fixes sans `terrains` sont rangés via une clé `univers` du scénario (défaut `dechoc`).
+- [ ] **S1 Questions de l'équipe** (V3)
+  - Contenu, dans `actions.json` :
+    - `socle: ["dechoc"]` : univers où le geste fait partie du socle ;
+    - `rappel` : la phrase de l'IDE, par ex. « Je le scope ? », « On lui pose une voie ? », « Je fais une glycémie ? ».
+  - Le socle compte comme `recommande` dans la 1re étape quand la trame ne le note pas. Rien à réécrire dans les scénarios.
+  - Déclenchement :
+    - au-delà de 50 % du chrono de l'étape (en temps fixé, du temps patient de l'étape) ;
+    - probabilité de **70 % en facile, 35 % en moyen, 0 % en difficile** (scénario fixe : moyen) ;
+    - au plus 1 question par geste et par partie, 2 par étape, aucune pendant un ACR.
+  - Interface : bulle datée de l'IDE sous le scope, avec « Oui, vas-y » (lance le geste, 0 point) et « Pas maintenant ». Cette bulle sert de base à L4 (équipe qui parle).
+- [ ] **S2 Capnographie signifiante** (V4, L11) : forme du tracé selon l'état, sans contenu à écrire.
+  - Aileron de requin : complication bronchospasme, trame asthme, ou action de classe `bronchospasme`.
+  - Plateau normal.
+  - Chute brutale : ACR, EP, débit cardiaque effondré.
+  - Remontée franche au RACS.
+  - Pendant la RCP : EtCO2 entre 10 et 20 selon la qualité du massage.
+  - Courbe plate si la sonde est retirée (tuile future « extubation accidentelle », V7 Réa).
+- [ ] **S3 Gaz du sang et ionogramme dynamiques** (V5)
+  - Données :
+    - `bio` du scénario : valeurs de départ pH, PaCO2, HCO3⁻, PaO2, lactates, K⁺, Na⁺, glycémie ;
+    - `bio` sur les actions : effet et délai, par ex. insuline −0,6 mmol/L de K⁺ en 30 min, ou KCl, bicarbonate, salbutamol, G10 ;
+    - normes et format d'affichage dans `Simu/biologie.json`, pour que le moteur reste sans donnée médicale.
+  - Moteur :
+    - PaCO2 selon la ventilation minute (FR spontanée ou respirateur, S4) ;
+    - HCO3⁻ selon les traitements ;
+    - pH par Henderson-Hasselbalch ;
+    - lactates qui montent pendant le temps passé sous PAM 65 et redescendent après correction ;
+    - PaO2 déduite de la SpO2 et de la FiO2.
+  - Les examens `gds`, `iono`, `glycemie` et `lactates` génèrent leur texte, valeurs anormales en `**…**`. Un résultat écrit du scénario s'ajoute pour ce qui n'est pas calculé (trou anionique, cétonémie).
+  - Conditions `si` (résultats, déclencheurs) étendues aux variables `bio`, par ex. une aggravation hypokaliémique à `K < 3`. L'acidocétose et l'hyperkaliémie sont converties en premier.
+- [ ] **S4 Respirateur réglable** (V6, L7)
+  - Sur ordinateur, panneau « Respirateur » après l'intubation : Vt (affiché en mL/kg de poids idéal), PEP, FiO2, FR, I:E.
+  - Il affiche Pplat, Pcrête, auto-PEEP et ventilation minute.
+  - Il faut une taille au patient : `identite.taille` sur la trame, tirée selon le sexe.
+  - `ventilation` du scénario : compliance, résistance, shunt, PEP utile.
+  - Effets :
+    - SpO2 selon FiO2, PEP et shunt ;
+    - PaCO2 selon la ventilation minute (S3) ;
+    - PAS qui chute avec la PEP et l'auto-PEEP chez le patient précharge-dépendant ;
+    - collapsus de l'asthmatique quand la FR est trop haute.
+  - Les tuiles actuelles (`vm_protectrice`, `vm_asthme`, `hypervent`) deviennent des préréglages, seule commande sur téléphone.
+  - Débriefing : cibles du scénario (Vt 6 à 8 mL/kg, Pplat < 30, FR basse dans l'asthme).
+  - L10 (variation de pression pulsée) pourra s'appuyer dessus plus tard.
+- [ ] **S5 Polytraumatisé procédural** (V7)
+  - `Simu/lesions.json`, une lésion par entrée :
+    - `id`, `label`, `region` (crâne, rachis, thorax, abdomen, bassin, membres), `exclut` ;
+    - fragment de vignette, `constantes` et `pente` additives ;
+    - `resultats` et `schemas` par examen (E-FAST, RP, radio du bassin, TDM), fusionnés par le moteur : paramètres des schémas réunis, texte des régions saines « sans anomalie » ;
+    - `actions` dues (format d'étape : note, `alt`, `why`), `letal_si_manque`, contre-indications, `tags`.
+  - Lésions de la v1 :
+    - PNO compressif, hémothorax massif, tamponnade, volet costal et contusion ;
+    - rupture splénique, lacération hépatique ;
+    - fracture instable du bassin, fracture du fémur ;
+    - plaie de membre avec saignement artériel ;
+    - TC grave avec hématome extradural (repris de `reserve/sc_tc_grave.json`), lésion médullaire cervicale avec choc neurogénique.
+  - Trame `sc_polytrauma.json` :
+    - `lesions` : 1-2 en facile, 2-3 en moyen, 3-4 en difficile, au plus une par région ;
+    - terrain tiré comme d'habitude, par ex. anticoagulé ;
+    - `prehosp` : gestes SMUR tirés avec une probabilité (VVP, ceinture pelvienne, garrot, IOT, acide tranexamique, collier), déjà faits à l'arrivée, sans points pour le joueur, et rappelés dans la **transmission SMUR** (fiche avant le chrono) ;
+    - e1 ABCDE et stabilisation, puis décision avec la fenêtre de transfert existante : TDM corps entier (étape e2 jouée, lésions révélées, puis orientation), bloc de damage control ou radiologie interventionnelle (fin).
+  - Débriefing par lésion : gestes dus, faits, oubliés.
+  - Validateur étendu à `lesions.json`.
+- [ ] **S6 Trames de réa** (remplissent l'univers Réa, sujets à choisir) : extubation accidentelle, choc septique en cours de séjour, SDRA qui s'aggrave (s'appuie sur S4), hémorragie digestive du cirrhotique, désadaptation et PNO sous ventilation.
+
+Ordre conseillé : S0, puis S1 (rapides, visibles), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S5 (le plus gros chantier), puis S6.
