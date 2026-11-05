@@ -1,0 +1,619 @@
+{
+ "id": "polytraumatise",
+ "titre": "Polytraumatisé : lésions tirées au hasard",
+ "source": "ATLS 10e édition 2018 ; European guideline on management of major bleeding and coagulopathy following trauma, 6e édition, 2023 ; SFAR 2016 (TC grave) ; WSES 2017 (rate, bassin) et 2020 (foie) ; AANS/CNS 2013 ; AO Spine 2017 ; ERC 2021",
+ "tags": [
+  "traumatologie",
+  "polytraumatisé",
+  "choc hémorragique",
+  "transfusion"
+ ],
+ "patient": "Adulte, 35 ans, 75 kg",
+ "terrains": {
+  "contexte": "dechoc",
+  "exclus": [
+   "estomac_plein"
+  ],
+  "identite": {
+   "sexe": [
+    "F",
+    "M"
+   ],
+   "age": [
+    18,
+    75
+   ],
+   "poids": [
+    55,
+    100
+   ]
+  }
+ },
+ "lesions": {
+  "nombre": {
+   "facile": [
+    1,
+    2
+   ],
+   "moyen": [
+    2,
+    3
+   ],
+   "difficile": [
+    3,
+    4
+   ]
+  }
+ },
+ "mecanismes": [
+  {
+   "fiche": "Accident de moto : choc contre une voiture à 70 km/h, casque arraché."
+  },
+  {
+   "fiche": "Chute d'un échafaudage de 6 mètres, réception sur le dos.",
+   "regions": [
+    "crane",
+    "rachis",
+    "thorax",
+    "abdomen",
+    "bassin",
+    "membres"
+   ]
+  },
+  {
+   "fiche": "Choc frontal en voiture à 90 km/h, désincarcération de 40 minutes."
+  },
+  {
+   "fiche": "Piéton renversé par une camionnette à 50 km/h."
+  }
+ ],
+ "prehosp": [
+  {
+   "id": "vvp",
+   "proba": 0.85
+  },
+  {
+   "id": "collier",
+   "proba": 0.7
+  },
+  {
+   "id": "o2_masque",
+   "proba": 0.6
+  },
+  {
+   "id": "exacyl",
+   "proba": 0.5,
+   "si_lesion": [
+    "hemothorax_massif",
+    "rupture_rate",
+    "laceration_foie",
+    "bassin_instable",
+    "membre_arteriel"
+   ]
+  },
+  {
+   "id": "ceinture_pelvienne",
+   "proba": 0.5,
+   "si_lesion": [
+    "bassin_instable"
+   ]
+  },
+  {
+   "id": "garrot",
+   "proba": 0.7,
+   "si_lesion": [
+    "membre_arteriel"
+   ]
+  },
+  {
+   "id": "attelle_femur",
+   "proba": 0.4,
+   "si_lesion": [
+    "fracture_femur"
+   ]
+  },
+  {
+   "id": "isr_ketamine",
+   "proba": 0.5,
+   "si_lesion": [
+    "hed_engagement"
+   ],
+   "groupe": "isr"
+  },
+  {
+   "id": "isr_etomidate",
+   "proba": 0.5,
+   "si_lesion": [
+    "hed_engagement"
+   ],
+   "groupe": "isr"
+  },
+  {
+   "id": "exsufflation",
+   "proba": 0.3,
+   "si_lesion": [
+    "pno_compressif"
+   ]
+  },
+  {
+   "id": "ketamine_analg",
+   "proba": 0.4
+  }
+ ],
+ "constantes": {
+  "FC": 96,
+  "PAS": 132,
+  "PAD": 78,
+  "SpO2": 97,
+  "FR": 20,
+  "T": 36.3,
+  "GCS": 15,
+  "EtCO2": 36
+ },
+ "seuils": {
+  "PAS": 50,
+  "SpO2": 70
+ },
+ "bornes_depart": {
+  "PAS": [
+   70,
+   null
+  ],
+  "PAD": [
+   38,
+   null
+  ],
+  "SpO2": [
+   82,
+   null
+  ],
+  "FC": [
+   null,
+   145
+  ]
+ },
+ "hemodynamique": {
+  "reserve_ml": 4000,
+  "oap_ml": 7000,
+  "why": "Hypovolémie par saignement : précharge-dépendant tant que l'hémorragie n'est pas contrôlée ; le remplissage massif dilue la coagulation, d'où un remplissage restreint et l'hypotension permissive (guideline européen 2023)."
+ },
+ "resultats": {
+  "scope": "Tachycardie sinusale.",
+  "ecg": "Rythme sinusal, pas de trouble de la repolarisation.",
+  "efast": "Pas d'épanchement péritonéal, pleural ni péricardique. Glissement pleural présent des deux côtés.",
+  "rp": "Pas de pneumothorax ni d'hémothorax. Médiastin normal.",
+  "rx_bassin": "Pas de fracture du bassin.",
+  "tdm_body": "Pas de lésion traumatique hémorragique, viscérale ni osseuse.",
+  "hemocue": [
+   {
+    "si": {
+     "PAS": {
+      "max": 89
+     }
+    },
+    "texte": "**Hb capillaire {8,4~9,6} g/dL**."
+   },
+   {
+    "texte": "Hb capillaire {12,6~14,2} g/dL."
+   }
+  ],
+  "nfs": [
+   {
+    "si": {
+     "PAS": {
+      "max": 89
+     }
+    },
+    "texte": "**Hb {8,2~9,4} g/dL** · plaquettes 168 G/L."
+   },
+   {
+    "texte": "Hb {12,4~14,0} g/dL · plaquettes 236 G/L."
+   }
+  ],
+  "tp_tca": [
+   {
+    "si": {
+     "PAS": {
+      "max": 89
+     }
+    },
+    "texte": "**TP 54 %** · **TCA 1,4** · **fibrinogène 1,2 g/L**."
+   },
+   {
+    "texte": "TP 88 % · TCA 1,05 · fibrinogène 2,6 g/L."
+   }
+  ],
+  "ttem": [
+   {
+    "si": {
+     "PAS": {
+      "max": 89
+     }
+    },
+    "texte": "**FIBTEM A5 à 6 mm** : défaut de fibrinogène."
+   },
+   {
+    "texte": "Profils EXTEM et FIBTEM normaux."
+   }
+  ],
+  "lactates": [
+   {
+    "si": {
+     "PAM": {
+      "max": 64
+     }
+    },
+    "texte": "**Lactates {4,2~6,0} mmol/L**."
+   },
+   {
+    "si": {
+     "PAS": {
+      "max": 99
+     }
+    },
+    "texte": "**Lactates {2,4~3,4} mmol/L**."
+   },
+   {
+    "texte": "Lactates 1,4 mmol/L."
+   }
+  ],
+  "gds": [
+   {
+    "si": {
+     "PAM": {
+      "max": 64
+     }
+    },
+    "texte": "**pH 7,24** · **HCO3⁻ 16 mmol/L** · **déficit de base −9** · **Ca²⁺ ionisé 0,98 mmol/L**."
+   },
+   {
+    "texte": "pH 7,38 · HCO3⁻ 23 mmol/L · déficit de base −1 · Ca²⁺ ionisé 1,14 mmol/L."
+   }
+  ],
+  "groupe_rai": "Prélevés. Groupe O RhD positif, RAI négative.",
+  "glycemie": "Glycémie 1,38 g/L.",
+  "iono": "Na 140 mmol/L · K⁺ 4,0 mmol/L · créatinine 84 µmol/L."
+ },
+ "schemas": {
+  "efast": {
+   "type": "efast"
+  },
+  "rp": {
+   "type": "rp"
+  },
+  "rx_bassin": {
+   "type": "rx_bassin"
+  }
+ },
+ "resultats_reste": {
+  "efast": "Pas d'autre épanchement.",
+  "rp": "Reste du cliché sans particularité.",
+  "tdm_body": "Pas d'autre lésion traumatique."
+ },
+ "etapes": [
+  {
+   "id": "e1",
+   "titre": "Accueil du polytraumatisé",
+   "chrono": 240,
+   "vignette": "Arrivée au déchocage. Bilan primaire ABCDE.",
+   "pente": {
+    "PAS": -0.1,
+    "T": -0.02
+   },
+   "transfert": {
+    "vers": "au scanner",
+    "min": {
+     "PAM": 65,
+     "SpO2": 90,
+     "GCS": 9
+    },
+    "max": {
+     "FC": 140
+    },
+    "si_instable": "acr"
+   },
+   "actions": {
+    "scope": {
+     "note": "recommande",
+     "why": "Monitorage continu : ECG, PNI, SpO2."
+    },
+    "vvp": {
+     "note": "indispensable",
+     "why": "Deux voies veineuses de gros calibre pour remplir et transfuser vite."
+    },
+    "io": {
+     "note": "debattu",
+     "why": "Seulement si les voies veineuses périphériques sont impossibles."
+    },
+    "o2_masque": {
+     "note": "recommande",
+     "why": "Oxygène chez tout traumatisé grave lors du bilan primaire (ATLS 2018).",
+     "effet": {
+      "SpO2": 4
+     }
+    },
+    "collier": {
+     "note": "recommande",
+     "why": "Traumatisé grave : rachis cervical immobilisé jusqu'à preuve du contraire (ATLS 2018)."
+    },
+    "efast": {
+     "note": "indispensable",
+     "why": "Adjuvant du bilan primaire : chercher au lit un épanchement péritonéal, pleural ou péricardique et un pneumothorax (ATLS 2018)."
+    },
+    "rp": {
+     "note": "recommande",
+     "why": "Radio de thorax au lit, adjuvant du bilan primaire (ATLS 2018)."
+    },
+    "rx_bassin": {
+     "note": "recommande",
+     "why": "Radio de bassin au lit, adjuvant du bilan primaire chez le traumatisé grave (ATLS 2018)."
+    },
+    "groupe_rai": {
+     "note": "recommande",
+     "why": "Groupage et RAI dès l'arrivée, sans retarder les CGR en urgence vitale."
+    },
+    "hemocue": {
+     "note": "recommande",
+     "why": "Hémoglobine rapide, à interpréter avec prudence : elle peut être normale au début d'une hémorragie."
+    },
+    "nfs": {
+     "note": "recommande",
+     "why": "Hémoglobine et plaquettes."
+    },
+    "tp_tca": {
+     "note": "recommande",
+     "why": "Dépister précocement la coagulopathie traumatique, surtout l'hypofibrinogénémie."
+    },
+    "lactates": {
+     "note": "recommande",
+     "why": "Lactates et déficit de base : marqueurs de gravité et de suivi du choc (guideline européen 2023)."
+    },
+    "gds": {
+     "note": "recommande",
+     "why": "Acidose, déficit de base, calcium ionisé, PaCO2."
+    },
+    "glycemie": {
+     "note": "debattu",
+     "why": "Utile chez le comateux ; sans trouble de conscience, elle n'oriente pas la prise en charge."
+    },
+    "ttem": {
+     "note": "debattu",
+     "why": "Les tests viscoélastiques guident la correction de la coagulopathie quand le patient saigne."
+    },
+    "ett": {
+     "note": "debattu",
+     "why": "L'E-FAST suffit à l'accueil ; l'ETT sert si un choc reste inexpliqué."
+    },
+    "remp_cristal": {
+     "note": "recommande",
+     "alt": "remplissage",
+     "why": "Remplissage limité par un soluté balancé en attendant les produits sanguins. Objectif : PAS 80 à 90 mmHg en l'absence de TC grave (hypotension permissive, guideline européen 2023).",
+     "effet": {
+      "PAS": 5
+     }
+    },
+    "remp_nacl": {
+     "note": "debattu",
+     "alt": "remplissage",
+     "why": "Les solutés balancés sont préférés ; le NaCl 0,9 % en grand volume aggrave l'acidose (guideline européen 2023).",
+     "effet": {
+      "PAS": 5
+     }
+    },
+    "hes": {
+     "note": "contre_indique",
+     "why": "Hydroxyéthylamidons à éviter chez le traumatisé : ils aggravent la coagulopathie (guideline européen 2023).",
+     "effet": {
+      "PAS": 5
+     }
+    },
+    "cgr_od": {
+     "note": "debattu",
+     "alt": "transfusion",
+     "why": "Pas de transfusion sans saignement actif ni anémie mal tolérée.",
+     "effet": {
+      "PAS": 6,
+      "FC": -4
+     }
+    },
+    "ptm": {
+     "note": "debattu",
+     "alt": "transfusion",
+     "why": "Le protocole de transfusion massive se déclenche devant une hémorragie massive."
+    },
+    "pfc": {
+     "note": "debattu",
+     "why": "Plasma réservé à l'hémorragie massive ou à la coagulopathie.",
+     "effet": {
+      "PAS": 4
+     }
+    },
+    "fibrinogene": {
+     "note": "debattu",
+     "why": "Concentré de fibrinogène si le fibrinogène est < 1,5 g/L au cours d'une hémorragie."
+    },
+    "calcium": {
+     "note": "debattu",
+     "why": "À corriger si le calcium ionisé est bas, surtout pendant une transfusion."
+    },
+    "exacyl": {
+     "note": "debattu",
+     "why": "Acide tranexamique chez le traumatisé qui saigne ou risque de saigner, dans les 3 h (CRASH-2) ; sans lésion hémorragique, pas d'indication."
+    },
+    "noradre": {
+     "note": "debattu",
+     "why": "Possible pour maintenir la pression cible si l'hypotension menace la vie malgré le remplissage (guideline européen 2023), mais elle ne remplace ni la transfusion ni l'hémostase.",
+     "effet": {
+      "PAS": 10
+     }
+    },
+    "rechauffement": {
+     "note": "recommande",
+     "why": "L'hypothermie aggrave la coagulopathie (triade létale avec l'acidose) : réchauffer tôt (guideline européen 2023).",
+     "pente": {
+      "T": 0.02
+     }
+    },
+    "ketamine_analg": {
+     "note": "recommande",
+     "why": "Analgésie du polytraumatisé ; la kétamine à faible dose respecte l'hémodynamique."
+    },
+    "morphine_titr": {
+     "note": "debattu",
+     "why": "Titration prudente : risque d'aggraver une hypotension."
+    },
+    "tdm_body": {
+     "note": "debattu",
+     "duree": 15,
+     "si_instable": "acr",
+     "why": "Patient stabilisé : TDM corps entier injecté, examen de référence du bilan lésionnel (guideline européen 2023). Départ par cette tuile ou par « 🚑 Partir au scanner ».",
+     "selon": [
+      {
+       "si": {
+        "PAM": {
+         "max": 64
+        }
+       },
+       "note": "contre_indique",
+       "why": "Patient instable : pas de transfert au scanner tant que l'hémorragie n'est pas contrôlée (guideline européen 2023)."
+      }
+     ]
+    },
+    "bloc": {
+     "note": "debattu",
+     "why": "Bloc d'emblée seulement chez le patient instable qui saigne (damage control) ; stable, le scanner d'abord (guideline européen 2023)."
+    },
+    "radio_interv": {
+     "note": "debattu",
+     "why": "Embolisation d'emblée seulement chez le patient instable qui saigne d'une source accessible (bassin) ; stable, le scanner d'abord."
+    },
+    "neurochir": {
+     "note": "debattu",
+     "why": "Pas de neurochirurgie sans imagerie : le scanner localise la lésion et pose l'indication."
+    },
+    "reanimation": {
+     "note": "inutile",
+     "si_instable": "acr",
+     "why": "La réanimation vient après le bilan lésionnel au scanner ou le geste d'hémostase."
+    },
+    "isr_etomidate": {
+     "note": "inutile",
+     "alt": "isr",
+     "why": "Sans coma, détresse respiratoire ni choc réfractaire, pas d'indication d'intubation immédiate : l'induction aggraverait l'hypotension.",
+     "effet": {
+      "PAS": -30,
+      "SpO2": 5,
+      "EtCO2": -6
+     }
+    },
+    "isr_etomidate_rocu": {
+     "note": "inutile",
+     "alt": "isr",
+     "why": "Sans coma, détresse respiratoire ni choc réfractaire, pas d'indication d'intubation immédiate : l'induction aggraverait l'hypotension.",
+     "effet": {
+      "PAS": -30,
+      "SpO2": 5,
+      "EtCO2": -6
+     }
+    },
+    "isr_ketamine": {
+     "note": "inutile",
+     "alt": "isr",
+     "why": "Sans coma, détresse respiratoire ni choc réfractaire, pas d'indication d'intubation immédiate : l'induction aggraverait l'hypotension.",
+     "effet": {
+      "PAS": -30,
+      "SpO2": 5,
+      "EtCO2": -6
+     }
+    },
+    "isr_ketamine_succi": {
+     "note": "inutile",
+     "alt": "isr",
+     "why": "Sans coma, détresse respiratoire ni choc réfractaire, pas d'indication d'intubation immédiate : l'induction aggraverait l'hypotension.",
+     "effet": {
+      "PAS": -30,
+      "SpO2": 5,
+      "EtCO2": -6
+     }
+    },
+    "isr_propofol": {
+     "note": "inutile",
+     "alt": "isr",
+     "why": "Sans coma, détresse respiratoire ni choc réfractaire, pas d'indication d'intubation immédiate : l'induction aggraverait l'hypotension.",
+     "effet": {
+      "PAS": -50,
+      "SpO2": 5,
+      "EtCO2": -6
+     }
+    },
+    "isr_propofol_succi": {
+     "note": "inutile",
+     "alt": "isr",
+     "why": "Sans coma, détresse respiratoire ni choc réfractaire, pas d'indication d'intubation immédiate : l'induction aggraverait l'hypotension.",
+     "effet": {
+      "PAS": -50,
+      "SpO2": 5,
+      "EtCO2": -6
+     }
+    }
+   },
+   "suite": [
+    {
+     "vers": "e2"
+    }
+   ]
+  },
+  {
+   "id": "e2",
+   "titre": "Retour du scanner",
+   "chrono": 120,
+   "reprend": "e1",
+   "examens": [
+    "tdm_body"
+   ],
+   "vignette": "Le scanner corps entier vient d'être fait : lis le compte rendu et décide de l'orientation.",
+   "declencheur": {
+    "si": {
+     "fait": [
+      "tdm_body"
+     ]
+    },
+    "dans": [
+     "e1"
+    ]
+   },
+   "pente": {
+    "PAS": -0.1,
+    "T": -0.02
+   },
+   "actions": {
+    "reanimation": {
+     "note": "indispensable",
+     "alt": "orientation",
+     "why": "Après le bilan lésionnel, le polytraumatisé grave relève de la réanimation, sauf geste d'hémostase ou de neurochirurgie à faire d'abord."
+    },
+    "bloc": {
+     "note": "inutile",
+     "why": "Aucune lésion au scanner ne justifie une chirurgie urgente."
+    },
+    "radio_interv": {
+     "note": "inutile",
+     "why": "Pas de saignement artériel accessible à l'embolisation au scanner."
+    },
+    "neurochir": {
+     "note": "inutile",
+     "why": "Pas de lésion neurochirurgicale au scanner."
+    },
+    "tdm_body": {
+     "note": "inutile",
+     "why": "Le scanner vient d'être fait."
+    }
+   },
+   "suite": [
+    {
+     "vers": "fin"
+    }
+   ]
+  }
+ ]
+}

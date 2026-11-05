@@ -2235,7 +2235,7 @@ async function syncDechocFromGithub(cfg, headers){
     return { count: 0, errors: [] };
   }
   DC_SYNC_INFO = '';
-  let actions = null, terrains = null, complications = [];
+  let actions = null, terrains = null, complications = [], lesions = [];
   const scenarios = [], errors = [];
   for(const { file: f, data, error } of await ghFetchJson(cfg, list.files)){
     try{
@@ -2250,6 +2250,10 @@ async function syncDechocFromGithub(cfg, headers){
       } else if(f.name === 'complications.json'){
         if(!Array.isArray(data)) throw new Error('tableau attendu');
         complications = data;
+      } else if(f.name === 'lesions.json'){
+        // polytraumatisé : lésions combinables
+        if(!Array.isArray(data)) throw new Error('tableau attendu');
+        lesions = data;
       } else {
         if(!data || !data.id || !Array.isArray(data.etapes) || !data.etapes.length) throw new Error('scénario invalide');
         scenarios.push(data);
@@ -2257,7 +2261,7 @@ async function syncDechocFromGithub(cfg, headers){
     }catch(err){ errors.push(`${f.name} (${err.message})`); }
   }
   if(!actions){ errors.push('actions.json manquant'); return { count: 0, errors }; }
-  DC_CONTENT = { actions, scenarios, terrains, complications };
+  DC_CONTENT = { actions, scenarios, terrains, complications, lesions };
   localStorage.setItem(DECHOC_CONTENT_KEY, JSON.stringify(DC_CONTENT));
   if(DC_VIEW === 'home' && document.getElementById('panelDechoc').classList.contains('open')) dcRender();
   return { count: scenarios.length, errors };
@@ -2386,6 +2390,158 @@ function dcShuffle(arr){
   for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 }
+// ---------- polytraumatisé : lésions combinables (Simu/lesions.json) ----------
+// Trame : "lesions": { "nombre": { "facile": [1, 2], … } }, "mecanismes": [{ "fiche", "regions" }],
+// "prehosp": [{ "id", "proba", "si_lesion", "groupe" }], "resultats_reste" (texte ajouté après les lésions).
+// Une lésion apporte ses constantes et sa pente (atténuées par "controle"), ses gestes et diagnostics par étape,
+// ses contre-indications (comme un terrain, "avant_controle" : tant qu'elle n'est pas contrôlée) et ses résultats.
+const DC_LES_NB = { facile: [1, 2], moyen: [2, 3], difficile: [3, 4] };
+const DC_LES_RANG = { contre_indique: 5, indispensable: 4, recommande: 3, debattu: 2, inutile: 1 };
+const DC_COTE = { d: ['droit', 'droite'], g: ['gauche', 'gauche'] };
+// côté tiré : {cote} → droit / gauche, {cotee} → droite / gauche, $cote → d / g (schémas)
+function dcLesionInst(L, cote){
+  const j = JSON.stringify(L);
+  if(!cote) return JSON.parse(j);
+  const [m, f] = DC_COTE[cote];
+  return Object.assign(JSON.parse(j.replace(/\{cote\}/g, m).replace(/\{cotee\}/g, f).replace(/\$cote/g, cote)), { cote });
+}
+// force : ["pno_compressif:g", "rate"] (tests)
+function dcDrawLesions(sc, niveau, force){
+  const cat = DC_CONTENT.lesions || [];
+  const mec = dcPick(sc.mecanismes && sc.mecanismes.length ? sc.mecanismes : [{}]);
+  const [a, b] = ((sc.lesions || {}).nombre || {})[niveau] || DC_LES_NB[niveau] || DC_LES_NB.moyen;
+  const out = [];
+  if(force){
+    force.forEach(f => { const [id, c] = f.split(':'), L = cat.find(x => x.id === id); if(L) out.push(dcLesionInst(L, c || (L.cotes ? dcPick(L.cotes) : null))); });
+  } else {
+    const want = dcRandInt(a, b);
+    for(const L of dcShuffle(cat.filter(l => !mec.regions || mec.regions.includes(l.region)))){
+      if(out.length >= want) break;
+      if(out.some(x => x.region === L.region || (x.exclut || []).includes(L.id) || (L.exclut || []).includes(x.id))) continue;
+      out.push(dcLesionInst(L, L.cotes ? dcPick(L.cotes) : null));
+    }
+  }
+  return { mecanisme: mec.fiche || '', lesions: out };
+}
+// fusion de deux notations d'un même geste (trame + lésion, ou deux lésions) : la note la plus forte l'emporte
+// avec sa justification ; à note égale, les justifications s'ajoutent. Effets additionnés, "selon" mis bout à bout.
+function dcMergeSpec(base, add){
+  if(!base) return JSON.parse(JSON.stringify(add));
+  // "force" sur la lésion : sa note remplace celle de la trame (NaCl 0,9 % plutôt que Ringer dans le TC grave)
+  const rb = DC_LES_RANG[base.note] || 0, ra = add.force ? 99 : DC_LES_RANG[add.note] || 0;
+  const hi = ra > rb ? add : base, lo = hi === add ? base : add;
+  const m = JSON.parse(JSON.stringify(hi));
+  delete m.force;
+  if(ra === rb && base.why !== add.why) m.why = `${base.why} ${add.why}`;
+  if(base.effet || add.effet){
+    m.effet = Object.assign({}, base.effet);
+    Object.entries(add.effet || {}).forEach(([k, d]) => { m.effet[k] = (m.effet[k] || 0) + d; });
+  }
+  if(base.selon || add.selon) m.selon = [...(add.selon || []), ...(base.selon || [])];
+  ['alt', 'si_instable', 'refaire'].forEach(k => { if(m[k] == null && lo[k] != null) m[k] = lo[k]; });
+  if(base.delai && add.delai) m.delai = Math.min(base.delai, add.delai);
+  return m;
+}
+function dcComposeTrauma(sc, niveau, force, prehosp){
+  const T = dcDrawLesions(sc, niveau, force);
+  const c = JSON.parse(JSON.stringify(sc));
+  T.lesions.forEach(L => Object.entries(L.constantes || {}).forEach(([k, d]) => { if(c.constantes[k] != null) c.constantes[k] += d; }));
+  // "bornes_depart" de la trame : [min, max] des constantes cumulées (trois lésions ne mettent pas le patient en arrêt à l'arrivée)
+  Object.entries(sc.bornes_depart || {}).forEach(([k, [lo, hi]]) => {
+    if(c.constantes[k] == null) return;
+    if(lo != null) c.constantes[k] = Math.max(lo, c.constantes[k]);
+    if(hi != null) c.constantes[k] = Math.min(hi, c.constantes[k]);
+  });
+  if(c.constantes.GCS != null) c.constantes.GCS = Math.max(3, Math.min(15, c.constantes.GCS));
+  if(c.constantes.SpO2 != null) c.constantes.SpO2 = Math.min(100, c.constantes.SpO2);
+  c.etapes.forEach((st, i) => {
+    const frag = T.lesions.map(L => i === 0 ? L.signes : ((L.etapes || {})[st.id] || {}).vignette).filter(Boolean);
+    st.vignette = [i === 0 ? T.mecanisme : '', st.vignette, ...frag].filter(Boolean).join(' ');
+    T.lesions.forEach(L => {
+      const e = (L.etapes || {})[st.id];
+      if(!e) return;
+      st.actions = st.actions || {};
+      Object.entries(e.actions || {}).forEach(([id, sp]) => { st.actions[id] = dcMergeSpec(st.actions[id], sp); });
+      if(e.diagnostic) st.diagnostic = [...new Set([...(st.diagnostic || []), ...e.diagnostic])];
+      if(e.letal_si_manque) st.letal_si_manque = [].concat(e.letal_si_manque, st.letal_si_manque || []);
+    });
+  });
+  // "reprend": "e1" : l'étape garde les gestes de e1 (hors orientations et départs), marqués repris :
+  // ils se notent comme dans e1 mais ne sont dus qu'une fois, dans e1
+  c.etapes.forEach(st => {
+    const src = st.reprend && c.etapes.find(x => x.id === st.reprend);
+    if(!src) return;
+    st.actions = st.actions || {};
+    Object.entries(src.actions || {}).forEach(([id, sp]) => {
+      const a = dcIndex()[id] || {};
+      if(st.actions[id] || a.fin || a.transfert || sp.fin) return;
+      st.actions[id] = Object.assign({}, sp, { _repris: true });
+    });
+  });
+  // prise en charge préhospitalière : gestes tirés, déjà faits à l'arrivée ; un seul par "groupe" (une intubation)
+  const pre = [], grp = new Set();
+  (sc.prehosp || []).forEach(x => {
+    if(x.si_lesion && !x.si_lesion.some(id => T.lesions.some(L => L.id === id))) return;
+    if(x.groupe && grp.has(x.groupe)) return;
+    if(Math.random() >= (x.proba != null ? x.proba : 0.5) || pre.includes(x.id)) return;
+    const a = dcIndex()[x.id] || {};
+    if(a.requiert && !pre.some(id => ((dcIndex()[id] || {}).voie || []).includes(a.requiert))) return;
+    pre.push(x.id); if(x.groupe) grp.add(x.groupe);
+  });
+  T.prehosp = prehosp ? prehosp.slice() : pre;   // tests : gestes du SMUR imposés
+  return { sc: c, trauma: T };
+}
+// facteur d'activité d'une lésion : 1 sans contrôle, sinon le produit des facteurs des règles "controle" remplies
+// (bassin : ceinture × transfusion et acide tranexamique)
+function dcLesionFactor(L){
+  let f = 1;
+  (L.controle || []).forEach(r => { if((r.fait || []).every(e => dcDoneEntry(e))) f *= r.facteur != null ? r.facteur : 0; });
+  return f;
+}
+function dcLesionById(id){ return (G.lesions || []).find(L => L.id === id); }
+// règle de contrôle remplie pour la première fois : son effet immédiat (exsufflation : la SpO2 remonte)
+function dcLesionControl(){
+  (G.lesions || []).forEach(L => (L.controle || []).forEach((r, i) => {
+    const k = `${L.id}#${i}`;
+    if(G.lesCtl[k] != null || !(r.fait || []).every(e => dcDoneEntry(e))) return;
+    G.lesCtl[k] = G.t;
+    if(r.effet) dcApply(r.effet, 1);
+  }));
+}
+// fusion des schémas de plusieurs lésions pour un même examen : paramètres réunis, coupes de TDM regroupées
+function dcMergeSchemas(list){
+  list = list.filter(Boolean);
+  if(!list.length) return undefined;
+  const merge = (a, b) => {
+    const o = Object.assign({}, a);
+    Object.entries(b).forEach(([k, v]) => {
+      if(k === 'type' || k === 'coupe' || o[k] == null){ if(o[k] == null) o[k] = v; return; }
+      if(k === 'legende'){ o[k] = `${o[k]} ${v}`; return; }
+      if(typeof v === 'boolean' || typeof o[k] === 'boolean'){ o[k] = !!(o[k] || v); return; }
+      o[k] = [...new Set([].concat(o[k], v))];
+    });
+    return o;
+  };
+  const t = list[0].type;
+  if(t === 'tdm'){
+    const coupes = [];
+    list.filter(x => x.type === 'tdm').forEach(x => (x.coupes || [x]).forEach(cp => {
+      const i = coupes.findIndex(y => y.coupe === cp.coupe);
+      if(i >= 0) coupes[i] = merge(coupes[i], cp); else coupes.push(Object.assign({}, cp));
+    }));
+    const leg = list.map(x => x.legende).filter(Boolean).join(' ');
+    return Object.assign(coupes.length === 1 ? Object.assign({}, coupes[0], { type: 'tdm' }) : { type: 'tdm', coupes }, leg ? { legende: leg } : {});
+  }
+  return list.filter(x => x.type === t).reduce(merge);
+}
+// résultat d'un examen chez le polytraumatisé : textes des lésions mis bout à bout, puis le reste de l'examen
+function dcLesionResult(id){
+  const parts = (G.lesions || []).map(L => (L.resultats || {})[id] != null && dcResPick(L.resultats[id], (L.schemas || {})[id])).filter(Boolean);
+  if(!parts.length) return null;
+  const reste = (G.sc.resultats_reste || {})[id];
+  return { text: [...parts.map(x => x.text), reste].filter(Boolean).join(' '), schema: dcMergeSchemas(parts.map(x => x.schema)) };
+}
+
 // trames jouables en patient aléatoire : scénarios qui déclarent "terrains"
 function dcTrames(u){
   if(!DC_CONTENT.terrains) return [];
@@ -2476,7 +2632,7 @@ function dcBound(v, sources){
   if(v.PAD != null && v.PAS != null && v.PAD > v.PAS - 10) v.PAD = Math.max(0, v.PAS - 10);
   return v;
 }
-function dcSources(){ return (G && G.terrain) ? G.terrain.sources : []; }
+function dcSources(){ return ((G && G.terrain) ? G.terrain.sources : []).concat((G && G.lesionSrc) || []); }
 // bornes du terrain (FC plafonnée sous bêtabloquant), levées pendant une TV ou une FV
 function dcBoundSources(){ return G && ['tv', 'fv'].includes(G.ecg) ? [] : dcSources(); }
 // une règle de terrain vise une action par son id ou par une de ses classes, éventuellement
@@ -2485,6 +2641,8 @@ function dcRuleHits(r, id, stepId){
   const a = dcIndex()[id] || {};
   const sc = G && G.sc ? G.sc.id : '';
   const ctx = G && G.sc ? (G.sc.terrains || {}).contexte || 'dechoc' : '';
+  // règle d'une lésion "avant_controle" : levée une fois la lésion contrôlée (intubation après l'exsufflation)
+  if(r.avant_controle && r._lesion){ const L = dcLesionById(r._lesion); if(L && dcLesionFactor(L) <= 0) return false; }
   return (!id || r.id === id || (r.classe && (a.classe || []).includes(r.classe)))
     && (!r.dans || r.dans.some(d => d === stepId || d === sc || d === ctx || d === `${sc}/${stepId}`));
 }
@@ -2510,6 +2668,8 @@ function dcModEffet(id, stepId, effet){
 // Un résultat peut être une liste conditionnelle [{ "si": {…}, "texte", "schema" }] : la première qui
 // correspond l'emporte ; si aucune ne correspond, on passe au niveau suivant. Dernier recours : "resultat" du catalogue.
 function dcResult(id){
+  const les = dcLesionResult(id);
+  if(les) return les;
   const sc = G.sc.id, keys = [`${sc}/${G.step.id}/${id}`, `${sc}/${id}`, id];
   for(const k of keys){
     let r;
@@ -2655,7 +2815,15 @@ function dcDraw(text){
   return G.draws[text];
 }
 // fiche patient : rubriques → lignes
+function dcSmurHtml(){
+  const tr = G && G.trauma;
+  if(!tr) return '';
+  const g = tr.prehosp.map(dcLabel);
+  return `<div class="dc-fiche-r"><div class="lb">🚑 Transmission du SMUR</div>${tr.mecanisme ? `<div>${escapeHtml(tr.mecanisme)}</div>` : ''}
+    <div>${g.length ? `Déjà fait : ${g.map(escapeHtml).join(' · ')}.` : 'Aucun geste avant l’arrivée.'}</div></div>`;
+}
 function dcFicheRows(T){
+  if(!T) return dcSmurHtml();
   const rows = { allergies: [], atcd: [], traitements: [], vie: [] };
   T.items.forEach(t => (rows[t.rubrique] || rows.atcd).push(`<b>${escapeHtml(t.label)}</b> : ${escapeHtml(t.fiche || '')}`));
   T.bruit.forEach(b => rows.atcd.push(escapeHtml(b.fiche)));
@@ -2664,15 +2832,37 @@ function dcFicheRows(T){
   if(!rows.allergies.length) rows.allergies.push('Aucune allergie connue');
   if(!rows.atcd.length) rows.atcd.push('Aucun antécédent notable');
   if(!rows.traitements.length) rows.traitements.push('Aucun traitement');
-  return DC_RUBRIQUES.filter(([k]) => rows[k].length).map(([k, lb]) => `<div class="dc-fiche-r"><div class="lb">${lb}</div>${rows[k].map(r => `<div>${r}</div>`).join('')}</div>`).join('');
+  return dcSmurHtml() + DC_RUBRIQUES.filter(([k]) => rows[k].length).map(([k, lb]) => `<div class="dc-fiche-r"><div class="lb">${lb}</div>${rows[k].map(r => `<div>${r}</div>`).join('')}</div>`).join('');
 }
 function dcTerrainSummary(T){
   const lb = T.items.map(t => (t.rubrique === 'allergies' ? '⚠️ ' : '') + t.label);
   return lb.length ? lb.join(' · ') : 'Pas de comorbidité notable';
 }
 // cartes Recos à réviser : tags communs avec le terrain et les complications rencontrées
+// bilan lésionnel du polytraumatisé : chaque lésion, contrôlée ou non, et ses gestes dus
+function dcLesionDebriefHtml(d){
+  if(!d.lesions || !d.lesions.length) return '';
+  const done = id => [].concat(id).some(x => d.log.some(l => l.id === x && !l.ci));
+  const rows = d.lesions.map((L, i) => {
+    const t = Object.entries(d.lesCtl || {}).filter(([k]) => k.startsWith(L.id + '#')).map(([, v]) => v).sort((a, b) => a - b)[0];
+    const f = d.lesF[i];
+    const etat = !(L.controle || []).length ? '' : f <= 0 ? `✅ contrôlée${t ? ` à T+${dcFmtClock(t)}` : ' avant l’arrivée'}` : f < 1 ? `🟠 partiellement contrôlée${t != null ? ` à T+${dcFmtClock(t)}` : ''}` : '⚠️ non contrôlée';
+    const gestes = [];
+    Object.values(L.etapes || {}).forEach(e => Object.entries(e.actions || {}).forEach(([id, sp]) => {
+      if(sp.note !== 'indispensable' || gestes.some(g => g.id === id || (sp.alt && g.alt === sp.alt))) return;
+      const alts = sp.alt ? Object.keys(e.actions).filter(k => e.actions[k].alt === sp.alt) : [id];
+      if(alts.some(k => dcFinSpec(e, k) || (dcIndex()[k] || {}).fin)) return;   // l'orientation est jugée à part
+      gestes.push({ id, alt: sp.alt, ok: done(alts), why: sp.why });
+    }));
+    const pre = d.log.filter(l => l.prehosp).map(l => l.id);
+    return `<div class="dc-item"><span class="ic">🩻</span><div><b>${escapeHtml(L.label)}</b><div class="w">${etat}</div>
+      ${gestes.map(g => `<div class="w">${g.ok ? '✓' : '⚠️'} ${escapeHtml(dcLabel(g.id))}${pre.includes(g.id) ? ' (SMUR)' : ''}${g.ok ? '' : ' · ' + escapeHtml(g.why || '')}</div>`).join('')}</div></div>`;
+  }).join('');
+  return `<details class="dc-step" open><summary><b>🩻 Bilan lésionnel</b></summary>${rows}</details>`;
+}
 function dcRevisionCards(d){
   const tags = new Set();
+  (d.lesions || []).forEach(L => (L.tags || []).forEach(t => tags.add(dcNorm(t))));
   (d.terrain ? d.terrain.sources : []).forEach(s => (s.tags || []).forEach(t => tags.add(dcNorm(t))));
   d.sc.etapes.filter(e => e._compl).forEach(e => (e.tags || []).forEach(t => tags.add(dcNorm(t))));
   if(!tags.size) return [];
@@ -2684,7 +2874,7 @@ function dcRevisionCards(d){
 // opts : { proc: true, niveau, force } pour un patient procédural (trame + terrain tiré)
 function dcStart(scId, mode, opts){
   opts = opts || {};
-  const pool = opts.proc ? dcTrames(opts.univers) : dcScenarios(opts.univers);
+  const pool = opts.proc ? dcTrames(opts.univers) : dcScenarios(opts.univers).filter(s => !s.lesions);
   if(!pool.length) return;
   let sc = scId && pool.find(s => s.id === scId);
   if(!sc){
@@ -2692,7 +2882,12 @@ function dcStart(scId, mode, opts){
     const choices = pool.length > 1 ? pool.filter(s => s.id !== STATE.dechoc.last) : pool;
     sc = choices[Math.floor(Math.random() * choices.length)];
   }
-  let terrain = null;
+  let terrain = null, trauma = null;
+  if(sc.lesions){
+    // polytraumatisé : lésions tirées et composées dans une copie de la trame, avant le terrain
+    const r = dcComposeTrauma(sc, opts.niveau || 'moyen', opts.lesions, opts.prehosp);
+    sc = r.sc; trauma = r.trauma;
+  }
   if(opts.proc){
     terrain = dcGenPatient(sc, opts.niveau, opts.force);
     // copie de la trame : identité et constantes tirées, complications ajoutées en cours de partie
@@ -2701,7 +2896,10 @@ function dcStart(scId, mode, opts){
   dcStop();
   if(!DC_MODES[mode]) mode = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
   G = {
-    terrain, fiche: !!terrain, compl: null, trig: new Set(), events: [], vol: 0, volBy: {}, orientation: null,
+    terrain, fiche: !!(terrain || trauma), compl: null,
+    trauma, lesions: trauma ? trauma.lesions : [], lesCtl: {},
+    lesionSrc: trauma ? trauma.lesions.map(L => ({ label: L.label, promeut: L.promeut || [], module: L.module || [],
+      ci: (L.ci || []).map(r => Object.assign({ _lesion: L.id }, r)) })) : [], trig: new Set(), events: [], vol: 0, volBy: {}, orientation: null,
     sc, mode, pending: 0, step: null, vitals: Object.assign({}, sc.constantes),
     override: {}, t: 0, chrono: 0, chronoMax: 0, paused: false,
     phase: 'step', doneAll: new Set(), log: [], visited: [],
@@ -2713,6 +2911,15 @@ function dcStart(scId, mode, opts){
     rappels: {}, rappelDraw: {}, rappelT: null, ask: null   // questions de l'équipe sur un oubli
   };
   dcMonReset();
+  // gestes du SMUR : déjà faits à l'arrivée (voies, monitorage, ceinture…), sans points
+  (trauma ? trauma.prehosp : []).forEach(id => {
+    const a = dcIndex()[id];
+    if(!a) return;
+    G.log.push({ t: 0, id, etape: 'prehosp', step: 'prehosp', dur: 0, prehosp: true });
+    G.doneAll.add(id);
+    (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
+  });
+  if(trauma) dcLesionControl();
   dcEnterStep(sc.etapes[0].id);
   dcNibp();
   dcSample();
@@ -2750,6 +2957,14 @@ function dcEnterStep(id){
   G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
   G.nav = []; G.search = ''; G.searchOpen = false; G.ask = null;
+  // "examens" : résultats rendus à l'entrée de l'étape (scanner lu au retour), sans geste ni point
+  (st.examens || []).forEach(x => {
+    if(G.results.some(r => r.id === x && r.t >= G.t - 60 * (dcDuree(x) + 5))) return;
+    const res = dcResult(x);
+    if(!res) return;
+    G.results.unshift({ id: x, text: dcDraw(res.text), schema: res.schema && Object.assign({}, res.schema, { _etat: { sonde: G.mon.has('CO2'), ktc: G.doneAll.has('ktc') } }), t: G.t });
+    G.unread = (G.unread || 0) + 1;
+  });
   dcOpenDossier();
 }
 // paysage : onglet Dossier ouvert à chaque étape, complication ou ACR (lire la vignette), Gestes dès qu'on agit
@@ -2760,6 +2975,11 @@ function dcSlopes(){
   const g = G.terrain ? G.terrain.gravite || 1 : 1;   // gravité de la trame selon la difficulté
   if(g !== 1) Object.keys(s).forEach(k => { s[k] *= g; });
   dcSources().forEach(src => Object.entries(src.pente || {}).forEach(([k, d]) => { s[k] = (s[k] || 0) + d; }));
+  // lésions du polytraumatisé : leur pente s'ajoute, atténuée par les gestes de contrôle
+  (G.lesions || []).forEach(L => {
+    const f = dcLesionFactor(L);
+    if(f > 0) Object.entries(L.pente || {}).forEach(([k, d]) => { s[k] = (s[k] || 0) + d * f * g; });
+  });
   return s;
 }
 function dcApply(deltas, factor){
@@ -3006,6 +3226,7 @@ function dcDoAction(id, confirmed){
     return;
   }
   const dur = dcDuree(id);
+  const selAvant = (((G.step.actions || {})[id] || {}).selon || []).find(x => dcCond(x.si));
   dcAdvance(dur * 60);
   if(G.phase === 'over') return;
   const etape = G.phase === 'acr' ? 'acr' : G.step.id;
@@ -3013,7 +3234,12 @@ function dcDoAction(id, confirmed){
   const ci = dcTerrainCi(id, G.step.id);
   const entry = { t: G.t, id, etape, step: G.step.id, instable, dur };
   if(ci && !ci.compte) entry.ci = true;   // "compte": le geste reste fait (intubation réussie malgré l'allergie)
+  if(ci) Object.assign(entry, { ciWhy: ci.why, ciSrc: ci.src });
   if(etape !== 'acr' && dcRappelOf(id)) entry.rappel = true;   // demandé par l'équipe : 0 point
+  // "selon" : note fixée par l'état du patient au début du geste (bloc d'hémostase si instable, scanner si stable)
+  const spec0 = etape !== 'acr' ? (G.step.actions || {})[id] : null;
+  const sel = spec0 && spec0.selon ? selAvant : null;
+  if(sel) entry.sel = { note: sel.note, why: sel.why };
   if(G.ask && G.ask.id === id) G.ask = null;
   G.log.push(entry);
   if(!dcIsRcp(a) && !(a.fin && !fin)) G.doneAll.add(id);
@@ -3035,6 +3261,11 @@ function dcDoAction(id, confirmed){
     showToast(`🧾 ${msg.length > 70 ? msg.slice(0, 69).trimEnd() + '…' : msg}`);
   }
 
+  // contre-indication létale (lésion) : intubation d'un pneumothorax compressif non décompressé…
+  if(ci && ci.letal && G.phase === 'step'){
+    if(ci.letal === 'deces'){ dcDie(`${a.label} : ${ci.why}`); return; }
+    dcEnterAcr(`${a.label} : ${ci.why}`); dcRender(); return;
+  }
   // la contre-indication déclenche sa complication (anaphylaxie…), insérée comme une étape
   const cp = ci && ci.complication && G.phase === 'step' && !G.step._compl
     && (DC_CONTENT.complications || []).find(c => c.id === ci.complication);
@@ -3078,10 +3309,10 @@ function dcDoAction(id, confirmed){
   }
   if(fin && G.phase === 'step'){
     // orientation : fin de la prise en charge, puis bilan ; partir sans un geste vital de l'étape a la même issue que l'oublier
-    if(dcLetalSiManque(G.step, dcCurVisit(), true)) return;
+    if(dcLetalSiManque(G.step, dcCurVisit(), id)) return;
     const visit = dcCurVisit();
     visit.t1 = G.t; visit.dx = G.dx.slice(); visit.fin = id;
-    G.orientation = { id, t: G.t, instable };
+    G.orientation = { id, t: G.t, instable, ok: !!(entry.sel && DC_POINTS[entry.sel.note] > 0) };
     G.outcome = G.racs ? 'racs' : 'vivant';
     dcFinish();
     return;
@@ -3089,6 +3320,7 @@ function dcDoAction(id, confirmed){
   dcTitrate();
   dcSample();
   dcCheckThresholds();
+  if(G.lesions && G.lesions.length) dcLesionControl();
   if(G.phase === 'step') dcTerrainCumul(id) || dcTerrainSeuil() || dcVolOap() || dcDeclencheur() || dcRappelCheck();
   dcRender();
 }
@@ -3259,6 +3491,8 @@ function dcValidate(confirmed){
 function dcLetalSiManque(st, visit, depart){
   for(const lsm of [].concat(st.letal_si_manque || [])){
     if(lsm.depart && !depart) continue;
+    // "sauf_vers" : départ par l'une de ces orientations sans conséquence (le bloc d'hémostase avant la neurochirurgie)
+    if(depart && typeof depart === 'string' && (lsm.sauf_vers || []).includes(depart)) continue;
     const lsmDone = e => {
       const ids = Array.isArray(e) ? e : [e];
       const inStep = lsm.etape === true || (Array.isArray(lsm.etape) && ids.some(x => lsm.etape.includes(x)));
@@ -3311,7 +3545,10 @@ function dcScore(){
     const seen = {};
     G.log.filter(l => l.etape === v.id && G.visited.indexOf(v) === dcVisitIndex(l)).forEach(l => {
       if(seen[l.id]){ seen[l.id].n++; return; }
-      const spec = dcNoteFor(l.id, v.id);
+      let spec = dcNoteFor(l.id, v.id);
+      // contre-indiqué au moment du geste (lésion contrôlée depuis) : reste noté contre-indiqué
+      if(l.ciWhy && !(spec && spec.note === 'contre_indique')) spec = { note: 'contre_indique', why: l.ciWhy, terrain: l.ciSrc, orig: spec ? spec.note : null };
+      if(l.sel && !(spec && spec.terrain && spec.note === 'contre_indique')) spec = Object.assign({}, spec, l.sel);
       const note = spec ? spec.note : 'inutile';
       // un contrôle exigé par l'étape (refaire) se note à chaque étape, le reste une seule fois ;
       // dans un groupe d'alternatives, seule la première action faite rapporte des points
@@ -3343,6 +3580,7 @@ function dcScore(){
     Object.keys(actions).forEach(id => {
       const s = actions[id];
       if(s.note !== 'indispensable' && s.note !== 'recommande') return;
+      if(s._repris) return;   // geste repris d'une étape précédente : dû dans celle-ci seulement
       // une seule orientation finale : les autres orientations de fin ne sont plus dues
       if(G.orientation && id !== G.orientation.id && dcFinSpec(st, id)) return;
       if(!allowed(id)){
@@ -3426,7 +3664,7 @@ function dcFinish(){
   dcStop();
   G.phase = 'over';
   const sc = dcScore();
-  DC_DEBRIEF = Object.assign({ sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps, terrain: G.terrain,
+  DC_DEBRIEF = Object.assign({ lesions: G.lesions, trauma: G.trauma, lesCtl: G.lesCtl, lesF: (G.lesions || []).map(dcLesionFactor), sc: G.sc, mode: G.mode, outcome: G.outcome, cause: G.cause, racs: G.racs, history: G.history, log: G.log, visited: G.visited, acrEpisodes: G.acrEpisodes, tEnd: G.t, pumps: G.pumps, terrain: G.terrain,
     orientation: G.orientation, vol: G.vol, volBy: G.volBy, hemo: dcHemo() }, sc);
   const d = STATE.dechoc;
   const run = { sc: G.sc.id, date: Date.now(), note: sc.note, issue: G.outcome, mode: G.mode };
@@ -3545,7 +3783,7 @@ function dcFicheHtml(){
   const T = G.terrain;
   return `<div class="dc-pause dc-modal dc-fiche">
     <div class="big">📋</div><b>${escapeHtml(G.sc.patient)}</b>
-    <div class="hint">${escapeHtml(DC_NIVEAUX[T.niveau] ? DC_NIVEAUX[T.niveau].lb : '')} · lis la fiche avant de prendre en charge le patient.</div>
+    <div class="hint">${escapeHtml(T && DC_NIVEAUX[T.niveau] ? DC_NIVEAUX[T.niveau].lb + ' · ' : '')}lis la fiche avant de prendre en charge le patient.</div>
     <div class="dc-fiche-box">${dcFicheRows(T)}</div>
     <button class="btn" data-dc="fiche-go" style="max-width:300px">▶ Prendre en charge</button>
     <div class="hint">Le chrono démarre à la fermeture de la fiche. Elle reste consultable sous la vignette.</div>
@@ -4750,6 +4988,7 @@ DC_SCHEMAS.rx_bassin = spec => {
 // Contraste iodé et os en blanc (--sc-os), anomalie bordée de rouge. Une coupe occupe 320 × 180 ;
 // `coupes: [{ coupe… }, …]` met plusieurs coupes côte à côte (TDM corps entier).
 const DC_TDM_TITRES = { thorax: 'Angioscanner thoracique', abdomen: 'TDM abdominale', bassin: 'TDM pelvienne', cerveau: 'TDM cérébrale' };
+const dcTdmTitre = c => c.coupe === 'thorax' && (c.pneumothorax || c.hemothorax) ? 'TDM thoracique' : DC_TDM_TITRES[c.coupe] || DC_TDM_TITRES.thorax;
 // côté du patient → abscisse de l'image : d à gauche, g à droite (symétrie autour de cx)
 const dcTdmX = (cote, cx, dx) => cote === 'g' ? cx + dx : cx - dx;
 const dcTdmCotes = v => v === true ? ['d'] : [].concat(v || []).filter(c => c === 'd' || c === 'g');
@@ -4769,7 +5008,32 @@ function dcTdmTags(tags){
   }).join('');
 }
 // thorax : deux demi-coupes, bifurcation pulmonaire (thrombus) et cavités cardiaques (VD / VG)
+// thorax traumatique : une coupe, poumons et médiastin ; pneumothorax (poumon rétracté, liseré d'air) et hémothorax
+// (croissant liquidien postérieur, déclive)
+function dcTdmThoraxTrauma(s){
+  const pnx = dcTdmCotes(s.pneumothorax), hem = dcTdmCotes(s.hemothorax), tags = [];
+  const pou = c => {
+    const x = dcTdmX(c, 160, 62);
+    let o = `<ellipse cx="${x}" cy="96" rx="46" ry="58" fill="var(--sc-air)"/>`;
+    if(pnx.includes(c)){
+      // air libre (noir) tout autour d'un poumon rétracté vers le hile
+      o = `<ellipse cx="${x}" cy="96" rx="48" ry="60" fill="var(--sc-bg)" stroke="var(--sc-path)" stroke-width="2" stroke-dasharray="5 3"/>
+        <ellipse cx="${dcTdmX(c, 160, 48)}" cy="100" rx="16" ry="30" fill="var(--sc-air)" stroke="var(--sc-tissu)" stroke-width="1.5"/>`;
+      tags.push([c, 'pneumothorax']);
+    }
+    if(hem.includes(c)){
+      o += `<path d="M${x - 44} 120 Q${x} 168 ${x + 44} 120 Q${x} 142 ${x - 44} 120Z" fill="var(--sc-tissu)" stroke="var(--sc-path)" stroke-width="2"/>`;
+      tags.push([c, 'hémothorax']);
+    }
+    return o;
+  };
+  return `<ellipse cx="160" cy="96" rx="150" ry="70" fill="var(--sc-tissu-dim)"/>${pou('d')}${pou('g')}
+    <ellipse cx="166" cy="92" rx="26" ry="30" fill="var(--sc-tissu)"/><circle cx="150" cy="62" r="9" fill="var(--sc-os)"/>
+    <rect x="150" y="146" width="20" height="16" rx="5" fill="var(--sc-os)"/>
+    ${dcTdmTxt(166, 96, 'cœur', { c: 'var(--sc-bg)', b: 1 })}${dcTdmTags(tags)}`;
+}
 function dcTdmThorax(s){
+  if(s.pneumothorax || s.hemothorax) return dcTdmThoraxTrauma(s);
   const th = new Set([].concat(s.thrombus || [])), vd = !!s.vd_dilate;
   const corps = ox => `<ellipse cx="${ox + 80}" cy="98" rx="74" ry="60" fill="var(--sc-tissu-dim)"/>
     <ellipse cx="${ox + 44}" cy="98" rx="30" ry="46" fill="var(--sc-air)"/><ellipse cx="${ox + 116}" cy="98" rx="30" ry="46" fill="var(--sc-air)"/>
@@ -4821,9 +5085,25 @@ function dcTdmAbdomen(s){
     if(inf.includes(cote)) tags.push([cote, 'infiltration']);
     return o;
   };
+  // traumatisme : lacération (trait hypodense) du foie ou de la rate, hémopéritoine (liquide péri-hépatique et
+  // péri-splénique), extravasation active (blush)
+  const lac = [].concat(s.laceration || []), blush = [].concat(s.blush || []);
+  let trauma = '';
+  if(s.hemoperitoine){
+    trauma += `<path d="M26 96 Q24 40 96 28" stroke="var(--sc-liquide)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M298 94 Q302 58 264 46" stroke="var(--sc-liquide)" stroke-width="7" fill="none" stroke-linecap="round"/>`;
+    tags.push(['d', 'hémopéritoine']);
+  }
+  if(lac.includes('foie')){ trauma += `<path d="M62 52 l14 10 l-6 8 l16 12" stroke="var(--sc-tissu-dim)" stroke-width="5" fill="none"/>`; tags.push(['d', 'lacération hépatique']); }
+  if(lac.includes('rate')){ trauma += `<path d="M262 60 l10 10 l-6 6 l12 10" stroke="var(--sc-tissu-dim)" stroke-width="5" fill="none"/>`; tags.push(['g', 'lacération splénique']); }
+  blush.forEach(o => {
+    const [x, y] = o === 'foie' ? [84, 70] : [270, 74];
+    trauma += `<path d="M${x - 7} ${y} q4 -7 10 -2 q7 -1 5 6 q3 6 -5 7 q-4 5 -9 0 q-6 -3 -1 -11Z" fill="var(--sc-os)" stroke="var(--sc-path)" stroke-width="2.5"/>`;
+    tags.push([o === 'foie' ? 'd' : 'g', 'blush']);
+  });
   return `<ellipse cx="160" cy="92" rx="150" ry="66" fill="var(--sc-tissu-dim)"/>
     <path d="M30 94 Q34 44 96 34 Q150 30 160 50 Q152 80 120 90 Q76 100 30 94Z" fill="var(--sc-tissu)"/>
-    <path d="M292 92 Q296 64 262 52 Q244 64 252 88 Q268 100 292 92Z" fill="var(--sc-tissu)"/>
+    <path d="M292 92 Q296 64 262 52 Q244 64 252 88 Q268 100 292 92Z" fill="var(--sc-tissu)"/>${trauma}
     <rect x="146" y="126" width="28" height="22" rx="8" fill="var(--sc-os)"/>
     <circle cx="172" cy="112" r="8" fill="var(--sc-os)"/><ellipse cx="148" cy="112" rx="8" ry="6" fill="var(--sc-tissu)"/>
     ${rein('d')}${rein('g')}
@@ -4866,20 +5146,32 @@ function dcTdmBassin(s){
   return o + dcTdmTags(tags);
 }
 // cerveau : coupe normale (crâne, faux du cerveau, ventricules latéraux)
-function dcTdmCerveau(){
-  return `<ellipse cx="160" cy="96" rx="64" ry="78" fill="var(--sc-os)"/><ellipse cx="160" cy="96" rx="57" ry="71" fill="var(--sc-tissu)"/>
-    <line x1="160" y1="26" x2="160" y2="166" stroke="var(--sc-tissu-dim)" stroke-width="2"/>
-    <path d="M154 70 Q140 84 146 116 L154 112 Q150 88 156 74Z M166 70 Q180 84 174 116 L166 112 Q170 88 164 74Z" fill="var(--sc-liquide)"/>`;
+// cerveau : coupe normale (crâne, faux du cerveau, ventricules latéraux) ; "hed" (côté) : hématome extradural
+// biconvexe hyperdense ; "deviation" : ligne médiane et ventricules repoussés vers le côté opposé
+function dcTdmCerveau(s){
+  s = s || {};
+  const hed = dcTdmCotes(s.hed)[0], tags = [];
+  const dx = s.deviation && hed ? (hed === 'd' ? 9 : -9) : 0;   // côté droit du patient à gauche de l'image : repoussé vers la droite de l'image
+  let o = `<ellipse cx="160" cy="96" rx="64" ry="78" fill="var(--sc-os)"/><ellipse cx="160" cy="96" rx="57" ry="71" fill="var(--sc-tissu)"/>`;
+  if(hed){
+    const m = hed === 'g' ? 1 : -1;
+    o += `<path d="M${160 + m * 46} 50 Q${160 + m * 68} 96 ${160 + m * 46} 142 Q${160 + m * 30} 96 ${160 + m * 46} 50Z" fill="var(--sc-os)" stroke="var(--sc-path)" stroke-width="2.5"/>`;
+    tags.push([hed, 'hématome extradural']);
+    if(dx) tags.push([hed, 'déviation']);
+  }
+  o += `<g transform="translate(${dx} 0)"><line x1="160" y1="26" x2="160" y2="166" stroke="var(--sc-tissu-dim)" stroke-width="2"/>
+    <path d="M154 70 Q140 84 146 116 L154 112 Q150 88 156 74Z M166 70 Q180 84 174 116 L166 112 Q170 88 164 74Z" fill="var(--sc-liquide)"/></g>`;
+  return o + dcTdmTags(tags);
 }
 function dcTdmCoupe(s){
   const f = { thorax: dcTdmThorax, abdomen: dcTdmAbdomen, bassin: dcTdmBassin, cerveau: dcTdmCerveau }[s.coupe] || dcTdmThorax;
-  return `${f(s)}${dcTdmTxt(160, 12, DC_TDM_TITRES[s.coupe] || DC_TDM_TITRES.thorax, { c: 'var(--sc-tissu)' })}
+  return `${f(s)}${dcTdmTxt(160, 12, dcTdmTitre(s), { c: 'var(--sc-tissu)' })}
     ${dcTdmTxt(8, 14, 'D', { a: 'start', b: 1 })}${dcTdmTxt(312, 14, 'G', { a: 'end', b: 1 })}`;
 }
 DC_SCHEMAS.tdm = spec => {
   const coupes = Array.isArray(spec.coupes) && spec.coupes.length ? spec.coupes : [spec];
   const inner = coupes.map((c, i) => `<g transform="translate(${i * 330} 0)">${dcTdmCoupe(c)}</g>`).join('');
-  return dcSvgFrame(coupes.length * 330 - 10, 180, inner, coupes.map(c => DC_TDM_TITRES[c.coupe] || DC_TDM_TITRES.thorax).join(', '));
+  return dcSvgFrame(coupes.length * 330 - 10, 180, inner, coupes.map(dcTdmTitre).join(', '));
 };
 
 // ===== fin des schémas =====
@@ -5011,7 +5303,8 @@ function dcRenderGame(){
   const modal = G.fiche && !G.paused ? dcFicheHtml() : G.modal && !G.paused ? dcModalHtml() : G.patientView && !G.paused ? dcPatientViewHtml() : '';
   // bandeau du terrain sous l'identité, déplié d'un toucher
   const pt = `<div class="pt">${escapeHtml(G.sc.patient || '')}</div>${G.terrain
-    ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>${escapeHtml(dcTerrainSummary(G.terrain))}</summary>${dcFicheRows(G.terrain)}</details>` : ''}`;
+    ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>${escapeHtml(dcTerrainSummary(G.terrain))}</summary>${dcFicheRows(G.terrain)}</details>`
+    : G.trauma ? `<details class="dc-terrain" data-fold="terrain" ${G.fold.terrain ? 'open' : ''}><summary>🚑 Transmission du SMUR</summary>${dcFicheRows(null)}</details>` : ''}`;
   const tabBtn = (k, txt) => `<button class="${G.tab === k ? 'on' : ''}" data-dc="tab" data-pane="${k}" role="tab" aria-selected="${G.tab === k}">${txt}</button>`;
   dcRoot.innerHTML = `
     ${dcScopeShell()}
@@ -5066,7 +5359,8 @@ function dcChartSvg(d){
   const steps = d.visited.slice(1).map((v, i) => `<line x1="${x(v.t0)}" x2="${x(v.t0)}" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3"/><text x="${x(v.t0) + 3}" y="${T + 9}" font-size="9" fill="var(--muted)">É${i + 2}</text>`).join('');
   const acr = d.acrEpisodes.map(e => `<rect x="${x(e.t)}" y="${T}" width="${Math.max(2, x(e.t1) - x(e.t))}" height="${H - T - B}" fill="var(--danger)" opacity=".18"/>`).join('');
   const ticks = d.log.map(l => {
-    const spec = l.etape !== 'acr' ? (d.sc.etapes.find(e => e.id === l.step).actions || {})[l.id] : null;
+    const st = l.etape !== 'acr' && d.sc.etapes.find(e => e.id === l.step);
+    const spec = st ? (st.actions || {})[l.id] : null;
     const c = l.ci || (spec && spec.note === 'contre_indique') ? 'var(--danger)' : 'var(--muted)';
     return `<line x1="${x(l.t)}" x2="${x(l.t)}" y1="${H - B}" y2="${H - B + 6}" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
@@ -5146,7 +5440,7 @@ function dcRenderDebrief(){
   all.filter(it => it.kind === 'oubli').forEach(it => axes.push({ p: 2, h: line('⚠️', `Oublié : ${lb(it)}`, (it.avant ? 'Avant de partir · ' : '') + escapeHtml(it.why || '') + terrTxt(it), 'ko') }));
   all.filter(it => it.rappel).forEach(it => axes.push({ p: 2.5, h: line('💬', `Sur rappel de l’équipe : ${lb(it)}`, 'Fait seulement quand l’équipe l’a demandé : 0 point.' + (it.why ? ' ' + escapeHtml(it.why) : ''), 'ko') }));
   d.acrEpisodes.forEach(e => axes.push({ p: 3, h: line('💔', `ACR ${e.ok ? 'récupéré' : 'non récupéré'}`, escapeHtml(e.cause), 'ko') }));
-  if(d.orientation && d.orientation.instable) axes.push({ p: 3, h: line('🚑', `Parti instable : ${escapeHtml(dcLabel(d.orientation.id))}`, 'Stabiliser avant le transfert, sauf si le transfert est le traitement.', 'ko') });
+  if(d.orientation && d.orientation.instable && !d.orientation.ok) axes.push({ p: 3, h: line('🚑', `Parti instable : ${escapeHtml(dcLabel(d.orientation.id))}`, 'Stabiliser avant le transfert, sauf si le transfert est le traitement.', 'ko') });
   all.filter(it => it.delai && !it.delai.ok && it.kind !== 'oubli').forEach(it => axes.push({ p: 4, h: line('⏱', `En retard : ${lb(it)}`, `T+${dcFmtClock(it.t)} pour un objectif ≤ ${it.delai.lim} min${it.why ? ' · ' + escapeHtml(it.why) : ''}`, 'ko') }));
   all.filter(it => it.kind === 'evenement').forEach(it => axes.push({ p: 5, h: line('⚡', lb(it), escapeHtml(it.why || '') + terrTxt(it) + (it.compl ? ` → ${escapeHtml((d.sc.etapes.find(e => e.id === it.compl) || {}).titre || it.compl)}` : ''), 'ko') }));
   d.steps.filter(s => s.dx && !s.dx.ok).forEach(s => axes.push({ p: 6, h: line('🩺', `Diagnostic : ${s.titre ? escapeHtml(s.titre) : ''}`, `Attendu : ${[].concat(s.dx.expected).map(x => escapeHtml(dcLabel(x))).join(', ')}`) }));
@@ -5197,6 +5491,7 @@ function dcRenderDebrief(){
     <div class="dc-step dc-axes"><h4>🎯 À améliorer en priorité</h4>${top || '<div class="hint">Rien d’essentiel : prise en charge sans faute majeure.</div>'}
       ${rest ? `<details><summary>Autres points (${axes.length - 3})</summary>${rest}</details>` : ''}</div>
     ${chronoHtml ? `<details class="dc-step" open><summary><b>⏱ Chronologie</b></summary>${chronoHtml}</details>` : ''}
+    ${dcLesionDebriefHtml(d)}
     <div class="dc-chart">${dcChartSvg(d)}</div>
     <details class="dc-detail"><summary>📋 Détail action par action</summary>${steps}</details>
     <div class="hint">Source : ${escapeHtml([d.sc.source || '—', ...compSrc].join(' ; '))}</div>

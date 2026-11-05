@@ -7,6 +7,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Recos/cartes_complementaires_a_creer.md` : liste des sujets restant à traiter. Cocher (`- [x]`) les sujets couverts par un nouveau lot.
 - `Simu/` (ex-`Dechocage/`, renommé le 2026-11-05) : contenu du **mode Simu** (jeu de simulation en 3 univers, déchocage, anesthésie et réanimation, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/` (l'app se replie sur `Dechocage/` si `Simu/` est absent de la branche). Voir la section « Mode Simu ». Les clés internes gardent l'ancien nom (`STATE.dechoc`, fonctions `dc*`, onglet `dechoc`).
 - `Simu/scenarios_a_creer.md` : scénarios Simu restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
+- `Simu/lesions.json` : lésions du polytraumatisé procédural (trame `sc_polytrauma.json`), composées par le moteur. Voir « Polytraumatisé ».
 - `Simu/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json` (patchs antérieurs au renommage : chemins `Dechocage/`).
 - `Podcast/` : épisodes du **mode Podcast** (onglet ♫ de la barre du bas), cours de quelques minutes lus par la synthèse vocale, synchronisés comme `Recos/`. Voir la section « Mode Podcast ». `Podcast/episodes_a_creer.md` : sujets restant à traiter.
 - `QCM/` : QCM isolés (`isoles_<thème>.json`) et dossiers progressifs du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
@@ -256,6 +257,23 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
 - **`Simu/complications.json`** : tableau d'étapes au format habituel (un geste absent de la complication garde l'effet prévu par l'étape interrompue, sinon celui du catalogue) (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
 - Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain sur l'accueil Simu, les plus mal gérés d'abord) ; elles ne comptent pas dans le record du scénario.
 
+### Polytraumatisé : lésions combinables (`Simu/lesions.json`, trame `sc_polytrauma.json`)
+
+Une trame qui déclare `lesions` tire 1 à 4 lésions (au plus une par région) et les compose dans une copie d'elle-même, avant le terrain. Elle n'est jouée qu'en patient aléatoire (pas par « Nouveau patient »).
+
+- Trame : `"lesions": { "nombre": { "facile": [1, 2], "moyen": [2, 3], "difficile": [3, 4] } }`, `mecanismes` (`[{ "fiche", "regions"? }]`, un tiré, il ouvre la vignette et la transmission), `prehosp` (`[{ "id", "proba", "si_lesion"?, "groupe"? }]` : gestes du SMUR déjà faits à l'arrivée, sans points, listés dans la fiche « 🚑 Transmission du SMUR » ; un geste qui demande une voie n'est tiré qu'après elle ; un seul par `groupe`), `resultats_reste` (texte ajouté après ceux des lésions : « Pas d'autre épanchement. ») et `bornes_depart` (`{ "PAS": [70, null] }` : plancher des constantes cumulées). Les `resultats` de la trame servent quand aucune lésion n'a de texte pour l'examen.
+- Lésion : `id`, `label`, `region` (`crane`, `rachis`, `thorax`, `abdomen`, `bassin`, `membres`), `cotes` (`["d", "g"]`, un tiré : `{cote}` → droit / gauche, `{cotee}` → droite / gauche, `$cote` → `d` / `g` dans les schémas), `signes` (ajoutés à la vignette de la 1re étape), `constantes` (additionnées à celles de la trame), `pente`, `controle`, `ci`, `etapes`, `resultats`, `schemas`, `exclut`, `tags`.
+  - `pente` : s'ajoute à celle de l'étape tant que la lésion est active, multipliée par le produit des facteurs des règles `controle` remplies : `[{ "fait": [["exsufflation", "drain_thorax"]], "facteur": 0, "effet": { "SpO2": 10 } }]` (`fait` : toutes faites, liste imbriquée = alternatives ; `effet` appliqué une fois quand la règle est remplie, gestes du SMUR compris). Transfusion et acide tranexamique divisent par deux un saignement ; seul le geste d'hémostase (orientation de fin) l'arrête.
+  - `ci` : comme un terrain (`id` ou `classe`, `why`), plus `"avant_controle": true` (levée une fois la lésion contrôlée : intubation après l'exsufflation) et `letal` (`acr` / `deces`). Un geste fait pendant la contre-indication reste noté contre-indiqué.
+  - `etapes` : par id d'étape de la trame, `actions` (fusionnées avec celles de la trame : la note la plus forte l'emporte avec sa justification, à note égale elles s'ajoutent, effets additionnés ; `"force": true` impose la note de la lésion, ex. NaCl 0,9 % plutôt que Ringer dans le TC grave), `diagnostic`, `letal_si_manque`, `vignette` (étapes suivantes).
+  - `resultats` (et `schemas`) : textes mis bout à bout pour un même examen, schémas fusionnés (paramètres réunis, coupes de TDM regroupées par `coupe`). Paramètres de schéma ajoutés pour le trauma : `tdm` `thorax` `pneumothorax` / `hemothorax` (côtés), `abdomen` `laceration` / `blush` (`rate`, `foie`) et `hemoperitoine` (bool), `cerveau` `hed` (côté) et `deviation` (bool).
+- Clés d'étape et d'action utiles au polytraumatisé (valables partout) :
+  - `selon` sur une action d'étape : `[{ "si": { "PAM": { "max": 64 } }, "note": "recommande", "why": "…" }]`, note fixée par l'état du patient au début du geste (bloc d'hémostase d'emblée si instable, scanner si stable). Une orientation instable mais justifiée par `selon` n'est pas reprochée au débriefing.
+  - `examens` sur une étape : examens rendus à l'entrée, sans geste ni point (compte rendu du scanner au retour) ; pas de doublon si la tuile vient d'être faite.
+  - `reprend` sur une étape : elle garde les gestes de l'étape citée (hors orientations et départs), notés pareil mais dus une seule fois, dans l'étape d'origine.
+  - `sauf_vers` sur un `letal_si_manque` `depart` : orientations qui l'écartent (partir au bloc d'hémostase avant la neurochirurgie).
+- Débriefing : section « 🩻 Bilan lésionnel » (chaque lésion contrôlée ou non, avec l'heure, et ses gestes indispensables faits ou oubliés, « (SMUR) » s'ils étaient faits avant l'arrivée) ; cartes « Pour réviser » d'après les `tags` des lésions.
+
 ### Validation du mode Simu (à lancer avant chaque commit touchant `Simu/`)
 
 ```bash
@@ -299,6 +317,7 @@ def check_text(w, t):
     assert isinstance(t, str) and t, f"{w} : texte de résultat vide"
     assert t.count("**") % 2 == 0, f"{w} : ** non fermé dans « {t} »"
     for m in re.findall(r"\{[^}]*\}", t):
+        if m in ("{cote}", "{cotee}"): continue   # côté tiré d'une lésion
         assert re.fullmatch(r"\{\d+(,\d+)?~\d+(,\d+)?\}", m), f"{w} : plage invalide {m} (format {{3,8~5,4}})"
 def check_val(w, t):
     # texte, ou liste conditionnelle [{ "si", "texte", "schema" }]
@@ -337,6 +356,10 @@ def check_step(w, st, steps, compl=False):
         assert spec.get("ecg", "sinus") in ECG, f"{w} : ecg inconnu ({aid})"
         assert spec.get("fin") in (None, True, False) and (spec.get("delai") is None or spec["delai"] > 0), f"{w} : fin (booléen) / delai (min) ({aid})"
         assert spec.get("duree") is None or spec["duree"] >= 0, f"{w} : duree (min) ({aid})"
+        for x in spec.get("selon", []):
+            # note selon l'état au début du geste (bloc d'hémostase si instable)
+            assert set(x) <= {"si", "note", "why"} and x.get("note") in NOTES and x.get("why"), f"{w} : selon invalide ({aid})"
+            check_cond(w, x.get("si"))
         for k in list(spec.get("effet", {})) + list(spec.get("pente", {})):
             assert k in VITALS, f"{w} : constante inconnue {k} ({aid})"
     check_res(w, st.get("resultats", {}))
@@ -352,11 +375,14 @@ def check_step(w, st, steps, compl=False):
         etape = list(flat(lsm["actions"])) if lsm.get("etape") is True else lsm.get("etape") or []
         for aid in etape: assert A[aid].get("repetable") or A[aid]["path"][0] == "RCP", f"{w} : {aid} exigé dans l'étape (letal_si_manque.etape) doit être repetable"
         for aid in flat(lsm["actions"]): assert aid in A, f"{w} : action inconnue {aid}"
+        assert all(A.get(x, {}).get("fin") for x in lsm.get("sauf_vers", [])), f"{w} : letal_si_manque.sauf_vers : orientations de fin"
     for e in st.get("acr", {}).get("requis", []):
         alts = e if isinstance(e, list) else [e]
         for aid in alts: assert aid in A, f"{w} : action inconnue {aid} (acr.requis)"
         # refaisable pendant la RCP : catégorie RCP ou action repetable
         assert any(A[a].get("repetable") or A[a]["path"][0] == "RCP" for a in alts), f"{w} : {alts} (acr.requis) doit être RCP ou repetable"
+    assert all(A.get(x, {}).get("examen") for x in st.get("examens", [])), f"{w} : examens : actions examen"
+    assert st.get("reprend") is None or st["reprend"] in steps, f"{w} : reprend : étape inconnue"
     if compl:
         assert "suite" not in st and "declencheur" not in st, f"{w} : une complication n'a ni suite ni declencheur (retour à l'étape interrompue)"
         return
@@ -380,6 +406,30 @@ if os.path.exists("Simu/complications.json"):
         assert c["id"] not in COMPL, f"{w} : id en double"
         COMPL[c["id"]] = c
         check_step(w, c, set(), compl=True)
+# polytraumatisé : lésions combinables, composées par le moteur dans les trames qui déclarent "lesions"
+LES, REGIONS = {}, {"crane", "rachis", "thorax", "abdomen", "bassin", "membres"}
+TRAUMA_STEPS = {e["id"] for sc in SCS if "lesions" in sc for e in sc["etapes"]}
+if os.path.exists("Simu/lesions.json"):
+    for L in json.load(open("Simu/lesions.json", encoding="utf-8")):
+        w = f"lesions.json [{L.get('id')}]"
+        assert L.get("id") and L.get("label") and L.get("signes") and L.get("region") in REGIONS, f"{w} : id / label / signes / region"
+        assert L["id"] not in LES, f"{w} : id en double"
+        LES[L["id"]] = L
+        assert set(L.get("cotes", [])) <= {"d", "g"}, f"{w} : cotes : d / g"
+        assert L.get("cotes") or not re.search(r"\{cotee?\}|\$cote", json.dumps(L, ensure_ascii=False)), f"{w} : {{cote}} ou $cote sans cotes"
+        assert set(L.get("constantes", {})) | set(L.get("pente", {})) <= VITALS, f"{w} : constante inconnue"
+        for r in L.get("controle", []):
+            assert r.get("fait") and all(x in A for x in flat(r["fait"])) and 0 <= r.get("facteur", 0) <= 1 and set(r.get("effet", {})) <= VITALS, f"{w} : controle : fait (actions), facteur (0 à 1), effet"
+        for r in L.get("ci", []):
+            assert ("id" in r) != ("classe" in r) and (r.get("id", "") in A or r.get("classe") in CLASSES) and r.get("why"), f"{w} : ci : id ou classe, why"
+            assert r.get("letal") in (None, "acr", "deces") and r.get("avant_controle") in (None, True), f"{w} : ci : letal / avant_controle"
+        assert set(L.get("etapes", {})) <= TRAUMA_STEPS, f"{w} : étape absente des trames de polytraumatisé"
+        for sid, e in L.get("etapes", {}).items():
+            assert set(e) <= {"actions", "diagnostic", "letal_si_manque", "vignette"}, f"{w} [{sid}] : actions / diagnostic / letal_si_manque / vignette"
+            check_step(f"{w} [{sid}]", dict(e, vignette=e.get("vignette", "—")), set(), compl=True)
+        check_res(w, L.get("resultats", {}))
+        check_schemas(w, L)
+        assert set(L.get("exclut", [])) <= {l["id"] for l in json.load(open("Simu/lesions.json", encoding="utf-8"))}, f"{w} : exclut : lésion inconnue"
 # terrains : comorbidités, traitements, antécédents sans conséquence
 TERR = set()
 DANS = {sc["id"] for sc in SCS} | {f"{sc['id']}/{e['id']}" for sc in SCS for e in sc["etapes"]} | {"dechoc", "induction", "perop", "sspi", "rea"}
@@ -447,6 +497,13 @@ for f in sorted(glob.glob("Simu/sc_*.json")):
             assert niv in {"facile", "moyen", "difficile"} and set(g) <= {"pente", "constantes"} and set(g.get("constantes", {})) <= VITALS, f"{f} : gravite invalide"
     check_res(f, sc.get("resultats", {}))
     check_schemas(f, sc)
+    if "lesions" in sc:
+        assert LES and set(sc["lesions"]) <= {"nombre"}, f"{f} : lesions : nombre (lesions.json requis)"
+        for niv, nb in sc["lesions"].get("nombre", {}).items(): assert niv in {"facile", "moyen", "difficile"} and len(nb) == 2 and 1 <= nb[0] <= nb[1], f"{f} : lesions.nombre"
+        for m in sc.get("mecanismes", []): assert m.get("fiche") and set(m.get("regions", [])) <= REGIONS, f"{f} : mecanismes : fiche / regions"
+        for x in sc.get("prehosp", []): assert x.get("id") in A and set(x.get("si_lesion", [])) <= LES.keys() and 0 < x.get("proba", 0.5) <= 1, f"{f} : prehosp : id, si_lesion, proba"
+        for k, t in sc.get("resultats_reste", {}).items(): assert k in A, f"{f} : resultats_reste : action inconnue {k}"; check_text(f, t)
+        for k, b in sc.get("bornes_depart", {}).items(): assert k in VITALS and len(b) == 2, f"{f} : bornes_depart : [min, max]"
     steps = {e["id"] for e in sc["etapes"]}
     assert not steps & COMPL.keys(), f"{f} : une étape porte l'id d'une complication"
     for cid, ad in sc.get("complications", {}).items():
@@ -455,7 +512,7 @@ for f in sorted(glob.glob("Simu/sc_*.json")):
         check_step(f"{f} [complications.{cid}]", dict(COMPL[cid], actions=dict(COMPL[cid].get("actions", {}), **ad["actions"])), set(), compl=True)
     for st in sc["etapes"]:
         check_step(f"{f} [{st['id']}]", st, steps)
-print(f"{len(acts)} actions, {n} scénarios, {len(TERR)} terrains, {len(COMPL)} complications : OK")
+print(f"{len(acts)} actions, {n} scénarios, {len(TERR)} terrains, {len(COMPL)} complications, {len(LES)} lésions : OK")
 EOF
 ```
 

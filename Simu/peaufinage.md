@@ -83,7 +83,7 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
     - probabilité de **70 % en facile, 35 % en moyen, 0 % en difficile** (scénario fixe : moyen) ;
     - au plus 1 question par geste et par partie, 2 par étape, aucune pendant un ACR.
   - Interface : bulle datée de l'IDE sous le scope, avec « Oui, vas-y » (lance le geste, 0 point) et « Pas maintenant ». Cette bulle sert de base à L4 (équipe qui parle).
-- [ ] **S5 Polytraumatisé procédural** (V7)
+- [x] **S5 Polytraumatisé procédural** (V7, livré le 2026-11-05 : 9 lésions, sans le volet costal ni la tamponnade ; SMUR, `selon`, `examens`, `reprend`, `sauf_vers`, `bornes_depart`)
   - `Simu/lesions.json`, une lésion par entrée :
     - `id`, `label`, `region` (crâne, rachis, thorax, abdomen, bassin, membres), `exclut` ;
     - fragment de vignette, `constantes` et `pente` additives ;
@@ -137,4 +137,4 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
   - L10 (variation de pression pulsée) pourra s'appuyer dessus plus tard.
 - [ ] **S6 Trames de réa** (remplissent l'univers Réa, sujets à choisir) : extubation accidentelle, choc septique en cours de séjour, SDRA qui s'aggrave (s'appuie sur S4), hémorragie digestive du cirrhotique, désadaptation et PNO sous ventilation.
 
-Ordre (revu le 2026-11-05) : S1 et S0 (livrés), puis S5 (polytraumatisé, avancé avant la physiologie), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S6.
+Ordre (revu le 2026-11-05) : S1, S0 et S5 (livrés), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S6.
