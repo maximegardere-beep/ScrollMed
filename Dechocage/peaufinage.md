@@ -73,16 +73,35 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
   - Contextes : la valeur `rea` actuelle (2 trames de SSPI) devient `sspi`, et `rea` est libéré pour la vraie réanimation. Aucune règle `dans` de `terrains.json` ne vise `rea` aujourd'hui, donc pas de migration de contenu au-delà des 2 trames.
   - `DC_UNIVERS = { dechoc: [dechoc], anesth: [induction, perop, sspi], rea: [rea] }`. Le sous-filtre par contexte est retiré.
   - Les scénarios fixes sans `terrains` sont rangés via une clé `univers` du scénario (défaut `dechoc`).
-- [ ] **S1 Questions de l'équipe** (V3)
+- [x] **S1 Questions de l'équipe** (V3, livré le 2026-11-05 ; socle et phrases dans `actions.json`, une question de socle n'est posée que si l'étape note le geste `recommande`)
   - Contenu, dans `actions.json` :
     - `socle: ["dechoc"]` : univers où le geste fait partie du socle ;
     - `rappel` : la phrase de l'IDE, par ex. « Je le scope ? », « On lui pose une voie ? », « Je fais une glycémie ? ».
-  - Le socle compte comme `recommande` dans la 1re étape quand la trame ne le note pas. Rien à réécrire dans les scénarios.
+  - Un geste du socle n'est demandé que si l'étape le note `recommande` (pas d'oxygène réclamé dans l'acidocétose) ; les notes des trames ne changent pas. Rien à réécrire dans les scénarios.
   - Déclenchement :
     - au-delà de 50 % du chrono de l'étape (en temps fixé, du temps patient de l'étape) ;
     - probabilité de **70 % en facile, 35 % en moyen, 0 % en difficile** (scénario fixe : moyen) ;
     - au plus 1 question par geste et par partie, 2 par étape, aucune pendant un ACR.
   - Interface : bulle datée de l'IDE sous le scope, avec « Oui, vas-y » (lance le geste, 0 point) et « Pas maintenant ». Cette bulle sert de base à L4 (équipe qui parle).
+- [ ] **S5 Polytraumatisé procédural** (V7)
+  - `Simu/lesions.json`, une lésion par entrée :
+    - `id`, `label`, `region` (crâne, rachis, thorax, abdomen, bassin, membres), `exclut` ;
+    - fragment de vignette, `constantes` et `pente` additives ;
+    - `resultats` et `schemas` par examen (E-FAST, RP, radio du bassin, TDM), fusionnés par le moteur : paramètres des schémas réunis, texte des régions saines « sans anomalie » ;
+    - `actions` dues (format d'étape : note, `alt`, `why`), `letal_si_manque`, contre-indications, `tags`.
+  - Lésions de la v1 :
+    - PNO compressif, hémothorax massif, tamponnade, volet costal et contusion ;
+    - rupture splénique, lacération hépatique ;
+    - fracture instable du bassin, fracture du fémur ;
+    - plaie de membre avec saignement artériel ;
+    - TC grave avec hématome extradural (repris de `reserve/sc_tc_grave.json`), lésion médullaire cervicale avec choc neurogénique.
+  - Trame `sc_polytrauma.json` :
+    - `lesions` : 1-2 en facile, 2-3 en moyen, 3-4 en difficile, au plus une par région ;
+    - terrain tiré comme d'habitude, par ex. anticoagulé ;
+    - `prehosp` : gestes SMUR tirés avec une probabilité (VVP, ceinture pelvienne, garrot, IOT, acide tranexamique, collier), déjà faits à l'arrivée, sans points pour le joueur, et rappelés dans la **transmission SMUR** (fiche avant le chrono) ;
+    - e1 ABCDE et stabilisation, puis décision avec la fenêtre de transfert existante : TDM corps entier (étape e2 jouée, lésions révélées, puis orientation), bloc de damage control ou radiologie interventionnelle (fin).
+  - Débriefing par lésion : gestes dus, faits, oubliés.
+  - Validateur étendu à `lesions.json`.
 - [ ] **S2 Capnographie signifiante** (V4, L11) : forme du tracé selon l'état, sans contenu à écrire.
   - Aileron de requin : complication bronchospasme, trame asthme, ou action de classe `bronchospasme`.
   - Plateau normal.
@@ -116,25 +135,6 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
   - Les tuiles actuelles (`vm_protectrice`, `vm_asthme`, `hypervent`) deviennent des préréglages, seule commande sur téléphone.
   - Débriefing : cibles du scénario (Vt 6 à 8 mL/kg, Pplat < 30, FR basse dans l'asthme).
   - L10 (variation de pression pulsée) pourra s'appuyer dessus plus tard.
-- [ ] **S5 Polytraumatisé procédural** (V7)
-  - `Simu/lesions.json`, une lésion par entrée :
-    - `id`, `label`, `region` (crâne, rachis, thorax, abdomen, bassin, membres), `exclut` ;
-    - fragment de vignette, `constantes` et `pente` additives ;
-    - `resultats` et `schemas` par examen (E-FAST, RP, radio du bassin, TDM), fusionnés par le moteur : paramètres des schémas réunis, texte des régions saines « sans anomalie » ;
-    - `actions` dues (format d'étape : note, `alt`, `why`), `letal_si_manque`, contre-indications, `tags`.
-  - Lésions de la v1 :
-    - PNO compressif, hémothorax massif, tamponnade, volet costal et contusion ;
-    - rupture splénique, lacération hépatique ;
-    - fracture instable du bassin, fracture du fémur ;
-    - plaie de membre avec saignement artériel ;
-    - TC grave avec hématome extradural (repris de `reserve/sc_tc_grave.json`), lésion médullaire cervicale avec choc neurogénique.
-  - Trame `sc_polytrauma.json` :
-    - `lesions` : 1-2 en facile, 2-3 en moyen, 3-4 en difficile, au plus une par région ;
-    - terrain tiré comme d'habitude, par ex. anticoagulé ;
-    - `prehosp` : gestes SMUR tirés avec une probabilité (VVP, ceinture pelvienne, garrot, IOT, acide tranexamique, collier), déjà faits à l'arrivée, sans points pour le joueur, et rappelés dans la **transmission SMUR** (fiche avant le chrono) ;
-    - e1 ABCDE et stabilisation, puis décision avec la fenêtre de transfert existante : TDM corps entier (étape e2 jouée, lésions révélées, puis orientation), bloc de damage control ou radiologie interventionnelle (fin).
-  - Débriefing par lésion : gestes dus, faits, oubliés.
-  - Validateur étendu à `lesions.json`.
 - [ ] **S6 Trames de réa** (remplissent l'univers Réa, sujets à choisir) : extubation accidentelle, choc septique en cours de séjour, SDRA qui s'aggrave (s'appuie sur S4), hémorragie digestive du cirrhotique, désadaptation et PNO sous ventilation.
 
-Ordre conseillé : S0, puis S1 (rapides, visibles), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S5 (le plus gros chantier), puis S6.
+Ordre (revu le 2026-11-05) : S1 (livré), S0, puis S5 (polytraumatisé, avancé avant la physiologie), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S6.

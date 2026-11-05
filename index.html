@@ -758,6 +758,7 @@
     .dc-root.game .dc-search:not(.open){ display:none; }
     .dc-root.game > .dc-scroll{ grid-column:3; grid-row:1; padding-right: max(16px, env(safe-area-inset-right)); }
     .dc-root.game > .dc-foot{ display:none; }
+    .dc-root.game > .dc-ask{ bottom:12px; }   /* pas de pied en paysage : validation dans la barre du scope */
     .dc-root.game .dc-tiles{ grid-template-columns: repeat(3, 1fr); }
     .dc-root.game .dc-tile{ min-height:50px; padding:10px; }
     /* onglets Gestes / Dossier : barre fixe en haut de la colonne, un seul volet affiché */
@@ -830,6 +831,14 @@
   .dc-hv::before{ content:""; position:absolute; inset:0; width:0; background: rgba(255,255,255,.45); }
   .dc-hv.hold::before{ width:100%; transition: width .45s linear; }
   .dc-modal{ z-index:7; overflow-y:auto; }
+  /* question de l'équipe sur un oubli : bulle au-dessus du bouton de validation, sans bloquer le jeu */
+  .dc-ask{ position:absolute; right:12px; bottom:76px; z-index:6; width:min(340px, calc(100% - 24px)); background:var(--surface-2); border:1px solid var(--trace); color:var(--text);
+    border-radius:16px 16px 4px 16px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.35); animation: dcAskIn .25s ease-out; }
+  .dc-ask .who{ font-size:11px; color:var(--muted); }
+  .dc-ask .q{ font-weight:600; margin:4px 0 8px; }
+  .dc-ask .row{ display:flex; gap:8px; }
+  .dc-ask .row .btn{ flex:1; padding:8px 10px; min-height:0; font-size:14px; }
+  @keyframes dcAskIn{ from{ opacity:0; transform: translateY(8px); } to{ opacity:1; transform:none; } }
   .dc-stab{ margin: 8px 0 2px; padding: 10px 14px; border-radius: 12px; font-weight:700; font-size:14px; text-align:left; max-width:340px; }
   .dc-stab.ok{ background: rgba(53,217,153,.12); border:1px solid var(--trace-dim); color: var(--trace); }
   .dc-stab.ko{ background: rgba(226,87,90,.12); border:1px solid var(--danger); color: #ffb3b4; }
@@ -2669,7 +2678,8 @@ function dcStart(scId, mode, opts){
     outcome: null, cause: '', history: [], nav: [], search: '', pumps: {},
     fold: { res: false, chips: false, terrain: false },  // encarts repliés : les tuiles restent visibles
     ecg: (terrain && terrain.ecg && (sc.ecg || 'sinus') === 'sinus') ? terrain.ecg : (sc.ecg || 'sinus'), mon: new Set(sc.moniteur || []),   // patient déjà intubé ou cathétérisé
-    nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} }
+    nibp: null, nibpPending: null, alarm: { lvl: 0, msg: '', keys: {} },
+    rappels: {}, rappelDraw: {}, rappelT: null, ask: null   // questions de l'équipe sur un oubli
   };
   dcMonReset();
   dcEnterStep(sc.etapes[0].id);
@@ -2708,7 +2718,7 @@ function dcEnterStep(id){
   if(st.constantes && G.nibp) dcNibp();   // l'infirmière reprend une PNI à l'aggravation
   G.chrono = G.chronoMax = (st.chrono || DC_DEFAULT_CHRONO) * dcMode().mult;
   G.visited.push({ id, t0: G.t, t1: null, dx: null });
-  G.nav = []; G.search = ''; G.searchOpen = false;
+  G.nav = []; G.search = ''; G.searchOpen = false; G.ask = null;
   dcOpenDossier();
 }
 // paysage : onglet Dossier ouvert à chaque étape, complication ou ACR (lire la vignette), Gestes dès qu'on agit
@@ -2780,6 +2790,7 @@ function dcCheckThresholds(){
 function dcTick(){
   if(!G || G.paused || G.modal || G.fiche || G.phase === 'over') return;
   const phase = G.phase;
+  if(G.ask && !dcMode().fige && --G.ask.left <= 0){ G.ask = null; dcRender(); }
   if(G.phase === 'acr'){
     G.acr.chrono -= 1;
     G.t += dcMode().ratio; dcSample();
@@ -2790,6 +2801,7 @@ function dcTick(){
     G.chrono -= 1;
     dcAdvance(dcMode().ratio);
     if(dcTerrainSeuil() || dcDeclencheur()){ dcRender(); return; }
+    if(dcRappelCheck()){ dcRender(); return; }
   }
   if(G.phase === 'over') return;
   if(G.phase !== phase) dcRender(); else dcRenderScope();
@@ -2806,6 +2818,76 @@ function dcMissing(e, stepId){
   const ids = Array.isArray(e) ? e : [e];
   return ids.some(id => !dcTerrainCi(id, stepId));
 }
+// ---------- questions de l'équipe sur un oubli ----------
+// Passé la moitié de l'étape (temps patient), l'équipe demande un geste dû et non fait : indispensable de l'étape,
+// ou geste du socle de l'univers ("socle" dans le catalogue) que l'étape note recommandé. Probabilité selon le niveau
+// (tirée une fois par geste et par partie), une question par geste et par partie, 2 par étape au plus.
+// Un geste fait après la question ne rapporte aucun point ; une question ignorée laisse l'oubli compter.
+const DC_RAPPEL_PROBA = { facile: 0.7, moyen: 0.35, difficile: 0 };
+const DC_RAPPEL_MAX_ETAPE = 2;
+const DC_RAPPEL_ECART = 60;   // s patient entre deux questions
+const DC_RAPPEL_S = 20;       // s réelles d'affichage de la bulle (temps réel et ralenti)
+// univers d'une trame d'après son contexte ; un scénario sans trame est au déchoc
+const DC_UNIVERS_CTX = { dechoc: 'dechoc', induction: 'anesth', perop: 'anesth', rea: 'anesth', sspi: 'anesth' };
+const DC_EQUIPE = { dechoc: 'IDE', anesth: 'IADE', rea: 'IDE' };
+function dcUnivers(){ return DC_UNIVERS_CTX[(G.sc.terrains || {}).contexte || 'dechoc'] || 'dechoc'; }
+function dcRappelDue(){
+  const st = G.step, visit = dcCurVisit(), acts = st.actions || {}, univ = dcUnivers();
+  const ciOk = k => { const c = dcTerrainCi(k, st.id); return !c || !!c.compte; };
+  const doneIn = k => acts[k].refaire && dcRepeatable(dcIndex()[k] || {})
+    ? G.log.some(l => l.id === k && !l.ci && l.step === st.id && l.t >= visit.t0) : dcDoneEntry(k);
+  const out = [];
+  Object.keys(acts).forEach(id => {
+    const s = acts[id], a = dcIndex()[id];
+    if(!a || a.fin || a.transfert || a.type === 'diagnostic' || dcIsRcp(a)) return;
+    if(!(s.note === 'indispensable' || (s.note === 'recommande' && (a.socle || []).includes(univ)))) return;
+    const key = s.alt ? `alt:${s.alt}` : id;
+    if(G.rappels[key] || out.some(c => c.key === key)) return;
+    const grp = s.alt ? Object.keys(acts).filter(k => acts[k].alt === s.alt) : [id];
+    if(grp.some(k => ciOk(k) && doneIn(k))) return;
+    // geste proposé : le premier du groupe permis par le terrain et réalisable maintenant
+    const tgt = grp.find(k => { const x = dcIndex()[k]; return x && !dcTerrainCi(k, st.id) && !dcLocked(x) && (dcRepeatable(x) || !G.doneAll.has(k)); });
+    if(tgt) out.push({ key, id: tgt, ind: s.note === 'indispensable' });
+  });
+  return out.sort((x, y) => y.ind - x.ind);
+}
+function dcRappelCheck(){
+  if(!G || G.phase !== 'step' || G.ask || G.modal || G.fiche || G.paused) return false;
+  const p = DC_RAPPEL_PROBA[(G.terrain && G.terrain.niveau) || 'moyen'] || 0;
+  const st = G.step, visit = dcCurVisit();
+  if(!p || !visit || G.t - visit.t0 < (st.chrono || DC_DEFAULT_CHRONO) * 5) return false;   // une étape = chrono × 10 s patient
+  if(G.rappelT != null && G.t - G.rappelT < DC_RAPPEL_ECART) return false;
+  if((visit.nRappel || 0) >= DC_RAPPEL_MAX_ETAPE) return false;
+  for(const c of dcRappelDue()){
+    if(!(c.key in G.rappelDraw)) G.rappelDraw[c.key] = Math.random() < p;
+    if(!G.rappelDraw[c.key]) continue;
+    G.rappels[c.key] = { t: G.t, id: c.id, step: st.id };
+    G.rappelT = G.t;
+    visit.nRappel = (visit.nRappel || 0) + 1;
+    G.ask = { key: c.key, id: c.id, step: st.id, left: DC_RAPPEL_S };
+    try { if(navigator.vibrate) navigator.vibrate([20, 40, 20]); } catch(_){}
+    return true;
+  }
+  return false;
+}
+// geste déjà demandé par l'équipe (lui-même, ou un geste de son groupe d'alternatives)
+function dcRappelOf(id){
+  return Object.entries(G.rappels).some(([k, r]) => {
+    if(k === id) return true;
+    const s = k.startsWith('alt:') && ((dcStepById(r.step) || {}).actions || {})[id];
+    return !!(s && s.alt === k.slice(4));
+  });
+}
+function dcAskHtml(){
+  const q = G.ask;
+  if(!q || G.phase !== 'step' || q.step !== G.step.id) return '';
+  const a = dcIndex()[q.id];
+  const txt = a.rappel || `On fait « ${a.label} » ?`;
+  return `<div class="dc-ask" role="alert"><div class="who">💬 ${DC_EQUIPE[dcUnivers()] || 'IDE'} · T+${dcFmtClock(G.t)}</div>
+    <div class="q">« ${escapeHtml(txt.replace(/^«\s*|\s*»$/g, ''))} »</div>
+    <div class="row"><button class="btn" data-dc="ask-yes">Oui, vas-y</button><button class="btn secondary" data-dc="ask-no">Pas maintenant</button></div></div>`;
+}
+
 function dcAcrSpec(){ return Object.assign({}, DC_DEFAULT_ACR, G.step.acr || {}); }
 
 // ---------- transfert : le patient est-il assez stable pour quitter le déchoc ? ----------
@@ -2901,6 +2983,8 @@ function dcDoAction(id, confirmed){
   const ci = dcTerrainCi(id, G.step.id);
   const entry = { t: G.t, id, etape, step: G.step.id, instable, dur };
   if(ci && !ci.compte) entry.ci = true;   // "compte": le geste reste fait (intubation réussie malgré l'allergie)
+  if(etape !== 'acr' && dcRappelOf(id)) entry.rappel = true;   // demandé par l'équipe : 0 point
+  if(G.ask && G.ask.id === id) G.ask = null;
   G.log.push(entry);
   if(!dcIsRcp(a) && !(a.fin && !fin)) G.doneAll.add(id);
   (a.moniteur || []).forEach(k => { if(k !== 'MCE') G.mon.add(k); });
@@ -2975,7 +3059,7 @@ function dcDoAction(id, confirmed){
   dcTitrate();
   dcSample();
   dcCheckThresholds();
-  if(G.phase === 'step') dcTerrainCumul(id) || dcTerrainSeuil() || dcVolOap() || dcDeclencheur();
+  if(G.phase === 'step') dcTerrainCumul(id) || dcTerrainSeuil() || dcVolOap() || dcDeclencheur() || dcRappelCheck();
   dcRender();
 }
 
@@ -3204,14 +3288,15 @@ function dcScore(){
       const step = spec && spec.refaire && !spec.anticipe ? `@${v.id}` : '';
       const key = spec && spec.alt && ['indispensable', 'recommande'].includes(note) ? `alt:${spec.alt}${step}` : `${l.id}${step}`;
       let p = 0;
-      if(!scored.has(key)){ p = DC_POINTS[note] || 0; scored.add(key); }
+      // geste fait après une question de l'équipe : aucun point (un geste contre-indiqué garde sa pénalité)
+      if(!scored.has(key)){ p = l.rappel && DC_POINTS[note] > 0 ? 0 : DC_POINTS[note] || 0; scored.add(key); }
       pts += p;
       // délai : heure patient du début du geste, comparée à "delai" (min depuis l'arrivée)
       const t0 = l.t - (l.dur != null ? l.dur : (dcIndex()[l.id] || {}).duree || 0) * 60;
       const delai = spec && spec.delai && !l.ci ? { lim: spec.delai, ok: t0 <= spec.delai * 60 } : null;
       seen[l.id] = { id: l.id, kind: note, why: spec && spec.why, anticipe: spec && spec.anticipe, instable: l.instable, pts: p, n: 1,
         terrain: spec && spec.terrain, orig: spec && spec.orig, adapte: spec && spec.adapte, compl: l.compl, mods: l.mods,
-        t: t0, delai, sature: l.sature, fin: G.orientation && G.orientation.id === l.id };
+        t: t0, delai, sature: l.sature, fin: G.orientation && G.orientation.id === l.id, rappel: !!l.rappel && DC_POINTS[note] > 0 };
       items.push(seen[l.id]);
     });
     const actions = st.actions || {};
@@ -4917,6 +5002,7 @@ function dcRenderGame(){
       <div id="dcTiles">${dcTilesHtml()}</div>
       </div>
     </div>
+    ${dcAskHtml()}
     ${G.phase === 'step' ? `<div class="dc-foot"><button class="btn dc-hv" data-dc="validate"><span>${st.transfert ? `🚑 Partir ${escapeHtml(st.transfert.vers || '')}` : 'Valider l\'étape ✓'}</span></button></div>` : ''}
     ${pause}${modal}`;
   const scroller = dcRoot.querySelector('.dc-scroll');
@@ -4997,7 +5083,8 @@ function dcRenderDebrief(){
     const compl = it.compl ? ` · → ${escapeHtml((d.sc.etapes.find(e => e.id === it.compl) || {}).titre || it.compl)}` : '';
     const mods = (it.mods || []).map(m => `<div class="w">🧬 ${escapeHtml(m)}</div>`).join('');
     const extra = (it.anticipe ? ' (anticipé)' : '') + (it.avant ? ' · avant de partir' : '') + (it.fin ? ' · 🏁 orientation finale' : '')
-      + (it.instable ? ' · ⚠️ parti instable' : '') + (it.sature ? ' · 💧 plus précharge-dépendant, effet réduit' : '');
+      + (it.instable ? ' · ⚠️ parti instable' : '') + (it.sature ? ' · 💧 plus précharge-dépendant, effet réduit' : '')
+      + (it.rappel ? ' · 💬 fait sur rappel de l’équipe, 0 point' : '');
     return `<div class="dc-item"><span class="ic">${ui.ic}</span><div><b>${escapeHtml(it.label || dcLabel(it.id))}</b>${it.n > 1 ? ` ×${it.n}` : ''}
       <div class="w">${ui.lb}${terr}${compl}${extra}${dcDelaiTxt(it)}${it.why ? ' · ' + escapeHtml(it.why) : ''}</div>${mods}</div><span class="pts">${pts}</span></div>`;
   };
@@ -5023,6 +5110,7 @@ function dcRenderDebrief(){
   if(d.outcome === 'deces') axes.push({ p: 0, h: line('🕯️', 'Décès', escapeHtml(d.cause), 'ko') });
   all.filter(it => it.kind === 'contre_indique').forEach(it => axes.push({ p: 1, h: line('❌', `Contre-indiqué : ${lb(it)}`, escapeHtml(it.why || '') + terrTxt(it), 'ko') }));
   all.filter(it => it.kind === 'oubli').forEach(it => axes.push({ p: 2, h: line('⚠️', `Oublié : ${lb(it)}`, (it.avant ? 'Avant de partir · ' : '') + escapeHtml(it.why || '') + terrTxt(it), 'ko') }));
+  all.filter(it => it.rappel).forEach(it => axes.push({ p: 2.5, h: line('💬', `Sur rappel de l’équipe : ${lb(it)}`, 'Fait seulement quand l’équipe l’a demandé : 0 point.' + (it.why ? ' ' + escapeHtml(it.why) : ''), 'ko') }));
   d.acrEpisodes.forEach(e => axes.push({ p: 3, h: line('💔', `ACR ${e.ok ? 'récupéré' : 'non récupéré'}`, escapeHtml(e.cause), 'ko') }));
   if(d.orientation && d.orientation.instable) axes.push({ p: 3, h: line('🚑', `Parti instable : ${escapeHtml(dcLabel(d.orientation.id))}`, 'Stabiliser avant le transfert, sauf si le transfert est le traitement.', 'ko') });
   all.filter(it => it.delai && !it.delai.ok && it.kind !== 'oubli').forEach(it => axes.push({ p: 4, h: line('⏱', `En retard : ${lb(it)}`, `T+${dcFmtClock(it.t)} pour un objectif ≤ ${it.delai.lim} min${it.why ? ' · ' + escapeHtml(it.why) : ''}`, 'ko') }));
@@ -5127,6 +5215,13 @@ dcRoot.addEventListener('click', e => {
   else if(act === 'pause') dcPause();
   else if(act === 'quit') closePanel('panelDechoc');
   else if(act === 'tr-wait'){ G.modal = null; dcRender(); }
+  else if(act === 'ask-no' && G){ G.ask = null; G.rappelT = G.t; dcRender(); }
+  else if(act === 'ask-yes' && G && G.ask){
+    // pas de nouvelle question dans la foulée du geste demandé : l'écart part de la fin du geste
+    const id = G.ask.id; G.ask = null; G.tab = 'gestes'; G.rappelT = Infinity;
+    dcDoAction(id);
+    if(G){ G.rappelT = G.t; if(G.phase !== 'over') dcRender(); }
+  }
   else if(act === 'tr-go'){
     const m = G.modal; G.modal = null;
     if(m.kind === 'step') dcValidate(true);

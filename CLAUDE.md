@@ -140,6 +140,7 @@ Tableau d'actions, partagé par tous les scénarios :
 - La catégorie `RCP` n'apparaît que pendant un ACR.
 - `classe` : classes pharmacologiques ou de geste (`betalactamine`, `remplissage`, `hypnotique`, `curare`, `curare_depolarisant`, `vasopresseur`, `adrenaline`, `betabloquant`, `antithrombotique`, `anticoagulant`, `aminoside`…), visées par les terrains du patient procédural. Une nouvelle action d'une classe existante est couverte d'office.
 - `alias` : synonymes et abréviations trouvés par la recherche de tuiles, en plus du libellé (`["NAD", "noradré"]`, `["IOT", "intubation"]`, noms commerciaux). Uniquement des termes usuels qui désignent bien l'action (pas un constat ni un diagnostic voisin), et absents du libellé ; un alias partagé par des actions proches est admis. La tuile trouvée par un alias l'indique (`≈ NAD`).
+- `socle` : univers où le geste fait partie des gestes de base (`dechoc`, `anesth`, `rea` ; contextes `induction`, `perop` et `rea` actuels → `anesth`), et `rappel` : la phrase de l'équipe (« Je le scope ? »). Voir « Questions de l'équipe ».
 - Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère). Idem pour les `id` de terrains et de complications.
 
 ### Scénario : `Dechocage/sc_<nom>.json`
@@ -198,6 +199,14 @@ Tableau d'actions, partagé par tous les scénarios :
 - `suite` : la première règle qui correspond l'emporte. `si_manque` : au moins une entrée non faite. `si_fait` : toutes faites. La dernière règle est sans condition. `"vers": "fin"` termine la partie.
 - Prévoir pour chaque étape critique une branche d'aggravation (`e1_aggrav`) plutôt que des embranchements multiples.
 - Équilibrage : vérifier qu'une prise en charge complète garde le patient au-dessus des seuils, et que l'inaction le fait passer en ACR avant la fin du chrono doublé.
+
+### Questions de l'équipe
+
+Passé la moitié de l'étape (temps patient), l'IDE (IADE en anesthésie) demande dans une bulle un geste dû et non fait : un indispensable de l'étape, ou un geste du `socle` de l'univers que l'étape note `recommande` (un geste du socle que la trame ne note pas n'est jamais demandé : pas d'oxygène réclamé dans l'acidocétose). « Oui, vas-y » lance le geste, « Pas maintenant » ferme la bulle (20 s réelles, jusqu'à la réponse en temps fixé).
+
+- Probabilité tirée une fois par geste et par partie : 70 % en facile, 35 % en moyen (scénario fixe), jamais en difficile (`DC_RAPPEL_PROBA`, `index.html`). Une question par geste et par partie, 2 par étape au plus, 60 s patient d'écart, aucune pendant un ACR ; ni orientation, ni transfert, ni geste verrouillé (voie absente).
+- Phrase : `rappel` du catalogue, sinon « On fait « libellé » ? ». Rien à écrire dans les scénarios.
+- Note : un geste demandé (ou une alternative de son groupe) puis fait vaut **0 point** ; une question ignorée laisse l'oubli compter. Débriefing : « 💬 fait sur rappel de l'équipe », dans les axes d'amélioration après les oublis.
 
 ### Silhouette du patient
 
@@ -266,6 +275,7 @@ for a in acts:
     assert set(a.get("voie", [])) <= {"IV", "VVC"} and a.get("requiert") in (None, "IV", "VVC"), f"action {a['id']} : voie / requiert"
     assert isinstance(a.get("classe", []), list), f"action {a['id']} : classe doit être une liste"
     assert isinstance(a.get("alias", []), list) and all(isinstance(x, str) and x.strip() for x in a.get("alias", [])), f"action {a['id']} : alias doit être une liste de chaînes"
+    assert set(a.get("socle", [])) <= {"dechoc", "anesth", "rea"} and isinstance(a.get("rappel", ""), str), f"action {a['id']} : socle (univers) / rappel (texte)"
     if "titration" in a:
         assert {"debut", "gain", "max"} <= a["titration"].keys(), f"action {a['id']} : titration incomplète"
     if "transfert" in a:
