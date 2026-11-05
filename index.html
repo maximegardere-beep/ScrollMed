@@ -958,11 +958,11 @@
   .dc-chr span:first-child{ flex-shrink:0; width:48px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .dc-vol{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:10px; font-size:13px; color: var(--muted); line-height:1.45; }
 
-  /* ---------- ordinateur : souris (même en fenêtre étroite ou en portrait) dès 640 px de large,
-     ou grand écran en paysage (tablette) ----------
+  /* ---------- ordinateur : souris (toute fenêtre, même étroite ou en portrait),
+     ou grand écran tactile en paysage (tablette) ----------
      navigation en colonne à gauche, feed et panneaux sur toute la largeur restante,
      contenu des panneaux centré ; le mode Déchoc reprend la disposition paysage (DC_LAND). */
-  @media (orientation: landscape) and (min-width: 900px) and (min-height: 561px), (hover: hover) and (pointer: fine) and (min-width: 640px) and (min-height: 480px){
+  @media (orientation: landscape) and (min-width: 900px) and (min-height: 561px), (hover: hover) and (pointer: fine){
     :root{ --side: 232px; }
     @media (max-width: 1199px){ :root{ --side: 196px; } }
     #app{ max-width:none; border:0; display:grid; grid-template-columns: var(--side) minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
@@ -982,9 +982,8 @@
     .panel-head h2, #panelDechoc .panel-head h2{ font-size:20px; }
     #panelDechoc .panel-head{ padding: 14px max(24px, calc((100% - 860px) / 2)); }
     .panel-head > .iconbtn:first-child{ display:none; }   /* retour : la colonne de navigation suffit */
-    .toast{ top:auto; bottom:32px; left: calc(50% + var(--side) / 2); max-width: calc(100% - var(--side) - 32px); }
+    .toast{ left: calc(50% + var(--side) / 2); max-width: calc(100% - var(--side) - 32px); }   /* centré sur le feed */
     .radar-card svg{ max-width: 600px; margin: 0 auto; }
-    .toast.dc{ bottom:auto; }   /* placé par dcToastPlace */
 
     /* feed : carte large, texte en colonne lisible, gros titres */
     .progress-strip{ padding: 0 24px; height:18px; }
@@ -1023,8 +1022,8 @@
     .dc-rail-b .ic{ font-size:21px; }
     .dc-rail-b:hover:not(.on){ background: var(--surface); color: var(--text); }
   }
-  /* fenêtre d'ordinateur étroite (640 à 899 px) : colonne de navigation réduite aux icônes */
-  @media (hover: hover) and (pointer: fine) and (min-width: 640px) and (max-width: 899px) and (min-height: 480px){
+  /* fenêtre d'ordinateur étroite (moins de 900 px) : colonne de navigation réduite aux icônes */
+  @media (hover: hover) and (pointer: fine) and (max-width: 899px){
     :root{ --side: 84px; }
     header{ padding: 14px 8px 10px; justify-content:center; }
     .brand{ display:none; }
@@ -1033,6 +1032,29 @@
     #app:not(:has(.panel.open)) nav .feed-keys{ display:none; }
     .caption-wrap{ padding-right: 96px; }
   }
+  /* fenêtre d'ordinateur très étroite (moins de 640 px) : icônes seules, carte à la taille d'un téléphone */
+  @media (hover: hover) and (pointer: fine) and (max-width: 639px){
+    :root{ --side: 60px; }
+    header{ padding: 10px 4px 8px; }
+    header .iconbtn{ width:34px; height:34px; }
+    nav{ padding: 2px 4px 10px; }
+    nav button{ font-size:0; padding: 10px 0; }
+    nav .navic{ font-size:20px; width:auto; }
+    .ig-header{ padding: 0 16px; margin-bottom:12px; }
+    .caption-wrap{ padding: 0 76px 22px 16px; }
+    .hook{ font-size: 21px; }
+    .quiz-hook{ font-size: 28px; }
+    .quiz-hook.long{ font-size: 22px; }
+    .body-txt{ font-size: 14.5px; }
+    .quiz-answer .body-txt{ font-size: 17px; }
+    .detail{ font-size: 13.5px; padding: 11px 13px; }
+    .card-footer{ right: 6px; bottom: 26px; gap: 18px; }
+    .progress-strip{ padding: 0 10px; }
+    .panel-head{ padding: 10px 16px; }
+    .panel-body{ padding: 16px 16px 40px; }
+  }
+  /* colonne de navigation : défile si la fenêtre est très basse */
+  @media (hover: hover) and (pointer: fine){ nav{ overflow-y:auto; scrollbar-width:none; } }
   /* grand écran : Gestes et Dossier côte à côte, sans onglets (tuiles à côté de la colonne d'icônes) */
   @media (orientation: landscape) and (min-width: 1280px) and (min-height: 561px){
     .dc-root.game{ grid-template-columns: minmax(320px, 0.8fr) auto minmax(0, 2.2fr); }
@@ -1071,12 +1093,12 @@
   <div id="feed"></div>
 
   <nav>
-    <button class="active" data-tab="feed"><span class="navic">◎</span>Feed</button>
-    <button data-tab="qcm"><span class="navic">☑︎</span>QCM</button>
-    <button data-tab="dechoc"><span class="navic">✚</span>Déchoc</button>
-    <button data-tab="podcast"><span class="navic">♫︎</span>Podcast</button>
-    <button data-tab="stats"><span class="navic">▤</span>Progrès</button>
-    <button data-tab="settings"><span class="navic">⚙︎</span>Réglages</button>
+    <button class="active" data-tab="feed" title="Feed"><span class="navic">◎</span>Feed</button>
+    <button data-tab="qcm" title="QCM"><span class="navic">☑︎</span>QCM</button>
+    <button data-tab="dechoc" title="Déchoc"><span class="navic">✚</span>Déchoc</button>
+    <button data-tab="podcast" title="Podcast"><span class="navic">♫︎</span>Podcast</button>
+    <button data-tab="stats" title="Progrès"><span class="navic">▤</span>Progrès</button>
+    <button data-tab="settings" title="Réglages"><span class="navic">⚙︎</span>Réglages</button>
     <div class="feed-keys" aria-hidden="true"><span><kbd>↑</kbd> <kbd>↓</kbd> carte précédente / suivante</span><span><kbd>Espace</kbd> révéler ou déplier</span><span><kbd>R</kbd> retenir · double-clic ♥</span></div>
   </nav>
 
