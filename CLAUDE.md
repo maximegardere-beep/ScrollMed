@@ -10,6 +10,7 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `Dechocage/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json`.
 - `Podcast/` : épisodes du **mode Podcast** (onglet ♫ de la barre du bas), cours de quelques minutes lus par la synthèse vocale, synchronisés comme `Recos/`. Voir la section « Mode Podcast ». `Podcast/episodes_a_creer.md` : sujets restant à traiter.
 - `QCM/` : QCM isolés (`isoles_<thème>.json`) et dossiers progressifs du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
+- **Ordinateur** (souris, fenêtre d'au moins 640 × 480 px, même en portrait ; ou écran tactile en paysage d'au moins 900 × 561 px ; CSS en fin de `<style>`) : navigation en colonne à gauche (réduite aux icônes sous 900 px de large, avec l'aide clavier du feed au-delà : ↑ / ↓, Espace, R), feed et panneaux sur la largeur restante, contenu centré ; en paysage d'au moins 900 px, le Déchoc reprend la disposition paysage du téléphone (`DC_LAND`), avec Gestes et Dossier côte à côte dès 1280 px.
 - `Dechocage/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Dechocage/peaufinage.md` : plan de peaufinage du mode Déchoc (interface, réalisme, illustrations), en attente.
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR
