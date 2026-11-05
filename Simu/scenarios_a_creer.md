@@ -31,7 +31,7 @@ Avant de pousser : validation de `CLAUDE.md` et simulation d'une prise en charge
   - e2 Contrôle H+2 : glycémie, cétonémie, iono à refaire ; K⁺ 3,8 → `kcl_iv` indispensable ; G10 quand la glycémie passe sous 2,5 g/L. Sans KCl → `e2_aggrav` (hypokaliémie, ESV, MgSO4 ; FV si oubli).
   - Diagnostic : `dx_acidocetose`.
 
-- [ ] **I. Traumatisme crânien grave avec engagement** (SFAR 2016, TC grave à la phase précoce ; CRASH 2004 ; CRASH-3 2019) — *brouillon en réserve : `Dechocage/reserve/`*
+- [ ] **I. Traumatisme crânien grave avec engagement** (SFAR 2016, TC grave à la phase précoce ; CRASH 2004 ; CRASH-3 2019) — *brouillon en réserve : `Simu/reserve/`*
   - Homme, 34 ans, 80 kg, chute de scooter sans casque. GCS 6, mydriase droite, SpO2 88 %, FC 58, PA 160/88.
   - e1 : intubation (kétamine ou étomidate ; propofol débattu), osmothérapie (signes d'engagement), PAS > 110 mmHg (noradrénaline), normocapnie, collier, tête à 30° ; NaCl 0,9 % plutôt que solutés hypotoniques ; corticoïdes contre-indiqués (CRASH) ; acide tranexamique débattu (CRASH-3 : bénéfice dans les TC légers à modérés). Sans intubation ou osmothérapie → `e1_aggrav` (Cushing, mydriase bilatérale ; décès si pas d'osmothérapie).
   - e2 Scanner : TDM (hématome extradural de 32 mm, déviation de 9 mm), neurochirurgie indispensable, sédation IVSE, contrôle des gaz du sang.
@@ -46,7 +46,7 @@ Avant de pousser : validation de `CLAUDE.md` et simulation d'une prise en charge
 
 ## Trames du patient aléatoire (QCM du 2026-10-09)
 
-Écrites directement comme trames (clé `terrains`). Les brouillons inachevés sont dans `Dechocage/reserve/` (fichier `sc_*.json` + patch de `terrains.json` / `actions.json` relatif au commit `2d6aeda` ; `terrains.json` a été remis en forme depuis, donc réappliquer les ajouts à la main ou par fusion sémantique) : ce sous-dossier n'est ni chargé par l'app ni vu par le validateur. Avant de les publier : relire, déplacer le `sc_*.json` dans `Dechocage/`, appliquer le patch, valider, simuler.
+Écrites directement comme trames (clé `terrains`). Les brouillons inachevés sont dans `Simu/reserve/` (fichier `sc_*.json` + patch de `terrains.json` / `actions.json` relatif au commit `2d6aeda` ; `terrains.json` a été remis en forme depuis, donc réappliquer les ajouts à la main ou par fusion sémantique) : ce sous-dossier n'est ni chargé par l'app ni vu par le validateur. Avant de les publier : relire, déplacer le `sc_*.json` dans `Simu/`, appliquer le patch, valider, simuler.
 
 - [x] **BAV complet dégénératif** (`sc_bav_complet.json` ; ESC 2021, ERC 2021 ; rythmes `bav3` puis `entraine`)
 - [x] **Hématome cervical compressif après thyroïdectomie** (`sc_hematome_cervical.json`, SSPI ; DAS/BAETS/ENT UK 2022)

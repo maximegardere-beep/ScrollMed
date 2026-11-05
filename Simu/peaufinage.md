@@ -49,7 +49,7 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
 
 ## Décisions
 
-- **V1 Renommage** : le mode s'appelle **« Simu »** dans toute l'interface (onglet ✚, titres, toasts, accueil, réglages), et le dossier `Dechocage/` devient `Simu/` (CLAUDE.md, validateurs, `scenarios_a_creer.md`, `reserve/`). Les clés internes ne changent pas (`STATE.dechoc`, préfixes `dc*`, `id` de scénarios, d'actions, de terrains), pour garder l'historique des joueurs.
+- **V1 Renommage** : le mode s'appelle **« Simu »** dans toute l'interface (onglet ✚, titres, toasts, accueil, réglages), et le dossier `Simu/` devient `Simu/` (CLAUDE.md, validateurs, `scenarios_a_creer.md`, `reserve/`). Les clés internes ne changent pas (`STATE.dechoc`, préfixes `dc*`, `id` de scénarios, d'actions, de terrains), pour garder l'historique des joueurs.
 - **V2 Univers** : la page de lancement s'ouvre sur 3 univers, **🚑 Déchocage**, **💉 Anesthésie** et **🛏️ Réa**, qui filtrent à la fois le patient aléatoire et la liste des scénarios fixes.
   - Anesthésie = induction + peropératoire + **SSPI**.
   - Réa : vide pour l'instant (« bientôt »), à remplir par de nouvelles trames (V7).
@@ -68,7 +68,7 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
 
 ## Lots
 
-- [ ] **S0 Simu et univers** (V1, V2)
+- [x] **S0 Simu et univers** (V1, V2, livré le 2026-11-05)
   - `git mv Dechocage Simu`. Le code lit `Simu/` et se replie sur `Dechocage/` s'il est absent, le temps que les apps en cache se mettent à jour. CLAUDE.md, validateurs et textes d'aide passent à « Simu ».
   - Contextes : la valeur `rea` actuelle (2 trames de SSPI) devient `sspi`, et `rea` est libéré pour la vraie réanimation. Aucune règle `dans` de `terrains.json` ne vise `rea` aujourd'hui, donc pas de migration de contenu au-delà des 2 trames.
   - `DC_UNIVERS = { dechoc: [dechoc], anesth: [induction, perop, sspi], rea: [rea] }`. Le sous-filtre par contexte est retiré.
@@ -137,4 +137,4 @@ Choix faits par QCM le 2026-11-05. **Statut : en attente de lancement**, lot par
   - L10 (variation de pression pulsée) pourra s'appuyer dessus plus tard.
 - [ ] **S6 Trames de réa** (remplissent l'univers Réa, sujets à choisir) : extubation accidentelle, choc septique en cours de séjour, SDRA qui s'aggrave (s'appuie sur S4), hémorragie digestive du cirrhotique, désadaptation et PNO sous ventilation.
 
-Ordre (revu le 2026-11-05) : S1 (livré), S0, puis S5 (polytraumatisé, avancé avant la physiologie), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S6.
+Ordre (revu le 2026-11-05) : S1 et S0 (livrés), puis S5 (polytraumatisé, avancé avant la physiologie), puis S2 et S3, puis S4 (dépend de S3 pour la PaCO2), puis S6.

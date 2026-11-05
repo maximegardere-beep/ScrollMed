@@ -5,13 +5,13 @@ Application de révision en anesthésie-réanimation au format « reels » : on 
 - `index.html` : toute l'app (HTML + CSS + JS, sans build ni dépendance). Contient aussi quelques cartes de départ codées en dur.
 - `Recos/` : **le registre de cartes**. L'app liste ce dossier via l'API GitHub, sur la branche `main` par défaut, et charge chaque fichier `.json` à chaque lancement. Une carte poussée sur `main` est donc en ligne tout de suite.
 - `Recos/cartes_complementaires_a_creer.md` : liste des sujets restant à traiter. Cocher (`- [x]`) les sujets couverts par un nouveau lot.
-- `Dechocage/` : contenu du **mode Déchoc** (jeu de simulation de déchocage, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/`. Voir la section « Mode Déchoc ».
-- `Dechocage/scenarios_a_creer.md` : scénarios Déchoc restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
-- `Dechocage/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json`.
+- `Simu/` (ex-`Dechocage/`, renommé le 2026-11-05) : contenu du **mode Simu** (jeu de simulation en 3 univers, déchocage, anesthésie et réanimation, onglet ✚ de la barre du bas) : catalogue d'actions, scénarios, terrains et complications du patient procédural, synchronisés comme `Recos/` (l'app se replie sur `Dechocage/` si `Simu/` est absent de la branche). Voir la section « Mode Simu ». Les clés internes gardent l'ancien nom (`STATE.dechoc`, fonctions `dc*`, onglet `dechoc`).
+- `Simu/scenarios_a_creer.md` : scénarios Simu restant à écrire, avec leur trame. Cocher (`- [x]`) ceux qui sont poussés.
+- `Simu/reserve/` : brouillons de trames non publiés (ni chargés par l'app, ni validés), avec leur patch de `terrains.json` / `actions.json` (patchs antérieurs au renommage : chemins `Dechocage/`).
 - `Podcast/` : épisodes du **mode Podcast** (onglet ♫ de la barre du bas), cours de quelques minutes lus par la synthèse vocale, synchronisés comme `Recos/`. Voir la section « Mode Podcast ». `Podcast/episodes_a_creer.md` : sujets restant à traiter.
 - `QCM/` : QCM isolés (`isoles_<thème>.json`) et dossiers progressifs du **mode QCM** (onglet ☑︎ de la barre du bas), synchronisés comme `Recos/`. Voir la section « Mode QCM ».
-- **Ordinateur** (souris : toute fenêtre, même étroite ou en portrait ; ou écran tactile en paysage d'au moins 900 × 561 px ; CSS en fin de `<style>`) : navigation en colonne à gauche (réduite aux icônes sous 900 px de large, sans libellé et carte à taille de téléphone sous 640 px, avec l'aide clavier du feed au-delà : ↑ / ↓, Espace, R), feed et panneaux sur la largeur restante, contenu centré ; en paysage d'au moins 900 px, le Déchoc reprend la disposition paysage du téléphone (`DC_LAND`), avec Gestes et Dossier côte à côte dès 1280 px.
-- `Dechocage/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Dechocage/peaufinage.md` : plan de peaufinage du mode Déchoc (interface, réalisme, illustrations), en attente.
+- **Ordinateur** (souris : toute fenêtre, même étroite ou en portrait ; ou écran tactile en paysage d'au moins 900 × 561 px ; CSS en fin de `<style>`) : navigation en colonne à gauche (réduite aux icônes sous 900 px de large, sans libellé et carte à taille de téléphone sous 640 px, avec l'aide clavier du feed au-delà : ↑ / ↓, Espace, R), feed et panneaux sur la largeur restante, contenu centré ; en paysage d'au moins 900 px, le Simu reprend la disposition paysage du téléphone (`DC_LAND`), avec Gestes et Dossier côte à côte dès 1280 px.
+- `Simu/patient_procedural.md` : conception du patient aléatoire (décisions, écarts à corriger). `Simu/peaufinage.md` : plan de peaufinage du mode Simu (interface, réalisme, illustrations) et plan v2 (lots S0 à S6).
 
 ## Règle n°1 : génération de lots de cartes → push direct, pas de PR
 
@@ -85,11 +85,11 @@ assert not dups, f"doublons module::hook : {dups}"
 EOF
 ```
 
-## Mode Déchoc
+## Mode Simu
 
-Jeu de simulation : un patient tiré au hasard arrive au déchocage, ses constantes évoluent en temps réel et le joueur choisit ses actions dans un arbre de catégories, valide chaque étape ou termine la prise en charge par une orientation (réa, bloc…), puis lit un débriefing hiérarchisé : points forts, au plus 3 axes d'amélioration par priorité (décès, contre-indications, oublis, ACR, délais, conséquences, diagnostic), chronologie, bilan entrées, courbe des constantes, puis le détail action par action replié. Le moteur (`index.html`) ne contient **aucune donnée médicale** : tout est dans `Dechocage/`.
+Jeu de simulation en 3 univers, choisis en haut de l'accueil (`DC_UNIVERS`, mémorisé dans `DC_PREFS.univers`, présélectionné d'après `STATE.domaine`) : **🚑 Déchocage** (contexte `dechoc`), **💉 Anesthésie** (`induction`, `perop`, `sspi`) et **🫁 Réa** (`rea` ; « bientôt » tant qu'il est vide). L'univers filtre le nouveau patient et le patient aléatoire ; un scénario sans `terrains` se range par sa clé `univers` (défaut `dechoc`). Un patient tiré au hasard arrive, ses constantes évoluent en temps réel et le joueur choisit ses actions dans un arbre de catégories, valide chaque étape ou termine la prise en charge par une orientation (réa, bloc…), puis lit un débriefing hiérarchisé : points forts, au plus 3 axes d'amélioration par priorité (décès, contre-indications, oublis, ACR, délais, conséquences, diagnostic), chronologie, bilan entrées, courbe des constantes, puis le détail action par action replié. Le moteur (`index.html`) ne contient **aucune donnée médicale** : tout est dans `Simu/`.
 
-Publication : le contenu de `Dechocage/` suit la règle n°1 (push direct sur `main`, pas de PR).
+Publication : le contenu de `Simu/` suit la règle n°1 (push direct sur `main`, pas de PR).
 
 Sur téléphone en paysage, la colonne de droite a deux onglets : **Gestes** (recherche et tuiles) et **Dossier** (étape, vignette, résumé du patient, diagnostics, résultats dépliés, gestes réalisés, encart d'ACR). Le Dossier s'ouvre seul à chaque étape, complication ou ACR, et l'on revient aux Gestes dès qu'on agit ; un résultat d'examen s'annonce par un toast et une pastille de non-lus sur le Dossier. En portrait, tout reste empilé sans onglets.
 
@@ -115,7 +115,7 @@ Sur téléphone en paysage, la colonne de droite a deux onglets : **Gestes** (re
 - Bruitages des gestes (coupés avec le son, synthétisés en Web Audio, volume ≤ `DC_SFX_VOL`, sous les alarmes) : registre `DC_SFX[id]` joué par `dcSfx(id)` au lancement du geste (`dcNoise`, `dcSweep`, `dcTone` comme briques). Choc électrique (`choc_ext`, `cardioversion`), scanner (`tdm_*`, `angioscanner_thorax`), impression d'ECG (`ecg`), Doppler (`ett`, `vti`, `lever_jambes` : 3 battements à la FC, plus grave et plus faible quand la PAS baisse, muet en ACR), repli `DC_SFX._transfert` pour toute autre action à `transfert` (brancard, portes). Massage : `dcSfxMetro()` à chaque tic du métronome, compressions si `mce` est fait dans l'ACR, 2 insufflations tous les 30 sauf patient intubé. Une nouvelle action reçoit un son en ajoutant son id au registre ; rien à écrire dans le contenu.
 - ACR : alarme nommée d'après le tracé (ASYSTOLIE, FIBRILLATION VENTRICULAIRE, TACHYCARDIE VENTRICULAIRE, PAS DE POULS pour l'AESP), qui sonne même si un silence était en cours. Le bouton « Silence alarme » acquitte et lance un métronome de massage à 110/min (son + pulsation à l'écran), jusqu'au RACS.
 
-### Catalogue : `Dechocage/actions.json`
+### Catalogue : `Simu/actions.json`
 
 Tableau d'actions, partagé par tous les scénarios :
 
@@ -140,10 +140,10 @@ Tableau d'actions, partagé par tous les scénarios :
 - La catégorie `RCP` n'apparaît que pendant un ACR.
 - `classe` : classes pharmacologiques ou de geste (`betalactamine`, `remplissage`, `hypnotique`, `curare`, `curare_depolarisant`, `vasopresseur`, `adrenaline`, `betabloquant`, `antithrombotique`, `anticoagulant`, `aminoside`…), visées par les terrains du patient procédural. Une nouvelle action d'une classe existante est couverte d'office.
 - `alias` : synonymes et abréviations trouvés par la recherche de tuiles, en plus du libellé (`["NAD", "noradré"]`, `["IOT", "intubation"]`, noms commerciaux). Uniquement des termes usuels qui désignent bien l'action (pas un constat ni un diagnostic voisin), et absents du libellé ; un alias partagé par des actions proches est admis. La tuile trouvée par un alias l'indique (`≈ NAD`).
-- `socle` : univers où le geste fait partie des gestes de base (`dechoc`, `anesth`, `rea` ; contextes `induction`, `perop` et `rea` actuels → `anesth`), et `rappel` : la phrase de l'équipe (« Je le scope ? »). Voir « Questions de l'équipe ».
+- `socle` : univers où le geste fait partie des gestes de base (`dechoc`, `anesth`, `rea`), et `rappel` : la phrase de l'équipe (« Je le scope ? »). Voir « Questions de l'équipe ».
 - Ne jamais renommer un `id` d'action (les scénarios s'y réfèrent) ni un `id` de scénario (l'historique des joueurs s'y réfère). Idem pour les `id` de terrains et de complications.
 
-### Scénario : `Dechocage/sc_<nom>.json`
+### Scénario : `Simu/sc_<nom>.json`
 
 ```json
 {
@@ -217,14 +217,14 @@ Silhouette du patient sur son brancard, dessinée par le moteur d'après l'état
 
 ### Patient procédural (bouton « 🎲 Patient aléatoire »)
 
-Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasard : comorbidités, traitements habituels, allergies, antécédents sans conséquence. Conception et décisions : `Dechocage/patient_procedural.md`.
+Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasard : comorbidités, traitements habituels, allergies, antécédents sans conséquence. Conception et décisions : `Simu/patient_procedural.md`.
 
 - Trame : `"terrains": { "contexte": "induction", "exclus": ["estomac_plein"], "identite": { "sexe": ["F"], "age": [55, 88], "poids": [50, 95] }, "gravite": { "difficile": { "pente": 1.3, "constantes": { "PAS": -8 } } } }`. Fixer `sexe` tant que les vignettes sont genrées. Le scénario reste jouable tel quel en mode fixe.
-  - `contexte` : `dechoc` (défaut), `induction`, `perop` ou `rea` (réa / SSPI) ; filtre proposé au lancement.
+  - `contexte` : `dechoc` (défaut), `induction`, `perop`, `sspi` (salle de réveil) ou `rea` (réanimation) ; détermine l'univers.
   - `gravite` : par niveau, multiplicateur des pentes (`pente`) et décalage des constantes de départ (`constantes`). Défaut : pentes ×0,85 en facile, ×1,2 en difficile.
 - Résultats variables : `{3,8~5,4}` dans un texte de résultat est tiré dans la plage, avec les décimales des bornes, une fois par partie ; en mode fixe, valeur médiane. Garder les `**…**` si toute la plage est anormale.
 - Tirage : 0-1 comorbidité (facile), 1-2 (moyen), 2-4 (difficile), effets additifs ; un traitement tiré par comorbidité ; 0 à 2 antécédents « bruit » ; constantes de la trame ± 8 %, puis décalées par le terrain. Fiche complète avant le chrono, bandeau dépliable ensuite.
-- **`Dechocage/terrains.json`** : `{ "terrains": [...], "traitements": [...], "bruit": [...] }`.
+- **`Simu/terrains.json`** : `{ "terrains": [...], "traitements": [...], "bruit": [...] }`.
 
 ```json
 {
@@ -241,7 +241,7 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
 ```
   - `rubrique` : `allergies`, `atcd` (défaut) ou `vie` (mode de vie).
   - `ci` : l'action (par `id` ou `classe`) est notée `contre_indique` avec ce `why`, quelle que soit sa note dans la trame, et ne compte pas pour `alt`, `suite` ni `letal_si_manque`, sauf avec `"compte": true` (le geste a bien eu lieu : intubation réussie malgré l'anaphylaxie au curare). Avec `complication`, elle déclenche cette complication. Une action attendue par la trame mais contre-indiquée n'est plus due (ni au barème, ni pour `suite.si_manque`, ni pour un `declencheur` `manque`) ; ses alternatives (`alt`) restent dues ; ne pas la faire s'affiche « piège évité ».
-  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée ; sans effet sur une action que la trame note `contre_indique`. `dans` : limite la règle à une complication (`anaphylaxie`), à un contexte (`induction`, `perop`, `rea`, `dechoc`), à une trame (`isr_occlusion`) ou à une étape d'une trame (`isr_occlusion/e2`) ; aussi possible sur `ci` et `module`.
+  - `promeut` : note portée à `recommande` (jamais `indispensable`), sans pénalité si oubliée ; sans effet sur une action que la trame note `contre_indique`. `dans` : limite la règle à une complication (`anaphylaxie`), à un contexte (`induction`, `perop`, `sspi`, `rea`, `dechoc`), à une trame (`isr_occlusion`) ou à une étape d'une trame (`isr_occlusion/e2`) ; aussi possible sur `ci` et `module`.
   - `module` : multiplie l'`effet` des actions visées (`effet`), ajoute un effet propre (`plus`). Avec `complication` et `apres` (nombre) : la complication survient à la N-ième action visée (OAP au 3e remplissage chez l'insuffisant cardiaque).
   - `hemodynamique` : `{ "reserve_ml": 0.5, "oap_ml": 0.6 }`, facteurs multiplicatifs des seuils du scénario (FEVG altérée, dialysé anurique : OAP plus tôt). Sans effet si la trame n'a pas `hemodynamique`.
   - `seuil` : `[{ "PAS": { "min": 70 }, "complication": "ischemie", "why": "…" }]` : la complication survient quand une constante franchit la limite en cours de partie (pas si le patient arrive déjà au-delà).
@@ -253,10 +253,10 @@ Une **trame** (scénario qui déclare `terrains`) + un **terrain** tiré au hasa
   - `traitements` : variantes (listes d'id de `traitements`), une tirée. Un traitement a `id`, `fiche` et les mêmes clés d'effet (`ci`, `promeut`, `module`, `constantes`, `bornes`, `resultats`, `tags`) ; partagé entre comorbidités, il n'est appliqué qu'une fois. `groupe` : un seul traitement par groupe chez un patient (`betabloquant` : bisoprolol du coronarien ou propranolol du cirrhotique, pas les deux ; `sraa`).
   - `bruit` : `{ "fiche", "traitement"?, "sexe"?, "age_min"? }`, sans effet (`age_min` : pas de cataracte opérée à 30 ans).
   - `tags` : cartes Recos proposées « Pour réviser » au débriefing (tags communs).
-- **`Dechocage/complications.json`** : tableau d'étapes au format habituel (un geste absent de la complication garde l'effet prévu par l'étape interrompue, sinon celui du catalogue) (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
-- Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain sur l'accueil Déchoc, les plus mal gérés d'abord) ; elles ne comptent pas dans le record du scénario.
+- **`Simu/complications.json`** : tableau d'étapes au format habituel (un geste absent de la complication garde l'effet prévu par l'étape interrompue, sinon celui du catalogue) (`vignette`, `chrono`, `constantes`, `pente`, `actions`, `diagnostic`, `letal_si_manque`, `acr`), plus `id`, `titre`, `source`, `tags`, **sans `suite`** : à la validation, retour à l'étape interrompue (chrono relancé, pentes des gestes de la complication oubliées). Mettre `refaire: true` sur les gestes qui doivent être faits pendant la complication (sinon un remplissage antérieur compte).
+- Les parties procédurales sont enregistrées avec `proc`, `niveau` et les id de terrains (historique par terrain sur l'accueil Simu, les plus mal gérés d'abord) ; elles ne comptent pas dans le record du scénario.
 
-### Validation du mode Déchoc (à lancer avant chaque commit touchant `Dechocage/`)
+### Validation du mode Simu (à lancer avant chaque commit touchant `Simu/`)
 
 ```bash
 python3 - <<'EOF'
@@ -264,7 +264,7 @@ import json, glob, os, re
 NOTES = {"indispensable", "recommande", "debattu", "inutile", "contre_indique"}
 VITALS = {"FC", "PAS", "PAD", "SpO2", "FR", "T", "GCS", "EtCO2"}
 ECG = {"sinus", "fa", "qrs_larges", "st_plus", "bav3", "entraine", "tv", "fv", "asystolie", "aesp"}
-acts = json.load(open("Dechocage/actions.json", encoding="utf-8"))
+acts = json.load(open("Simu/actions.json", encoding="utf-8"))
 ids = [a["id"] for a in acts]
 assert len(ids) == len(set(ids)), "id d'action en double"
 A = {a["id"]: a for a in acts}
@@ -368,13 +368,13 @@ def check_step(w, st, steps, compl=False):
     for r in suite:
         assert r["vers"] == "fin" or r["vers"] in steps, f"{w} : cible inconnue {r['vers']}"
         for aid in flat(r.get("si_manque", []) + r.get("si_fait", [])): assert aid in A, f"{w} : action inconnue {aid}"
-SCS = [json.load(open(f, encoding="utf-8")) for f in glob.glob("Dechocage/sc_*.json")]
+SCS = [json.load(open(f, encoding="utf-8")) for f in glob.glob("Simu/sc_*.json")]
 for a in acts:
     if "resultat" in a: check_val(f"action {a['id']}", a["resultat"])
 # complications injectées par le terrain : une étape, sans suite
 COMPL = {}
-if os.path.exists("Dechocage/complications.json"):
-    for c in json.load(open("Dechocage/complications.json", encoding="utf-8")):
+if os.path.exists("Simu/complications.json"):
+    for c in json.load(open("Simu/complications.json", encoding="utf-8")):
         w = f"complications.json [{c.get('id')}]"
         assert c.get("id") and c.get("titre") and c.get("source"), f"{w} : id / titre / source"
         assert c["id"] not in COMPL, f"{w} : id en double"
@@ -382,9 +382,9 @@ if os.path.exists("Dechocage/complications.json"):
         check_step(w, c, set(), compl=True)
 # terrains : comorbidités, traitements, antécédents sans conséquence
 TERR = set()
-DANS = {sc["id"] for sc in SCS} | {f"{sc['id']}/{e['id']}" for sc in SCS for e in sc["etapes"]} | {"dechoc", "induction", "perop", "rea"}
-if os.path.exists("Dechocage/terrains.json"):
-    T = json.load(open("Dechocage/terrains.json", encoding="utf-8"))
+DANS = {sc["id"] for sc in SCS} | {f"{sc['id']}/{e['id']}" for sc in SCS for e in sc["etapes"]} | {"dechoc", "induction", "perop", "sspi", "rea"}
+if os.path.exists("Simu/terrains.json"):
+    T = json.load(open("Simu/terrains.json", encoding="utf-8"))
     TR = {x["id"]: x for x in T.get("traitements", [])}
     assert len(TR) == len(T.get("traitements", [])), "terrains.json : id de traitement en double"
     def check_src(w, s):
@@ -427,13 +427,14 @@ if os.path.exists("Dechocage/terrains.json"):
     for b in T.get("bruit", []):
         assert b.get("fiche") and b.get("sexe") in (None, "F", "M") and isinstance(b.get("age_min", 0), int), f"terrains.json : antécédent « bruit » invalide {b}"
 n = 0
-for f in sorted(glob.glob("Dechocage/sc_*.json")):
+for f in sorted(glob.glob("Simu/sc_*.json")):
     sc = json.load(open(f, encoding="utf-8")); n += 1
     for k in ("id", "titre", "source", "tags", "patient", "constantes", "etapes"):
         assert k in sc, f"{f} : champ {k} manquant"
     assert set(sc["constantes"]) <= VITALS, f"{f} : constante inconnue"
     assert sc.get("ecg", "sinus") in ECG, f"{f} : ecg inconnu"
     assert set(sc.get("alarmes", {})) <= {"FC", "PAS", "SpO2"}, f"{f} : alarme inconnue"
+    assert sc.get("univers", "dechoc") in {"dechoc", "anesth", "rea"}, f"{f} : univers inconnu"
     assert set(sc.get("moniteur", [])) <= {"PA", "CO2"} and set(sc.get("voies", [])) <= {"IV", "VVC"}, f"{f} : moniteur / voies"
     for k in sc.get("titration", {}): assert "titration" in A.get(k, {}), f"{f} : {k} n'a pas de titration au catalogue"
     h = sc.get("hemodynamique", {})
@@ -441,7 +442,7 @@ for f in sorted(glob.glob("Dechocage/sc_*.json")):
     if "terrains" in sc:
         assert set(sc["terrains"].get("exclus", [])) <= TERR, f"{f} : terrain exclu inconnu"
         assert set(sc["terrains"].get("identite", {})) <= {"sexe", "age", "poids"}, f"{f} : identite : sexe / age / poids"
-        assert sc["terrains"].get("contexte", "dechoc") in {"dechoc", "induction", "perop", "rea"}, f"{f} : contexte inconnu"
+        assert sc["terrains"].get("contexte", "dechoc") in {"dechoc", "induction", "perop", "sspi", "rea"}, f"{f} : contexte inconnu"
         for niv, g in sc["terrains"].get("gravite", {}).items():
             assert niv in {"facile", "moyen", "difficile"} and set(g) <= {"pente", "constantes"} and set(g.get("constantes", {})) <= VITALS, f"{f} : gravite invalide"
     check_res(f, sc.get("resultats", {}))
@@ -583,7 +584,7 @@ Cours audio de 4 à 6 minutes, racontés autour d'un cas clinique, pour un inter
 
 - Lecture **phrase par phrase** (Safari coupe les textes longs) : la phrase sert d'unité pour la pause, ⏮ / ⏭, le saut à une partie ou à une phrase touchée dans le texte, et la reprise (`STATE.podcast.pos`, indice de phrase). Silences de 0,65 s entre paragraphes et 1,5 s entre parties. Vitesse ×0,9 à ×1,3.
 - Le texte s'affiche pendant la lecture, phrase en cours surlignée. Après la source, les cartes Recos « Pour réviser » (tags communs).
-- La lecture continue si l'on quitte l'onglet (icône ♫ qui pulse dans la barre du bas) ; elle se met en pause à l'ouverture du mode Déchoc.
+- La lecture continue si l'on quitte l'onglet (icône ♫ qui pulse dans la barre du bas) ; elle se met en pause à l'ouverture du mode Simu.
 
 ### Format d'un épisode : `Podcast/<thème>.json`
 
@@ -655,5 +656,5 @@ EOF
 
 ## Commits
 
-- Messages en français, préfixés par la zone : `Recos : lot14, 12 cartes sur …`, `Déchoc : scénario …`, `QCM : …`, `Podcast : …` ou `ScrollMed : …` pour l'app.
+- Messages en français, préfixés par la zone : `Recos : lot14, 12 cartes sur …`, `Simu : scénario …`, `QCM : …`, `Podcast : …` ou `ScrollMed : …` pour l'app.
 - Résumer dans le corps du message ce que contient le lot (thème, nombre de cartes, format).

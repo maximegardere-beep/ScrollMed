@@ -831,6 +831,14 @@
   .dc-hv::before{ content:""; position:absolute; inset:0; width:0; background: rgba(255,255,255,.45); }
   .dc-hv.hold::before{ width:100%; transition: width .45s linear; }
   .dc-modal{ z-index:7; overflow-y:auto; }
+  /* accueil Simu : choix de l'univers */
+  .dc-univ{ display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:6px; }
+  .dc-univ button{ display:flex; flex-direction:column; align-items:center; gap:2px; padding:10px 4px; border-radius:14px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font:inherit; cursor:pointer; }
+  .dc-univ button .ic{ font-size:22px; }
+  .dc-univ button b{ font-size:14px; }
+  .dc-univ button small{ font-size:11px; color:var(--muted); }
+  .dc-univ button.on{ border-color:var(--trace); background:var(--surface-2); box-shadow: inset 0 0 0 1px var(--trace); }
   /* question de l'équipe sur un oubli : bulle au-dessus du bouton de validation, sans bloquer le jeu */
   .dc-ask{ position:absolute; right:12px; bottom:76px; z-index:6; width:min(340px, calc(100% - 24px)); background:var(--surface-2); border:1px solid var(--trace); color:var(--text);
     border-radius:16px 16px 4px 16px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.35); animation: dcAskIn .25s ease-out; }
@@ -1107,7 +1115,7 @@
   <nav>
     <button class="active" data-tab="feed" title="Feed"><span class="navic">◎</span>Feed</button>
     <button data-tab="qcm" title="QCM"><span class="navic">☑︎</span>QCM</button>
-    <button data-tab="dechoc" title="Déchoc"><span class="navic">✚</span>Déchoc</button>
+    <button data-tab="dechoc" title="Simu"><span class="navic">✚</span>Simu</button>
     <button data-tab="podcast" title="Podcast"><span class="navic">♫︎</span>Podcast</button>
     <button data-tab="stats" title="Progrès"><span class="navic">▤</span>Progrès</button>
     <button data-tab="settings" title="Réglages"><span class="navic">⚙︎</span>Réglages</button>
@@ -1145,7 +1153,7 @@
   <div class="panel" id="panelDechoc">
     <div class="panel-head">
       <button class="iconbtn" onclick="closePanel('panelDechoc')">←</button>
-      <h2 id="dcTitle">Déchoc</h2>
+      <h2 id="dcTitle">Simu</h2>
     </div>
     <div class="dc-root" id="dcRoot"></div>
   </div>
@@ -1169,7 +1177,7 @@
       <details class="acc" open>
         <summary>🔄 Synchronisation GitHub</summary>
         <div class="acc-content">
-          <div class="hint">L'app lit les dossiers <b>Recos</b>, <b>Dechocage</b> et <b>QCM</b> de ton dépôt GitHub à chaque lancement : les fiches, scénarios et cas cliniques ajoutés ou modifiés dans le dépôt apparaissent ici automatiquement.</div>
+          <div class="hint">L'app lit les dossiers <b>Recos</b>, <b>Simu</b>, <b>QCM</b> et <b>Podcast</b> de ton dépôt GitHub à chaque lancement : les fiches, scénarios et cas cliniques ajoutés ou modifiés dans le dépôt apparaissent ici automatiquement.</div>
           <input type="text" id="ghOwner" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Utilisateur GitHub (ex: jdupont)" class="field">
           <input type="text" id="ghRepo" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Nom du dépôt (ex: scrollmed)" class="field">
           <input type="text" id="ghBranch" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Branche (défaut: main)" class="field">
@@ -1468,8 +1476,8 @@ async function syncFromGithub(silent){
     if(!changed) summary += ' Aucun changement.';
     if(fileErrors.length) summary += ` Problème sur : ${fileErrors.join(', ')}.`;
     const dc = await dechocSync;
-    if(dc && dc.count) summary += ` Déchoc : ${dc.count} scénario(s).`;
-    if(dc && dc.errors.length) summary += ` Déchoc, problème sur : ${dc.errors.join(', ')}.`;
+    if(dc && dc.count) summary += ` Simu : ${dc.count} scénario(s).`;
+    if(dc && dc.errors.length) summary += ` Simu, problème sur : ${dc.errors.join(', ')}.`;
     const qc = await qcmSync;
     if(qc && (qc.count || qc.iso)) summary += ` QCM : ${qc.count} cas, ${qc.iso || 0} QCM isolés.`;
     if(qc && qc.errors.length) summary += ` QCM, problème sur : ${qc.errors.join(', ')}.`;
@@ -2145,9 +2153,9 @@ document.getElementById('statsBody').addEventListener('click', e => {
 });
 
 // =========================================================
-// Mode Déchoc — simulation de déchocage
+// Mode Simu (ex-Déchoc) — simulation : déchocage, anesthésie, réanimation
 // Le moteur ne contient aucune donnée médicale : le catalogue d'actions
-// (Dechocage/actions.json) et les scénarios (Dechocage/sc_*.json) sont
+// (Simu/actions.json) et les scénarios (Simu/sc_*.json) sont
 // synchronisés depuis GitHub comme les cartes. Format décrit dans CLAUDE.md.
 // =========================================================
 const DECHOC_CONTENT_KEY = "scrollmed_dechoc_v1";
@@ -2217,10 +2225,12 @@ function loadDechocContent(){
 
 async function syncDechocFromGithub(cfg, headers){
   const branch = cfg.branch || 'main';
-  const list = await ghListDir(cfg, headers, 'Dechocage');
+  // dossier Simu (ex-Dechocage, renommé le 2026-11-05 : repli sur l'ancien nom pour une branche pas encore à jour)
+  let list = await ghListDir(cfg, headers, 'Simu');
+  if(list.status === 404) list = await ghListDir(cfg, headers, 'Dechocage');
   if(list.status === 404){
-    // pas encore de dossier sur cette branche : on le signale sur l'accueil Déchoc
-    DC_SYNC_INFO = `Dossier Dechocage introuvable sur la branche « ${branch} ».`;
+    // pas encore de dossier sur cette branche : on le signale sur l'accueil Simu
+    DC_SYNC_INFO = `Dossier Simu introuvable sur la branche « ${branch} ».`;
     if(DC_VIEW === 'home' && document.getElementById('panelDechoc').classList.contains('open')) dcRender();
     return { count: 0, errors: [] };
   }
@@ -2333,7 +2343,7 @@ function dcFmtClock(sec){
 }
 
 // ---------- patient procédural : une trame (scénario avec "terrains") + un terrain tiré au hasard ----------
-// Dechocage/terrains.json : comorbidités, traitements habituels, antécédents sans conséquence.
+// Simu/terrains.json : comorbidités, traitements habituels, antécédents sans conséquence.
 // Un terrain agit par classe d'action (clé "classe" du catalogue) : contre-indication (note forcée,
 // complication injectée), promotion jusqu'à « recommandé », modulation de l'effet. Format dans CLAUDE.md.
 const DC_NIVEAUX = {
@@ -2345,7 +2355,28 @@ const DC_NIVEAUX = {
 // la trame peut préciser "terrains": { "gravite": { "difficile": { "pente": 1.3, "constantes": { "PAS": -8 } } } }
 const DC_GRAVITE = { facile: { pente: 0.85 }, moyen: { pente: 1 }, difficile: { pente: 1.2 } };
 // contexte des trames ("terrains": { "contexte": "induction" }), filtre au lancement
-const DC_CONTEXTES = { dechoc: '🚑 Déchoc', induction: '💉 Induction', perop: '🔪 Peropératoire', rea: '🛏️ Réa / SSPI' };
+const DC_CONTEXTES = { dechoc: '🚑 Déchoc', induction: '💉 Induction', perop: '🔪 Peropératoire', sspi: '🛏️ SSPI', rea: '🫁 Réanimation' };
+// univers de la page de lancement : regroupent les contextes des trames ; un scénario sans trame se range par sa clé
+// "univers" (défaut : déchoc)
+const DC_UNIVERS = {
+  dechoc: { ic: '🚑', lb: 'Déchocage', ctx: ['dechoc'], h: 'Un patient arrive au déchocage',
+    d: 'Les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape.' },
+  anesth: { ic: '💉', lb: 'Anesthésie', ctx: ['induction', 'perop', 'sspi'], h: 'Au bloc et en salle de réveil',
+    d: 'Induction, incident peropératoire ou détresse en SSPI : le patient est à toi.' },
+  rea: { ic: '🫁', lb: 'Réa', ctx: ['rea'], h: 'Dans le service de réanimation',
+    d: 'Un patient de réanimation s’aggrave : à toi de le reprendre en main.' }
+};
+function dcScUnivers(s){
+  if(s.univers && DC_UNIVERS[s.univers]) return s.univers;
+  const ctx = (s.terrains || {}).contexte || 'dechoc';
+  return Object.keys(DC_UNIVERS).find(u => DC_UNIVERS[u].ctx.includes(ctx)) || 'dechoc';
+}
+function dcScenarios(u){ return DC_CONTENT.scenarios.filter(s => !u || dcScUnivers(s) === u); }
+// univers choisi : mémorisé, sinon d'après le domaine du feed (anesthésie → bloc, sinon déchoc)
+function dcCurUnivers(){
+  if(DC_UNIVERS[DC_PREFS.univers]) return DC_PREFS.univers;
+  return STATE.domaine === 'anesth' ? 'anesth' : 'dechoc';
+}
 const DC_RUBRIQUES = [['allergies', '⚠️ Allergies'], ['atcd', '📋 Antécédents'], ['traitements', '💊 Traitements'], ['vie', '🏠 Mode de vie']];
 let DC_NEXT = null;   // partie à lancer après le choix du rythme : { proc: true, niveau }
 function dcRandInt(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -2356,9 +2387,9 @@ function dcShuffle(arr){
   return a;
 }
 // trames jouables en patient aléatoire : scénarios qui déclarent "terrains"
-function dcTrames(ctx){
+function dcTrames(u){
   if(!DC_CONTENT.terrains) return [];
-  return DC_CONTENT.scenarios.filter(s => s.terrains && (!ctx || ctx === 'tous' || (s.terrains.contexte || 'dechoc') === ctx));
+  return DC_CONTENT.scenarios.filter(s => s.terrains && (!u || dcScUnivers(s) === u));
 }
 // tire un patient sur une trame. force : liste d'id de terrains imposés (tests)
 function dcGenPatient(sc, niveau, force){
@@ -2653,7 +2684,7 @@ function dcRevisionCards(d){
 // opts : { proc: true, niveau, force } pour un patient procédural (trame + terrain tiré)
 function dcStart(scId, mode, opts){
   opts = opts || {};
-  const pool = opts.proc ? (dcTrames(opts.contexte).length ? dcTrames(opts.contexte) : dcTrames()) : DC_CONTENT.scenarios;
+  const pool = opts.proc ? dcTrames(opts.univers) : dcScenarios(opts.univers);
   if(!pool.length) return;
   let sc = scId && pool.find(s => s.id === scId);
   if(!sc){
@@ -2828,9 +2859,8 @@ const DC_RAPPEL_MAX_ETAPE = 2;
 const DC_RAPPEL_ECART = 60;   // s patient entre deux questions
 const DC_RAPPEL_S = 20;       // s réelles d'affichage de la bulle (temps réel et ralenti)
 // univers d'une trame d'après son contexte ; un scénario sans trame est au déchoc
-const DC_UNIVERS_CTX = { dechoc: 'dechoc', induction: 'anesth', perop: 'anesth', rea: 'anesth', sspi: 'anesth' };
 const DC_EQUIPE = { dechoc: 'IDE', anesth: 'IADE', rea: 'IDE' };
-function dcUnivers(){ return DC_UNIVERS_CTX[(G.sc.terrains || {}).contexte || 'dechoc'] || 'dechoc'; }
+function dcUnivers(){ return dcScUnivers(G.sc); }
 function dcRappelDue(){
   const st = G.step, visit = dcCurVisit(), acts = st.actions || {}, univ = dcUnivers();
   const ciOk = k => { const c = dcTerrainCi(k, st.id); return !c || !!c.compte; };
@@ -3149,7 +3179,7 @@ function dcTerrainOmission(){
   return false;
 }
 
-// complication injectée : étape de Dechocage/complications.json insérée dans la partie ;
+// complication injectée : étape de Simu/complications.json insérée dans la partie ;
 // l'étape interrompue reste ouverte et reprend à la validation de la complication
 function dcEnterCompl(cp, cause){
   dcSettle();   // temps fixé : l'évolution en attente s'applique d'abord
@@ -3425,30 +3455,39 @@ function dcRender(){
 }
 
 function dcRenderHome(){
-  document.getElementById('dcTitle').textContent = 'Déchoc';
-  const n = DC_CONTENT.scenarios.length;
+  document.getElementById('dcTitle').textContent = 'Simu';
+  const u = dcCurUnivers(), U = DC_UNIVERS[u];
+  const n = dcScenarios(u).length;
   const d = STATE.dechoc;
   const byId = {};
   d.runs.filter(r => !r.proc).forEach(r => {   // les patients aléatoires ont leur propre historique
     const s = byId[r.sc] || (byId[r.sc] = { n: 0, alive: 0 });
     s.n++; if(r.issue !== 'deces') s.alive++;
   });
-  const played = DC_CONTENT.scenarios.filter(s => byId[s.id]);
+  const played = dcScenarios(u).filter(s => byId[s.id]);
+  const total = DC_CONTENT.scenarios.length;
+  // choix de l'univers : déchocage, anesthésie, réanimation (« bientôt » tant qu'il est vide)
+  const univ = G || !total ? '' : `<div class="dc-univ" role="tablist">${Object.entries(DC_UNIVERS).map(([k, x]) => {
+    const c = dcScenarios(k).length;
+    return `<button class="${k === u ? 'on' : ''}" data-dc="univ" data-univ="${k}" role="tab" aria-selected="${k === u}"><span class="ic">${x.ic}</span><b>${x.lb}</b><small>${c ? `${c} scénario${c > 1 ? 's' : ''}` : 'bientôt'}</small></button>`;
+  }).join('')}</div>`;
   dcRoot.innerHTML = `<div class="dc-scroll">
+    ${univ}
     <div class="dc-hero">
-      <div class="big">🚑</div>
-      <h3>Un patient arrive au déchocage</h3>
-      <div class="hint">Les constantes se dégradent. Choisis tes gestes, ton bilan et tes traitements, puis valide chaque étape. Chaque action consomme du temps patient. Rythme au choix avant chaque patient : temps réel, ralenti ou temps fixé. Débriefing complet à la fin.</div>
+      <div class="big">${U.ic}</div>
+      <h3>${escapeHtml(U.h)}</h3>
+      <div class="hint">${escapeHtml(U.d)} Chaque action consomme du temps patient. Rythme au choix avant chaque patient : temps réel, ralenti ou temps fixé. Débriefing complet à la fin.</div>
     </div>
     ${G ? `<button class="btn" data-dc="resume">▶ Reprendre la partie en cours</button>
            <button class="btn secondary" data-dc="abandon">Abandonner la partie</button>`
         : n ? `<button class="btn" data-dc="start">✚ Nouveau patient</button>
-               ${dcTrames().length ? `<button class="btn secondary" data-dc="proc">🎲 Patient aléatoire</button>
+               ${dcTrames(u).length ? `<button class="btn secondary" data-dc="proc">🎲 Patient aléatoire</button>
                <div class="hint" style="text-align:center">Une situation connue, un patient tiré au hasard : antécédents, traitements et allergies à prendre en compte.</div>` : ''}`
+            : total ? `<div class="hint" style="text-align:center">Pas encore de scénario ${u === 'rea' ? 'de réanimation' : 'dans cet univers'} : ils arrivent bientôt. Choisis un autre univers en attendant.</div>`
             : `<div class="hint" style="text-align:center">Aucun scénario chargé. ${DC_SYNC_INFO
                 ? `${escapeHtml(DC_SYNC_INFO)} Vérifie la branche dans Réglages, puis resynchronise.`
                 : loadGhConfig() ? 'Synchronisation en cours ou impossible : vérifie la branche dans Réglages, puis resynchronise.'
-                : 'Configure la synchronisation GitHub dans Réglages : les scénarios sont lus dans le dossier <b>Dechocage</b> du dépôt.'}</div>`}
+                : 'Configure la synchronisation GitHub dans Réglages : les scénarios sont lus dans le dossier <b>Simu</b> du dépôt.'}</div>`}
     ${n ? `<div class="hint" style="text-align:center;margin-top:10px">${n} scénario(s) disponible(s), tirés au hasard.</div>` : ''}
     ${played.length ? `<div class="sectiontitle">Patients déjà rencontrés</div>` + played.map(s => {
       const st = byId[s.id];
@@ -3477,7 +3516,7 @@ function dcTerrainStatsHtml(d){
 
 // choix du rythme avant chaque station
 function dcRenderMode(){
-  document.getElementById('dcTitle').textContent = 'Déchoc · Rythme';
+  document.getElementById('dcTitle').textContent = 'Simu · Rythme';
   const cur = DC_MODES[DC_PREFS.mode] ? DC_PREFS.mode : 'reel';
   dcRoot.innerHTML = `<div class="dc-scroll">
     <div class="dc-hero"><div class="big">🚑</div><h3>Choisis ton rythme</h3>
@@ -3491,16 +3530,11 @@ function dcRenderMode(){
 
 // patient aléatoire : choix du niveau (nombre de comorbidités), puis du rythme
 function dcRenderNiveau(){
-  document.getElementById('dcTitle').textContent = 'Déchoc · Patient aléatoire';
+  document.getElementById('dcTitle').textContent = 'Simu · Patient aléatoire';
   const cur = DC_NIVEAUX[DC_PREFS.niveau] ? DC_PREFS.niveau : 'moyen';
-  const ctxs = Object.keys(DC_CONTEXTES).filter(k => dcTrames(k).length);
-  const ctx = ctxs.includes(DC_PREFS.contexte) ? DC_PREFS.contexte : 'tous';
   dcRoot.innerHTML = `<div class="dc-scroll">
     <div class="dc-hero"><div class="big">🎲</div><h3>Choisis la difficulté</h3>
       <div class="hint">Le patient arrive avec ses comorbidités, ses traitements et ses allergies. Lis sa fiche : certaines actions habituelles lui sont contre-indiquées.</div></div>
-    ${ctxs.length > 1 ? `<div class="sectiontitle">Contexte</div><div class="dc-chips dc-ctx">${['tous', ...ctxs].map(k =>
-      `<button class="dc-chip ${k === ctx ? 'on' : ''}" data-dc="ctx" data-ctx="${k}">${k === 'tous' ? '🎲 Tous' : DC_CONTEXTES[k] || k} <b>${dcTrames(k).length}</b></button>`).join('')}</div>
-      <div class="sectiontitle">Difficulté</div>` : ''}
     ${Object.entries(DC_NIVEAUX).map(([k, m]) => `<button class="dc-mode ${k === cur ? 'on' : ''}" data-dc="niv" data-niv="${k}">
       <span class="ic">${m.ic}</span><span><b>${m.lb}</b><span class="d">${escapeHtml(m.d)}</span></span></button>`).join('')}
     <button class="btn secondary" data-dc="home">Annuler</button>
@@ -4963,7 +4997,7 @@ function dcRenderGame(){
   const land = DC_LAND.matches;   // résultats ouverts d'office dans le Dossier en paysage
   if(!land) G.unread = 0;         // portrait : tout est affiché, rien n'est « non lu »
   dcRoot.classList.add('game');
-  document.getElementById('dcTitle').textContent = G.phase === 'acr' ? 'Déchoc · ACR' : `Déchoc · ${G.step.titre || ''}`;
+  document.getElementById('dcTitle').textContent = G.phase === 'acr' ? 'Simu · ACR' : `Simu · ${G.step.titre || ''}`;
   const st = G.step;
   const stepActs = dcStepActs();
   const chips = [...new Set(stepActs.map(l => l.id))].map(id => `<span class="dc-chip">${escapeHtml(dcLabel(id))}</span>`).join('');
@@ -5169,7 +5203,7 @@ function dcRenderDebrief(){
     ${revHtml}
     ${d.terrain ? `<button class="btn" data-dc="proc">🎲 Autre patient aléatoire</button>` : ''}
     <button class="btn ${d.terrain ? 'secondary' : ''}" data-dc="start">✚ Nouveau patient</button>
-    <button class="btn secondary" data-dc="home">Accueil Déchoc</button>
+    <button class="btn secondary" data-dc="home">Accueil Simu</button>
   </div>`;
 }
 
@@ -5186,10 +5220,10 @@ dcRoot.addEventListener('click', e => {
     return;
   }
   const act = b.dataset.dc;
-  if(act === 'start'){ DC_NEXT = null; DC_VIEW = 'mode'; dcRender(); }
+  if(act === 'start'){ DC_NEXT = { univers: dcCurUnivers() }; DC_VIEW = 'mode'; dcRender(); }
+  else if(act === 'univ'){ DC_PREFS.univers = b.dataset.univ; dcSavePrefs(); dcRender(); }
   else if(act === 'proc'){ DC_VIEW = 'niveau'; dcRender(); }
-  else if(act === 'niv'){ DC_PREFS.niveau = b.dataset.niv; dcSavePrefs(); DC_NEXT = { proc: true, niveau: b.dataset.niv, contexte: DC_PREFS.contexte }; DC_VIEW = 'mode'; dcRender(); }
-  else if(act === 'ctx'){ DC_PREFS.contexte = b.dataset.ctx; dcSavePrefs(); dcRender(); }
+  else if(act === 'niv'){ DC_PREFS.niveau = b.dataset.niv; dcSavePrefs(); DC_NEXT = { proc: true, niveau: b.dataset.niv, univers: dcCurUnivers() }; DC_VIEW = 'mode'; dcRender(); }
   else if(act === 'go'){ DC_PREFS.mode = b.dataset.mode; dcSavePrefs(); dcStart(null, b.dataset.mode, DC_NEXT); }
   else if(act === 'fiche-go' && G){ G.fiche = false; dcRender(); }
   else if(act === 'resume'){ DC_VIEW = 'game'; dcResume(); }

@@ -4,7 +4,7 @@
   "source": "SFAR 2018 (RFE curarisation et décurarisation en anesthésie) ; ASA 2014 (SAOS périopératoire)",
   "tags": ["anesthésie", "SSPI", "curares", "curarisation résiduelle"],
   "patient": "Femme, 52 ans, 68 kg",
-  "terrains": { "contexte": "rea", "exclus": ["allergie_curares", "estomac_plein"], "identite": { "sexe": ["F", "M"], "age": [30, 85], "poids": [55, 100] } },
+  "terrains": { "contexte": "sspi", "exclus": ["allergie_curares", "estomac_plein"], "identite": { "sexe": ["F", "M"], "age": [30, 85], "poids": [55, 100] } },
   "voies": ["IV"],
   "constantes": { "FC": 112, "PAS": 152, "PAD": 84, "SpO2": 87, "FR": 32, "T": 36.4, "GCS": 14 },
   "resultats": {

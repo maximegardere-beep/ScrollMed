@@ -4,7 +4,7 @@
   "source": "SFAR 2008 et réactualisation 2016 (RFE douleur postopératoire) ; APSF 2011 (surveillance de la dépression respiratoire postopératoire) ; SFAR 2018 (curarisation résiduelle) ; Goldfrank, Ann Emerg Med 1986 (naloxone IVSE) ; ERC 2021",
   "tags": ["SSPI", "morphine", "opioïdes", "naloxone", "PCA", "dépression respiratoire", "analgésie postopératoire"],
   "patient": "Homme, 71 ans, 82 kg",
-  "terrains": { "contexte": "rea", "exclus": ["estomac_plein", "allergie_curares"], "identite": { "sexe": ["F", "M"], "age": [45, 88], "poids": [55, 100] } },
+  "terrains": { "contexte": "sspi", "exclus": ["estomac_plein", "allergie_curares"], "identite": { "sexe": ["F", "M"], "age": [45, 88], "poids": [55, 100] } },
   "voies": ["IV"],
   "constantes": { "FC": 88, "PAS": 124, "PAD": 68, "SpO2": 86, "FR": 6, "T": 36.3, "GCS": 10 },
   "resultats": {

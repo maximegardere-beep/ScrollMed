@@ -14,7 +14,7 @@
   ],
   "patient": "Femme, 54 ans, 72 kg",
   "terrains": {
-    "contexte": "rea",
+    "contexte": "sspi",
     "exclus": [
       "estomac_plein"
     ],
