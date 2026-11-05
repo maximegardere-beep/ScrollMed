@@ -724,7 +724,8 @@
   .dc-rail-b.rcp{ color: var(--danger); border-color: var(--danger); }
   .dc-rail-b.rcp.on{ background: rgba(226,87,90,.18); }
   /* téléphone en paysage, partie en cours : scope sur le 1/3 gauche, colonne d'icônes, tuiles sur les 2/3 droits */
-  @media (orientation: landscape) and (max-height: 560px){
+  /* même disposition sur ordinateur (fenêtre large en paysage) : DC_LAND */
+  @media (orientation: landscape) and (max-height: 560px), (orientation: landscape) and (min-width: 900px){
     #app:has(#panelDechoc.open){ max-width:none; border:0; }
     #panelDechoc .panel-head{ padding: 4px max(12px, env(safe-area-inset-right)) 4px max(12px, env(safe-area-inset-left)); gap:8px; }
     #panelDechoc .panel-head h2{ font-size:15px; }
@@ -956,6 +957,81 @@
   .dc-chr{ display:flex; gap:10px; font-size:13px; line-height:1.4; padding:3px 0; border-top:1px solid var(--line); }
   .dc-chr span:first-child{ flex-shrink:0; width:48px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .dc-vol{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:10px; font-size:13px; color: var(--muted); line-height:1.45; }
+
+  /* ---------- ordinateur (fenêtre large en paysage) ----------
+     navigation en colonne à gauche, feed et panneaux sur toute la largeur restante,
+     contenu des panneaux centré ; le mode Déchoc reprend la disposition paysage (DC_LAND). */
+  @media (orientation: landscape) and (min-width: 900px) and (min-height: 561px){
+    :root{ --side: 232px; }
+    @media (max-width: 1199px){ :root{ --side: 196px; } }
+    .dc-root.game{ grid-template-columns: minmax(300px, 1fr) auto minmax(0, 2fr); }
+    #app{ max-width:none; border:0; display:grid; grid-template-columns: var(--side) minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
+    header{ grid-column:1; grid-row:1; padding: 18px 14px 14px 20px; border-right:1px solid var(--line); }
+    .brand{ flex-wrap:wrap; row-gap:0; }
+    .brand span#headerSub{ flex-basis:100%; padding-left:17px; }
+    nav{ grid-column:1; grid-row: 2 / 4; flex-direction:column; gap:2px; border-top:0; border-right:1px solid var(--line); padding: 4px 12px 16px; }
+    nav button{ flex:none; flex-direction:row; justify-content:flex-start; gap:12px; padding: 11px 12px; border-radius:12px; font-size:14.5px; }
+    nav button:hover{ background: var(--surface); color: var(--text); }
+    nav button.active, nav button.active:hover{ background: var(--surface-2); color: var(--trace); }
+    nav .navic{ width:22px; text-align:center; }
+    .nudge{ grid-column:2; grid-row:1; align-self:start; position:relative; z-index:8; margin: 12px 24px 0; }
+    #feed{ grid-column:2; grid-row: 1 / 4; }
+    .panel{ left: var(--side); }
+    .panel-head{ padding: 14px max(24px, calc((100% - 860px) / 2)); }
+    .panel-body{ padding: 22px max(24px, calc((100% - 860px) / 2)) 48px; }
+    .panel-head h2, #panelDechoc .panel-head h2{ font-size:20px; }
+    #panelDechoc .panel-head{ padding: 14px max(24px, calc((100% - 860px) / 2)); }
+    .panel-head > .iconbtn:first-child{ display:none; }   /* retour : la colonne de navigation suffit */
+    .toast{ top:auto; bottom:32px; left: calc(50% + var(--side) / 2); max-width: calc(100% - var(--side) - 32px); }
+    .radar-card svg{ max-width: 600px; margin: 0 auto; }
+    .toast.dc{ bottom:auto; }   /* placé par dcToastPlace */
+
+    /* feed : carte large, texte en colonne lisible, gros titres */
+    .progress-strip{ padding: 0 24px; height:18px; }
+    .ig-header{ padding: 0 max(32px, calc((100% - 820px) / 2)); margin-bottom:18px; }
+    .caption-wrap{ padding: 0 max(120px, calc((100% - 820px) / 2)) 44px max(32px, calc((100% - 820px) / 2)); }
+    .hook{ font-size: clamp(26px, 2.3vw, 36px); margin-bottom:12px; }
+    .quiz-hook{ font-size: clamp(32px, 3vw, 46px); }
+    .quiz-hook.long{ font-size: clamp(26px, 2.3vw, 34px); }
+    .body-txt{ font-size: 18px; line-height:1.55; }
+    .quiz-answer .body-txt{ font-size: 21px; }
+    .detail{ font-size: 16px; padding: 14px 16px; }
+    .more-toggle, .quiz-prompt{ font-size: 15px; }
+    .source{ font-size: 13.5px; }
+    .card-footer{ right: max(28px, calc((100% - 820px) / 2 - 90px)); bottom: 44px; gap: 24px; }
+    .actbtn{ font-size: 12px; }
+    .actbtn:hover .ic{ transform: scale(1.12); }
+    .btn-reveal:hover{ background: rgba(255,255,255,0.2); }
+    #app:not(:has(.panel.open)) nav .feed-keys{ display:flex; }
+
+    /* Déchoc en jeu : tuiles plus nombreuses par ligne, chiffres du scope plus grands */
+    .dc-root.game .dc-tiles{ grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+    .dc-root.game .dc-tile{ min-height:64px; cursor:pointer; }
+    .dc-root.game > .dc-scope .dc-mon{ grid-template-columns: minmax(0, 1fr) clamp(108px, 9vw, 150px); }
+    .dc-root.game > .dc-scope .dc-nb .k{ font-size:11px; }
+    .dc-root.game > .dc-scope .dc-nb .v{ font-size:40px; }
+    .dc-root.game > .dc-scope .dc-nb.pa .v{ font-size:26px; }
+    .dc-root.game > .dc-scope .dc-nb.pa .v small{ font-size:15px; }
+    .dc-root.game > .dc-rail{ width:64px; }
+    .dc-rail-b{ min-height:52px; font-size:10.5px; }
+    .dc-rail-b .ic{ font-size:21px; }
+    .dc-rail-b:hover:not(.on){ background: var(--surface); color: var(--text); }
+    .dc-root:not(.game) > .dc-scroll{ padding-left: max(24px, calc((100% - 860px) / 2)); padding-right: max(24px, calc((100% - 860px) / 2)); }
+    .dc-root:not(.game) > .dc-foot{ padding-left: max(24px, calc((100% - 860px) / 2)); padding-right: max(24px, calc((100% - 860px) / 2)); }
+  }
+  /* grand écran : Gestes et Dossier côte à côte, sans onglets (tuiles à côté de la colonne d'icônes) */
+  @media (orientation: landscape) and (min-width: 1280px) and (min-height: 561px){
+    .dc-root.game{ grid-template-columns: minmax(320px, 0.8fr) auto minmax(0, 2.2fr); }
+    .dc-root.game > .dc-scroll{ display:grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 0 20px; align-items:start; padding-top:12px; }
+    .dc-root.game .dc-tabs{ display:none; }
+    .dc-root.game[data-tab] .dc-pane-gestes, .dc-root.game[data-tab] .dc-pane-dossier{ display:block; }
+    .dc-root.game .dc-pane-gestes{ grid-column:1; grid-row:1; position:sticky; top:0; }
+    .dc-root.game .dc-pane-dossier{ grid-column:2; grid-row:1; }
+    .dc-root.game .dc-tiles{ grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  }
+  /* aide clavier du feed (ordinateur seulement), en bas de la colonne de navigation */
+  .feed-keys{ display:none; margin-top:auto; flex-direction:column; gap:6px; padding: 12px; color: var(--muted); font-size:12px; line-height:1.4; }
+  .feed-keys kbd{ font: inherit; font-weight:700; color: var(--text); background: var(--surface); border:1px solid var(--line); border-radius:6px; padding: 0 6px; }
 </style>
 </head>
 <body>
@@ -987,6 +1063,7 @@
     <button data-tab="podcast"><span class="navic">♫︎</span>Podcast</button>
     <button data-tab="stats"><span class="navic">▤</span>Progrès</button>
     <button data-tab="settings"><span class="navic">⚙︎</span>Réglages</button>
+    <div class="feed-keys" aria-hidden="true"><span><kbd>↑</kbd> <kbd>↓</kbd> carte précédente / suivante</span><span><kbd>Espace</kbd> révéler ou déplier</span><span><kbd>R</kbd> retenir · double-clic ♥</span></div>
   </nav>
 
   <!-- LIBRARY / MODULES PANEL -->
@@ -1712,6 +1789,39 @@ feedEl.addEventListener('click', (e)=>{
   }
 });
 
+// clavier (ordinateur) : ↑ / ↓ (ou j / k, Page préc. / suiv.) changent de carte,
+// Espace ou Entrée révèle la réponse d'un quiz, sinon déplie le détail ; R retient la carte.
+document.addEventListener('keydown', e => {
+  if(e.ctrlKey || e.metaKey || e.altKey || e.repeat && !/Arrow|Page/.test(e.key)) return;
+  if(document.querySelector('.panel.open')) return;
+  const t = e.target;
+  if(t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
+  const cards = [...feedEl.querySelectorAll('.card')];
+  if(!cards.length) return;
+  const h = feedEl.clientHeight || 1;
+  const i = Math.max(0, Math.min(cards.length - 1, Math.round(feedEl.scrollTop / h)));
+  const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  let d = 0;
+  if(k === 'ArrowDown' || k === 'PageDown' || k === 'j') d = 1;
+  else if(k === 'ArrowUp' || k === 'PageUp' || k === 'k') d = -1;
+  if(d){
+    e.preventDefault();
+    const next = cards[Math.max(0, Math.min(cards.length - 1, i + d))];
+    if(next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  const cur = cards[i];
+  let target = null;
+  if(k === ' ' || k === 'Enter'){
+    const rev = cur.querySelector('[data-action="reveal-answer"]');
+    target = rev && rev.style.display !== 'none' && !cur.querySelector('.quiz-answer.revealed') ? rev : cur.querySelector('[data-action="toggle-detail"]');
+  } else if(k === 'r') target = cur.querySelector('[data-action="bookmark"]');
+  if(!target) return;
+  e.preventDefault();
+  if(document.activeElement && document.activeElement !== document.body) document.activeElement.blur();
+  target.click();
+});
+
 // double-tap façon Instagram : anime le cœur et enregistre le post
 let lastTap = 0;
 feedEl.addEventListener('click', (e)=>{
@@ -2034,7 +2144,7 @@ function dcCatIcon(path){ return DC_CAT_ICONS[path[path.length - 1]] || DC_TILE_
 // colonne d'icônes (paysage) : libellé court ; une catégorie inconnue garde son nom tronqué
 const DC_RAIL_LABELS = { 'Airway / ventilation':'Airway', 'Voies & monitorage':'Voies', 'Bilan':'Bilan', 'Imagerie & écho':'Imagerie', 'Traitement':'Trait.', 'Orientation':'Orient.', 'Diagnostic':'Diag.', 'RCP':'RCP' };
 // téléphone en paysage, partie en cours (même requête que le CSS)
-const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px)');
+const DC_LAND = matchMedia('(orientation: landscape) and (max-height: 560px), (orientation: landscape) and (min-width: 900px)');
 const DC_NOTE_UI = {
   indispensable:  { ic:'✅', lb:'Indispensable' },
   recommande:     { ic:'✅', lb:'Recommandé' },
