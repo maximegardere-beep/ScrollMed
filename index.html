@@ -958,13 +958,13 @@
   .dc-chr span:first-child{ flex-shrink:0; width:48px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .dc-vol{ background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:10px; font-size:13px; color: var(--muted); line-height:1.45; }
 
-  /* ---------- ordinateur (fenêtre large en paysage) ----------
+  /* ---------- ordinateur : souris (même en fenêtre étroite ou en portrait) dès 640 px de large,
+     ou grand écran en paysage (tablette) ----------
      navigation en colonne à gauche, feed et panneaux sur toute la largeur restante,
      contenu des panneaux centré ; le mode Déchoc reprend la disposition paysage (DC_LAND). */
-  @media (orientation: landscape) and (min-width: 900px) and (min-height: 561px){
+  @media (orientation: landscape) and (min-width: 900px) and (min-height: 561px), (hover: hover) and (pointer: fine) and (min-width: 640px) and (min-height: 480px){
     :root{ --side: 232px; }
     @media (max-width: 1199px){ :root{ --side: 196px; } }
-    .dc-root.game{ grid-template-columns: minmax(300px, 1fr) auto minmax(0, 2fr); }
     #app{ max-width:none; border:0; display:grid; grid-template-columns: var(--side) minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
     header{ grid-column:1; grid-row:1; padding: 18px 14px 14px 20px; border-right:1px solid var(--line); }
     .brand{ flex-wrap:wrap; row-gap:0; }
@@ -1004,6 +1004,12 @@
     .btn-reveal:hover{ background: rgba(255,255,255,0.2); }
     #app:not(:has(.panel.open)) nav .feed-keys{ display:flex; }
 
+    .dc-root:not(.game) > .dc-scroll{ padding-left: max(24px, calc((100% - 860px) / 2)); padding-right: max(24px, calc((100% - 860px) / 2)); }
+    .dc-root:not(.game) > .dc-foot{ padding-left: max(24px, calc((100% - 860px) / 2)); padding-right: max(24px, calc((100% - 860px) / 2)); }
+  }
+  /* Déchoc en jeu sur grand écran en paysage (DC_LAND) : scope plus large, tuiles plus nombreuses par ligne, chiffres plus grands */
+  @media (orientation: landscape) and (min-width: 900px) and (min-height: 561px){
+    .dc-root.game{ grid-template-columns: minmax(300px, 1fr) auto minmax(0, 2fr); }
     /* Déchoc en jeu : tuiles plus nombreuses par ligne, chiffres du scope plus grands */
     .dc-root.game .dc-tiles{ grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
     .dc-root.game .dc-tile{ min-height:64px; cursor:pointer; }
@@ -1016,8 +1022,16 @@
     .dc-rail-b{ min-height:52px; font-size:10.5px; }
     .dc-rail-b .ic{ font-size:21px; }
     .dc-rail-b:hover:not(.on){ background: var(--surface); color: var(--text); }
-    .dc-root:not(.game) > .dc-scroll{ padding-left: max(24px, calc((100% - 860px) / 2)); padding-right: max(24px, calc((100% - 860px) / 2)); }
-    .dc-root:not(.game) > .dc-foot{ padding-left: max(24px, calc((100% - 860px) / 2)); padding-right: max(24px, calc((100% - 860px) / 2)); }
+  }
+  /* fenêtre d'ordinateur étroite (640 à 899 px) : colonne de navigation réduite aux icônes */
+  @media (hover: hover) and (pointer: fine) and (min-width: 640px) and (max-width: 899px) and (min-height: 480px){
+    :root{ --side: 84px; }
+    header{ padding: 14px 8px 10px; justify-content:center; }
+    .brand{ display:none; }
+    nav{ padding: 4px 6px 12px; }
+    nav button{ flex-direction:column; justify-content:center; gap:3px; padding: 9px 2px; font-size:10.5px; }
+    #app:not(:has(.panel.open)) nav .feed-keys{ display:none; }
+    .caption-wrap{ padding-right: 96px; }
   }
   /* grand écran : Gestes et Dossier côte à côte, sans onglets (tuiles à côté de la colonne d'icônes) */
   @media (orientation: landscape) and (min-width: 1280px) and (min-height: 561px){
