@@ -520,13 +520,13 @@ EOF
 
 Deux formats, choisis à l'accueil du mode (sélecteur « ⚡ QCM isolés » / « 📋 Dossier progressif », avec un filtre de thème ; choix mémorisés dans `STATE.qcm.mode` et `STATE.qcm.theme`) :
 
-- **QCM isolés** : série de 10 questions indépendantes (`QCM_ISO_N`), tirées dans tous les thèmes ou dans le thème choisi ;
+- **QCM isolés** : série sans fin de questions indépendantes, tirées au hasard dans tous les thèmes ou dans le thème choisi ; « ⏹ Terminer » à tout moment affiche la note des questions validées (la question en cours non validée n'est pas comptée ; aucune validée : retour à l'accueil, rien n'est enregistré) ;
 - **dossier progressif** façon EDN : un cas clinique, 5 items tirés parmi ceux du cas.
 
 5 propositions par question, une ou plusieurs justes. Le moteur (`index.html`, fonctions `qcm*`) ne contient aucune donnée médicale : tout est dans `QCM/*.json`, synchronisé depuis GitHub comme `Recos/`. Publication : règle n°1 (push direct sur `main`, pas de PR).
 
 - **Barème** (`QCM_BAREME`) : par item, une erreur = une proposition juste non cochée ou une fausse cochée ; 0 erreur = 1 point, 1 = 0,5, 2 = 0,2, au-delà 0. Note du QCM ramenée sur 20.
-- **Tirage des QCM isolés** : les questions prioritaires (même suivi que les items de dossier : jamais vues, ratées, réussies depuis longtemps), plus souvent dans les thèmes faibles, en variant les thèmes (chaque question d'un thème déjà tiré le pénalise).
+- **Tirage des QCM isolés** : au hasard dans le pool (thème choisi ou tous), sans remise : aucune question ne revient avant que tout le pool ait été tiré, puis le pool est remélangé (`qcmPickIso`, `qcmNextIso`). Les 20 dernières questions s'affichent en pastilles, avec la note courante.
 - **Tirage des dossiers** (toujours aléatoire) : thème (= `module`) choisi, ou tiré au hasard pondéré vers les thèmes faibles ou peu joués, en évitant de reprendre le thème précédent ; dans le thème, le cas le moins récemment joué ; dans le cas, les 5 items prioritaires (jamais vus, puis ratés au dernier passage, puis réussis depuis longtemps ; chaque réussite parfaite d'affilée espace le retour), jamais deux fois la même série, remis dans l'ordre du fichier.
 - **Correction** après chaque item (bonnes réponses, `why` sous chaque proposition, `explication`, `source`), puis note, rappel de la reco du cas (`reco`, dossier) et cartes Recos « Pour réviser » (tags communs ; série isolée : tags des questions ratées).
 - **Suivi** (`STATE.qcm`, inclus dans la sauvegarde) : chaque QCM terminé (un QCM abandonné n'est pas noté). Accueil QCM : moyenne de la session (QCM espacés de moins de 30 min) et sur 7 jours, sessions récentes. Onglet Progrès (qui accueille aussi les Favoris) : radar des notes par thème (10 dernières notes du thème ; une série isolée donne une sous-note par thème rencontré, `mods` ; pointillés : 7 derniers jours).
